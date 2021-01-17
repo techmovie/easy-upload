@@ -1,0 +1,15 @@
+{
+  "name": "easy-seed",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:techmovie/easy-seed.git",
+  "author": "techmovie <v.abed@icloud.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  }
+}
