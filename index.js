@@ -2,7 +2,7 @@
 // @name         easy seed
 // @namespace    https://github.com/techmovie/easy-seed
 // @version      0.1
-// @description  easy seeding for different trakcers
+// @description  easy seeding for different trackers
 // @author       birdplane
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
@@ -23,7 +23,9 @@
     HDB: 'https://hdbits.org/browse.php?search={imdbid}&sort=size&h=8&d=DESC',
     PTP: 'https://passthepopcorn.me/torrents.php?action=advanced&searchstr={imdbid}',
     MTeam: 'https://pt.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
-    TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc'
+    TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
+    BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
+    BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}'
   }
   // 当前所在站点
   const CURRENT_SITE_MAP = {
@@ -129,13 +131,10 @@
   const fillHDBForm = (info) => {
     console.log(info)
     $j('#name').val(info.title)
-    // const imgList = info.screenshots.map((img) => {
-    //   return `[img]${img}[/img]`
-    // })
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
     const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
     const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
-    const descr = `${info.description}\n\n${logs}${bdinfo}\n\n${mediaInfo}\n\nScreens:\n`
+    const descr = `${info.description}\n\n${logs}${bdinfo}\n\n${mediaInfo}\n\nScreens:\n${info.screenshots}`
     $j('#descr').val(descr)
     $j('#type_category').val(TYPE_SITE_MAP[info.type][currentHost])
     $j('#type_codec').val(CODES_SITE_MAP[info.codes][currentHost])
@@ -153,7 +152,7 @@
     const torrentDom = $(`#torrent_${torrentId}`)
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`)
     let torrentName = torrentHeaderDom.data('releasename')
-    torrentName = torrentName.replace(/[.]/g, ' ').trim()
+    torrentName = torrentName.replaceAll('.', ' ').replace(/(\d{1}) (\d{1})/, '$1.$2').trim()
     TORRENT_INFO.title = torrentName
     TORRENT_INFO.type = getPTPType()
     if (TORRENT_INFO.type === 'music') {
@@ -166,7 +165,7 @@
     TORRENT_INFO.codes = getPtpCodes(codes)
     TORRENT_INFO.source = source
     TORRENT_INFO.resolution = resolution
-    const { logs, bdinfo } = getPTPlogsOrBDInfo(torrentDom)
+    const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom)
     TORRENT_INFO.logs = logs
     TORRENT_INFO.bdinfo = bdinfo
     TORRENT_INFO.mediaInfo = `[quote]${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}[/quote]`
@@ -176,14 +175,6 @@
     createSeedDom(torrentDom.find('>td'), TORRENT_INFO)
   }
 
-  const getUrlParam = (key) => {
-    const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)')
-    const regArray = location.search.substr(1).match(reg)
-    if (regArray) {
-      return unescape(regArray[2])
-    }
-    return ''
-  }
   const getPTPType = () => {
     const typeMap = {
       'Feature Film': 'movie',
@@ -197,7 +188,7 @@
     return typeMap[ptpType]
   }
   // 获取eac3to日志
-  const getPTPlogsOrBDInfo = (torrentDom) => {
+  const getPTPLogsOrBDInfo = (torrentDom) => {
     const quoteList = torrentDom.find('.movie-page__torrent__panel blockquote')
     let logs = ''; let bdinfo = ''
     for (let i = 0; i < quoteList.length; i++) {
@@ -264,10 +255,20 @@
     return type
   }
   // =======PTP站点方法结束=======
+  // =============公共方法=================
+
   const getTorrentInfo = () => {
     if (currentHost === 'PTP') {
       getPTPInfo()
     }
+  }
+  const getUrlParam = (key) => {
+    const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)')
+    const regArray = location.search.substr(1).match(reg)
+    if (regArray) {
+      return unescape(regArray[2])
+    }
+    return ''
   }
   const createSeedDom = (torrentDom, torrentInfo) => {
     const siteList = Object.keys(DEST_SITE_MAP).map(siteName => {
@@ -297,7 +298,7 @@
           <input type="checkbox" id="nsfw">
           <label for="nsfw">是否为NSFW</label>
         </div>
-        <p class="upload-status">转换成功！</p>
+        <div class="upload-status"></div>
       </div>
       <h4>快速检索 🔍</h4>
       <ul class="search-list">
@@ -306,6 +307,59 @@
     </div>
     `
     torrentDom.prepend(seedDom)
+  }
+  const transferImgs = () => {
+    const statusDom = $('.upload-section .upload-status')
+    try {
+      if (TORRENT_INFO.screenshots.length < 1) {
+        throw new Error('获取图片列表失败')
+      }
+      const imgList = TORRENT_INFO.screenshots.join('\n')
+      const isNSFW = $('#nsfw').is(':checked')
+      const params = encodeURI(`imgs=${imgList}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`)
+      statusDom.text('转换中...')
+      $('#img-transfer').attr('disabled', true).addClass('is-disabled')
+      GM_xmlhttpRequest({
+        url: 'https://pixhost.to/remote/',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+        data: params,
+        onload (res) {
+          $('#img-transfer').removeAttr('disabled').removeClass('is-disabled')
+          const data = res.responseText.match(/(upload_results = )({.*})(;)/)
+          if (!data) {
+            throw new Error('上传失败，请重试')
+          }
+          let imgResultList = []
+          if (data && data.length) {
+            imgResultList = JSON.parse(data[2]).images
+            if (imgResultList.length) {
+              TORRENT_INFO.screenshots = imgResultList.map(imgData => {
+                return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`
+              })
+              replaceTorrentInfo()
+              statusDom.text('转换成功！')
+            }
+          } else {
+            throw new Error('上传失败，请重试')
+          }
+        }
+      })
+    } catch (error) {
+      $('#img-transfer').removeAttr('disabled').removeClass('is-disabled')
+      statusDom.text(error.message)
+    }
+  }
+
+  const replaceTorrentInfo = () => {
+    $('.site-list a').each((index, link) => {
+      const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO))
+      const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`)
+      $(link).attr('href', newHref)
+    })
   }
   // =============页面注入开始==============
   let torrentParams = location.hash ? location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/)[2] : null
@@ -316,51 +370,13 @@
     }
     // 向当前所在站点添加按钮等内容
     getTorrentInfo()
-  }
-  $('#img-transfer').click(() => {
-    try {
-      if (TORRENT_INFO.screenshots.length < 1) {
-        throw new Error('获取图片列表失败')
-      }
-      const imgList = TORRENT_INFO.screenshots.join('\n')
-      const isNSFW = $('#nsfw').is(':checked')
-      GM_xmlhttpRequest({
-        url: 'https://pixhost.to/remote/',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        data: {
-          imgs: imgList,
-          max_th_size: 300,
-          content_type: isNSFW ? 1 : 0
-        },
-        onload (res) {
-          const data = res.responseText.match(/(upload_results = )({.*})(;)/)
-          if (!data) {
-            throw new Error('上传失败，请重试')
-          }
-          let imgResultList = []
-          if (data && data.length) {
-            imgResultList = JSON.parse(data[data.lenght - 1].images)
-            if (imgResultList.lenth) {
-              imgResultList = imgResultList.map(imgData => {
-                return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`
-              })
-              $('.upload-section .upload-status').text('转换成功！').show()
-            }
-            TORRENT_INFO.screenshots = imgResultList
-          } else {
-            throw new Error('上传失败，请重试')
-          }
-        }
+    // 原图转缩略图
+    if ($('#img-transfer')) {
+      $('#img-transfer').click(() => {
+        transferImgs()
       })
-    } catch (error) {
-      $('.upload-section .upload-status').text(error.message).show()
     }
-  })
-
+  }
   GM_addStyle(`
     .seed-dom h4{
       text-align: center;
@@ -395,7 +411,6 @@
     .upload-section .upload-status{
       margin-left: 5px;
       font-size: 14px;
-      display: none;
     }
     #img-transfer{
       line-height: 1;
@@ -423,6 +438,13 @@
       background: #fff;
       border-color: #409eff;
       color: #409eff
+    }
+    #img-transfer.is-disabled, #img-transfer.is-disabled:hover {
+      color: #c0c4cc;
+      cursor: not-allowed;
+      background-image: none;
+      background-color: #fff;
+      border-color: #ebeef5;
     }
   `)
 })()
