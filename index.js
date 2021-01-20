@@ -27,7 +27,8 @@
     TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
     CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
     BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
-    BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}'
+    BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
+    AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}'
   }
   // 当前所在站点
   const CURRENT_SITE_MAP = {
@@ -39,6 +40,7 @@
     title: '', // 标题
     subtitle: '', // 副标题
     description: '', // 描述
+    year: '',
     type: '', // 电影、电视、音乐等
     videoType: '', // bluray remux encodes web-dl
     source: '', // 视频来源
@@ -51,7 +53,8 @@
     bdinfo: '',
     screenshots: [],
     logs: '',
-    searchKeyWord: ''
+    movieAkaName: '',
+    movieName: ''
   }
   const TYPE_SITE_MAP = {
     movie: {
@@ -136,7 +139,14 @@
     }
   }
   const fillHDBForm = (info) => {
-    $j('#name').val(info.title)
+    console.log(info)
+    let mediaTitle = info.title.replace(/([^\d]+) +(\d+)/, (match, p1, p2) => {
+      return `${info.movieName || info.movieAkaName} ${p2}`
+    })
+    if (info.videoType === 'remux') {
+      mediaTitle = mediaTitle.replace(/ (bluray|blu-ray)/ig, '')
+    }
+    $j('#name').val(mediaTitle)
     const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
     const techInfoDom = $j('textarea[name="techinfo"]')
     let description = getDescription(info)
@@ -160,6 +170,11 @@
       return false
     }
     const torrentDom = $(`#torrent_${torrentId}`)
+    const ptpMovieTitle = $('.page__title').text().match(/(^|])([^\d[]+)/)[2].trim()
+    const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ')
+    TORRENT_INFO.movieName = movieName
+    TORRENT_INFO.movieAkaName = movieAkaName
+    TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2]
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`)
     let torrentName = torrentHeaderDom.data('releasename')
     torrentName = torrentName.replaceAll('.', ' ').replace(/ (\d{1}) (\d{1})/, ' $1.$2').trim()
@@ -181,7 +196,6 @@
     TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`
     TORRENT_INFO.screenshots = getPTPImage(torrentDom)
     TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || ''
-    TORRENT_INFO.searchKeyWord = $('.page__title').text().replace(/\[\d+\]/, '').trim()
     createSeedDom(torrentDom.find('>td'), TORRENT_INFO)
   }
 
@@ -287,7 +301,7 @@
     const searchList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
       const imdbId = torrentInfo.imdbUrl ? /tt\d+/.exec(torrentInfo.imdbUrl)[0] : ''
       let url = ''
-      let searchKeyWord = imdbId || torrentInfo.searchKeyWord
+      let searchKeyWord = imdbId || torrentInfo.movieAkaName || torrentInfo.movieName
       if (siteName === 'TTG' && imdbId) {
         searchKeyWord = searchKeyWord.replace('tt', 'imdb')
       }
