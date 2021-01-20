@@ -6,6 +6,7 @@
 // @author       birdplane
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
+// @match        https://hdbits.org/upload
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @note
@@ -16,7 +17,7 @@
 
   // 支持目标站点
   const DEST_SITE_MAP = {
-    HDB: 'https://hdbits.org/offer.php'
+    HDB: 'https://hdbits.org/upload'
   }
   // 快速检索
   const SEARCH_SITE_MAP = {
@@ -24,6 +25,7 @@
     PTP: 'https://passthepopcorn.me/torrents.php?action=advanced&searchstr={imdbid}',
     MTeam: 'https://pt.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
     TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
+    CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
     BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
     BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}'
   }
@@ -123,19 +125,27 @@
   const currentHost = CURRENT_SITE_MAP[location.host]
 
   // =============目标站点方法============
+  const getDescription = (info) => {
+    const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
+    const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
+    return `${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
+  }
   const fillDestSiteForm = (info) => {
     if (currentHost === 'HDB') {
       fillHDBForm(info)
     }
   }
   const fillHDBForm = (info) => {
-    console.log(info)
     $j('#name').val(info.title)
-    const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
-    const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
     const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
-    const descr = `${info.description}\n\n${logs}${bdinfo}\n\n${mediaInfo}\n\nScreens:\n${info.screenshots}`
-    $j('#descr').val(descr)
+    const techInfoDom = $j('textarea[name="techinfo"]')
+    let description = getDescription(info)
+    if (techInfoDom) {
+      techInfoDom.val(mediaInfo)
+    } else {
+      description += `\n\n'[quote]${mediaInfo}[/quote]`
+    }
+    $j('#descr').val(description)
     $j('#type_category').val(TYPE_SITE_MAP[info.type][currentHost])
     $j('#type_codec').val(CODES_SITE_MAP[info.codes][currentHost])
     $j('#type_medium').val(VIDEO_TYPE_SITE_MAP[info.videoType][currentHost])
@@ -152,7 +162,7 @@
     const torrentDom = $(`#torrent_${torrentId}`)
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`)
     let torrentName = torrentHeaderDom.data('releasename')
-    torrentName = torrentName.replaceAll('.', ' ').replace(/(\d{1}) (\d{1})/, '$1.$2').trim()
+    torrentName = torrentName.replaceAll('.', ' ').replace(/ (\d{1}) (\d{1})/, ' $1.$2').trim()
     TORRENT_INFO.title = torrentName
     TORRENT_INFO.type = getPTPType()
     if (TORRENT_INFO.type === 'music') {
@@ -168,7 +178,7 @@
     const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom)
     TORRENT_INFO.logs = logs
     TORRENT_INFO.bdinfo = bdinfo
-    TORRENT_INFO.mediaInfo = `[quote]${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}[/quote]`
+    TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`
     TORRENT_INFO.screenshots = getPTPImage(torrentDom)
     TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || ''
     TORRENT_INFO.searchKeyWord = $('.page__title').text().replace(/\[\d+\]/, '').trim()
@@ -193,7 +203,7 @@
     let logs = ''; let bdinfo = ''
     for (let i = 0; i < quoteList.length; i++) {
       const quoteContent = quoteList[i].textContent
-      if (quoteContent.includes('command line: eac3to')) {
+      if (quoteContent.includes('eac3to')) {
         logs += `[quote]${quoteContent}[/quote]`
       }
       if (quoteContent.includes('DISC INFO:')) {
