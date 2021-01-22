@@ -19,6 +19,139 @@
   const DEST_SITE_MAP = {
     HDB: 'https://hdbits.org/upload'
   }
+  const SITE_MAP = {
+    HDB: {
+      url: 'https://hdbits.org',
+      host: 'hdbits.org',
+      siteType: 'HDB',
+      uploadPath: '/upload.php',
+      searchPath: '/browse.php',
+      searchKey: 'search',
+      searchParam: {
+        sort: 'size',
+        d: 'DESC' // orderBy
+      },
+      description: {
+        selector: '#descr'
+      },
+      imdb: {
+        selector: 'input[name="imdb"]'
+      },
+      category: {
+        selector: '#type_category',
+        map: {
+          movie: '1',
+          tv: '2',
+          documentary: '3',
+          concert: '4',
+          sport: '5'
+        }
+      },
+      codes: {
+        selector: '#type_codec',
+        map: {
+          h264: '1',
+          hevc: '5',
+          x264: '1',
+          x265: '5',
+          mepg2: '2',
+          vc1: '3',
+          xvid: '4',
+          bluray: '1',
+          uhdbluray: '5',
+          vp9: '6'
+        }
+      },
+      videoType: {
+        selector: '#type_codec',
+        map: {
+          bluray: '1',
+          remux: '5',
+          encode: '3',
+          web: '6',
+          hdtv: ''
+        }
+      }
+    },
+    MT: {
+      url: 'https://pt.m-team.cc',
+      host: 'pt.m-team.cc',
+      siteType: 'NexusPHP',
+      uploadPath: '/upload.php',
+      searchPath: '/browse.php',
+      searchKey: 'search',
+      searchParam: {
+        search_area: '{key}',
+        sort: '5',
+        type: 'desc'
+      },
+      description: {
+        selector: '#descr'
+      },
+      imdb: {
+        selector: 'input[name="url"]'
+      },
+      category: {
+        selector: '#browsecat',
+        map: {
+          movie: ['401', '419', '420', '421', '439'],
+          tv: ['403', '402', '435', '402', '439', '435', '438'],
+          documentary: ['404'],
+          concert: ['406'],
+          sport: ['407']
+        }
+      },
+      codes: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: '1',
+          hevc: '16',
+          x264: '1',
+          x265: '16',
+          mepg2: '4',
+          mepg4: '15',
+          vc1: '2',
+          xvid: '3',
+          bluray: '11',
+          uhdbluray: '16'
+        }
+      },
+      videoType: {
+        map: {
+          bluray: ['421', '438'],
+          remux: ['439'],
+          encode: ['401', '419', '403', '402'],
+          web: ['401', '419', '403', '402'],
+          hdtv: ['419', '402'],
+          dvd: ['420', '435'],
+          dvdrip: ['401', '403'],
+          other: ''
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          '2160p': '6',
+          '1080p': '1',
+          '1080i': '2',
+          '720p': '3',
+          '576p': '5',
+          '480p': '5'
+        }
+      }
+    },
+    PTP: {
+      url: 'https://passthepopcorn.me',
+      host: 'passthepopcorn.me',
+      siteType: 'HDB',
+      uploadPath: '/upload.php',
+      searchPath: '/torrents.php',
+      searchKey: 'search',
+      searchParam: {
+        action: 'advanced'
+      }
+    }
+  }
   // 快速检索
   const SEARCH_SITE_MAP = {
     HDB: 'https://hdbits.org/browse.php?search={imdbid}&sort=size&h=8&d=DESC',
