@@ -24,6 +24,8 @@
       url: 'https://hdbits.org',
       host: 'hdbits.org',
       siteType: 'HDB',
+      asSource: false,
+      asTarget: true,
       uploadPath: '/upload.php',
       searchPath: '/browse.php',
       searchKey: 'search',
@@ -31,11 +33,17 @@
         sort: 'size',
         d: 'DESC' // orderBy
       },
+      name: {
+        selector: '#name'
+      },
       description: {
         selector: '#descr'
       },
       imdb: {
         selector: 'input[name="imdb"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="techinfo"]'
       },
       category: {
         selector: '#type_category',
@@ -77,6 +85,8 @@
       url: 'https://pt.m-team.cc',
       host: 'pt.m-team.cc',
       siteType: 'NexusPHP',
+      asSource: false,
+      asTarget: true,
       uploadPath: '/upload.php',
       searchPath: '/browse.php',
       searchKey: 'search',
@@ -84,6 +94,9 @@
         search_area: '{key}',
         sort: '5',
         type: 'desc'
+      },
+      name: {
+        selector: '#name'
       },
       description: {
         selector: '#descr'
@@ -138,6 +151,90 @@
           '576p': '5',
           '480p': '5'
         }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: '1',
+          US: '2',
+          EU: '2',
+          HK: '3',
+          TW: '3',
+          JP: '4',
+          KR: '5',
+          OT: '6'
+        }
+      }
+    },
+    TTG: {
+      url: 'https://totheglory.im',
+      host: 'totheglory.im',
+      siteType: 'TTG',
+      asSource: false,
+      asTarget: true,
+      uploadPath: '/upload.php',
+      searchPath: '/browse.php',
+      searchKey: 'search_field',
+      searchParam: {
+        sort: '5',
+        type: 'desc'
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      imdb: {
+        selector: 'input[name="imdb_c"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: ['51', '52', '53', '54', '108', '109'],
+          moviePack: [],
+          tv: ['69', '70', '73', '74', '75', '76', '87', '88', '99', '90'],
+          tvPack: [],
+          documentary: ['62', '63', '67'],
+          concert: ['59'],
+          sport: ['57'],
+          cartoon: ['58'],
+          variety: ['103', '60', '101']
+        }
+      },
+      videoType: {
+        map: {
+          bluray: ['54', '109', '67'],
+          remux: '',
+          encode: '',
+          web: '',
+          hdtv: '',
+          dvd: ['51'],
+          dvdrip: ['51'],
+          other: ''
+        }
+      },
+      resolution: {
+        map: {
+          '2160p': ['108', '109', '67'],
+          '1080p': ['53', '63', '70', '75'],
+          '1080i': ['53', '63', '70', '75'],
+          '720p': ['52', '62', '69', '76'],
+          '576p': '',
+          '480p': ''
+        }
+      },
+      area: {
+        map: {
+          CN: ['76', '75', '90'],
+          US: ['69', '70', '87'],
+          EU: ['69', '70', '87'],
+          HK: ['76', '75', '90'],
+          TW: ['76', '75', '90'],
+          JP: ['73', '88', '101'],
+          KR: ['74', '99', '103'],
+          OT: ''
+        }
       }
     },
     PTP: {
@@ -163,11 +260,6 @@
     BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
     AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}'
   }
-  // 当前所在站点
-  const CURRENT_SITE_MAP = {
-    'passthepopcorn.me': 'PTP',
-    'hdbits.org': 'HDB'
-  }
 
   const TORRENT_INFO = {
     title: '', // 标题
@@ -178,10 +270,12 @@
     videoType: '', // bluray remux encodes web-dl
     source: '', // 视频来源
     codes: '', // 视频编码
+    audioCodes: '',
     resolution: '', // 分辨率
     area: '', // 地区
     doubanUrl: '', // 豆瓣地址
     imdbUrl: '', // imdb地址
+    tags: '',
     mediaInfo: '',
     bdinfo: '',
     screenshots: [],
@@ -189,110 +283,57 @@
     movieAkaName: '',
     movieName: ''
   }
-  const TYPE_SITE_MAP = {
-    movie: {
-      HDB: '1'
-    },
-    tv: {
-      HDB: '2'
-    },
-    documentary: {
-      HDB: '3'
-    },
-    music: {
-      HDB: '4'
-    },
-    Sport: {
-      HDB: '5'
+  const getSiteName = (host) => {
+    let siteName = ''
+    try {
+      Object.keys(SITE_MAP).forEach(key => {
+        const hostName = SITE_MAP[key].host
+        if (hostName && host === hostName) {
+          siteName = key
+        }
+      })
+      return siteName
+    } catch (error) {
+      if (error.message !== 'end loop') {
+        console.log(error)
+      }
     }
   }
-  // 编码格式
-  const CODES_SITE_MAP = {
-    h264: {
-      HDB: '1'
-    },
-    hevc: {
-      HDB: '5'
-    },
-    x264: {
-      HDB: '1'
-    },
-    x265: {
-      HDB: '5'
-    },
-    mepg2: {
-      HDB: '2'
-    },
-    vc1: {
-      HDB: '3'
-    },
-    xvid: {
-      HDB: '4'
-    },
-    bluray: {
-      HDB: '1'
-    },
-    uhdbluray: {
-      HDB: '5'
-    },
-    dvd: {
-
-    }
-  }
-  // 视频类型
-  const VIDEO_TYPE_SITE_MAP = {
-    bluray: {
-      HDB: '1'
-    },
-    remux: {
-      HDB: '5'
-    },
-    encode: {
-      HDB: '3'
-    },
-    web: {
-      HDB: '6'
-    },
-    hdtv: {
-    },
-    dvd: {
-    }
-  }
-  const currentHost = CURRENT_SITE_MAP[location.host]
+  const currentSiteName = getSiteName(location.host)
+  console.log(currentSiteName)
 
   // =============目标站点方法============
+
   const getDescription = (info) => {
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
     const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
     return `${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
   }
-  const fillDestSiteForm = (info) => {
-    if (currentHost === 'HDB') {
-      fillHDBForm(info)
-    }
-  }
-  const fillHDBForm = (info) => {
+  const fillTargetForm = (info) => {
     console.log(info)
-    let mediaTitle = info.title.replace(/([^\d]+) +(\d+)/, (match, p1, p2) => {
-      return `${info.movieName || info.movieAkaName} ${p2}`
-    })
-    if (info.videoType === 'remux') {
-      mediaTitle = mediaTitle.replace(/ (bluray|blu-ray)/ig, '')
+    const siteInfo = SITE_MAP[currentSiteName]
+    if (currentSiteName === 'HDB') {
+      let mediaTitle = info.title.replace(/([^\d]+)\s+(\d+)/, (match, p1, p2) => {
+        return `${info.movieName || info.movieAkaName} ${p2}`
+      })
+      if (info.videoType === 'remux') {
+        mediaTitle = mediaTitle.replace(/ (bluray|blu-ray)/ig, '')
+      }
+      info.title = mediaTitle
     }
-    $j('#name').val(mediaTitle)
+    $j(siteInfo.name.selector).val(info.title)
     const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
-    const techInfoDom = $j('textarea[name="techinfo"]')
     let description = getDescription(info)
-    if (techInfoDom) {
-      techInfoDom.val(mediaInfo)
+    if (siteInfo.mediaInfo) {
+      $j(siteInfo.mediaInfo.selector).val(mediaInfo)
     } else {
       description += `\n\n'[quote]${mediaInfo}[/quote]`
     }
-    $j('#descr').val(description)
-    $j('#type_category').val(TYPE_SITE_MAP[info.type][currentHost])
-    $j('#type_codec').val(CODES_SITE_MAP[info.codes][currentHost])
-    $j('#type_medium').val(VIDEO_TYPE_SITE_MAP[info.videoType][currentHost])
-    $j('input[name="imdb"]').val(info.imdbUrl)
+    $j(siteInfo.description.selector).val(description)
+    $j(siteInfo.category.selector).val(siteInfo.category.map[info.type])
+    $j(siteInfo.codes.selector).val(siteInfo.codes.map[info.codes])
+    $j(siteInfo.videoType.selector).val(siteInfo.videoType.map[info.videoType])
+    $j(siteInfo.imdb.selector).val(info.imdbUrl)
   }
   // =============源站点方法==============
 
@@ -415,7 +456,7 @@
   // =============公共方法=================
 
   const getTorrentInfo = () => {
-    if (currentHost === 'PTP') {
+    if (currentSiteName === 'PTP') {
       getPTPInfo()
     }
   }
@@ -520,10 +561,10 @@
   }
   // =============页面注入开始==============
   let torrentParams = location.hash ? location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/)[2] : null
-  if (currentHost) {
+  if (currentSiteName) {
     if (torrentParams) {
       torrentParams = JSON.parse(decodeURIComponent(torrentParams))
-      fillDestSiteForm(torrentParams)
+      fillTargetForm(torrentParams)
     }
     // 向当前所在站点添加按钮等内容
     getTorrentInfo()
