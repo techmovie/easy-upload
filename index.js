@@ -6,19 +6,15 @@
 // @author       birdplane
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
-// @match        https://hdbits.org/upload
+// @match        http*://*/upload.php
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @note
 // ==/UserScript==
 
-(function () {
+(function ($) {
   'use strict'
-
-  // 支持目标站点
-  const DEST_SITE_MAP = {
-    HDB: 'https://hdbits.org/upload'
-  }
+  const PT_GEN_API = 'https://media.pttool.workers.dev'
   const SITE_MAP = {
     HDB: {
       url: 'https://hdbits.org',
@@ -71,13 +67,13 @@
         }
       },
       videoType: {
-        selector: '#type_codec',
+        selector: '#type_medium',
         map: {
           bluray: '1',
           remux: '5',
           encode: '3',
           web: '6',
-          hdtv: ''
+          hdtv: '4'
         }
       }
     },
@@ -98,20 +94,23 @@
       name: {
         selector: '#name'
       },
+      subtitle: {
+        selector: '.small_descr'
+      },
       description: {
         selector: '#descr'
       },
       imdb: {
-        selector: 'input[name="url"]'
+        selector: 'input[name="url"][type="text"]'
       },
       category: {
         selector: '#browsecat',
         map: {
           movie: ['401', '419', '420', '421', '439'],
           tv: ['403', '402', '435', '402', '439', '435', '438'],
-          documentary: ['404'],
-          concert: ['406'],
-          sport: ['407']
+          documentary: '404',
+          concert: '406',
+          sport: '407'
         }
       },
       codes: {
@@ -132,9 +131,9 @@
       videoType: {
         map: {
           bluray: ['421', '438'],
-          remux: ['439'],
+          remux: '439',
           encode: ['401', '419', '403', '402'],
-          web: ['401', '419', '403', '402'],
+          web: ['419', '402'],
           hdtv: ['419', '402'],
           dvd: ['420', '435'],
           dvdrip: ['401', '403'],
@@ -144,12 +143,12 @@
       resolution: {
         selector: 'select[name="standard_sel"]',
         map: {
-          '2160p': '6',
-          '1080p': '1',
-          '1080i': '2',
-          '720p': '3',
-          '576p': '5',
-          '480p': '5'
+          '2160p': ['6', '419', '402'],
+          '1080p': ['1', '419', '402'],
+          '1080i': ['2', '419', '402'],
+          '720p': ['3', '419', '402'],
+          '576p': ['5', '401', '403'],
+          '480p': ['5', '401', '403']
         }
       },
       area: {
@@ -196,9 +195,9 @@
           tv: ['69', '70', '73', '74', '75', '76', '87', '88', '99', '90'],
           tvPack: [],
           documentary: ['62', '63', '67'],
-          concert: ['59'],
-          sport: ['57'],
-          cartoon: ['58'],
+          concert: '59',
+          sport: '57',
+          cartoon: '58',
           variety: ['103', '60', '101']
         }
       },
@@ -240,7 +239,9 @@
     PTP: {
       url: 'https://passthepopcorn.me',
       host: 'passthepopcorn.me',
-      siteType: 'HDB',
+      siteType: 'gazelle',
+      asSource: true,
+      asTarget: false,
       uploadPath: '/upload.php',
       searchPath: '/torrents.php',
       searchKey: 'search',
@@ -274,6 +275,7 @@
     resolution: '', // 分辨率
     area: '', // 地区
     doubanUrl: '', // 豆瓣地址
+    doubanInfo: '',
     imdbUrl: '', // imdb地址
     tags: '',
     mediaInfo: '',
@@ -305,9 +307,12 @@
   // =============目标站点方法============
 
   const getDescription = (info) => {
+    const siteInfo = SITE_MAP[currentSiteName]
+    const doubanInfo = info.doubanInfo ? `${info.doubanInfo}\n` : ''
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
     const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
-    return `${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
+    const mediaInfo = siteInfo.mediaInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`
+    return `${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
   }
   const fillTargetForm = (info) => {
     console.log(info)
@@ -321,19 +326,55 @@
       }
       info.title = mediaTitle
     }
-    $j(siteInfo.name.selector).val(info.title)
-    const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
-    let description = getDescription(info)
-    if (siteInfo.mediaInfo) {
-      $j(siteInfo.mediaInfo.selector).val(mediaInfo)
-    } else {
-      description += `\n\n'[quote]${mediaInfo}[/quote]`
+    $(siteInfo.name.selector).val(info.title)
+    if (siteInfo.subtitle) {
+      $(siteInfo.subtitle.selector).val(info.subtitle)
     }
-    $j(siteInfo.description.selector).val(description)
-    $j(siteInfo.category.selector).val(siteInfo.category.map[info.type])
-    $j(siteInfo.codes.selector).val(siteInfo.codes.map[info.codes])
-    $j(siteInfo.videoType.selector).val(siteInfo.videoType.map[info.videoType])
-    $j(siteInfo.imdb.selector).val(info.imdbUrl)
+    const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
+    const description = getDescription(info)
+    if (siteInfo.mediaInfo) {
+      $(siteInfo.mediaInfo.selector).val(mediaInfo)
+    }
+    $(siteInfo.description.selector).val(description)
+    if (siteInfo.area && siteInfo.area.selector) {
+      $(siteInfo.area.selector).val(siteInfo.area.map[info.area])
+    }
+    $(siteInfo.description.selector).val(description)
+    const category = siteInfo.category.map[info.type]
+    const videoCodes = siteInfo.codes ? siteInfo.codes.map[info.codes] : undefined
+    const videoType = siteInfo.videoType.map[info.videoType]
+    const resolution = siteInfo.resolution ? siteInfo.resolution.map[info.resolution] : undefined
+    let finalSelectArray = []
+    if (Array.isArray(category)) {
+      finalSelectArray = [...category]
+      if (Array.isArray(videoCodes)) {
+        finalSelectArray = finalSelectArray.filter(item => videoCodes.includes(item))
+      } else if (siteInfo.codes) {
+        $(siteInfo.codes.selector).val(videoCodes)
+      }
+      if (Array.isArray(videoType)) {
+        finalSelectArray = finalSelectArray.filter(item => videoType.includes(item))
+      } else if (siteInfo.videoType) {
+        $(siteInfo.videoType.selector).val(videoType)
+      }
+      if (resolution) {
+        if (Array.isArray(resolution)) {
+          finalSelectArray = finalSelectArray.filter(item => resolution.includes(item))
+          if (siteInfo.resolution.selector) {
+            $(siteInfo.resolution.selector).val(resolution[0])
+          }
+        } else {
+          $(siteInfo.resolution.selector).val(resolution)
+        }
+      }
+      $(siteInfo.category.selector).val(finalSelectArray[0])
+    } else {
+      $(siteInfo.category.selector).val(category)
+      $(siteInfo.codes.selector).val(videoCodes)
+      $(siteInfo.videoType.selector).val(videoType)
+      $(siteInfo.resolution.selector).val(resolution)
+    }
+    $(siteInfo.imdb.selector).val(info.imdbUrl)
   }
   // =============源站点方法==============
 
@@ -348,6 +389,8 @@
     const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ')
     TORRENT_INFO.movieName = movieName
     TORRENT_INFO.movieAkaName = movieAkaName
+    TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || ''
+    getDoubanLink()
     TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2]
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`)
     let torrentName = torrentHeaderDom.data('releasename')
@@ -368,8 +411,10 @@
     TORRENT_INFO.logs = logs
     TORRENT_INFO.bdinfo = bdinfo
     TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`
-    TORRENT_INFO.screenshots = getPTPImage(torrentDom)
-    TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || ''
+    TORRENT_INFO.screenshots = getPTPImage(torrentDom).map(img => {
+      return `[img]${img}[/img]`
+    })
+    TORRENT_INFO.area = getAreaCode()
     createSeedDom(torrentDom.find('>td'), TORRENT_INFO)
   }
 
@@ -379,7 +424,7 @@
       'Short Film': 'movie',
       'Stand-up Comedy': 'other',
       Miniseries: 'tv',
-      'Live Performance': 'music',
+      'Live Performance': 'concert',
       'Movie Collection': 'movie'
     }
     const ptpType = $('#torrent-table .basic-movie-list__torrent-edition__main').eq(0).text()
@@ -404,10 +449,10 @@
     }
   }
   // 获取截图
-  const getPTPImage = (torrentDom) => {
+  const getPTPImage = () => {
     let isComparison = false
     let imgList = []
-    const torrentInfoPanel = torrentDom.find('.movie-page__torrent__panel')
+    const torrentInfoPanel = $('.movie-page__torrent__panel')
     const links = torrentInfoPanel.find('a')
     for (let i = 0; i < links.length; i++) {
       const clickFunc = links[i].getAttribute('onclick')
@@ -418,7 +463,7 @@
       }
     }
     if (!isComparison) {
-      const imageDom = torrentDom.find('.bbcode__image')
+      const imageDom = torrentInfoPanel.find('.bbcode__image')
       for (let i = 0; i < imageDom.length; i++) {
         imgList.push(imageDom[i].getAttribute('src'))
       }
@@ -452,6 +497,32 @@
     }
     return type
   }
+  const getAreaCode = () => {
+    const europeList = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'Vatican City']
+    let country = []
+    const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/)
+    if (matchArray && matchArray.length > 0) {
+      country = matchArray[1].replace(/(,)\s+/g, '$1').split(',')
+    }
+    if (country[0]) {
+      if (country[0].match(/USA|Canada/i)) {
+        return 'US'
+      } else if (europeList.includes(country[0])) {
+        return 'EU'
+      } else if (country[0].match(/Japan/i)) {
+        return 'JP'
+      } else if (country[0].match(/Korea/i)) {
+        return 'KR'
+      } else if (country[0].match(/Taiwan/i)) {
+        return 'TW'
+      } else if (country[0].match(/Hong Kong/i)) {
+        return 'HK'
+      } else if (country[0].match(/China/i)) {
+        return 'CN'
+      }
+    }
+    return 'OT'
+  }
   // =======PTP站点方法结束=======
   // =============公共方法=================
 
@@ -469,8 +540,12 @@
     return ''
   }
   const createSeedDom = (torrentDom, torrentInfo) => {
-    const siteList = Object.keys(DEST_SITE_MAP).map(siteName => {
-      return `<li><a href="${DEST_SITE_MAP[siteName]}#torrentInfo=${encodeURIComponent(JSON.stringify(torrentInfo))}" target="_blank">${siteName}</a></li>`
+    const siteList = Object.keys(SITE_MAP).map(siteName => {
+      const { url, uploadPath } = SITE_MAP[siteName]
+      if (SITE_MAP[siteName].asTarget) {
+        return `<li><a href="${url}${uploadPath}#torrentInfo=${encodeURIComponent(JSON.stringify(torrentInfo))}" target="_blank">${siteName}</a></li>`
+      }
+      return ''
     })
     const searchList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
       const imdbId = torrentInfo.imdbUrl ? /tt\d+/.exec(torrentInfo.imdbUrl)[0] : ''
@@ -489,6 +564,11 @@
       <ul class="site-list">
         ${siteList.join('')}
       </ul>
+      <h4>获取豆瓣简介</h4>
+      <div class="douban-section">
+        <button id="douban-info">开始获取</button>
+        <div class="douban-status"></div>
+      </div>
       <h4>转缩略图 ⏫</h4>
       <div class="upload-section">
         <button id="img-transfer">开始转换</button>
@@ -506,13 +586,67 @@
     `
     torrentDom.prepend(seedDom)
   }
+  const getDoubanLink = () => {
+    let imdbId = /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0]
+    if (!imdbId) {
+      imdbId = TORRENT_INFO.movieName
+    }
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `https://movie.douban.com/j/subject_suggest?q=${imdbId}`,
+      onload (res) {
+        const data = JSON.parse(res.responseText)
+        console.log(data)
+        if (data.length > 0) {
+          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data[0].id}`
+        }
+      }
+    })
+  }
+  const getDoubanInfo = () => {
+    const { doubanUrl } = TORRENT_INFO
+    const statusDom = $('.douban-section .douban-status')
+    try {
+      if (doubanUrl) {
+        statusDom.text('获取中...')
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${PT_GEN_API}?url=${doubanUrl}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText)
+            if (data && data.success) {
+              TORRENT_INFO.doubanInfo = data.format
+              replaceTorrentInfo()
+              getSubTitle(data)
+              statusDom.text('获取成功')
+            } else {
+              throw new Error('获取豆瓣信息失败')
+            }
+          }
+        })
+      } else {
+        throw new Error('无法获取豆瓣信息')
+      }
+    } catch (error) {
+      statusDom.text(error.message)
+    }
+  }
+  const getSubTitle = (data) => {
+    const titles = data.trans_title.join('/')
+    const { director = [] } = { data }
+    const mainCast = data.cast.substr(0, 2).map(cast => {
+      return cast.replace(/\s+[A-Za-z\s]+/, '')
+    })
+    TORRENT_INFO.subtitle = `${titles}|导演:${director[0]}|主演:${mainCast.join(' ')}`
+  }
   const transferImgs = () => {
     const statusDom = $('.upload-section .upload-status')
+    const ptpImgList = getPTPImage($())
     try {
-      if (TORRENT_INFO.screenshots.length < 1) {
+      if (ptpImgList.length < 1) {
         throw new Error('获取图片列表失败')
       }
-      const imgList = TORRENT_INFO.screenshots.join('\n')
+      const imgList = ptpImgList.join('\n')
       const isNSFW = $('#nsfw').is(':checked')
       const params = encodeURI(`imgs=${imgList}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`)
       statusDom.text('转换中...')
@@ -560,19 +694,27 @@
     })
   }
   // =============页面注入开始==============
-  let torrentParams = location.hash ? location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/)[2] : null
+  const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/)
+  let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null
   if (currentSiteName) {
-    if (torrentParams) {
+    if (torrentParams && SITE_MAP[currentSiteName].asTarget) {
       torrentParams = JSON.parse(decodeURIComponent(torrentParams))
       fillTargetForm(torrentParams)
     }
-    // 向当前所在站点添加按钮等内容
-    getTorrentInfo()
-    // 原图转缩略图
-    if ($('#img-transfer')) {
-      $('#img-transfer').click(() => {
-        transferImgs()
-      })
+    if (SITE_MAP[currentSiteName].asSource) {
+      // 向当前所在站点添加按钮等内容
+      getTorrentInfo()
+      // 原图转缩略图
+      if ($('#img-transfer')) {
+        $('#img-transfer').click(() => {
+          transferImgs()
+        })
+      }
+      if ($('#douban-info')) {
+        $('#douban-info').click(() => {
+          getDoubanInfo()
+        })
+      }
     }
   }
   GM_addStyle(`
@@ -600,17 +742,17 @@
     .seed-dom li a{
       font-weight: 600;
     }
-    .upload-section{
+    .upload-section,.douban-section{
       display: flex;
       justify-content: center;
       margin-bottom: 15px;
       align-items: center;
     }
-    .upload-section .upload-status{
+    .upload-section .upload-status,.douban-section .douban-status{
       margin-left: 5px;
       font-size: 14px;
     }
-    #img-transfer{
+    #img-transfer,#douban-info{
       line-height: 1;
       white-space: nowrap;
       cursor: pointer;
@@ -645,4 +787,4 @@
       border-color: #ebeef5;
     }
   `)
-})()
+})(jQuery)
