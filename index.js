@@ -51,7 +51,7 @@
           sport: '5'
         }
       },
-      codes: {
+      videoCodes: {
         selector: '#type_codec',
         map: {
           h264: '1',
@@ -113,7 +113,7 @@
           sport: '407'
         }
       },
-      codes: {
+      videoCodes: {
         selector: 'select[name="codec_sel"]',
         map: {
           h264: ['1', '11'],
@@ -277,7 +277,7 @@
           variety: []
         }
       },
-      codes: {
+      videoCodes: {
         selector: 'select[name="codec_sel"]',
         map: {
           h264: '1',
@@ -285,9 +285,10 @@
           x264: '1',
           x265: '2',
           mpeg2: '4',
-          mpeg4: '5',
+          mpeg4: ['5', '412', '418', '426', '433', '445'],
           vc1: '3',
-          xvid: '5'
+          xvid: '5',
+          dvd: '5'
         }
       },
       source: {
@@ -318,28 +319,28 @@
         }
       },
       videoType: {
-        selector: 'select[name="source_sel"]',
+        selector: 'select[name="medium_sel"]',
         map: {
-          uhdbluray: '10',
-          bluray: '1',
-          remux: '3',
-          encode: '7',
-          web: '11',
-          hdtv: '5',
-          dvd: '',
-          dvdrip: '7',
+          uhdbluray: ['10', '499', '500', '502', '501'],
+          bluray: ['1', '450', '451', '452', '453', '454'],
+          remux: ['3', '415', '421', '430', '437', '448'],
+          encode: ['7', '411', '412', '413', '414', '416', '417', '418', '419', '420', '422', '425', '426', '471', '427', '428', '429', '431', '432', '433', '434', '435', '436', '438', '444', '445', '446', '447', '449'],
+          web: ['11', '411', '412', '413', '414', '416', '417', '418', '419', '420', '422', '425', '426', '471', '427', '429', '431', '432', '433', '434', '436', '438', '444', '445', '446', '447', '449'],
+          hdtv: ['5', '412', '413', '416', '418', '419', '422', '424', '426', '471', '427', '428', '431', '433', '434', '435', '438', '442', '443', '445', '446', '449'],
+          dvd: ['', '411', '417', '425', '432', '444'],
+          dvdrip: ['7', '411', '417', '425', '432', '444'],
           other: ''
         }
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
         map: {
-          '2160p': '1',
-          '1080p': '2',
-          '1080i': '3',
-          '720p': '4',
-          '576p': '5',
-          '480p': '5'
+          '2160p': ['1', '499', '416', '500', '422', '431', '438', '502', '449', '501'],
+          '1080p': ['2', '414', '420', '429', '436', '447'],
+          '1080i': ['3', '424', '428', '435', '443'],
+          '720p': ['4', '413', '419', '423', '427', '434', '442', '446'],
+          '576p': ['5', '411', '417', '425', '432', '444'],
+          '480p': ['5', '411', '417', '425', '432', '444']
         }
       }
     },
@@ -443,7 +444,7 @@
     if (siteInfo.subtitle) {
       $(siteInfo.subtitle.selector).val(info.subtitle)
     }
-    const mediaInfo = info.videoType === 'bluray' ? '' : info.mediaInfo
+    const mediaInfo = info.videoType.match(/bluray|uhdbluray/ig) ? '' : info.mediaInfo
     const description = getDescription(info)
     if (siteInfo.mediaInfo) {
       $(siteInfo.mediaInfo.selector).val(mediaInfo)
@@ -454,40 +455,51 @@
     }
     $(siteInfo.description.selector).val(description)
     const category = siteInfo.category.map[info.type]
-    const videoCodes = siteInfo.codes ? siteInfo.codes.map[info.codes] : undefined
+    const videoCodes = siteInfo.videoCodes ? siteInfo.videoCodes.map[info.videoCodes] : undefined
     const videoType = siteInfo.videoType.map[info.videoType]
     const resolution = siteInfo.resolution ? siteInfo.resolution.map[info.resolution] : undefined
+    const source = siteInfo.source ? siteInfo.source.map[info.source] : undefined
     let finalSelectArray = []
     if (Array.isArray(category)) {
       finalSelectArray = [...category]
-      if (Array.isArray(videoCodes)) {
-        finalSelectArray = finalSelectArray.filter(item => videoCodes.includes(item))
-      } else if (siteInfo.codes) {
-        $(siteInfo.codes.selector).val(videoCodes)
-      }
-      if (Array.isArray(videoType)) {
-        finalSelectArray = finalSelectArray.filter(item => videoType.includes(item))
-      } else if (siteInfo.videoType) {
-        $(siteInfo.videoType.selector).val(videoType)
-      }
-      if (resolution) {
-        if (Array.isArray(resolution)) {
-          finalSelectArray = finalSelectArray.filter(item => resolution.includes(item))
-          if (siteInfo.resolution.selector) {
-            $(siteInfo.resolution.selector).val(resolution[0])
-          }
-        } else {
-          $(siteInfo.resolution.selector).val(resolution)
+      const keyArray = ['videoCodes', 'videoType', 'resolution', 'source']
+      keyArray.forEach(key => {
+        finalSelectArray = matchSelectForm(siteInfo, info, key, finalSelectArray)
+        if (finalSelectArray.length === 1) {
+          $(siteInfo.category.selector).val(finalSelectArray[0])
         }
-      }
-      $(siteInfo.category.selector).val(finalSelectArray[0])
+      })
     } else {
       $(siteInfo.category.selector).val(category)
-      $(siteInfo.codes.selector).val(videoCodes)
+      $(siteInfo.videoCodes.selector).val(videoCodes)
       $(siteInfo.videoType.selector).val(videoType)
       $(siteInfo.resolution.selector).val(resolution)
+      $(siteInfo.source.selector).val(source)
     }
     $(siteInfo.imdb.selector).val(info.imdbUrl)
+    $(siteInfo.douban.selector).val(info.doubanUrl)
+  }
+  /*
+  * 各个字段之间取交集填入表单
+  * @param {siteInfo} 当前站点的配置
+  * @param {key} 要填入的字段key
+  * @param {movieInfo} 要填入的种子信息
+  * @param {selectArray} 此时分类对应的值
+  * @return 取当前key对应的value取交集之后的数组
+  * */
+  const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
+    const value = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : undefined
+    if (Array.isArray(value)) {
+      if (selectArray.length > 1) {
+        selectArray = selectArray.filter(item => value.includes(item))
+      }
+      if (siteInfo[key].selector) {
+        $(siteInfo[key].selector).val(value[0])
+      }
+    } else if (siteInfo[key]) {
+      $(siteInfo[key].selector).val(value)
+    }
+    return selectArray
   }
   // =============源站点方法==============
 
@@ -516,10 +528,10 @@
     const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/')
     const [codes, container, source, resolution, ...otherInfo] = infoArray
     const isRemux = otherInfo.includes('Remux')
-    TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux)
-    TORRENT_INFO.codes = getPtpCodes(codes)
+    TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes)
+    TORRENT_INFO.videoCodes = getPtpCodes(codes)
     TORRENT_INFO.source = getPTPSource(source, codes)
-    TORRENT_INFO.resolution = resolution
+    TORRENT_INFO.resolution = getPTPResolution(resolution)
     const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom)
     TORRENT_INFO.logs = logs
     TORRENT_INFO.bdinfo = bdinfo
@@ -600,20 +612,30 @@
     }
     return codes.replace(/[.-]/g, '').toLowerCase()
   }
-  const getVideoType = (container, isRemux) => {
-    const isBluray = container === 'm2ts' || container === 'ISO'
-    const isDVD = container === 'DVD9' || container === 'DVD5'
+  const getVideoType = (container, isRemux, codes) => {
     let type = ''
     if (isRemux) {
       type = 'remux'
-    } else if (isBluray) {
+    } else if (codes.match(/BD50|BD25/ig)) {
       type = 'bluray'
-    } else if (isDVD) {
+    } else if (codes.match(/BD66|BD100/ig)) {
+      type = 'bluray'
+    } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB IFO/ig)) {
+      type = 'dvd'
+    } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB IFO/ig)) {
       type = 'dvd'
     } else if (container.match(/MKV|AVI|MP4/i)) {
       type = 'encode'
     }
     return type
+  }
+  const getPTPResolution = (resolution) => {
+    if (resolution.match(/NTSC|PAL/ig)) {
+      return '480p'
+    } else if (resolution.match(/(720|640)x\d+/)) {
+      return '480p'
+    }
+    return resolution
   }
   const getAreaCode = () => {
     const europeList = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'Vatican City']
