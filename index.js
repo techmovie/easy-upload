@@ -6,7 +6,7 @@
 // @author       birdplane
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
-// @match        http*://*/upload.php
+// @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @note
@@ -14,7 +14,6 @@
 
 (function ($) {
   'use strict'
-  const PT_GEN_API = 'https://media.pttool.workers.dev'
   const SITE_MAP = {
     HDB: {
       url: 'https://hdbits.org',
@@ -22,6 +21,7 @@
       siteType: 'HDB',
       asSource: false,
       asTarget: true,
+      needDoubanInfo: true,
       uploadPath: '/upload.php',
       searchPath: '/browse.php',
       searchKey: 'search',
@@ -58,7 +58,7 @@
           hevc: '5',
           x264: '1',
           x265: '5',
-          mepg2: '2',
+          mpeg2: '2',
           vc1: '3',
           xvid: '4',
           bluray: '1',
@@ -77,7 +77,7 @@
         }
       }
     },
-    MT: {
+    MTeam: {
       url: 'https://pt.m-team.cc',
       host: 'pt.m-team.cc',
       siteType: 'NexusPHP',
@@ -95,7 +95,7 @@
         selector: '#name'
       },
       subtitle: {
-        selector: '.small_descr'
+        selector: 'input[name="small_descr"]'
       },
       description: {
         selector: '#descr'
@@ -116,16 +116,14 @@
       codes: {
         selector: 'select[name="codec_sel"]',
         map: {
-          h264: '1',
+          h264: ['1', '11'],
           hevc: '16',
           x264: '1',
           x265: '16',
-          mepg2: '4',
-          mepg4: '15',
+          mpeg2: '4',
+          mpeg4: '15',
           vc1: '2',
-          xvid: '3',
-          bluray: '11',
-          uhdbluray: '16'
+          xvid: '3'
         }
       },
       videoType: {
@@ -236,12 +234,122 @@
         }
       }
     },
+    HDHome: {
+      url: 'https://hdhome.org',
+      host: 'hdhome.org',
+      siteType: 'NexusPHP',
+      asSource: false,
+      asTarget: true,
+      uploadPath: '/upload.php',
+      searchPath: '/torrents.php',
+      searchKey: 'search',
+      searchParam: {
+        search_area: '{key}',
+        sort: '5',
+        type: 'desc'
+      },
+      name: {
+        selector: '#name'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: '#descr'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_id"]'
+      },
+      category: {
+        selector: '#browsecat',
+        map: {
+          movie: ['411', '412', '413', '414', '415', '450', '499', '416'],
+          moviePack: '',
+          tv: ['425', '426', '471', '427', '428', '429', '430', '452', '431'],
+          tvPack: ['432', '433', '434', '435', '436', '437', '438', '502'],
+          documentary: ['417', '418', '419', '420', '421', '451', '500', '422'],
+          concert: '441',
+          sport: ['442', '443'],
+          cartoon: ['444', '445', '446', '447', '448', '454', '449', '501'],
+          variety: []
+        }
+      },
+      codes: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: '1',
+          hevc: '12',
+          x264: '1',
+          x265: '2',
+          mpeg2: '4',
+          mpeg4: '5',
+          vc1: '3',
+          xvid: '5'
+        }
+      },
+      source: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: '9',
+          bluray: '1',
+          hdtv: '4',
+          dvd: '3',
+          web: '7',
+          vhs: '8',
+          hddvd: '8'
+        }
+      },
+      audioCodes: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: '6',
+          ac3: '15',
+          dd: '15',
+          'dd+': '15',
+          dts: '3',
+          truehd: '13',
+          lpcm: '14',
+          dtshdma: '11',
+          atmos: '12',
+          dtsx: '17'
+        }
+      },
+      videoType: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: '10',
+          bluray: '1',
+          remux: '3',
+          encode: '7',
+          web: '11',
+          hdtv: '5',
+          dvd: '',
+          dvdrip: '7',
+          other: ''
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          '2160p': '1',
+          '1080p': '2',
+          '1080i': '3',
+          '720p': '4',
+          '576p': '5',
+          '480p': '5'
+        }
+      }
+    },
     PTP: {
       url: 'https://passthepopcorn.me',
       host: 'passthepopcorn.me',
       siteType: 'gazelle',
       asSource: true,
       asTarget: false,
+      needDoubanInfo: true,
       uploadPath: '/upload.php',
       searchPath: '/torrents.php',
       searchKey: 'search',
@@ -281,10 +389,14 @@
     mediaInfo: '',
     bdinfo: '',
     screenshots: [],
-    logs: '',
     movieAkaName: '',
-    movieName: ''
+    movieName: '',
+    sourceSite: ''
   }
+  const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a'
+  const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2'
+  const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos'
+  const PT_GEN_API = 'https://media.pttool.workers.dev'
   const getSiteName = (host) => {
     let siteName = ''
     try {
@@ -302,21 +414,22 @@
     }
   }
   const currentSiteName = getSiteName(location.host)
-  console.log(currentSiteName)
+  const currentSiteInfo = SITE_MAP[currentSiteName]
 
   // =============目标站点方法============
 
   const getDescription = (info) => {
-    const siteInfo = SITE_MAP[currentSiteName]
-    const doubanInfo = info.doubanInfo ? `${info.doubanInfo}\n` : ''
+    const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Thanks![/size][/quote]`
+    const siteInfo = currentSiteInfo
+    const doubanInfo = (!siteInfo.needDoubanInfo && info.doubanInfo) ? `${info.doubanInfo}\n` : ''
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
     const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : ''
     const mediaInfo = siteInfo.mediaInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`
-    return `${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
+    return `${thanksQuote}\n\n${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`
   }
   const fillTargetForm = (info) => {
     console.log(info)
-    const siteInfo = SITE_MAP[currentSiteName]
+    const siteInfo = currentSiteInfo
     if (currentSiteName === 'HDB') {
       let mediaTitle = info.title.replace(/([^\d]+)\s+(\d+)/, (match, p1, p2) => {
         return `${info.movieName || info.movieAkaName} ${p2}`
@@ -384,17 +497,17 @@
     if (!torrentId) {
       return false
     }
+    TORRENT_INFO.sourceSite = currentSiteName
     const torrentDom = $(`#torrent_${torrentId}`)
     const ptpMovieTitle = $('.page__title').text().match(/(^|])([^\d[]+)/)[2].trim()
     const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ')
     TORRENT_INFO.movieName = movieName
     TORRENT_INFO.movieAkaName = movieAkaName
     TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || ''
-    getDoubanLink()
     TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2]
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`)
     let torrentName = torrentHeaderDom.data('releasename')
-    torrentName = torrentName.replaceAll('.', ' ').replace(/ (\d{1}) (\d{1})/, ' $1.$2').trim()
+    torrentName = formatTorrentTitle(torrentName)
     TORRENT_INFO.title = torrentName
     TORRENT_INFO.type = getPTPType()
     if (TORRENT_INFO.type === 'music') {
@@ -405,7 +518,7 @@
     const isRemux = otherInfo.includes('Remux')
     TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux)
     TORRENT_INFO.codes = getPtpCodes(codes)
-    TORRENT_INFO.source = source
+    TORRENT_INFO.source = getPTPSource(source, codes)
     TORRENT_INFO.resolution = resolution
     const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom)
     TORRENT_INFO.logs = logs
@@ -417,7 +530,6 @@
     TORRENT_INFO.area = getAreaCode()
     createSeedDom(torrentDom.find('>td'), TORRENT_INFO)
   }
-
   const getPTPType = () => {
     const typeMap = {
       'Feature Film': 'movie',
@@ -470,12 +582,18 @@
     }
     return imgList
   }
-  const getPtpCodes = (codes) => {
-    if (codes === 'BD66' || codes === 'BD100') {
+  const getPTPSource = (source, codes) => {
+    if (codes.match(/BD100|BD66/g)) {
       return 'uhdbluray'
     }
+    return source.replace(/-/g, '').toLowerCase()
+  }
+  const getPtpCodes = (codes) => {
+    if (codes === 'BD66' || codes === 'BD100') {
+      return 'hevc'
+    }
     if (codes.startsWith('BD')) {
-      return 'bluray'
+      return 'h264'
     }
     if (codes.startsWith('DVD')) {
       return 'dvd'
@@ -524,12 +642,17 @@
     return 'OT'
   }
   // =======PTP站点方法结束=======
+
   // =============公共方法=================
 
   const getTorrentInfo = () => {
     if (currentSiteName === 'PTP') {
       getPTPInfo()
     }
+  }
+  const formatTorrentTitle = (title) => {
+    // 保留5.1 H.264中间的点
+    return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim()
   }
   const getUrlParam = (key) => {
     const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)')
@@ -558,17 +681,20 @@
       url = url.replace('{searchArea}', imdbId ? '4' : '0')
       return `<li><a href="${url}" target="_blank">${siteName}</a></li>`
     })
+    const doubanDom = currentSiteInfo.needDoubanInfo
+      ? `<h4>获取豆瓣简介</h4>
+    <div class="douban-section">
+      <button id="douban-info">开始获取</button>
+      <div class="douban-status"></div>
+    </div>`
+      : ''
     const seedDom = `
     <div class="seed-dom movie-page__torrent__panel">
       <h4>一键转种 🎬</h4>
       <ul class="site-list">
         ${siteList.join('')}
       </ul>
-      <h4>获取豆瓣简介</h4>
-      <div class="douban-section">
-        <button id="douban-info">开始获取</button>
-        <div class="douban-status"></div>
-      </div>
+      ${doubanDom}
       <h4>转缩略图 ⏫</h4>
       <div class="upload-section">
         <button id="img-transfer">开始转换</button>
@@ -587,21 +713,40 @@
     torrentDom.prepend(seedDom)
   }
   const getDoubanLink = () => {
-    let imdbId = /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0]
-    if (!imdbId) {
-      imdbId = TORRENT_INFO.movieName
+    const doubanLink = $('.page__title>a').attr('href')
+    if (doubanLink && doubanLink.match('movie.douban.com')) {
+      TORRENT_INFO.doubanUrl = doubanLink
+      getDoubanInfo()
+      return false
     }
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `https://movie.douban.com/j/subject_suggest?q=${imdbId}`,
-      onload (res) {
-        const data = JSON.parse(res.responseText)
-        console.log(data)
-        if (data.length > 0) {
-          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data[0].id}`
+    if (TORRENT_INFO.imdbUrl) {
+      const imdbId = /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0]
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `${DOUBAN_SEARCH_API}/${imdbId}`,
+        onload (res) {
+          const data = JSON.parse(res.responseText)
+          console.log(data)
+          if (data && data.data) {
+            TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`
+            getDoubanInfo()
+          }
         }
-      }
-    })
+      })
+    } else {
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `${DOUBAN_API_URL}/search/weixin?q=${TORRENT_INFO.movieName}&start=0&count=1&apiKey=${API_KEY}`,
+        onload (res) {
+          const data = JSON.parse(res.responseText)
+          console.log(data)
+          if (data && data.items && data.items.length > 0) {
+            TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`
+            getDoubanInfo()
+          }
+        }
+      })
+    }
   }
   const getDoubanInfo = () => {
     const { doubanUrl } = TORRENT_INFO
@@ -616,8 +761,8 @@
             const data = JSON.parse(res.responseText)
             if (data && data.success) {
               TORRENT_INFO.doubanInfo = data.format
-              replaceTorrentInfo()
               getSubTitle(data)
+              replaceTorrentInfo()
               statusDom.text('获取成功')
             } else {
               throw new Error('获取豆瓣信息失败')
@@ -633,11 +778,19 @@
   }
   const getSubTitle = (data) => {
     const titles = data.trans_title.join('/')
-    const { director = [] } = { data }
-    const mainCast = data.cast.substr(0, 2).map(cast => {
-      return cast.replace(/\s+[A-Za-z\s]+/, '')
+    const { director = [] } = data
+    const directorArray = director.map(item => {
+      return replaceEngName(item.name)
     })
-    TORRENT_INFO.subtitle = `${titles}|导演:${director[0]}|主演:${mainCast.join(' ')}`
+    const mainCast = data.cast.slice(0, 2).map(cast => {
+      return replaceEngName(cast.name)
+    })
+    const directorStr = directorArray.length > 0 ? `|导演: ${directorArray.join(' ')}` : ''
+    const castStr = mainCast.length > 0 ? `|主演:${mainCast.join(' ')}` : ''
+    TORRENT_INFO.subtitle = titles + directorStr + castStr
+  }
+  const replaceEngName = (string) => {
+    return string.replace(/\s+[A-Za-z\s]+/, '')
   }
   const transferImgs = () => {
     const statusDom = $('.upload-section .upload-status')
@@ -697,11 +850,11 @@
   const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/)
   let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null
   if (currentSiteName) {
-    if (torrentParams && SITE_MAP[currentSiteName].asTarget) {
+    if (torrentParams && currentSiteInfo.asTarget) {
       torrentParams = JSON.parse(decodeURIComponent(torrentParams))
       fillTargetForm(torrentParams)
     }
-    if (SITE_MAP[currentSiteName].asSource) {
+    if (currentSiteInfo.asSource) {
       // 向当前所在站点添加按钮等内容
       getTorrentInfo()
       // 原图转缩略图
@@ -712,7 +865,7 @@
       }
       if ($('#douban-info')) {
         $('#douban-info').click(() => {
-          getDoubanInfo()
+          getDoubanLink()
         })
       }
     }
