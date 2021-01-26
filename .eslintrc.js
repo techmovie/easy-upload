@@ -17,6 +17,7 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    'no-use-before-define': 0
+    'no-use-before-define': 0,
+    semi: ['error', 'always']
   }
-}
+};
