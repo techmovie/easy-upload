@@ -55,6 +55,7 @@
         selector: '#type_codec',
         map: {
           h264: '1',
+          h265: '5',
           hevc: '5',
           x264: '1',
           x265: '5',
@@ -116,8 +117,9 @@
       videoCodes: {
         selector: 'select[name="codec_sel"]',
         map: {
-          h264: ['1', '11'],
+          h264: '1',
           hevc: '16',
+          h265: '16',
           x264: '1',
           x265: '16',
           mpeg2: '4',
@@ -129,7 +131,7 @@
       videoType: {
         map: {
           bluray: ['421', '438'],
-          remux: '439',
+          remux: ['439'],
           encode: ['401', '419', '403', '402'],
           web: ['419', '402'],
           hdtv: ['419', '402'],
@@ -284,6 +286,7 @@
           hevc: '12',
           x264: '1',
           x265: '2',
+          h265: '2',
           mpeg2: '4',
           mpeg4: ['5', '412', '418', '426', '433', '445'],
           vc1: '3',
@@ -379,12 +382,12 @@
     type: '', // 电影、电视、音乐等
     videoType: '', // bluray remux encodes web-dl
     source: '', // 视频来源
-    codes: '', // 视频编码
-    audioCodes: '',
+    videoCodes: '', // 视频编码
+    audioCodes: '', // 音频编码
     resolution: '', // 分辨率
     area: '', // 地区
     doubanUrl: '', // 豆瓣地址
-    doubanInfo: '',
+    doubanInfo: '', // 豆瓣简介
     imdbUrl: '', // imdb地址
     tags: '',
     mediaInfo: '',
@@ -420,7 +423,7 @@
   // =============目标站点方法============
 
   const getDescription = (info) => {
-    const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Thanks![/size][/quote]`
+    const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`
     const siteInfo = currentSiteInfo
     const doubanInfo = (!siteInfo.needDoubanInfo && info.doubanInfo) ? `${info.doubanInfo}\n` : ''
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : ''
@@ -436,7 +439,7 @@
         return `${info.movieName || info.movieAkaName} ${p2}`
       })
       if (info.videoType === 'remux') {
-        mediaTitle = mediaTitle.replace(/ (bluray|blu-ray)/ig, '')
+        mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/ig, '')
       }
       info.title = mediaTitle
     }
@@ -477,7 +480,9 @@
       $(siteInfo.source.selector).val(source)
     }
     $(siteInfo.imdb.selector).val(info.imdbUrl)
-    $(siteInfo.douban.selector).val(info.doubanUrl)
+    if (siteInfo.douban) {
+      $(siteInfo.douban.selector).val(info.doubanUrl)
+    }
   }
   /*
   * 各个字段之间取交集填入表单
@@ -528,9 +533,9 @@
     const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/')
     const [codes, container, source, resolution, ...otherInfo] = infoArray
     const isRemux = otherInfo.includes('Remux')
-    TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes)
+    TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source)
     TORRENT_INFO.videoCodes = getPtpCodes(codes)
-    TORRENT_INFO.source = getPTPSource(source, codes)
+    TORRENT_INFO.source = getPTPSource(source, codes, resolution)
     TORRENT_INFO.resolution = getPTPResolution(resolution)
     const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom)
     TORRENT_INFO.logs = logs
@@ -594,8 +599,11 @@
     }
     return imgList
   }
-  const getPTPSource = (source, codes) => {
-    if (codes.match(/BD100|BD66/g)) {
+  const getPTPSource = (source, codes, resolution) => {
+    if (codes.match(/BD100|BD66/i)) {
+      return 'uhdbluray'
+    }
+    if (source.match(/Blu-ray/i) && resolution.match(/2160P|4K/i)) {
       return 'uhdbluray'
     }
     return source.replace(/-/g, '').toLowerCase()
@@ -608,23 +616,23 @@
       return 'h264'
     }
     if (codes.startsWith('DVD')) {
-      return 'dvd'
+      return 'mpeg2'
     }
     return codes.replace(/[.-]/g, '').toLowerCase()
   }
-  const getVideoType = (container, isRemux, codes) => {
+  const getVideoType = (container, isRemux, codes, source) => {
     let type = ''
     if (isRemux) {
       type = 'remux'
     } else if (codes.match(/BD50|BD25/ig)) {
       type = 'bluray'
     } else if (codes.match(/BD66|BD100/ig)) {
-      type = 'bluray'
+      type = 'uhdbluray'
+    } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
+      type = 'dvdrip'
     } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB IFO/ig)) {
       type = 'dvd'
-    } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB IFO/ig)) {
-      type = 'dvd'
-    } else if (container.match(/MKV|AVI|MP4/i)) {
+    } else if (container.match(/MKV|MP4/i)) {
       type = 'encode'
     }
     return type
@@ -632,7 +640,7 @@
   const getPTPResolution = (resolution) => {
     if (resolution.match(/NTSC|PAL/ig)) {
       return '480p'
-    } else if (resolution.match(/(720|640)x\d+/)) {
+    } else if (resolution.match(/\d{3}x\d{3}/)) {
       return '480p'
     }
     return resolution
@@ -683,6 +691,9 @@
       return unescape(regArray[2])
     }
     return ''
+  }
+  const getAudioCodes = (torrentInfo) => {
+    const { title, mediaInfo, bdinfo } = torrentInfo
   }
   const createSeedDom = (torrentDom, torrentInfo) => {
     const siteList = Object.keys(SITE_MAP).map(siteName => {
@@ -949,12 +960,12 @@
       margin:0;
       margin-right: 5px;
     }
-    #img-transfer:hover {
+    #img-transfer:hover,#douban-info:hover {
       background: #fff;
       border-color: #409eff;
       color: #409eff
     }
-    #img-transfer.is-disabled, #img-transfer.is-disabled:hover {
+    #img-transfer.is-disabled, #img-transfer.is-disabled:hover,#douban-info.is-disabled, #douban-info.is-disabled:hover {
       color: #c0c4cc;
       cursor: not-allowed;
       background-image: none;
