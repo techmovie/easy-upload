@@ -9,7 +9,6 @@
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @require      file:///Users/vanboo/Desktop/code/easy-seed/easy-seed.user.js
 // @note
 // ==/UserScript==
 
@@ -264,9 +263,6 @@
       imdb: {
         selector: '#url'
       },
-      douban: {
-        selector: '#url'
-      },
       mediaInfo: {
         selector: '#Media_BDInfo'
       },
@@ -298,18 +294,6 @@
           vc1: '3',
           xvid: '',
           dvd: ''
-        }
-      },
-      source: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: '9',
-          bluray: '1',
-          hdtv: '4',
-          dvd: '3',
-          web: '7',
-          vhs: '8',
-          hddvd: '8'
         }
       },
       audioCodes: {
@@ -353,7 +337,7 @@
         }
       },
       area: {
-        selector: 'select[name="source"]',
+        selector: 'select[name="source_sel"]',
         map: {
           CN: '1',
           US: '9',
@@ -501,7 +485,8 @@
     CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
     BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
     BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
-    AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}'
+    AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}',
+    SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0'
   };
 
   const TORRENT_INFO = {
@@ -509,7 +494,7 @@
     subtitle: '', // 副标题
     description: '', // 描述
     year: '',
-    type: '', // 电影、电视、音乐等
+    category: '', // 电影、电视、音乐等
     videoType: '', // bluray remux encodes web-dl
     source: '', // 视频来源
     videoCodes: '', // 视频编码
@@ -559,11 +544,15 @@
     const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
     const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : '';
     const mediaInfo = siteInfo.mediaInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
-    return `${thanksQuote}\n\n${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}\n\nScreens:\n${info.screenshots.join('')}`;
+    const screenshots = info.screenshots.map(img => {
+      return `[img]${img}[/img]`;
+    });
+    const screenshotsPart = currentSiteName === 'SSD' ? '' : `\n\nScreens:\n${screenshots.join('')}`;
+    return `${thanksQuote}\n\n${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}${screenshotsPart}`;
   };
   const fillTargetForm = (info) => {
     console.log(info);
-    const siteInfo = currentSiteInfo;
+    $(currentSiteInfo.imdb.selector).val(info.imdbUrl);
     if (currentSiteName === 'HDB') {
       let mediaTitle = info.title.replace(/([^\d]+)\s+(\d+)/, (match, p1, p2) => {
         return `${info.movieName || info.movieAkaName} ${p2}`;
@@ -573,39 +562,43 @@
       }
       info.title = mediaTitle;
     }
-    $(siteInfo.name.selector).val(info.title);
-    if (siteInfo.subtitle) {
-      $(siteInfo.subtitle.selector).val(info.subtitle);
+    if (currentSiteName === 'SSD') {
+      $(currentSiteInfo.imdb.selector).val(info.doubanUrl || info.imdbUrl);
+      $(currentSiteInfo.screenshots.selector).val(info.screenshots.join('\n'));
+    }
+
+    $(currentSiteInfo.name.selector).val(info.title);
+    if (currentSiteInfo.subtitle) {
+      $(currentSiteInfo.subtitle.selector).val(info.subtitle);
     }
     const mediaInfo = info.videoType.match(/bluray|uhdbluray/ig) ? '' : info.mediaInfo;
     const description = getDescription(info);
-    if (siteInfo.mediaInfo) {
-      $(siteInfo.mediaInfo.selector).val(mediaInfo);
+    if (currentSiteInfo.mediaInfo) {
+      $(currentSiteInfo.mediaInfo.selector).val(mediaInfo);
     }
-    $(siteInfo.description.selector).val(description);
-    if (siteInfo.area && siteInfo.area.selector) {
-      $(siteInfo.area.selector).val(siteInfo.area.map[info.area]);
+    $(currentSiteInfo.description.selector).val(description);
+    if (currentSiteInfo.area && currentSiteInfo.area.selector) {
+      $(currentSiteInfo.area.selector).val(currentSiteInfo.area.map[info.area]);
     }
-    $(siteInfo.description.selector).val(description);
-    const category = siteInfo.category.map[info.type];
+    $(currentSiteInfo.description.selector).val(description);
+    const category = currentSiteInfo.category.map[info.category];
     const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
     let finalSelectArray = [];
     if (Array.isArray(category)) {
       finalSelectArray = [...category];
       keyArray.forEach(key => {
-        finalSelectArray = matchSelectForm(siteInfo, info, key, finalSelectArray);
+        finalSelectArray = matchSelectForm(currentSiteInfo, info, key, finalSelectArray);
         if (finalSelectArray.length === 1) {
-          $(siteInfo.category.selector).val(finalSelectArray[0]);
+          $(currentSiteInfo.category.selector).val(finalSelectArray[0]);
         }
       });
     } else {
       [...keyArray, 'category'].forEach(key => {
-        matchSelectForm(siteInfo, info, key, finalSelectArray);
+        matchSelectForm(currentSiteInfo, info, key, finalSelectArray);
       });
     }
-    $(siteInfo.imdb.selector).val(info.imdbUrl);
-    if (siteInfo.douban) {
-      $(siteInfo.douban.selector).val(info.doubanUrl);
+    if (currentSiteInfo.douban) {
+      $(currentSiteInfo.douban.selector).val(info.doubanUrl);
     }
   };
   /*
@@ -650,8 +643,8 @@
     let torrentName = torrentHeaderDom.data('releasename');
     torrentName = formatTorrentTitle(torrentName);
     TORRENT_INFO.title = torrentName;
-    TORRENT_INFO.type = getPTPType();
-    if (TORRENT_INFO.type === 'music') {
+    TORRENT_INFO.category = getPTPType();
+    if (TORRENT_INFO.category === 'music') {
       TORRENT_INFO.description = $('#synopsis').text();
     }
     const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
@@ -665,9 +658,7 @@
     TORRENT_INFO.logs = logs;
     TORRENT_INFO.bdinfo = bdinfo;
     TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
-    TORRENT_INFO.screenshots = getPTPImage(torrentDom).map(img => {
-      return `[img]${img}[/img]`;
-    });
+    TORRENT_INFO.screenshots = getPTPImage(torrentDom);
     TORRENT_INFO.area = getAreaCode();
     createSeedDom(torrentDom.find('>td'), TORRENT_INFO);
   };
