@@ -3,21 +3,22 @@ module.exports = {
     browser: true,
     es6: true,
     jquery: true,
-    greasemonkey: true
+    greasemonkey: true,
   },
   extends: [
-    'standard'
+    'standard',
   ],
   globals: {
     Atomics: 'readonly',
     $j: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018
+    ecmaVersion: 2018,
   },
   rules: {
     'no-use-before-define': 0,
-    semi: ['error', 'always']
-  }
+    semi: ['error', 'always'],
+    'comma-dangle': ['error', 'always-multiline'],
+  },
 };

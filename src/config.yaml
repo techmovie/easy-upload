@@ -1,0 +1,12 @@
+PT_SITE:
+  HDB:
+    url: ''
+    host: ''
+    siteType: ''
+    asSource: false # 是否支持作为源站点
+    asTarget: true # 是否支持作为目标站点
+    uploadPath: ''
+    searchPath: ''
+    searchKey: ''
+  MTeam:
+    url: ''
