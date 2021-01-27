@@ -19,31 +19,31 @@
       url: 'https://hdbits.org',
       host: 'hdbits.org',
       siteType: 'HDB',
-      asSource: false,
-      asTarget: true,
-      needDoubanInfo: true,
-      uploadPath: '/upload.php',
-      searchPath: '/browse.php',
-      searchKey: 'search',
-      searchParam: {
+      asSource: false, // 是否支持作为源站点
+      asTarget: true, // 是否支持作为目标站点
+      needDoubanInfo: true, // 是否需要补充豆瓣信息,一般国外站点需要
+      uploadPath: '/upload.php', // 上传页面路径
+      searchPath: '/browse.php', // 检索页面路径
+      searchKey: 'search', // 检索key
+      searchParam: { // 检索参数
         sort: 'size',
         d: 'DESC' // orderBy
       },
-      name: {
+      name: { // 种子标题
         selector: '#name'
       },
-      description: {
+      description: { // 描述
         selector: '#descr'
       },
-      imdb: {
+      imdb: { // imdb地址
         selector: 'input[name="imdb"]'
       },
-      mediaInfo: {
+      mediaInfo: { // 媒体信息 部分站点需要独立填入
         selector: 'textarea[name="techinfo"]'
       },
-      category: {
-        selector: '#type_category',
-        map: {
+      category: { // 分类
+        selector: '#type_category', // jq选择器
+        map: { // 不同分类对应的select value
           movie: '1',
           tv: '2',
           documentary: '3',
@@ -51,7 +51,7 @@
           sport: '5'
         }
       },
-      videoCodes: {
+      videoCodes: { // 视频编码
         selector: '#type_codec',
         map: {
           h264: '1',
@@ -67,7 +67,7 @@
           vp9: '6'
         }
       },
-      videoType: {
+      videoType: { // 视频种类
         selector: '#type_medium',
         map: {
           bluray: '1',
@@ -493,7 +493,7 @@
     title: '', // 标题
     subtitle: '', // 副标题
     description: '', // 描述
-    year: '',
+    year: '', // 电影年份
     category: '', // 电影、电视、音乐等
     videoType: '', // bluray remux encodes web-dl
     source: '', // 视频来源
@@ -504,13 +504,13 @@
     doubanUrl: '', // 豆瓣地址
     doubanInfo: '', // 豆瓣简介
     imdbUrl: '', // imdb地址
-    tags: '',
+    tags: '', // 标签 diy 中字 国配等
     mediaInfo: '',
     bdinfo: '',
     screenshots: [],
-    movieAkaName: '',
-    movieName: '',
-    sourceSite: ''
+    movieAkaName: '', // 别名一般为电影英文名称
+    movieName: '', // imdb电影原始名称 一般为拼音
+    sourceSite: '' // 种子来源站点简称
   };
   const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';
   const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2';
@@ -810,6 +810,12 @@
   const getAudioCodes = (torrentInfo) => {
     const { title, mediaInfo, bdinfo } = torrentInfo;
   };
+  /*
+  * 向源站点页面注入DOM
+  * @param {torrentDom} DOM的父节点JQ对象
+  * @param {torrentDom} 当前种子的详情
+  * @return
+  * */
   const createSeedDom = (torrentDom, torrentInfo) => {
     const siteList = Object.keys(SITE_MAP).map(siteName => {
       const { url, uploadPath } = SITE_MAP[siteName];
@@ -924,12 +930,14 @@
       statusDom.text(error.message);
     }
   };
+  // 获取副标题
   const getSubTitle = (data) => {
     const titles = data.trans_title.join('/');
     const { director = [] } = data;
     const directorArray = director.map(item => {
       return replaceEngName(item.name);
     });
+    // 演员只选择前两位
     const mainCast = data.cast.slice(0, 2).map(cast => {
       return replaceEngName(cast.name);
     });
@@ -937,6 +945,11 @@
     const castStr = mainCast.length > 0 ? `|主演:${mainCast.join(' ')}` : '';
     TORRENT_INFO.subtitle = titles + directorStr + castStr;
   };
+  /*
+  * 替换豆瓣演员中的英文名称
+  * @param {any}
+  * @return
+  * */
   const replaceEngName = (string) => {
     return string.replace(/\s+[A-Za-z\s]+/, '');
   };
@@ -986,7 +999,11 @@
       statusDom.text(error.message);
     }
   };
-
+  /*
+  * 更新种子信息后需要遍历目标站点链接进行参数替换
+  * @param {any}
+  * @return
+  * */
   const replaceTorrentInfo = () => {
     $('.site-list a').each((index, link) => {
       const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
