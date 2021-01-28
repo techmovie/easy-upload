@@ -1,4 +1,4 @@
-const { userScriptComment, yamlPlugin } = require('./helper');
+const { yamlPlugin } = require('./helper');
 const chokidar = require('chokidar');
 
 (async () => {
@@ -6,7 +6,6 @@ const chokidar = require('chokidar');
     entryPoints: ['src/index.js'],
     outfile: '.cache/easy-seed.user.js',
     bundle: true,
-    banner: userScriptComment,
     plugins: [yamlPlugin],
     incremental: true,
   });

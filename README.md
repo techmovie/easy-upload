@@ -3,7 +3,6 @@
 ## 构建
 
 `npm run build`
-`npm run dev`
 
 ## 本地调试
 新建用户脚本,然后将`@require`下的文件路径改为项目所在目录。
@@ -14,10 +13,13 @@
 // @version      0.3
 // @description  easy seeding for different trackers
 // @author       birdplane
-// @match        http*://*
+// @match        https://passthepopcorn.me/torrents.php?id=*
+// @match        https://hdbits.org/offer.php
+// @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @require      file:///Users/em/easy-seed/.cache/easy-seed.user.js
+// @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
+// @require      file:///Users/USER_NAME/../easy-seed/.cache/easy-seed.user.js
 // @note
 // ==/UserScript==
 
@@ -26,3 +28,5 @@
 
     // Your code here...
 })();```
+
+`npm run dev`
