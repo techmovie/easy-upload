@@ -196,10 +196,10 @@ if (CURRENT_SITE_NAME) {
   if (CURRENT_SITE_INFO.asSource) {
     // 向当前所在站点添加按钮等内容
     torrentData = getTorrentInfo();
-    let torrentInsertDom = CURRENT_SITE_INFO[CURRENT_SITE_NAME].seedDomSelector;
+    let torrentInsertDom = CURRENT_SITE_INFO.seedDomSelector;
     if (CURRENT_SITE_NAME === 'PTP') {
       const torrentId = getUrlParam('torrentid');
-      torrentInsertDom = $(`#torrent${torrentId} >td`);
+      torrentInsertDom = $(`#torrent_${torrentId} >td`);
     }
     createSeedDom(torrentInsertDom);
     // 原图转缩略图
