@@ -9,7 +9,8 @@ exports.userScriptComment = `// ==UserScript==
 // @namespace    http://tampermonkey.net/
 // @version      ${version}
 // @description  ${description}
- // @author       ${author}
+// @author       ${author}
+// @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
 // @match        http*://*/upload*
