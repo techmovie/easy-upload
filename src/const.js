@@ -1,4 +1,5 @@
 import { PT_SITE } from './config.yaml';
+const $ = jQuery
 const TORRENT_INFO = {
   title: '', // 标题
   subtitle: '', // 副标题

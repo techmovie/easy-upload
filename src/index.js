@@ -196,10 +196,14 @@ if (CURRENT_SITE_NAME) {
   if (CURRENT_SITE_INFO.asSource) {
     // 向当前所在站点添加按钮等内容
     torrentData = getTorrentInfo();
+    console.log('torrentData:'+JSON.stringify(torrentData))
     let torrentInsertDom = CURRENT_SITE_INFO.seedDomSelector;
     if (CURRENT_SITE_NAME === 'PTP') {
       const torrentId = getUrlParam('torrentid');
       torrentInsertDom = $(`#torrent_${torrentId} >td`);
+    }
+    if (CURRENT_SITE_NAME === 'CHD' || CURRENT_SITE_NAME === 'MTeam') {
+      torrentInsertDom = $(`#top`);
     }
     createSeedDom(torrentInsertDom);
     // 原图转缩略图

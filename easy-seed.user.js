@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         easy seed
+// @name         easy seed old
 // @namespace    https://github.com/techmovie/easy-seed
 // @version      0.3
 // @description  easy seeding for different trackers
 // @author       birdplane
-// @match        https://passthepopcorn.me/torrents.php?id=*
+// @match        https://*/torrents.php?id=*
+// @match        https://chdbits.co/details.php?id=*
 // @match        https://hdbits.org/offer.php
 // @match        http*://*/upload*
 // @grant        GM_addStyle
@@ -75,6 +76,93 @@
           encode: '3',
           web: '6',
           hdtv: '4',
+        },
+      },
+    },
+    CHD: {
+      url: 'https://chdbits.co',
+      host: 'chdbits.co',
+      siteType: 'NexusPHP',
+      asSource: true,
+      asTarget: true,
+      uploadPath: '/upload.php',
+      searchPath: '/browse.php',
+      searchKey: 'search',
+      searchParam: {
+        search_area: '{key}',
+        sort: '5',
+        type: 'desc',
+      },
+      name: {
+        selector: '#name',
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]',
+      },
+      description: {
+        selector: '#descr',
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]',
+      },
+      category: {
+        selector: '#browsecat',
+        map: {
+          movie: ['401', '419', '420', '421', '439'],
+          tv: ['403', '402', '435', '402', '439', '435', '438'],
+          documentary: '404',
+          concert: '406',
+          sport: '407',
+        },
+      },
+      videoCodes: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: '1',
+          hevc: '16',
+          h265: '16',
+          x264: '1',
+          x265: '16',
+          mpeg2: '4',
+          mpeg4: '15',
+          vc1: '2',
+          xvid: '3',
+        },
+      },
+      videoType: {
+        map: {
+          bluray: ['421', '438'],
+          remux: ['439'],
+          encode: ['401', '419', '403', '402'],
+          web: ['419', '402'],
+          hdtv: ['419', '402'],
+          dvd: ['420', '435'],
+          dvdrip: ['401', '403'],
+          other: '',
+        },
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          '2160p': ['6', '419', '402'],
+          '1080p': ['1', '419', '402'],
+          '1080i': ['2', '419', '402'],
+          '720p': ['3', '419', '402'],
+          '576p': ['5', '401', '403'],
+          '480p': ['5', '401', '403'],
+        },
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: '1',
+          US: '2',
+          EU: '2',
+          HK: '3',
+          TW: '3',
+          JP: '4',
+          KR: '5',
+          OT: '6',
         },
       },
     },
@@ -475,11 +563,26 @@
         action: 'advanced',
       },
     },
+    GGN: {
+      url: 'https://gazellegames.net',
+      host: 'gazellegames.net',
+      siteType: 'gazelle',
+      asSource: true,
+      asTarget: false,
+      needDoubanInfo: true,
+      uploadPath: '/upload.php',
+      searchPath: '/torrents.php',
+      searchKey: 'search',
+      searchParam: {
+        action: 'advanced',
+      },
+    },
   };
   // 快速检索
   const SEARCH_SITE_MAP = {
     HDB: 'https://hdbits.org/browse.php?search={imdbid}&sort=size&h=8&d=DESC',
     PTP: 'https://passthepopcorn.me/torrents.php?action=advanced&searchstr={imdbid}',
+    GGN: 'https://gazellegames.net/torrents.php?action=advanced&searchstr={imdbid}',
     MTeam: 'https://pt.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
     TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
     CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
@@ -533,7 +636,9 @@
     }
   };
   const currentSiteName = getSiteName(location.host);
+  console.log('currentSiteName:' + currentSiteName)
   const currentSiteInfo = SITE_MAP[currentSiteName];
+  console.log('currentSiteInfo:' + currentSiteInfo)
 
   // =============目标站点方法============
 
@@ -628,6 +733,7 @@
   // =======PTP站点方法=======
   const getPTPInfo = () => {
     const torrentId = getUrlParam('torrentid');
+    console.log('torrentid:' + torrentId)
     if (!torrentId) {
       return false;
     }
@@ -786,13 +892,72 @@
     }
     return 'OT';
   };
+
+  const getCHDInfo = () => {
+    console.log('call getCHDInfo function')
+    const torrentDom = $(`#top`);
+    const metaInfo = $("td.rowhead:contains('基本信息'):last").next().text();
+    TORRENT_INFO.sourceSite = currentSiteName;
+
+    TORRENT_INFO.movieName = $('#top').prop ('firstChild').nodeValue;
+    TORRENT_INFO.movieAkaName = $("td.rowhead:contains('副标题'):last").next().text();
+    TORRENT_INFO.imdbUrl = $('#kimdb>a').attr('href')|| '';
+    TORRENT_INFO.year = $('#top').text().match(/\d{4}/g)[0];
+    TORRENT_INFO.title = $('#top').prop ('firstChild').nodeValue;
+    TORRENT_INFO.subtitle = $("td.rowhead:contains('副标题'):last").next().text();
+    TORRENT_INFO.category = getCHDMeta(metaInfo, '类型');
+    TORRENT_INFO.videoType = getCHDMeta(metaInfo, '媒介');
+    TORRENT_INFO.videoCodes = getCHDMeta(metaInfo, '编码');
+    TORRENT_INFO.audioCodes = getCHDMeta(metaInfo, '音频编码');
+    // TORRENT_INFO.source = getPTPSource(source, codes, resolution);
+    TORRENT_INFO.resolution = getCHDMeta(metaInfo, '分辨率');
+    // const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
+    // TORRENT_INFO.logs = logs;
+    // TORRENT_INFO.bdinfo = bdinfo;
+    // TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
+    TORRENT_INFO.screenshots = getCHDImage(torrentDom);
+    // TORRENT_INFO.area = getAreaCode();
+    createSeedDom(torrentDom, TORRENT_INFO);
+    console.log('TORRENT_INFO:'+ JSON.stringify(TORRENT_INFO));
+  };
+
+  const getCHDMeta = (metaInfo, type) => {
+    if (metaInfo === '') {
+      return '';
+    }
+    let meta = metaInfo.split('   ');
+    for(var i=0;i<meta.length;i++){
+        meta[i] = meta[i].split(":");
+    }
+    for(var i=0;i<meta.length;i++){
+      if (meta[i][0] === type) {
+        return meta[i][1];
+      }
+    }
+    return '';
+
+  }
+
+  // 获取截图
+  const getCHDImage = () => {
+    let imgList = [];
+    const images = $("td.rowhead:contains('简介'):last").next().find('img');
+    for (let i = 0; i < images.length; i++) {
+        imgList.push(images[i].getAttribute('src'));
+    }
+   
+    return imgList;
+  };
   // =======PTP站点方法结束=======
 
   // =============公共方法=================
 
   const getTorrentInfo = () => {
-    if (currentSiteName === 'PTP') {
+    if (currentSiteName === 'PTP' || currentSiteName === 'GGN') {
       getPTPInfo();
+    }
+    if (currentSiteName === 'CHD') {
+      getCHDInfo();
     }
   };
   const formatTorrentTitle = (title) => {
@@ -865,6 +1030,7 @@
     </div>
     `;
     torrentDom.prepend(seedDom);
+    console.log('prepend toolbar')
   };
   const getDoubanLink = () => {
     const doubanLink = $('.page__title>a').attr('href');

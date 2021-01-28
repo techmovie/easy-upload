@@ -6,6 +6,6 @@ require('esbuild').build({
   bundle: true,
   sourcemap: true,
   banner: userScriptComment,
-  minify: true, // 是否压缩
+  minify: false, // 是否压缩
   plugins: [yamlPlugin],
 }).catch(() => process.exit(1));
