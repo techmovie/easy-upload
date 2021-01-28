@@ -193,20 +193,10 @@ PT_SITE:
       map:
         movie:
           - '401'
-          - '419'
-          - '420'
-          - '421'
-          - '439'
         tv:
           - '403'
           - '402'
-          - '435'
-          - '402'
-          - '439'
-          - '435'
-          - '438'
         documentary: '404'
-        concert: '406'
         sport: '407'
     videoCodes:
       selector: 'select[name="codec_sel"]'
@@ -222,56 +212,31 @@ PT_SITE:
         xvid: '6'
     videoType:
       map:
+        uhdbluray:
+          - '19'
         bluray:
-          - '421'
-          - '438'
+          - '1'
         remux:
-          - '439'
+          - '3'
         encode:
-          - '401'
-          - '419'
-          - '403'
-          - '402'
+          - '4'
         web:
-          - '419'
-          - '402'
+          - '18'
         hdtv:
-          - '419'
-          - '402'
-        dvd:
-          - '420'
-          - '435'
-        dvdrip:
-          - '401'
-          - '403'
-        other: ''
+          - '6'
     resolution:
       selector: 'select[name="standard_sel"]'
       map:
         2160p:
           - '6'
-          - '419'
-          - '402'
         1080p:
           - '1'
-          - '419'
-          - '402'
         1080i:
           - '2'
-          - '419'
-          - '402'
         720p:
           - '3'
-          - '419'
-          - '402'
-        576p:
-          - '5'
-          - '401'
-          - '403'
         480p:
           - '5'
-          - '401'
-          - '403'
     area:
       selector: 'select[name="processing_sel"]'
       map:

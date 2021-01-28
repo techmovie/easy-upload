@@ -12,13 +12,15 @@ export default () => {
   TORRENT_INFO.year = $('#top').text().match(/\d{4}/g)[0];
   TORRENT_INFO.title = $('#top').prop ('firstChild').nodeValue.trim();
   TORRENT_INFO.subtitle = $("td.rowhead:contains('副標題'):last").next().text();
-  TORRENT_INFO.category = getMeta(metaInfo, '類別');
-  TORRENT_INFO.videoType = getMeta(metaInfo, '媒介');
+  let category = getMeta(metaInfo, '類別');
+  TORRENT_INFO.category = getCategory(category);
+  // let videoType = getMeta(metaInfo, '媒介');
+  // TORRENT_INFO.videoType = getVideoType(videoType);
   let videoCodes = getMeta(metaInfo, '編碼');
   TORRENT_INFO.videoCodes = getCodes(videoCodes);
   TORRENT_INFO.audioCodes = getMeta(metaInfo, '音频编码');
   // TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-  TORRENT_INFO.resolution = getMeta(metaInfo, '解析度');
+  TORRENT_INFO.resolution = getMeta(metaInfo, '解析度').toLowerCase();
   // const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
   // TORRENT_INFO.logs = logs;
   // TORRENT_INFO.bdinfo = bdinfo;
@@ -28,6 +30,55 @@ export default () => {
   // createSeedDom(torrentDom, TORRENT_INFO);
   return TORRENT_INFO
 };
+
+// mapping sample:
+// <option value="401">Movie(電影)/SD</option>
+// <option value="419">Movie(電影)/HD</option>
+// <option value="420">Movie(電影)/DVDiSo</option>
+// <option value="421">Movie(電影)/Blu-Ray</option>
+// <option value="439">Movie(電影)/Remux</option>
+// <option value="403">TV Series(影劇/綜藝)/SD</option>
+// <option value="402">TV Series(影劇/綜藝)/HD</option>
+// <option value="435">TV Series(影劇/綜藝)/DVDiSo</option>
+// <option value="438">TV Series(影劇/綜藝)/BD</option>
+// <option value="404">紀錄教育</option>
+// <option value="405">Anime(動畫)</option>
+// <option value="406">MV(演唱)</option>
+// <option value="408">Music(AAC/ALAC)</option>
+// <option value="434">Music(無損)</option>
+// <option value="407">Sports(運動)</option>
+// <option value="422">Software(軟體)</option>
+// <option value="423">PCGame(PC遊戲)</option>
+// <option value="427">eBook(電子書)</option>
+// <option value="410">AV(有碼)/HD Censored</option>
+// <option value="429">AV(無碼)/HD Uncensored</option>
+// <option value="424">AV(有碼)/SD Censored</option>
+// <option value="430">AV(無碼)/SD Uncensored</option>
+// <option value="426">AV(無碼)/DVDiSo Uncensored</option>
+// <option value="437">AV(有碼)/DVDiSo Censored</option>
+// <option value="431">AV(有碼)/Blu-Ray Censored</option>
+// <option value="432">AV(無碼)/Blu-Ray Uncensored</option>
+// <option value="436">AV(網站)/0Day</option>
+// <option value="425">IV(寫真影集)/Video Collection</option>
+// <option value="433">IV(寫真圖集)/Picture Collection</option>
+// <option value="411">H-Game(遊戲)</option>
+// <option value="412">H-Anime(動畫)</option>
+// <option value="413">H-Comic(漫畫)</option>
+// <option value="409">Misc(其他)</option></select>
+
+const getCategory = (videoType) => {
+  if (videoType.match(/Movie/i)) {
+    return 'movie';
+  }
+  if (videoType.match(/TV/i)) {
+    return 'tv';
+  }
+  if (videoType.match(/Sports/i)) {
+    return 'sport';
+  }
+  return '';
+};
+
 const getMeta = (metaInfo, type) => {
   if (metaInfo === '') {
     return '';
@@ -98,22 +149,12 @@ const getPtpCodes = (codes) => {
   }
   return codes.replace(/[.-]/g, '').toLowerCase();
 };
-const getVideoType = (container, isRemux, codes, source) => {
-  let type = '';
-  if (isRemux) {
-    type = 'remux';
-  } else if (codes.match(/BD50|BD25/ig)) {
-    type = 'bluray';
-  } else if (codes.match(/BD66|BD100/ig)) {
-    type = 'uhdbluray';
-  } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
-    type = 'dvdrip';
-  } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
-    type = 'dvd';
-  } else if (container.match(/MKV|MP4/i)) {
-    type = 'encode';
+const getVideoType = (videoType) => {
+  if (videoType === 'WEB-DL') {
+    return 'web';
   }
-  return type;
+  
+  return videoType.replace(/[.-]/g, '').toLowerCase();
 };
 const getPTPResolution = (resolution) => {
   if (resolution.match(/NTSC|PAL/ig)) {

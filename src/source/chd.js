@@ -10,24 +10,53 @@ export default () => {
   TORRENT_INFO.movieAkaName = $("td.rowhead:contains('副标题'):last").next().text();
   TORRENT_INFO.imdbUrl = $('#kimdb>a').attr('href')|| '';
   TORRENT_INFO.year = $('#top').text().match(/\d{4}/g)[0];
-  TORRENT_INFO.title = $('#top').prop ('firstChild').nodeValue.trim();
+  TORRENT_INFO.title = $('#top').prop('firstChild').nodeValue.trim();
+  let desc_dom = $('#kdescr').clone();
+  desc_dom.find('fieldset').remove();
+  TORRENT_INFO.description = desc_dom.text().trim();
   TORRENT_INFO.subtitle = $("td.rowhead:contains('副标题'):last").next().text();
-  TORRENT_INFO.category = getMeta(metaInfo, '类型');
-  TORRENT_INFO.videoType = getMeta(metaInfo, '媒介');
+  let category = getMeta(metaInfo, '类型');
+  TORRENT_INFO.category = getCategory(category);
+  let videoType = getMeta(metaInfo, '媒介');
+  TORRENT_INFO.videoType = getVideoType(videoType);
   let videoCodes = getMeta(metaInfo, '编码');
   TORRENT_INFO.videoCodes = getVideoCodes(videoCodes);
   TORRENT_INFO.audioCodes = getMeta(metaInfo, '音频编码');
   // TORRENT_INFO.source = getPTPSource(source, codes, resolution);
   TORRENT_INFO.resolution = getMeta(metaInfo, '分辨率');
-  // const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
-  // TORRENT_INFO.logs = logs;
-  // TORRENT_INFO.bdinfo = bdinfo;
+  TORRENT_INFO.bdinfo = getBDInfo();
   // TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.screenshots = getImages(torrentDom);
-  // TORRENT_INFO.area = getAreaCode();
+
+  // processing = getMeta(metaInfo, '处理');
+  // TORRENT_INFO.area = getAreaCode(processing);
   // createSeedDom(torrentDom, TORRENT_INFO);
   return TORRENT_INFO
 };
+
+// Category sample:
+// Movies
+// Documentaries
+// Animations
+// TV Series
+// TV Shows
+// Music
+// Sports
+// Demo
+// HQ Audio
+// Game
+const getCategory = (videoType) => {
+  const typeMap = {
+    'Movies': 'movie',
+    'TV Series': 'tv',
+    'TV Shows': 'tv',
+    'Sports' : 'sport',
+    'Documentaries' : 'documentary',
+  };
+  
+  return undefined !== typeMap[videoType] ? typeMap[videoType]: ''
+};
+
 const getMeta = (metaInfo, type) => {
   if (metaInfo === '') {
     return '';
@@ -56,7 +85,7 @@ const getImages = () => {
   return imgList;
 };
 
-const getPTPSource = (source, codes, resolution) => {
+const getSource = (source, codes, resolution) => {
   if (codes.match(/BD100|BD66/i)) {
     return 'uhdbluray';
   }
@@ -73,22 +102,24 @@ const getVideoCodes = (codes) => {
   
   return codes.replace(/[.-]/g, '').toLowerCase();
 };
-const getVideoType = (container, isRemux, codes, source) => {
-  let type = '';
-  if (isRemux) {
-    type = 'remux';
-  } else if (codes.match(/BD50|BD25/ig)) {
-    type = 'bluray';
-  } else if (codes.match(/BD66|BD100/ig)) {
-    type = 'uhdbluray';
-  } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
-    type = 'dvdrip';
-  } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
-    type = 'dvd';
-  } else if (container.match(/MKV|MP4/i)) {
-    type = 'encode';
+const getVideoType = (videoType) => {
+  if (videoType === 'WEB-DL') {
+    return 'web';
   }
-  return type;
+  
+  return videoType.replace(/[.-]/g, '').toLowerCase();
+};
+
+const getBDInfo = () => {
+  const quoteList = $('#kdescr').find('fieldset');
+  let bdinfo = '';
+  for (let i = 0; i < quoteList.length; i++) {
+    const quoteContent = quoteList[i].textContent;
+    if (quoteContent.includes('DISC INFO:') || quoteContent.includes('ViDEO BiTRATE')) {
+      bdinfo += `[fieldset]${quoteContent}[/fieldset]`;
+    }
+  }
+  return bdinfo;
 };
 
 // Resolution mapping sample
