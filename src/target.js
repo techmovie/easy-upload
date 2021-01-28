@@ -2,21 +2,24 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
 const getDescription = (info) => {
   const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`;
   const siteInfo = CURRENT_SITE_INFO;
-  const doubanInfo = (!siteInfo.needDoubanInfo && info.doubanInfo) ? `${info.doubanInfo}\n` : '';
+  const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
   const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
   const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : '';
   const mediaInfo = siteInfo.mediaInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
   const screenshots = info.screenshots.map(img => {
+    if (img.match(/\[url=.+\]/i)) {
+      return img;
+    }
     return `[img]${img}[/img]`;
   });
   const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `\n\nScreens:\n${screenshots.join('')}`;
   return `${thanksQuote}\n\n${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}${screenshotsPart}`;
 };
 const fillTargetForm = (info) => {
-  console.log(CURRENT_SITE_INFO);
+  console.log(info);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
   if (CURRENT_SITE_NAME === 'HDB') {
-    let mediaTitle = info.title.replace(/([^\d]+)\s+(\d+)/, (match, p1, p2) => {
+    let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
       return `${info.movieName || info.movieAkaName} ${p2}`;
     });
     if (info.videoType === 'remux') {
@@ -25,11 +28,15 @@ const fillTargetForm = (info) => {
     info.title = mediaTitle;
   }
   if (CURRENT_SITE_NAME === 'SSD') {
+    info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
-
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
+  // 避免选择种子文件后自动改变种子名称
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
+    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
+  }
   if (CURRENT_SITE_INFO.subtitle) {
     $(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
   }
@@ -42,7 +49,6 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.area && CURRENT_SITE_INFO.area.selector) {
     $(CURRENT_SITE_INFO.area.selector).val(CURRENT_SITE_INFO.area.map[info.area]);
   }
-  $(CURRENT_SITE_INFO.description.selector).val(description);
   const category = CURRENT_SITE_INFO.category.map[info.category];
   const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
@@ -58,6 +64,9 @@ const fillTargetForm = (info) => {
     [...keyArray, 'category'].forEach(key => {
       matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
     });
+  }
+  if (CURRENT_SITE_NAME.match(/HDHome/i)) {
+    $(CURRENT_SITE_INFO.category.selector).change();
   }
   if (CURRENT_SITE_INFO.douban) {
     $(CURRENT_SITE_INFO.douban.selector).val(info.doubanUrl);
