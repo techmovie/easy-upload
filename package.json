@@ -1,6 +1,6 @@
 {
   "name": "easy-seed",
-  "description": "easy-seed",
+  "description": "easy seeding for different trackers",
   "version": "1.0.0",
   "main": "src/index.js",
   "repository": "git@github.com:techmovie/easy-seed.git",

@@ -27,19 +27,19 @@
       searchKey: 'search', // 检索key
       searchParam: { // 检索参数
         sort: 'size',
-        d: 'DESC' // orderBy
+        d: 'DESC', // orderBy
       },
       name: { // 种子标题
-        selector: '#name'
+        selector: '#name',
       },
       description: { // 描述
-        selector: '#descr'
+        selector: '#descr',
       },
       imdb: { // imdb地址
-        selector: 'input[name="imdb"]'
+        selector: 'input[name="imdb"]',
       },
       mediaInfo: { // 媒体信息 部分站点需要独立填入
-        selector: 'textarea[name="techinfo"]'
+        selector: 'textarea[name="techinfo"]',
       },
       category: { // 分类
         selector: '#type_category', // jq选择器
@@ -48,8 +48,8 @@
           tv: '2',
           documentary: '3',
           concert: '4',
-          sport: '5'
-        }
+          sport: '5',
+        },
       },
       videoCodes: { // 视频编码
         selector: '#type_codec',
@@ -64,8 +64,8 @@
           xvid: '4',
           bluray: '1',
           uhdbluray: '5',
-          vp9: '6'
-        }
+          vp9: '6',
+        },
       },
       videoType: { // 视频种类
         selector: '#type_medium',
@@ -74,9 +74,9 @@
           remux: '5',
           encode: '3',
           web: '6',
-          hdtv: '4'
-        }
-      }
+          hdtv: '4',
+        },
+      },
     },
     MTeam: {
       url: 'https://pt.m-team.cc',
@@ -90,19 +90,19 @@
       searchParam: {
         search_area: '{key}',
         sort: '5',
-        type: 'desc'
+        type: 'desc',
       },
       name: {
-        selector: '#name'
+        selector: '#name',
       },
       subtitle: {
-        selector: 'input[name="small_descr"]'
+        selector: 'input[name="small_descr"]',
       },
       description: {
-        selector: '#descr'
+        selector: '#descr',
       },
       imdb: {
-        selector: 'input[name="url"][type="text"]'
+        selector: 'input[name="url"][type="text"]',
       },
       category: {
         selector: '#browsecat',
@@ -111,8 +111,8 @@
           tv: ['403', '402', '435', '402', '439', '435', '438'],
           documentary: '404',
           concert: '406',
-          sport: '407'
-        }
+          sport: '407',
+        },
       },
       videoCodes: {
         selector: 'select[name="codec_sel"]',
@@ -125,8 +125,8 @@
           mpeg2: '4',
           mpeg4: '15',
           vc1: '2',
-          xvid: '3'
-        }
+          xvid: '3',
+        },
       },
       videoType: {
         map: {
@@ -137,8 +137,8 @@
           hdtv: ['419', '402'],
           dvd: ['420', '435'],
           dvdrip: ['401', '403'],
-          other: ''
-        }
+          other: '',
+        },
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
@@ -148,8 +148,8 @@
           '1080i': ['2', '419', '402'],
           '720p': ['3', '419', '402'],
           '576p': ['5', '401', '403'],
-          '480p': ['5', '401', '403']
-        }
+          '480p': ['5', '401', '403'],
+        },
       },
       area: {
         selector: 'select[name="processing_sel"]',
@@ -161,9 +161,9 @@
           TW: '3',
           JP: '4',
           KR: '5',
-          OT: '6'
-        }
-      }
+          OT: '6',
+        },
+      },
     },
     TTG: {
       url: 'https://totheglory.im',
@@ -176,16 +176,16 @@
       searchKey: 'search_field',
       searchParam: {
         sort: '5',
-        type: 'desc'
+        type: 'desc',
       },
       name: {
-        selector: 'input[name="name"]'
+        selector: 'input[name="name"]',
       },
       description: {
-        selector: 'textarea[name="descr"]'
+        selector: 'textarea[name="descr"]',
       },
       imdb: {
-        selector: 'input[name="imdb_c"]'
+        selector: 'input[name="imdb_c"]',
       },
       category: {
         selector: 'select[name="type"]',
@@ -198,8 +198,8 @@
           concert: '59',
           sport: '57',
           cartoon: '58',
-          variety: ['103', '60', '101']
-        }
+          variety: ['103', '60', '101'],
+        },
       },
       videoType: {
         map: {
@@ -211,8 +211,8 @@
           hdtv: ['53', '63', '70', '75', '52', '62', '69', '76', '108'],
           dvd: ['51'],
           dvdrip: ['51'],
-          other: ''
-        }
+          other: '',
+        },
       },
       resolution: {
         map: {
@@ -221,8 +221,8 @@
           '1080i': ['53', '63', '70', '75'],
           '720p': ['52', '62', '69', '76'],
           '576p': '',
-          '480p': ''
-        }
+          '480p': '',
+        },
       },
       area: {
         map: {
@@ -233,9 +233,9 @@
           TW: ['76', '75', '90'],
           JP: ['73', '88', '101'],
           KR: ['74', '99', '103'],
-          OT: ''
-        }
-      }
+          OT: '',
+        },
+      },
     },
     SSD: {
       url: 'https://springsunday.net',
@@ -249,25 +249,25 @@
       searchParam: {
         search_area: '{key}',
         sort: '5',
-        type: 'desc'
+        type: 'desc',
       },
       name: {
-        selector: '#name'
+        selector: '#name',
       },
       subtitle: {
-        selector: '#small_descr'
+        selector: '#small_descr',
       },
       description: {
-        selector: '#descr'
+        selector: '#descr',
       },
       imdb: {
-        selector: '#url'
+        selector: '#url',
       },
       mediaInfo: {
-        selector: '#Media_BDInfo'
+        selector: '#Media_BDInfo',
       },
       screenshots: {
-        selector: '#url_vimages'
+        selector: '#url_vimages',
       },
       category: {
         selector: '#browsecat',
@@ -278,8 +278,8 @@
           concert: '507',
           sport: '506',
           cartoon: '504',
-          variety: '505'
-        }
+          variety: '505',
+        },
       },
       videoCodes: {
         selector: 'select[name="codec_sel"]',
@@ -293,8 +293,8 @@
           mpeg4: '',
           vc1: '3',
           xvid: '',
-          dvd: ''
-        }
+          dvd: '',
+        },
       },
       audioCodes: {
         selector: 'select[name="audiocodec_sel"]',
@@ -308,8 +308,8 @@
           lpcm: '6',
           dtshdma: '1',
           atmos: '3',
-          dtsx: '3'
-        }
+          dtsx: '3',
+        },
       },
       videoType: {
         selector: 'select[name="medium_sel"]',
@@ -322,8 +322,8 @@
           hdtv: '5',
           dvd: '3',
           dvdrip: '10',
-          other: ''
-        }
+          other: '',
+        },
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
@@ -333,8 +333,8 @@
           '1080i': '3',
           '720p': '4',
           '576p': '5',
-          '480p': '5'
-        }
+          '480p': '5',
+        },
       },
       area: {
         selector: 'select[name="source_sel"]',
@@ -346,9 +346,9 @@
           TW: '2',
           JP: '10',
           KR: '10',
-          OT: '3'
-        }
-      }
+          OT: '3',
+        },
+      },
     },
     HDHome: {
       url: 'https://hdhome.org',
@@ -362,22 +362,22 @@
       searchParam: {
         search_area: '{key}',
         sort: '5',
-        type: 'desc'
+        type: 'desc',
       },
       name: {
-        selector: '#name'
+        selector: '#name',
       },
       subtitle: {
-        selector: 'input[name="small_descr"]'
+        selector: 'input[name="small_descr"]',
       },
       description: {
-        selector: '#descr'
+        selector: '#descr',
       },
       imdb: {
-        selector: 'input[name="url"][type="text"]'
+        selector: 'input[name="url"][type="text"]',
       },
       douban: {
-        selector: 'input[name="douban_id"]'
+        selector: 'input[name="douban_id"]',
       },
       category: {
         selector: '#browsecat',
@@ -390,8 +390,8 @@
           concert: '441',
           sport: ['442', '443'],
           cartoon: ['444', '445', '446', '447', '448', '454', '449', '501'],
-          variety: []
-        }
+          variety: [],
+        },
       },
       videoCodes: {
         selector: 'select[name="codec_sel"]',
@@ -405,8 +405,8 @@
           mpeg4: ['5', '412', '418', '426', '433', '445'],
           vc1: '3',
           xvid: '5',
-          dvd: '5'
-        }
+          dvd: '5',
+        },
       },
       source: {
         selector: 'select[name="source_sel"]',
@@ -417,8 +417,8 @@
           dvd: '3',
           web: '7',
           vhs: '8',
-          hddvd: '8'
-        }
+          hddvd: '8',
+        },
       },
       audioCodes: {
         selector: 'select[name="audiocodec_sel"]',
@@ -432,8 +432,8 @@
           lpcm: '14',
           dtshdma: '11',
           atmos: '12',
-          dtsx: '17'
-        }
+          dtsx: '17',
+        },
       },
       videoType: {
         selector: 'select[name="medium_sel"]',
@@ -446,8 +446,8 @@
           hdtv: ['5', '412', '413', '416', '418', '419', '422', '424', '426', '471', '427', '428', '431', '433', '434', '435', '438', '442', '443', '445', '446', '449'],
           dvd: ['', '411', '417', '425', '432', '444'],
           dvdrip: ['7', '411', '417', '425', '432', '444'],
-          other: ''
-        }
+          other: '',
+        },
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
@@ -457,9 +457,9 @@
           '1080i': ['3', '424', '428', '435', '443'],
           '720p': ['4', '413', '419', '423', '427', '434', '442', '446'],
           '576p': ['5', '411', '417', '425', '432', '444'],
-          '480p': ['5', '411', '417', '425', '432', '444']
-        }
-      }
+          '480p': ['5', '411', '417', '425', '432', '444'],
+        },
+      },
     },
     PTP: {
       url: 'https://passthepopcorn.me',
@@ -472,9 +472,9 @@
       searchPath: '/torrents.php',
       searchKey: 'search',
       searchParam: {
-        action: 'advanced'
-      }
-    }
+        action: 'advanced',
+      },
+    },
   };
   // 快速检索
   const SEARCH_SITE_MAP = {
@@ -486,7 +486,7 @@
     BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
     BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
     AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}',
-    SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0'
+    SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
   };
 
   const TORRENT_INFO = {
@@ -510,7 +510,7 @@
     screenshots: [],
     movieAkaName: '', // 别名一般为电影英文名称
     movieName: '', // imdb电影原始名称 一般为拼音
-    sourceSite: '' // 种子来源站点简称
+    sourceSite: '', // 种子来源站点简称
   };
   const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';
   const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2';
@@ -669,7 +669,7 @@
       'Stand-up Comedy': 'other',
       Miniseries: 'tv',
       'Live Performance': 'concert',
-      'Movie Collection': 'movie'
+      'Movie Collection': 'movie',
     };
     const ptpType = $('#torrent-table .basic-movie-list__torrent-edition__main').eq(0).text();
     return typeMap[ptpType];
@@ -689,7 +689,7 @@
     }
     return {
       logs,
-      bdinfo
+      bdinfo,
     };
   };
   // 获取截图
@@ -885,7 +885,7 @@
             TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`;
             getDoubanInfo();
           }
-        }
+        },
       });
     } else {
       GM_xmlhttpRequest({
@@ -898,7 +898,7 @@
             TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`;
             getDoubanInfo();
           }
-        }
+        },
       });
     }
   };
@@ -921,7 +921,7 @@
             } else {
               throw new Error('获取豆瓣信息失败');
             }
-          }
+          },
         });
       } else {
         throw new Error('无法获取豆瓣信息');
@@ -970,7 +970,7 @@
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
         data: params,
         onload (res) {
@@ -992,7 +992,7 @@
           } else {
             throw new Error('上传失败，请重试');
           }
-        }
+        },
       });
     } catch (error) {
       $('#img-transfer').removeAttr('disabled').removeClass('is-disabled');

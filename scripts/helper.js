@@ -10,8 +10,12 @@ exports.userScriptComment = `// ==UserScript==
 // @version      ${version}
 // @description  ${description}
 // @author       ${author}
-// @match        http://*/*
-// @grant        none
+// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js
+// @match        https://passthepopcorn.me/torrents.php?id=*
+// @match        https://hdbits.org/offer.php
+// @match        http*://*/upload*
+// @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
 
 // yaml 插件
