@@ -1,5 +1,4 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle } from '../common';
 import {
   getVideoType,
   getCategory,
@@ -7,7 +6,6 @@ import {
   getImages,
   getVideoCodes,
   getBDInfo,
-  getResolution,
 } from './nexusphp_helper';
 
 export default () => {

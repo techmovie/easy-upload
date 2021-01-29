@@ -1,5 +1,4 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle } from '../common';
 import {
   getVideoType,
   getCategory,
