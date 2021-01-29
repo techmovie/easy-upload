@@ -54,9 +54,10 @@ PT_SITE:
     url: 'https://pt.m-team.cc'
     host: pt.m-team.cc
     siteType: NexusPHP
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.php
+    seedDomSelector: '#top' 
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -166,11 +167,93 @@ PT_SITE:
         JP: '4'
         KR: '5'
         OT: '6'
+  CHD:
+    url: 'https://chdbits.co'
+    host: chdbits.co
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: 'textarea[name="descr"]'
+    imdb:
+      selector: 'input[name="url"][type="text"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie:
+          - '401'
+        tv:
+          - '403'
+          - '402'
+        documentary: '404'
+        sport: '407'
+    videoCodes:
+      selector: 'select[name="codec_sel"]'
+      map:
+        h264: '1'
+        hevc: '5'
+        h265: '5'
+        x264: '1'
+        x265: '5'
+        mpeg2: '4'
+        mpeg4: '6'
+        vc1: '2'
+        xvid: '6'
+    videoType:
+      map:
+        uhdbluray:
+          - '19'
+        bluray:
+          - '1'
+        remux:
+          - '3'
+        encode:
+          - '4'
+        web:
+          - '18'
+        hdtv:
+          - '6'
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        2160p:
+          - '6'
+        1080p:
+          - '1'
+        1080i:
+          - '2'
+        720p:
+          - '3'
+        480p:
+          - '5'
+    area:
+      selector: 'select[name="processing_sel"]'
+      map:
+        CN: '1'
+        US: '2'
+        EU: '2'
+        HK: '3'
+        TW: '3'
+        JP: '4'
+        KR: '5'
+        OT: '6'
   TTG:
     url: 'https://totheglory.im'
     host: totheglory.im
     siteType: TTG
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.php
     searchPath: /browse.php
@@ -705,6 +788,34 @@ PT_SITE:
           - '425'
           - '432'
           - '444'
+  OURBITS:
+    url: 'https://ourbits.club'
+    host: ourbits.club
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  HDSKY:
+    url: 'https://hdsky.me'
+    host: hdsky.me
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
   PTP:
     url: 'https://passthepopcorn.me'
     host: passthepopcorn.me

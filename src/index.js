@@ -193,14 +193,17 @@ if (CURRENT_SITE_NAME) {
     torrentParams = JSON.parse(decodeURIComponent(torrentParams));
     fillTargetForm(torrentParams);
   }
+  console.log('CURRENT_SITE_NAME' +CURRENT_SITE_NAME)
   if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig)) {
     // 向当前所在站点添加按钮等内容
     torrentData = getTorrentInfo();
-    let torrentInsertDom = CURRENT_SITE_INFO.seedDomSelector;
+    console.log(torrentData)
+    let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
     if (CURRENT_SITE_NAME === 'PTP') {
       const torrentId = getUrlParam('torrentid');
       torrentInsertDom = $(`#torrent_${torrentId} >td`);
     }
+
     createSeedDom(torrentInsertDom);
     // 原图转缩略图
     if ($('#img-transfer')) {
