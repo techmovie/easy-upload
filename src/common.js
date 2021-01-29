@@ -1,4 +1,4 @@
-
+import { CODES_ARRAY } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -12,8 +12,19 @@ const getUrlParam = (key) => {
   }
   return '';
 };
+// 获取音频编码
 const getAudioCodes = (torrentInfo) => {
-  const { title, mediaInfo, bdinfo } = torrentInfo;
+  const { title } = torrentInfo;
+
+  let codes = '';
+  const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
+  for (let i = 0; i < CODES_ARRAY.length; i++) {
+    if (formatTitle.includes(CODES_ARRAY[i])) {
+      codes = CODES_ARRAY[i];
+      break;
+    }
+  }
+  return codes;
 };
 
 // 获取副标题

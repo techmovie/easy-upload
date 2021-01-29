@@ -459,8 +459,9 @@ PT_SITE:
       map:
         aac: '5'
         ac3: '4'
-        dd: ''
-        dd+: ''
+        dd: '4'
+        dd+: '4'
+        flac: '7'
         dts: '3'
         truehd: '2'
         lpcm: '6'
