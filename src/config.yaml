@@ -57,7 +57,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    seedDomSelector: '#top' 
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -173,7 +173,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top'
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -795,7 +795,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top'
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -809,7 +809,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top'
+    seedDomSelector: '.ad_detail_top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
