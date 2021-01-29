@@ -15,10 +15,15 @@ let torrentData = null;
   * @return
   * */
 const createSeedDom = (torrentDom) => {
-  const siteList = Object.keys(PT_SITE).map(siteName => {
+  const siteKeys = Object.keys(PT_SITE);
+  const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
-    if (PT_SITE[siteName].asTarget) {
-      return `<li><a href="${url}${uploadPath}#torrentInfo=${encodeURIComponent(JSON.stringify(torrentData))}" target="_blank">${siteName}</a></li>`;
+    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
+    if (PT_SITE[siteName].asTarget && siteName !== CURRENT_SITE_NAME) {
+      return `<li>
+      <a href="${url}${uploadPath}#torrentInfo=${torrentInfo}" target="_blank">${siteName} </a>
+      <span>|</span>
+      </li>`;
     }
     return '';
   });
@@ -31,7 +36,7 @@ const createSeedDom = (torrentDom) => {
     }
     url = SEARCH_SITE_MAP[siteName].replace('{imdbid}', searchKeyWord);
     url = url.replace('{searchArea}', imdbId ? '4' : '0');
-    return `<li><a href="${url}" target="_blank">${siteName}</a></li>`;
+    return `<li><a href="${url}" target="_blank">${siteName}</a> <span>|</span></li>`;
   });
   const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
     ? `<h4>获取豆瓣简介</h4>
@@ -199,6 +204,15 @@ if (CURRENT_SITE_NAME) {
     torrentData = getTorrentInfo();
     console.log(torrentData);
     let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
+    if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+      const trDom = `<tr>
+      <td class="rowhead nowrap">
+      </td>
+      <td class="rowfollow easy-seed-td"></td>
+      </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $('.easy-seed-td');
+    }
     if (CURRENT_SITE_NAME === 'PTP') {
       const torrentId = getUrlParam('torrentid');
       torrentInsertDom = $(`#torrent_${torrentId} >td`);

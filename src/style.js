@@ -12,13 +12,17 @@ export default GM_addStyle(`
   justify-content: center;
   margin-bottom: 15px;
 }
-.seed-dom li {
+.seed-dom li,.search-list li {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
   margin-right: 5px;
-  padding-right: 5px;
-  border-right: 1px solid #fff;
 }
-.seed-dom li:last-child{
-  border: none;
+.seed-dom li:last-child span{
+  display: none;
+}
+.search-list li:last-child span{
+  display: none;
 }
 .seed-dom li a{
   font-weight: 600;
