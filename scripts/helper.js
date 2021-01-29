@@ -12,13 +12,15 @@ exports.userScriptComment = `// ==UserScript==
 // @author       ${author}
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
+// @match        https://hdbits.org/offer.php
 // @match        https://chdbits.co/details.php?id=*
 // @match        https://pt.m-team.cc/details.php?id=*
-// @match        https://hdbits.org/offer.php
+// @match        https://totheglory.im/t/*
+// @match        https://ourbits.club/details.php?id=*
+// @match        https://hdsky.me/details.php?id=*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // ==/UserScript==`;
 
 // yaml 插件

@@ -1,28 +1,29 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import { getUrlParam, formatTorrentTitle } from '../common';
 import { 
-  getVideoType, 
-  getCategory, 
-  getMeta, 
-  getImages, 
-  getVideoCodes, 
-  getBDInfo, 
-  getResolution 
-} from './nexusphp_helper';
+    getVideoType, 
+    getCategory, 
+    getMeta, 
+    getImages, 
+    getVideoCodes, 
+    getBDInfo, 
+    getResolution 
+  } from './nexusphp_helper';
 
 export default () => {
   console.log('call getCHDInfo function')
+  const torrentDom = $(`#top`);
   const metaInfo = $("td.rowhead:contains('基本信息'):last").next().text();
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.movieName = $('#top').prop ('firstChild').nodeValue.trim();
   TORRENT_INFO.movieAkaName = $("td.rowhead:contains('副标题'):last").next().text();
-  TORRENT_INFO.imdbUrl = $('#kimdb>a').attr('href')|| '';
+  let imdbUrl = $('.imdbnew2 a:first').attr('href');
+  TORRENT_INFO.imdbUrl = (imdbUrl && imdbUrl.startsWith('https://www.imdb.com/title/')) ? imdbUrl : '';
   TORRENT_INFO.year = $('#top').text().match(/\d{4}/g)[0];
   TORRENT_INFO.title = $('#top').prop('firstChild').nodeValue.trim();
-  let desc_dom = $('#kdescr').clone();
-  desc_dom.find('fieldset').remove();
-  TORRENT_INFO.description = desc_dom.text().trim();
-  TORRENT_INFO.subtitle = $("td.rowhead:contains('副标题'):last").next().text();
+  let doubaninfo = $('.doubaninfo').html();
+  TORRENT_INFO.description = doubaninfo ? doubaninfo.replace(/<br>|<br\/>/g, "\n").trim() : '';
+  TORRENT_INFO.subtitle = $("td.rowhead:contains('副标题'):last").next().text().trim();
   let category = getMeta(metaInfo, '类型');
   TORRENT_INFO.category = getCategory(category);
   let videoType = getMeta(metaInfo, '媒介');
@@ -38,8 +39,5 @@ export default () => {
   // TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.screenshots = getImages('简介');
 
-  // processing = getMeta(metaInfo, '处理');
-  // TORRENT_INFO.area = getAreaCode(processing);
-  // createSeedDom(torrentDom, TORRENT_INFO);
   return TORRENT_INFO
 };

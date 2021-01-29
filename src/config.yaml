@@ -57,6 +57,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
+    seedDomSelector: '#top' 
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -172,7 +173,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '$(`#top`)' 
+    seedDomSelector: '#top'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -185,7 +186,7 @@ PT_SITE:
     subtitle:
       selector: 'input[name="small_descr"]'
     description:
-      selector: '#descr'
+      selector: 'textarea[name="descr"]'
     imdb:
       selector: 'input[name="url"][type="text"]'
     category:
@@ -252,7 +253,7 @@ PT_SITE:
     url: 'https://totheglory.im'
     host: totheglory.im
     siteType: TTG
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.php
     searchPath: /browse.php
@@ -787,6 +788,34 @@ PT_SITE:
           - '425'
           - '432'
           - '444'
+  OURBITS:
+    url: 'https://ourbits.club'
+    host: ourbits.club
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  HDSKY:
+    url: 'https://hdsky.me'
+    host: hdsky.me
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
   PTP:
     url: 'https://passthepopcorn.me'
     host: passthepopcorn.me
