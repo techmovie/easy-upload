@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
     entryPoints: ['src/index.js'],
     outfile: '.cache/easy-seed.user.js',
     bundle: true,
+    define: { $: 'jQuery' },
     plugins: [yamlPlugin],
     incremental: true,
   });

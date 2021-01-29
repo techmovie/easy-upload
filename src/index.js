@@ -171,7 +171,7 @@ const getDoubanInfo = () => {
           const data = JSON.parse(res.responseText);
           if (data && data.success) {
             torrentData.doubanInfo = data.format;
-            getSubTitle(data);
+            torrentData.subtitle = getSubTitle(data);
             replaceTorrentInfo();
             statusDom.text('获取成功');
           } else {
