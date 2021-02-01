@@ -3,7 +3,7 @@ import { CURRENT_SITE_NAME } from '../const';
 
 import getPTPInfo from './ptp';
 import getCHDInfo from './chd';
-import getMTeamInfo from './mteam';
+import Mteam from './mteam';
 import getTTGInfo from './ttg';
 import getOurbitsInfo from './ourbits';
 import getHDSkyInfo from './hdsky';
@@ -18,7 +18,7 @@ switch (CURRENT_SITE_NAME) {
     getTorrentInfo = getCHDInfo;
     break;
   case 'MTeam':
-    getTorrentInfo = getMTeamInfo;
+    getTorrentInfo = (new Mteam()).getTorrentInfo;
     break;
   case 'TTG':
     getTorrentInfo = getTTGInfo;

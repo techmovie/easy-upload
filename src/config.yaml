@@ -57,7 +57,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table tr:nth-child(7)' 
     searchPath: /browse.php
     searchKey: search
     searchParam:

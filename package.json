@@ -10,6 +10,11 @@
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js"
   },
+  "browserslist":[
+    "last 1 version",
+    "> 1%",
+    "IE 10"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
@@ -20,8 +25,9 @@
     "src/**/*.js": "eslint --max-warnings 0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.5",
     "chokidar": "^3.5.1",
-    "esbuild": "^0.8.36",
+    "esbuild": "^0.8.38",
     "eslint": "^7.18.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
