@@ -817,6 +817,34 @@ PT_SITE:
       search_area: '{key}'
       sort: '5'
       type: desc
+  HDC:
+    url: 'https://hdchina.org'
+    host: hdchina.org
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  FRDS:
+    url: 'https://pt.keepfrds.com'
+    host: pt.keepfrds.com
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top+table tr:nth-child(3)'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
   PTP:
     url: 'https://passthepopcorn.me'
     host: passthepopcorn.me

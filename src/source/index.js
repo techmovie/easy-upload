@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import { CURRENT_SITE_NAME } from '../const';
 
 import getPTPInfo from './ptp';
@@ -29,6 +30,17 @@ switch (CURRENT_SITE_NAME) {
   case 'HDSKY':
     getTorrentInfo = getHDSkyInfo;
     break;
+=======
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO } from '../const';
+
+import getPTPInfo from './ptp';
+import getNexusPHPInfo from './nexusphp';
+
+let getTorrentInfo = getPTPInfo;
+
+if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+  getTorrentInfo = getNexusPHPInfo;
+>>>>>>> dev-yk
 }
 
 export default getTorrentInfo;
