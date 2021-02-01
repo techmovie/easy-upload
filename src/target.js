@@ -1,4 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
+import { getAudioCodes } from './common';
 const getDescription = (info) => {
   const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`;
   const siteInfo = CURRENT_SITE_INFO;
@@ -18,6 +19,7 @@ const getDescription = (info) => {
 const fillTargetForm = (info) => {
   console.log(info);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
+  const audioCodes = getAudioCodes(info);
   if (CURRENT_SITE_NAME === 'HDB') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
       return `${info.movieName || info.movieAkaName} ${p2}`;
@@ -37,18 +39,27 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
-  if (CURRENT_SITE_INFO.subtitle) {
-    $(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
-  }
+  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodes'];
+  commonInfoKeys.forEach(key => {
+    const siteInfo = CURRENT_SITE_INFO[key];
+    if (siteInfo && siteInfo.selector) {
+      let value = info[key];
+      if (key === 'douban') {
+        value = info.doubanUrl;
+      } else if (key === 'area') {
+        value = siteInfo.map[info[key]];
+      } else if (key === 'audioCodes') {
+        value = siteInfo.map[audioCodes];
+      }
+      $(siteInfo.selector).val(value);
+    }
+  });
   const mediaInfo = info.videoType.match(/bluray|uhdbluray/ig) ? '' : info.mediaInfo;
   const description = getDescription(info);
   if (CURRENT_SITE_INFO.mediaInfo) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
-  if (CURRENT_SITE_INFO.area && CURRENT_SITE_INFO.area.selector) {
-    $(CURRENT_SITE_INFO.area.selector).val(CURRENT_SITE_INFO.area.map[info.area]);
-  }
   const category = CURRENT_SITE_INFO.category.map[info.category];
   const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
@@ -67,9 +78,6 @@ const fillTargetForm = (info) => {
   }
   if (CURRENT_SITE_NAME.match(/HDHome/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
-  }
-  if (CURRENT_SITE_INFO.douban) {
-    $(CURRENT_SITE_INFO.douban.selector).val(info.doubanUrl);
   }
 };
 /*

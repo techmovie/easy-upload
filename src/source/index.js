@@ -1,4 +1,3 @@
-
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO } from '../const';
 
 import getPTPInfo from './ptp';

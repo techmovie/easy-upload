@@ -54,6 +54,7 @@ const getSiteName = (host) => {
     }
   }
 };
+const CODES_ARRAY = ['aac', 'ac3', 'dd+', 'dd', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm', 'dtshdma', 'atmos'];
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
 
@@ -63,6 +64,7 @@ export {
   DOUBAN_API_URL,
   DOUBAN_SEARCH_API,
   PT_GEN_API,
+  CODES_ARRAY,
   CURRENT_SITE_NAME,
   CURRENT_SITE_INFO,
   SEARCH_SITE_MAP,

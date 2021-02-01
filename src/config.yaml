@@ -57,7 +57,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    seedDomSelector: '#top' 
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -173,7 +173,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top'
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -459,8 +459,9 @@ PT_SITE:
       map:
         aac: '5'
         ac3: '4'
-        dd: ''
-        dd+: ''
+        dd: '4'
+        dd+: '4'
+        flac: '7'
         dts: '3'
         truehd: '2'
         lpcm: '6'
@@ -794,7 +795,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top'
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -808,7 +809,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top'
+    seedDomSelector: '.ad_detail_top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
