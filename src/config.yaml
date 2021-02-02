@@ -859,3 +859,141 @@ PT_SITE:
     searchParam:
       action: advanced
     seedDomSelector: '' 
+  BHD:
+    url: 'https://beyond-hd.me/'
+    host: beyond-hd.me
+    siteType: F3NIX
+    asSource: true
+    asTarget: true
+    seedDomSelector: '.table-details tr:last'
+    needDoubanInfo: true
+    uploadPath: /upload
+    searchPath: /torrents/all
+    searchKey: imdb
+    searchParam:
+      doSearch: Search
+      sorting: size
+      direction: desc
+    name:
+      selector: '#title'
+    description:
+      selector: '#upload-form-description'
+    imdb:
+      selector: '#imdbauto'
+    mediaInfo:
+      selector: '#mediainfo'
+    videoType:
+      selector: '#category_id'
+      map:
+        movie: '1'
+        tv: '2'
+    category: 
+      selector: '#autotype'
+      map:
+        bluray:
+          - 'UHD 100'
+          - 'UHD 66'
+          - 'UHD 50'
+          - 'BD 50'
+          - 'BD 25'
+        remux:
+          - 'UHD Remux'
+          - 'BD Remux'
+          - 'DVD Remux'
+        encode:
+          - '2160p'
+          - '1080p'
+          - '720p'
+          - '576p'
+          - '540p'
+          - '480p'
+        web:
+          - '2160p'
+          - '1080p'
+          - '720p'
+          - '576p'
+          - '540p'
+          - '480p'
+        hdtv:
+          - '2160p'
+          - '1080p'
+          - '1080i'
+          - '720p'
+        dvd:
+         - 'DVD 9'
+         - 'DVD 5'
+         - 'DVD Remux'
+        dvdrip:
+          - '480p'
+        other: ''
+    source:
+      selector: '#autosource'
+      map:  
+        bluray: 
+          - 'Blu-ray'
+          - 'BD 50'
+          - 'BD 25'
+          - 'BD Remux'
+          - 'UHD 100'
+          - 'UHD 66'
+          - 'UHD 50'
+          - 'UHD Remux'
+          - '2160p'
+          - '1080p'
+          - '720p'
+          - '576p'
+          - '540p'
+          - '480p'
+        hdtv: 
+          - 'HDTV'
+          - '2160p'
+          - '1080p'
+          - '1080i'
+          - '720p'
+        dvd: 
+          - 'DVD'
+          - 'DVD 9'
+          - 'DVD 5'
+          - 'DVD Remux'
+          - '480p'
+        web: 
+          - 'WEB'
+          - '2160p'
+          - '1080p'
+          - '720p'
+          - '576p'
+          - '540p'
+          - '480p'
+        hddvd: 'HD-DVD'    
+    resolution:
+      map:
+        2160p:
+          - 'UHD 100'
+          - 'UHD 66'
+          - 'UHD 50'
+          - 'UHD Remux'
+          - '2160p'
+        1080p:
+          - 'BD 50'
+          - 'BD 25'
+          - 'BD Remux'
+          - '1080p'
+        1080i:
+          - 'BD 50'
+          - 'BD 25'
+          - 'BD Remux'
+          - '1080i'
+        720p:
+          - '720p'
+        576p:
+          - '576p'
+        540p:
+          - '540p'
+        480p:
+          - 'DVD 9'
+          - 'DVD 5'
+          - 'DVD Remux'
+          - '480p'
+        other: 
+          - 'Other'
+

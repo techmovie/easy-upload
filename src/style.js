@@ -71,4 +71,11 @@ export default GM_addStyle(`
   background-color: #fff;
   border-color: #ebeef5;
 }
+.upload-section #nsfw{
+  margin-left: 0;
+  position: static;
+}
+.upload-section label{
+  padding-left: 0;
+}
 `);

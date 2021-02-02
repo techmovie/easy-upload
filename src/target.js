@@ -1,5 +1,4 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
-import { getAudioCodes } from './common';
 const getDescription = (info) => {
   const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`;
   const siteInfo = CURRENT_SITE_INFO;
@@ -19,7 +18,6 @@ const getDescription = (info) => {
 const fillTargetForm = (info) => {
   console.log(info);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
-  const audioCodes = getAudioCodes(info);
   if (CURRENT_SITE_NAME === 'HDB') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
       return `${info.movieName || info.movieAkaName} ${p2}`;
@@ -34,6 +32,11 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
+  if (CURRENT_SITE_NAME === 'BHD') {
+    const { category, videoType } = info;
+    info.category = videoType;
+    info.videoType = category;
+  }
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
   // 避免选择种子文件后自动改变种子名称
   if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
@@ -46,10 +49,8 @@ const fillTargetForm = (info) => {
       let value = info[key];
       if (key === 'douban') {
         value = info.doubanUrl;
-      } else if (key === 'area') {
+      } else if (key === 'area' || key === 'audioCodes') {
         value = siteInfo.map[info[key]];
-      } else if (key === 'audioCodes') {
-        value = siteInfo.map[audioCodes];
       }
       $(siteInfo.selector).val(value);
     }
@@ -67,6 +68,7 @@ const fillTargetForm = (info) => {
     finalSelectArray = [...category];
     keyArray.forEach(key => {
       finalSelectArray = matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
+      console.log(finalSelectArray);
       if (finalSelectArray.length === 1) {
         $(CURRENT_SITE_INFO.category.selector).val(finalSelectArray[0]);
       }
