@@ -64,6 +64,7 @@ const fillTargetForm = (info) => {
   const category = CURRENT_SITE_INFO.category.map[info.category];
   const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
+  console.log(category);
   if (Array.isArray(category)) {
     finalSelectArray = [...category];
     keyArray.forEach(key => {

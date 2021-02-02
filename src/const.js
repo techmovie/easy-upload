@@ -55,7 +55,7 @@ const getSiteName = (host) => {
     }
   }
 };
-const CODES_ARRAY = ['aac', 'ac3', 'dd+', 'dd', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm', 'dtshdma', 'atmos'];
+const CODES_ARRAY = ['aac', 'ac3', 'dd+', 'dd', 'dtshdma', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm', 'atmos'];
 const EUROPE_LIST = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'Vatican City'];
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];

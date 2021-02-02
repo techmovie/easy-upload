@@ -99,7 +99,7 @@ const getVideoCodes = (type, title) => {
       return 'vc1';
     }
     return 'h264';
-  } else if (type.match(/BD66|BD100/i)) {
+  } else if (type.match(/UHD50|UHD66|UHD100/i)) {
     return 'hevc';
   } else if (type.match(/DVD5|DVD9/i)) {
     return 'mepg2';
@@ -115,7 +115,7 @@ const getVideoType = (type) => {
     return 'remux';
   } else if (type.match(/BD50|BD25/i)) {
     return 'bluray';
-  } else if (type.match(/BD66|BD100/i)) {
+  } else if (type.match(/UHD50|UHD66|UHD100/i)) {
     return 'uhdbluray';
   } else if (type.match(/DVD5|DVD9/i)) {
     return 'dvd';
