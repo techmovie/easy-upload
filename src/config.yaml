@@ -212,6 +212,7 @@ PT_SITE:
         vc1: '2'
         xvid: '6'
     videoType:
+      selector: 'select[name="medium_sel"]'
       map:
         uhdbluray:
           - '19'
@@ -241,14 +242,14 @@ PT_SITE:
     area:
       selector: 'select[name="processing_sel"]'
       map:
-        CN: '1'
-        US: '2'
-        EU: '2'
-        HK: '3'
-        TW: '3'
+        CN: '8'
+        US: '3'
+        EU: '7'
+        HK: '5'
+        TW: '9'
         JP: '4'
-        KR: '5'
-        OT: '6'
+        KR: '6'
+        OT: '0'
   TTG:
     url: 'https://totheglory.im'
     host: totheglory.im
