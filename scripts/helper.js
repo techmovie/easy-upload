@@ -15,6 +15,10 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://hdbits.org/offer.php
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
+// @match        https://ourbits.club/details.php?id=*
+// @match        https://hdsky.me/details.php?id=*
+// @match        https://hdchina.org/details.php?id=*
+// @match        https://pt.keepfrds.com/details.php?id=*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
