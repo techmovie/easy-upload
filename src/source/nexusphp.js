@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 
 /**
  * 获取 NexusPHP 默认数据
- * TODO: 音频和地区处理
+ * TODO: 截图中去除无关图片
  */
 export default () => {
   let title = $('#top').prop('firstChild').nodeValue.trim();
@@ -11,7 +11,7 @@ export default () => {
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let imdbUrl = $('#kimdb>a').attr('href');
-  let description = $('#kdescr').clone().find('fieldset').remove().text().trim();
+  let description = $('#kdescr').clone().find('fieldset').remove().end().text().trim();
 
   // 站点自定义数据覆盖 开始
   if (CURRENT_SITE_NAME === 'HDC') {
@@ -34,7 +34,7 @@ export default () => {
   }
   // 站点自定义数据覆盖 结束
 
-  const { category, videoType, videoCodes, audioCodes, resolution, processing } = getMetaInfo(metaInfo);
+  const { category, videoType, videoCodes, audioCodes, resolution, processing, size } = getMetaInfo(metaInfo);
 
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.movieName = title;
@@ -54,6 +54,7 @@ export default () => {
   TORRENT_INFO.audioCodes = getAudioCodes(audioCodes);
   // TORRENT_INFO.source = TODO;
   TORRENT_INFO.area = getAreaCode(processing);
+  TORRENT_INFO.size = getSize(size);
 
   return TORRENT_INFO;
 };
@@ -65,11 +66,11 @@ const getMetaInfo = (metaInfo) => {
   let audioCodes = '';
   let resolution = '';
   let processing = '';
+  let size = '';
 
   if (metaInfo.match(/类型|分类|類別/)) {
     category = metaInfo.substr(metaInfo.match(/类型|分类|類別/).index).split('   ')[0].split(':')[1].trim();
   }
-
   // 馒头的媒介来源在分类中
   if (CURRENT_SITE_NAME === 'MTeam') {
     videoType = category;
@@ -88,6 +89,9 @@ const getMetaInfo = (metaInfo) => {
   if (metaInfo.match(/处理|處理|地区/)) {
     processing = metaInfo.substr(metaInfo.match(/处理|處理|地区/).index).split('   ')[0].split(':')[1].trim();
   }
+  if (metaInfo.match(/大小/)) {
+    size = metaInfo.substr(metaInfo.match(/大小/).index).split('   ')[0].split(':')[1].trim();
+  }
 
   return {
     category,
@@ -96,6 +100,7 @@ const getMetaInfo = (metaInfo) => {
     audioCodes,
     resolution,
     processing,
+    size,
   };
 };
 
@@ -150,7 +155,7 @@ const getCategory = (videoType) => {
     return 'sport';
   } else if (videoType.match(/mv|演唱/ig)) {
     return 'concert';
-  } else if (videoType.match(/anime|动|画|漫/ig)) {
+  } else if (videoType.match(/anim|动|画|漫/ig)) {
     return 'cartoon';
   }
   return '';
@@ -164,16 +169,18 @@ const getCategory = (videoType) => {
 const getImages = (imagesDomSelector) => {
   const imgList = [];
   const images = imagesDomSelector;
-  for (let i = 0; i < images.length; i++) {
-    if (images[i].getAttribute('src')) {
-      let img = decodeURIComponent(images[i].getAttribute('src')).replace('imagecache.php?url=', ''); // MTeam 解码替换前缀
-      if (img.startsWith('http') === false) {
-        img = CURRENT_SITE_INFO.url + '/' + img;
-      }
-      imgList.push(img);
-    }
-  }
 
+  images.each(function () {
+    const src = $(this).data('echo') || $(this).attr('src'); // PTSBAO 图片src 在 data-echo
+    if (src) {
+      console.log(src);
+      let imgUrl = decodeURIComponent(src).replace('imagecache.php?url=', '').trim(); // MTeam 解码替换前缀
+      if (imgUrl.startsWith('http') === false) {
+        imgUrl = CURRENT_SITE_INFO.url + '/' + imgUrl;
+      }
+      imgList.push(imgUrl);
+    }
+  });
   return imgList;
 };
 
@@ -217,7 +224,7 @@ const getBDInfo = () => {
   let bdinfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = quoteList[i].innerText;
-    if (quoteContent.includes('DISC INFO') || quoteContent.includes('BiTRATE') || quoteContent.includes('BitRate')) {
+    if (quoteContent.match(/DISC|BIT|RATE/i)) {
       bdinfo += ` [quote] ${quoteContent.trim()}[/quote]`;
     }
   }
@@ -255,4 +262,15 @@ const getAreaCode = (area) => {
     return 'EU';
   }
   return 'OT';
+};
+
+const getSize = (size) => {
+  if (size.match(/T/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/G/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/M/i)) {
+    return (parseFloat(size) * 1024 * 1024) || 0;
+  }
+  return '';
 };
