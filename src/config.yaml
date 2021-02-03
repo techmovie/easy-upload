@@ -902,7 +902,7 @@ PT_SITE:
       action: advanced
     seedDomSelector: '' 
   BHD:
-    url: 'https://beyond-hd.me/'
+    url: 'https://beyond-hd.me'
     host: beyond-hd.me
     siteType: F3NIX
     asSource: true
@@ -969,8 +969,9 @@ PT_SITE:
         other: ''
     source:
       selector: '#autosource'
-      map: 
-         
+      map:
+        uhdbluray: 
+          - 'Blu-ray'  
         bluray: 
           - 'Blu-ray'
           - 'BD 50'

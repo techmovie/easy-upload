@@ -2,6 +2,8 @@ export default GM_addStyle(`
 .seed-dom h4{
   text-align: center;
   margin: 0;
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 15px;
 }
 .site-list,.search-list{
