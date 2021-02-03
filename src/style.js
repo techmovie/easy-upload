@@ -2,6 +2,8 @@ export default GM_addStyle(`
 .seed-dom h4{
   text-align: center;
   margin: 0;
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 15px;
 }
 .site-list,.search-list{
@@ -70,5 +72,12 @@ export default GM_addStyle(`
   background-image: none;
   background-color: #fff;
   border-color: #ebeef5;
+}
+.upload-section #nsfw{
+  margin-left: 0;
+  position: static;
+}
+.upload-section label{
+  padding-left: 0;
 }
 `);

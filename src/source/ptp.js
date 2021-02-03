@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getAudioCodes } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
@@ -28,14 +28,21 @@ export default () => {
   const isRemux = otherInfo.includes('Remux');
   TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
   TORRENT_INFO.videoCodes = getPtpCodes(codes);
+  TORRENT_INFO.audioCodes = getAudioCodes(TORRENT_INFO.title);
   TORRENT_INFO.source = getPTPSource(source, codes, resolution);
   TORRENT_INFO.resolution = getPTPResolution(resolution);
   const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
   TORRENT_INFO.logs = logs;
   TORRENT_INFO.bdinfo = bdinfo;
+  TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
   TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.screenshots = getPTPImage(torrentDom);
-  TORRENT_INFO.area = getAreaCode();
+  let country = [];
+  const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/);
+  if (matchArray && matchArray.length > 0) {
+    country = matchArray[1].replace(/(,)\s+/g, '$1').split(',');
+  }
+  TORRENT_INFO.area = getAreaCode(country[0]);
   return TORRENT_INFO;
 };
 const getPTPType = () => {
@@ -135,30 +142,4 @@ const getPTPResolution = (resolution) => {
     return '480p';
   }
   return resolution;
-};
-const getAreaCode = () => {
-  const europeList = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'Vatican City'];
-  let country = [];
-  const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/);
-  if (matchArray && matchArray.length > 0) {
-    country = matchArray[1].replace(/(,)\s+/g, '$1').split(',');
-  }
-  if (country[0]) {
-    if (country[0].match(/USA|Canada/i)) {
-      return 'US';
-    } else if (europeList.includes(country[0])) {
-      return 'EU';
-    } else if (country[0].match(/Japan/i)) {
-      return 'JP';
-    } else if (country[0].match(/Korea/i)) {
-      return 'KR';
-    } else if (country[0].match(/Taiwan/i)) {
-      return 'TW';
-    } else if (country[0].match(/Hong Kong/i)) {
-      return 'HK';
-    } else if (country[0].match(/China/i)) {
-      return 'CN';
-    }
-  }
-  return 'OT';
 };
