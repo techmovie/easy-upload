@@ -21,6 +21,7 @@ const TORRENT_INFO = {
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音
   sourceSite: '', // 种子来源站点简称
+  size: '', // 种子大小 转换成 Bytes
 };
 // 快速检索
 const SEARCH_SITE_MAP = {
