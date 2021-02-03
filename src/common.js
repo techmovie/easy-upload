@@ -1,4 +1,4 @@
-import { CODES_ARRAY, EUROPE_LIST } from './const';
+import { CODES_ARRAY, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -89,6 +89,28 @@ const getBDType = (size) => {
   }
 };
 
+const getTMDBIdByIMDBId = (imdbid) => {
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
+      onload (res) {
+        const data = JSON.parse(res.responseText);
+        if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
+          reject(new Error('请求失败'));
+        }
+        resolve(data.movie_results[0].id);
+      },
+    });
+  });
+};
+const getIMDBIdByUrl = (imdbLink) => {
+  const imdbIdArray = /tt\d+/.exec(imdbLink);
+  if (imdbIdArray && imdbIdArray[0]) {
+    return imdbIdArray[0];
+  }
+  return '';
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -97,5 +119,7 @@ export {
   getSubTitle,
   getAreaCode,
   getBDType,
+  getTMDBIdByIMDBId,
+  getIMDBIdByUrl,
 }
 ;

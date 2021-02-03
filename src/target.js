@@ -1,23 +1,24 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
-import { getBDType } from './common';
+import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
 const getDescription = (info) => {
-  const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`;
+  const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]\n\n`;
   const siteInfo = CURRENT_SITE_INFO;
   const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
   const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
-  const bdinfo = info.bdinfo ? `BDInfo:\n${info.bdinfo}\n\n` : '';
-  const mediaInfo = siteInfo.mediaInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
+  const bdinfo = info.bdinfo && !info.videoType.match(/bluray/ig) ? `BDInfo:\n${info.bdinfo}\n\n` : '';
+  const mediaInfo = siteInfo.mediaInfo || info.bdinfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
   const screenshots = info.screenshots.map(img => {
     if (img.match(/\[url=.+\]/i)) {
       return img;
     }
     return `[img]${img}[/img]`;
   });
-  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `\n\nScreens:\n${screenshots.join('')}`;
-  return `${thanksQuote}\n\n${doubanInfo}${mediaInfo}${info.description}\n\n${logs}${bdinfo}${screenshotsPart}`;
+  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screens:\n${screenshots.join('')}`;
+  return `${thanksQuote}${doubanInfo}${mediaInfo}${info.description}${logs}${bdinfo}${screenshotsPart}`;
 };
 const fillTargetForm = (info) => {
   console.log(info);
+  const imdbId = getIMDBIdByUrl(info.imdbUrl);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
   if (CURRENT_SITE_NAME === 'HDB') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
@@ -34,6 +35,10 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
   if (CURRENT_SITE_NAME === 'BHD') {
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
+    getTMDBIdByIMDBId(imdbId).then(id => {
+      $(CURRENT_SITE_INFO.tmdb.selector).val(id);
+    });
     const { category, videoType } = info;
     info.category = videoType;
     info.videoType = category;

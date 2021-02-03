@@ -922,6 +922,8 @@ PT_SITE:
       selector: '#upload-form-description'
     imdb:
       selector: '#imdbauto'
+    tmdb:
+      selector: '#tmdbauto'
     mediaInfo:
       selector: '#mediainfo'
     videoType:
