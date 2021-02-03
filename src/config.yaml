@@ -846,6 +846,48 @@ PT_SITE:
       search_area: '{key}'
       sort: '5'
       type: desc
+  PTSBAO:
+    url: 'https://ptsbao.club'
+    host: ptsbao.club
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top+table tr:nth-child(3)'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  BEITAI:
+    url: 'https://www.beitai.pt'
+    host: www.beitai.pt
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top+table tr:nth-child(3)'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  PTHOME:
+    url: 'https://pthome.net'
+    host: pthome.net
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top+table tr:nth-child(3)'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
   PTP:
     url: 'https://passthepopcorn.me'
     host: passthepopcorn.me
