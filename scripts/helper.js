@@ -20,6 +20,9 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://hdsky.me/details.php?id=*
 // @match        https://hdchina.org/details.php?id=*
 // @match        https://pt.keepfrds.com/details.php?id=*
+// @match        https://ptsbao.club/details.php?id=*
+// @match        https://www.beitai.pt/details.php?id=*
+// @match        https://pthome.net/details.php?id=*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
