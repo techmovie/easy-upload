@@ -1,4 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
+import { getBDType } from './common';
 const getDescription = (info) => {
   const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]`;
   const siteInfo = CURRENT_SITE_INFO;
@@ -36,6 +37,14 @@ const fillTargetForm = (info) => {
     const { category, videoType } = info;
     info.category = videoType;
     info.videoType = category;
+    // BHD需要细分蓝光类型
+    if (videoType.match(/bluray/)) {
+      let bdType = getBDType(info.size);
+      if (videoType === 'uhdbluray' && bdType === 'BD50') {
+        bdType = 'uhd50';
+      }
+      info.category = bdType;
+    }
   }
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
   // 避免选择种子文件后自动改变种子名称

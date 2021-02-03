@@ -932,12 +932,11 @@ PT_SITE:
     category: 
       selector: '#autotype'
       map:
-        bluray:
-          - 'UHD 100'
-          - 'UHD 66'
-          - 'UHD 50'
-          - 'BD 50'
-          - 'BD 25'
+        BD100: 'UHD 100'
+        BD66: 'UHD 66'
+        UHD50: 'UHD 50'
+        BD50: 'BD 50'
+        BD25: 'BD 25'
         remux:
           - 'UHD Remux'
           - 'BD Remux'
@@ -970,7 +969,8 @@ PT_SITE:
         other: ''
     source:
       selector: '#autosource'
-      map:  
+      map: 
+         
         bluray: 
           - 'Blu-ray'
           - 'BD 50'

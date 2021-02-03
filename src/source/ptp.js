@@ -34,6 +34,7 @@ export default () => {
   const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
   TORRENT_INFO.logs = logs;
   TORRENT_INFO.bdinfo = bdinfo;
+  TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
   TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.screenshots = getPTPImage(torrentDom);
   let country = [];

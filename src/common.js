@@ -71,6 +71,24 @@ const getAreaCode = (area) => {
   return 'OT';
 };
 
+/*
+* 获取蓝光类型
+* @param {size}文件大小单位Bytes
+* @return
+* */
+const getBDType = (size) => {
+  const GBSize = size / 1e9;
+  if (GBSize < 25) {
+    return 'BD25';
+  } else if (GBSize < 50) {
+    return 'BD50';
+  } else if (GBSize < 66) {
+    return 'BD66';
+  } else if (GBSize < 100) {
+    return 'BD100';
+  }
+};
+
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -78,5 +96,6 @@ export {
   replaceEngName,
   getSubTitle,
   getAreaCode,
+  getBDType,
 }
 ;
