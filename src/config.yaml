@@ -45,6 +45,7 @@ PT_SITE:
     videoType:
       selector: '#type_medium'
       map:
+        uhdbluray: '1'
         bluray: '1'
         remux: '5'
         encode: '3'
