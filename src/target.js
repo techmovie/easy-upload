@@ -5,15 +5,16 @@ const getDescription = (info) => {
   const siteInfo = CURRENT_SITE_INFO;
   const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
   const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
-  const bdinfo = info.bdinfo && !info.videoType.match(/bluray/ig) ? `BDInfo:\n${info.bdinfo}\n\n` : '';
-  const mediaInfo = siteInfo.mediaInfo || info.bdinfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
+  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDB' && info.videoType.match(/bluray/);
+  const bdinfo = info.bdinfo ? `BDInfo:\n[quote]${info.bdinfo}[/quote]\n\n` : '';
+  const mediaInfo = siteInfo.mediaInfo && !isHDBBDInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
   const screenshots = info.screenshots.map(img => {
     if (img.match(/\[url=.+\]/i)) {
       return img;
     }
     return `[img]${img}[/img]`;
   });
-  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screens:\n${screenshots.join('')}`;
+  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screenshots:\n${screenshots.join('')}`;
   return `${thanksQuote}${doubanInfo}${mediaInfo}${info.description}${logs}${bdinfo}${screenshotsPart}`;
 };
 const fillTargetForm = (info) => {
@@ -34,23 +35,6 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
-  if (CURRENT_SITE_NAME === 'BHD') {
-    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
-    getTMDBIdByIMDBId(imdbId).then(id => {
-      $(CURRENT_SITE_INFO.tmdb.selector).val(id);
-    });
-    const { category, videoType } = info;
-    info.category = videoType;
-    info.videoType = category;
-    // BHD需要细分蓝光类型
-    if (videoType.match(/bluray/)) {
-      let bdType = getBDType(info.size);
-      if (videoType === 'uhdbluray' && bdType === 'BD50') {
-        bdType = 'uhd50';
-      }
-      info.category = bdType;
-    }
-  }
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
   // 避免选择种子文件后自动改变种子名称
   if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
@@ -69,12 +53,30 @@ const fillTargetForm = (info) => {
       $(siteInfo.selector).val(value);
     }
   });
-  const mediaInfo = info.videoType.match(/bluray|uhdbluray/ig) ? '' : info.mediaInfo;
+  const mediaInfo = info.mediaInfo;
   const description = getDescription(info);
-  if (CURRENT_SITE_INFO.mediaInfo) {
+  // HDB只填入mediainfo bdinfo放在简介里
+  if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDB')) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
+  if (CURRENT_SITE_NAME === 'BHD') {
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
+    getTMDBIdByIMDBId(imdbId).then(id => {
+      $(CURRENT_SITE_INFO.tmdb.selector).val(id);
+    });
+    const { category, videoType } = info;
+    info.category = videoType;
+    info.videoType = category;
+    // BHD需要细分蓝光类型
+    if (videoType.match(/bluray/)) {
+      let bdType = getBDType(info.size);
+      if (videoType === 'uhdbluray' && bdType === 'BD50') {
+        bdType = 'uhd50';
+      }
+      info.category = bdType;
+    }
+  }
   const category = CURRENT_SITE_INFO.category.map[info.category];
   const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];

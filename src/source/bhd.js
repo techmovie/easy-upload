@@ -33,9 +33,8 @@ export default () => {
   TORRENT_INFO.videoType = getVideoType(Type);
   TORRENT_INFO.resolution = resolution;
   TORRENT_INFO.imdbUrl = imdbUrl;
-  TORRENT_INFO.mediaInfo = $('#stats-full code').text();
-  const bdInfo = TORRENT_INFO.mediaInfo.includes('DISC INFO') ? TORRENT_INFO.mediaInfo : '';
-  TORRENT_INFO.bdinfo = bdInfo;
+  const mediaInfo = $('#stats-full code').text();
+  TORRENT_INFO.mediaInfo = mediaInfo;
   TORRENT_INFO.screenshots = getImages();
   return TORRENT_INFO;
 };
