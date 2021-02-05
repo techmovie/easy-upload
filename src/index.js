@@ -213,6 +213,13 @@ if (CURRENT_SITE_NAME) {
       torrentInsertDom.after(trDom);
       torrentInsertDom = $('.easy-seed-td');
     }
+    if (CURRENT_SITE_NAME === 'HDB') {
+      const trDom = `<tr>
+      <td class="rowfollow easy-seed-td"></td>
+      </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $('.easy-seed-td');
+    }
     if (CURRENT_SITE_NAME === 'PTP') {
       const torrentId = getUrlParam('torrentid');
       torrentInsertDom = $(`#torrent_${torrentId} >td`);

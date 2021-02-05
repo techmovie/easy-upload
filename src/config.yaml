@@ -3,10 +3,11 @@ PT_SITE:
     url: 'https://hdbits.org'
     host: hdbits.org
     siteType: HDB
-    asSource: false
+    asSource: true
     asTarget: true
     needDoubanInfo: true
     uploadPath: /upload.php
+    seedDomSelector: '#details >tbody >tr:contains(Last seeded)' 
     searchPath: /browse.php
     searchKey: search
     searchParam:

@@ -111,6 +111,17 @@ const getIMDBIdByUrl = (imdbLink) => {
   }
   return '';
 };
+
+const getSize = (size) => {
+  if (size.match(/T/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/G/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/M/i)) {
+    return (parseFloat(size) * 1024 * 1024) || 0;
+  }
+  return '';
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -121,5 +132,6 @@ export {
   getBDType,
   getTMDBIdByIMDBId,
   getIMDBIdByUrl,
+  getSize,
 }
 ;
