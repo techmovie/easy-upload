@@ -131,7 +131,7 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
   const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
-  const fileName = getMediaValueByKey('Complete name', generalPart);
+  const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp5|\.ts/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
   const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
   const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
@@ -180,17 +180,23 @@ const getMediaTags = (audioCodes, channelName, languageArray, textPart, isHdr, i
   const mediaTags = [];
   if (hasChineseAudio) {
     mediaTags.push('chineseAudio');
-  } else if (languageArray.includes('Cantonese')) {
+  }
+  if (languageArray.includes('Cantonese')) {
     mediaTags.push('CantoneseAudio');
-  } else if (hasChineseSubtitle) {
+  }
+  if (hasChineseSubtitle) {
     mediaTags.push('chineseSubtitle');
-  } else if (isHdr) {
+  }
+  if (isHdr) {
     mediaTags.push('HDR');
-  } else if (isDV) {
+  }
+  if (isDV) {
     mediaTags.push('DolbyVision');
-  } else if (audioCodes.match(/dtsx|atoms/)) {
+  }
+  if (audioCodes.match(/dtsx|atmos/ig)) {
     mediaTags.push(audioCodes);
-  } else if (channelName === '7.1') {
+  }
+  if (channelName === '7.1') {
     mediaTags.push(channelName);
   }
   return mediaTags;
