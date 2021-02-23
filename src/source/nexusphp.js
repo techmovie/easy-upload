@@ -1,4 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { getSize } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
@@ -262,15 +263,4 @@ const getAreaCode = (area) => {
     return 'EU';
   }
   return 'OT';
-};
-
-const getSize = (size) => {
-  if (size.match(/T/i)) {
-    return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
-  } else if (size.match(/G/i)) {
-    return (parseFloat(size) * 1024 * 1024 * 1024) || 0;
-  } else if (size.match(/M/i)) {
-    return (parseFloat(size) * 1024 * 1024) || 0;
-  }
-  return '';
 };
