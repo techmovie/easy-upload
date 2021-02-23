@@ -119,8 +119,155 @@ const getSize = (size) => {
     return (parseFloat(size) * 1024 * 1024 * 1024) || 0;
   } else if (size.match(/M/i)) {
     return (parseFloat(size) * 1024 * 1024) || 0;
+  } else if (size.match(/K/i)) {
+    return (parseFloat(size) * 1024) || 0;
   }
   return '';
+};
+
+const getInfoFromMediaInfo = (mediaInfo) => {
+  const mediaArray = mediaInfo.split('\n\n');
+  const [generalPart, videoPart] = mediaArray;
+  const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
+  const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
+  const textPart = mediaArray.filter(item => item.startsWith('Text'));
+  const fileName = getMediaValueByKey('Complete name', generalPart);
+  const fileSize = getSize(getMediaValueByKey('File size', generalPart));
+  const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
+  const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
+  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, textPart, isHdr, isDV);
+  const resolution = getResolution(videoPart);
+  return {
+    fileName,
+    fileSize,
+    videoCodes,
+    audioCodes,
+    resolution,
+    mediaTags,
+  };
+};
+const getMediaValueByKey = (key, mediaInfo) => {
+  const keyRegStr = key.replace(/\s/, '\\s*').replace(/(\(|\))/g, '\\$1');
+  const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\n]+)`, 'i');
+  return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
+};
+const getResolution = (mediaInfo) => {
+  const height = parseInt(getMediaValueByKey('Height', mediaInfo).replace(/\s/g, ''));
+  const width = parseInt(getMediaValueByKey('Width', mediaInfo).replace(/\s/g, ''));
+  const ScanType = getMediaValueByKey('Scan type', mediaInfo);
+  if (height > 1080) {
+    return '2160p';
+  } else if (height > 720 && ScanType === 'Progressive') {
+    return '1080p';
+  } else if (height > 720 && ScanType !== 'Progressive') {
+    return '1080i';
+  } else if (height > 576) {
+    return '720p';
+  } else if (height > 480) {
+    return '576p';
+  } else if (height === 480) {
+    return '480p';
+  } else {
+    return `${width}x${height}`;
+  }
+};
+const getMediaTags = (audioCodes, channelName, languageArray, textPart, isHdr, isDV) => {
+  const subtitleLanguageArray = textPart.map(item => {
+    return getMediaValueByKey('Language', item);
+  });
+  const hasChineseAudio = languageArray.includes('Chinese');
+  const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
+  const mediaTags = [];
+  if (hasChineseAudio) {
+    mediaTags.push('chineseAudio');
+  } else if (languageArray.includes('Cantonese')) {
+    mediaTags.push('CantoneseAudio');
+  } else if (hasChineseSubtitle) {
+    mediaTags.push('chineseSubtitle');
+  } else if (isHdr) {
+    mediaTags.push('HDR');
+  } else if (isDV) {
+    mediaTags.push('DolbyVision');
+  } else if (audioCodes.match(/dtsx|atoms/)) {
+    mediaTags.push(audioCodes);
+  } else if (channelName === '7.1') {
+    mediaTags.push(channelName);
+  }
+  return mediaTags;
+};
+const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+  const generalFormat = getMediaValueByKey('Format', generalPart);
+  const videoFormat = getMediaValueByKey('Format', mainVideo);
+  const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
+  const videoCodeId = getMediaValueByKey('Codec ID', mainVideo);
+  const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
+  const isDV = secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).includes('Dolby Vision');
+  const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
+  let videoCodes = '';
+  if (generalFormat === 'DVD Video') {
+    videoCodes = 'DVD';
+  } else if (generalFormat === 'MPEG-4') {
+    videoCodes = 'mpeg4';
+  } else if (videoFormat === 'MPEG Video' && videoFormatVersion === 'Version 2') {
+    videoCodes = 'mpeg2';
+  } else if (videoCodeId.match(/xvid/i)) {
+    videoCodes = 'xvid';
+  } else if (videoFormat.match(/HEVC/i) && !isEncoded) {
+    videoCodes = 'hevc';
+  } else if (videoFormat.match(/HEVC/i) && isEncoded) {
+    videoCodes = 'x265';
+  } else if (videoFormat.match(/AVC/i) && isEncoded) {
+    videoCodes = 'x264';
+  } else if (videoFormat.match(/AVC/i) && !isEncoded) {
+    videoCodes = 'h264';
+  } else if (videoFormat.match(/VC-1/i)) {
+    videoCodes = 'vc1';
+  }
+  return {
+    videoCodes,
+    isHdr: !!hdrFormat,
+    isDV,
+  };
+};
+const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
+  const audioFormat = getMediaValueByKey('Format', mainAudio);
+  const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
+  const commercialName = getMediaValueByKey('Commercial name', mainAudio);
+  const languageArray = [mainAudio, ...otherAudio].map(item => {
+    return getMediaValueByKey('Language', item);
+  });
+  let channelName = '';
+  let audioCodes = '';
+  const channelNumber = parseInt(audioChannels);
+  if (channelNumber && channelNumber >= 6) {
+    channelName = `${channelNumber - 1}.1`;
+  } else {
+    channelName = `${channelNumber}.0`;
+  }
+  if (audioFormat.match(/MLP FBA/i) && commercialName.match(/Dolby Atmos/i)) {
+    audioCodes = 'atmos';
+  } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
+    audioCodes = 'truehd';
+  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital$/i)) {
+    audioCodes = 'dd';
+  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
+    audioCodes = 'dd+';
+  } else if (audioFormat.match(/DTS XLL X/i)) {
+    audioCodes = 'dtsx';
+  } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
+    audioCodes = 'dtshdma';
+  } else if (audioFormat.match(/DTS/i)) {
+    audioCodes = 'dts';
+  } else if (audioFormat.match(/FLAC/i)) {
+    audioCodes = 'flac';
+  } else if (audioFormat.match(/AAC/i)) {
+    audioCodes = 'aac';
+  }
+  return {
+    audioCodes,
+    channelName,
+    languageArray,
+  };
 };
 export {
   getUrlParam,
@@ -133,5 +280,6 @@ export {
   getTMDBIdByIMDBId,
   getIMDBIdByUrl,
   getSize,
+  getInfoFromMediaInfo,
 }
 ;
