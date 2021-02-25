@@ -126,16 +126,21 @@ const getSize = (size) => {
 };
 
 const getInfoFromMediaInfo = (mediaInfo) => {
-  const mediaArray = mediaInfo.split('\n\n');
+  const mediaArray = mediaInfo.split(/\n\s*\n/);
+  console.log(mediaInfo);
+  console.log(mediaArray);
   const [generalPart, videoPart] = mediaArray;
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
   const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
-  const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp5|\.ts/i, '');
+  const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
   const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
   const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
-  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, textPart, isHdr, isDV);
+  const subtitleLanguageArray = textPart.map(item => {
+    return getMediaValueByKey('Language', item);
+  });
+  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
   const resolution = getResolution(videoPart);
   return {
     fileName,
@@ -161,20 +166,17 @@ const getResolution = (mediaInfo) => {
     return '1080p';
   } else if (height > 720 && ScanType !== 'Progressive') {
     return '1080i';
-  } else if (height > 576) {
+  } else if (height > 576 || width > 1024) {
     return '720p';
-  } else if (height > 480) {
+  } else if (height > 480 || width === 1024) {
     return '576p';
-  } else if (height === 480) {
+  } else if (width >= 840 || height === 480) {
     return '480p';
   } else {
     return `${width}x${height}`;
   }
 };
-const getMediaTags = (audioCodes, channelName, languageArray, textPart, isHdr, isDV) => {
-  const subtitleLanguageArray = textPart.map(item => {
-    return getMediaValueByKey('Language', item);
-  });
+const getMediaTags = (audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
   const mediaTags = [];
@@ -258,6 +260,8 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     audioCodes = 'dd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
     audioCodes = 'dd+';
+  } else if (audioFormat.match(/AC-3/i)) {
+    audioCodes = 'ac3';
   } else if (audioFormat.match(/DTS XLL X/i)) {
     audioCodes = 'dtsx';
   } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
@@ -268,7 +272,74 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     audioCodes = 'flac';
   } else if (audioFormat.match(/AAC/i)) {
     audioCodes = 'aac';
+  } else if (audioFormat.match(/LPCM/i)) {
+    audioCodes = 'lpcm';
   }
+  return {
+    audioCodes,
+    channelName,
+    languageArray,
+  };
+};
+const getInfoFromBDInfo = (bdInfo) => {
+  const splitArray = bdInfo.split('Disc Title');
+  // 如果有多个bdinfo只取第一个
+  if (splitArray.length > 2) {
+    bdInfo = splitArray[1];
+  }
+  const videoMatch = bdInfo.match(/VIDEO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)AUDIO:/i);
+  const audioMatch = bdInfo.match(/AUDIO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)SUBTITLE(S)*:/i);
+  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)(FILES:)*/i);
+  const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
+  const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
+  const videoPart = splitBDMediaInfo(videoMatch, 2);
+  const [mainVideo = '', otherVideo = ''] = videoPart;
+  const videoCodes = mainVideo.match(/2160/) ? 'hevc' : 'h264';
+  const isHdr = !!mainVideo.match(/\/\s*HDR(\d)*\s*\//i);
+  const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
+  const audioPart = splitBDMediaInfo(audioMatch, 2);
+  const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
+  const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
+  const { audioCodes, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const subtitleLanguageArray = subtitlePart.map(item => {
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
+    const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
+    const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
+    return language;
+  });
+  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  return {
+    fileSize,
+    videoCodes,
+    audioCodes,
+    resolution,
+    mediaTags,
+  };
+};
+const splitBDMediaInfo = (matchArray, matchIndex) => {
+  return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/));
+};
+const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+  const sortArray = audioPart.sort((a, b) => {
+    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
+    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
+    return lastBitrate - firstBitrate;
+  });
+  const [mainAudio, secondAudio] = sortArray;
+  const mainAudioCodes = getAudioCodes(mainAudio);
+  const secondAudioCodes = getAudioCodes(secondAudio);
+  let audioCodes = mainAudioCodes;
+  let channelName = mainAudio.match(/\d\.\d/)?.[0];
+  if (mainAudioCodes === 'lpcm' && secondAudioCodes === 'dtshdma') {
+    audioCodes = secondAudioCodes;
+    channelName = mainAudio.match(/\d\.\d/)?.[0];
+  }
+  const languageArray = sortArray.map(item => {
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
+    const normalMatch = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)?.[1];
+    const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
+    return language;
+  });
   return {
     audioCodes,
     channelName,
@@ -287,5 +358,6 @@ export {
   getIMDBIdByUrl,
   getSize,
   getInfoFromMediaInfo,
+  getInfoFromBDInfo,
 }
 ;

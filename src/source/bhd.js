@@ -1,9 +1,10 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getAudioCodes, getAreaCode } from '../common';
+import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-  const { Audio, Category, Name, Source, Type, Video } = getBasicInfo();
+  const { Category, Name, Source, Type, Size } = getBasicInfo();
+  TORRENT_INFO.size = getSize(Size);
   TORRENT_INFO.title = formatTorrentTitle(Name);
   const TMDBYear = $('.movie-heading a:last').text();
   const movieName = $('.movie-heading a:first').text();
@@ -13,28 +14,23 @@ export default () => {
   } else {
     TORRENT_INFO.year = TMDBYear;
   }
-  const tags = [];
-  if (Audio) {
-    tags.push(Audio.replace(/:|-|\./, 'g').toLowerCase());
-  }
-  if (Video) {
-    tags.push(Video.replace(/:|-|\./, 'g').toLowerCase());
-  }
-  TORRENT_INFO.tags = tags;
   const { category: movieCat, countries, imdbUrl } = getMovieDetails();
   TORRENT_INFO.movieName = movieName;
   const category = Category.toLowerCase().replace(/s/, '');
-  const resolution = getResolution(Type);
   TORRENT_INFO.category = movieCat === 'Animation' ? 'cartoon' : category;
   TORRENT_INFO.source = getSource(Source, Type);
-  TORRENT_INFO.audioCodes = getAudioCodes(TORRENT_INFO.title);
   TORRENT_INFO.area = getAreaCode(countries);
-  TORRENT_INFO.videoCodes = getVideoCodes(Type, TORRENT_INFO.title);
   TORRENT_INFO.videoType = getVideoType(Type);
-  TORRENT_INFO.resolution = resolution;
-  TORRENT_INFO.imdbUrl = imdbUrl;
+  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfo = mediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(mediaInfo);
+  TORRENT_INFO.videoCodes = videoCodes;
+  TORRENT_INFO.audioCodes = audioCodes;
+  TORRENT_INFO.resolution = resolution;
+  TORRENT_INFO.tags = mediaTags;
+  TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.screenshots = getImages();
   return TORRENT_INFO;
 };
@@ -91,23 +87,6 @@ const getSource = (source, resolution) => {
   }
   return source.replace(/-/g, '').toLowerCase();
 };
-const getVideoCodes = (type, title) => {
-  type = type.replace(/\s/g, '');
-  if (type.match(/BD50|BD25/ig)) {
-    if (title.match(/VC-1/i)) {
-      return 'vc1';
-    }
-    return 'h264';
-  } else if (type.match(/UHD50|UHD66|UHD100/i)) {
-    return 'hevc';
-  } else if (type.match(/DVD5|DVD9/i)) {
-    return 'mepg2';
-  } else if (type.match(/2160p/i)) {
-    return 'x265';
-  } else if (type.match(/\d{3,4}p/i)) {
-    return 'x264';
-  }
-};
 const getVideoType = (type) => {
   type = type.replace(/\s/g, '');
   if (type.match(/Remux/i)) {
@@ -122,14 +101,4 @@ const getVideoType = (type) => {
     return 'encode';
   }
   return type;
-};
-const getResolution = (resolution) => {
-  if (resolution.match(/UHD/i)) {
-    return '2160p';
-  } if (resolution.match(/BD/i)) {
-    return '1080p';
-  } else if (resolution.match(/DVD/i)) {
-    return '480p';
-  }
-  return resolution;
 };
