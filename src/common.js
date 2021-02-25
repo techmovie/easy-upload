@@ -127,8 +127,6 @@ const getSize = (size) => {
 
 const getInfoFromMediaInfo = (mediaInfo) => {
   const mediaArray = mediaInfo.split(/\n\s*\n/);
-  console.log(mediaInfo);
-  console.log(mediaArray);
   const [generalPart, videoPart] = mediaArray;
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
   const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
@@ -346,6 +344,18 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     languageArray,
   };
 };
+/*
+  * 更新种子信息后需要遍历目标站点链接进行参数替换
+  * @param {any}
+  * @return
+  * */
+const replaceTorrentInfo = (torrentData) => {
+  $('.site-list a').each((index, link) => {
+    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
+    const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
+    $(link).attr('href', newHref);
+  });
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -359,5 +369,6 @@ export {
   getSize,
   getInfoFromMediaInfo,
   getInfoFromBDInfo,
+  replaceTorrentInfo,
 }
 ;

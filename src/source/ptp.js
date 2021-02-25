@@ -68,7 +68,7 @@ const getPTPLogsOrBDInfo = (torrentDom) => {
   let logs = ''; let bdinfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = quoteList[i].textContent;
-    if (quoteContent.includes('eac3to')) {
+    if (quoteContent.match(/eac3to/)) {
       logs += `[quote]${quoteContent}[/quote]`;
     }
     if (quoteContent.match(/DISC/)) {

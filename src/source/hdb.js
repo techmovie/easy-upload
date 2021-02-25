@@ -1,41 +1,58 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo } from '../common';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, replaceTorrentInfo } from '../common';
 
-export default async () => {
+export default () => {
   const torrentId = getUrlParam('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  const descriptionDom = $('#details tr').has('.js-tagcontent').prev();
   const { size, category, videoType } = getBasicInfo();
   const title = $('h1').eq(0).text();
   TORRENT_INFO.title = formatTorrentTitle(title);
-
-  const IMDBLinkDom = $('.contentlayout h1');
-  const IMDBYear = IMDBLinkDom.prop('lastChild').nodeValue.replace(/\s|\(|\)/g, '');
-  const movieName = IMDBLinkDom.find('a').text();
-  if (!IMDBYear) {
-    const matchYear = TORRENT_INFO.title.match(/\s([12][90]\d{2})/);
-    TORRENT_INFO.year = matchYear ? matchYear[0] : '';
-  } else {
-    TORRENT_INFO.year = IMDBYear;
+  const isMovieType = $('.contentlayout h1').length > 0;
+  const IMDBLinkDom = isMovieType ? $('.contentlayout h1') : $('#details .showlinks li').last();
+  if (isMovieType) {
+    const IMDBYear = IMDBLinkDom.prop('lastChild').nodeValue.replace(/\s|\(|\)/g, '');
+    const movieName = IMDBLinkDom.find('a').text();
+    TORRENT_INFO.movieName = movieName;
+    if (!IMDBYear) {
+      const matchYear = TORRENT_INFO.title.match(/\s([12][90]\d{2})/);
+      TORRENT_INFO.year = matchYear ? matchYear[0] : '';
+    } else {
+      TORRENT_INFO.year = IMDBYear;
+    }
   }
   TORRENT_INFO.imdbUrl = IMDBLinkDom.find('a').attr('href');
-  TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.category = category;
   // TORRENT_INFO.source = getSource(Source, Type);
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const mediaInfo = await getMediaInfo(torrentId);
-  if (mediaInfo) {
-    TORRENT_INFO.mediaInfo = mediaInfo;
-    const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+  const { logs, bdinfo } = getLogsOrBDInfo(descriptionDom);
+
+  TORRENT_INFO.logs = logs;
+  if (!isBluray) {
+    TORRENT_INFO.bdinfo = bdinfo;
+    getMediaInfo(torrentId).then(data => {
+      if (data) {
+        TORRENT_INFO.mediaInfo = data;
+        const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+        TORRENT_INFO.videoCodes = videoCodes;
+        TORRENT_INFO.audioCodes = audioCodes;
+        TORRENT_INFO.resolution = resolution;
+        TORRENT_INFO.tags = mediaTags;
+        replaceTorrentInfo(TORRENT_INFO);
+      }
+    });
+  } else {
+    TORRENT_INFO.mediaInfo = bdinfo;
+    const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(bdinfo);
     TORRENT_INFO.videoCodes = videoCodes;
     TORRENT_INFO.audioCodes = audioCodes;
     TORRENT_INFO.resolution = resolution;
     TORRENT_INFO.tags = mediaTags;
-    TORRENT_INFO.size = size;
-    TORRENT_INFO.screenshots = getImages();
-    return TORRENT_INFO;
   }
+  TORRENT_INFO.size = size;
+  TORRENT_INFO.screenshots = getImages(descriptionDom);
 };
 const getBasicInfo = () => {
   const videoTypeMap = {
@@ -73,14 +90,34 @@ const getMediaInfo = (torrentId) => {
     });
   });
 };
+// 获取eac3to日志
+const getLogsOrBDInfo = (descriptionDom) => {
+  const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
+  console.log(quoteList);
+  let logs = ''; let bdinfo = '';
+  for (let i = 0; i < quoteList.length; i++) {
+    const quoteContent = quoteList[i].textContent;
+    if (quoteContent.match(/eac3to/)) {
+      logs += `[quote]${quoteContent}[/quote]`;
+    }
+    if (quoteContent.match(/DISC/)) {
+      bdinfo += quoteContent;
+    }
+  }
+  console.log(logs);
+  return {
+    logs,
+    bdinfo,
+  };
+};
 // 获取截图
-const getImages = () => {
-  const links = $('.panel-body a');
+const getImages = (descriptionDom) => {
+  const links = descriptionDom.find('a').has('img');
   const screenshots = [];
   links.each((index, element) => {
     const imageUrl = $(element).attr('href');
     const thumbnailURL = $(element).find('img').attr('src');
-    if (thumbnailURL && thumbnailURL.match(/.+\.png/i)) {
+    if (thumbnailURL && thumbnailURL.match(/.+\.(png|jpg)/i)) {
       screenshots.push(`[url=${imageUrl}][img]${thumbnailURL}[/img][/url]`);
     }
   });
