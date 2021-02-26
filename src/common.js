@@ -24,7 +24,25 @@ const getAudioCodes = (title) => {
   }
   return codes;
 };
-
+// 从标题获取source
+const getSourceFromTitle = (title) => {
+  if (title.match(/(uhd|2160|4k).*(bluray|remux)/i)) {
+    return 'uhdbluray';
+  } else if (title.match(/bluray|remux/i)) {
+    return 'bluray';
+  } else if (title.match(/hdtv/i)) {
+    return 'hdtv';
+  } else if (title.match(/web(-(rip|dl))+/i)) {
+    return 'web';
+  } else if (title.match(/hddvd/i)) {
+    return 'hddvd';
+  } else if (title.match(/dvd/i)) {
+    return 'dvd';
+  } else if (title.match(/vhs/i)) {
+    return 'vhs';
+  }
+  return 'other';
+};
 // 获取副标题
 const getSubTitle = (data) => {
   const titles = data.trans_title.join('/');
@@ -370,5 +388,6 @@ export {
   getInfoFromMediaInfo,
   getInfoFromBDInfo,
   replaceTorrentInfo,
+  getSourceFromTitle,
 }
 ;

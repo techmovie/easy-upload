@@ -1,10 +1,11 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, replaceTorrentInfo } from '../common';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, replaceTorrentInfo, getSourceFromTitle } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-  const descriptionDom = $('#details tr').has('.js-tagcontent').prev();
+  const editDom = $('#details tr').has('a:contains(Edit torrent)');
+  const descriptionDom = editDom.length > 0 ? editDom.prev() : $('#details tr').has('.js-tagcontent').prev();
   const { size, category, videoType } = getBasicInfo();
   const title = $('h1').eq(0).text();
   TORRENT_INFO.title = formatTorrentTitle(title);
@@ -23,7 +24,7 @@ export default () => {
   }
   TORRENT_INFO.imdbUrl = IMDBLinkDom.find('a').attr('href');
   TORRENT_INFO.category = category;
-  // TORRENT_INFO.source = getSource(Source, Type);
+  TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -93,7 +94,6 @@ const getMediaInfo = (torrentId) => {
 // 获取eac3to日志
 const getLogsOrBDInfo = (descriptionDom) => {
   const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
-  console.log(quoteList);
   let logs = ''; let bdinfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = quoteList[i].textContent;
@@ -104,7 +104,6 @@ const getLogsOrBDInfo = (descriptionDom) => {
       bdinfo += quoteContent;
     }
   }
-  console.log(logs);
   return {
     logs,
     bdinfo,
