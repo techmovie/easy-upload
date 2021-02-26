@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle, getAreaCode, getAudioCodes } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
@@ -11,38 +11,43 @@ export default () => {
   const torrentDom = $(`#torrent_${torrentId}`);
   const ptpMovieTitle = $('.page__title').text().match(/(^|])([^\d[]+)/)[2].trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
+  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.movieAkaName = movieAkaName;
   TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || '';
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
-  let torrentName = torrentHeaderDom.data('releasename');
-  torrentName = formatTorrentTitle(torrentName);
-  TORRENT_INFO.title = torrentName;
   TORRENT_INFO.category = getPTPType();
   if (TORRENT_INFO.category === 'music') {
     TORRENT_INFO.description = $('#synopsis').text();
   }
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
-  const [codes, container, source, resolution, ...otherInfo] = infoArray;
+  const [codes, container, source, ...otherInfo] = infoArray;
   const isRemux = otherInfo.includes('Remux');
   TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
-  TORRENT_INFO.videoCodes = getPtpCodes(codes);
-  TORRENT_INFO.audioCodes = getAudioCodes(TORRENT_INFO.title);
-  TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-  TORRENT_INFO.resolution = getPTPResolution(resolution);
   const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
   TORRENT_INFO.logs = logs;
-  TORRENT_INFO.bdinfo = TORRENT_INFO.videoType.match(/bluray/ig) ? '' : bdinfo;
+  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
+  TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
+  const { videoCodes, audioCodes, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+  TORRENT_INFO.videoCodes = videoCodes;
+  TORRENT_INFO.audioCodes = audioCodes;
+  TORRENT_INFO.resolution = resolution;
+  TORRENT_INFO.tags = mediaTags;
+  let torrentName = fileName || torrentHeaderDom.data('releasename'); // 圆盘没有fileName
+  torrentName = formatTorrentTitle(torrentName);
+  TORRENT_INFO.title = torrentName;
+  TORRENT_INFO.source = getPTPSource(source, codes, resolution);
   TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
-  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.screenshots = getPTPImage(torrentDom);
   let country = [];
   const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/);
   if (matchArray && matchArray.length > 0) {
-    country = matchArray[1].replace(/(,)\s+/g, '$1').split(',');
+    country = matchArray?.[1].replace(/(,)\s+/g, '$1').split(',');
   }
-  TORRENT_INFO.area = getAreaCode(country[0]);
+  TORRENT_INFO.area = getAreaCode(country?.[0]);
   return TORRENT_INFO;
 };
 const getPTPType = () => {
@@ -63,7 +68,7 @@ const getPTPLogsOrBDInfo = (torrentDom) => {
   let logs = ''; let bdinfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = quoteList[i].textContent;
-    if (quoteContent.includes('eac3to')) {
+    if (quoteContent.match(/eac3to/)) {
       logs += `[quote]${quoteContent}[/quote]`;
     }
     if (quoteContent.match(/DISC/)) {
@@ -106,18 +111,6 @@ const getPTPSource = (source, codes, resolution) => {
   }
   return source.replace(/-/g, '').toLowerCase();
 };
-const getPtpCodes = (codes) => {
-  if (codes === 'BD66' || codes === 'BD100') {
-    return 'hevc';
-  }
-  if (codes.startsWith('BD')) {
-    return 'h264';
-  }
-  if (codes.startsWith('DVD')) {
-    return 'mpeg2';
-  }
-  return codes.replace(/[.-]/g, '').toLowerCase();
-};
 const getVideoType = (container, isRemux, codes, source) => {
   let type = '';
   if (isRemux) {
@@ -134,12 +127,4 @@ const getVideoType = (container, isRemux, codes, source) => {
     type = 'encode';
   }
   return type;
-};
-const getPTPResolution = (resolution) => {
-  if (resolution.match(/NTSC|PAL/ig)) {
-    return '480p';
-  } else if (resolution.match(/\d{3}x\d{3}/)) {
-    return '480p';
-  }
-  return resolution;
 };
