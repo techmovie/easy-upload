@@ -13,7 +13,7 @@ const getUrlParam = (key) => {
   return '';
 };
 // 获取音频编码
-const getAudioCodes = (title) => {
+const getAudioCodec = (title) => {
   let codes = '';
   const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
   for (let i = 0; i < CODES_ARRAY.length; i++) {
@@ -151,18 +151,18 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
   const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
-  const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
-  const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
+  const { videoCodec, isHdr, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
+  const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
   const subtitleLanguageArray = textPart.map(item => {
     return getMediaValueByKey('Language', item);
   });
-  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
   const resolution = getResolution(videoPart);
   return {
     fileName,
     fileSize,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     mediaTags,
   };
@@ -192,7 +192,7 @@ const getResolution = (mediaInfo) => {
     return `${width}x${height}`;
   }
 };
-const getMediaTags = (audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
+const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
   const mediaTags = [];
@@ -211,15 +211,15 @@ const getMediaTags = (audioCodes, channelName, languageArray, subtitleLanguageAr
   if (isDV) {
     mediaTags.push('DolbyVision');
   }
-  if (audioCodes.match(/dtsx|atmos/ig)) {
-    mediaTags.push(audioCodes);
+  if (audioCodec.match(/dtsx|atmos/ig)) {
+    mediaTags.push(audioCodec);
   }
   if (channelName === '7.1') {
     mediaTags.push(channelName);
   }
   return mediaTags;
 };
-const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const generalFormat = getMediaValueByKey('Format', generalPart);
   const videoFormat = getMediaValueByKey('Format', mainVideo);
   const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
@@ -227,33 +227,33 @@ const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
   const isDV = secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).includes('Dolby Vision');
   const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
-  let videoCodes = '';
+  let videoCodec = '';
   if (generalFormat === 'DVD Video') {
-    videoCodes = 'DVD';
+    videoCodec = 'DVD';
   } else if (generalFormat === 'MPEG-4') {
-    videoCodes = 'mpeg4';
+    videoCodec = 'mpeg4';
   } else if (videoFormat === 'MPEG Video' && videoFormatVersion === 'Version 2') {
-    videoCodes = 'mpeg2';
+    videoCodec = 'mpeg2';
   } else if (videoCodeId.match(/xvid/i)) {
-    videoCodes = 'xvid';
+    videoCodec = 'xvid';
   } else if (videoFormat.match(/HEVC/i) && !isEncoded) {
-    videoCodes = 'hevc';
+    videoCodec = 'hevc';
   } else if (videoFormat.match(/HEVC/i) && isEncoded) {
-    videoCodes = 'x265';
+    videoCodec = 'x265';
   } else if (videoFormat.match(/AVC/i) && isEncoded) {
-    videoCodes = 'x264';
+    videoCodec = 'x264';
   } else if (videoFormat.match(/AVC/i) && !isEncoded) {
-    videoCodes = 'h264';
+    videoCodec = 'h264';
   } else if (videoFormat.match(/VC-1/i)) {
-    videoCodes = 'vc1';
+    videoCodec = 'vc1';
   }
   return {
-    videoCodes,
+    videoCodec,
     isHdr: !!hdrFormat,
     isDV,
   };
 };
-const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
+const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
   const audioFormat = getMediaValueByKey('Format', mainAudio);
   const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
   const commercialName = getMediaValueByKey('Commercial name', mainAudio);
@@ -261,7 +261,7 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     return getMediaValueByKey('Language', item);
   });
   let channelName = '';
-  let audioCodes = '';
+  let audioCodec = '';
   const channelNumber = parseInt(audioChannels);
   if (channelNumber && channelNumber >= 6) {
     channelName = `${channelNumber - 1}.1`;
@@ -269,30 +269,30 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     channelName = `${channelNumber}.0`;
   }
   if (audioFormat.match(/MLP FBA/i) && commercialName.match(/Dolby Atmos/i)) {
-    audioCodes = 'atmos';
+    audioCodec = 'atmos';
   } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
-    audioCodes = 'truehd';
+    audioCodec = 'truehd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital$/i)) {
-    audioCodes = 'dd';
+    audioCodec = 'dd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
-    audioCodes = 'dd+';
+    audioCodec = 'dd+';
   } else if (audioFormat.match(/AC-3/i)) {
-    audioCodes = 'ac3';
+    audioCodec = 'ac3';
   } else if (audioFormat.match(/DTS XLL X/i)) {
-    audioCodes = 'dtsx';
+    audioCodec = 'dtsx';
   } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
-    audioCodes = 'dtshdma';
+    audioCodec = 'dtshdma';
   } else if (audioFormat.match(/DTS/i)) {
-    audioCodes = 'dts';
+    audioCodec = 'dts';
   } else if (audioFormat.match(/FLAC/i)) {
-    audioCodes = 'flac';
+    audioCodec = 'flac';
   } else if (audioFormat.match(/AAC/i)) {
-    audioCodes = 'aac';
+    audioCodec = 'aac';
   } else if (audioFormat.match(/LPCM/i)) {
-    audioCodes = 'lpcm';
+    audioCodec = 'lpcm';
   }
   return {
-    audioCodes,
+    audioCodec,
     channelName,
     languageArray,
   };
@@ -303,31 +303,31 @@ const getInfoFromBDInfo = (bdInfo) => {
   if (splitArray.length > 2) {
     bdInfo = splitArray[1];
   }
-  const videoMatch = bdInfo.match(/VIDEO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)AUDIO:/i);
-  const audioMatch = bdInfo.match(/AUDIO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)SUBTITLE(S)*:/i);
-  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)(FILES:)*/i);
+  const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)AUDIO:/i);
+  const audioMatch = bdInfo.match(/AUDIO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)SUBTITLE(S)*:/i);
+  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)+)(FILES:)*/i);
   const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
   const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
-  const videoCodes = mainVideo.match(/2160/) ? 'hevc' : 'h264';
+  const videoCodec = mainVideo.match(/2160/) ? 'hevc' : 'h264';
   const isHdr = !!mainVideo.match(/\/\s*HDR(\d)*\s*\//i);
   const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
   const audioPart = splitBDMediaInfo(audioMatch, 2);
   const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
   const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
-  const { audioCodes, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const { audioCodec, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
   const subtitleLanguageArray = subtitlePart.map(item => {
     const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
     const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
   });
-  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
   return {
     fileSize,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     mediaTags,
   };
@@ -342,12 +342,12 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     return lastBitrate - firstBitrate;
   });
   const [mainAudio, secondAudio] = sortArray;
-  const mainAudioCodes = getAudioCodes(mainAudio);
-  const secondAudioCodes = getAudioCodes(secondAudio);
-  let audioCodes = mainAudioCodes;
+  const mainAudioCodec = getAudioCodec(mainAudio);
+  const secondAudioCodec = getAudioCodec(secondAudio);
+  let audioCodec = mainAudioCodec;
   let channelName = mainAudio.match(/\d\.\d/)?.[0];
-  if (mainAudioCodes === 'lpcm' && secondAudioCodes === 'dtshdma') {
-    audioCodes = secondAudioCodes;
+  if (mainAudioCodec === 'lpcm' && secondAudioCodec === 'dtshdma') {
+    audioCodec = secondAudioCodec;
     channelName = mainAudio.match(/\d\.\d/)?.[0];
   }
   const languageArray = sortArray.map(item => {
@@ -357,7 +357,7 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     return language;
   });
   return {
-    audioCodes,
+    audioCodec,
     channelName,
     languageArray,
   };
@@ -377,7 +377,7 @@ const replaceTorrentInfo = (torrentData) => {
 export {
   getUrlParam,
   formatTorrentTitle,
-  getAudioCodes,
+  getAudioCodec,
   replaceEngName,
   getSubTitle,
   getAreaCode,

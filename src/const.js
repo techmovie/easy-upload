@@ -8,8 +8,8 @@ const TORRENT_INFO = {
   category: '', // 电影、电视、音乐等
   videoType: '', // bluray remux encodes web-dl
   source: '', // 视频来源
-  videoCodes: '', // 视频编码
-  audioCodes: '', // 音频编码
+  videoCodec: '', // 视频编码
+  audioCodec: '', // 音频编码
   resolution: '', // 分辨率
   area: '', // 地区
   doubanUrl: '', // 豆瓣地址

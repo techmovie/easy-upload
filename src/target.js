@@ -40,14 +40,14 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
-  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodes'];
+  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
   commonInfoKeys.forEach(key => {
     const siteInfo = CURRENT_SITE_INFO[key];
     if (siteInfo && siteInfo.selector) {
       let value = info[key];
       if (key === 'douban') {
         value = info.doubanUrl;
-      } else if (key === 'area' || key === 'audioCodes') {
+      } else if (key === 'area' || key === 'audioCodec') {
         value = siteInfo.map[info[key]];
       }
       $(siteInfo.selector).val(value);
@@ -78,7 +78,7 @@ const fillTargetForm = (info) => {
     }
   }
   const category = CURRENT_SITE_INFO.category.map[info.category];
-  const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
+  const keyArray = ['videoCodec', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
   console.log(category);
   if (Array.isArray(category)) {

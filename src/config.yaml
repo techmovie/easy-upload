@@ -29,7 +29,7 @@ PT_SITE:
         documentary: '3'
         concert: '4'
         sport: '5'
-    videoCodes:
+    videoCodec:
       selector: '#type_codec'
       map:
         h264: '1'
@@ -94,7 +94,7 @@ PT_SITE:
         documentary: '404'
         concert: '406'
         sport: '407'
-    videoCodes:
+    videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
         h264: '1'
@@ -201,7 +201,7 @@ PT_SITE:
           - '402'
         documentary: '404'
         sport: '407'
-    videoCodes:
+    videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
         h264: '1'
@@ -444,7 +444,7 @@ PT_SITE:
         sport: '506'
         cartoon: '504'
         variety: '505'
-    videoCodes:
+    videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
         h264: '2'
@@ -457,7 +457,7 @@ PT_SITE:
         vc1: '3'
         xvid: ''
         dvd: ''
-    audioCodes:
+    audioCodec:
       selector: 'select[name="audiocodec_sel"]'
       map:
         aac: '5'
@@ -581,7 +581,7 @@ PT_SITE:
           - '449'
           - '501'
         variety: []
-    videoCodes:
+    videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
         h264: '1'
@@ -610,7 +610,7 @@ PT_SITE:
         web: '7'
         vhs: '8'
         hddvd: '8'
-    audioCodes:
+    audioCodec:
       selector: 'select[name="audiocodec_sel"]'
       map:
         aac: '6'

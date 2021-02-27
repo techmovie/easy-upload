@@ -35,7 +35,7 @@ export default () => {
   }
   // 站点自定义数据覆盖 结束
 
-  const { category, videoType, videoCodes, audioCodes, resolution, processing, size } = getMetaInfo(metaInfo);
+  const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
 
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.movieName = title;
@@ -47,12 +47,12 @@ export default () => {
   TORRENT_INFO.description = description;
   TORRENT_INFO.category = getCategory(category);
   TORRENT_INFO.videoType = getVideoType(videoType);
-  TORRENT_INFO.videoCodes = getVideoCodes(videoCodes);
+  TORRENT_INFO.videoCodec = getVideoCodec(videoCodec);
   TORRENT_INFO.resolution = getResolution(resolution);
   TORRENT_INFO.bdinfo = getBDInfo();
   TORRENT_INFO.screenshots = getImages(images);
 
-  TORRENT_INFO.audioCodes = getAudioCodes(audioCodes);
+  TORRENT_INFO.audioCodec = getAudioCodec(audioCodec);
   // TORRENT_INFO.source = TODO;
   TORRENT_INFO.area = getAreaCode(processing);
   TORRENT_INFO.size = getSize(size);
@@ -63,8 +63,8 @@ export default () => {
 const getMetaInfo = (metaInfo) => {
   let category = '';
   let videoType = '';
-  let videoCodes = '';
-  let audioCodes = '';
+  let videoCodec = '';
+  let audioCodec = '';
   let resolution = '';
   let processing = '';
   let size = '';
@@ -79,10 +79,10 @@ const getMetaInfo = (metaInfo) => {
     videoType = metaInfo.substr(metaInfo.match(/媒介|来源/).index).split('   ')[0].split(':')[1].trim();
   }
   if (metaInfo.match(/编码|編碼/)) {
-    videoCodes = metaInfo.substr(metaInfo.match(/编码|編碼/).index).split('   ')[0].split(':')[1].trim();
+    videoCodec = metaInfo.substr(metaInfo.match(/编码|編碼/).index).split('   ')[0].split(':')[1].trim();
   }
   if (metaInfo.match(/音频/)) {
-    audioCodes = metaInfo.substr(metaInfo.match(/音频/).index).split('   ')[0].split(':')[1].trim();
+    audioCodec = metaInfo.substr(metaInfo.match(/音频/).index).split('   ')[0].split(':')[1].trim();
   }
   if (metaInfo.match(/分辨率|格式|解析度/)) {
     resolution = metaInfo.substr(metaInfo.match(/分辨率|格式|解析度/).index).split('   ')[0].split(':')[1].trim();
@@ -97,8 +97,8 @@ const getMetaInfo = (metaInfo) => {
   return {
     category,
     videoType,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     processing,
     size,
@@ -151,7 +151,7 @@ const getCategory = (videoType) => {
   } else if (videoType.match(/综艺/ig)) {
     return 'variety';
   } else if (videoType.match(/document|纪录|紀錄/ig)) {
-    return 'documentory';
+    return 'documentary';
   } else if (videoType.match(/sport|体育/ig)) {
     return 'sport';
   } else if (videoType.match(/mv|演唱/ig)) {
@@ -189,7 +189,7 @@ const getImages = (imagesDomSelector) => {
  * 格式化视频编码格式
  * @param {code} codes 编码文字
  */
-const getVideoCodes = (codes) => {
+const getVideoCodec = (codes) => {
   if (codes === '') {
     return '';
   }
@@ -206,7 +206,7 @@ const getVideoCodes = (codes) => {
  * 格式化音频编码格式
  * @param {code} codes 编码文字
  */
-const getAudioCodes = (codes) => {
+const getAudioCodec = (codes) => {
   if (codes === '') {
     return '';
   }
