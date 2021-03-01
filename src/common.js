@@ -1,4 +1,4 @@
-import { CODES_ARRAY } from './const';
+import { CODES_ARRAY, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -13,9 +13,7 @@ const getUrlParam = (key) => {
   return '';
 };
 // 获取音频编码
-const getAudioCodes = (torrentInfo) => {
-  const { title } = torrentInfo;
-
+const getAudioCodes = (title) => {
   let codes = '';
   const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
   for (let i = 0; i < CODES_ARRAY.length; i++) {
@@ -26,7 +24,25 @@ const getAudioCodes = (torrentInfo) => {
   }
   return codes;
 };
-
+// 从标题获取source
+const getSourceFromTitle = (title) => {
+  if (title.match(/(uhd|2160|4k).*(bluray|remux)/i)) {
+    return 'uhdbluray';
+  } else if (title.match(/bluray|remux/i)) {
+    return 'bluray';
+  } else if (title.match(/hdtv/i)) {
+    return 'hdtv';
+  } else if (title.match(/web(-(rip|dl))+/i)) {
+    return 'web';
+  } else if (title.match(/hddvd/i)) {
+    return 'hddvd';
+  } else if (title.match(/dvd/i)) {
+    return 'dvd';
+  } else if (title.match(/vhs/i)) {
+    return 'vhs';
+  }
+  return 'other';
+};
 // 获取副标题
 const getSubTitle = (data) => {
   const titles = data.trans_title.join('/');
@@ -51,11 +67,327 @@ const replaceEngName = (string) => {
   return string.replace(/\s+[A-Za-z\s]+/, '');
 };
 
+const getAreaCode = (area) => {
+  const europeList = EUROPE_LIST;
+  if (area) {
+    if (area.match(/USA|Canada/i)) {
+      return 'US';
+    } else if (europeList.includes(area)) {
+      return 'EU';
+    } else if (area.match(/Japan/i)) {
+      return 'JP';
+    } else if (area.match(/Korea/i)) {
+      return 'KR';
+    } else if (area.match(/Taiwan/i)) {
+      return 'TW';
+    } else if (area.match(/Hong Kong/i)) {
+      return 'HK';
+    } else if (area.match(/China/i)) {
+      return 'CN';
+    }
+  }
+  return 'OT';
+};
+
+/*
+* 获取蓝光类型
+* @param {size}文件大小单位Bytes
+* @return
+* */
+const getBDType = (size) => {
+  const GBSize = size / 1e9;
+  if (GBSize < 25) {
+    return 'BD25';
+  } else if (GBSize < 50) {
+    return 'BD50';
+  } else if (GBSize < 66) {
+    return 'BD66';
+  } else if (GBSize < 100) {
+    return 'BD100';
+  }
+};
+
+const getTMDBIdByIMDBId = (imdbid) => {
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
+      onload (res) {
+        const data = JSON.parse(res.responseText);
+        if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
+          reject(new Error('请求失败'));
+        }
+        resolve(data.movie_results[0].id);
+      },
+    });
+  });
+};
+const getIMDBIdByUrl = (imdbLink) => {
+  const imdbIdArray = /tt\d+/.exec(imdbLink);
+  if (imdbIdArray && imdbIdArray[0]) {
+    return imdbIdArray[0];
+  }
+  return '';
+};
+
+const getSize = (size) => {
+  if (size.match(/T/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/G/i)) {
+    return (parseFloat(size) * 1024 * 1024 * 1024) || 0;
+  } else if (size.match(/M/i)) {
+    return (parseFloat(size) * 1024 * 1024) || 0;
+  } else if (size.match(/K/i)) {
+    return (parseFloat(size) * 1024) || 0;
+  }
+  return '';
+};
+
+const getInfoFromMediaInfo = (mediaInfo) => {
+  const mediaArray = mediaInfo.split(/\n\s*\n/);
+  const [generalPart, videoPart] = mediaArray;
+  const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
+  const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
+  const textPart = mediaArray.filter(item => item.startsWith('Text'));
+  const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
+  const fileSize = getSize(getMediaValueByKey('File size', generalPart));
+  const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
+  const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
+  const subtitleLanguageArray = textPart.map(item => {
+    return getMediaValueByKey('Language', item);
+  });
+  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const resolution = getResolution(videoPart);
+  return {
+    fileName,
+    fileSize,
+    videoCodes,
+    audioCodes,
+    resolution,
+    mediaTags,
+  };
+};
+const getMediaValueByKey = (key, mediaInfo) => {
+  const keyRegStr = key.replace(/\s/, '\\s*').replace(/(\(|\))/g, '\\$1');
+  const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\n]+)`, 'i');
+  return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
+};
+const getResolution = (mediaInfo) => {
+  const height = parseInt(getMediaValueByKey('Height', mediaInfo).replace(/\s/g, ''));
+  const width = parseInt(getMediaValueByKey('Width', mediaInfo).replace(/\s/g, ''));
+  const ScanType = getMediaValueByKey('Scan type', mediaInfo);
+  if (height > 1080) {
+    return '2160p';
+  } else if (height > 720 && ScanType === 'Progressive') {
+    return '1080p';
+  } else if (height > 720 && ScanType !== 'Progressive') {
+    return '1080i';
+  } else if (height > 576 || width > 1024) {
+    return '720p';
+  } else if (height > 480 || width === 1024) {
+    return '576p';
+  } else if (width >= 840 || height === 480) {
+    return '480p';
+  } else {
+    return `${width}x${height}`;
+  }
+};
+const getMediaTags = (audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
+  const hasChineseAudio = languageArray.includes('Chinese');
+  const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
+  const mediaTags = [];
+  if (hasChineseAudio) {
+    mediaTags.push('chineseAudio');
+  }
+  if (languageArray.includes('Cantonese')) {
+    mediaTags.push('CantoneseAudio');
+  }
+  if (hasChineseSubtitle) {
+    mediaTags.push('chineseSubtitle');
+  }
+  if (isHdr) {
+    mediaTags.push('HDR');
+  }
+  if (isDV) {
+    mediaTags.push('DolbyVision');
+  }
+  if (audioCodes.match(/dtsx|atmos/ig)) {
+    mediaTags.push(audioCodes);
+  }
+  if (channelName === '7.1') {
+    mediaTags.push(channelName);
+  }
+  return mediaTags;
+};
+const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+  const generalFormat = getMediaValueByKey('Format', generalPart);
+  const videoFormat = getMediaValueByKey('Format', mainVideo);
+  const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
+  const videoCodeId = getMediaValueByKey('Codec ID', mainVideo);
+  const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
+  const isDV = secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).includes('Dolby Vision');
+  const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
+  let videoCodes = '';
+  if (generalFormat === 'DVD Video') {
+    videoCodes = 'DVD';
+  } else if (generalFormat === 'MPEG-4') {
+    videoCodes = 'mpeg4';
+  } else if (videoFormat === 'MPEG Video' && videoFormatVersion === 'Version 2') {
+    videoCodes = 'mpeg2';
+  } else if (videoCodeId.match(/xvid/i)) {
+    videoCodes = 'xvid';
+  } else if (videoFormat.match(/HEVC/i) && !isEncoded) {
+    videoCodes = 'hevc';
+  } else if (videoFormat.match(/HEVC/i) && isEncoded) {
+    videoCodes = 'x265';
+  } else if (videoFormat.match(/AVC/i) && isEncoded) {
+    videoCodes = 'x264';
+  } else if (videoFormat.match(/AVC/i) && !isEncoded) {
+    videoCodes = 'h264';
+  } else if (videoFormat.match(/VC-1/i)) {
+    videoCodes = 'vc1';
+  }
+  return {
+    videoCodes,
+    isHdr: !!hdrFormat,
+    isDV,
+  };
+};
+const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
+  const audioFormat = getMediaValueByKey('Format', mainAudio);
+  const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
+  const commercialName = getMediaValueByKey('Commercial name', mainAudio);
+  const languageArray = [mainAudio, ...otherAudio].map(item => {
+    return getMediaValueByKey('Language', item);
+  });
+  let channelName = '';
+  let audioCodes = '';
+  const channelNumber = parseInt(audioChannels);
+  if (channelNumber && channelNumber >= 6) {
+    channelName = `${channelNumber - 1}.1`;
+  } else {
+    channelName = `${channelNumber}.0`;
+  }
+  if (audioFormat.match(/MLP FBA/i) && commercialName.match(/Dolby Atmos/i)) {
+    audioCodes = 'atmos';
+  } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
+    audioCodes = 'truehd';
+  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital$/i)) {
+    audioCodes = 'dd';
+  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
+    audioCodes = 'dd+';
+  } else if (audioFormat.match(/AC-3/i)) {
+    audioCodes = 'ac3';
+  } else if (audioFormat.match(/DTS XLL X/i)) {
+    audioCodes = 'dtsx';
+  } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
+    audioCodes = 'dtshdma';
+  } else if (audioFormat.match(/DTS/i)) {
+    audioCodes = 'dts';
+  } else if (audioFormat.match(/FLAC/i)) {
+    audioCodes = 'flac';
+  } else if (audioFormat.match(/AAC/i)) {
+    audioCodes = 'aac';
+  } else if (audioFormat.match(/LPCM/i)) {
+    audioCodes = 'lpcm';
+  }
+  return {
+    audioCodes,
+    channelName,
+    languageArray,
+  };
+};
+const getInfoFromBDInfo = (bdInfo) => {
+  const splitArray = bdInfo.split('Disc Title');
+  // 如果有多个bdinfo只取第一个
+  if (splitArray.length > 2) {
+    bdInfo = splitArray[1];
+  }
+  const videoMatch = bdInfo.match(/VIDEO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)AUDIO:/i);
+  const audioMatch = bdInfo.match(/AUDIO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)SUBTITLE(S)*:/i);
+  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)(FILES:)*/i);
+  const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
+  const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
+  const videoPart = splitBDMediaInfo(videoMatch, 2);
+  const [mainVideo = '', otherVideo = ''] = videoPart;
+  const videoCodes = mainVideo.match(/2160/) ? 'hevc' : 'h264';
+  const isHdr = !!mainVideo.match(/\/\s*HDR(\d)*\s*\//i);
+  const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
+  const audioPart = splitBDMediaInfo(audioMatch, 2);
+  const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
+  const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
+  const { audioCodes, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const subtitleLanguageArray = subtitlePart.map(item => {
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
+    const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
+    const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
+    return language;
+  });
+  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  return {
+    fileSize,
+    videoCodes,
+    audioCodes,
+    resolution,
+    mediaTags,
+  };
+};
+const splitBDMediaInfo = (matchArray, matchIndex) => {
+  return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/));
+};
+const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+  const sortArray = audioPart.sort((a, b) => {
+    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
+    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
+    return lastBitrate - firstBitrate;
+  });
+  const [mainAudio, secondAudio] = sortArray;
+  const mainAudioCodes = getAudioCodes(mainAudio);
+  const secondAudioCodes = getAudioCodes(secondAudio);
+  let audioCodes = mainAudioCodes;
+  let channelName = mainAudio.match(/\d\.\d/)?.[0];
+  if (mainAudioCodes === 'lpcm' && secondAudioCodes === 'dtshdma') {
+    audioCodes = secondAudioCodes;
+    channelName = mainAudio.match(/\d\.\d/)?.[0];
+  }
+  const languageArray = sortArray.map(item => {
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
+    const normalMatch = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)?.[1];
+    const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
+    return language;
+  });
+  return {
+    audioCodes,
+    channelName,
+    languageArray,
+  };
+};
+/*
+  * 更新种子信息后需要遍历目标站点链接进行参数替换
+  * @param {any}
+  * @return
+  * */
+const replaceTorrentInfo = (torrentData) => {
+  $('.site-list a').each((index, link) => {
+    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
+    const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
+    $(link).attr('href', newHref);
+  });
+};
 export {
   getUrlParam,
   formatTorrentTitle,
   getAudioCodes,
   replaceEngName,
   getSubTitle,
+  getAreaCode,
+  getBDType,
+  getTMDBIdByIMDBId,
+  getIMDBIdByUrl,
+  getSize,
+  getInfoFromMediaInfo,
+  getInfoFromBDInfo,
+  replaceTorrentInfo,
+  getSourceFromTitle,
 }
 ;

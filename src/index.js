@@ -1,12 +1,10 @@
 // 入口文件
-import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, DOUBAN_SEARCH_API, API_KEY, DOUBAN_API_URL, PT_GEN_API, PT_SITE, SEARCH_SITE_MAP } from './const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, DOUBAN_SEARCH_API, API_KEY, DOUBAN_API_URL, PT_GEN_API, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam } from './common';
+import { getSubTitle, getUrlParam, replaceTorrentInfo } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
-
-let torrentData = null;
 
 /*
   * 向源站点页面注入DOM
@@ -18,7 +16,7 @@ const createSeedDom = (torrentDom) => {
   const siteKeys = Object.keys(PT_SITE);
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
-    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     if (PT_SITE[siteName].asTarget && siteName !== CURRENT_SITE_NAME) {
       return `<li>
       <a href="${url}${uploadPath}#torrentInfo=${torrentInfo}" target="_blank">${siteName} </a>
@@ -28,9 +26,9 @@ const createSeedDom = (torrentDom) => {
     return '';
   });
   const searchList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
-    const imdbId = torrentData.imdbUrl ? /tt\d+/.exec(torrentData.imdbUrl)[0] : '';
+    const imdbId = TORRENT_INFO.imdbUrl ? /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0] : '';
     let url = '';
-    let searchKeyWord = imdbId || torrentData.movieAkaName || torrentData.movieName;
+    let searchKeyWord = imdbId || TORRENT_INFO.movieAkaName || TORRENT_INFO.movieName;
     if (siteName === 'TTG' && imdbId) {
       searchKeyWord = searchKeyWord.replace('tt', 'imdb');
     }
@@ -69,21 +67,10 @@ const createSeedDom = (torrentDom) => {
   `;
   torrentDom.prepend(seedDom);
 };
-/*
-  * 更新种子信息后需要遍历目标站点链接进行参数替换
-  * @param {any}
-  * @return
-  * */
-const replaceTorrentInfo = () => {
-  $('.site-list a').each((index, link) => {
-    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
-    const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
-    $(link).attr('href', newHref);
-  });
-};
+
 const transferImgs = () => {
   const statusDom = $('.upload-section .upload-status');
-  let imgList = torrentData.screenshots;
+  let imgList = TORRENT_INFO.screenshots;
   try {
     if (imgList.length < 1) {
       throw new Error('获取图片列表失败');
@@ -111,10 +98,10 @@ const transferImgs = () => {
         if (data && data.length) {
           imgResultList = JSON.parse(data[2]).images;
           if (imgResultList.length) {
-            torrentData.screenshots = imgResultList.map(imgData => {
+            TORRENT_INFO.screenshots = imgResultList.map(imgData => {
               return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
             });
-            replaceTorrentInfo();
+            replaceTorrentInfo(TORRENT_INFO);
             statusDom.text('转换成功！');
           }
         } else {
@@ -130,12 +117,12 @@ const transferImgs = () => {
 const getDoubanLink = () => {
   const doubanLink = $('.page__title>a').attr('href');
   if (doubanLink && doubanLink.match('movie.douban.com')) {
-    torrentData.doubanUrl = doubanLink;
+    TORRENT_INFO.doubanUrl = doubanLink;
     getDoubanInfo();
     return false;
   }
-  if (torrentData.imdbUrl) {
-    const imdbId = /tt\d+/.exec(torrentData.imdbUrl)[0];
+  if (TORRENT_INFO.imdbUrl) {
+    const imdbId = /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0];
     GM_xmlhttpRequest({
       method: 'GET',
       url: `${DOUBAN_SEARCH_API}/${imdbId}`,
@@ -143,7 +130,7 @@ const getDoubanLink = () => {
         const data = JSON.parse(res.responseText);
         console.log(data);
         if (data && data.data) {
-          torrentData.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`;
+          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`;
           getDoubanInfo();
         }
       },
@@ -151,12 +138,12 @@ const getDoubanLink = () => {
   } else {
     GM_xmlhttpRequest({
       method: 'GET',
-      url: `${DOUBAN_API_URL}/search/weixin?q=${torrentData.movieName}&start=0&count=1&apiKey=${API_KEY}`,
+      url: `${DOUBAN_API_URL}/search/weixin?q=${TORRENT_INFO.movieName}&start=0&count=1&apiKey=${API_KEY}`,
       onload (res) {
         const data = JSON.parse(res.responseText);
         console.log(data);
         if (data && data.items && data.items.length > 0) {
-          torrentData.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`;
+          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`;
           getDoubanInfo();
         }
       },
@@ -164,7 +151,7 @@ const getDoubanLink = () => {
   }
 };
 const getDoubanInfo = () => {
-  const { doubanUrl } = torrentData;
+  const { doubanUrl } = TORRENT_INFO;
   const statusDom = $('.douban-section .douban-status');
   try {
     if (doubanUrl) {
@@ -175,9 +162,9 @@ const getDoubanInfo = () => {
         onload (res) {
           const data = JSON.parse(res.responseText);
           if (data && data.success) {
-            torrentData.doubanInfo = data.format;
-            torrentData.subtitle = getSubTitle(data);
-            replaceTorrentInfo();
+            TORRENT_INFO.doubanInfo = data.format;
+            TORRENT_INFO.subtitle = getSubTitle(data);
+            replaceTorrentInfo(TORRENT_INFO);
             statusDom.text('获取成功');
           } else {
             throw new Error('获取豆瓣信息失败');
@@ -200,14 +187,21 @@ if (CURRENT_SITE_NAME) {
   }
   console.log('CURRENT_SITE_NAME' + CURRENT_SITE_NAME);
   if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig)) {
+    getTorrentInfo();
     // 向当前所在站点添加按钮等内容
-    torrentData = getTorrentInfo();
-    console.log(torrentData);
+    console.log(TORRENT_INFO);
     let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
-    if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+    if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME === 'BHD') {
       const trDom = `<tr>
       <td class="rowhead nowrap">
       </td>
+      <td class="rowfollow easy-seed-td"></td>
+      </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $('.easy-seed-td');
+    }
+    if (CURRENT_SITE_NAME === 'HDB') {
+      const trDom = `<tr>
       <td class="rowfollow easy-seed-td"></td>
       </tr>`;
       torrentInsertDom.after(trDom);
