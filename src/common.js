@@ -368,17 +368,101 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     languageArray,
   };
 };
-/*
-  * 更新种子信息后需要遍历目标站点链接进行参数替换
-  * @param {any}
-  * @return
-  * */
-const replaceTorrentInfo = (torrentData) => {
-  $('.site-list a').each((index, link) => {
-    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
-    const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
-    $(link).attr('href', newHref);
+const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
+  const isPre = typeof pre !== 'undefined' && pre !== null;
+  const isPost = typeof post !== 'undefined' && post !== null;
+  if (isPre) {
+    pre.unshift(preTag);
+  }
+  if (isPost) {
+    post.push(poTag);
+  }
+};
+// 过滤掉一些声明或者无意义文字
+const getFilterBBCode = (content) => {
+  const bbCodes = htmlToBBCode(content);
+  return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]([^[]+)\[\/\w+\]/g, function (match, p1, p2, p3) {
+    if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|引用|Quote:|正版|商用/)) {
+      return '';
+    }
+    return match;
   });
+};
+// html转BBCode代码
+const htmlToBBCode = (node) => {
+  const bbCodes = [];
+  const pre = [];
+  const post = [];
+  const pp = wrappingBBCodeTag.bind(null, { pre, post });
+  switch (node.nodeType) {
+    case 1: { // tag
+      switch (node.tagName.toUpperCase()) {
+        case 'UL': { pp('[list]', '[/list]'); break; }
+        case 'OL': { pp('[list=1]', '[/list]'); break; }
+        case 'LI': { pp('[*]'); break; }
+        case 'B': { pp('[b]', '[/b]'); break; }
+        case 'U': { pp('[u]', '[/u]'); break; }
+        case 'I': { pp('[i]', '[/i]'); break; }
+        case 'DIV': { pp(null, '\n'); break; }
+        case 'P': { pp('\n', '\n'); break; }
+        case 'BR': { pp('\n'); break; }
+        case 'BLOCKQUOTE':
+        case 'TD': // TTG
+        case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
+        case 'IMG': {
+          const { src } = node;
+          if (src && src.match(/\.gif/)) {
+            return null;
+          }
+          return `[img]${src}[/img]`;
+        }
+        case 'FONT': {
+          const { color } = node;
+          if (color) {
+            pp(`[color=${color}]`, '[/color]');
+          }
+          break;
+        }
+        case 'A': {
+          const { href } = node;
+          if (href && href.length > 0) {
+            pp(`[url=${href}]`, '[/url]');
+          }
+          break;
+        }
+        case 'H1': { pp('[b][size="7"]', '[/size][/b]\n'); break; }
+        case 'H2': { pp('[b][size="6"]', '[/size][/b]\n'); break; }
+        case 'H3': { pp('[b][size="5"]', '[/size][/b]\n'); break; }
+        case 'H4': { pp('[b][size="4"]', '[/size][/b]\n'); break; }
+      }
+      const { textAlign, fontWeight, fontStyle, textDecoration, color } = node.style;
+      if (textAlign) {
+        switch (textAlign.toUpperCase()) {
+          case 'LEFT': { pp('[left]', '[/left]'); break; }
+          case 'RIGHT': { pp('[right]', '[/right]'); break; }
+          case 'CENTER': { pp('[center]', '[/center]'); break; }
+        }
+      }
+      if (fontWeight === 'bold' || ~~fontWeight >= 600) {
+        pp('[b]', '[/b]');
+      }
+      if (fontStyle === 'italic') pp('[i]', '[/i]');
+      if (textDecoration === 'underline') pp('[u]', '[/u]');
+      if (color && color.trim() !== '') pp(`[color=${color}]`, '[/color]');
+      break;
+    }
+    case 3: {
+      return node.textContent;
+    } // textNode
+    default: return null;
+  }
+  node.childNodes.forEach((node, i) => {
+    const code = htmlToBBCode(node);
+    if (code) {
+      bbCodes.push(code);
+    }
+  });
+  return pre.concat(bbCodes).concat(post).join('');
 };
 export {
   getUrlParam,
@@ -393,7 +477,8 @@ export {
   getSize,
   getInfoFromMediaInfo,
   getInfoFromBDInfo,
-  replaceTorrentInfo,
   getSourceFromTitle,
+  htmlToBBCode,
+  getFilterBBCode,
 }
 ;

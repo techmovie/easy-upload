@@ -1,7 +1,7 @@
 // 入口文件
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, DOUBAN_SEARCH_API, API_KEY, DOUBAN_API_URL, PT_GEN_API, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam, replaceTorrentInfo } from './common';
+import { getSubTitle, getUrlParam } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -16,10 +16,9 @@ const createSeedDom = (torrentDom) => {
   const siteKeys = Object.keys(PT_SITE);
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
-    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     if (PT_SITE[siteName].asTarget && siteName !== CURRENT_SITE_NAME) {
       return `<li>
-      <a href="${url}${uploadPath}#torrentInfo=${torrentInfo}" target="_blank">${siteName} </a>
+      <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${siteName} </a>
       <span>|</span>
       </li>`;
     }
@@ -101,7 +100,6 @@ const transferImgs = () => {
             TORRENT_INFO.screenshots = imgResultList.map(imgData => {
               return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
             });
-            replaceTorrentInfo(TORRENT_INFO);
             statusDom.text('转换成功！');
           }
         } else {
@@ -164,7 +162,6 @@ const getDoubanInfo = () => {
           if (data && data.success) {
             TORRENT_INFO.doubanInfo = data.format;
             TORRENT_INFO.subtitle = getSubTitle(data);
-            replaceTorrentInfo(TORRENT_INFO);
             statusDom.text('获取成功');
           } else {
             throw new Error('获取豆瓣信息失败');
@@ -213,6 +210,14 @@ if (CURRENT_SITE_NAME) {
     }
 
     createSeedDom(torrentInsertDom);
+    $('.site-list li>a').click(function () {
+      const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+      console.log($(this));
+      let url = $(this).data('link');
+
+      url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
+      window.open(url);
+    });
     // 原图转缩略图
     if ($('#img-transfer')) {
       $('#img-transfer').click(() => {

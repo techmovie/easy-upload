@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, replaceTorrentInfo, getSourceFromTitle } from '../common';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
@@ -41,7 +41,6 @@ export default () => {
         TORRENT_INFO.audioCodec = audioCodec;
         TORRENT_INFO.resolution = resolution;
         TORRENT_INFO.tags = mediaTags;
-        replaceTorrentInfo(TORRENT_INFO);
       }
     });
   } else {
