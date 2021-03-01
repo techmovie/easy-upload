@@ -80,12 +80,10 @@ const fillTargetForm = (info) => {
   const category = CURRENT_SITE_INFO.category.map[info.category];
   const keyArray = ['videoCodec', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
-  console.log(category);
   if (Array.isArray(category)) {
     finalSelectArray = [...category];
     keyArray.forEach(key => {
       finalSelectArray = matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
-      console.log(finalSelectArray);
       if (finalSelectArray.length === 1) {
         $(CURRENT_SITE_INFO.category.selector).val(finalSelectArray[0]);
       }

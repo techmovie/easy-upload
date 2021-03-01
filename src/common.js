@@ -14,6 +14,9 @@ const getUrlParam = (key) => {
 };
 // 获取音频编码
 const getAudioCodec = (title) => {
+  if (!title) {
+    return '';
+  }
   let codes = '';
   const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
   for (let i = 0; i < CODES_ARRAY.length; i++) {
@@ -144,6 +147,9 @@ const getSize = (size) => {
 };
 
 const getInfoFromMediaInfo = (mediaInfo) => {
+  if (!mediaInfo) {
+    return false;
+  }
   const mediaArray = mediaInfo.split(/\n\s*\n/);
   const [generalPart, videoPart] = mediaArray;
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
