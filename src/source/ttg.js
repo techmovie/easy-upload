@@ -3,8 +3,10 @@ import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceF
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-  const title = $('#main_table h1').eq(0).text().match(/[^[]+/)?.[0];
+  const headTitle = $('#main_table h1').eq(0).text();
+  const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
+  TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.category = category;
@@ -13,6 +15,8 @@ export default () => {
   TORRENT_INFO.year = TORRENT_INFO.title.match(/\s([12][890]\d{2})/)?.[0];
   TORRENT_INFO.imdbUrl = getTorrentValueDom('IMDB').find('a').attr('href');
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
+  const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1];
+  TORRENT_INFO.size = sizeStr.replaceAll(',', '');
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
 
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -23,18 +27,19 @@ export default () => {
     console.log(bbCodes);
     const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-    TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = mediaTags;
+    if (mediaInfoOrBDInfo) {
+      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+      TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
+      const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+      TORRENT_INFO.videoCodec = videoCodec;
+      TORRENT_INFO.audioCodec = audioCodec;
+      TORRENT_INFO.resolution = resolution;
+      TORRENT_INFO.tags = mediaTags;
+    }
+    // const isSummaryMediaInfo = bbCodes.match(/.Media.Info/);
     TORRENT_INFO.logs = logs;
-    TORRENT_INFO.screenshots = getImages(descriptionDom);
+    TORRENT_INFO.screenshots = getImages(bbCodes);
   };
-  const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1];
-  TORRENT_INFO.size = sizeStr.replaceAll(',', '');
 };
 
 const getCategoryAndArea = (mediaInfo) => {
@@ -105,21 +110,8 @@ const formatQuoteContent = (content) => {
   return content.replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
 };
 // 获取截图
-const getImages = (descriptionDom) => {
-  const links = descriptionDom.find('img.topic');
-  console.log(links);
-  const screenshots = [];
-  const imgTimeout = setTimeout(() => {
-    for (let index = 0; index < links.length; index++) {
-      const element = links[index];
-      const imageUrl = element.getAttribute('src');
-      screenshots.push(imageUrl);
-      if (index === links.length - 1) {
-        clearTimeout(imgTimeout);
-        TORRENT_INFO.screenshots = screenshots;
-      }
-    }
-  }, 8000);
+const getImages = (bbcode) => {
+
 };
 const getVideoType = (title, videoType) => {
   if (title.match(/HDTV/i)) {
