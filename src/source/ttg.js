@@ -1,12 +1,16 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getAudioCodec } from '../common';
 
 export default () => {
+  let tags = [];
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   const headTitle = $('#main_table h1').eq(0).text();
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
+  if (TORRENT_INFO.subtitle.match(/diy/i)) {
+    tags.push('DIY');
+  }
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.category = category;
@@ -18,7 +22,6 @@ export default () => {
   const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1];
   TORRENT_INFO.size = sizeStr.replaceAll(',', '');
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
 
   window.onload = () => {
@@ -26,6 +29,7 @@ export default () => {
     const bbCodes = getFilterBBCode(descriptionDom[0]);
     console.log(bbCodes);
     const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
+    TORRENT_INFO.logs = logs;
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
@@ -34,10 +38,16 @@ export default () => {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.resolution = resolution;
-      TORRENT_INFO.tags = mediaTags;
+      tags = tags.concat(mediaTags);
+    } else {
+      let resolution = TORRENT_INFO.title.match(/\d{3,4}(p|i)/i)?.[0];
+      if (!resolution && resolution.match(/4k|uhd/i)) {
+        resolution = '2160p';
+      }
+      TORRENT_INFO.resolution = resolution;
+      TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
     }
-    // const isSummaryMediaInfo = bbCodes.match(/.Media.Info/);
-    TORRENT_INFO.logs = logs;
+    TORRENT_INFO.tags = tags;
     TORRENT_INFO.screenshots = getImages(bbCodes);
   };
 };

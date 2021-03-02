@@ -18,7 +18,7 @@ export default () => {
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
-  if (TORRENT_INFO.category === 'music') {
+  if (TORRENT_INFO.category === 'concert') {
     TORRENT_INFO.description = $('#synopsis').text();
   }
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
