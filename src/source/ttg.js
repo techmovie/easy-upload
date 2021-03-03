@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -7,18 +7,7 @@ export default () => {
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
-  if (TORRENT_INFO.subtitle.match(/diy/i)) {
-    TORRENT_INFO.tags.DIY = true;
-  }
-  if (TORRENT_INFO.subtitle.match(/国配/i)) {
-    TORRENT_INFO.tags.chineseAudio = true;
-  }
-  if (TORRENT_INFO.subtitle.match(/粤/i)) {
-    TORRENT_INFO.tags.cantoneseAudio = true;
-  }
-  if (TORRENT_INFO.subtitle.match(/(简|繁)中|中字/i)) {
-    TORRENT_INFO.tags.chineseSubtitle = true;
-  }
+  TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.category = category;
@@ -86,6 +75,8 @@ export default () => {
 const getCategoryAndArea = (mediaInfo) => {
   let category = ''; let area = ''; let videoType = '';
   if (mediaInfo.match(/电影/)) {
+    category = 'movie';
+  } else if (mediaInfo.match(/影视/)) {
     category = 'movie';
   } else if (mediaInfo.match(/剧包/)) {
     category = 'tvpack';

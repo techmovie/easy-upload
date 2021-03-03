@@ -37,9 +37,7 @@ const fillTargetForm = (info) => {
   }
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
   // 避免选择种子文件后自动改变种子名称
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
-    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
-  }
+  disableTorrentChange();
   const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
   commonInfoKeys.forEach(key => {
     const siteInfo = CURRENT_SITE_INFO[key];
@@ -54,10 +52,13 @@ const fillTargetForm = (info) => {
     }
   });
   const mediaInfo = info.mediaInfo;
-  const description = getDescription(info);
+  let description = getDescription(info);
   // HDB只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDB')) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
+  }
+  if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
+    description = info.description;
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
   if (CURRENT_SITE_NAME === 'BHD') {
@@ -118,6 +119,12 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
     $(siteInfo[key].selector).val(value);
   }
   return selectArray;
+};
+
+const disableTorrentChange = () => {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits/)) {
+    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
+  }
 };
 export {
   fillTargetForm,

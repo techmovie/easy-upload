@@ -95,19 +95,19 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|Canada|美国|加拿大/i)) {
+    if (area.match(/USA|Canada|CA|美国|加拿大/i)) {
       return 'US';
-    } else if (europeList.includes(area)) {
+    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
       return 'EU';
-    } else if (area.match(/Japan|日本/i)) {
+    } else if (area.match(/Japan|日本|JP/i)) {
       return 'JP';
-    } else if (area.match(/Korea|韩国/i)) {
+    } else if (area.match(/Korea|韩国|KR/i)) {
       return 'KR';
-    } else if (area.match(/Taiwan|台湾/i)) {
+    } else if (area.match(/Taiwan|台湾|TW/i)) {
       return 'TW';
-    } else if (area.match(/Hong\s?Kong|香港/i)) {
+    } else if (area.match(/Hong\s?Kong|香港|HK/i)) {
       return 'HK';
-    } else if (area.match(/China|中国|大陆/i)) {
+    } else if (area.match(/CN|China|大陆|中|内地|Mainland/i)) {
       return 'CN';
     }
   }
@@ -483,6 +483,22 @@ const htmlToBBCode = (node) => {
   });
   return pre.concat(bbCodes).concat(post).join('');
 };
+const getTagsFromSubtitle = (title) => {
+  const tags = {};
+  if (title.match(/diy/i)) {
+    tags.DIY = true;
+  }
+  if (title.match(/国配/i)) {
+    tags.chineseAudio = true;
+  }
+  if (title.match(/粤/i)) {
+    tags.cantoneseAudio = true;
+  }
+  if (title.match(/简|繁|中字/i)) {
+    tags.chineseSubtitle = true;
+  }
+  return tags;
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -500,5 +516,6 @@ export {
   htmlToBBCode,
   getFilterBBCode,
   getScreenshotsFromBBCode,
+  getTagsFromSubtitle,
 }
 ;
