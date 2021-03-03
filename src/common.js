@@ -32,11 +32,11 @@ const getAudioCodec = (title) => {
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
 const getScreenshotsFromBBCode = (bbcode) => {
-  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}(\.(png|jpg)))\])?\[img\](.*?\.(png|jpg|gif))\[\/img](\[url\])?/g);
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?(\.(png|jpg)))\])?\[img\](.*?\.(png|jpg|gif))\[\/img](\[url\])?/g);
   if (allImages && allImages.length > 0) {
     // 过滤imdb、豆瓣、chd、柠檬无关图片
     allImages = allImages.filter(item => {
-      return !item.match(/douban|(2019\/03\/28\/5c9cb8f8216d7\.png)|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+      return !item.match(/douban|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
     });
     return allImages.map(item => {
       let imgUrl = '';
@@ -51,9 +51,9 @@ const getScreenshotsFromBBCode = (bbcode) => {
 };
 // 从标题获取source
 const getSourceFromTitle = (title) => {
-  if (title.match(/(uhd|2160|4k).*(bluray|remux)/i)) {
+  if (title.match(/(uhd|2160|4k).*(blu(-)?ray|remux)/i)) {
     return 'uhdbluray';
-  } else if (title.match(/bluray|remux/i)) {
+  } else if (title.match(/blu(-)?ray|remux/i)) {
     return 'bluray';
   } else if (title.match(/hdtv/i)) {
     return 'hdtv';
@@ -95,19 +95,19 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|Canada/i)) {
+    if (area.match(/USA|Canada|美国|加拿大/i)) {
       return 'US';
     } else if (europeList.includes(area)) {
       return 'EU';
-    } else if (area.match(/Japan/i)) {
+    } else if (area.match(/Japan|日本/i)) {
       return 'JP';
-    } else if (area.match(/Korea/i)) {
+    } else if (area.match(/Korea|韩国/i)) {
       return 'KR';
-    } else if (area.match(/Taiwan/i)) {
+    } else if (area.match(/Taiwan|台湾/i)) {
       return 'TW';
-    } else if (area.match(/Hong Kong/i)) {
+    } else if (area.match(/Hong\s?Kong|香港/i)) {
       return 'HK';
-    } else if (area.match(/China/i)) {
+    } else if (area.match(/China|中国|大陆/i)) {
       return 'CN';
     }
   }
@@ -223,27 +223,24 @@ const getResolution = (mediaInfo) => {
 const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
-  const mediaTags = [];
+  const mediaTags = {};
   if (hasChineseAudio) {
-    mediaTags.push('chineseAudio');
+    mediaTags.chineseAudio = true;
   }
   if (languageArray.includes('Cantonese')) {
-    mediaTags.push('CantoneseAudio');
+    mediaTags.cantoneseAudio = true;
   }
   if (hasChineseSubtitle) {
-    mediaTags.push('chineseSubtitle');
+    mediaTags.chineseSubtitle = true;
   }
   if (isHdr) {
-    mediaTags.push('HDR');
+    mediaTags.HDR = true;
   }
   if (isDV) {
-    mediaTags.push('DolbyVision');
+    mediaTags.DolbyVision = true;
   }
   if (audioCodec.match(/dtsx|atmos/ig)) {
-    mediaTags.push(audioCodec);
-  }
-  if (channelName === '7.1') {
-    mediaTags.push(channelName);
+    mediaTags[audioCodec] = true;
   }
   return mediaTags;
 };

@@ -15,7 +15,16 @@ const TORRENT_INFO = {
   doubanUrl: '', // 豆瓣地址
   doubanInfo: '', // 豆瓣简介
   imdbUrl: '', // imdb地址
-  tags: '', // 标签 diy 中字 国配等
+  tags: {
+    DIY: false,
+    chineseAudio: false,
+    cantoneseAudio: false,
+    chineseSubtitle: false,
+    atoms: false,
+    dtsx: false,
+    HDR: false,
+    DolbyVision: false,
+  }, // 标签 diy 中字 国配等
   mediaInfo: '',
   bdinfo: '',
   screenshots: [],

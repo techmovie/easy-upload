@@ -1,21 +1,23 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getAudioCodec, getScreenshotsFromBBCode } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode } from '../common';
 
 export default () => {
-  let tags = [];
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   const headTitle = $('#main_table h1').eq(0).text();
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
   if (TORRENT_INFO.subtitle.match(/diy/i)) {
-    tags.push('DIY');
+    TORRENT_INFO.tags.DIY = true;
   }
   if (TORRENT_INFO.subtitle.match(/国配/i)) {
-    tags.push('chineseAudio');
+    TORRENT_INFO.tags.chineseAudio = true;
   }
-  if (TORRENT_INFO.subtitle.match(/简中|繁中|中文字幕/i)) {
-    tags.push('chineseSubtitle');
+  if (TORRENT_INFO.subtitle.match(/粤/i)) {
+    TORRENT_INFO.tags.cantoneseAudio = true;
+  }
+  if (TORRENT_INFO.subtitle.match(/(简|繁)中|中字/i)) {
+    TORRENT_INFO.tags.chineseSubtitle = true;
   }
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
@@ -35,6 +37,14 @@ export default () => {
     const descriptionDom = $('#kt_d');
     const bbCodes = getFilterBBCode(descriptionDom[0]);
     TORRENT_INFO.description = bbCodes;
+    const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
+    if (doubanUrl) {
+      TORRENT_INFO.doubanUrl = doubanUrl;
+    }
+    const areaMatch = bbCodes.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
+    if (areaMatch) {
+      TORRENT_INFO.area = getAreaCode(areaMatch);
+    }
     const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
     TORRENT_INFO.logs = logs;
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -45,7 +55,7 @@ export default () => {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.resolution = resolution;
-      tags = tags.concat(mediaTags);
+      TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
     } else {
       let resolution = TORRENT_INFO.title.match(/\d{3,4}(p|i)/i)?.[0];
       if (!resolution && resolution.match(/4k|uhd/i)) {
@@ -54,14 +64,20 @@ export default () => {
       TORRENT_INFO.resolution = resolution;
       TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
       // 从简略mediainfo中获取videoCodes
-      if (bbCodes.match(/ViDEO\s*CODEC/)) {
+      if (bbCodes.match(/VIDEO\s*CODEC/i)) {
         const matchCodec = bbCodes.match(/ViDEO\s*CODEC\.*:?\s*([^\s_]+)?/i)?.[1];
         if (matchCodec) {
           TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
         }
       }
+      // 从简略mediainfo中获取videoCodes
+      if (bbCodes.match(/AUDIO\s*CODEC/i)) {
+        const matchCodec = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)?.[1];
+        if (matchCodec) {
+          TORRENT_INFO.audioCodec = getAudioCodec(matchCodec);
+        }
+      }
     }
-    TORRENT_INFO.tags = tags;
     TORRENT_INFO.screenshots = getImages(bbCodes);
     console.log(TORRENT_INFO);
   };
@@ -136,12 +152,9 @@ const formatQuoteContent = (content) => {
 };
 // 获取截图
 const getImages = (bbcode) => {
-  if (bbcode.match(/More\.Screens/i)) { // wiki官组截图
-    const moreScreen = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+)\[\/url\]/)?.[1];
-    const screenshots = moreScreen.match(/\[url=(http(s)*:\/{2}.*?(\.(png|jpg)))\]\[img\]/g);
-    return screenshots.map(item => {
-      return item.match(/=(([^\]])+)/)?.[1];
-    });
+  if (bbcode.match(/More\.Screens/i)) { // 官组截图
+    const moreScreen = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)?.[1];
+    return getScreenshotsFromBBCode(moreScreen);
   } else {
     return getScreenshotsFromBBCode(bbcode);
   }
@@ -162,5 +175,15 @@ const getVideoType = (title, videoType) => {
 };
 const getTorrentValueDom = (key) => {
   return $(`#main_table td.heading:contains(${key})`).next();
+};
+const getAudioCodec = (audio) => {
+  if (audio.match(/Dolby Digital/i)) {
+    return 'dd';
+  } else if (audio.match(/AAC/i)) {
+    return 'aac';
+  } else if (audio.match(/DTS/i)) {
+    return 'dts';
+  }
+  return audio;
 }
 ;
