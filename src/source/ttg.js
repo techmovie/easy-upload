@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getAudioCodec } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getAudioCodec, getScreenshotsFromBBCode } from '../common';
 
 export default () => {
   let tags = [];
@@ -11,12 +11,19 @@ export default () => {
   if (TORRENT_INFO.subtitle.match(/diy/i)) {
     tags.push('DIY');
   }
+  if (TORRENT_INFO.subtitle.match(/国配/i)) {
+    tags.push('chineseAudio');
+  }
+  if (TORRENT_INFO.subtitle.match(/简中|繁中|中文字幕/i)) {
+    tags.push('chineseSubtitle');
+  }
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.category = category;
   TORRENT_INFO.area = area;
   TORRENT_INFO.videoType = getVideoType(title, videoType);
-  TORRENT_INFO.year = TORRENT_INFO.title.match(/\s([12][890]\d{2})/)?.[0];
+  const year = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g);
+  TORRENT_INFO.year = year ? year.pop() : '';
   TORRENT_INFO.imdbUrl = getTorrentValueDom('IMDB').find('a').attr('href');
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1];
@@ -27,7 +34,7 @@ export default () => {
   window.onload = () => {
     const descriptionDom = $('#kt_d');
     const bbCodes = getFilterBBCode(descriptionDom[0]);
-    console.log(bbCodes);
+    TORRENT_INFO.description = bbCodes;
     const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
     TORRENT_INFO.logs = logs;
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -46,9 +53,17 @@ export default () => {
       }
       TORRENT_INFO.resolution = resolution;
       TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
+      // 从简略mediainfo中获取videoCodes
+      if (bbCodes.match(/ViDEO\s*CODEC/)) {
+        const matchCodec = bbCodes.match(/ViDEO\s*CODEC\.*:?\s*([^\s_]+)?/i)?.[1];
+        if (matchCodec) {
+          TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+        }
+      }
     }
     TORRENT_INFO.tags = tags;
     TORRENT_INFO.screenshots = getImages(bbCodes);
+    console.log(TORRENT_INFO);
   };
 };
 
@@ -94,7 +109,7 @@ const getCategoryAndArea = (mediaInfo) => {
     videoType,
   };
 };
-// 获取eac3to日志
+// 获取logs 完整bdinfo或mediainfo
 const getLogsOrMediaInfo = (descriptionDom) => {
   const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
@@ -103,7 +118,7 @@ const getLogsOrMediaInfo = (descriptionDom) => {
     if (quoteContent.match(/eac3to/)) {
       logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
     }
-    if (quoteContent.match(/DISC/)) {
+    if (quoteContent.match(/DISC/i)) {
       bdinfo += formatQuoteContent(quoteContent);
     }
     if (quoteContent.match(/Unique ID/i)) {
@@ -121,7 +136,15 @@ const formatQuoteContent = (content) => {
 };
 // 获取截图
 const getImages = (bbcode) => {
-
+  if (bbcode.match(/More\.Screens/i)) { // wiki官组截图
+    const moreScreen = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+)\[\/url\]/)?.[1];
+    const screenshots = moreScreen.match(/\[url=(http(s)*:\/{2}.*?(\.(png|jpg)))\]\[img\]/g);
+    return screenshots.map(item => {
+      return item.match(/=(([^\]])+)/)?.[1];
+    });
+  } else {
+    return getScreenshotsFromBBCode(bbcode);
+  }
 };
 const getVideoType = (title, videoType) => {
   if (title.match(/HDTV/i)) {

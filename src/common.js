@@ -27,6 +27,28 @@ const getAudioCodec = (title) => {
   }
   return codes;
 };
+/*
+* 过滤真实原始截图地址
+* 如果原图地址没有文件名后缀，截图地址则为缩略图地址
+* */
+const getScreenshotsFromBBCode = (bbcode) => {
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}(\.(png|jpg)))\])?\[img\](.*?\.(png|jpg|gif))\[\/img](\[url\])?/g);
+  if (allImages && allImages.length > 0) {
+    // 过滤imdb、豆瓣、chd、柠檬无关图片
+    allImages = allImages.filter(item => {
+      return !item.match(/douban|(2019\/03\/28\/5c9cb8f8216d7\.png)|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+    });
+    return allImages.map(item => {
+      let imgUrl = '';
+      if (item.match(/\[url=http(s)*:.+/)) {
+        imgUrl = item.match(/=(([^\]])+)/)?.[1];
+      } else {
+        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+      }
+      return imgUrl;
+    });
+  }
+};
 // 从标题获取source
 const getSourceFromTitle = (title) => {
   if (title.match(/(uhd|2160|4k).*(bluray|remux)/i)) {
@@ -480,5 +502,6 @@ export {
   getSourceFromTitle,
   htmlToBBCode,
   getFilterBBCode,
+  getScreenshotsFromBBCode,
 }
 ;
