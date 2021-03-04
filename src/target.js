@@ -79,7 +79,7 @@ const fillTargetForm = (info) => {
     }
   }
   const category = CURRENT_SITE_INFO.category.map[info.category];
-  const keyArray = ['videoCodec', 'videoType', 'resolution', 'source'];
+  const keyArray = ['videoCodec', 'videoType', 'resolution', 'source', 'area'];
   let finalSelectArray = [];
   if (Array.isArray(category)) {
     finalSelectArray = [...category];
@@ -107,11 +107,14 @@ const fillTargetForm = (info) => {
 * @return 取当前key对应的value取交集之后的数组
 * */
 const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
+  // 拿到字段所对应的值 可能为字符串或者数组
   const value = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : undefined;
   if (Array.isArray(value) && selectArray) {
+    // 如果此时分类对应的值仍未数组 则继续过滤
     if (selectArray.length > 1) {
       selectArray = selectArray.filter(item => value.includes(item));
     }
+    // 如果当前key下有selector属性 赋值为value第一项
     if (siteInfo[key].selector) {
       $(siteInfo[key].selector).val(value[0]);
     }
