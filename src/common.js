@@ -471,7 +471,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用/)) {
+      if (node.textContent.match(/引用|Quote/)) {
         return '';
       }
       return node.textContent;
@@ -491,7 +491,7 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/diy/i)) {
     tags.DIY = true;
   }
-  if (title.match(/国配/i)) {
+  if (title.match(/国配|国语/i)) {
     tags.chineseAudio = true;
   }
   if (title.match(/粤/i)) {
@@ -499,6 +499,9 @@ const getTagsFromSubtitle = (title) => {
   }
   if (title.match(/简|繁|中字/i)) {
     tags.chineseSubtitle = true;
+  }
+  if (title.match(/Criterion|CC标准/i)) {
+    tags.CC = true;
   }
   return tags;
 };
