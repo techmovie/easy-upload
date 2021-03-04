@@ -6,7 +6,7 @@ import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreensho
  */
 export default () => {
   let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
-  const year = title.match(/(19|20)\d{2}/g);
+  let year = title.match(/(19|20)\d{2}/g);
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
@@ -35,6 +35,7 @@ export default () => {
 
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
+    year = title.match(/(19|20)\d{2}/g);
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {
