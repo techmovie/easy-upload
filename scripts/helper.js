@@ -14,7 +14,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
 // @match        https://*/details.php?id=*
-// @match        https://totheglory.im/t/*
+// @match        https://totheglory.im/details.php?id=*
 // @match        https://ourbits.club/details.php?id=*
 // @match        https://hdsky.me/details.php?id=*
 // @match        https://hdchina.org/details.php?id=*
@@ -22,6 +22,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://ptsbao.club/details.php?id=*
 // @match        https://www.beitai.pt/details.php?id=*
 // @match        https://pthome.net/details.php?id=*
+// @match        https://springsunday.net/details.php?id=*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
