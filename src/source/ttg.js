@@ -34,7 +34,7 @@ export default () => {
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
     }
-    const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
+    const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(bbCodes);
     TORRENT_INFO.logs = logs;
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
@@ -54,7 +54,7 @@ export default () => {
       TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
       // 从简略mediainfo中获取videoCodes
       if (bbCodes.match(/VIDEO\s*CODEC/i)) {
-        const matchCodec = bbCodes.match(/ViDEO\s*CODEC\.*:?\s*([^\s_]+)?/i)?.[1];
+        const matchCodec = bbCodes.match(/ViDEO\s*CODEC\.*:?\s*([^\s_:]+)?/i)?.[1];
         if (matchCodec) {
           TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
         }
@@ -117,19 +117,19 @@ const getCategoryAndArea = (mediaInfo) => {
   };
 };
 // 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = (descriptionDom) => {
-  const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
+const getLogsOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = $(quoteList[i]).html();
+    const quoteContent = formatQuoteContent(quoteList[i]);
     if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
+      logs += `[quote]${quoteContent}[/quote]`;
     }
-    if (quoteContent.match(/DISC/i)) {
-      bdinfo += formatQuoteContent(quoteContent);
+    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
+      bdinfo += quoteContent;
     }
     if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += formatQuoteContent(quoteContent);
+      mediaInfo += quoteContent;
     }
   }
   return {
@@ -139,7 +139,7 @@ const getLogsOrMediaInfo = (descriptionDom) => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
+  return content.replace(/\[(.+)\]?/g, '').replaceAll('\u200D', '');
 };
 // 获取截图
 const getImages = (bbcode) => {

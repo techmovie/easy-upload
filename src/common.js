@@ -399,13 +399,15 @@ const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
 };
 // 过滤掉一些声明或者无意义文字
 const getFilterBBCode = (content) => {
-  const bbCodes = htmlToBBCode(content);
-  return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)+?)\[\/\w+\]/g, function (match, p1, p2, p3) {
-    if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|Quote:|正版|商用/)) {
-      return '';
-    }
-    return match;
-  });
+  if (content) {
+    const bbCodes = htmlToBBCode(content);
+    return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)+?)\[\/\w+\]/g, function (match, p1, p2, p3) {
+      if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|Quote:|正版|商用/)) {
+        return '';
+      }
+      return match;
+    });
+  }
 };
 // html转BBCode代码
 const htmlToBBCode = (node) => {
@@ -425,6 +427,7 @@ const htmlToBBCode = (node) => {
         case 'DIV': { pp(null, '\n'); break; }
         case 'P': { pp('\n', '\n'); break; }
         case 'BR': { pp('\n'); break; }
+        case 'SPAN': { pp(null, null); break; }
         case 'BLOCKQUOTE':
         case 'TD': // TTG
         case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }

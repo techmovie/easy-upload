@@ -25,9 +25,11 @@ export default () => {
   if (CURRENT_SITE_NAME.match(/ourbits/i)) {
     siteImdbUrl = $('.imdbnew2 a:first').attr('href');
     TORRENT_INFO.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
-    const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
-    const doubanPoster = `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n`;
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    if (TORRENT_INFO.doubanUrl) {
+      const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
+      const doubanPoster = `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n`;
+      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    }
   }
 
   if (CURRENT_SITE_NAME === 'FRDS') {
@@ -71,7 +73,7 @@ export default () => {
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo();
+  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionBBCode);
   TORRENT_INFO.logs = logs;
   TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
   if (isBluray && bdinfo) {
@@ -128,19 +130,19 @@ const getMetaInfo = (metaInfo) => {
   };
 };
 // 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = () => {
-  const quoteList = $('#kdescr').find('fieldset');
+const getLogsOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = $(quoteList[i]).html();
+    const quoteContent = formatQuoteContent(quoteList[i]);
     if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
+      logs += `[quote]${quoteContent}[/quote]`;
     }
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += formatQuoteContent(quoteContent);
+      bdinfo += quoteContent;
     }
     if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += formatQuoteContent(quoteContent);
+      mediaInfo += quoteContent;
     }
   }
   return {
@@ -150,7 +152,7 @@ const getLogsOrMediaInfo = () => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/&nbsp;|<legend>\s*(引用|Quote)\s*<\/legend>/g, ' ').replace(/<br>/g, '\n');
+  return content.replace(/\[(.+)\]?/g, '').replaceAll('\u200D', '');
 };
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;
@@ -230,6 +232,11 @@ const getVideoCodec = (codes) => {
     return '';
   }
   codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
+  if (codes.match(/265|hevc/ig)) {
+    return 'x265';
+  } else if (codes.match(/264|avc/ig)) {
+    return 'x264';
+  }
   return codes;
 };
 
