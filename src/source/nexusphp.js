@@ -1,19 +1,19 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo } from '../common';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodec } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
  */
 export default () => {
-  let title = $('#top').prop('firstChild').nodeValue.trim();
+  let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
   const year = title.match(/(19|20)\d{2}/g);
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
-  const descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
+  let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
 
   // 站点自定义数据覆盖 开始
-  if (CURRENT_SITE_NAME === 'HDC') {
+  if (CURRENT_SITE_NAME.match(/hdc/i)) {
     const meta = [];
     $("li:contains('基本信息'):last").next('li').children('i').each(function () {
       meta.push($(this).text().replace('：', ':'));
@@ -22,8 +22,12 @@ export default () => {
     subtitle = $('#top').next('h3').text();
   }
 
-  if (CURRENT_SITE_NAME === 'OURBITS') {
+  if (CURRENT_SITE_NAME.match(/ourbits/i)) {
     siteImdbUrl = $('.imdbnew2 a:first').attr('href');
+    TORRENT_INFO.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
+    const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
+    const doubanPoster = `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n`;
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
   }
 
   if (CURRENT_SITE_NAME === 'FRDS') {
@@ -38,14 +42,14 @@ export default () => {
   if (doubanUrl) {
     TORRENT_INFO.doubanUrl = doubanUrl;
   }
-  const imdbUrl = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/\d+/)?.[0];
+  const imdbUrl = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/tt\d+/)?.[0];
   if (imdbUrl) {
     TORRENT_INFO.imdbUrl = imdbUrl;
   } else if (siteImdbUrl) {
     TORRENT_INFO.imdbUrl = (siteImdbUrl.match(/www.imdb.com\/title/)) ? siteImdbUrl : '';
   }
-
-  if (!processing) {
+  // 兼容家园
+  if (!processing || processing.match(/raw/)) {
     const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
@@ -56,8 +60,11 @@ export default () => {
   TORRENT_INFO.year = year ? year.pop() : '';
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
+  if (TORRENT_INFO.doubanInfo) {
+    descriptionBBCode = TORRENT_INFO.doubanInfo += descriptionBBCode;
+  }
   TORRENT_INFO.description = descriptionBBCode;
-  TORRENT_INFO.category = getCategory(category);
+  TORRENT_INFO.category = getCategory(category || descriptionBBCode);
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = getSize(size);
@@ -66,20 +73,30 @@ export default () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo();
   TORRENT_INFO.logs = logs;
-  if (isBluray) {
-    TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
+  TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
+  if (isBluray && bdinfo) {
     TORRENT_INFO.mediaInfo = bdinfo;
     const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(bdinfo);
+    console.log(resolution);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
     TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
   } else {
     TORRENT_INFO.mediaInfo = mediaInfo;
-    TORRENT_INFO.videoCodec = getVideoCodec(videoCodec);
+    if (CURRENT_SITE_NAME.match(/beitai/i)) {
+      // 从简略mediainfo中获取videoCodes
+      if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
+        const matchCodec = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)?.[2];
+        if (matchCodec) {
+          TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+        }
+      }
+    } else {
+      TORRENT_INFO.videoCodec = getVideoCodec(videoCodec);
+    }
     TORRENT_INFO.resolution = getResolution(resolution);
-    TORRENT_INFO.bdinfo = getBDInfo();
-    TORRENT_INFO.audioCodec = getAudioCodec(audioCodec);
+    TORRENT_INFO.audioCodec = getAudioCodec(audioCodec || TORRENT_INFO.title);
   }
 };
 
@@ -119,7 +136,7 @@ const getLogsOrMediaInfo = () => {
     if (quoteContent.match(/eac3to/)) {
       logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
     }
-    if (quoteContent.match(/DISC/i)) {
+    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
       bdinfo += formatQuoteContent(quoteContent);
     }
     if (quoteContent.match(/Unique ID/i)) {
@@ -133,10 +150,10 @@ const getLogsOrMediaInfo = () => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/&nbsp;|<legend>\s*引用\s*<\/legend>/g, ' ').replace(/<br>/g, '\n');
+  return content.replace(/&nbsp;|<legend>\s*(引用|Quote)\s*<\/legend>/g, ' ').replace(/<br>/g, '\n');
 };
 const getMetaValue = (key, metaInfo) => {
-  let regStr = `(${key}):\\s?([^\\s]+)?`;
+  let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
   }
@@ -164,7 +181,7 @@ const getVideoType = (videoType) => {
     return 'remux';
   } else if (videoType.match(/blu/ig)) {
     return 'bluray';
-  } else if (videoType.match(/encode|x264|x265/ig)) {
+  } else if (videoType.match(/encode|x264|x265|bdrip/ig)) {
     return 'encode';
   } else if (videoType.match(/web/ig)) {
     return 'web';
@@ -213,42 +230,7 @@ const getVideoCodec = (codes) => {
     return '';
   }
   codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
-  if (codes.match(/265|hevc/ig)) {
-    return 'x265';
-  } else if (codes.match(/264|avc/ig)) {
-    return 'x264';
-  }
   return codes;
-};
-
-/**
- * 格式化音频编码格式
- * @param {code} codes 编码文字
- */
-const getAudioCodec = (codes) => {
-  if (!codes) {
-    return '';
-  }
-  codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
-  if (codes.match(/dtshd/ig)) {
-    return 'dtshdma';
-  }
-  return codes;
-};
-
-/**
- * 获取简介中引用的视频编码信息
- */
-const getBDInfo = () => {
-  const quoteList = $('#kdescr').find('fieldset');
-  let bdinfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = quoteList[i].innerText;
-    if (quoteContent.match(/DISC|BIT|RATE/i)) {
-      bdinfo += ` [quote] ${quoteContent.trim()}[/quote]`;
-    }
-  }
-  return bdinfo;
 };
 
 const getResolution = (resolution) => {
