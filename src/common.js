@@ -13,7 +13,10 @@ const getUrlParam = (key) => {
   return '';
 };
 // 获取音频编码
-const getAudioCodes = (title) => {
+const getAudioCodec = (title) => {
+  if (!title) {
+    return '';
+  }
   let codes = '';
   const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
   for (let i = 0; i < CODES_ARRAY.length; i++) {
@@ -24,11 +27,33 @@ const getAudioCodes = (title) => {
   }
   return codes;
 };
+/*
+* 过滤真实原始截图地址
+* 如果原图地址没有文件名后缀，截图地址则为缩略图地址
+* */
+const getScreenshotsFromBBCode = (bbcode) => {
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?(\.(png|jpg)))\])?\[img\](.*?\.(png|jpg|gif))\[\/img](\[url\])?/g);
+  if (allImages && allImages.length > 0) {
+    // 过滤imdb、豆瓣、chd、柠檬无关图片
+    allImages = allImages.filter(item => {
+      return !item.match(/douban|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+    });
+    return allImages.map(item => {
+      let imgUrl = '';
+      if (item.match(/\[url=http(s)*:.+/)) {
+        imgUrl = item.match(/=(([^\]])+)/)?.[1];
+      } else {
+        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+      }
+      return imgUrl;
+    });
+  }
+};
 // 从标题获取source
 const getSourceFromTitle = (title) => {
-  if (title.match(/(uhd|2160|4k).*(bluray|remux)/i)) {
+  if (title.match(/(uhd|2160|4k).*(blu(-)?ray|remux)/i)) {
     return 'uhdbluray';
-  } else if (title.match(/bluray|remux/i)) {
+  } else if (title.match(/blu(-)?ray|remux/i)) {
     return 'bluray';
   } else if (title.match(/hdtv/i)) {
     return 'hdtv';
@@ -70,19 +95,19 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|Canada/i)) {
+    if (area.match(/USA|Canada|CA|美国|加拿大/i)) {
       return 'US';
-    } else if (europeList.includes(area)) {
+    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
       return 'EU';
-    } else if (area.match(/Japan/i)) {
+    } else if (area.match(/Japan|日本|JP/i)) {
       return 'JP';
-    } else if (area.match(/Korea/i)) {
+    } else if (area.match(/Korea|韩国|KR/i)) {
       return 'KR';
-    } else if (area.match(/Taiwan/i)) {
+    } else if (area.match(/Taiwan|台湾|TW/i)) {
       return 'TW';
-    } else if (area.match(/Hong Kong/i)) {
+    } else if (area.match(/Hong\s?Kong|香港|HK/i)) {
       return 'HK';
-    } else if (area.match(/China/i)) {
+    } else if (area.match(/CN|China|大陆|中|内地|Mainland/i)) {
       return 'CN';
     }
   }
@@ -144,6 +169,9 @@ const getSize = (size) => {
 };
 
 const getInfoFromMediaInfo = (mediaInfo) => {
+  if (!mediaInfo) {
+    return false;
+  }
   const mediaArray = mediaInfo.split(/\n\s*\n/);
   const [generalPart, videoPart] = mediaArray;
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
@@ -151,18 +179,18 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
   const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
-  const { videoCodes, isHdr, isDV } = getVideoCodesByMediaInfo(videoPart, generalPart, secondVideoPart);
-  const { audioCodes, channelName, languageArray } = getAudioCodesByMediaInfo(audioPart, otherAudioPart);
+  const { videoCodec, isHdr, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
+  const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
   const subtitleLanguageArray = textPart.map(item => {
     return getMediaValueByKey('Language', item);
   });
-  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
   const resolution = getResolution(videoPart);
   return {
     fileName,
     fileSize,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     mediaTags,
   };
@@ -192,34 +220,31 @@ const getResolution = (mediaInfo) => {
     return `${width}x${height}`;
   }
 };
-const getMediaTags = (audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
+const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
-  const mediaTags = [];
+  const mediaTags = {};
   if (hasChineseAudio) {
-    mediaTags.push('chineseAudio');
+    mediaTags.chineseAudio = true;
   }
   if (languageArray.includes('Cantonese')) {
-    mediaTags.push('CantoneseAudio');
+    mediaTags.cantoneseAudio = true;
   }
   if (hasChineseSubtitle) {
-    mediaTags.push('chineseSubtitle');
+    mediaTags.chineseSubtitle = true;
   }
   if (isHdr) {
-    mediaTags.push('HDR');
+    mediaTags.HDR = true;
   }
   if (isDV) {
-    mediaTags.push('DolbyVision');
+    mediaTags.DolbyVision = true;
   }
-  if (audioCodes.match(/dtsx|atmos/ig)) {
-    mediaTags.push(audioCodes);
-  }
-  if (channelName === '7.1') {
-    mediaTags.push(channelName);
+  if (audioCodec.match(/dtsx|atmos/ig)) {
+    mediaTags[audioCodec] = true;
   }
   return mediaTags;
 };
-const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const generalFormat = getMediaValueByKey('Format', generalPart);
   const videoFormat = getMediaValueByKey('Format', mainVideo);
   const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
@@ -227,33 +252,33 @@ const getVideoCodesByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
   const isDV = secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).includes('Dolby Vision');
   const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
-  let videoCodes = '';
+  let videoCodec = '';
   if (generalFormat === 'DVD Video') {
-    videoCodes = 'DVD';
+    videoCodec = 'DVD';
   } else if (generalFormat === 'MPEG-4') {
-    videoCodes = 'mpeg4';
+    videoCodec = 'mpeg4';
   } else if (videoFormat === 'MPEG Video' && videoFormatVersion === 'Version 2') {
-    videoCodes = 'mpeg2';
+    videoCodec = 'mpeg2';
   } else if (videoCodeId.match(/xvid/i)) {
-    videoCodes = 'xvid';
+    videoCodec = 'xvid';
   } else if (videoFormat.match(/HEVC/i) && !isEncoded) {
-    videoCodes = 'hevc';
+    videoCodec = 'hevc';
   } else if (videoFormat.match(/HEVC/i) && isEncoded) {
-    videoCodes = 'x265';
+    videoCodec = 'x265';
   } else if (videoFormat.match(/AVC/i) && isEncoded) {
-    videoCodes = 'x264';
+    videoCodec = 'x264';
   } else if (videoFormat.match(/AVC/i) && !isEncoded) {
-    videoCodes = 'h264';
+    videoCodec = 'h264';
   } else if (videoFormat.match(/VC-1/i)) {
-    videoCodes = 'vc1';
+    videoCodec = 'vc1';
   }
   return {
-    videoCodes,
+    videoCodec,
     isHdr: !!hdrFormat,
     isDV,
   };
 };
-const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
+const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
   const audioFormat = getMediaValueByKey('Format', mainAudio);
   const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
   const commercialName = getMediaValueByKey('Commercial name', mainAudio);
@@ -261,7 +286,7 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     return getMediaValueByKey('Language', item);
   });
   let channelName = '';
-  let audioCodes = '';
+  let audioCodec = '';
   const channelNumber = parseInt(audioChannels);
   if (channelNumber && channelNumber >= 6) {
     channelName = `${channelNumber - 1}.1`;
@@ -269,30 +294,30 @@ const getAudioCodesByMediaInfo = (mainAudio, otherAudio = []) => {
     channelName = `${channelNumber}.0`;
   }
   if (audioFormat.match(/MLP FBA/i) && commercialName.match(/Dolby Atmos/i)) {
-    audioCodes = 'atmos';
+    audioCodec = 'atmos';
   } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
-    audioCodes = 'truehd';
+    audioCodec = 'truehd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital$/i)) {
-    audioCodes = 'dd';
+    audioCodec = 'dd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
-    audioCodes = 'dd+';
+    audioCodec = 'dd+';
   } else if (audioFormat.match(/AC-3/i)) {
-    audioCodes = 'ac3';
+    audioCodec = 'ac3';
   } else if (audioFormat.match(/DTS XLL X/i)) {
-    audioCodes = 'dtsx';
+    audioCodec = 'dtsx';
   } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
-    audioCodes = 'dtshdma';
+    audioCodec = 'dtshdma';
   } else if (audioFormat.match(/DTS/i)) {
-    audioCodes = 'dts';
+    audioCodec = 'dts';
   } else if (audioFormat.match(/FLAC/i)) {
-    audioCodes = 'flac';
+    audioCodec = 'flac';
   } else if (audioFormat.match(/AAC/i)) {
-    audioCodes = 'aac';
+    audioCodec = 'aac';
   } else if (audioFormat.match(/LPCM/i)) {
-    audioCodes = 'lpcm';
+    audioCodec = 'lpcm';
   }
   return {
-    audioCodes,
+    audioCodec,
     channelName,
     languageArray,
   };
@@ -303,31 +328,31 @@ const getInfoFromBDInfo = (bdInfo) => {
   if (splitArray.length > 2) {
     bdInfo = splitArray[1];
   }
-  const videoMatch = bdInfo.match(/VIDEO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)AUDIO:/i);
-  const audioMatch = bdInfo.match(/AUDIO:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)SUBTITLE(S)*:/i);
-  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\n|Codec|Bitrate|Description|Language|-| )*((.|\n)+)(FILES:)*/i);
+  const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)AUDIO:/i);
+  const audioMatch = bdInfo.match(/AUDIO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)SUBTITLE(S)*:/i);
+  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)+)(FILES:)*/i);
   const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
   const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
-  const videoCodes = mainVideo.match(/2160/) ? 'hevc' : 'h264';
+  const videoCodec = mainVideo.match(/2160/) ? 'hevc' : 'h264';
   const isHdr = !!mainVideo.match(/\/\s*HDR(\d)*\s*\//i);
   const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
   const audioPart = splitBDMediaInfo(audioMatch, 2);
   const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
   const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
-  const { audioCodes, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const { audioCodec, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
   const subtitleLanguageArray = subtitlePart.map(item => {
     const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
     const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
   });
-  const mediaTags = getMediaTags(audioCodes, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
   return {
     fileSize,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     mediaTags,
   };
@@ -342,12 +367,12 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     return lastBitrate - firstBitrate;
   });
   const [mainAudio, secondAudio] = sortArray;
-  const mainAudioCodes = getAudioCodes(mainAudio);
-  const secondAudioCodes = getAudioCodes(secondAudio);
-  let audioCodes = mainAudioCodes;
+  const mainAudioCodec = getAudioCodec(mainAudio);
+  const secondAudioCodec = getAudioCodec(secondAudio);
+  let audioCodec = mainAudioCodec;
   let channelName = mainAudio.match(/\d\.\d/)?.[0];
-  if (mainAudioCodes === 'lpcm' && secondAudioCodes === 'dtshdma') {
-    audioCodes = secondAudioCodes;
+  if (mainAudioCodec === 'lpcm' && secondAudioCodec === 'dtshdma') {
+    audioCodec = secondAudioCodec;
     channelName = mainAudio.match(/\d\.\d/)?.[0];
   }
   const languageArray = sortArray.map(item => {
@@ -357,27 +382,130 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     return language;
   });
   return {
-    audioCodes,
+    audioCodec,
     channelName,
     languageArray,
   };
 };
-/*
-  * 更新种子信息后需要遍历目标站点链接进行参数替换
-  * @param {any}
-  * @return
-  * */
-const replaceTorrentInfo = (torrentData) => {
-  $('.site-list a').each((index, link) => {
-    const torrentInfo = encodeURIComponent(JSON.stringify(torrentData));
-    const newHref = $(link).attr('href').replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
-    $(link).attr('href', newHref);
+const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
+  const isPre = typeof pre !== 'undefined' && pre !== null;
+  const isPost = typeof post !== 'undefined' && post !== null;
+  if (isPre) {
+    pre.unshift(preTag);
+  }
+  if (isPost) {
+    post.push(poTag);
+  }
+};
+// 过滤掉一些声明或者无意义文字
+const getFilterBBCode = (content) => {
+  const bbCodes = htmlToBBCode(content);
+  return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)+?)\[\/\w+\]/g, function (match, p1, p2, p3) {
+    if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|Quote:|正版|商用/)) {
+      return '';
+    }
+    return match;
   });
+};
+// html转BBCode代码
+const htmlToBBCode = (node) => {
+  const bbCodes = [];
+  const pre = [];
+  const post = [];
+  const pp = wrappingBBCodeTag.bind(null, { pre, post });
+  switch (node.nodeType) {
+    case 1: { // tag
+      switch (node.tagName.toUpperCase()) {
+        case 'UL': { pp('[list]', '[/list]'); break; }
+        case 'OL': { pp('[list=1]', '[/list]'); break; }
+        case 'LI': { pp('[*]'); break; }
+        case 'B': { pp('[b]', '[/b]'); break; }
+        case 'U': { pp('[u]', '[/u]'); break; }
+        case 'I': { pp('[i]', '[/i]'); break; }
+        case 'DIV': { pp(null, '\n'); break; }
+        case 'P': { pp('\n', '\n'); break; }
+        case 'BR': { pp('\n'); break; }
+        case 'BLOCKQUOTE':
+        case 'TD': // TTG
+        case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
+        case 'IMG': {
+          const { src } = node;
+          if (src && src.match(/\.gif/)) {
+            return null;
+          }
+          return `[img]${src}[/img]`;
+        }
+        case 'FONT': {
+          const { color } = node;
+          if (color) {
+            pp(`[color=${color}]`, '[/color]');
+          }
+          break;
+        }
+        case 'A': {
+          const { href } = node;
+          if (href && href.length > 0) {
+            pp(`[url=${href}]`, '[/url]');
+          }
+          break;
+        }
+        case 'H1': { pp('[b][size="7"]', '[/size][/b]\n'); break; }
+        case 'H2': { pp('[b][size="6"]', '[/size][/b]\n'); break; }
+        case 'H3': { pp('[b][size="5"]', '[/size][/b]\n'); break; }
+        case 'H4': { pp('[b][size="4"]', '[/size][/b]\n'); break; }
+      }
+      const { textAlign, fontWeight, fontStyle, textDecoration, color } = node.style;
+      if (textAlign) {
+        switch (textAlign.toUpperCase()) {
+          case 'LEFT': { pp('[left]', '[/left]'); break; }
+          case 'RIGHT': { pp('[right]', '[/right]'); break; }
+          case 'CENTER': { pp('[center]', '[/center]'); break; }
+        }
+      }
+      if (fontWeight === 'bold' || ~~fontWeight >= 600) {
+        pp('[b]', '[/b]');
+      }
+      if (fontStyle === 'italic') pp('[i]', '[/i]');
+      if (textDecoration === 'underline') pp('[u]', '[/u]');
+      if (color && color.trim() !== '') pp(`[color=${color}]`, '[/color]');
+      break;
+    }
+    case 3: {
+      if (node.textContent.match(/引用/)) {
+        return '';
+      }
+      return node.textContent;
+    } // textNode
+    default: return null;
+  }
+  node.childNodes.forEach((node, i) => {
+    const code = htmlToBBCode(node);
+    if (code) {
+      bbCodes.push(code);
+    }
+  });
+  return pre.concat(bbCodes).concat(post).join('');
+};
+const getTagsFromSubtitle = (title) => {
+  const tags = {};
+  if (title.match(/diy/i)) {
+    tags.DIY = true;
+  }
+  if (title.match(/国配/i)) {
+    tags.chineseAudio = true;
+  }
+  if (title.match(/粤/i)) {
+    tags.cantoneseAudio = true;
+  }
+  if (title.match(/简|繁|中字/i)) {
+    tags.chineseSubtitle = true;
+  }
+  return tags;
 };
 export {
   getUrlParam,
   formatTorrentTitle,
-  getAudioCodes,
+  getAudioCodec,
   replaceEngName,
   getSubTitle,
   getAreaCode,
@@ -387,7 +515,10 @@ export {
   getSize,
   getInfoFromMediaInfo,
   getInfoFromBDInfo,
-  replaceTorrentInfo,
   getSourceFromTitle,
+  htmlToBBCode,
+  getFilterBBCode,
+  getScreenshotsFromBBCode,
+  getTagsFromSubtitle,
 }
 ;

@@ -10,11 +10,11 @@ export class NexusPHPCommon {
     this.imdbDom = $('#kimdb a:first');
     this.metaTextMap = {
       category: '分类',
-      videoCodes: '編碼',
+      videoCodec: '編碼',
       resolution: '解析度',
       area: '地区',
       source: '来源',
-      audioCodes: '音频编码',
+      audioCodec: '音频编码',
     };
   }
 
@@ -106,7 +106,7 @@ export class NexusPHPCommon {
     };
   };
 
-  getVideoCodes (codes) {
+  getVideoCodec (codes) {
     if (codes.match(/H.264/)) {
       return 'h264';
     }
@@ -182,11 +182,11 @@ export class NexusPHPCommon {
     torrentInfo.sourceSite = CURRENT_SITE_NAME;
     const metaInfo = this.metaInfoDom.text();
     const category = this.getMeta(metaInfo, this.metaTextMap.category);
-    const videoCodes = this.getMeta(metaInfo, this.metaTextMap.videoCodes);
+    const videoCodec = this.getMeta(metaInfo, this.metaTextMap.videoCodec);
     const resolution = this.getMeta(metaInfo, this.metaTextMap.resolution);
     const area = this.getMeta(metaInfo, this.metaTextMap.area);
     torrentInfo.category = this.getCategory(category);
-    torrentInfo.videoCodes = this.getVideoCodes(videoCodes);
+    torrentInfo.videoCodec = this.getVideoCodec(videoCodec);
     torrentInfo.resolution = this.getResolution(resolution);
     torrentInfo.area = this.getAreaCode(area);
     const descriptionText = this.descriptionDom.text();

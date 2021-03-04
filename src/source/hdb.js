@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, replaceTorrentInfo, getSourceFromTitle } from '../common';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
@@ -10,7 +10,7 @@ export default () => {
   const title = $('h1').eq(0).text();
   TORRENT_INFO.title = formatTorrentTitle(title);
   const isMovieType = $('.contentlayout h1').length > 0;
-  const IMDBLinkDom = isMovieType ? $('.contentlayout h1') : $('#details .showlinks li').last();
+  const IMDBLinkDom = isMovieType ? $('.contentlayout h1') : $('#details .showlinks li').eq(1);
   if (isMovieType) {
     const IMDBYear = IMDBLinkDom.prop('lastChild').nodeValue.replace(/\s|\(|\)/g, '');
     const movieName = IMDBLinkDom.find('a').text();
@@ -36,19 +36,18 @@ export default () => {
     getMediaInfo(torrentId).then(data => {
       if (data) {
         TORRENT_INFO.mediaInfo = data;
-        const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
-        TORRENT_INFO.videoCodes = videoCodes;
-        TORRENT_INFO.audioCodes = audioCodes;
+        const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+        TORRENT_INFO.videoCodec = videoCodec;
+        TORRENT_INFO.audioCodec = audioCodec;
         TORRENT_INFO.resolution = resolution;
         TORRENT_INFO.tags = mediaTags;
-        replaceTorrentInfo(TORRENT_INFO);
       }
     });
   } else {
     TORRENT_INFO.mediaInfo = bdinfo;
-    const { videoCodes, audioCodes, resolution, mediaTags } = getInfoFunc(bdinfo);
-    TORRENT_INFO.videoCodes = videoCodes;
-    TORRENT_INFO.audioCodes = audioCodes;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(bdinfo);
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
     TORRENT_INFO.tags = mediaTags;
   }
@@ -67,12 +66,12 @@ const getBasicInfo = () => {
   const size = $('th:contains(Size)').eq(0).next().text();
   const splitArray = info.split('(');
   const category = splitArray[0].trim().toLowerCase();
-  const videoCodes = splitArray[1].split(',')[0].toLowerCase().replace(/\./g, '');
+  const videoCodec = splitArray[1].split(',')[0].toLowerCase().replace(/\./g, '');
   const videoType = splitArray[1].split(',')[1].replace(/\)/g, '').trim();
   return {
     size: getSize(size),
     category,
-    videoCodes,
+    videoCodec,
     videoType: videoTypeMap[videoType],
   };
 };
