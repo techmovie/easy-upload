@@ -3,7 +3,6 @@ const TORRENT_INFO = {
   title: '', // 标题
   subtitle: '', // 副标题
   description: '', // 描述
-  fullDescription: '', // 完整简介，适用于内站
   year: '', // 电影年份
   category: '', // 电影、电视、音乐等
   videoType: '', // bluray remux encodes web-dl
@@ -25,8 +24,8 @@ const TORRENT_INFO = {
     HDR: false,
     DolbyVision: false,
   }, // 标签 diy 中字 国配等
-  mediaInfo: '',
-  bdinfo: '',
+  mediaInfo: '', // mediainfo或者bdInfo
+  bdinfo: '', // 额外的bdinfo
   screenshots: [],
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音

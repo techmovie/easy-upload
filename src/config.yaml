@@ -428,10 +428,11 @@ PT_SITE:
     url: 'https://springsunday.net'
     host: springsunday.net
     siteType: NexusPHP
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.new.php
     searchPath: /torrents.php
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -522,10 +523,11 @@ PT_SITE:
     url: 'https://hdhome.org'
     host: hdhome.org
     siteType: NexusPHP
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.php
     searchPath: /torrents.php
+    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(3)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -925,7 +927,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top'
+    seedDomSelector: '.table_details>tbody>tr:nth-child(1)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
