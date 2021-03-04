@@ -34,7 +34,7 @@
 ## 站点配置规则
 
 在配置文件中，比较复杂的是目标站点的相关配置，以HDHome的配置为例，说明一下具体的配置规则。在进行站点配置时需要遵循以下几个原则。
-* 在获取到各个站点的数据后，会对数据按统一格式进行规范。视频的属性分成了`category`、`videoType`、`videoCodes`、`audioCodes`、`source`、 `resolution`。
+* 在获取到各个站点的数据后，会对数据按统一格式进行规范。视频的属性分成了`category`、`videoType`、`videoCodec`、`audioCodec`、`source`、 `resolution`。
 * 上传页面默认只有分类是多属性混合的。内站的分类经常是category和其他几个视频的属性混合在一起的，比如`电影 Remux`就是category和videoType混合在一起的一个例子。其他属性的话一般都比较明确，可以跟规范数据中定义的属性直接进行匹配。但是也有特殊的情况，category可以直接匹配，但是videoType是多个属性混合在一起，比如BHD。这个时候需要将category和videoType的值进行对调。后续筛选的话都是默认对category进行筛选。
 * 筛选的目的是category配合其他属性，将站点分类的唯一值筛选出来，并对下拉选择框进行赋值。所以即便其他属性可以直接匹配，但是为了配合category筛选出唯一的一个值，需要其他属性除了配置自己的唯一值外，还需要将属性对应的category的值也加上。比如HDH的上传表单里，2160P对应的option value是1，需要将这个值放在数组的**第一位**(很重要)。数组的后几位也需要将 分类中的`Movies UHD Blu-ray`和`Movies 2160p`这两个值加入数组内。因为这两个分类的视频分辨率就是2160P。其他属性的配置也是同理，直到可以互相取交集取到唯一的分类为止。
 * 如果规范数据中的几个属性在站点内没有对应的表单需要填入，则不需要配置`selector`属性，只需要配置map即可。map里遵循的原则同上一条。
@@ -96,7 +96,7 @@
           - '445'
         variety: []
     # 视频编码    
-    videoCodes:
+    videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
         h264: '1'
@@ -127,7 +127,7 @@
         vhs: '8'
         hddvd: '8'
     # 音频编码    
-    audioCodes:
+    audioCodec:
       selector: 'select[name="audiocodec_sel"]'
       map:
         aac: '6'

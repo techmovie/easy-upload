@@ -18,7 +18,7 @@ export default () => {
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
-  if (TORRENT_INFO.category === 'music') {
+  if (TORRENT_INFO.category === 'concert') {
     TORRENT_INFO.description = $('#synopsis').text();
   }
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
@@ -31,9 +31,9 @@ export default () => {
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
   TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
-  const { videoCodes, audioCodes, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-  TORRENT_INFO.videoCodes = videoCodes;
-  TORRENT_INFO.audioCodes = audioCodes;
+  const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+  TORRENT_INFO.videoCodec = videoCodec;
+  TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.resolution = resolution;
   TORRENT_INFO.tags = mediaTags;
   let torrentName = fileName || torrentHeaderDom.data('releasename'); // 圆盘没有fileName

@@ -37,27 +37,28 @@ const fillTargetForm = (info) => {
   }
   $(CURRENT_SITE_INFO.name.selector).val(info.title);
   // 避免选择种子文件后自动改变种子名称
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome/i)) {
-    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
-  }
-  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodes'];
+  disableTorrentChange();
+  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
   commonInfoKeys.forEach(key => {
     const siteInfo = CURRENT_SITE_INFO[key];
     if (siteInfo && siteInfo.selector) {
       let value = info[key];
       if (key === 'douban') {
         value = info.doubanUrl;
-      } else if (key === 'area' || key === 'audioCodes') {
+      } else if (key === 'area' || key === 'audioCodec') {
         value = siteInfo.map[info[key]];
       }
       $(siteInfo.selector).val(value);
     }
   });
   const mediaInfo = info.mediaInfo;
-  const description = getDescription(info);
+  let description = getDescription(info);
   // HDB只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDB')) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
+  }
+  if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
+    description = info.description;
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
   if (CURRENT_SITE_NAME === 'BHD') {
@@ -78,14 +79,12 @@ const fillTargetForm = (info) => {
     }
   }
   const category = CURRENT_SITE_INFO.category.map[info.category];
-  const keyArray = ['videoCodes', 'videoType', 'resolution', 'source'];
+  const keyArray = ['videoCodec', 'videoType', 'resolution', 'source'];
   let finalSelectArray = [];
-  console.log(category);
   if (Array.isArray(category)) {
     finalSelectArray = [...category];
     keyArray.forEach(key => {
       finalSelectArray = matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
-      console.log(finalSelectArray);
       if (finalSelectArray.length === 1) {
         $(CURRENT_SITE_INFO.category.selector).val(finalSelectArray[0]);
       }
@@ -120,6 +119,12 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
     $(siteInfo[key].selector).val(value);
   }
   return selectArray;
+};
+
+const disableTorrentChange = () => {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits/)) {
+    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
+  }
 };
 export {
   fillTargetForm,

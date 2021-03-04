@@ -1,18 +1,16 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getSize } from '../common';
+import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
- * TODO: 截图中去除无关图片
  */
 export default () => {
   let title = $('#top').prop('firstChild').nodeValue.trim();
   const year = title.match(/(19|20)\d{2}/g);
-  const images = $("td.rowhead:contains('简介'), td.rowhead:contains('簡介')").next().find('img');
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
-  let imdbUrl = $('#kimdb>a').attr('href');
-  let description = $('#kdescr').clone().find('fieldset').remove().end().text().trim();
+  let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
+  const descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
 
   // 站点自定义数据覆盖 开始
   if (CURRENT_SITE_NAME === 'HDC') {
@@ -25,9 +23,7 @@ export default () => {
   }
 
   if (CURRENT_SITE_NAME === 'OURBITS') {
-    imdbUrl = $('.imdbnew2 a:first').attr('href');
-    const doubaninfo = $('.doubaninfo').html();
-    description = doubaninfo ? doubaninfo.replace(/<br>|<br\/>/g, '\n').trim() : '';
+    siteImdbUrl = $('.imdbnew2 a:first').attr('href');
   }
 
   if (CURRENT_SITE_NAME === 'FRDS') {
@@ -35,74 +31,120 @@ export default () => {
   }
   // 站点自定义数据覆盖 结束
 
-  const { category, videoType, videoCodes, audioCodes, resolution, processing, size } = getMetaInfo(metaInfo);
+  const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
 
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-  TORRENT_INFO.movieName = title;
-  TORRENT_INFO.movieAkaName = subtitle;
-  TORRENT_INFO.imdbUrl = (imdbUrl && imdbUrl.match(/www.imdb.com\/title/)) ? imdbUrl : '';
+  const doubanUrl = descriptionBBCode.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
+  if (doubanUrl) {
+    TORRENT_INFO.doubanUrl = doubanUrl;
+  }
+  const imdbUrl = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/\d+/)?.[0];
+  if (imdbUrl) {
+    TORRENT_INFO.imdbUrl = imdbUrl;
+  } else if (siteImdbUrl) {
+    TORRENT_INFO.imdbUrl = (siteImdbUrl.match(/www.imdb.com\/title/)) ? siteImdbUrl : '';
+  }
+
+  if (!processing) {
+    const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
+    if (areaMatch) {
+      TORRENT_INFO.area = getAreaCode(areaMatch);
+    }
+  } else {
+    TORRENT_INFO.area = getAreaCode(processing);
+  }
   TORRENT_INFO.year = year ? year.pop() : '';
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
-  TORRENT_INFO.description = description;
+  TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getCategory(category);
-  TORRENT_INFO.videoType = getVideoType(videoType);
-  TORRENT_INFO.videoCodes = getVideoCodes(videoCodes);
-  TORRENT_INFO.resolution = getResolution(resolution);
-  TORRENT_INFO.bdinfo = getBDInfo();
-  TORRENT_INFO.screenshots = getImages(images);
-
-  TORRENT_INFO.audioCodes = getAudioCodes(audioCodes);
-  // TORRENT_INFO.source = TODO;
-  TORRENT_INFO.area = getAreaCode(processing);
+  TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
+  TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = getSize(size);
-
-  return TORRENT_INFO;
+  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
+  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo();
+  TORRENT_INFO.logs = logs;
+  if (isBluray) {
+    TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
+    TORRENT_INFO.mediaInfo = bdinfo;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(bdinfo);
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
+    TORRENT_INFO.resolution = resolution;
+    TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
+  } else {
+    TORRENT_INFO.mediaInfo = mediaInfo;
+    TORRENT_INFO.videoCodec = getVideoCodec(videoCodec);
+    TORRENT_INFO.resolution = getResolution(resolution);
+    TORRENT_INFO.bdinfo = getBDInfo();
+    TORRENT_INFO.audioCodec = getAudioCodec(audioCodec);
+  }
 };
 
 const getMetaInfo = (metaInfo) => {
-  let category = '';
-  let videoType = '';
-  let videoCodes = '';
-  let audioCodes = '';
-  let resolution = '';
-  let processing = '';
-  let size = '';
-
-  if (metaInfo.match(/类型|分类|類別/)) {
-    category = metaInfo.substr(metaInfo.match(/类型|分类|類別/).index).split('   ')[0].split(':')[1].trim();
-  }
-  // 馒头的媒介来源在分类中
-  if (CURRENT_SITE_NAME === 'MTeam') {
-    videoType = category;
-  } else if (metaInfo.match(/媒介|来源/)) {
-    videoType = metaInfo.substr(metaInfo.match(/媒介|来源/).index).split('   ')[0].split(':')[1].trim();
-  }
-  if (metaInfo.match(/编码|編碼/)) {
-    videoCodes = metaInfo.substr(metaInfo.match(/编码|編碼/).index).split('   ')[0].split(':')[1].trim();
-  }
-  if (metaInfo.match(/音频/)) {
-    audioCodes = metaInfo.substr(metaInfo.match(/音频/).index).split('   ')[0].split(':')[1].trim();
-  }
-  if (metaInfo.match(/分辨率|格式|解析度/)) {
-    resolution = metaInfo.substr(metaInfo.match(/分辨率|格式|解析度/).index).split('   ')[0].split(':')[1].trim();
-  }
-  if (metaInfo.match(/处理|處理|地区/)) {
-    processing = metaInfo.substr(metaInfo.match(/处理|處理|地区/).index).split('   ')[0].split(':')[1].trim();
-  }
-  if (metaInfo.match(/大小/)) {
-    size = metaInfo.substr(metaInfo.match(/大小/).index).split('   ')[0].split(':')[1].trim();
-  }
-
+  const category = getMetaValue('类型|分类|類別', metaInfo);
+  const videoType = getMetaValue('媒介|来源', metaInfo);
+  const videoCodec = getMetaValue('编码|編碼', metaInfo);
+  const audioCodec = getMetaValue('音频|音频编码', metaInfo);
+  const resolution = getMetaValue('分辨率|格式|解析度', metaInfo);
+  const processing = getMetaValue('处理|處理|地区', metaInfo);
+  const size = getMetaValue('大小', metaInfo);
+  console.log({
+    category,
+    videoType,
+    videoCodec,
+    audioCodec,
+    resolution,
+    processing,
+    size,
+  });
   return {
     category,
     videoType,
-    videoCodes,
-    audioCodes,
+    videoCodec,
+    audioCodec,
     resolution,
     processing,
     size,
   };
+};
+// 获取logs 完整bdinfo或mediainfo
+const getLogsOrMediaInfo = () => {
+  const quoteList = $('#kdescr').find('fieldset');
+  let logs = ''; let bdinfo = ''; let mediaInfo = '';
+  for (let i = 0; i < quoteList.length; i++) {
+    const quoteContent = $(quoteList[i]).html();
+    if (quoteContent.match(/eac3to/)) {
+      logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
+    }
+    if (quoteContent.match(/DISC/i)) {
+      bdinfo += formatQuoteContent(quoteContent);
+    }
+    if (quoteContent.match(/Unique ID/i)) {
+      mediaInfo += formatQuoteContent(quoteContent);
+    }
+  }
+  return {
+    logs,
+    bdinfo,
+    mediaInfo,
+  };
+};
+const formatQuoteContent = (content) => {
+  return content.replace(/&nbsp;|<legend>\s*引用\s*<\/legend>/g, ' ').replace(/<br>/g, '\n');
+};
+const getMetaValue = (key, metaInfo) => {
+  let regStr = `(${key}):\\s?([^\\s]+)?`;
+  if (key.match(/大小/)) {
+    regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
+  }
+  const reg = new RegExp(regStr);
+  const matchValue = metaInfo.match(reg, 'i')?.[2];
+  if (matchValue) {
+    return matchValue.replace(/\s/g, '').trim().toLowerCase();
+  }
 };
 
 /**
@@ -111,9 +153,10 @@ const getMetaInfo = (metaInfo) => {
  * @return
  */
 const getVideoType = (videoType) => {
-  if (videoType === '') {
+  if (!videoType) {
     return '';
   }
+
   videoType = videoType.replace(/[.-]/g, '').toLowerCase();
   if (videoType.match(/uhd|ultra/ig)) {
     return 'uhdbluray';
@@ -121,7 +164,7 @@ const getVideoType = (videoType) => {
     return 'remux';
   } else if (videoType.match(/blu/ig)) {
     return 'bluray';
-  } else if (videoType.match(/encode/ig)) {
+  } else if (videoType.match(/encode|x264|x265/ig)) {
     return 'encode';
   } else if (videoType.match(/web/ig)) {
     return 'web';
@@ -134,13 +177,12 @@ const getVideoType = (videoType) => {
   }
   return '';
 };
-
 /**
  * 格式化视频分类
  * @param {videoType} videoType
  */
 const getCategory = (videoType) => {
-  if (videoType === '') {
+  if (!videoType) {
     return '';
   }
   videoType = videoType.replace(/[.-]/g, '').toLowerCase();
@@ -151,7 +193,7 @@ const getCategory = (videoType) => {
   } else if (videoType.match(/综艺/ig)) {
     return 'variety';
   } else if (videoType.match(/document|纪录|紀錄/ig)) {
-    return 'documentory';
+    return 'documentary';
   } else if (videoType.match(/sport|体育/ig)) {
     return 'sport';
   } else if (videoType.match(/mv|演唱/ig)) {
@@ -163,34 +205,11 @@ const getCategory = (videoType) => {
 };
 
 /**
- * 提取简介中视频截图
- * TODO: 去除小图片 如图片标签
- * @param {imagesDomSelector} imagesDomSelector
- */
-const getImages = (imagesDomSelector) => {
-  const imgList = [];
-  const images = imagesDomSelector;
-
-  images.each(function () {
-    const src = $(this).data('echo') || $(this).attr('src'); // PTSBAO 图片src 在 data-echo
-    if (src) {
-      console.log(src);
-      let imgUrl = decodeURIComponent(src).replace('imagecache.php?url=', '').trim(); // MTeam 解码替换前缀
-      if (imgUrl.startsWith('http') === false) {
-        imgUrl = CURRENT_SITE_INFO.url + '/' + imgUrl;
-      }
-      imgList.push(imgUrl);
-    }
-  });
-  return imgList;
-};
-
-/**
  * 格式化视频编码格式
  * @param {code} codes 编码文字
  */
-const getVideoCodes = (codes) => {
-  if (codes === '') {
+const getVideoCodec = (codes) => {
+  if (!codes) {
     return '';
   }
   codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
@@ -206,8 +225,8 @@ const getVideoCodes = (codes) => {
  * 格式化音频编码格式
  * @param {code} codes 编码文字
  */
-const getAudioCodes = (codes) => {
-  if (codes === '') {
+const getAudioCodec = (codes) => {
+  if (!codes) {
     return '';
   }
   codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
@@ -234,33 +253,18 @@ const getBDInfo = () => {
 
 const getResolution = (resolution) => {
   resolution = resolution.toLowerCase();
-  if (resolution.match(/4k|2160 /ig)) {
+  if (resolution.match(/4k|2160|UHD/ig)) {
     return '2160p';
   } else if (resolution.match(/1080p/ig)) {
     return '1080p';
   } else if (resolution.match(/1080i/ig)) {
     return '1080i';
-  } else if (resolution.match(/sd/ig)) {
+  } else if (resolution.match(/720p/ig)) {
     return '720p';
+  } else if (resolution.match(/sd/ig)) {
+    return '480p';
   }
   return resolution;
 };
 
-const getAreaCode = (area) => {
-  if (area.match(/CN|大陆|中|内地|Mainland/i)) {
-    return 'CN';
-  } else if (area.match(/HK|港|HongKong/i)) {
-    return 'HK';
-  } else if (area.match(/TW|台|Taiwan/i)) {
-    return 'TW';
-  } else if (area.match(/JP|日|Japan/i)) {
-    return 'JP';
-  } else if (area.match(/KR|韩|Korean/i)) {
-    return 'KR';
-  } else if (area.match(/US|美/i)) {
-    return 'US';
-  } else if (area.match(/欧|英|法|EU/i)) {
-    return 'EU';
-  }
-  return 'OT';
-};
+;
