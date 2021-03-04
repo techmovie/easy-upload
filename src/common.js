@@ -400,8 +400,8 @@ const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
 // 过滤掉一些声明或者无意义文字
 const getFilterBBCode = (content) => {
   const bbCodes = htmlToBBCode(content);
-  return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]([^[]+)\[\/\w+\]/g, function (match, p1, p2, p3) {
-    if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|引用|Quote:|正版|商用/)) {
+  return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)+?)\[\/\w+\]/g, function (match, p1, p2, p3) {
+    if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|Quote:|正版|商用/)) {
       return '';
     }
     return match;
@@ -471,6 +471,9 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
+      if (node.textContent.match(/引用/)) {
+        return '';
+      }
       return node.textContent;
     } // textNode
     default: return null;
