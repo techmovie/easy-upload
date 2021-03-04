@@ -11,9 +11,10 @@ export default () => {
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
+  console.log(descriptionBBCode);
 
   // 站点自定义数据覆盖 开始
-  if (CURRENT_SITE_NAME.match(/hdc/i)) {
+  if (CURRENT_SITE_NAME === 'HDChina') {
     const meta = [];
     $("li:contains('基本信息'):last").next('li').children('i').each(function () {
       meta.push($(this).text().replace('：', ':'));
@@ -22,7 +23,7 @@ export default () => {
     subtitle = $('#top').next('h3').text();
   }
 
-  if (CURRENT_SITE_NAME.match(/ourbits/i)) {
+  if (CURRENT_SITE_NAME === 'OurBits') {
     siteImdbUrl = $('.imdbnew2 a:first').attr('href');
     TORRENT_INFO.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
     if (TORRENT_INFO.doubanUrl) {
@@ -32,8 +33,23 @@ export default () => {
     }
   }
 
-  if (CURRENT_SITE_NAME === 'FRDS') {
+  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
+  }
+
+  if (CURRENT_SITE_NAME === 'SSD') {
+    TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr('href');
+    const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
+    const doubanPoster = $("div[data-group='douban']").find('img').attr('src') ? `[img]${$("div[data-group='douban']").find('img').attr('src')}[/img]\n` : '';
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    if (descriptionBBCode === '') {
+      const extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
+      const extraPoster = $('#kposter').find('img').attr('src') ? `[img]${$('#kposter').find('img').attr('src')}[/img]\n` : '';
+      const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
+      descriptionBBCode = extraPoster + extraScreenshot + extraTextInfo;
+    }
+
+    siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
   }
   // 站点自定义数据覆盖 结束
 
@@ -69,7 +85,7 @@ export default () => {
   TORRENT_INFO.category = getCategory(category || descriptionBBCode);
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-  TORRENT_INFO.size = getSize(size);
+  TORRENT_INFO.size = size ? getSize(size) : '';
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
