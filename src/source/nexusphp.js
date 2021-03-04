@@ -120,7 +120,7 @@ export default () => {
 
 const getMetaInfo = (metaInfo) => {
   const category = getMetaValue('类型|分类|類別', metaInfo);
-  const videoType = getMetaValue('媒介|来源', metaInfo);
+  const videoType = getMetaValue('媒介|来源|质量', metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
   const audioCodec = getMetaValue('音频|音频编码', metaInfo);
   const resolution = getMetaValue('分辨率|格式|解析度', metaInfo);
@@ -176,6 +176,9 @@ const getMetaValue = (key, metaInfo) => {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS' && key.match(/类型/)) {
+    regStr = `(${key}):\\s?([^\\s]+)?`;
+  }
+  if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   const reg = new RegExp(regStr);

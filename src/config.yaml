@@ -1302,4 +1302,63 @@ PT_SITE:
           - '480p'
         other: 
           - 'Other'
-
+  PTer:
+    url: 'https://pterclub.com'
+    host: pterclub.com
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    seedDomSelector: '#top+table tr:nth-child(3)' 
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: '#descr'
+    imdb:
+      selector: 'input[name="url"]'
+    douban:
+      selector: 'input[name="douban"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        moviePack: '401'
+        tv: '404'
+        tvPack: '404'
+        documentary: '402'
+        concert: '406'
+        sport: '407'
+        cartoon: '403'
+        variety: '405'
+    videoType:
+      selector: 'select[name="source_sel"]'
+      map:
+        uhdbluray: '1'
+        bluray: '2'
+        remux: '3'
+        encode: '6'
+        web: '5'
+        hdtv: '4'
+        dvd: '7'
+        dvdrip: '7'
+        other: '15'
+    area:
+      selector: 'select[name="team_sel"]'
+      map:
+        CN: '1'
+        US: '4'
+        EU: '4'
+        HK: '2'
+        TW: '3'
+        JP: '6'
+        KR: '5'
+        IND: '7'
+        OT: '8'
