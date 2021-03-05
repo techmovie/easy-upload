@@ -6,7 +6,7 @@ import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreensho
  */
 export default () => {
   let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
-  const year = title.match(/(19|20)\d{2}/g);
+  let year = title.match(/(19|20)\d{2}/g);
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
@@ -25,13 +25,16 @@ export default () => {
   if (CURRENT_SITE_NAME === 'OurBits') {
     siteImdbUrl = $('.imdbnew2 a:first').attr('href');
     TORRENT_INFO.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
-    const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
-    const doubanPoster = $('#doubaninfo .doubannew a img').attr('src') ? `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    if (TORRENT_INFO.doubanUrl) {
+      const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
+      const doubanPoster = `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n`;
+      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    }
   }
 
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
+    year = title.match(/(19|20)\d{2}/g);
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {
@@ -95,7 +98,7 @@ export default () => {
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo();
+  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionBBCode);
   TORRENT_INFO.logs = logs;
   TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
   if (isBluray && bdinfo) {
@@ -125,7 +128,7 @@ export default () => {
 
 const getMetaInfo = (metaInfo) => {
   const category = getMetaValue('类型|分类|類別', metaInfo);
-  const videoType = getMetaValue('媒介|来源', metaInfo);
+  const videoType = getMetaValue('媒介|来源|质量', metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
   const audioCodec = getMetaValue('音频|音频编码', metaInfo);
   const resolution = getMetaValue('分辨率|格式|解析度', metaInfo);
@@ -151,19 +154,19 @@ const getMetaInfo = (metaInfo) => {
   };
 };
 // 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = () => {
-  const quoteList = $('#kdescr').find('fieldset');
+const getLogsOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = $(quoteList[i]).html();
+    const quoteContent = formatQuoteContent(quoteList[i]);
     if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
+      logs += `[quote]${quoteContent}[/quote]`;
     }
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += formatQuoteContent(quoteContent);
+      bdinfo += quoteContent;
     }
     if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += formatQuoteContent(quoteContent);
+      mediaInfo += quoteContent;
     }
   }
   return {
@@ -173,12 +176,18 @@ const getLogsOrMediaInfo = () => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/&nbsp;|<legend>\s*(引用|Quote)\s*<\/legend>/g, ' ').replace(/<br>/g, '\n');
+  return content.replace(/\[(.+)\]?/g, '').replaceAll('\u200D', '');
 };
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
+  }
+  if (CURRENT_SITE_NAME === 'KEEPFRDS' && key.match(/类型/)) {
+    regStr = `(${key}):\\s?([^\\s]+)?`;
+  }
+  if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
+    regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   const reg = new RegExp(regStr);
   const matchValue = metaInfo.match(reg, 'i')?.[2];
@@ -253,6 +262,11 @@ const getVideoCodec = (codes) => {
     return '';
   }
   codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
+  if (codes.match(/265|hevc/ig)) {
+    return 'x265';
+  } else if (codes.match(/264|avc/ig)) {
+    return 'x264';
+  }
   return codes;
 };
 

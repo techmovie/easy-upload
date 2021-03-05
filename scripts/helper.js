@@ -14,6 +14,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://hdbits.org/offer.php
 // @match        https://*/details.php?id=*
+// @match        https://totheglory.im/t/*
 // @match        https://totheglory.im/details.php?id=*
 // @match        https://ourbits.club/details.php?id=*
 // @match        https://hdsky.me/details.php?id=*

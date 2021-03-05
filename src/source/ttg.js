@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -10,7 +10,6 @@ export default () => {
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
-  TORRENT_INFO.category = category;
   TORRENT_INFO.area = area;
   TORRENT_INFO.videoType = getVideoType(title, videoType);
   const year = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g);
@@ -34,7 +33,12 @@ export default () => {
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
     }
-    const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionDom);
+    if (!category) {
+      TORRENT_INFO.category = getCategoryFromDesc(bbCodes);
+    } else {
+      TORRENT_INFO.category = category;
+    }
+    const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(bbCodes);
     TORRENT_INFO.logs = logs;
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
@@ -52,14 +56,17 @@ export default () => {
       }
       TORRENT_INFO.resolution = resolution;
       TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
-      // 从简略mediainfo中获取videoCodes
-      if (bbCodes.match(/VIDEO\s*CODEC/i)) {
-        const matchCodec = bbCodes.match(/ViDEO\s*CODEC\.*:?\s*([^\s_]+)?/i)?.[1];
+      // 从简略mediainfo中获取videoCodec
+      if (bbCodes.match(/VIDEO(\.| )*CODEC/i)) {
+        const matchCodec = bbCodes.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)?.[2];
         if (matchCodec) {
           TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+        } else {
+          const { title } = TORRENT_INFO;
+          TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
         }
       }
-      // 从简略mediainfo中获取videoCodes
+      // 从简略mediainfo中获取audioCodec
       if (bbCodes.match(/AUDIO\s*CODEC/i)) {
         const matchCodec = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)?.[1];
         if (matchCodec) {
@@ -79,7 +86,7 @@ const getCategoryAndArea = (mediaInfo) => {
   } else if (mediaInfo.match(/影视/)) {
     category = 'movie';
   } else if (mediaInfo.match(/剧包/)) {
-    category = 'tvpack';
+    category = 'tvPack';
   } else if (mediaInfo.match(/剧/)) {
     category = 'tv';
   } else if (mediaInfo.match(/记录/)) {
@@ -117,19 +124,19 @@ const getCategoryAndArea = (mediaInfo) => {
   };
 };
 // 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = (descriptionDom) => {
-  const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
+const getLogsOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = $(quoteList[i]).html();
+    const quoteContent = formatQuoteContent(quoteList[i]);
     if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${formatQuoteContent(quoteContent)}[/quote]`;
+      logs += `[quote]${quoteContent}[/quote]`;
     }
-    if (quoteContent.match(/DISC/i)) {
-      bdinfo += formatQuoteContent(quoteContent);
+    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
+      bdinfo += quoteContent;
     }
     if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += formatQuoteContent(quoteContent);
+      mediaInfo += quoteContent;
     }
   }
   return {
@@ -139,7 +146,7 @@ const getLogsOrMediaInfo = (descriptionDom) => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
+  return content.replace(/\[(.+)\]?/g, '').replaceAll('\u200D', '');
 };
 // 获取截图
 const getImages = (bbcode) => {
@@ -167,14 +174,38 @@ const getVideoType = (title, videoType) => {
 const getTorrentValueDom = (key) => {
   return $(`#main_table td.heading:contains(${key})`).next();
 };
-const getAudioCodec = (audio) => {
-  if (audio.match(/Dolby Digital/i)) {
-    return 'dd';
-  } else if (audio.match(/AAC/i)) {
-    return 'aac';
-  } else if (audio.match(/DTS/i)) {
-    return 'dts';
+const getVideoCodecFromTitle = (title) => {
+  if (title.match(/x264/i)) {
+    return 'x264';
+  } else if (title.match(/h264/i)) {
+    return 'h264';
+  } else if (title.match(/x265/i)) {
+    return 'x265';
+  } else if (title.match(/hevc|h265/i)) {
+    return 'hevc';
+  } else if (title.match(/vc-?1/i)) {
+    return 'vc1';
+  } else if (title.match(/mpeg-?2/i)) {
+    return 'mpeg2';
+  } else if (title.match(/mpeg-?4/i)) {
+    return 'mpeg4';
   }
-  return audio;
+  return '';
+};
+const getCategoryFromDesc = (desc) => {
+  let category = 'movie';
+  const { title, subtitle } = TORRENT_INFO;
+  if (title.match(/s0?\d{1,2}/i) || desc.match(/集\s*数/)) {
+    if (title.match(/s0?\d{1,2}e0\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
+      category = 'tv';
+    } else {
+      category = 'tvPack';
+    }
+  } else if (desc.match(/动画/)) {
+    category = 'cartoon';
+  } else if (desc.match(/记录/)) {
+    category = 'documentary';
+  }
+  return category;
 }
 ;
