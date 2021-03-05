@@ -430,6 +430,7 @@ const htmlToBBCode = (node) => {
         case 'SPAN': { pp(null, null); break; }
         case 'BLOCKQUOTE':
         case 'TD': // TTG
+        case 'PRE':
         case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
         case 'IMG': {
           const { src } = node;

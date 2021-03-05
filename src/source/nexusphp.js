@@ -6,12 +6,11 @@ import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreensho
  */
 export default () => {
   let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
-  const year = title.match(/(19|20)\d{2}/g);
+  let year = title.match(/(19|20)\d{2}/g);
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
-  console.log(descriptionBBCode);
 
   // 站点自定义数据覆盖 开始
   if (CURRENT_SITE_NAME === 'HDChina') {
@@ -35,6 +34,7 @@ export default () => {
 
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
+    year = title.match(/(19|20)\d{2}/g);
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {
@@ -120,7 +120,7 @@ export default () => {
 
 const getMetaInfo = (metaInfo) => {
   const category = getMetaValue('类型|分类|類別', metaInfo);
-  const videoType = getMetaValue('媒介|来源', metaInfo);
+  const videoType = getMetaValue('媒介|来源|质量', metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
   const audioCodec = getMetaValue('音频|音频编码', metaInfo);
   const resolution = getMetaValue('分辨率|格式|解析度', metaInfo);
@@ -174,6 +174,12 @@ const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
+  }
+  if (CURRENT_SITE_NAME === 'KEEPFRDS' && key.match(/类型/)) {
+    regStr = `(${key}):\\s?([^\\s]+)?`;
+  }
+  if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
+    regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   const reg = new RegExp(regStr);
   const matchValue = metaInfo.match(reg, 'i')?.[2];
