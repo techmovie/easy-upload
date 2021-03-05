@@ -42,7 +42,7 @@ export default () => {
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const doubanPoster = $("div[data-group='douban']").find('img').attr('src') ? `[img]${$("div[data-group='douban']").find('img').attr('src')}[/img]\n` : '';
     TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
-    if (descriptionBBCode === '') {
+    if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       const extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       const extraPoster = $('#kposter').find('img').attr('src') ? `[img]${$('#kposter').find('img').attr('src')}[/img]\n` : '';
       const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
@@ -63,7 +63,6 @@ export default () => {
   // 站点自定义数据覆盖 结束
 
   const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
-
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   const doubanUrl = descriptionBBCode.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
   if (doubanUrl) {
