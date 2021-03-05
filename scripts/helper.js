@@ -23,6 +23,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://www.beitai.pt/details.php?id=*
 // @match        https://pthome.net/details.php?id=*
 // @match        https://springsunday.net/details.php?id=*
+// @match        https://lemonhd.org/details*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest

@@ -11,7 +11,6 @@ export default () => {
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
-  console.log(descriptionBBCode);
 
   // 站点自定义数据覆盖 开始
   if (CURRENT_SITE_NAME === 'HDChina') {
@@ -44,10 +43,19 @@ export default () => {
       const extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       const extraPoster = $('#kposter').find('img').attr('src') ? `[img]${$('#kposter').find('img').attr('src')}[/img]\n` : '';
       const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
-      descriptionBBCode = extraPoster + extraScreenshot + extraTextInfo;
+      const extraMediaInfo = '[quote]' + getFilterBBCode($("section[data-group='mediainfo']")?.[0]) + '[/quote]';
+      descriptionBBCode = extraPoster + extraTextInfo + extraMediaInfo + extraScreenshot;
     }
 
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
+  }
+
+  if (CURRENT_SITE_NAME === 'LEMONHD') {
+    metaInfo += $("td.rowhead:contains('详细信息')").next().text().replace(/：/g, ':');
+    // 适配 lemonhd.org/details_animate.php 分辨率缺冒号(:)   -_-//
+    if (metaInfo.match(/分辨率:/) === null) {
+      metaInfo = metaInfo.replace('分辨率', '分辨率:');
+    }
   }
   // 站点自定义数据覆盖 结束
 
@@ -93,7 +101,6 @@ export default () => {
   if (isBluray && bdinfo) {
     TORRENT_INFO.mediaInfo = bdinfo;
     const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(bdinfo);
-    console.log(resolution);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
@@ -250,7 +257,7 @@ const getVideoCodec = (codes) => {
 };
 
 const getResolution = (resolution) => {
-  resolution = resolution.toLowerCase();
+  resolution = (resolution === undefined) ? '' : resolution.toLowerCase();
   if (resolution.match(/4k|2160|UHD/ig)) {
     return '2160p';
   } else if (resolution.match(/1080p/ig)) {
