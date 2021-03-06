@@ -27,6 +27,24 @@ const getAudioCodec = (title) => {
   }
   return codes;
 };
+const getVideoCodecFromTitle = (title) => {
+  if (title.match(/x264/i)) {
+    return 'x264';
+  } else if (title.match(/h264|AVC/i)) {
+    return 'h264';
+  } else if (title.match(/x265/i)) {
+    return 'x265';
+  } else if (title.match(/hevc|h265/i)) {
+    return 'hevc';
+  } else if (title.match(/vc-?1/i)) {
+    return 'vc1';
+  } else if (title.match(/mpeg-?2/i)) {
+    return 'mpeg2';
+  } else if (title.match(/mpeg-?4/i)) {
+    return 'mpeg4';
+  }
+  return '';
+};
 /*
 * 过滤真实原始截图地址
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
@@ -36,7 +54,7 @@ const getScreenshotsFromBBCode = (bbcode) => {
   if (allImages && allImages.length > 0) {
     // 过滤imdb、豆瓣、chd、柠檬无关图片
     allImages = allImages.filter(item => {
-      return !item.match(/douban|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+      return !item.match(/GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
     });
     return allImages.map(item => {
       let imgUrl = '';
@@ -404,8 +422,8 @@ const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
 const getFilterBBCode = (content) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
-    return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)+?)\[\/\w+\]/g, function (match, p1, p2, p3) {
-      if (p3 && p3.match(/温馨提示|本种子|郑重声明|带宽|法律责任|Quote:|正版|商用/)) {
+    return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)*?(\[\/\w+\])?)\[\/\w+\]/g, function (match, p1, p2, p3) {
+      if ((p3 && p3.match(/温馨提示|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用/)) || !p3) {
         return '';
       }
       return match;
@@ -427,7 +445,12 @@ const htmlToBBCode = (node) => {
         case 'B': { pp('[b]', '[/b]'); break; }
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
-        case 'DIV': { pp(null, '\n'); break; }
+        case 'DIV': {
+          if (node.className === 'codemain') {
+            pp('\n[quote]', '[/quote]'); break;
+          }
+          pp('\n', '\n'); break;
+        }
         case 'P': { pp('\n', '\n'); break; }
         case 'BR': { pp('\n'); break; }
         case 'SPAN': { pp(null, null); break; }
@@ -436,11 +459,17 @@ const htmlToBBCode = (node) => {
         case 'PRE':
         case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
         case 'IMG': {
+          let imgUrl = '';
           const { src } = node;
-          if (src && src.match(/\.gif/)) {
-            return null;
+          const dataSrc = node.getAttribute('data-src') || node.getAttribute('data-echo');
+          if (dataSrc) {
+            imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : location.origin + '/' + dataSrc;
+          } else if (src && !src.match(/ico_\w+.gif|jinzhuan/)) {
+            imgUrl = src;
+          } else {
+            return '';
           }
-          return `[img]${src}[/img]`;
+          return `[img]${imgUrl}[/img]`;
         }
         case 'FONT': {
           const { color } = node;
@@ -478,7 +507,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用|Quote/)) {
+      if (node.textContent.match(/引用|Quote|代码|代碼/)) {
         return '';
       }
       return node.textContent;
@@ -530,5 +559,6 @@ export {
   getFilterBBCode,
   getScreenshotsFromBBCode,
   getTagsFromSubtitle,
+  getVideoCodecFromTitle,
 }
 ;

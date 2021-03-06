@@ -13,7 +13,7 @@ import style from './style';
   * @return
   * */
 const createSeedDom = (torrentDom) => {
-  const siteKeys = Object.keys(PT_SITE);
+  const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     if (PT_SITE[siteName].asTarget && siteName !== CURRENT_SITE_NAME) {
@@ -126,7 +126,6 @@ const getDoubanLink = () => {
       url: `${DOUBAN_SEARCH_API}/${imdbId}`,
       onload (res) {
         const data = JSON.parse(res.responseText);
-        console.log(data);
         if (data && data.data) {
           TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`;
           getDoubanInfo();
@@ -139,7 +138,6 @@ const getDoubanLink = () => {
       url: `${DOUBAN_API_URL}/search/weixin?q=${TORRENT_INFO.movieName}&start=0&count=1&apiKey=${API_KEY}`,
       onload (res) {
         const data = JSON.parse(res.responseText);
-        console.log(data);
         if (data && data.items && data.items.length > 0) {
           TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`;
           getDoubanInfo();
@@ -212,9 +210,7 @@ if (CURRENT_SITE_NAME) {
     createSeedDom(torrentInsertDom);
     $('.site-list li>a').click(function () {
       const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-      console.log($(this));
       let url = $(this).data('link');
-
       url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
       window.open(url);
     });

@@ -80,4 +80,7 @@ export default GM_addStyle(`
 .upload-section label{
   padding-left: 0;
 }
+#kdescr img{
+  max-width: 100%;
+}
 `);

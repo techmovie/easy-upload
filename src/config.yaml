@@ -1112,8 +1112,8 @@ PT_SITE:
     host: ptsbao.club
     siteType: NexusPHP
     asSource: true
-    asTarget: false
-    seedDomSelector: '#top+table tr:nth-child(3)'
+    asTarget: true
+    seedDomSelector: '#top+font+table tr:nth-child(5)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1127,7 +1127,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top+table tr:nth-child(3)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1141,7 +1141,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top+table tr:nth-child(3)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1155,7 +1155,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top+div+table tr:nth-child(3)'
+    seedDomSelector: '#top+div+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1324,7 +1324,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -1376,3 +1376,97 @@ PT_SITE:
         KR: '5'
         IND: '7'
         OT: '8'
+  HD4FANS:
+    url: 'https://pt.hd4fans.org'
+    host: pt.hd4fans.org
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: '#descr'
+    imdb:
+      selector: 'input[name="url"]'
+    douban:
+      selector: 'input[name="douban"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        moviePack: '401'
+        tv: '404'
+        tvPack: '404'
+        documentary: '402'
+        concert: '406'
+        sport: '407'
+        cartoon: '403'
+        variety: '405'
+    videoType:
+      selector: 'select[name="source_sel"]'
+      map:
+        uhdbluray: '1'
+        bluray: '2'
+        remux: '3'
+        encode: '6'
+        web: '5'
+        hdtv: '4'
+        dvd: '7'
+        dvdrip: '7'
+        other: '15'
+    area:
+      selector: 'select[name="team_sel"]'
+      map:
+        CN: '1'
+        US: '4'
+        EU: '4'
+        HK: '2'
+        TW: '3'
+        JP: '6'
+        KR: '5'
+        IND: '7'
+        OT: '8'
+  TJUPT:
+    url: 'https://www.tjupt.org'
+    host: www.tjupt.org
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: '#descr'
+    imdb:
+      selector: 'input[name="url"]'
+    douban:
+      selector: '#external_url'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        moviePack: '401'
+        tv: '402'
+        tvPack: '402'
+        documentary: '411'
+        concert: '406'
+        sport: '407'
+        cartoon: '405'
+        variety: '403'

@@ -35,7 +35,9 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
-  $(CURRENT_SITE_INFO.name.selector).val(info.title);
+  if (CURRENT_SITE_INFO.name) {
+    $(CURRENT_SITE_INFO.name.selector).val(info.title);
+  }
   // 避免选择种子文件后自动改变种子名称
   disableTorrentChange();
   const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
@@ -125,7 +127,7 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits/)) {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer/)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
 };

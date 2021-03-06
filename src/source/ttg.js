@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec, getVideoCodecFromTitle } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -174,24 +174,7 @@ const getVideoType = (title, videoType) => {
 const getTorrentValueDom = (key) => {
   return $(`#main_table td.heading:contains(${key})`).next();
 };
-const getVideoCodecFromTitle = (title) => {
-  if (title.match(/x264/i)) {
-    return 'x264';
-  } else if (title.match(/h264/i)) {
-    return 'h264';
-  } else if (title.match(/x265/i)) {
-    return 'x265';
-  } else if (title.match(/hevc|h265/i)) {
-    return 'hevc';
-  } else if (title.match(/vc-?1/i)) {
-    return 'vc1';
-  } else if (title.match(/mpeg-?2/i)) {
-    return 'mpeg2';
-  } else if (title.match(/mpeg-?4/i)) {
-    return 'mpeg4';
-  }
-  return '';
-};
+
 const getCategoryFromDesc = (desc) => {
   let category = 'movie';
   const { title, subtitle } = TORRENT_INFO;
