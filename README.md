@@ -1,6 +1,7 @@
 # easy-seed
 
-(安装地址)[https://github.com/techmovie/easy-seed/raw/main/dist/easy-seed.user.js]
+[安装地址](https://github.com/techmovie/easy-seed/raw/main/dist/easy-seed.user.js)
+
 ## 关于
 
 支持国内外主流PT站的转载种子脚本，尽可能减少不必要的重复工作，让发种更易上手。
