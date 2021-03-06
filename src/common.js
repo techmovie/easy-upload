@@ -323,13 +323,16 @@ const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
   };
 };
 const getInfoFromBDInfo = (bdInfo) => {
+  if (!bdInfo) {
+    return '';
+  }
   const splitArray = bdInfo.split('Disc Title');
   // 如果有多个bdinfo只取第一个
   if (splitArray.length > 2) {
     bdInfo = splitArray[1];
   }
-  const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)AUDIO:/i);
-  const audioMatch = bdInfo.match(/AUDIO:(\s|Codec|Bitrate|Description|Language|-)+((.|\n)+)SUBTITLE(S)*:/i);
+  const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)*)AUDIO:/i);
+  const audioMatch = bdInfo.match(/AUDIO:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)*)(SUBTITLE(S))*/i);
   const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)+)(FILES:)*/i);
   const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
   const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
@@ -358,7 +361,7 @@ const getInfoFromBDInfo = (bdInfo) => {
   };
 };
 const splitBDMediaInfo = (matchArray, matchIndex) => {
-  return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/));
+  return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/)) ?? [];
 };
 const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
   const sortArray = audioPart.sort((a, b) => {
