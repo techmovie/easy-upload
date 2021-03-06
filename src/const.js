@@ -41,7 +41,6 @@ const SEARCH_SITE_MAP = {
   CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
   BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
   BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
-  AHD: 'https://awesome-hd.me/torrents.php?searchstr={imdbid}',
   SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
 };
 

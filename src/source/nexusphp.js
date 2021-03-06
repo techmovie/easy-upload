@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodec } from '../common';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodec, getVideoCodecFromTitle } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
@@ -13,6 +13,14 @@ export default () => {
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
 
   // 站点自定义数据覆盖 开始
+  if (CURRENT_SITE_NAME === 'TJUPT') {
+    const matchArray = title.match(/\[((\w|\.|\d|-)+)\]/g);
+    const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
+    title = realTitle.replace(/\[|\]/g, '');
+  }
+  if (CURRENT_SITE_NAME === 'PTer') {
+    descriptionBBCode = $('#descrcopyandpaster').val();
+  }
   if (CURRENT_SITE_NAME === 'HDChina') {
     const meta = [];
     $("li:contains('基本信息'):last").next('li').children('i').each(function () {
@@ -118,7 +126,7 @@ export default () => {
         }
       }
     } else {
-      TORRENT_INFO.videoCodec = getVideoCodec(videoCodec);
+      TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title);
     }
     TORRENT_INFO.resolution = getResolution(resolution);
     TORRENT_INFO.audioCodec = getAudioCodec(audioCodec || TORRENT_INFO.title);
@@ -154,7 +162,7 @@ const getMetaInfo = (metaInfo) => {
 };
 // 获取logs 完整bdinfo或mediainfo
 const getLogsOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
   let logs = ''; let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = formatQuoteContent(quoteList[i]);
@@ -180,9 +188,9 @@ const formatQuoteContent = (content) => {
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;
   if (key.match(/大小/)) {
-    regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)B)`;
+    regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if (CURRENT_SITE_NAME === 'KEEPFRDS' && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
@@ -227,46 +235,31 @@ const getVideoType = (videoType) => {
 };
 /**
  * 格式化视频分类
- * @param {videoType} videoType
+ * @param {category} category
  */
-const getCategory = (videoType) => {
-  if (!videoType) {
+const getCategory = (category) => {
+  if (!category) {
     return '';
   }
-  videoType = videoType.replace(/[.-]/g, '').toLowerCase();
-  if (videoType.match(/movie|bd|ultra|电影/ig)) {
+  category = category.replace(/[.-]/g, '').toLowerCase();
+  if (category.match(/movie|bd|ultra|电影/ig)) {
     return 'movie';
-  } else if (videoType.match(/tv|drama|剧集/ig)) {
+  } else if (category.match(/tv|drama|剧集/ig)) {
     return 'tv';
-  } else if (videoType.match(/综艺/ig)) {
+  } else if (category.match(/TVSeries/ig)) {
+    return 'tvPack';
+  } else if (category.match(/综艺/ig)) {
     return 'variety';
-  } else if (videoType.match(/document|纪录|紀錄/ig)) {
+  } else if (category.match(/document|纪录|紀錄/ig)) {
     return 'documentary';
-  } else if (videoType.match(/sport|体育/ig)) {
+  } else if (category.match(/sport|体育/ig)) {
     return 'sport';
-  } else if (videoType.match(/mv|演唱/ig)) {
+  } else if (category.match(/mv|演唱/ig)) {
     return 'concert';
-  } else if (videoType.match(/anim|动|画|漫/ig)) {
+  } else if (category.match(/anim|动|画|漫/ig)) {
     return 'cartoon';
   }
   return '';
-};
-
-/**
- * 格式化视频编码格式
- * @param {code} codes 编码文字
- */
-const getVideoCodec = (codes) => {
-  if (!codes) {
-    return '';
-  }
-  codes = codes.replace(/[.-]|[ ]/g, '').toLowerCase();
-  if (codes.match(/265|hevc/ig)) {
-    return 'x265';
-  } else if (codes.match(/264|avc/ig)) {
-    return 'x264';
-  }
-  return codes;
 };
 
 const getResolution = (resolution) => {
