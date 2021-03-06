@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         easy-seed
 // @namespace    https://github.com/techmovie/easy-seed
-// @version      1.0.0
+// @version      1.0.0-beta.0
 // @description  easy seeding for different trackers
 // @author       techmovie <v.abed@icloud.com>
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
