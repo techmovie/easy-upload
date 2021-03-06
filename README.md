@@ -1,5 +1,8 @@
 # easy-seed
+
+(安装地址)[https://github.com/techmovie/easy-seed/raw/main/dist/easy-seed.user.js]
 ## 关于
+
 支持国内外主流PT站的转载种子脚本，尽可能减少不必要的重复工作，让发种更易上手。
 ## 功能
 * 支持国内外不同架构的站点互转，自动填写简介、视频参数等信息
