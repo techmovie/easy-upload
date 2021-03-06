@@ -28,6 +28,7 @@ const getAudioCodec = (title) => {
   return codes;
 };
 const getVideoCodecFromTitle = (title) => {
+  title = title.replace(/\.|-/g, '');
   if (title.match(/x264/i)) {
     return 'x264';
   } else if (title.match(/h264|AVC/i)) {

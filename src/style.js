@@ -13,6 +13,7 @@ export default GM_addStyle(`
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 .seed-dom li,.search-list li {
   margin-top: 0;

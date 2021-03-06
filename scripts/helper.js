@@ -6,7 +6,7 @@ const { name, version, author, description = '' } = require('../package.json');
 // 油猴前置注释
 exports.userScriptComment = `// ==UserScript==
 // @name         ${name}
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/techmovie/easy-seed
 // @version      ${version}
 // @description  ${description}
 // @author       ${author}
@@ -15,15 +15,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://hdbits.org/offer.php
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
-// @match        https://totheglory.im/details.php?id=*
-// @match        https://ourbits.club/details.php?id=*
-// @match        https://hdsky.me/details.php?id=*
-// @match        https://hdchina.org/details.php?id=*
-// @match        https://pt.keepfrds.com/details.php?id=*
-// @match        https://ptsbao.club/details.php?id=*
-// @match        https://www.beitai.pt/details.php?id=*
-// @match        https://pthome.net/details.php?id=*
-// @match        https://springsunday.net/details.php?id=*
+// @match        https://beyond-hd.me/torrents/*
 // @match        https://lemonhd.org/details*
 // @match        http*://*/upload*
 // @grant        GM_addStyle

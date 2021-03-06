@@ -235,26 +235,28 @@ const getVideoType = (videoType) => {
 };
 /**
  * 格式化视频分类
- * @param {videoType} videoType
+ * @param {category} category
  */
-const getCategory = (videoType) => {
-  if (!videoType) {
+const getCategory = (category) => {
+  if (!category) {
     return '';
   }
-  videoType = videoType.replace(/[.-]/g, '').toLowerCase();
-  if (videoType.match(/movie|bd|ultra|电影/ig)) {
+  category = category.replace(/[.-]/g, '').toLowerCase();
+  if (category.match(/movie|bd|ultra|电影/ig)) {
     return 'movie';
-  } else if (videoType.match(/tv|drama|剧集/ig)) {
+  } else if (category.match(/tv|drama|剧集/ig)) {
     return 'tv';
-  } else if (videoType.match(/综艺/ig)) {
+  } else if (category.match(/TVSeries/ig)) {
+    return 'tvPack';
+  } else if (category.match(/综艺/ig)) {
     return 'variety';
-  } else if (videoType.match(/document|纪录|紀錄/ig)) {
+  } else if (category.match(/document|纪录|紀錄/ig)) {
     return 'documentary';
-  } else if (videoType.match(/sport|体育/ig)) {
+  } else if (category.match(/sport|体育/ig)) {
     return 'sport';
-  } else if (videoType.match(/mv|演唱/ig)) {
+  } else if (category.match(/mv|演唱/ig)) {
     return 'concert';
-  } else if (videoType.match(/anim|动|画|漫/ig)) {
+  } else if (category.match(/anim|动|画|漫/ig)) {
     return 'cartoon';
   }
   return '';

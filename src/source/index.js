@@ -10,9 +10,9 @@ let getTorrentInfo = getPTPInfo;
 
 if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
   getTorrentInfo = getNexusPHPInfo;
-} else if (CURRENT_SITE_NAME === 'BHD') {
+} else if (CURRENT_SITE_NAME === 'BeyondHD') {
   getTorrentInfo = getBHDInfo;
-} else if (CURRENT_SITE_NAME === 'HDB') {
+} else if (CURRENT_SITE_NAME === 'HDBits') {
   getTorrentInfo = getHDBInfo;
 } else if (CURRENT_SITE_NAME === 'TTG') {
   getTorrentInfo = getTTGInfo;

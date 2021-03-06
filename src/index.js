@@ -54,7 +54,7 @@ const createSeedDom = (torrentDom) => {
       <button id="img-transfer">开始转换</button>
       <div class="checkbox">
         <input type="checkbox" id="nsfw">
-        <label for="nsfw">是否为NSFW</label>
+        <label for="nsfw">是否包含NSFW</label>
       </div>
       <div class="upload-status"></div>
     </div>
@@ -195,7 +195,7 @@ if (CURRENT_SITE_NAME) {
       torrentInsertDom.after(trDom);
       torrentInsertDom = $('.easy-seed-td');
     }
-    if (CURRENT_SITE_NAME === 'HDB') {
+    if (CURRENT_SITE_NAME === 'HDBits') {
       const trDom = `<tr>
       <td class="rowfollow easy-seed-td"></td>
       </tr>`;

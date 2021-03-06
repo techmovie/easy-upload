@@ -5,7 +5,7 @@ const getDescription = (info) => {
   const siteInfo = CURRENT_SITE_INFO;
   const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
   const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
-  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDB' && info.videoType.match(/bluray/);
+  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDBits' && info.videoType.match(/bluray/);
   const bdinfo = info.bdinfo ? `BDInfo:\n[quote]${info.bdinfo}[/quote]\n\n` : '';
   const mediaInfo = siteInfo.mediaInfo && !isHDBBDInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
   const screenshots = info.screenshots.map(img => {
@@ -15,13 +15,13 @@ const getDescription = (info) => {
     return `[img]${img}[/img]`;
   });
   const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screenshots:\n${screenshots.join('')}`;
-  return `${thanksQuote}${doubanInfo}${mediaInfo}${info.description}${logs}${bdinfo}${screenshotsPart}`;
+  return `${thanksQuote}${doubanInfo}${mediaInfo}${logs}${bdinfo}${screenshotsPart}`;
 };
 const fillTargetForm = (info) => {
   console.log(info);
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
-  if (CURRENT_SITE_NAME === 'HDB') {
+  if (CURRENT_SITE_NAME === 'HDBits') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
       return `${info.movieName || info.movieAkaName} ${p2}`;
     });
@@ -56,19 +56,20 @@ const fillTargetForm = (info) => {
   const mediaInfo = info.mediaInfo;
   let description = getDescription(info);
   // HDB只填入mediainfo bdinfo放在简介里
-  if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDB')) {
+  if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDBits')) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
   }
   if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
     description = info.description;
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
-  if (CURRENT_SITE_NAME === 'BHD') {
+  if (CURRENT_SITE_NAME === 'BeyondHD') {
     $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
     getTMDBIdByIMDBId(imdbId).then(id => {
       $(CURRENT_SITE_INFO.tmdb.selector).val(id);
     });
     const { category, videoType } = info;
+    // videoType和category交换
     info.category = videoType;
     info.videoType = category;
     // BHD需要细分蓝光类型
@@ -109,19 +110,20 @@ const fillTargetForm = (info) => {
 * @return 取当前key对应的value取交集之后的数组
 * */
 const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
+  console.log(key);
   // 拿到字段所对应的值 可能为字符串或者数组
-  const value = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : undefined;
-  if (Array.isArray(value) && selectArray) {
-    // 如果此时分类对应的值仍未数组 则继续过滤
-    if (selectArray.length > 1) {
-      selectArray = selectArray.filter(item => value.includes(item));
-    }
+  const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : undefined;
+  if (Array.isArray(valueArray) && selectArray) {
     // 如果当前key下有selector属性 赋值为value第一项
     if (siteInfo[key].selector) {
-      $(siteInfo[key].selector).val(value[0]);
+      $(siteInfo[key].selector).val(valueArray.shift());
+    }
+    // 如果此时分类对应的值仍未数组 则继续过滤
+    if (selectArray.length > 1) {
+      selectArray = selectArray.filter(item => valueArray.includes(item));
     }
   } else if (siteInfo[key] && siteInfo[key].selector) {
-    $(siteInfo[key].selector).val(value);
+    $(siteInfo[key].selector).val(valueArray);
   }
   return selectArray;
 };
