@@ -1,7 +1,7 @@
 {
   "name": "easy-seed",
   "description": "easy seeding for different trackers",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "main": "src/index.js",
   "repository": "git@github.com:techmovie/easy-seed.git",
   "author": "techmovie <v.abed@icloud.com>",
@@ -10,7 +10,7 @@
     "build": "node scripts/build.js",
     "dev": "node scripts/dev.js"
   },
-  "browserslist":[
+  "browserslist": [
     "last 1 version",
     "> 1%",
     "IE 10"
