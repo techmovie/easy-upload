@@ -913,7 +913,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '.ad_detail_top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1142,6 +1142,20 @@ PT_SITE:
     asSource: true
     asTarget: false
     seedDomSelector: '#top+table tr:nth-child(3)'
+    uploadPath: /upload.php
+    searchPath: /browse.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+  LEMONHD:
+    url: 'https://lemonhd.org'
+    host: lemonhd.org
+    siteType: NexusPHP
+    asSource: true
+    asTarget: false
+    seedDomSelector: '#top+div+table tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
