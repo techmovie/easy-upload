@@ -190,7 +190,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
@@ -266,11 +266,11 @@ const getResolution = (resolution) => {
   resolution = (resolution === undefined) ? '' : resolution.toLowerCase();
   if (resolution.match(/4k|2160|UHD/ig)) {
     return '2160p';
-  } else if (resolution.match(/1080p/ig)) {
+  } else if (resolution.match(/1080(p)?/ig)) { // 兼容烧包
     return '1080p';
   } else if (resolution.match(/1080i/ig)) {
     return '1080i';
-  } else if (resolution.match(/720p/ig)) {
+  } else if (resolution.match(/720(p)?/ig)) { // 兼容烧包
     return '720p';
   } else if (resolution.match(/sd/ig)) {
     return '480p';

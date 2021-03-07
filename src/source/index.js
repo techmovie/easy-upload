@@ -7,8 +7,9 @@ import getTTGInfo from './ttg';
 import getNexusPHPInfo from './nexusphp';
 
 let getTorrentInfo = getPTPInfo;
-
-if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+if (!CURRENT_SITE_INFO) {
+  getTorrentInfo = undefined;
+} else if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
   getTorrentInfo = getNexusPHPInfo;
 } else if (CURRENT_SITE_NAME === 'BeyondHD') {
   getTorrentInfo = getBHDInfo;

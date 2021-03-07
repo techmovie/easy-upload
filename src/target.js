@@ -1,26 +1,11 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
 import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
-const getDescription = (info) => {
-  const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]\n\n`;
-  const siteInfo = CURRENT_SITE_INFO;
-  const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
-  const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
-  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDBits' && info.videoType.match(/bluray/);
-  const bdinfo = info.bdinfo ? `BDInfo:\n[quote]${info.bdinfo}[/quote]\n\n` : '';
-  const mediaInfo = siteInfo.mediaInfo && !isHDBBDInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
-  const screenshots = info.screenshots.map(img => {
-    if (img.match(/\[url=.+\]/i)) {
-      return img;
-    }
-    return `[img]${img}[/img]`;
-  });
-  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screenshots:\n${screenshots.join('')}`;
-  return `${thanksQuote}${doubanInfo}${mediaInfo}${logs}${bdinfo}${screenshotsPart}`;
-};
+
 const fillTargetForm = (info) => {
   console.log(info);
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
+  // 针对hdb的站点的命名规则对标题进行处理
   if (CURRENT_SITE_NAME === 'HDBits') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
       return `${info.movieName || info.movieAkaName} ${p2}`;
@@ -30,16 +15,20 @@ const fillTargetForm = (info) => {
     }
     info.title = mediaTitle;
   }
+  // 给SSD点赞！
   if (CURRENT_SITE_NAME === 'SSD') {
     info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
+  // 北洋站不用填写名称
   if (CURRENT_SITE_INFO.name) {
     $(CURRENT_SITE_INFO.name.selector).val(info.title);
   }
   // 避免选择种子文件后自动改变种子名称
   disableTorrentChange();
+
+  // 填写四个常见的信息
   const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
   commonInfoKeys.forEach(key => {
     const siteInfo = CURRENT_SITE_INFO[key];
@@ -59,10 +48,12 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDBits')) {
     $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
   }
+  // 内站直接填写完整简介
   if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
     description = info.description;
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
+  // 站点特殊处理
   if (CURRENT_SITE_NAME === 'BeyondHD') {
     $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
     getTMDBIdByIMDBId(imdbId).then(id => {
@@ -110,7 +101,6 @@ const fillTargetForm = (info) => {
 * @return 取当前key对应的value取交集之后的数组
 * */
 const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
-  console.log(key);
   // 拿到字段所对应的值 可能为字符串或者数组
   const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : undefined;
   if (Array.isArray(valueArray) && selectArray) {
@@ -129,9 +119,26 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer/)) {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO/)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
+};
+const getDescription = (info) => {
+  const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]\n\n`;
+  const siteInfo = CURRENT_SITE_INFO;
+  const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
+  const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
+  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDBits' && info.videoType.match(/bluray/);
+  const bdinfo = info.bdinfo ? `BDInfo:\n[quote]${info.bdinfo}[/quote]\n\n` : '';
+  const mediaInfo = siteInfo.mediaInfo && !isHDBBDInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
+  const screenshots = info.screenshots.map(img => {
+    if (img.match(/\[url=.+\]/i)) {
+      return img;
+    }
+    return `[img]${img}[/img]`;
+  });
+  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screenshots:\n${screenshots.join('')}`;
+  return `${thanksQuote}${doubanInfo}${mediaInfo}${logs}${bdinfo}${screenshotsPart}`;
 };
 export {
   fillTargetForm,

@@ -59,7 +59,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    seedDomSelector: '#top+table tr:nth-child(7)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(7)' 
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -175,7 +175,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -432,7 +432,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.new.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -815,7 +815,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -913,7 +913,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top+table tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1095,7 +1095,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: false
-    seedDomSelector: '#top+table tr:nth-child(3)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1109,7 +1109,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+font+table tr:nth-child(5)'
+    seedDomSelector: '#top+font+table>tbody>tr:nth-child(5)'
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1117,6 +1117,93 @@ PT_SITE:
       search_area: '{key}'
       sort: '5'
       type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: '#small_descr'
+    description:
+      selector: 'textarea[name="descr"]'
+    imdb:
+      selector: 'input[name="imdburl"][type="text"]'
+    # 太混乱了 不想做支持了
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        tv: '402'
+        tvPack: '402'
+        documentary: '404'
+        concert: '414'
+        sport: '409'
+        cartoon: '405'
+        variety: '403'
+    source:
+      selector: '#medium_sel'
+      map:
+        uhdbluray: '10'
+        bluray: '1'
+        hdtv: '5'
+        dvd: '3'
+        web: '2'
+        vhs: '9'
+        hddvd: '9'
+    videoCodec:
+      selector: 'select[name="codec_sel"]'
+      map:
+        h264: '1'
+        hevc: '6'
+        x264: '1'
+        x265: '6'
+        h265: '6'
+        mpeg2: '4'
+        mpeg4: '5'
+        vc1: '2'
+        xvid: '3'
+        dvd: '4'
+    audioCodec:
+      selector: '#audiocodec_sel'
+      map:
+        aac: '6'
+        ac3: '11'
+        dd: '10'
+        dd+: '10'
+        dts: '3'
+        truehd: '9'
+        lpcm: '12'
+        dtshdma: '8'
+        atmos: '15'
+        dtsx: '13'
+        flac: '1'
+    videoType:
+      selector: '#source_sel'
+      map:
+        uhdbluray: '92'
+        bluray: '55'
+        remux: '88'
+        encode: 
+          - '3'
+          - '91'
+          - '92'
+        web: '4'
+        hdtv: '94'
+        dvd: '89'
+        dvdrip: '89'
+        other: ''
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        2160p: 
+          - '5'
+          - '92'
+        1080p: 
+          - '1'
+          - '3'
+        1080i: '1'
+        720p: 
+          - '2'
+          - '91'
+        576p: '3'
+        480p: '4'
   BeiTai:
     url: 'https://www.beitai.pt'
     host: www.beitai.pt
@@ -1394,44 +1481,53 @@ PT_SITE:
       selector: '#descr'
     imdb:
       selector: 'input[name="url"]'
-    douban:
-      selector: 'input[name="douban"]'
     category:
       selector: '#browsecat'
       map:
         movie: '401'
         moviePack: '401'
-        tv: '404'
-        tvPack: '404'
-        documentary: '402'
+        tv: '403'
+        tvPack: '402'
+        documentary: '404'
         concert: '406'
         sport: '407'
-        cartoon: '403'
+        cartoon: '405'
         variety: '405'
     videoType:
-      selector: 'select[name="source_sel"]'
+      selector: 'select[name="medium_sel"]'
       map:
         uhdbluray: '1'
-        bluray: '2'
+        bluray: '1'
+        hddvd: '2'
         remux: '3'
-        encode: '6'
-        web: '5'
-        hdtv: '4'
-        dvd: '7'
-        dvdrip: '7'
-        other: '15'
-    area:
-      selector: 'select[name="team_sel"]'
+        encode: '7'
+        web: '7'
+        hdtv: '5'
+        dvd: '6'
+        dvdrip: '6'
+        other: ''
+    videoCodec:
+      selector: 'select[name="codec_sel"]'
       map:
-        CN: '1'
-        US: '4'
-        EU: '4'
-        HK: '2'
-        TW: '3'
-        JP: '6'
-        KR: '5'
-        IND: '7'
-        OT: '8'
+        h264: '1'
+        hevc: '10'
+        x264: '1'
+        x265: '10'
+        h265: '10'
+        mpeg2: '4'
+        mpeg4: '5'
+        vc1: '2'
+        xvid: '3'
+        dvd: '4'
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        2160p: '5'
+        1080p: '1'
+        1080i: '2'
+        720p: '3'
+        576p: '4'
+        480p: '4'
   TJUPT:
     url: 'https://www.tjupt.org'
     host: www.tjupt.org
