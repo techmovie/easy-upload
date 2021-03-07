@@ -186,7 +186,7 @@ if (CURRENT_SITE_NAME) {
     // 向当前所在站点添加按钮等内容
     console.log(TORRENT_INFO);
     let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
-    if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME === 'BHD' || CURRENT_SITE_NAME === 'TTG') {
+    if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia/)) {
       const trDom = `<tr>
       <td class="rowhead nowrap">
       </td>

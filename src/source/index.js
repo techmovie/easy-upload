@@ -4,6 +4,7 @@ import getPTPInfo from './ptp';
 import getBHDInfo from './bhd';
 import getHDBInfo from './hdb';
 import getTTGInfo from './ttg';
+import getBluInfo from './blu';
 import getNexusPHPInfo from './nexusphp';
 
 let getTorrentInfo = getPTPInfo;
@@ -17,6 +18,8 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getHDBInfo;
 } else if (CURRENT_SITE_NAME === 'TTG') {
   getTorrentInfo = getTTGInfo;
+} else if (CURRENT_SITE_NAME === 'Blutopia') {
+  getTorrentInfo = getBluInfo;
 }
 
 export default getTorrentInfo;
