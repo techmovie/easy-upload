@@ -114,9 +114,9 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|Canada|CA|美国|加拿大/i)) {
+    if (area.match(/USA|US|Canada|CA|美国|加拿大/i)) {
       return 'US';
-    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
+    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/i)) {
       return 'EU';
     } else if (area.match(/Japan|日本|JP/i)) {
       return 'JP';

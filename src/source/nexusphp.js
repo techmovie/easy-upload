@@ -48,14 +48,14 @@ export default () => {
   if (CURRENT_SITE_NAME === 'SSD') {
     TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr('href');
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
-    const doubanPoster = $("div[data-group='douban']").find('img').attr('src') ? `[img]${$("div[data-group='douban']").find('img').attr('src')}[/img]\n` : '';
+    const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
+    const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
     TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
-      const extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
-      const extraPoster = $('#kposter').find('img').attr('src') ? `[img]${$('#kposter').find('img').attr('src')}[/img]\n` : '';
+      const extraTextInfo = `[quote]${getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0])}[/quote]\n`;
       const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
-      const extraMediaInfo = '[quote]' + getFilterBBCode($("section[data-group='mediainfo']")?.[0]) + '[/quote]';
-      descriptionBBCode = extraPoster + extraTextInfo + extraMediaInfo + extraScreenshot;
+      const extraMediaInfo = '[quote]' + $("section[data-group='mediainfo'] .codemain").text() + '[/quote]';
+      descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
     }
 
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
@@ -82,6 +82,14 @@ export default () => {
   } else if (siteImdbUrl) {
     TORRENT_INFO.imdbUrl = (siteImdbUrl.match(/www.imdb.com\/title/)) ? siteImdbUrl : '';
   }
+  TORRENT_INFO.year = year ? year.pop() : '';
+  TORRENT_INFO.title = title;
+  TORRENT_INFO.subtitle = subtitle;
+  if (TORRENT_INFO.doubanInfo) {
+    descriptionBBCode = TORRENT_INFO.doubanInfo += descriptionBBCode;
+    TORRENT_INFO.doubanInfo = '';
+  }
+  TORRENT_INFO.description = descriptionBBCode;
   // 兼容家园
   if (!processing || processing.match(/raw/)) {
     const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
@@ -91,13 +99,6 @@ export default () => {
   } else {
     TORRENT_INFO.area = getAreaCode(processing);
   }
-  TORRENT_INFO.year = year ? year.pop() : '';
-  TORRENT_INFO.title = title;
-  TORRENT_INFO.subtitle = subtitle;
-  if (TORRENT_INFO.doubanInfo) {
-    descriptionBBCode = TORRENT_INFO.doubanInfo += descriptionBBCode;
-  }
-  TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getCategory(category || descriptionBBCode);
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
@@ -134,11 +135,15 @@ export default () => {
 };
 
 const getMetaInfo = (metaInfo) => {
+  let resolutionKey = '分辨率|解析度|格式';
+  if (CURRENT_SITE_NAME === 'SSD') {
+    resolutionKey = '分辨率|解析度';
+  }
   const category = getMetaValue('类型|分类|類別', metaInfo);
   const videoType = getMetaValue('媒介|来源|质量', metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
   const audioCodec = getMetaValue('音频|音频编码', metaInfo);
-  const resolution = getMetaValue('分辨率|格式|解析度', metaInfo);
+  const resolution = getMetaValue(resolutionKey, metaInfo);
   const processing = getMetaValue('处理|處理|地区', metaInfo);
   const size = getMetaValue('大小', metaInfo);
   console.log({
