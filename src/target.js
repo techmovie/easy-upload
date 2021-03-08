@@ -88,8 +88,16 @@ const fillTargetForm = (info) => {
       matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
     });
   }
-  if (CURRENT_SITE_NAME.match(/HDHome/i)) {
+  if (CURRENT_SITE_NAME.match(/HDHome|PTHome/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
+  }
+
+  // 对配置覆盖不到的地方进行专门处理
+  if (CURRENT_SITE_NAME.match(/PTHome/i)) {
+    if (info.tags.DIY) {
+      const categoryValue = info.videoType === 'bluray' ? '14' : '13';
+      $('select[name ="medium_sel"]').val(categoryValue);
+    }
   }
 };
 /*
@@ -119,7 +127,7 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO/)) {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome/)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
 };

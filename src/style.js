@@ -20,6 +20,7 @@ export default GM_addStyle(`
   margin-bottom: 0;
   margin-left: 0;
   margin-right: 5px;
+  line-height: 24px;
 }
 .seed-dom li:last-child span{
   display: none;

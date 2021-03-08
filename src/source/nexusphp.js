@@ -129,7 +129,7 @@ export default () => {
     } else {
       TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title);
     }
-    TORRENT_INFO.resolution = getResolution(resolution);
+    TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
     TORRENT_INFO.audioCodec = getAudioCodec(audioCodec || TORRENT_INFO.title);
   }
 };
@@ -195,7 +195,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
