@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getFilterBBCode } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
@@ -21,6 +21,20 @@ export default () => {
   if (TORRENT_INFO.category === 'concert') {
     TORRENT_INFO.description = $('#synopsis').text();
   }
+
+  let descriptionBBCode = getFilterBBCode(torrentDom.find('.bbcode-table-guard')[0]);
+  descriptionBBCode = descriptionBBCode.replace(/\[quote\]General\n+Unique\s+ID(\n|.)+?\[\/quote\]/g, '');
+  const { comparisonData, screenshots } = getPTPImage(torrentDom);
+  if (comparisonData) {
+    Object.keys(comparisonData).forEach(key => {
+      const regStr = new RegExp(key + ':');
+      descriptionBBCode = descriptionBBCode.replace(regStr, '');
+      descriptionBBCode += '\n[b]' + key + ':[/b]\n' + comparisonData[key].map(url => {
+        return `[img]${url}[/img]`;
+      }).join('\n');
+    });
+  }
+  console.log(descriptionBBCode);
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
   const [codes, container, source, ...otherInfo] = infoArray;
   const isRemux = otherInfo.includes('Remux');
@@ -41,7 +55,7 @@ export default () => {
   TORRENT_INFO.title = torrentName;
   TORRENT_INFO.source = getPTPSource(source, codes, resolution);
   TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
-  TORRENT_INFO.screenshots = getPTPImage(torrentDom);
+  TORRENT_INFO.screenshots = screenshots;
   let country = [];
   const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/);
   if (matchArray && matchArray.length > 0) {
@@ -82,25 +96,32 @@ const getPTPLogsOrBDInfo = (torrentDom) => {
 };
 // 获取截图
 const getPTPImage = () => {
-  let isComparison = false;
-  let imgList = [];
+  const imgList = [];
+  let comparisonData = {};
   const torrentInfoPanel = $('.movie-page__torrent__panel');
-  const links = torrentInfoPanel.find('a');
+  const links = torrentInfoPanel.find('a:contains(Show comparison)');
   for (let i = 0; i < links.length; i++) {
     const clickFunc = links[i].getAttribute('onclick');
-    if (clickFunc && clickFunc.includes('BBCode.ScreenshotComparisonToggleShow')) {
-      isComparison = true;
-      imgList = JSON.parse(clickFunc.match(/\["http([^\]]*)\]/)[0]);
-      break;
+    if (clickFunc && clickFunc.match(/BBCode.ScreenshotComparisonToggleShow/)) {
+      try {
+        const paramsStr = clickFunc.match(/\((.+)\)/)?.[1] ?? '';
+        const [comparisonTextStr = 'null', imgListStr = 'null'] = paramsStr.match(/\[.+?\]/g);
+        const comparisonText = JSON.parse(comparisonTextStr)?.join(',') ?? '';
+        const comparisonList = JSON.parse(imgListStr);
+        comparisonData[comparisonText] = comparisonList;
+      } catch (error) {
+        comparisonData = null;
+      }
     }
   }
-  if (!isComparison) {
-    const imageDom = torrentInfoPanel.find('.bbcode__image');
-    for (let i = 0; i < imageDom.length; i++) {
-      imgList.push(imageDom[i].getAttribute('src'));
-    }
+  const imageDom = torrentInfoPanel.find('.bbcode__image');
+  for (let i = 0; i < imageDom.length; i++) {
+    imgList.push(imageDom[i].getAttribute('src'));
   }
-  return imgList;
+  return {
+    screenshots: imgList,
+    comparisonData,
+  };
 };
 const getPTPSource = (source, codes, resolution) => {
   if (codes.match(/BD100|BD66/i)) {

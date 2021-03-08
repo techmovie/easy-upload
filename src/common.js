@@ -1,4 +1,4 @@
-import { CODES_ARRAY, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
+import { CODES_ARRAY, CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -431,6 +431,20 @@ const getFilterBBCode = (content) => {
     });
   }
 };
+const rgb2hex = (rgb) => {
+  rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  return (rgb && rgb.length === 4)
+    ? '#' +
+    ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[3], 10).toString(16)).slice(-2)
+    : '';
+};
+
+const ensureProperColor = (color) => {
+  if (/rgba?/.test(color)) return rgb2hex(color);
+  return color;
+};
 // html转BBCode代码
 const htmlToBBCode = (node) => {
   const bbCodes = [];
@@ -440,25 +454,32 @@ const htmlToBBCode = (node) => {
   switch (node.nodeType) {
     case 1: { // tag
       switch (node.tagName.toUpperCase()) {
-        case 'UL': { pp('[list]', '[/list]'); break; }
+        case 'UL': { pp(null, null); break; }
         case 'OL': { pp('[list=1]', '[/list]'); break; }
-        case 'LI': { pp('[*]'); break; }
+        case 'LI': { pp('[*]', '\n'); break; }
         case 'B': { pp('[b]', '[/b]'); break; }
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
         case 'DIV': {
           if (node.className === 'codemain') {
             pp('\n[quote]', '[/quote]'); break;
+          } else {
+            pp('\n', '\n'); break;
           }
-          pp('\n', '\n'); break;
         }
         case 'P': { pp('\n', '\n'); break; }
         case 'BR': { pp('\n'); break; }
         case 'SPAN': { pp(null, null); break; }
         case 'BLOCKQUOTE':
-        case 'TD': // TTG
         case 'PRE':
         case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
+        case 'TD': {
+          if (CURRENT_SITE_NAME === 'TTG') {
+            pp('[quote]', '[/quote]'); break;
+          } else {
+            return '';
+          }
+        }
         case 'IMG': {
           let imgUrl = '';
           const { src } = node;
@@ -475,14 +496,18 @@ const htmlToBBCode = (node) => {
         case 'FONT': {
           const { color } = node;
           if (color) {
-            pp(`[color=${color}]`, '[/color]');
+            pp(`[color=${ensureProperColor(color)}]`, '[/color]');
           }
           break;
         }
         case 'A': {
           const { href } = node;
           if (href && href.length > 0) {
-            pp(`[url=${href}]`, '[/url]');
+            if (href.match(/javascript:void/)) {
+              pp(null, '\n');
+            } else {
+              pp(`[url=${href}]`, '[/url]');
+            }
           }
           break;
         }
@@ -504,11 +529,11 @@ const htmlToBBCode = (node) => {
       }
       if (fontStyle === 'italic') pp('[i]', '[/i]');
       if (textDecoration === 'underline') pp('[u]', '[/u]');
-      if (color && color.trim() !== '') pp(`[color=${color}]`, '[/color]');
+      if (color && color.trim() !== '') pp(`[color=${ensureProperColor(color)}]`, '[/color]');
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用|Quote|代码|代碼/)) {
+      if (node.textContent.match(/引用|Quote|代码|代碼|Show|Hide/)) {
         return '';
       }
       return node.textContent;
