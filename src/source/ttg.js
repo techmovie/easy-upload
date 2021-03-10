@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec, getVideoCodecFromTitle } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -7,7 +7,7 @@ export default () => {
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
-  TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.area = area;
@@ -38,8 +38,7 @@ export default () => {
     } else {
       TORRENT_INFO.category = category;
     }
-    const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(bbCodes);
-    TORRENT_INFO.logs = logs;
+    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(bbCodes);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
@@ -48,7 +47,7 @@ export default () => {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.resolution = resolution;
-      TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
+      TORRENT_INFO.tags = { ...tags, ...mediaTags };
     } else {
       let resolution = TORRENT_INFO.title.match(/\d{3,4}(p|i)/i)?.[0];
       if (!resolution && resolution.match(/4k|uhd/i)) {
@@ -124,14 +123,10 @@ const getCategoryAndArea = (mediaInfo) => {
   };
 };
 // 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
-  let logs = ''; let bdinfo = ''; let mediaInfo = '';
+const getBDInfoOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g); let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = formatQuoteContent(quoteList[i]);
-    if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${quoteContent}[/quote]`;
-    }
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
       bdinfo += quoteContent;
     }
@@ -139,8 +134,11 @@ const getLogsOrMediaInfo = (bbcode) => {
       mediaInfo += quoteContent;
     }
   }
+  // 有一些bdinfo是没有放在引用里的
+  if (!bdinfo) {
+    bdinfo = getBDInfoFromBBCode(bbcode);
+  }
   return {
-    logs,
     bdinfo,
     mediaInfo,
   };

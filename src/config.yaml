@@ -832,7 +832,7 @@ PT_SITE:
     douban: 
       selector: 'dburl'
     imdb:
-      selector:  'input[name="url"]'
+      selector:  'input[name="url"][type="text"]'
     mediaInfo:
       selector: '#Media_BDInfo'
     screenshots:
@@ -1406,7 +1406,7 @@ PT_SITE:
     description:
       selector: '#descr'
     imdb:
-      selector: 'input[name="url"]'
+      selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban"]'
     category:
@@ -1466,7 +1466,7 @@ PT_SITE:
     description:
       selector: '#descr'
     imdb:
-      selector: 'input[name="url"]'
+      selector: 'input[name="url"][type="text"]'
     category:
       selector: '#browsecat'
       map:
@@ -1533,7 +1533,7 @@ PT_SITE:
     description:
       selector: '#descr'
     imdb:
-      selector: 'input[name="url"]'
+      selector: 'input[name="url"][type="text"]'
     douban:
       selector: '#external_url'
     category:

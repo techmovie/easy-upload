@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodec, getVideoCodecFromTitle } from '../common';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
@@ -106,8 +106,8 @@ export default () => {
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const { logs, bdinfo, mediaInfo } = getLogsOrMediaInfo(descriptionBBCode);
-  TORRENT_INFO.logs = logs;
+  const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
+
   TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
   if (isBluray && bdinfo) {
     TORRENT_INFO.mediaInfo = bdinfo;
@@ -130,7 +130,7 @@ export default () => {
       TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title);
     }
     TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
-    TORRENT_INFO.audioCodec = getAudioCodec(audioCodec || TORRENT_INFO.title);
+    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
   }
 };
 
@@ -165,15 +165,12 @@ const getMetaInfo = (metaInfo) => {
     size,
   };
 };
-// 获取logs 完整bdinfo或mediainfo
-const getLogsOrMediaInfo = (bbcode) => {
+// 获取完整bdinfo或mediainfo
+const getBDInfoOrMediaInfo = (bbcode) => {
   const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
-  let logs = ''; let bdinfo = ''; let mediaInfo = '';
+  let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = formatQuoteContent(quoteList[i]);
-    if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${quoteContent}[/quote]`;
-    }
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
       bdinfo += quoteContent;
     }
@@ -181,8 +178,11 @@ const getLogsOrMediaInfo = (bbcode) => {
       mediaInfo += quoteContent;
     }
   }
+  // 有一些bdinfo是没有放在引用里的
+  if (!bdinfo) {
+    bdinfo = getBDInfoFromBBCode(bbcode);
+  }
   return {
-    logs,
     bdinfo,
     mediaInfo,
   };

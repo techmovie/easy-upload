@@ -1,9 +1,8 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getFilterBBCode } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getFilterBBCode, getBDInfoFromBBCode } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
-  console.log(torrentId);
   if (!torrentId) {
     return false;
   }
@@ -14,16 +13,15 @@ export default () => {
   TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.movieAkaName = movieAkaName;
-  TORRENT_INFO.imdbUrl = $('#imdb-title-link').attr('href') || '';
+  TORRENT_INFO.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
-  if (TORRENT_INFO.category === 'concert') {
-    TORRENT_INFO.description = $('#synopsis').text();
-  }
-
   let descriptionBBCode = getFilterBBCode(torrentDom.find('.bbcode-table-guard')[0]);
-  descriptionBBCode = descriptionBBCode.replace(/\[quote\]General\n+Unique\s+ID(\n|.)+?\[\/quote\]/g, '');
+  // descriptionBBCode = descriptionBBCode.replace(`[quote]${TORRENT_INFO.mediaInfo}[/quote]`, '');
+  if (TORRENT_INFO.category === 'concert') {
+    descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
+  }
   const { comparisonData, screenshots } = getPTPImage(torrentDom);
   if (comparisonData) {
     Object.keys(comparisonData).forEach(key => {
@@ -35,12 +33,12 @@ export default () => {
     });
   }
   console.log(descriptionBBCode);
+  TORRENT_INFO.description = descriptionBBCode;
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
   const [codes, container, source, ...otherInfo] = infoArray;
   const isRemux = otherInfo.includes('Remux');
   TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
-  const { logs, bdinfo } = getPTPLogsOrBDInfo(torrentDom);
-  TORRENT_INFO.logs = logs;
+  const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
@@ -76,25 +74,7 @@ const getPTPType = () => {
   const ptpType = $('#torrent-table .basic-movie-list__torrent-edition__main').eq(0).text();
   return typeMap[ptpType];
 };
-// 获取eac3to日志
-const getPTPLogsOrBDInfo = (torrentDom) => {
-  const quoteList = torrentDom.find('.movie-page__torrent__panel blockquote');
-  let logs = ''; let bdinfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = quoteList[i].textContent;
-    if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${quoteContent}[/quote]`;
-    }
-    if (quoteContent.match(/Disc\s*Size/)) {
-      bdinfo += quoteContent;
-    }
-  }
-  return {
-    logs,
-    bdinfo,
-  };
-};
-// 获取截图
+// 获取截图 对比图和原始截图分开获取
 const getPTPImage = () => {
   const imgList = [];
   let comparisonData = {};
