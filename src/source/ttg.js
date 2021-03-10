@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodec, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -7,7 +7,7 @@ export default () => {
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
-  const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
   const mediaTecInfo = getTorrentValueDom('类型').text();
   const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
   TORRENT_INFO.area = area;
@@ -54,7 +54,7 @@ export default () => {
         resolution = '2160p';
       }
       TORRENT_INFO.resolution = resolution;
-      TORRENT_INFO.audioCodec = getAudioCodec(TORRENT_INFO.title);
+      TORRENT_INFO.audioCodec = getAudioCodecFromTitle(TORRENT_INFO.title);
       // 从简略mediainfo中获取videoCodec
       if (bbCodes.match(/VIDEO(\.| )*CODEC/i)) {
         const matchCodec = bbCodes.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)?.[2];
@@ -69,7 +69,7 @@ export default () => {
       if (bbCodes.match(/AUDIO\s*CODEC/i)) {
         const matchCodec = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)?.[1];
         if (matchCodec) {
-          TORRENT_INFO.audioCodec = getAudioCodec(matchCodec);
+          TORRENT_INFO.audioCodec = getAudioCodecFromTitle(matchCodec);
         }
       }
     }

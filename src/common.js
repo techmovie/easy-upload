@@ -565,6 +565,9 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/国配|国语/i)) {
     tags.chineseAudio = true;
   }
+  if (title.match(/Atoms|杜比全景声/i)) {
+    tags.atoms = true;
+  }
   if (title.match(/HDR/i)) {
     if (title.match(/HDR10\+/i)) {
       tags['HDR10+'] = true;
@@ -572,7 +575,7 @@ const getTagsFromSubtitle = (title) => {
       tags.HDR = true;
     }
   }
-  if (title.match(/DoVi|(Dolby\s*Vision)/i)) {
+  if (title.match(/DoVi|(Dolby\s*Vision)|杜比视界/i)) {
     tags.DolbyVision = true;
   }
   if (title.match(/粤/i)) {
