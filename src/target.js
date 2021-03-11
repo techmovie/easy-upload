@@ -52,24 +52,34 @@ const fillTargetForm = (info) => {
   if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
     description = info.description;
   }
+  // blu 修改描述默认展示方式
+  if (CURRENT_SITE_NAME.match(/Blutopia/)) {
+    $(document).ready(() => {
+      $('#autokeywords').focus();
+    });
+  }
+
   $(CURRENT_SITE_INFO.description.selector).val(description);
   // 站点特殊处理
-  if (CURRENT_SITE_NAME === 'BeyondHD') {
-    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
+  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
+    const fillIMDBId = CURRENT_SITE_NAME === 'Blutopia' ? imdbId.replace('tt', '') : imdbId;
+    $(CURRENT_SITE_INFO.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(id => {
       $(CURRENT_SITE_INFO.tmdb.selector).val(id);
     });
-    const { category, videoType } = info;
-    // videoType和category交换
-    info.category = videoType;
-    info.videoType = category;
-    // BHD需要细分蓝光类型
-    if (videoType.match(/bluray/)) {
-      let bdType = getBDType(info.size);
-      if (videoType === 'uhdbluray' && bdType === 'BD50') {
-        bdType = 'uhd50';
+    if (CURRENT_SITE_NAME === 'BeyondHD') {
+      const { category, videoType } = info;
+      // videoType和category交换
+      info.category = videoType;
+      info.videoType = category;
+      // BHD需要细分蓝光类型
+      if (videoType.match(/bluray/)) {
+        let bdType = getBDType(info.size);
+        if (videoType === 'uhdbluray' && bdType === 'BD50') {
+          bdType = 'uhd50';
+        }
+        info.category = bdType;
       }
-      info.category = bdType;
     }
   }
   const category = CURRENT_SITE_INFO.category.map[info.category];

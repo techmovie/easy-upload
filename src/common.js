@@ -152,19 +152,24 @@ const getBDType = (size) => {
 };
 
 const getTMDBIdByIMDBId = (imdbid) => {
-  return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
-      onload (res) {
-        const data = JSON.parse(res.responseText);
-        if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
-          reject(new Error('请求失败'));
-        }
-        resolve(data.movie_results[0].id);
-      },
+  try {
+    return new Promise((resolve, reject) => {
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
+        onload (res) {
+          const data = JSON.parse(res.responseText);
+          console.log(data);
+          if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
+            reject(new Error('请求失败'));
+          }
+          resolve(data.movie_results[0].id);
+        },
+      });
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getIMDBIdByUrl = (imdbLink) => {
   const imdbIdArray = /tt\d+/.exec(imdbLink);

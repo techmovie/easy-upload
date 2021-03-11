@@ -1557,14 +1557,14 @@ PT_SITE:
     uploadPath: /upload/1
     searchPath: /torrents
     seedDomSelector: '#vue+.panel table tr:last' 
-    title:
-      selector: 'input[name="name"]'
+    name:
+      selector: '#title'
     description:
       selector: '#upload-form-description'
     imdb:
       selector: '#autoimdb'
     tmdb:
-      selector: '#tmdbauto'
+      selector: '#autotmdb'
     mediaInfo:
       selector: 'textarea[name="mediainfo"]'
     category:

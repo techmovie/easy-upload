@@ -12,11 +12,11 @@ exports.userScriptComment = `// ==UserScript==
 // @author       ${author}
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
-// @match        https://hdbits.org/offer.php
-// @match        https://*/details.php?id=*
+// @match        http*://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
 // @match        https://lemonhd.org/details*
+// @match        https://blutopia.xyz/torrents*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest

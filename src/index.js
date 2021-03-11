@@ -173,15 +173,34 @@ const getDoubanInfo = () => {
     statusDom.text(error.message);
   }
 };
+
+const filterBluTorrent = (imdb) => {
+  $('#imdb').val(imdb);
+  const token = $('meta[name="csrf_token"]').attr('content');
+  GM_xmlhttpRequest({
+    method: 'GET',
+    url: `${CURRENT_SITE_INFO.url}/torrents/filter?imdb=${imdb}&_token=${token}&sorting=size&direction=desc`,
+    onload (res) {
+      $('#facetedSearch').html(res.responseText);
+    },
+  });
+};
+
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 if (CURRENT_SITE_NAME) {
+  if (CURRENT_SITE_NAME === 'Blutopia') {
+    const imdbParam = getUrlParam('imdb');
+    if (imdbParam) {
+      filterBluTorrent(imdbParam);
+    }
+  }
   if (torrentParams && CURRENT_SITE_INFO.asTarget) {
     torrentParams = JSON.parse(decodeURIComponent(torrentParams));
     fillTargetForm(torrentParams);
   }
   console.log('CURRENT_SITE_NAME' + CURRENT_SITE_NAME);
-  if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig)) {
+  if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig) && !getUrlParam('imdb')) {
     getTorrentInfo();
     // 向当前所在站点添加按钮等内容
     console.log(TORRENT_INFO);
