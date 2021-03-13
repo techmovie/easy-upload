@@ -59,8 +59,19 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.mediaInfo) {
     if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
-      description = description.replace(mediaInfo, '').replace(/\[quote\]\[quote\]/g, '');
+      description = description.replace(mediaInfo, '').replace(/\[quote\]\[\/quote\]/g, '');
     }
+  }
+  // 删除简介中的截图
+  if (CURRENT_SITE_INFO.screenshots) {
+    info.screenshots.forEach(img => {
+      if (description.includes(img)) {
+        description = description.replace(img, '');
+        if (!img.match(/\[url=.+?\[url]/)) {
+          description = description.replace(/\[img\]\[\/img\]/g, '');
+        }
+      }
+    });
   }
   // 给SSD点赞！
   if (CURRENT_SITE_NAME === 'SSD') {
@@ -68,7 +79,7 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
   }
-  $(CURRENT_SITE_INFO.description.selector).val(description);
+  $(CURRENT_SITE_INFO.description.selector).val(description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
     const fillIMDBId = CURRENT_SITE_NAME === 'Blutopia' ? imdbId.replace('tt', '') : imdbId;
@@ -110,7 +121,23 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME.match(/HDHome|PTHome/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
   }
-
+  // 匿名勾选
+  if (CURRENT_SITE_INFO.anonymous) {
+    const { selector, value = '' } = CURRENT_SITE_INFO.anonymous;
+    if (value) {
+      $(selector).val(value);
+    } else {
+      $(selector).attr('checked', true);
+    }
+  }
+  // 标签勾选
+  if (CURRENT_SITE_INFO.tags) {
+    Object.keys(info.tags).forEach(key => {
+      if (info.tags[key] && CURRENT_SITE_INFO.tags[key]) {
+        $(CURRENT_SITE_INFO.tags[key]).attr('checked', true);
+      }
+    });
+  }
   // 对配置覆盖不到的地方进行专门处理
   if (CURRENT_SITE_NAME.match(/PTHome/i)) {
     if (info.tags.DIY) {

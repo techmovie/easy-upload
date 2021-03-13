@@ -74,6 +74,10 @@ PT_SITE:
       selector: '#descr'
     imdb:
       selector: 'input[name="url"][type="text"]'
+    tags: 
+      chineseAudio: '#l_dub'
+      DIY: '#l_diy'
+      chineseSubtitle: '#l_sub'
     category:
       selector: '#browsecat'
       map:
@@ -191,6 +195,12 @@ PT_SITE:
       selector: 'textarea[name="descr"]'
     imdb:
       selector: 'input[name="url"][type="text"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    tags: 
+      chineseAudio: 'input[name="cnlang"]'
+      chineseSubtitle: 'input[name="cnsub"]'
+      DIY: 'input[name="diy"]'
     category:
       selector: '#browsecat'
       map:
@@ -285,6 +295,9 @@ PT_SITE:
       selector: 'textarea[name="descr"]'
     imdb:
       selector: 'input[name="imdb_c"]'
+    anonymous: 
+      selector: 'select[name="anonymity"]'
+      value: 'yes'
     category:
       selector: 'select[name="type"]'
       map:
@@ -446,6 +459,8 @@ PT_SITE:
       selector: '#descr'
     imdb:
       selector: '#url'
+    anonymous: 
+      selector: 'input[name="uplver"]'
     mediaInfo:
       selector: '#Media_BDInfo'
     screenshots:
@@ -543,6 +558,16 @@ PT_SITE:
       selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban_id"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    tags: 
+      chineseAudio: '#tag_gy'
+      DIY: '#tag_diy'
+      cantoneseAudio: '#tag_yy'
+      chineseSubtitle: '#tag_zz'
+      HDR: '#tag_hdr10'
+      HDR10+: '#tag_hdrm'
+      DolbyVision: '#tag_db'
     category:
       selector: '#browsecat'
       map:
@@ -816,7 +841,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
-    uploadPath: /upload.php
+    uploadPath: /offers.php?add_offer=1
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -833,8 +858,14 @@ PT_SITE:
       selector: 'dburl'
     imdb:
       selector:  'input[name="url"][type="text"]'
-    mediaInfo:
-      selector: '#Media_BDInfo'
+    tags: 
+      chineseAudio: '#tagGY'
+      DIY: '#tagDIY'
+      cantoneseAudio: '#tag_yy'
+      chineseSubtitle: '#tagZZ'
+      HDR: '#tag_hdr10'
+      HDR10+: '#tag_hdrm'
+      DolbyVision: '#tag_db'
     screenshots:
       selector: '#url_vimages'
     category:
@@ -945,6 +976,8 @@ PT_SITE:
       selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban_id"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
     category:
       selector: '#browsecat'
       map:
@@ -1125,6 +1158,10 @@ PT_SITE:
       selector: 'textarea[name="descr"]'
     imdb:
       selector: 'input[name="imdburl"][type="text"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    tags: 
+      chineseSubtitle: 'input[type="checkbox"][name="zz"]'
     # 太混乱了 不想做支持了
     category:
       selector: '#browsecat'
@@ -1171,7 +1208,7 @@ PT_SITE:
         truehd: '9'
         lpcm: '12'
         dtshdma: '8'
-        atmos: '15'
+        atmos: '8'
         dtsx: '13'
         flac: '1'
     videoType:
@@ -1270,6 +1307,8 @@ PT_SITE:
       selector: '#tmdbauto'
     mediaInfo:
       selector: '#mediainfo'
+    anonymous: 
+      selector: 'input[name="anonymous"]'
     videoType:
       selector: '#category_id'
       map:
@@ -1409,6 +1448,13 @@ PT_SITE:
       selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    tags: 
+      chineseAudio: '#guoyu'
+      DIY: '#diy'
+      cantoneseAudio: '#yueyu'
+      chineseSubtitle: '#zhongzi'
     category:
       selector: '#browsecat'
       map:
@@ -1567,6 +1613,8 @@ PT_SITE:
       selector: '#autotmdb'
     mediaInfo:
       selector: 'textarea[name="mediainfo"]'
+    anonymous: 
+      selector: '.radio-inline:first input[name="anonymous"]'
     category:
       selector: '#browsecat'
       map:
@@ -1620,6 +1668,14 @@ PT_SITE:
       selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban_id"]'
+    tags: 
+      chineseAudio: '#tag_gy'
+      DIY: '#tag_diy'
+      cantoneseAudio: '#tag_yy'
+      chineseSubtitle: '#tag_zz'
+      HDR: '#tag_hdr10'
+      HDR10+: '#tag_hdrm'
+      DolbyVision: '#tag_db'
     category:
       selector: '#browsecat'
       map:
