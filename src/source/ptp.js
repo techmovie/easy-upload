@@ -1,4 +1,4 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getFilterBBCode, getBDInfoFromBBCode } from '../common';
 
 export default () => {
@@ -7,6 +7,7 @@ export default () => {
     return false;
   }
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const torrentDom = $(`#torrent_${torrentId}`);
   const ptpMovieTitle = $('.page__title').text().match(/(^|])([^\d[]+)/)[2].trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
@@ -18,7 +19,6 @@ export default () => {
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
   let descriptionBBCode = getFilterBBCode(torrentDom.find('.bbcode-table-guard')[0]);
-  // descriptionBBCode = descriptionBBCode.replace(`[quote]${TORRENT_INFO.mediaInfo}[/quote]`, '');
   if (TORRENT_INFO.category === 'concert') {
     descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
   }

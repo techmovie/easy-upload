@@ -30,6 +30,7 @@ const TORRENT_INFO = {
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音
   sourceSite: '', // 种子来源站点简称
+  sourceSiteType: '', // 种子来源站点类型
   size: '', // 种子大小 转换成 Bytes
 };
 // 快速检索
@@ -42,6 +43,7 @@ const SEARCH_SITE_MAP = {
   BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
   BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
   SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
+  HDT: 'https://hd-torrents.org/torrents.php?&search={imdbid}&active=0&options=2&order=size&by=DESC',
 };
 
 const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';

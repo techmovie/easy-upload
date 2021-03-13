@@ -175,7 +175,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -432,7 +432,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.new.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(7)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -527,7 +527,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(3)' 
+    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(6)' 
     searchKey: search
     searchParam:
       search_area: '{key}'

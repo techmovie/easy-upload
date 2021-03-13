@@ -1,9 +1,10 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const editDom = $('#details tr').has('a:contains(Edit torrent)');
   const descriptionDom = editDom.length > 0 ? editDom.prev() : $('#details tr').has('.js-tagcontent').prev();
   let descriptionBBCode = getFilterBBCode(descriptionDom.find('>td')[0]);

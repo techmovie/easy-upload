@@ -367,12 +367,12 @@ const getInfoFromBDInfo = (bdInfo) => {
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
   const videoCodec = mainVideo.match(/2160/) ? 'hevc' : 'h264';
-  const hdrFormat = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i);
+  const hdrFormat = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)?.[0];
   const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
   const audioPart = splitBDMediaInfo(audioMatch, 2);
   const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
   const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
-  const { audioCodec, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const { audioCodec = '', channelName = '', languageArray = [] } = getBDAudioInfo(audioPart, quickSummaryStyle);
   const subtitleLanguageArray = subtitlePart.map(item => {
     const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
     const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
@@ -392,6 +392,9 @@ const splitBDMediaInfo = (matchArray, matchIndex) => {
   return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/)) ?? [];
 };
 const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+  if (audioPart.length < 1) {
+    return {};
+  }
   const sortArray = audioPart.sort((a, b) => {
     const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
     const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
@@ -518,7 +521,7 @@ const htmlToBBCode = (node) => {
           const { href } = node;
           if (href && href.length > 0) {
             if (href.match(/javascript:void/)) {
-              pp(null, '\n');
+              return '';
             } else {
               pp(`[url=${href}]`, '[/url]');
             }
@@ -595,10 +598,22 @@ const getTagsFromSubtitle = (title) => {
   return tags;
 };
 const getBDInfoFromBBCode = (bbcode) => {
-  if (bbcode) {
-    return bbcode.match(/Disc\s+(Title|Label)[^[]+/i)?.[0] ?? '';
+  if (!bbcode) {
+    return '';
   }
-  return '';
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  let bdInfo = '';
+  if (quoteList && quoteList.length > 0) {
+    quoteList.forEach(quote => {
+      if (quote.match(/Disc\s*Size/i)) {
+        bdInfo += quote.replace(/\[(\/)?quote\]/g, '') + '\n';
+      }
+    });
+  }
+  if (!bdInfo) {
+    bdInfo = bbcode.match(/Disc\s+(Title|Label)[^[]+/i)?.[0] ?? '';
+  }
+  return bdInfo;
 };
 export {
   getUrlParam,

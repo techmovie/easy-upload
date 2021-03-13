@@ -4,6 +4,7 @@ import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
 const fillTargetForm = (info) => {
   console.log(info);
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
+  const isBluray = info.videoType.match(/bluray/i);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
   // 针对hdb的站点的命名规则对标题进行处理
   if (CURRENT_SITE_NAME === 'HDBits') {
@@ -15,12 +16,7 @@ const fillTargetForm = (info) => {
     }
     info.title = mediaTitle;
   }
-  // 给SSD点赞！
-  if (CURRENT_SITE_NAME === 'SSD') {
-    info.title = info.title.replace(/\s/ig, '.');
-    $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-    $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
-  }
+
   // 北洋站不用填写名称
   if (CURRENT_SITE_INFO.name) {
     $(CURRENT_SITE_INFO.name.selector).val(info.title);
@@ -43,22 +39,35 @@ const fillTargetForm = (info) => {
     }
   });
   const mediaInfo = info.mediaInfo;
-  let description = getDescription(info);
-  // HDB只填入mediainfo bdinfo放在简介里
-  if (CURRENT_SITE_INFO.mediaInfo && !(info.videoType.match(/bluray/ig) && CURRENT_SITE_NAME === 'HDBits')) {
-    $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
-  }
+  let description = '';
   // 内站直接填写完整简介
-  if (info.description && (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/) && !CURRENT_SITE_NAME.match(/SSD/))) {
+  if (info.description) {
     description = info.description;
+    if (isChineseTacker(CURRENT_SITE_INFO.siteType, CURRENT_SITE_NAME)) {
+      const { doubanInfo } = info;
+      if (doubanInfo) {
+        description = doubanInfo + description;
+      }
+    } else {
+      const { sourceSite, sourceSiteType } = info;
+      if (isChineseTacker(sourceSiteType, sourceSite)) {
+        description = filterNexusDescription(info);
+      }
+    }
   }
-  // blu 修改描述默认展示方式
-  if (CURRENT_SITE_NAME.match(/Blutopia/)) {
-    $(document).ready(() => {
-      $('#autokeywords').focus();
-    });
+  // HDB Blu只填入mediainfo bdinfo放在简介里
+  if (CURRENT_SITE_INFO.mediaInfo) {
+    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
+      $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
+      description = description.replace(mediaInfo, '').replace(/\[quote\]\[quote\]/g, '');
+    }
   }
-
+  // 给SSD点赞！
+  if (CURRENT_SITE_NAME === 'SSD') {
+    info.title = info.title.replace(/\s/ig, '.');
+    $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
+    $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
+  }
   $(CURRENT_SITE_INFO.description.selector).val(description);
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
@@ -73,7 +82,7 @@ const fillTargetForm = (info) => {
       info.category = videoType;
       info.videoType = category;
       // BHD需要细分蓝光类型
-      if (videoType.match(/bluray/)) {
+      if (isBluray) {
         let bdType = getBDType(info.size);
         if (videoType === 'uhdbluray' && bdType === 'BD50') {
           bdType = 'uhd50';
@@ -137,26 +146,31 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome/)) {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome|BeyondHD/)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
 };
-const getDescription = (info) => {
-  const thanksQuote = `[quote][size=4]source from [b][color=#1A73E8]${info.sourceSite}[/color][/b]. Many thanks to the original uploader![/size][/quote]\n\n`;
-  const siteInfo = CURRENT_SITE_INFO;
-  const doubanInfo = (info.doubanInfo && CURRENT_SITE_NAME !== 'SSD') ? `${info.doubanInfo}\n` : '';
-  const logs = info.logs ? `eac3to logs:\n[hide]${info.logs}[/hide]\n\n` : '';
-  const isHDBBDInfo = CURRENT_SITE_NAME === 'HDBits' && info.videoType.match(/bluray/);
-  const bdinfo = info.bdinfo ? `BDInfo:\n[quote]${info.bdinfo}[/quote]\n\n` : '';
-  const mediaInfo = siteInfo.mediaInfo && !isHDBBDInfo ? '' : `[quote]${info.mediaInfo}[/quote]\n`;
-  const screenshots = info.screenshots.map(img => {
+const filterNexusDescription = (info) => {
+  const { description, screenshots } = info;
+  let filterDescription = '';
+  const quoteList = description.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  if (quoteList && quoteList.length > 0) {
+    quoteList.forEach(quote => {
+      if (!quote.match(/[\u4e00-\u9fa5]+/i)) {
+        filterDescription += quote + '\n';
+      }
+    });
+  }
+  const screenshotsBBCode = screenshots.map(img => {
     if (img.match(/\[url=.+\]/i)) {
       return img;
     }
     return `[img]${img}[/img]`;
   });
-  const screenshotsPart = CURRENT_SITE_NAME === 'SSD' ? '' : `Screenshots:\n${screenshots.join('')}`;
-  return `${thanksQuote}${doubanInfo}${mediaInfo}${logs}${bdinfo}${screenshotsPart}`;
+  return filterDescription + '\n' + screenshotsBBCode;
+};
+const isChineseTacker = (siteType, siteName) => {
+  return siteType.match(/NexusPHP|TTG/) && !siteName.match(/SSD/);
 };
 export {
   fillTargetForm,

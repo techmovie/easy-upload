@@ -1,8 +1,9 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import { formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const { Category, Name, Type, Size, Resolution } = getBasicInfo();
 
   TORRENT_INFO.size = getSize(Size);

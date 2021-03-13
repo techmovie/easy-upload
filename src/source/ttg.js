@@ -1,8 +1,10 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
+
   const headTitle = $('#main_table h1').eq(0).text();
   const title = headTitle.match(/[^[]+/)?.[0];
   TORRENT_INFO.title = formatTorrentTitle(title);
@@ -23,7 +25,11 @@ export default () => {
 
   window.onload = () => {
     const descriptionDom = $('#kt_d');
-    const bbCodes = getFilterBBCode(descriptionDom[0]);
+    let bbCodes = getFilterBBCode(descriptionDom[0]);
+    const discountMatch = bbCodes.match(/\[color=\w+\]本种子.+?\[\/color\]/)?.[0] ?? '';
+    if (bbCodes.match) {
+      bbCodes = bbCodes.replace(discountMatch, '');
+    }
     TORRENT_INFO.description = bbCodes;
     const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
     if (doubanUrl) {
