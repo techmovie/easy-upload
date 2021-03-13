@@ -90,15 +90,11 @@ const getThumbnailImgs = () => {
         return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
       });
       let { description } = TORRENT_INFO;
-      imgList.split('\n').forEach(img => {
+      imgList.split('\n').forEach((img, index) => {
         if (description.includes(img)) {
-          description = description.replace(img, '');
-          if (!img.match(/\[url=.+?\[url]/)) {
-            description = description.replace(/\[img\]\[\/img\]/g, '');
-          }
+          description = description.replace(`[img]${img}[/img]`, TORRENT_INFO.screenshots[index]);
         }
       });
-      description += TORRENT_INFO.screenshots.join('');
       TORRENT_INFO.description = description;
       statusDom.text('转换成功！');
     }

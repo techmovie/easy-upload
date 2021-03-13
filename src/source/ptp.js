@@ -22,16 +22,18 @@ export default () => {
   if (TORRENT_INFO.category === 'concert') {
     descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
   }
-  const { comparisonData, screenshots } = getPTPImage(torrentDom);
+  let { comparisonData, screenshots } = getPTPImage(torrentDom);
   if (comparisonData) {
     Object.keys(comparisonData).forEach(key => {
       const regStr = new RegExp(key + ':');
+      screenshots = screenshots.concat(comparisonData[key]);
       descriptionBBCode = descriptionBBCode.replace(regStr, '');
       descriptionBBCode += '\n[b]' + key + ':[/b]\n' + comparisonData[key].map(url => {
         return `[img]${url}[/img]`;
-      }).join('\n');
+      }).join('');
     });
   }
+  console.log(descriptionBBCode);
   TORRENT_INFO.description = descriptionBBCode;
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
   const [codes, container, source, ...otherInfo] = infoArray;
