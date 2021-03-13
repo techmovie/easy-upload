@@ -1,7 +1,7 @@
 // 入口文件
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB } from './common';
+import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -25,7 +25,7 @@ const createSeedDom = (torrentDom) => {
     return '';
   });
   const searchList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
-    const imdbId = TORRENT_INFO.imdbUrl ? /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0] : '';
+    const imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
     let url = '';
     let searchKeyWord = imdbId || TORRENT_INFO.movieAkaName || TORRENT_INFO.movieName;
     if (siteName === 'TTG' && imdbId) {

@@ -43,8 +43,9 @@ const SEARCH_SITE_MAP = {
   BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
   BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
   SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
-  HDT: 'https://hd-torrents.org/torrents.php?&search={imdbid}&active=0&options=2&order=size&by=DESC',
-  KG: 'https://karagarga.in/browse.php?search={imbdid}&search_type=imdb',
+  HDT: 'https://hd-torrents.org/torrents.php?search={imdbid}&active=0&options=2&order=size&by=DESC',
+  KG: 'https://karagarga.in/browse.php?search={imdbid}&search_type=imdb',
+  FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
 };
 
 const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';

@@ -1673,6 +1673,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload/1
     searchPath: /torrents
+    needDoubanInfo: true
     seedDomSelector: '#vue+.panel table tr:last' 
     name:
       selector: '#title'
