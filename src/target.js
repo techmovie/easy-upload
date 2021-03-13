@@ -3,6 +3,9 @@ import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
 
 const fillTargetForm = (info) => {
   console.log(info);
+  if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {
+    localStorage.removeItem('autosave');
+  }
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   const isBluray = info.videoType.match(/bluray/i);
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
