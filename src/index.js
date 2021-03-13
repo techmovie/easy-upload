@@ -1,7 +1,7 @@
 // 入口文件
-import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, DOUBAN_SEARCH_API, API_KEY, DOUBAN_API_URL, PT_GEN_API, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam } from './common';
+import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -74,107 +74,68 @@ const createSeedDom = (torrentDom) => {
   torrentDom.prepend(seedDom);
 };
 
-const transferImgs = () => {
+const getThumbnailImgs = () => {
   const statusDom = $('.upload-section .upload-status');
   let imgList = TORRENT_INFO.screenshots;
-  try {
-    if (imgList.length < 1) {
-      throw new Error('获取图片列表失败');
-    }
-    imgList = imgList.join('\n');
-    const isNSFW = $('#nsfw').is(':checked');
-    const params = encodeURI(`imgs=${imgList}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`);
-    statusDom.text('转换中...');
-    $('#img-transfer').attr('disabled', true).addClass('is-disabled');
-    GM_xmlhttpRequest({
-      url: 'https://pixhost.to/remote/',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-      data: params,
-      onload (res) {
-        $('#img-transfer').removeAttr('disabled').removeClass('is-disabled');
-        const data = res.responseText.match(/(upload_results = )({.*})(;)/);
-        if (!data) {
-          throw new Error('上传失败，请重试');
-        }
-        let imgResultList = [];
-        if (data && data.length) {
-          imgResultList = JSON.parse(data[2]).images;
-          if (imgResultList.length) {
-            TORRENT_INFO.screenshots = imgResultList.map(imgData => {
-              return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
-            });
-            statusDom.text('转换成功！');
-          }
-        } else {
-          throw new Error('上传失败，请重试');
-        }
-      },
-    });
-  } catch (error) {
-    $('#img-transfer').removeAttr('disabled').removeClass('is-disabled');
-    statusDom.text(error.message);
+  if (imgList.length < 1) {
+    throw new Error('获取图片列表失败');
   }
+  imgList = imgList.join('\n');
+  const isNSFW = $('#nsfw').is(':checked');
+  statusDom.text('转换中...');
+  $('#img-transfer').attr('disabled', true).addClass('is-disabled');
+  transferImgs(imgList, isNSFW).then(data => {
+    if (data.length) {
+      TORRENT_INFO.screenshots = data.map(imgData => {
+        return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
+      });
+      let { description } = TORRENT_INFO;
+      imgList.split('\n').forEach(img => {
+        if (description.includes(img)) {
+          description = description.replace(img, '');
+          if (!img.match(/\[url=.+?\[url]/)) {
+            description = description.replace(/\[img\]\[\/img\]/g, '');
+          }
+        }
+      });
+      description += TORRENT_INFO.screenshots.join('');
+      TORRENT_INFO.description = description;
+      statusDom.text('转换成功！');
+    }
+  }).catch(error => {
+    statusDom.text(error.message);
+  }).finally(() => {
+    $('#img-transfer').removeAttr('disabled').removeClass('is-disabled');
+  });
 };
 const getDoubanLink = () => {
   const doubanLink = $('.page__title>a').attr('href');
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
-    getDoubanInfo();
+    getDoubanData();
     return false;
   }
-  if (TORRENT_INFO.imdbUrl) {
-    const imdbId = /tt\d+/.exec(TORRENT_INFO.imdbUrl)[0];
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `${DOUBAN_SEARCH_API}/${imdbId}`,
-      onload (res) {
-        const data = JSON.parse(res.responseText);
-        if (data && data.data) {
-          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.data.id}`;
-          getDoubanInfo();
-        }
-      },
-    });
-  } else {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `${DOUBAN_API_URL}/search/weixin?q=${TORRENT_INFO.movieName}&start=0&count=1&apiKey=${API_KEY}`,
-      onload (res) {
-        const data = JSON.parse(res.responseText);
-        if (data && data.items && data.items.length > 0) {
-          TORRENT_INFO.doubanUrl = `https://movie.douban.com/subject/${data.items[0].id}`;
-          getDoubanInfo();
-        }
-      },
-    });
-  }
+  const { imdbUrl, movieName } = TORRENT_INFO;
+  getDoubanLinkByIMDB(imdbUrl, movieName).then(doubanUrl => {
+    TORRENT_INFO.doubanUrl = doubanUrl;
+    getDoubanData();
+  }).catch(error => {
+    throw new Error(error.message);
+  });
 };
-const getDoubanInfo = () => {
+const getDoubanData = () => {
   const { doubanUrl } = TORRENT_INFO;
   const statusDom = $('.douban-section .douban-status');
   try {
     if (doubanUrl) {
       statusDom.text('获取中...');
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${PT_GEN_API}?url=${doubanUrl}`,
-        onload (res) {
-          const data = JSON.parse(res.responseText);
-          if (data && data.success) {
-            TORRENT_INFO.doubanInfo = data.format;
-            TORRENT_INFO.subtitle = getSubTitle(data);
-            statusDom.text('获取成功');
-          } else {
-            throw new Error('获取豆瓣信息失败');
-          }
-        },
+      getDoubanInfo(doubanUrl).then(data => {
+        TORRENT_INFO.doubanInfo = data.format;
+        TORRENT_INFO.subtitle = getSubTitle(data);
+        statusDom.text('获取成功');
+      }).catch(error => {
+        throw new Error(error.message);
       });
-    } else {
-      throw new Error('无法获取豆瓣信息');
     }
   } catch (error) {
     statusDom.text(error.message);
@@ -206,7 +167,6 @@ if (CURRENT_SITE_NAME) {
     torrentParams = JSON.parse(decodeURIComponent(torrentParams));
     fillTargetForm(torrentParams);
   }
-  console.log('CURRENT_SITE_NAME' + CURRENT_SITE_NAME);
   if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig)) {
     getTorrentInfo();
     // 向当前所在站点添加按钮等内容
@@ -243,7 +203,7 @@ if (CURRENT_SITE_NAME) {
     // 原图转缩略图
     if ($('#img-transfer')) {
       $('#img-transfer').click(() => {
-        transferImgs();
+        getThumbnailImgs();
       });
     }
     if ($('#douban-info')) {

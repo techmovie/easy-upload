@@ -1,9 +1,103 @@
-import { CODES_ARRAY, CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
+import { CODES_ARRAY, CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_API_URL, API_KEY } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
 };
-
+const getDoubanInfo = (doubanUrl) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (doubanUrl) {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${PT_GEN_API}?url=${doubanUrl}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.success) {
+              resolve(data);
+            } else {
+              throw new Error('获取豆瓣信息失败');
+            }
+          },
+        });
+      } else {
+        throw new Error('无法获取豆瓣信息');
+      }
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
+const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doubanUrl = ' https://movie.douban.com/subject/';
+      const imdbId = getIMDBIdByUrl(imdbUrl);
+      if (imdbId) {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${DOUBAN_SEARCH_API}/${imdbId}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.data) {
+              resolve(doubanUrl + data.items[0].id);
+            } else {
+              throw new Error('获取失败');
+            }
+          },
+        });
+      } else {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${DOUBAN_API_URL}/search/weixin?q=${movieName}&start=0&count=1&apiKey=${API_KEY}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.items && data.items.length > 0) {
+              resolve(doubanUrl + data.items[0].id);
+            } else {
+              throw new Error('获取失败');
+            }
+          },
+        });
+      }
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
+const transferImgs = (screenshots, isNSFW) => {
+  return new Promise((resolve, reject) => {
+    const params = encodeURI(`imgs=${screenshots}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`);
+    try {
+      GM_xmlhttpRequest({
+        url: 'https://pixhost.to/remote/',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+        data: params,
+        onload (res) {
+          const data = res.responseText.match(/(upload_results = )({.*})(;)/);
+          if (!data) {
+            reject(new Error('上传失败，请重试'));
+          }
+          let imgResultList = [];
+          if (data && data.length) {
+            imgResultList = JSON.parse(data[2]).images;
+            if (imgResultList.length.length < 1) {
+              throw new Error(new Error('上传失败，请重试'));
+            }
+            resolve(imgResultList);
+          } else {
+            throw new Error('上传失败，请重试');
+          }
+        },
+      });
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
 const getUrlParam = (key) => {
   const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)');
   const regArray = location.search.substr(1).match(reg);
@@ -635,5 +729,8 @@ export {
   getScreenshotsFromBBCode,
   getTagsFromSubtitle,
   getVideoCodecFromTitle,
+  transferImgs,
+  getDoubanInfo,
+  getDoubanLinkByIMDB,
 }
 ;

@@ -32,7 +32,6 @@ export default () => {
       }).join('\n');
     });
   }
-  console.log(descriptionBBCode);
   TORRENT_INFO.description = descriptionBBCode;
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
   const [codes, container, source, ...otherInfo] = infoArray;

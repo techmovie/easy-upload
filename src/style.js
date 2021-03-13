@@ -44,6 +44,7 @@ export default GM_addStyle(`
 .upload-section .upload-status,.douban-section .douban-status{
   margin-left: 5px;
   font-size: 14px;
+  font-weight: 600;
 }
 #img-transfer,#douban-info{
   line-height: 1;
