@@ -81,6 +81,9 @@ const fillTargetForm = (info) => {
     info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
+    if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || info.subTitle.match(/合集/)) {
+      $('input[name="pack"]').attr('checked', true);
+    }
   }
   $(CURRENT_SITE_INFO.description.selector).val(description.trim());
   // 站点特殊处理
@@ -142,10 +145,18 @@ const fillTargetForm = (info) => {
     });
   }
   // 对配置覆盖不到的地方进行专门处理
-  if (CURRENT_SITE_NAME.match(/PTHome/i)) {
+  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD/i)) {
     if (info.tags.DIY) {
-      const categoryValue = info.videoType === 'bluray' ? '14' : '13';
-      $('select[name ="medium_sel"]').val(categoryValue);
+      let categoryValue = '';
+      if (CURRENT_SITE_NAME === 'PTHome') {
+        categoryValue = info.videoType === 'bluray' ? '14' : '13';
+      } else if (CURRENT_SITE_NAME === 'HDSky') {
+        categoryValue = info.videoType === 'bluray' ? '12' : '14';
+      } else if (CURRENT_SITE_NAME === 'LemonHD') {
+        $('select[name="tag_diy"]').val('yes');
+        return;
+      }
+      $(CURRENT_SITE_INFO.videoType.selector).val(categoryValue);
     }
   }
 };

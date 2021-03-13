@@ -93,6 +93,18 @@
     # 豆瓣地址 没有的站点可以省略 
     douban:
       selector: 'input[name="douban_id"]'
+    # 是否匿名发布
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    # 标签checkbox
+    tags: 
+      chineseAudio: '#tag_gy'
+      DIY: '#tag_diy'
+      cantoneseAudio: '#tag_yy'
+      chineseSubtitle: '#tag_zz'
+      HDR: '#tag_hdr10'
+      HDR10+: '#tag_hdrm'
+      DolbyVision: '#tag_db'
      # 分类，电影剧集等 
     category: 
       selector: '#browsecat'
@@ -100,7 +112,6 @@
         movie:
           - '411'
           - '412'
-        moviePack: ''
         tv:
           - '425'
           - '426'

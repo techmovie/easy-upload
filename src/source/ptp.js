@@ -68,7 +68,7 @@ const getPTPType = () => {
     'Feature Film': 'movie',
     'Short Film': 'movie',
     'Stand-up Comedy': 'other',
-    Miniseries: 'tv',
+    Miniseries: 'tvPack',
     'Live Performance': 'concert',
     'Movie Collection': 'movie',
   };

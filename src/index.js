@@ -196,7 +196,6 @@ if (CURRENT_SITE_NAME) {
       if (url.match(/lemonhd/)) {
         const catMap = {
           movie: 'movie',
-          moviePack: 'movie',
           tv: 'tv',
           tvPack: 'tv',
           variety: 'tv',
