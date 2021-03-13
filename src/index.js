@@ -193,6 +193,19 @@ if (CURRENT_SITE_NAME) {
     $('.site-list li>a').click(function () {
       const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
       let url = $(this).data('link');
+      if (url.match(/lemonhd/)) {
+        const catMap = {
+          movie: 'movie',
+          moviePack: 'movie',
+          tv: 'tv',
+          tvPack: 'tv',
+          variety: 'tv',
+          documentary: 'doc',
+          concert: 'mv',
+        };
+        const path = catMap[TORRENT_INFO.category] || 'movie';
+        url = url.replace('upload_movie', `upload_${path}`);
+      }
       url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
       window.open(url);
     });

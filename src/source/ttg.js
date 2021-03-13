@@ -88,13 +88,11 @@ const getCategoryAndArea = (mediaInfo) => {
   let category = ''; let area = ''; let videoType = '';
   if (mediaInfo.match(/电影/)) {
     category = 'movie';
-  } else if (mediaInfo.match(/影视/)) {
-    category = 'movie';
   } else if (mediaInfo.match(/剧包/)) {
     category = 'tvPack';
   } else if (mediaInfo.match(/剧/)) {
     category = 'tv';
-  } else if (mediaInfo.match(/记录/)) {
+  } else if (mediaInfo.match(/纪录/)) {
     category = 'documentary';
   } else if (mediaInfo.match(/综艺/)) {
     category = 'variety';
@@ -190,7 +188,7 @@ const getCategoryFromDesc = (desc) => {
     }
   } else if (desc.match(/动画/)) {
     category = 'cartoon';
-  } else if (desc.match(/记录/)) {
+  } else if (desc.match(/纪录/)) {
     category = 'documentary';
   }
   return category;

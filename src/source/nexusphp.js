@@ -61,7 +61,7 @@ export default () => {
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
   }
 
-  if (CURRENT_SITE_NAME === 'LEMONHD') {
+  if (CURRENT_SITE_NAME === 'LemonHD') {
     metaInfo += $("td.rowhead:contains('详细信息')").next().text().replace(/：/g, ':');
     // 适配 lemonhd.org/details_animate.php 分辨率缺冒号(:)   -_-//
     if (metaInfo.match(/分辨率:/) === null) {
