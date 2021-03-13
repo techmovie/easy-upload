@@ -841,7 +841,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
-    uploadPath: /offers.php?add_offer=1
+    uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
     searchParam:
@@ -853,27 +853,26 @@ PT_SITE:
     subtitle:
       selector: 'input[name="small_descr"]'
     description:
-      selector: '#body'
-    douban: 
-      selector: 'dburl'
+      selector: '#descr'
     imdb:
       selector:  'input[name="url"][type="text"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
     tags: 
       chineseAudio: '#tagGY'
       DIY: '#tagDIY'
       cantoneseAudio: '#tag_yy'
       chineseSubtitle: '#tagZZ'
-      HDR: '#tag_hdr10'
-      HDR10+: '#tag_hdrm'
-      DolbyVision: '#tag_db'
-    screenshots:
-      selector: '#url_vimages'
+      HDR: '#tagHDR10'
+      HDR10+: '#tagHDR10P'
+      DolbyVision: '#tagDB'
     category:
       selector: 'select[name="type"]'
       map:
         movie: '401'
+        3d: '402'
         tv: '412'
-        tvpack: '405'
+        tvPack: '405'
         documentary: '410'
         concert: '419'
         sport: '415'
@@ -943,7 +942,7 @@ PT_SITE:
     host: hdsky.me
     siteType: NexusPHP
     asSource: true
-    asTarget: false
+    asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
@@ -952,6 +951,78 @@ PT_SITE:
       search_area: '{key}'
       sort: '5'
       type: desc
+    name:
+      selector: 'input[name="name"]'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: '#descr'
+    imdb:
+      selector:  'input[name="url"][type="text"]'
+    douban: 
+      selector:  'input[name="url_douban"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        tv: '402'
+        tvPack: '411'
+        documentary: '404'
+        concert: '406'
+        sport: '407'
+        cartoon: '405'
+        variety: '403'
+    videoCodec:
+      selector: 'select[name="codec_sel"]'
+      map:
+        h264: '1'
+        hevc: '12'
+        x264: '10'
+        x265: '13'
+        h265: '12'
+        mpeg2: '4'
+        mpeg4: '1'
+        vc1: '2'
+        xvid: '3'
+        dvd: '4'
+    audioCodec:
+      selector: 'select[name="audiocodec_sel"]'
+      map:
+        aac: '6'
+        ac3: '12'
+        dd: '12'
+        dd+: '12'
+        flac: '1'
+        dts: '3'
+        truehd: '11'
+        lpcm: '13'
+        dtshdma: '10'
+        atmos: '17'
+        dtsx: '16'
+    videoType:
+      selector: 'select[name="medium_sel"]'
+      map:
+        uhdbluray: '13'
+        bluray: '1'
+        remux: '3'
+        encode: '7'
+        web: '11'
+        hddvd: '2'
+        hdtv: '5'
+        dvd: '6'
+        dvdrip: '6'
+        other: '0'
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        2160p: '5'
+        1080p: '1'
+        1080i: '2'
+        720p: '3'
+        576p: '4'
+        480p: '4'
   HDChina:
     url: 'https://hdchina.org'
     host: hdchina.org
