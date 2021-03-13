@@ -31,6 +31,10 @@ export default GM_addStyle(`
 .seed-dom li a{
   font-weight: 600;
 }
+.seed-dom .function-list{
+  display: flex;
+  justify-content: space-around; 
+}
 .upload-section,.douban-section{
   display: flex;
   justify-content: center;

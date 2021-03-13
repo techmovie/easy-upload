@@ -36,29 +36,36 @@ const createSeedDom = (torrentDom) => {
     return `<li><a href="${url}" target="_blank">${siteName}</a> <span>|</span></li>`;
   });
   const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
-    ? `<h4>获取豆瓣简介</h4>
-  <div class="douban-section">
-    <button id="douban-info">开始获取</button>
-    <div class="douban-status"></div>
+    ? `
+  <div class="function-list-item">
+    <h4>获取豆瓣简介</h4>
+    <div class="douban-section">
+      <button id="douban-info">开始获取</button>
+      <div class="douban-status"></div>
+    </div>
   </div>`
     : '';
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
-    <h4>一键转种 🎬</h4>
+    <h4>一键转种</h4>
     <ul class="site-list">
       ${siteList.join('')}
     </ul>
-    ${doubanDom}
-    <h4>转缩略图 ⏫</h4>
-    <div class="upload-section">
-      <button id="img-transfer">开始转换</button>
-      <div class="checkbox">
-        <input type="checkbox" id="nsfw">
-        <label for="nsfw">是否包含NSFW</label>
+    <section class="function-list">
+      ${doubanDom}
+      <div class="function-list-item">
+        <h4>转缩略图</h4>
+        <div class="upload-section">
+          <button id="img-transfer">开始转换</button>
+          <div class="checkbox">
+            <input type="checkbox" id="nsfw">
+            <label for="nsfw">是否包含NSFW</label>
+          </div>
+          <div class="upload-status"></div>
+        </div>
       </div>
-      <div class="upload-status"></div>
-    </div>
-    <h4>快速检索 🔍</h4>
+    </section>
+    <h4>快速检索</h4>
     <ul class="search-list">
       ${searchList.join('')}
     </ul>
@@ -200,7 +207,7 @@ if (CURRENT_SITE_NAME) {
     fillTargetForm(torrentParams);
   }
   console.log('CURRENT_SITE_NAME' + CURRENT_SITE_NAME);
-  if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig) && !getUrlParam('imdb')) {
+  if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig)) {
     getTorrentInfo();
     // 向当前所在站点添加按钮等内容
     console.log(TORRENT_INFO);
