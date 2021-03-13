@@ -16,7 +16,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
 // @match        https://lemonhd.org/details*
-// @match        https://blutopia.xyz/torrents*
+// @match        https://blutopia.xyz/torrents/*
+// @match        https://blutopia.xyz/torrents?imdb=*
 // @match        http*://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
