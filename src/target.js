@@ -71,7 +71,7 @@ const fillTargetForm = (info) => {
       if (description.includes(img)) {
         description = description.replace(img, '');
         if (!img.match(/\[url=.+?\[url]/)) {
-          description = description.replace(/\[img\]\[\/img\]/g, '');
+          description = description.replace(/\[img\]\[\/img\]\n*/g, '');
         }
       }
     });

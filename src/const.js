@@ -27,6 +27,7 @@ const TORRENT_INFO = {
   mediaInfo: '', // mediainfo或者bdInfo
   bdinfo: '', // 额外的bdinfo
   screenshots: [],
+  comparisonImgs: [], // 对比图
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音
   sourceSite: '', // 种子来源站点简称

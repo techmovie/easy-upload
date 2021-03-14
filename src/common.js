@@ -638,9 +638,11 @@ const htmlToBBCode = (node) => {
           break;
         }
         case 'A': {
-          const { href } = node;
+          const { href, textContent } = node;
           if (href && href.length > 0) {
             if (href.match(/javascript:void/)) {
+              return '';
+            } else if (CURRENT_SITE_NAME === 'PTP' && textContent.match(/Show comparison/)) {
               return '';
             } else {
               pp(`[url=${href}]`, '[/url]');

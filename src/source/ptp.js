@@ -22,15 +22,17 @@ export default () => {
   if (TORRENT_INFO.category === 'concert') {
     descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
   }
-  let { comparisonData, screenshots } = getPTPImage(torrentDom);
+  const { comparisonData, screenshots } = getPTPImage(torrentDom);
   if (comparisonData) {
+    let comparisonImgs = [];
     Object.keys(comparisonData).forEach(key => {
-      screenshots = screenshots.concat(comparisonData[key]);
+      comparisonImgs = comparisonImgs.concat(comparisonData[key]);
       descriptionBBCode = descriptionBBCode.replace(key + ':', '');
       descriptionBBCode += '\n[b]' + key + ':[/b]\n' + comparisonData[key].map(url => {
         return `[img]${url}[/img]`;
       }).join('');
     });
+    TORRENT_INFO.comparisonImgs = comparisonImgs;
   }
   console.log(descriptionBBCode);
   TORRENT_INFO.description = descriptionBBCode;

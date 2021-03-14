@@ -76,7 +76,8 @@ const createSeedDom = (torrentDom) => {
 
 const getThumbnailImgs = () => {
   const statusDom = $('.upload-section .upload-status');
-  let imgList = TORRENT_INFO.screenshots;
+  const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
+  let imgList = allImgs;
   if (imgList.length < 1) {
     throw new Error('获取图片列表失败');
   }
@@ -86,13 +87,14 @@ const getThumbnailImgs = () => {
   $('#img-transfer').attr('disabled', true).addClass('is-disabled');
   transferImgs(imgList, isNSFW).then(data => {
     if (data.length) {
-      TORRENT_INFO.screenshots = data.map(imgData => {
+      const thumbnailImgs = data.map(imgData => {
         return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
       });
+      TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
       let { description } = TORRENT_INFO;
-      imgList.split('\n').forEach((img, index) => {
+      allImgs.forEach((img, index) => {
         if (description.includes(img)) {
-          description = description.replace(`[img]${img}[/img]`, TORRENT_INFO.screenshots[index]);
+          description = description.replace(`[img]${img}[/img]`, thumbnailImgs[index]);
         }
       });
       TORRENT_INFO.description = description;
