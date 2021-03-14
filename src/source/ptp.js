@@ -25,9 +25,8 @@ export default () => {
   let { comparisonData, screenshots } = getPTPImage(torrentDom);
   if (comparisonData) {
     Object.keys(comparisonData).forEach(key => {
-      const regStr = new RegExp(key + ':');
       screenshots = screenshots.concat(comparisonData[key]);
-      descriptionBBCode = descriptionBBCode.replace(regStr, '');
+      descriptionBBCode = descriptionBBCode.replace(key + ':', '');
       descriptionBBCode += '\n[b]' + key + ':[/b]\n' + comparisonData[key].map(url => {
         return `[img]${url}[/img]`;
       }).join('');

@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle } from '../common';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
@@ -28,7 +28,7 @@ export default () => {
     }
   }
   TORRENT_INFO.imdbUrl = IMDBLinkDom.find('a').attr('href');
-  TORRENT_INFO.category = category;
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);

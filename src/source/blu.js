@@ -1,5 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle } from '../common';
+import { formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -24,8 +24,8 @@ export default () => {
   const imdbUrl = $('.movie-details a:contains(IMDB)').attr('href');
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.movieName = movieName;
-  const category = Category.toLowerCase().replace(/s/, '');
-  TORRENT_INFO.category = category;
+  const category = getCategory(Category);
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = getVideoType(Type, Resolution);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
@@ -50,6 +50,13 @@ const getBasicInfo = () => {
     basicInfo[key] = value.replace(/\n/g, '').trim();
   });
   return basicInfo;
+};
+const getCategory = (key) => {
+  const catMap = {
+    Movie: 'movie',
+    'TV Show': 'tv',
+  };
+  return catMap[key];
 };
 const getVideoType = (type, resolution) => {
   type = type.replace(/\s/g, '');

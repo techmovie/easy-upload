@@ -1,5 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getFilterBBCode, getTagsFromSubtitle } from '../common';
+import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getFilterBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -22,8 +22,9 @@ export default () => {
   TORRENT_INFO.description = descriptionBBCode;
   const { category: movieCat, countries, imdbUrl } = getMovieDetails();
   TORRENT_INFO.movieName = movieName;
-  const category = Category.toLowerCase().replace(/s/, '');
-  TORRENT_INFO.category = movieCat === 'Animation' ? 'cartoon' : category;
+  let category = Category.toLowerCase().replace(/s/, '');
+  category = movieCat === 'Animation' ? 'cartoon' : category;
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSource(Source, Type);
   TORRENT_INFO.area = getAreaCode(countries);
   TORRENT_INFO.videoType = getVideoType(Type);

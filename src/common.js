@@ -39,7 +39,7 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
           onload (res) {
             const data = JSON.parse(res.responseText);
             if (data && data.data) {
-              resolve(doubanUrl + data.items[0].id);
+              resolve(doubanUrl + data.data.id);
             } else {
               throw new Error('获取失败');
             }
@@ -97,6 +97,24 @@ const transferImgs = (screenshots, isNSFW) => {
       reject(error.message);
     }
   });
+};
+// 获取更加准确的分类
+const getPreciseCategory = (torrentInfo, category) => {
+  const { description, title, subtitle } = torrentInfo;
+  if (category === 'movie') {
+    if (description.match(/动画/)) {
+      category = 'cartoon';
+    } else if (description.match(/纪录/)) {
+      category = 'documentary';
+    }
+  } else if (category.match(/tv/)) {
+    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
+      category = 'tv';
+    } else {
+      category = 'tvPack';
+    }
+  }
+  return category;
 };
 const getUrlParam = (key) => {
   const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)');
@@ -562,7 +580,14 @@ const htmlToBBCode = (node) => {
       switch (node.tagName.toUpperCase()) {
         case 'UL': { pp(null, null); break; }
         case 'OL': { pp('[list=1]', '[/list]'); break; }
-        case 'LI': { pp('[*]', '\n'); break; }
+        case 'LI': {
+          const { className } = node;
+          if (CURRENT_SITE_NAME === 'Blutopia' && className) {
+            pp('[quote]', '[/quote]'); break;
+          } else {
+            pp('[*]', '\n'); break;
+          }
+        }
         case 'B': { pp('[b]', '[/b]'); break; }
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
@@ -579,7 +604,8 @@ const htmlToBBCode = (node) => {
         case 'BLOCKQUOTE':
         case 'PRE':
         case 'FIELDSET': {
-          if (node.tagName === 'BLOCKQUOTE' && CURRENT_SITE_NAME === 'PTP') {
+          const { tagName, className } = node;
+          if (tagName === 'BLOCKQUOTE' && CURRENT_SITE_NAME === 'PTP' && className.match(/spoiler/)) {
             return `[quote]${node.textContent}[/quote]`;
           }
           pp('[quote]', '[/quote]'); break;
@@ -732,5 +758,6 @@ export {
   transferImgs,
   getDoubanInfo,
   getDoubanLinkByIMDB,
+  getPreciseCategory,
 }
 ;

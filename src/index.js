@@ -1,7 +1,7 @@
 // 入口文件
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl } from './common';
+import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -126,8 +126,7 @@ const getDoubanData = () => {
     if (doubanUrl) {
       statusDom.text('获取中...');
       getDoubanInfo(doubanUrl).then(data => {
-        TORRENT_INFO.doubanInfo = data.format;
-        TORRENT_INFO.subtitle = getSubTitle(data);
+        updateTorrentInfo(data);
         statusDom.text('获取成功');
       }).catch(error => {
         throw new Error(error.message);
@@ -137,7 +136,24 @@ const getDoubanData = () => {
     statusDom.text(error.message);
   }
 };
-
+const updateTorrentInfo = (data) => {
+  const desc = data.format;
+  TORRENT_INFO.doubanInfo = data.format;
+  TORRENT_INFO.subtitle = getSubTitle(data);
+  const areaMatch = desc.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
+  if (areaMatch) {
+    TORRENT_INFO.area = getAreaCode(areaMatch);
+  }
+  let category = TORRENT_INFO.category;
+  if (category === 'movie') {
+    if (desc.match(/动画/)) {
+      category = 'cartoon';
+    } else if (desc.match(/纪录/)) {
+      category = 'documentary';
+    }
+    TORRENT_INFO.category = category;
+  }
+};
 const filterBluTorrent = (imdb) => {
   $('#imdb').val(imdb);
   const token = $('meta[name="csrf_token"]').attr('content');

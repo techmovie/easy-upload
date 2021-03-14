@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
@@ -100,7 +100,8 @@ export default () => {
   } else {
     TORRENT_INFO.area = getAreaCode(processing);
   }
-  TORRENT_INFO.category = getCategory(category || descriptionBBCode);
+  const specificCategory = getPreciseCategory(TORRENT_INFO, getCategory(category || descriptionBBCode));
+  TORRENT_INFO.category = specificCategory;
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? getSize(size) : '';
@@ -260,9 +261,9 @@ const getCategory = (category) => {
     return 'documentary';
   } else if (category.match(/sport|体育/ig)) {
     return 'sport';
-  } else if (category.match(/mv|演唱/ig)) {
+  } else if (category.match(/mv|演唱|concert/ig)) {
     return 'concert';
-  } else if (category.match(/anim|动|画|漫/ig)) {
+  } else if (category.match(/anim|动(画|漫)/ig)) {
     return 'cartoon';
   }
   return '';

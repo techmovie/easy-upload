@@ -81,7 +81,7 @@ const fillTargetForm = (info) => {
     info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
-    if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || info.subTitle.match(/合集/)) {
+    if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || (info.subTitle && info.subTitle.match(/合集/))) {
       $('input[name="pack"]').attr('checked', true);
     }
   }

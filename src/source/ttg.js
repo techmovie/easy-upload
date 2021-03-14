@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode } from '../common';
+import { formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode, getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -42,7 +42,7 @@ export default () => {
     if (!category) {
       TORRENT_INFO.category = getCategoryFromDesc(bbCodes);
     } else {
-      TORRENT_INFO.category = category;
+      TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
     }
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(bbCodes);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -176,7 +176,6 @@ const getVideoType = (title, videoType) => {
 const getTorrentValueDom = (key) => {
   return $(`#main_table td.heading:contains(${key})`).next();
 };
-
 const getCategoryFromDesc = (desc) => {
   let category = 'movie';
   const { title, subtitle } = TORRENT_INFO;
