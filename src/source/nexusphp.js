@@ -21,6 +21,9 @@ export default () => {
   if (CURRENT_SITE_NAME === 'PTer') {
     descriptionBBCode = $('#descrcopyandpaster').val();
   }
+  if (CURRENT_SITE_NAME === 'LemonHD') {
+    descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
+  }
   if (CURRENT_SITE_NAME === 'HDChina') {
     const meta = [];
     $("li:contains('基本信息'):last").next('li').children('i').each(function () {

@@ -23,7 +23,12 @@ const fillTargetForm = (info) => {
 
   // 北洋站不用填写名称
   if (CURRENT_SITE_INFO.name) {
-    $(CURRENT_SITE_INFO.name.selector).val(info.title);
+    const { title, subtitle } = info;
+    let torrentTitle = title;
+    if (CURRENT_SITE_NAME === 'TTG') {
+      torrentTitle += `[${subtitle}]`;
+    }
+    $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
   }
   // 避免选择种子文件后自动改变种子名称
   disableTorrentChange();
