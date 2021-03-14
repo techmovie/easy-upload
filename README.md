@@ -1,6 +1,6 @@
 # easy-seed
 
-(安装地址)[https://greasyfork.org/zh-CN/scripts/423199-easy-seed-pt%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D]
+[安装地址](https://greasyfork.org/zh-CN/scripts/423199-easy-seed-pt%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
 ## 关于
 
 支持国内外主流PT站的转载种子脚本，尽可能减少不必要的重复工作，让发种更易上手。
@@ -16,7 +16,7 @@
 * 目前对音乐、MV、动漫以及软件书籍的种子转载不支持(分类可能不会自动填写)
 * 柠檬的上传页只支持电影、剧集、纪录片和MV类别的转载
 * 内站的简介中会有一些跟视频截图无关的图片，虽然做了一些过滤，转载到外站后这些无关的图片可能仍会保留下来，需要手动删除。
-* 大部分外站需要完整的MediaInfo，而部分内战的官组都没提供，转载到外站时，需要手动获取MediaInfo
+* 大部分外站需要完整的MediaInfo，而部分内站的官组都没提供，转载到外站时，需要手动获取MediaInfo
 * 由于TTG的图片加载策略，需要等页面完全加载完整后再点击转载到其他站，否则种子信息会获取不完整。
 * 由于部分内站上传页的分类填写过于混乱，会有部分种子分类填写不上的问题，欢迎提Issue
 
@@ -27,12 +27,15 @@
 
 ## 构建
 
-`npm run build`
+`npm run build` 生成新脚本。
 
 ## 本地调试
-新建用户脚本,然后将`@require`下的文件路径改为项目所在目录。
+* 首先要修改Tampermonkey扩展，允许访问文件网址。
+  ![](https://ptpimg.me/15109h.png)
+* 在浏览器的Tampermonkey扩展中新建一个空白的用户脚本,将以下内容复制进去。然后将`@require`下的文件路径改为自己本地工程中`.cache/easy-seed.user.js`所在的绝对路径。
 
-```// ==UserScript==
+```
+// ==UserScript==
 // @name         Debug
 // @namespace    http://tampermonkey.net/
 // @version      0.1
@@ -40,7 +43,8 @@
 // @author       You
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
-// @match        http*://*/details.php?id=*
+// @match        http://*/details.php?id=*
+// @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
 // @match        https://lemonhd.org/upload_*
@@ -48,11 +52,11 @@
 // @match        https://blutopia.xyz/torrents/*
 // @match        https://blutopia.xyz/torrents?imdb=*
 // @match        https://blutopia.xyz/upload/*
-// @match        http*://*/upload*
-
-// @require      file:///Users/USER_NAME/../easy-seed/.cache/easy-seed.user.js
+// @match        https://*/upload*
+// @match        http://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
+// @require      file:///Users/USER_NAME/../easy-seed/.cache/easy-seed.user.js
 // ==/UserScript==
 
 (function() {
@@ -62,7 +66,7 @@
 })();
 ```
 
-`npm run dev`
+* `npm run dev` 启动工程，有文件改动，`.cache`目录下的脚本会自动更新，刷新浏览器即可。
 
 ## 站点配置规则
 
