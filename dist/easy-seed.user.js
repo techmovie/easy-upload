@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         easy-seed
 // @namespace    https://github.com/techmovie/easy-seed
-// @version      1.0.1
+// @version      1.0.2
 // @description  easy seeding for different trackers
 // @author       birdplane
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
-// @match        http*://*/details.php?id=*
+// @match        http://*/details.php?id=*
+// @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
 // @match        https://lemonhd.org/upload_*
@@ -14,7 +15,8 @@
 // @match        https://blutopia.xyz/torrents/*
 // @match        https://blutopia.xyz/torrents?imdb=*
 // @match        https://blutopia.xyz/upload/*
-// @match        http*://*/upload*
+// @match        https://*/upload*
+// @match        http://*/upload*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
