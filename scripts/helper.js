@@ -21,6 +21,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://blutopia.xyz/torrents?imdb=*
 // @match        https://blutopia.xyz/upload/*
 // @match        http*://*/upload*
+// @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
 
 // yaml 插件
