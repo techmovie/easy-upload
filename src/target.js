@@ -8,6 +8,7 @@ const fillTargetForm = (info) => {
   }
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   const isBluray = info.videoType.match(/bluray/i);
+  const { screenshots = [] } = info;
   $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
   // 针对hdb的站点的命名规则对标题进行处理
   if (CURRENT_SITE_NAME === 'HDBits') {
@@ -67,7 +68,7 @@ const fillTargetForm = (info) => {
   }
   // 删除简介中的截图
   if (CURRENT_SITE_INFO.screenshots) {
-    info.screenshots.forEach(img => {
+    screenshots.forEach(img => {
       if (description.includes(img)) {
         description = description.replace(img, '');
         if (!img.match(/\[url=.+?\[url]/)) {
@@ -80,7 +81,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME === 'SSD') {
     info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-    $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
+    $(CURRENT_SITE_INFO.screenshots.selector).val(screenshots.join('\n'));
     if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || (info.subTitle && info.subTitle.match(/合集/))) {
       $('input[name="pack"]').attr('checked', true);
     }
@@ -192,7 +193,7 @@ const disableTorrentChange = () => {
   }
 };
 const filterNexusDescription = (info) => {
-  const { description, screenshots } = info;
+  const { description, screenshots = [] } = info;
   let filterDescription = '';
   const quoteList = description.match(/\[quote\](.|\n)+?\[\/quote\]/g);
   if (quoteList && quoteList.length > 0) {

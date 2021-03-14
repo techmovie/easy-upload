@@ -271,11 +271,13 @@ const getTMDBIdByIMDBId = (imdbid) => {
         url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
         onload (res) {
           const data = JSON.parse(res.responseText);
-          console.log(data);
-          if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
+          const isMovie = data.movie_results && data.movie_results.length > 1;
+          const isTV = !data.tv_results && data.tv_results.length > 1;
+          if (res.status !== 200 && (!isMovie && !isTV)) {
             reject(new Error('请求失败'));
           }
-          resolve(data.movie_results[0].id);
+          const id = isMovie ? data.movie_results[0].id : data.tv_results[0].id;
+          resolve(id);
         },
       });
     });

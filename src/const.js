@@ -25,7 +25,6 @@ const TORRENT_INFO = {
     DolbyVision: false,
   }, // 标签 diy 中字 国配等
   mediaInfo: '', // mediainfo或者bdInfo
-  bdinfo: '', // 额外的bdinfo
   screenshots: [],
   comparisonImgs: [], // 对比图
   movieAkaName: '', // 别名一般为电影英文名称

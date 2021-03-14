@@ -34,7 +34,6 @@ export default () => {
     });
     TORRENT_INFO.comparisonImgs = comparisonImgs;
   }
-  console.log(descriptionBBCode);
   TORRENT_INFO.description = descriptionBBCode;
   const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
   const [codes, container, source, ...otherInfo] = infoArray;
@@ -44,7 +43,6 @@ export default () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
-  TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
   const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;

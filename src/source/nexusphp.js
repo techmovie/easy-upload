@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
+import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
@@ -52,12 +52,14 @@ export default () => {
     const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
     TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
-      const extraTextInfo = `[quote]${getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0])}[/quote]\n`;
+      let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
+      extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';
       const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
-      const extraMediaInfo = '[quote]' + $("section[data-group='mediainfo'] .codemain").text() + '[/quote]';
+      const mediaInfo = $("section[data-group='mediainfo'] .codemain").text();
+      const extraMediaInfo = `\n[quote]${mediaInfo}[/quote]\n`;
+      TORRENT_INFO.mediaInfo = mediaInfo;
       descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
     }
-
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
   }
 
@@ -86,10 +88,6 @@ export default () => {
   TORRENT_INFO.year = year ? year.pop() : '';
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
-  if (TORRENT_INFO.doubanInfo) {
-    descriptionBBCode = TORRENT_INFO.doubanInfo += descriptionBBCode;
-    TORRENT_INFO.doubanInfo = '';
-  }
   TORRENT_INFO.description = descriptionBBCode;
   // 兼容家园
   if (!processing || processing.match(/raw/)) {
@@ -109,17 +107,16 @@ export default () => {
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-
-  TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
-  if (isBluray && bdinfo) {
-    TORRENT_INFO.mediaInfo = bdinfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(bdinfo);
+  const mediaInfoOrBDInfo = isBluray ? bdinfo : (TORRENT_INFO.mediaInfo || mediaInfo);
+  if (mediaInfoOrBDInfo) {
+    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
     TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
   } else {
-    TORRENT_INFO.mediaInfo = mediaInfo;
     if (CURRENT_SITE_NAME.match(/beitai/i)) {
       // 从简略mediainfo中获取videoCodes
       if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {

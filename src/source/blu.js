@@ -33,7 +33,6 @@ export default () => {
   const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-  TORRENT_INFO.bdinfo = isBluray ? '' : bdinfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
   TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
   TORRENT_INFO.videoCodec = videoCodec;
