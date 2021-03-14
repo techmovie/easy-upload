@@ -193,7 +193,7 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome|BeyondHD|OurBits|HDSky/)) {
+  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome|BeyondHD|OurBits|HDSky|TCCF/)) {
     $(CURRENT_SITE_INFO.name.selector).attr('id', '');
   }
 };

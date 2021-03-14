@@ -227,7 +227,7 @@ const getVideoType = (videoType) => {
     return 'remux';
   } else if (videoType.match(/blu/ig)) {
     return 'bluray';
-  } else if (videoType.match(/encode|x264|x265|bdrip/ig)) {
+  } else if (videoType.match(/encode|x264|x265|bdrip|hdrip/ig)) {
     return 'encode';
   } else if (videoType.match(/web/ig)) {
     return 'web';
