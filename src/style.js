@@ -20,6 +20,7 @@ export default GM_addStyle(`
   margin-bottom: 0;
   margin-left: 0;
   margin-right: 5px;
+  line-height: 24px;
 }
 .seed-dom li:last-child span{
   display: none;
@@ -30,6 +31,10 @@ export default GM_addStyle(`
 .seed-dom li a{
   font-weight: 600;
 }
+.seed-dom .function-list{
+  display: flex;
+  justify-content: space-around; 
+}
 .upload-section,.douban-section{
   display: flex;
   justify-content: center;
@@ -39,6 +44,7 @@ export default GM_addStyle(`
 .upload-section .upload-status,.douban-section .douban-status{
   margin-left: 5px;
   font-size: 14px;
+  font-weight: 600;
 }
 #img-transfer,#douban-info{
   line-height: 1;

@@ -1,14 +1,19 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle } from '../common';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
+import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const editDom = $('#details tr').has('a:contains(Edit torrent)');
   const descriptionDom = editDom.length > 0 ? editDom.prev() : $('#details tr').has('.js-tagcontent').prev();
+  let descriptionBBCode = getFilterBBCode(descriptionDom.find('>td')[0]);
+  descriptionBBCode = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)?.[1] ?? '';
+  TORRENT_INFO.description = descriptionBBCode;
   const { size, category, videoType } = getBasicInfo();
   const title = $('h1').eq(0).text();
   TORRENT_INFO.title = formatTorrentTitle(title);
+  const tags = getTagsFromSubtitle(title);
   const isMovieType = $('.contentlayout h1').length > 0;
   const IMDBLinkDom = isMovieType ? $('.contentlayout h1') : $('#details .showlinks li').eq(1);
   if (isMovieType) {
@@ -23,14 +28,12 @@ export default () => {
     }
   }
   TORRENT_INFO.imdbUrl = IMDBLinkDom.find('a').attr('href');
-  TORRENT_INFO.category = category;
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { logs, bdinfo } = getLogsOrBDInfo(descriptionDom);
-
-  TORRENT_INFO.logs = logs;
+  const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
   if (!isBluray) {
     TORRENT_INFO.bdinfo = bdinfo;
     getMediaInfo(torrentId).then(data => {
@@ -40,16 +43,16 @@ export default () => {
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         TORRENT_INFO.resolution = resolution;
-        TORRENT_INFO.tags = mediaTags;
+        TORRENT_INFO.tags = { ...tags, ...mediaTags };
       }
     });
   } else {
     TORRENT_INFO.mediaInfo = bdinfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(bdinfo);
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(bdinfo || descriptionBBCode);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = mediaTags;
+    TORRENT_INFO.tags = { ...tags, ...mediaTags };
   }
   TORRENT_INFO.size = size;
   TORRENT_INFO.screenshots = getImages(descriptionDom);
@@ -90,34 +93,8 @@ const getMediaInfo = (torrentId) => {
     });
   });
 };
-// 获取eac3to日志
-const getLogsOrBDInfo = (descriptionDom) => {
-  const quoteList = descriptionDom.find('.sub').has('b:contains(Quote)').next().find('td');
-  let logs = ''; let bdinfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = quoteList[i].textContent;
-    if (quoteContent.match(/eac3to/)) {
-      logs += `[quote]${quoteContent}[/quote]`;
-    }
-    if (quoteContent.match(/Disc\s*Size/i)) {
-      bdinfo += quoteContent;
-    }
-  }
-  return {
-    logs,
-    bdinfo,
-  };
-};
 // 获取截图
 const getImages = (descriptionDom) => {
-  const links = descriptionDom.find('a').has('img');
-  const screenshots = [];
-  links.each((index, element) => {
-    const imageUrl = $(element).attr('href');
-    const thumbnailURL = $(element).find('img').attr('src');
-    if (thumbnailURL && thumbnailURL.match(/.+\.(png|jpg)/i)) {
-      screenshots.push(`[url=${imageUrl}][img]${thumbnailURL}[/img][/url]`);
-    }
-  });
+  const screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
   return screenshots;
 };

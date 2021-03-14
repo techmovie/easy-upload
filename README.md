@@ -14,15 +14,17 @@
   
   
 ## 注意事项
-* 目前对音乐、MV、动漫以及软件书籍的种子转载不支持
+* 目前对音乐、MV、动漫以及软件书籍的种子转载不支持(分类可能不会自动填写)
+* 柠檬的上传页只支持电影、剧集、纪录片和MV类别的转载
 * 内站的简介中会有一些跟视频截图无关的图片，虽然做了一些过滤，转载到外站后这些无关的图片可能仍会保留下来，需要手动删除。
 * 大部分外站需要完整的MediaInfo，而部分内战的官组都没提供，转载到外站时，需要手动获取MediaInfo
 * 由于TTG的图片加载策略，需要等页面完全加载完整后再点击转载到其他站，否则种子信息会获取不完整。
 * 由于部分内站上传页的分类填写过于混乱，会有部分种子分类填写不上的问题，欢迎提Issue
 
 ## 后续计划
-* 增加更多站点的支持，欢迎有账号或者有发布权限的大佬帮忙测试以及提PR
-* 提高获取种子信息的准确性。比如增加单集剧集和完结剧集的识别。
+* 增加FL、HDT、KG的支持
+* 国内很多站点由于没有账号或者发布权限，欢迎大佬帮忙测试以及提PR
+* 快速检索列表改为从yaml配置里获取
 
 ## 构建
 
@@ -32,18 +34,26 @@
 新建用户脚本,然后将`@require`下的文件路径改为项目所在目录。
 
 ```// ==UserScript==
-// @name         easy seed
-// @namespace    https://github.com/techmovie/easy-seed
-// @version      0.3
-// @description  easy seeding for different trackers
-// @author       birdplane
+// @name         Debug
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
-// @match        https://hdbits.org/offer.php
+// @match        http*://*/details.php?id=*
+// @match        https://totheglory.im/t/*
+// @match        https://beyond-hd.me/torrents/*
+// @match        https://lemonhd.org/upload_*
+// @match        https://lemonhd.org/details*
+// @match        https://blutopia.xyz/torrents/*
+// @match        https://blutopia.xyz/torrents?imdb=*
+// @match        https://blutopia.xyz/upload/*
 // @match        http*://*/upload*
+
+// @require      file:///Users/USER_NAME/../easy-seed/.cache/easy-seed.user.js
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @require      file:///Users/USER_NAME/../easy-seed/.cache/easy-seed.user.js
-// @note
 // ==/UserScript==
 
 (function() {
@@ -94,6 +104,18 @@
     # 豆瓣地址 没有的站点可以省略 
     douban:
       selector: 'input[name="douban_id"]'
+    # 是否匿名发布
+    anonymous: 
+      selector: 'input[name="uplver"]'
+    # 标签checkbox
+    tags: 
+      chineseAudio: '#tag_gy'
+      DIY: '#tag_diy'
+      cantoneseAudio: '#tag_yy'
+      chineseSubtitle: '#tag_zz'
+      HDR: '#tag_hdr10'
+      HDR10+: '#tag_hdrm'
+      DolbyVision: '#tag_db'
      # 分类，电影剧集等 
     category: 
       selector: '#browsecat'
@@ -101,7 +123,6 @@
         movie:
           - '411'
           - '412'
-        moviePack: ''
         tv:
           - '425'
           - '426'

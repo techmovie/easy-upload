@@ -1,9 +1,121 @@
-import { CODES_ARRAY, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL } from './const';
+import { CODES_ARRAY, CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_API_URL, API_KEY } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
 };
-
+const getDoubanInfo = (doubanUrl) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (doubanUrl) {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${PT_GEN_API}?url=${doubanUrl}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.success) {
+              resolve(data);
+            } else {
+              throw new Error('获取豆瓣信息失败');
+            }
+          },
+        });
+      } else {
+        throw new Error('无法获取豆瓣信息');
+      }
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
+const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doubanUrl = ' https://movie.douban.com/subject/';
+      const imdbId = getIMDBIdByUrl(imdbUrl);
+      if (imdbId) {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${DOUBAN_SEARCH_API}/${imdbId}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.data) {
+              resolve(doubanUrl + data.data.id);
+            } else {
+              throw new Error('获取失败');
+            }
+          },
+        });
+      } else {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `${DOUBAN_API_URL}/search/weixin?q=${movieName}&start=0&count=1&apiKey=${API_KEY}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.items && data.items.length > 0) {
+              resolve(doubanUrl + data.items[0].id);
+            } else {
+              throw new Error('获取失败');
+            }
+          },
+        });
+      }
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
+const transferImgs = (screenshots, isNSFW) => {
+  return new Promise((resolve, reject) => {
+    const params = encodeURI(`imgs=${screenshots}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`);
+    try {
+      GM_xmlhttpRequest({
+        url: 'https://pixhost.to/remote/',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+        data: params,
+        onload (res) {
+          const data = res.responseText.match(/(upload_results = )({.*})(;)/);
+          if (!data) {
+            reject(new Error('上传失败，请重试'));
+          }
+          let imgResultList = [];
+          if (data && data.length) {
+            imgResultList = JSON.parse(data[2]).images;
+            if (imgResultList.length.length < 1) {
+              throw new Error(new Error('上传失败，请重试'));
+            }
+            resolve(imgResultList);
+          } else {
+            throw new Error('上传失败，请重试');
+          }
+        },
+      });
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
+// 获取更加准确的分类
+const getPreciseCategory = (torrentInfo, category) => {
+  const { description, title, subtitle } = torrentInfo;
+  if (category === 'movie') {
+    if (description.match(/动画/)) {
+      category = 'cartoon';
+    } else if (description.match(/纪录/)) {
+      category = 'documentary';
+    }
+  } else if (category.match(/tv/)) {
+    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
+      category = 'tv';
+    } else {
+      category = 'tvPack';
+    }
+  }
+  return category;
+};
 const getUrlParam = (key) => {
   const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)');
   const regArray = location.search.substr(1).match(reg);
@@ -13,7 +125,7 @@ const getUrlParam = (key) => {
   return '';
 };
 // 获取音频编码
-const getAudioCodec = (title) => {
+const getAudioCodecFromTitle = (title) => {
   if (!title) {
     return '';
   }
@@ -114,9 +226,9 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|Canada|CA|美国|加拿大/i)) {
+    if (area.match(/USA|US|Canada|CA|美国|加拿大/i)) {
       return 'US';
-    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
+    } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/i)) {
       return 'EU';
     } else if (area.match(/Japan|日本|JP/i)) {
       return 'JP';
@@ -152,19 +264,26 @@ const getBDType = (size) => {
 };
 
 const getTMDBIdByIMDBId = (imdbid) => {
-  return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
-      onload (res) {
-        const data = JSON.parse(res.responseText);
-        if (res.status !== 200 || !data.movie_results || data.movie_results.length < 1) {
-          reject(new Error('请求失败'));
-        }
-        resolve(data.movie_results[0].id);
-      },
+  try {
+    return new Promise((resolve, reject) => {
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
+        onload (res) {
+          const data = JSON.parse(res.responseText);
+          const isMovie = data.movie_results && data.movie_results.length > 1;
+          const isTV = !data.tv_results && data.tv_results.length > 1;
+          if (res.status !== 200 && (!isMovie && !isTV)) {
+            reject(new Error('请求失败'));
+          }
+          const id = isMovie ? data.movie_results[0].id : data.tv_results[0].id;
+          resolve(id);
+        },
+      });
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getIMDBIdByUrl = (imdbLink) => {
   const imdbIdArray = /tt\d+/.exec(imdbLink);
@@ -239,7 +358,7 @@ const getResolution = (mediaInfo) => {
     return `${width}x${height}`;
   }
 };
-const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV) => {
+const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
   const mediaTags = {};
@@ -252,8 +371,12 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   if (hasChineseSubtitle) {
     mediaTags.chineseSubtitle = true;
   }
-  if (isHdr) {
-    mediaTags.HDR = true;
+  if (hdrFormat) {
+    if (hdrFormat.match(/HDR10\+/i)) {
+      mediaTags['HDR10+'] = true;
+    } else {
+      mediaTags.HDR = true;
+    }
   }
   if (isDV) {
     mediaTags.DolbyVision = true;
@@ -293,7 +416,7 @@ const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   }
   return {
     videoCodec,
-    isHdr: !!hdrFormat,
+    hdrFormat,
     isDV,
   };
 };
@@ -316,10 +439,10 @@ const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
     audioCodec = 'atmos';
   } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
     audioCodec = 'truehd';
-  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital$/i)) {
-    audioCodec = 'dd';
   } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
     audioCodec = 'dd+';
+  } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital/i)) {
+    audioCodec = 'dd';
   } else if (audioFormat.match(/AC-3/i)) {
     audioCodec = 'ac3';
   } else if (audioFormat.match(/DTS XLL X/i)) {
@@ -358,19 +481,19 @@ const getInfoFromBDInfo = (bdInfo) => {
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
   const videoCodec = mainVideo.match(/2160/) ? 'hevc' : 'h264';
-  const isHdr = !!mainVideo.match(/\/\s*HDR(\d)*\s*\//i);
+  const hdrFormat = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)?.[0];
   const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
   const audioPart = splitBDMediaInfo(audioMatch, 2);
   const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
   const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
-  const { audioCodec, channelName, languageArray } = getBDAudioInfo(audioPart, quickSummaryStyle);
+  const { audioCodec = '', channelName = '', languageArray = [] } = getBDAudioInfo(audioPart, quickSummaryStyle);
   const subtitleLanguageArray = subtitlePart.map(item => {
     const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
     const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
   });
-  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
   return {
     fileSize,
     videoCodec,
@@ -383,14 +506,17 @@ const splitBDMediaInfo = (matchArray, matchIndex) => {
   return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/)) ?? [];
 };
 const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+  if (audioPart.length < 1) {
+    return {};
+  }
   const sortArray = audioPart.sort((a, b) => {
     const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
     const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
     return lastBitrate - firstBitrate;
   });
   const [mainAudio, secondAudio] = sortArray;
-  const mainAudioCodec = getAudioCodec(mainAudio);
-  const secondAudioCodec = getAudioCodec(secondAudio);
+  const mainAudioCodec = getAudioCodecFromTitle(mainAudio);
+  const secondAudioCodec = getAudioCodecFromTitle(secondAudio);
   let audioCodec = mainAudioCodec;
   let channelName = mainAudio.match(/\d\.\d/)?.[0];
   if (mainAudioCodec === 'lpcm' && secondAudioCodec === 'dtshdma') {
@@ -423,13 +549,27 @@ const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
 const getFilterBBCode = (content) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
-    return bbCodes.replace(/\[\w+(=(\w|\d|#)+)*\]((.|\n)*?(\[\/\w+\])?)\[\/\w+\]/g, function (match, p1, p2, p3) {
-      if ((p3 && p3.match(/温馨提示|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用/)) || !p3) {
+    return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, function (match, p1) {
+      if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用/))) {
         return '';
       }
       return match;
     });
   }
+};
+const rgb2hex = (rgb) => {
+  rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  return (rgb && rgb.length === 4)
+    ? '#' +
+    ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[3], 10).toString(16)).slice(-2)
+    : '';
+};
+
+const ensureProperColor = (color) => {
+  if (/rgba?/.test(color)) return rgb2hex(color);
+  return color;
 };
 // html转BBCode代码
 const htmlToBBCode = (node) => {
@@ -440,25 +580,45 @@ const htmlToBBCode = (node) => {
   switch (node.nodeType) {
     case 1: { // tag
       switch (node.tagName.toUpperCase()) {
-        case 'UL': { pp('[list]', '[/list]'); break; }
+        case 'UL': { pp(null, null); break; }
         case 'OL': { pp('[list=1]', '[/list]'); break; }
-        case 'LI': { pp('[*]'); break; }
+        case 'LI': {
+          const { className } = node;
+          if (CURRENT_SITE_NAME === 'Blutopia' && className) {
+            pp('[quote]', '[/quote]'); break;
+          } else {
+            pp('[*]', '\n'); break;
+          }
+        }
         case 'B': { pp('[b]', '[/b]'); break; }
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
         case 'DIV': {
           if (node.className === 'codemain') {
             pp('\n[quote]', '[/quote]'); break;
+          } else {
+            pp('\n', '\n'); break;
           }
-          pp('\n', '\n'); break;
         }
         case 'P': { pp('\n', '\n'); break; }
         case 'BR': { pp('\n'); break; }
         case 'SPAN': { pp(null, null); break; }
         case 'BLOCKQUOTE':
-        case 'TD': // TTG
         case 'PRE':
-        case 'FIELDSET': { pp('[quote]', '[/quote]'); break; }
+        case 'FIELDSET': {
+          const { tagName, className } = node;
+          if (tagName === 'BLOCKQUOTE' && CURRENT_SITE_NAME === 'PTP' && className.match(/spoiler/)) {
+            return `[quote]${node.textContent}[/quote]`;
+          }
+          pp('[quote]', '[/quote]'); break;
+        }
+        case 'TD': {
+          if (CURRENT_SITE_NAME.match(/TTG|HDBits/)) {
+            pp('[quote]', '[/quote]'); break;
+          } else {
+            return '';
+          }
+        }
         case 'IMG': {
           let imgUrl = '';
           const { src } = node;
@@ -475,14 +635,20 @@ const htmlToBBCode = (node) => {
         case 'FONT': {
           const { color } = node;
           if (color) {
-            pp(`[color=${color}]`, '[/color]');
+            pp(`[color=${ensureProperColor(color)}]`, '[/color]');
           }
           break;
         }
         case 'A': {
-          const { href } = node;
+          const { href, textContent } = node;
           if (href && href.length > 0) {
-            pp(`[url=${href}]`, '[/url]');
+            if (href.match(/javascript:void/)) {
+              return '';
+            } else if (CURRENT_SITE_NAME === 'PTP' && textContent.match(/Show comparison/)) {
+              return '';
+            } else {
+              pp(`[url=${href}]`, '[/url]');
+            }
           }
           break;
         }
@@ -504,11 +670,11 @@ const htmlToBBCode = (node) => {
       }
       if (fontStyle === 'italic') pp('[i]', '[/i]');
       if (textDecoration === 'underline') pp('[u]', '[/u]');
-      if (color && color.trim() !== '') pp(`[color=${color}]`, '[/color]');
+      if (color && color.trim() !== '') pp(`[color=${ensureProperColor(color)}]`, '[/color]');
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用|Quote|代码|代碼/)) {
+      if (node.textContent.match(/引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]/)) {
         return '';
       }
       return node.textContent;
@@ -531,6 +697,19 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/国配|国语/i)) {
     tags.chineseAudio = true;
   }
+  if (title.match(/Atoms|杜比全景声/i)) {
+    tags.atoms = true;
+  }
+  if (title.match(/HDR/i)) {
+    if (title.match(/HDR10\+/i)) {
+      tags['HDR10+'] = true;
+    } else {
+      tags.HDR = true;
+    }
+  }
+  if (title.match(/DoVi|(Dolby\s*Vision)|杜比视界/i)) {
+    tags.DolbyVision = true;
+  }
   if (title.match(/粤/i)) {
     tags.cantoneseAudio = true;
   }
@@ -542,10 +721,28 @@ const getTagsFromSubtitle = (title) => {
   }
   return tags;
 };
+const getBDInfoFromBBCode = (bbcode) => {
+  if (!bbcode) {
+    return '';
+  }
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  let bdInfo = '';
+  if (quoteList && quoteList.length > 0) {
+    quoteList.forEach(quote => {
+      if (quote.match(/Disc\s*Size/i)) {
+        bdInfo += quote.replace(/\[(\/)?quote\]/g, '') + '\n';
+      }
+    });
+  }
+  if (!bdInfo) {
+    bdInfo = bbcode.match(/Disc\s+(Title|Label)[^[]+/i)?.[0] ?? '';
+  }
+  return bdInfo;
+};
 export {
   getUrlParam,
   formatTorrentTitle,
-  getAudioCodec,
+  getAudioCodecFromTitle,
   replaceEngName,
   getSubTitle,
   getAreaCode,
@@ -558,8 +755,13 @@ export {
   getSourceFromTitle,
   htmlToBBCode,
   getFilterBBCode,
+  getBDInfoFromBBCode,
   getScreenshotsFromBBCode,
   getTagsFromSubtitle,
   getVideoCodecFromTitle,
+  transferImgs,
+  getDoubanInfo,
+  getDoubanLinkByIMDB,
+  getPreciseCategory,
 }
 ;

@@ -1,11 +1,13 @@
-import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize } from '../common';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
+import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getFilterBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+  TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const { Category, Name, Source, Type, Size } = getBasicInfo();
   TORRENT_INFO.size = getSize(Size);
   TORRENT_INFO.title = formatTorrentTitle(Name);
+  const tags = getTagsFromSubtitle(TORRENT_INFO.title);
   const TMDBYear = $('.movie-heading a:last').text();
   const movieName = $('.movie-heading a:first').text();
   if (!TMDBYear) {
@@ -14,10 +16,15 @@ export default () => {
   } else {
     TORRENT_INFO.year = TMDBYear;
   }
+
+  const descriptionDom = $('.panel-heading:contains(Description)').next('.panel-body').find('.forced-nfo');
+  const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+  TORRENT_INFO.description = descriptionBBCode;
   const { category: movieCat, countries, imdbUrl } = getMovieDetails();
   TORRENT_INFO.movieName = movieName;
-  const category = Category.toLowerCase().replace(/s/, '');
-  TORRENT_INFO.category = movieCat === 'Animation' ? 'cartoon' : category;
+  let category = Category.toLowerCase().replace(/s/, '');
+  category = movieCat === 'Animation' ? 'cartoon' : category;
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSource(Source, Type);
   TORRENT_INFO.area = getAreaCode(countries);
   TORRENT_INFO.videoType = getVideoType(Type);
@@ -29,7 +36,7 @@ export default () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.resolution = resolution;
-  TORRENT_INFO.tags = mediaTags;
+  TORRENT_INFO.tags = { ...tags, ...mediaTags };
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.screenshots = getImages();
   return TORRENT_INFO;
@@ -56,7 +63,7 @@ const getMovieDetails = () => {
         key = 'category';
       }
       movieDetail[key] = value;
-    } else if (urlParams[0].match(/tt\d+/)) {
+    } else if (urlParams?.[0].match(/tt\d+/)) {
       movieDetail.imdbUrl = urlParams[0];
     }
   });
@@ -64,15 +71,7 @@ const getMovieDetails = () => {
 };
 // 获取截图
 const getImages = () => {
-  const links = $('.panel-body a');
-  const screenshots = [];
-  links.each((index, element) => {
-    const imageUrl = $(element).attr('href');
-    const thumbnailURL = $(element).find('img').attr('src');
-    if (thumbnailURL && thumbnailURL.match(/.+\.png/i)) {
-      screenshots.push(`[url=${imageUrl}][img]${thumbnailURL}[/img][/url]`);
-    }
-  });
+  const screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
   return screenshots;
 };
 const getSource = (source, resolution) => {

@@ -25,11 +25,12 @@ const TORRENT_INFO = {
     DolbyVision: false,
   }, // 标签 diy 中字 国配等
   mediaInfo: '', // mediainfo或者bdInfo
-  bdinfo: '', // 额外的bdinfo
   screenshots: [],
+  comparisonImgs: [], // 对比图
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音
   sourceSite: '', // 种子来源站点简称
+  sourceSiteType: '', // 种子来源站点类型
   size: '', // 种子大小 转换成 Bytes
 };
 // 快速检索
@@ -42,6 +43,9 @@ const SEARCH_SITE_MAP = {
   BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
   BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
   SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
+  HDT: 'https://hd-torrents.org/torrents.php?search={imdbid}&active=0&options=2&order=size&by=DESC',
+  KG: 'https://karagarga.in/browse.php?search={imdbid}&search_type=imdb',
+  FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
 };
 
 const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';
@@ -68,7 +72,7 @@ const getSiteName = (host) => {
   }
 };
 
-const CODES_ARRAY = ['atmos', 'dtshdma', 'aac', 'ac3', 'dd+', 'dd', 'DolbyDigital', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm'];
+const CODES_ARRAY = ['atmos', 'dtshdma', 'aac', 'ac3', 'dd+', 'dd', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm'];
 const EUROPE_LIST = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'UK', 'Vatican City'];
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
