@@ -1,11 +1,11 @@
 const fs = require('fs');
 const YAML = require('yaml');
 
-const { name, version, author, description = '' } = require('../package.json');
+const { version, author, description = '' } = require('../package.json');
 
 // 油猴前置注释
 exports.userScriptComment = `// ==UserScript==
-// @name         ${name}
+// @name         easy-seed PT一键转种
 // @namespace    https://github.com/techmovie/easy-seed
 // @version      ${version}
 // @description  ${description}
