@@ -165,6 +165,35 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.videoType.selector).val(categoryValue);
     }
   }
+  /*
+  * 单独处理HDU
+  * 为什么要在媒体类型里再还要增加个TV分类？？
+  * */
+  if (CURRENT_SITE_NAME.match(/HDU/)) {
+    let videoTypeValue = '';
+    const { resolution, videoType, category } = info;
+    const isTV = category.match(/tv/);
+    if (videoType === 'remux') {
+      if (resolution === '2160p') {
+        videoTypeValue = isTV ? '16' : '15';
+      } else {
+        videoTypeValue = isTV ? '12' : '3';
+      }
+    }
+    if (isTV) {
+      if (videoType === 'encode') {
+        videoTypeValue = '14';
+      } else if (videoType === 'web') {
+        videoTypeValue = '13';
+      }
+    }
+    if (videoTypeValue) {
+      $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
+    }
+    if (videoType.match(/bluray/)) {
+      $(CURRENT_SITE_INFO.category.selector).val('424');
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单
