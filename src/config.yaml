@@ -55,8 +55,8 @@ PT_SITE:
         web: '6'
         hdtv: '4'
   MTeam:
-    url: 'https://pt.m-team.cc'
-    host: pt.m-team.cc
+    url: 'https://kp.m-team.cc'
+    host: kp.m-team.cc
     siteType: NexusPHP
     asSource: true
     asTarget: true
