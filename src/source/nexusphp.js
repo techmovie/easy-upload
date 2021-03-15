@@ -94,7 +94,7 @@ export default () => {
   TORRENT_INFO.description = descriptionBBCode;
   // 兼容家园
   if (!processing || processing.match(/raw/)) {
-    const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
+    const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
     }
@@ -197,7 +197,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
