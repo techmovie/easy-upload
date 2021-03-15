@@ -16,7 +16,7 @@ const createSeedDom = (torrentDom) => {
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
-    if (PT_SITE[siteName].asTarget && siteName !== CURRENT_SITE_NAME) {
+    if (PT_SITE[siteName].asTarget) {
       return `<li>
       <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${siteName} </a>
       <span>|</span>
