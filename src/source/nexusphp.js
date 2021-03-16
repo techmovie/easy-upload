@@ -6,13 +6,16 @@ import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreensho
  */
 export default () => {
   let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
-  let year = title.match(/(19|20)\d{2}/g);
+
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
 
   // 站点自定义数据覆盖 开始
+  if (CURRENT_SITE_NAME === 'HDArea') {
+    title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
+  }
   if (CURRENT_SITE_NAME === 'TJUPT') {
     const matchArray = title.match(/\[((\w|\.|\d|-)+)\]/g);
     const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
@@ -75,6 +78,7 @@ export default () => {
   }
   // 站点自定义数据覆盖 结束
 
+  let year = title.match(/(19|20)\d{2}/g);
   const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
