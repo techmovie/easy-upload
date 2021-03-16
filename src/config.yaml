@@ -2187,3 +2187,95 @@ PT_SITE:
         IND: '6'
         SEA: '8'
         OT: '7'
+  HDAtmos:
+    url: 'https://hdatmos.club'
+    host: hdatmos.club
+    siteType: NexusPHP
+    asSource: false
+    asTarget: true
+    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: 'textarea[name="descr"]'
+    imdb:
+      selector: 'input[name="url"][type="text"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        tv: '402'
+        tvPack: '402'
+        documentary: '404'
+        cartoon: '405'  
+        sport: '407'
+        concert: '406'
+    videoCodec:
+      selector: 'select[name="codec_sel"]'
+      map:
+        h264: '1'
+        hevc: '10'
+        h265: '10'
+        x264: '1'
+        x265: '10'
+        mpeg2: '4'
+        mpeg4: '1'
+        vc1: '2'
+        xvid: '3'
+    audioCodec:
+      selector: 'select[name="audiocodec_sel"]'
+      map:
+        aac: '20'
+        ac3: '22'
+        dd: '23'
+        dd+: '23'
+        flac: '17'
+        dts: '14'
+        truehd: '13'
+        lpcm: '15'
+        dtshdma: '10'
+        atmos: '11'
+        dtsx: '12'
+    videoType:
+      selector: 'select[name="medium_sel"]'
+      map:
+        uhdbluray: '1'
+        bluray: '1'
+        remux: '3'
+        encode: '7'
+        web: '10'
+        hdtv: '5'
+        dvd: '6'
+        hddvd: '2'
+        dvdrip: '13'
+        other: '13'
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        4320p: '15'
+        2160p: '10'
+        1080p: '11'
+        1080i: '12'
+        720p: '13'
+        576p: '14'
+        480p: '14'
+    area:
+      selector: 'select[name="processing_sel"]'
+      map:
+        CN: '3'
+        US: '4'
+        EU: '8'
+        HK: '5'
+        TW: '3'
+        JP: '5'
+        KR: '6'
+        OT: '9'
