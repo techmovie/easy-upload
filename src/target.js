@@ -91,7 +91,7 @@ const fillTargetForm = (info) => {
       $('input[name="pack"]').attr('checked', true);
     }
   }
-  $(CURRENT_SITE_INFO.description.selector).val(description.trim());
+  $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
     const fillIMDBId = CURRENT_SITE_NAME === 'Blutopia' ? imdbId.replace('tt', '') : imdbId;
@@ -244,6 +244,14 @@ const filterNexusDescription = (info) => {
     return `[img]${img}[/img]`;
   });
   return filterDescription + '\n' + screenshotsBBCode;
+};
+const getThanksQuote = (info) => {
+  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType, CURRENT_SITE_NAME);
+  let thanksQuote = `转发自[b]${info.sourceSite}[/b]，感谢原发布者！`;
+  if (!isChineseSite) {
+    thanksQuote = `Torrent from [b]${info.sourceSite}[/b].\nAll thanks to the original uploader！`;
+  }
+  return `[quote]${thanksQuote}[/quote]\n\n`;
 };
 const isChineseTacker = (siteType, siteName) => {
   return siteType.match(/NexusPHP|TTG/) && !siteName.match(/SSD/);
