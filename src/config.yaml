@@ -976,7 +976,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+    seedDomSelector: '#top+div+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
