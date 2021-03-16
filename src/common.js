@@ -1,4 +1,4 @@
-import { CODES_ARRAY, CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_API_URL, API_KEY } from './const';
+import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_API_URL, API_KEY } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -129,15 +129,31 @@ const getAudioCodecFromTitle = (title) => {
   if (!title) {
     return '';
   }
-  let codes = '';
-  const formatTitle = title.replace(/:|-|\s/g, '').toLowerCase();
-  for (let i = 0; i < CODES_ARRAY.length; i++) {
-    if (formatTitle.includes(CODES_ARRAY[i])) {
-      codes = CODES_ARRAY[i];
-      break;
-    }
+  title = title.replace(/:|-|\s/g, '');
+  if (title.match(/atoms/i)) {
+    return 'atoms';
+  } else if (title.match(/dtshdma/i)) {
+    return 'dtshdma';
+  } else if (title.match(/dtsx/i)) {
+    return 'dtsx';
+  } else if (title.match(/dts/i)) {
+    return 'dts';
+  } else if (title.match(/truehd/i)) {
+    return 'truehd';
+  } else if (title.match(/lpcm/i)) {
+    return 'lpcm';
+  } else if (title.match(/flac/i)) {
+    return 'flac';
+  } else if (title.match(/aac/i)) {
+    return 'aac';
+  } else if (title.match(/DD\+|DDP|DolbyDigitalPlus/i)) {
+    return 'dd+';
+  } else if (title.match(/DD|DolbyDigital/i)) {
+    return 'dd';
+  } else if (title.match(/ac3/i)) {
+    return 'ac3';
   }
-  return codes;
+  return '';
 };
 const getVideoCodecFromTitle = (title) => {
   title = title.replace(/\.|-/g, '');
@@ -474,8 +490,11 @@ const getInfoFromBDInfo = (bdInfo) => {
     bdInfo = splitArray[1];
   }
   const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)*)AUDIO:/i);
-  const audioMatch = bdInfo.match(/AUDIO:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)*)(SUBTITLE(S))*/i);
-  const subtitleMatch = bdInfo.match(/SUBTITLE(S)*:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)+)(FILES:)*/i);
+  const hasFileInfo = bdInfo.match(/FILES:/i);
+  const subtitleReg = new RegExp(`SUBTITLE(S)*:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${hasFileInfo ? 'FILES:' : ''}`, 'i');
+  const subtitleMatch = bdInfo.match(subtitleReg);
+  const audioReg = new RegExp(`AUDIO:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${subtitleMatch ? '(SUBTITLE(S)?)' : hasFileInfo ? 'FILES:' : ''}`, 'i');
+  const audioMatch = bdInfo.match(audioReg);
   const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
   const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
   const videoPart = splitBDMediaInfo(videoMatch, 2);
@@ -503,7 +522,7 @@ const getInfoFromBDInfo = (bdInfo) => {
   };
 };
 const splitBDMediaInfo = (matchArray, matchIndex) => {
-  return matchArray?.[matchIndex]?.split('\n').filter(item => !item.match(/^\s+$/)) ?? [];
+  return matchArray?.[matchIndex]?.split('\n').filter(item => !!item) ?? [];
 };
 const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
   if (audioPart.length < 1) {
