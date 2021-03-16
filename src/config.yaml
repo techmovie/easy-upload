@@ -2279,3 +2279,13 @@ PT_SITE:
         JP: '5'
         KR: '6'
         OT: '9'
+    source:
+      selector: 'select[name="source_sel"]'
+      map:
+        uhdbluray: '6'
+        bluray: '6'
+        hdtv: '3'
+        dvd: '8'
+        web: '2'
+        vhs: '12'
+        hddvd: '7'
