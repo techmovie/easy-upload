@@ -48,7 +48,6 @@ export default () => {
 
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
-    year = title.match(/(19|20)\d{2}/g);
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {
@@ -78,7 +77,7 @@ export default () => {
   }
   // 站点自定义数据覆盖 结束
 
-  let year = title.match(/(19|20)\d{2}/g);
+  const year = title.match(/(19|20)\d{2}/g);
   const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
@@ -142,11 +141,15 @@ export default () => {
 
 const getMetaInfo = (metaInfo) => {
   let resolutionKey = '分辨率|解析度|格式';
+  let videoTypeKey = '媒介|来源|质量';
   if (CURRENT_SITE_NAME === 'SSD') {
     resolutionKey = '分辨率|解析度';
   }
+  if (CURRENT_SITE_NAME === 'TLF') {
+    videoTypeKey = '媒介';
+  }
   const category = getMetaValue('类型|分类|類別', metaInfo);
-  const videoType = getMetaValue('媒介|来源|质量', metaInfo);
+  const videoType = getMetaValue(videoTypeKey, metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
   const audioCodec = getMetaValue('音频|音频编码', metaInfo);
   const resolution = getMetaValue(resolutionKey, metaInfo);
@@ -201,7 +204,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
