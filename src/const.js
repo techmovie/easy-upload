@@ -37,7 +37,7 @@ const TORRENT_INFO = {
 const SEARCH_SITE_MAP = {
   HDB: 'https://hdbits.org/browse.php?search={imdbid}&sort=size&h=8&d=DESC',
   PTP: 'https://passthepopcorn.me/torrents.php?action=advanced&searchstr={imdbid}',
-  MTeam: 'https://pt.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
+  MTeam: 'https://kp.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
   TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
   CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
   BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
@@ -46,6 +46,8 @@ const SEARCH_SITE_MAP = {
   HDT: 'https://hd-torrents.org/torrents.php?search={imdbid}&active=0&options=2&order=size&by=DESC',
   KG: 'https://karagarga.in/browse.php?search={imdbid}&search_type=imdb',
   FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
+  'nzb.in': 'https://nzbs.in/search/{imdbid}?t=-1&ob=size_desc',
+  Bdc: 'https://broadcity.in/browse.php?imdb={imdbid}',
 };
 
 const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2';

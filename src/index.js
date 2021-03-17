@@ -27,9 +27,13 @@ const createSeedDom = (torrentDom) => {
   const searchList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
     const imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
     let url = '';
-    let searchKeyWord = imdbId || TORRENT_INFO.movieAkaName || TORRENT_INFO.movieName;
+    const { movieAkaName, movieName } = TORRENT_INFO;
+    let searchKeyWord = imdbId || movieAkaName || movieName;
     if (siteName === 'TTG' && imdbId) {
       searchKeyWord = searchKeyWord.replace('tt', 'imdb');
+    }
+    if (siteName === 'nzb.in' && (movieAkaName || movieName)) {
+      searchKeyWord = movieAkaName || movieName;
     }
     url = SEARCH_SITE_MAP[siteName].replace('{imdbid}', searchKeyWord);
     url = url.replace('{searchArea}', imdbId ? '4' : '0');
@@ -167,16 +171,22 @@ const filterBluTorrent = (imdb) => {
     },
   });
 };
-
+// 某些站点需要将IMDB填入检索表单
+const fillSearchImdb = () => {
+  const imdbParam = getUrlParam('imdb');
+  if (imdbParam) {
+    if (CURRENT_SITE_NAME === 'Blutopia') {
+      filterBluTorrent(imdbParam);
+    } else if (CURRENT_SITE_NAME === 'Bdc') {
+      $('#tsstac').val(imdbParam);
+      $('#search_type').val('t_genre');
+    }
+  }
+};
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 if (CURRENT_SITE_NAME) {
-  if (CURRENT_SITE_NAME === 'Blutopia') {
-    const imdbParam = getUrlParam('imdb');
-    if (imdbParam) {
-      filterBluTorrent(imdbParam);
-    }
-  }
+  fillSearchImdb();
   if (torrentParams && CURRENT_SITE_INFO.asTarget) {
     torrentParams = JSON.parse(decodeURIComponent(torrentParams));
     fillTargetForm(torrentParams);
