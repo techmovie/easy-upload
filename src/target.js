@@ -52,14 +52,16 @@ const fillTargetForm = (info) => {
   // 内站直接填写完整简介
   if (info.description) {
     description = info.description;
-    if (isChineseTacker(CURRENT_SITE_INFO.siteType, CURRENT_SITE_NAME)) {
+    if (isChineseTacker(CURRENT_SITE_INFO.siteType) && CURRENT_SITE_NAME !== 'SSD') {
+      // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
       if (doubanInfo) {
         description = doubanInfo + description;
       }
     } else {
-      const { sourceSite, sourceSiteType } = info;
-      if (isChineseTacker(sourceSiteType, sourceSite)) {
+      // 需要过滤掉中文信息
+      const { sourceSiteType } = info;
+      if (isChineseTacker(sourceSiteType)) {
         description = filterNexusDescription(info);
       }
     }
@@ -246,15 +248,15 @@ const filterNexusDescription = (info) => {
   return filterDescription + '\n' + screenshotsBBCode;
 };
 const getThanksQuote = (info) => {
-  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType, CURRENT_SITE_NAME);
+  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType);
   let thanksQuote = `转发自[b]${info.sourceSite}[/b]，感谢原发布者！`;
   if (!isChineseSite) {
     thanksQuote = `Torrent from [b]${info.sourceSite}[/b].\nAll thanks to the original uploader！`;
   }
   return `[quote]${thanksQuote}[/quote]\n\n`;
 };
-const isChineseTacker = (siteType, siteName) => {
-  return siteType.match(/NexusPHP|TTG/) && !siteName.match(/SSD/);
+const isChineseTacker = (siteType) => {
+  return siteType.match(/NexusPHP|TTG/);
 };
 export {
   fillTargetForm,
