@@ -60,7 +60,8 @@ const getSiteName = (host) => {
   try {
     Object.keys(PT_SITE).forEach(key => {
       const hostName = PT_SITE[key].host;
-      if (hostName && host === hostName) {
+      const matchReg = new RegExp(hostName, 'i');
+      if (hostName && host.match(matchReg)) {
         siteName = key;
       }
     });

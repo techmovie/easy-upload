@@ -56,7 +56,7 @@ PT_SITE:
         hdtv: '4'
   MTeam:
     url: 'https://kp.m-team.cc'
-    host: kp.m-team.cc
+    host: m-team.cc
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1228,7 +1228,7 @@ PT_SITE:
           - '23'
   KEEPFRDS:
     url: 'https://pt.keepfrds.com'
-    host: pt.keepfrds.com
+    host: keepfrds.com
     siteType: NexusPHP
     asSource: true
     asTarget: false
@@ -1347,7 +1347,7 @@ PT_SITE:
         480p: '4'
   BeiTai:
     url: 'https://www.beitai.pt'
-    host: www.beitai.pt
+    host: beitai.pt
     siteType: NexusPHP
     asSource: true
     asTarget: false
@@ -1682,7 +1682,7 @@ PT_SITE:
         OT: '8'
   HD4FANS:
     url: 'https://pt.hd4fans.org'
-    host: pt.hd4fans.org
+    host: hd4fans.org
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1750,7 +1750,7 @@ PT_SITE:
         480p: '4'
   TJUPT:
     url: 'https://www.tjupt.org'
-    host: www.tjupt.org
+    host: tjupt.org
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1833,7 +1833,7 @@ PT_SITE:
         480p: '8'
   PTHome:
     url: https://www.pthome.net
-    host: www.pthome.net
+    host: pthome.net
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2008,7 +2008,7 @@ PT_SITE:
         480p: '4'
   HDDolby:
     url: 'https://www.hddolby.com'
-    host: www.hddolby.com
+    host: hddolby.com
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2087,7 +2087,7 @@ PT_SITE:
         480p: '5'
   HDArea:
     url: 'https://www.hdarea.co'
-    host: www.hdarea.co
+    host: hdarea.co
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2200,7 +2200,7 @@ PT_SITE:
         480p: '4'
   BTSCHOOL:
     url: 'https://pt.btschool.club'
-    host: pt.btschool.club
+    host: btschool.club
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2286,7 +2286,7 @@ PT_SITE:
         480p: '4'
   HDU:
     url: 'https://pt.hdupt.com'
-    host: pt.hdupt.com
+    host: hdupt.com
     siteType: NexusPHP
     asSource: true
     asTarget: true
