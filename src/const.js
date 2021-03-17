@@ -48,7 +48,6 @@ const SEARCH_SITE_MAP = {
   FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
 };
 
-const API_KEY = '054022eaeae0b00e0fc068c0c0a2102a';
 const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2';
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
@@ -80,7 +79,6 @@ const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
 
 export {
   TORRENT_INFO,
-  API_KEY,
   DOUBAN_API_URL,
   DOUBAN_SEARCH_API,
   PT_GEN_API,
