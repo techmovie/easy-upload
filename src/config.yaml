@@ -2483,7 +2483,7 @@ PT_SITE:
         hddvd: '7'
   TLF:
     url: 'https://pt.eastgame.org'
-    host: pt.eastgame.org
+    host: eastgame.org
     siteType: NexusPHP
     asSource: true
     asTarget: true
