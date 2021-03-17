@@ -9,7 +9,7 @@ export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const torrentDom = $(`#torrent_${torrentId}`);
-  const ptpMovieTitle = $('.page__title').text().match(/(^|])([^\d[]+)/)[2].trim();
+  const ptpMovieTitle = $('.page__title').text().match(/]?([^[]+)/)[1]?.trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
   TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
   TORRENT_INFO.movieName = movieName;
