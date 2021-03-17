@@ -2481,3 +2481,97 @@ PT_SITE:
         web: '2'
         vhs: '12'
         hddvd: '7'
+  TLF:
+    url: 'https://pt.eastgame.org'
+    host: eastgame.org
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    name:
+      selector: '#name'
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: 'textarea[name="descr"]'
+    imdb:
+      selector: 'input[name="url"][type="text"]'
+    douban:
+      selector: 'input[name="douban_url"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '438'
+        tv: '440'
+        tvPack: '440'
+        documentary: '443'
+        cartoon: '442'  
+        sport: '444'
+        concert: '445'
+        variety: '441'
+    videoCodec:
+      selector: 'select[name="codec_sel"]'
+      map:
+        h264: '1'
+        hevc: '6'
+        h265: '6'
+        x264: '1'
+        x265: '6'
+        mpeg2: '4'
+        mpeg4: '0'
+        vc1: '2'
+        xvid: '3'
+    audioCodec:
+      selector: 'select[name="audiocodec_sel"]'
+      map:
+        aac: '6'
+        ac3: '9'
+        dd: '9'
+        dd+: '9'
+        flac: '1'
+        dts: '10'
+        truehd: '14'
+        lpcm: '12'
+        dtshdma: '11'
+        atmos: '13'
+        dtsx: '10'
+    videoType:
+      selector: 'select[name="medium_sel"]'
+      map:
+        uhdbluray: '10'
+        bluray: '1'
+        remux: '3'
+        encode: '7'
+        web: '4'
+        hdtv: '5'
+        dvd: '6'
+        hddvd: '1'
+        dvdrip: '6'
+        other: '9'
+    resolution:
+      selector: 'select[name="standard_sel"]'
+      map:
+        2160p: '6'
+        1080p: '1'
+        1080i: '2'
+        720p: '3'
+        576p: '4'
+        480p: '4'
+    area:
+      selector: 'select[name="processing_sel"]'
+      map:
+        CN: '1'
+        US: '2'
+        EU: '2'
+        HK: '3'
+        TW: '3'
+        JP: '4'
+        KR: '5'
+        OT: '6'
