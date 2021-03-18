@@ -35,6 +35,7 @@
 | BeyondHD |             ✅              |               ✅                |
 | Blutopia |             ✅              |               ✅                |
 | CHDBits  |             ✅              |               ✅                |
+| DISCFAN  |             ✅              |               ✅                |
 | HD4FANS  |             ✅              |               ✅                |
 |   HDAI   |             ✅              |               ✅                |
 |  HDArea  |             ✅              |               ✅                |
@@ -56,6 +57,5 @@
 |   SSD    |             ✅              |               ✅                |
 |   TCCF   |             ✅              |               ✅                |
 |  TJUPT   |             ✅              |               ✅                |
-|   TTG    |             ✅              |               ✅                |
 |   TLF    |             ✅              |               ✅                |
-| DISCFAN  |             ✅              |               ✅                |
+|   TTG    |             ✅              |               ✅                |
