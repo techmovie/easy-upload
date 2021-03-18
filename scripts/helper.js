@@ -23,6 +23,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://blutopia.xyz/upload/*
 // @match        https://*/upload*
 // @match        http://*/upload*
+// @match        http://www.hd.ai/Torrents.upload
+// @match        https://broadcity.in/browse.php?imdb=*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
