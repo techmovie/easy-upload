@@ -233,6 +233,10 @@ if (CURRENT_SITE_NAME) {
         const path = catMap[TORRENT_INFO.category] || 'movie';
         url = url.replace('upload_movie', `upload_${path}`);
       }
+      if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
+        alert('请等待页面加载完成');
+        return;
+      }
       url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
       window.open(url);
     });
