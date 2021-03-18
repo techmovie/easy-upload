@@ -153,7 +153,7 @@ const getMetaInfo = (metaInfo) => {
     resolutionKey = '分辨率|解析度';
     videoTypeKey = '格式';
   }
-  if (CURRENT_SITE_NAME === 'TLF') {
+  if (CURRENT_SITE_NAME.match(/TLF|HDAI/i)) {
     videoTypeKey = '媒介';
   }
   const category = getMetaValue('类型|分类|類別', metaInfo);
@@ -212,7 +212,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {

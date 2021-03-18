@@ -36,6 +36,7 @@
 | Blutopia |             ✅              |               ✅                |
 | CHDBits  |             ✅              |               ✅                |
 | HD4FANS  |             ✅              |               ✅                |
+|   HDAI   |             ✅              |               ✅                |
 |  HDArea  |             ✅              |               ✅                |
 | HDAtmos  |             ❌              |               ✅                |
 |  HDBits  |             ✅              |               ✅                |

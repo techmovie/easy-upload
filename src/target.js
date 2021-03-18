@@ -93,6 +93,18 @@ const fillTargetForm = (info) => {
       $('input[name="pack"]').attr('checked', true);
     }
   }
+  // 海带
+  if (CURRENT_SITE_NAME === 'HDAI') {
+    $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
+    $(CURRENT_SITE_INFO.screenshots.selector).val(screenshots.join('\n'));
+    if (isBluray) {
+      $('input[type="checkbox"][name="tag[o]"]').attr('checked', true);
+    }
+    const posterImage = (info.description + info.doubanInfo).match(/\[img\](http.+?poster.+?)\[\/img\]/);
+    if (posterImage && posterImage[1]) {
+      $('input[name="poster"]').val(posterImage[1]);
+    }
+  }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
@@ -224,8 +236,10 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 };
 
 const disableTorrentChange = () => {
-  if (CURRENT_SITE_NAME.match(/SSD|HDHome|CHDBits|PTer|PTSBAO|PTHome|BeyondHD|OurBits|HDSky|TCCF/)) {
-    $(CURRENT_SITE_INFO.name.selector).attr('id', '');
+  const nameSelector = CURRENT_SITE_INFO.name.selector;
+  if (nameSelector.match(/^#\w+/)) {
+    const nameDom = $(nameSelector).clone().attr('name', '').hide();
+    $(nameSelector).attr('id', '').after(nameDom);
   }
 };
 const filterNexusDescription = (info) => {
