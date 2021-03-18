@@ -583,7 +583,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(6)' 
+    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(4)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -1846,7 +1846,7 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.php
     searchPath: /torrents.php
-    seedDomSelector: '#top+table>tbody>tr:nth-child(7)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     searchKey: search
     searchParam:
       search_area: '{key}'
@@ -1936,7 +1936,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2019,7 +2019,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2098,7 +2098,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2211,7 +2211,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2297,7 +2297,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)'
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2392,7 +2392,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: false
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2494,7 +2494,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
@@ -2588,7 +2588,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+    seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
     searchPath: /torrents.php
     searchKey: search
