@@ -524,11 +524,11 @@ PT_SITE:
         x264: '2'
         x265: '1'
         h265: '1'
-        mpeg2: '4'
-        mpeg4: ''
+        mpeg2: '4'  
+        mpeg4: '2'
         vc1: '3'
         xvid: ''
-        dvd: ''
+        dvd: '4'
     audioCodec:
       selector: 'select[name="audiocodec_sel"]'
       map:
@@ -537,7 +537,7 @@ PT_SITE:
         dd: '4'
         dd+: '4'
         flac: '7'
-        dts: '3'
+        dts: '3'  
         truehd: '2'
         lpcm: '6'
         dtshdma: '1'
