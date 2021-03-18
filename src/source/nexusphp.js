@@ -55,11 +55,18 @@ export default () => {
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
     const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo.replace('\n\n', '\n');
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';
-      const extraScreenshot = $('.screenshot').find('img').attr('src') ? `[img]${$('.screenshot').find('img').attr('src')}[/img]\n` : '';
+      const extraScreenshotDom = $('.screenshot').find('img');
+      const imgs = [];
+      if (extraScreenshotDom) {
+        extraScreenshotDom.each((index, item) => {
+          imgs.push(`[img]${$(item).attr('src').trim()}[/img]`);
+        });
+      }
+      const extraScreenshot = imgs.join('');
       const mediaInfo = $("section[data-group='mediainfo'] .codemain").text();
       const extraMediaInfo = `\n[quote]${mediaInfo}[/quote]\n`;
       TORRENT_INFO.mediaInfo = mediaInfo;
@@ -144,6 +151,7 @@ const getMetaInfo = (metaInfo) => {
   let videoTypeKey = '媒介|来源|质量';
   if (CURRENT_SITE_NAME === 'SSD') {
     resolutionKey = '分辨率|解析度';
+    videoTypeKey = '格式';
   }
   if (CURRENT_SITE_NAME === 'TLF') {
     videoTypeKey = '媒介';
@@ -228,15 +236,15 @@ const getVideoType = (videoType) => {
   }
 
   videoType = videoType.replace(/[.-]/g, '').toLowerCase();
-  if (videoType.match(/uhd|ultra/ig)) {
-    return 'uhdbluray';
+  if (videoType.match(/encode|x264|x265|bdrip|hdrip/ig)) {
+    return 'encode';
   } else if (videoType.match(/remux/ig)) {
     return 'remux';
+  } else if (videoType.match(/uhd|ultra/ig)) {
+    return 'uhdbluray';
   } else if (videoType.match(/blu/ig)) {
     return 'bluray';
-  } else if (videoType.match(/encode|x264|x265|bdrip|hdrip/ig)) {
-    return 'encode';
-  } else if (videoType.match(/web/ig)) {
+  } else if (videoType.match(/webdl/ig)) {
     return 'web';
   } else if (videoType.match(/hdtv/ig)) {
     return 'hdtv';
