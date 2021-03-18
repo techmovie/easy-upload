@@ -56,3 +56,5 @@
 |   TCCF   |             ✅              |               ✅                |
 |  TJUPT   |             ✅              |               ✅                |
 |   TTG    |             ✅              |               ✅                |
+|   TLF    |             ✅              |               ✅                |
+| DISCFAN  |             ✅              |               ✅                |
