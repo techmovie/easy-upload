@@ -497,6 +497,7 @@ PT_SITE:
       selector: '#small_descr'
     description:
       selector: '#descr'
+    poster: '#url_poster'
     imdb:
       selector: '#url'
     anonymous: 
@@ -894,6 +895,7 @@ PT_SITE:
       selector: 'input[name="small_descr"]'
     description:
       selector: '#descr'
+    poster: 'input[name="picture"]'
     imdb:
       selector:  'input[name="url"][type="text"]'
     anonymous: 
@@ -1083,6 +1085,7 @@ PT_SITE:
       selector: 'input[name="small_descr"]'
     description:
       selector: '#descr'
+    poster: '#cover'
     imdb:
       selector: 'input[name="url"][type="text"]'
     douban:
@@ -2225,6 +2228,7 @@ PT_SITE:
       selector: 'input[name="small_descr"]'
     description:
       selector: '#descr'
+    poster: 'input[name="picture"]'
     imdb:
       selector: 'input[name="imdbid"]'
     douban:
@@ -2659,6 +2663,7 @@ PT_SITE:
       selector: 'input[name="small_descr"]'
     description:
       selector: '#descr'
+    poster: 'input[name="poster"]'
     imdb:
       selector: 'input[name="url"][type="text"]'
     mediaInfo:

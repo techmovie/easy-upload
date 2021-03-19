@@ -101,9 +101,11 @@ const fillTargetForm = (info) => {
     if (isBluray) {
       $('input[type="checkbox"][name="tag[o]"]').attr('checked', true);
     }
+  }
+  if (CURRENT_SITE_INFO.poster) {
     const posterImage = (info.description + info.doubanInfo).match(/\[img\](http.+?poster.+?)\[\/img\]/);
     if (posterImage && posterImage[1]) {
-      $('input[name="poster"]').val(posterImage[1]);
+      $(CURRENT_SITE_INFO.poster).val(posterImage[1]);
     }
   }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
