@@ -11,7 +11,7 @@ export default () => {
   const torrentDom = $(`#torrent_${torrentId}`);
   const ptpMovieTitle = $('.page__title').text().match(/]?([^[]+)/)[1]?.trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
-  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').text()}`;
+  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote:contains(Unique ID)').text()}`;
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.movieAkaName = movieAkaName;
   TORRENT_INFO.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';
@@ -43,6 +43,7 @@ export default () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
+  TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
   const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;

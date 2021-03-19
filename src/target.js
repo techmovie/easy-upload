@@ -27,6 +27,8 @@ const fillTargetForm = (info) => {
     let torrentTitle = title;
     if (CURRENT_SITE_NAME === 'TTG') {
       torrentTitle += `[${subtitle}]`;
+    } else if (CURRENT_SITE_NAME === 'SSD') {
+      torrentTitle = title.replace(/\s/ig, '.');
     }
     $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
   }
@@ -70,7 +72,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.mediaInfo) {
     if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
-      description = description.replace(mediaInfo, '').replace(/\[quote\]\[\/quote\]/g, '');
+      description = description.replace(mediaInfo.trim(), '').replace(/\[quote\]\[\/quote\]/g, '');
     }
   }
   // 删除简介中的截图
@@ -86,7 +88,6 @@ const fillTargetForm = (info) => {
   }
   // 给SSD点赞！
   if (CURRENT_SITE_NAME === 'SSD') {
-    info.title = info.title.replace(/\s/ig, '.');
     $(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
     $(CURRENT_SITE_INFO.screenshots.selector).val(screenshots.join('\n'));
     if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || (info.subTitle && info.subTitle.match(/合集/))) {
