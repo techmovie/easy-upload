@@ -1,4 +1,4 @@
-import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API } from './const';
+import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, CURRENT_SITE_INFO } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -606,14 +606,24 @@ const htmlToBBCode = (node) => {
             pp('\n', '\n'); break;
           }
         }
-        case 'P': { pp('\n', '\n'); break; }
-        case 'BR': { pp('\n'); break; }
+        case 'P': { pp('\n'); break; }
+        case 'BR': {
+          if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+            pp('');
+          } else {
+            pp('\n');
+          }
+          break;
+        }
         case 'SPAN': { pp(null, null); break; }
         case 'BLOCKQUOTE':
         case 'PRE':
         case 'FIELDSET': {
-          const { tagName, className } = node;
+          const { tagName, className, lastElementChild } = node;
           if (tagName === 'BLOCKQUOTE' && CURRENT_SITE_NAME === 'PTP' && className.match(/spoiler/)) {
+            if (lastElementChild.tagName === 'BLOCKQUOTE') {
+              return `[quote]${lastElementChild.textContent}[/quote]`;
+            }
             return `[quote]${node.textContent}[/quote]`;
           }
           pp('[quote]', '[/quote]'); break;
@@ -680,7 +690,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]/)) {
+      if (node.textContent.match(/引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]|Spoiler/)) {
         return '';
       }
       return node.textContent;
