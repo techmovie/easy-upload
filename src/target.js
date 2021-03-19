@@ -1,4 +1,4 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from './const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from './const';
 import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
 
 const fillTargetForm = (info) => {
@@ -167,6 +167,8 @@ const fillTargetForm = (info) => {
       }
     });
   }
+  // 填入制作组
+  fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
   if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD/i)) {
     if (info.tags.DIY) {
@@ -237,7 +239,29 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
   }
   return selectArray;
 };
-
+const fillTeamName = (info) => {
+  const teamMatch = info.title.match(/-([^-]+)$/);
+  const teamConfig = CURRENT_SITE_INFO.team;
+  let teamName = teamMatch?.[1]?.replaceAll('-', '')?.split('@') ?? '';
+  if (teamName) {
+    teamName = teamName.length > 1 ? teamName[1] : teamName[0];
+    if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === 'BTSCHOOL') {
+      $(teamConfig.selector).val(teamConfig.map.hdbint);
+      return;
+    }
+  } else {
+    teamName = 'other';
+  }
+  if (teamName && teamConfig) {
+    const formateTeamName = teamConfig.map[teamName.toLowerCase()];
+    const matchValue = formateTeamName || teamConfig.map.other;
+    if (CURRENT_SITE_NAME === 'HDAI' && !formateTeamName) {
+      $('input[name="team"]').val(teamName);
+      return;
+    }
+    $(teamConfig.selector).val(matchValue.toLowerCase());
+  }
+};
 const disableTorrentChange = () => {
   const nameSelector = CURRENT_SITE_INFO.name.selector;
   if (nameSelector.match(/^#\w+/)) {

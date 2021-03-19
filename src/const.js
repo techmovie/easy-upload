@@ -50,7 +50,6 @@ const SEARCH_SITE_MAP = {
   Bdc: 'https://broadcity.in/browse.php?imdb={imdbid}',
 };
 
-const DOUBAN_API_URL = 'https://frodo.douban.com/api/v2';
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.themoviedb.org';
@@ -78,10 +77,9 @@ const CODES_ARRAY = ['atmos', 'dtshdma', 'aac', 'ac3', 'dd+', 'dd', 'dtsx', 'dts
 const EUROPE_LIST = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'UK', 'Vatican City'];
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
-
+const HDB_TEAM = ['Chotab', 'CRiSC', 'CtrlHD', 'DON', 'EA', 'EbP', 'Geek', 'LolHD', 'NTb', 'RightSiZE', 'SA89', 'SbR', 'TayTo', 'VietHD'];
 export {
   TORRENT_INFO,
-  DOUBAN_API_URL,
   DOUBAN_SEARCH_API,
   PT_GEN_API,
   CODES_ARRAY,
@@ -92,5 +90,6 @@ export {
   EUROPE_LIST,
   TMDB_API_URL,
   TMDB_API_KEY,
+  HDB_TEAM,
 }
 ;

@@ -63,7 +63,7 @@ PT_SITE:
         hdtv: '4'
   MTeam:
     url: 'https://kp.m-team.cc'
-    host: kp.m-team.cc
+    host: m-team.cc
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -194,6 +194,21 @@ PT_SITE:
         JP: '4'
         KR: '5'
         OT: '6'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        mteam: '9'
+        mpad: '10'
+        tnp: '23'
+        mteamtv: '17'
+        kishd: '7'
+        bmdru: '6'
+        onehd: '18'
+        cnhk: '19'
+        stbox: '20'
+        r2hd: '21'
+        pack: '8'
+        geek: '24'
   CHDBits:
     url: 'https://chdbits.co'
     host: chdbits.co
@@ -297,6 +312,22 @@ PT_SITE:
         JP: '4'
         KR: '6'
         OT: '0'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        chdbits: '14'
+        sgnb: '13'
+        remux: '1'
+        chdtv: '2'
+        chdpad: '15'
+        chdweb: '12'
+        chdhktv: '11'
+        stbox: '10'
+        onehd: '8'
+        blucook: '16'
+        hqc: '17'
+        gbt: '18'
+        kan: '19'
   TTG:
     url: 'https://totheglory.im'
     host: totheglory.im
@@ -875,6 +906,22 @@ PT_SITE:
           - '425'
           - '432'
           - '444'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        hdhome: '1'
+        hdh: '2'
+        hdhtv: '3'
+        hdhpad: '4'
+        hdhweb: '12'
+        3201: '20'
+        shma: '17'
+        tvman: '21'
+        arin: '19'
+        ttg: '6'
+        mteam: '7'
+        other: '11'
+        969154968: '22'
   OurBits:
     url: 'https://ourbits.club'
     host: ourbits.club
@@ -1236,9 +1283,40 @@ PT_SITE:
         KR: 
           - '26'
           - '23'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        hdchina: '15'
+        hdctv: '16'
+        ihd: '12'
+        hdwing: '10'
+        hdwtv: '11'
+        kishd: '17'
+        openmv: '7'
+        hdc: '22'
+        diy: '23'
+        khq: '6'
+        exren: '30'
+        joma: '26'
+        anonymous: '25'
+        crss: '24'
+        ebp: '18'
+        don: '19'
+        esir: '20'
+        trollhd: '29'
+        wiki: '9'
+        beast: '4'
+        cmct: '2'
+        ngb: '8'
+        lu9998: '21'
+        taichi: '28'
+        u2: '27'
+        enichi: '31'
+        arey: '32'
+        other: '5'
   KEEPFRDS:
     url: 'https://pt.keepfrds.com'
-    host: pt.keepfrds.com
+    host: keepfrds.com
     siteType: NexusPHP
     asSource: true
     asTarget: false
@@ -1355,9 +1433,27 @@ PT_SITE:
           - '91'
         576p: '3'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        ffansbd: '8'
+        ops: '11'
+        ffansweb: '12'
+        ffanstv: '13'
+        hqc: '10'
+        ttg: '3'
+        hdc: '6'
+        chd: '2'
+        hdsky: '9'
+        cmct: '4'
+        frds: '5'
+        other: '7'
+        ffansdvd: '14'
+        fhdmv: '15'
+        enichi: '16'
   BeiTai:
     url: 'https://www.beitai.pt'
-    host: www.beitai.pt
+    host: beitai.pt
     siteType: NexusPHP
     asSource: true
     asTarget: false
@@ -1692,7 +1788,7 @@ PT_SITE:
         OT: '8'
   HD4FANS:
     url: 'https://pt.hd4fans.org'
-    host: pt.hd4fans.org
+    host: hd4fans.org
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1758,9 +1854,19 @@ PT_SITE:
         720p: '3'
         576p: '4'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        chd: '2'
+        mysilu: '3'
+        wiki: '4'
+        other: '5'
+        cmct: '6'
+        r2ts: '7'
+        kbits: '8'
   TJUPT:
     url: 'https://www.tjupt.org'
-    host: www.tjupt.org
+    host: tjupt.org
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1843,7 +1949,7 @@ PT_SITE:
         480p: '8'
   PTHome:
     url: https://www.pthome.net
-    host: www.pthome.net
+    host: pthome.net
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -1933,6 +2039,17 @@ PT_SITE:
         720p: '3'
         576p: '4'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        pthome: '19'
+        pth: '21'
+        pthweb: '20'
+        pthtv: '22'
+        pthaudio: '23'
+        pthebook: '24'
+        pthmusic: '25'
+        other: '5'
   TCCF:
     url: 'https://et8.org'
     host: et8.org
@@ -2016,9 +2133,19 @@ PT_SITE:
         720p: '3'
         576p: '4'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        torrentccf: '1'
+        tccf: '1'
+        tlf: '2'
+        bmdru: '3'
+        catedu: '4'
+        madfox: '5'
+        other: '7'
   HDDolby:
     url: 'https://www.hddolby.com'
-    host: www.hddolby.com
+    host: hddolby.com
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2097,7 +2224,7 @@ PT_SITE:
         480p: '5'
   HDArea:
     url: 'https://www.hdarea.co'
-    host: www.hdarea.co
+    host: hdarea.co
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2210,7 +2337,7 @@ PT_SITE:
         480p: '4'
   BTSCHOOL:
     url: 'https://pt.btschool.club'
-    host: pt.btschool.club
+    host: btschool.club
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2295,9 +2422,24 @@ PT_SITE:
         720p: '3'
         576p: '4'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        btschool: '1'
+        zone: '13'
+        btshd: '2'
+        btstv: '3'
+        btspad: '4'
+        wiki: '5'
+        hdchina: '6'
+        hdbint: '7'
+        mteam: '9'
+        cmct: '10'
+        ourbits: '11'
+        other: '12'
   HDU:
     url: 'https://pt.hdupt.com'
-    host: pt.hdupt.com
+    host: hdupt.com
     siteType: NexusPHP
     asSource: true
     asTarget: true
@@ -2492,6 +2634,10 @@ PT_SITE:
         web: '2'
         vhs: '12'
         hddvd: '7'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        other: '22'
   TLF:
     url: 'https://pt.eastgame.org'
     host: eastgame.org
@@ -2744,3 +2890,36 @@ PT_SITE:
         JP: '4'
         KR: '5'
         OT: '6'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        other: '1'
+        ao: '20'
+        beitai: '18'
+        beyondhd: '19'
+        beast: '23'
+        chd: '2'
+        chdbits: '3'
+        cmct: '4'
+        frds: '5'
+        fltth: '17'
+        hdai: '6'
+        hdchina: '7'
+        hdhome: '8'
+        hdsky: '9'
+        lemonhd: '28'
+        leaguehd: '29'
+        mteam: '10'
+        nypt: '24'
+        ngb: '26'
+        ourtv: '11'
+        ourbits: '12'
+        pter: '13'
+        pthome: '14'
+        putao: '22'
+        strife: '21'
+        tjupt: '15'
+        ttg: '16'
+        tlf: '30'
+        u2: '31'
+        wiki: '25'
