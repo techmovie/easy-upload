@@ -204,7 +204,7 @@ const getSourceFromTitle = (title) => {
 };
 // 获取副标题
 const getSubTitle = (data) => {
-  const titles = data.trans_title.join('/');
+  const titles = data.trans_title.join('/') || data.chinese_title;
   const { director = [] } = data;
   const directorArray = director.map(item => {
     return replaceEngName(item.name);
