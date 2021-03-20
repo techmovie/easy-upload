@@ -22,7 +22,7 @@ export default () => {
     title = realTitle.replace(/\[|\]/g, '');
   }
   if (CURRENT_SITE_NAME === 'PTer') {
-    descriptionBBCode = $('#descrcopyandpaster').val();
+    descriptionBBCode = $('#descrcopyandpaster').val().replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
   }
   if (CURRENT_SITE_NAME === 'LemonHD') {
     descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
