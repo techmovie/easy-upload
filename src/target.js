@@ -263,7 +263,7 @@ const fillTeamName = (info) => {
   }
 };
 const disableTorrentChange = () => {
-  const nameSelector = CURRENT_SITE_INFO.name.selector;
+  const nameSelector = CURRENT_SITE_INFO.name?.selector ?? '';
   if (nameSelector.match(/^#\w+/)) {
     const nameDom = $(nameSelector).clone().attr('name', '').hide();
     $(nameSelector).attr('id', '').after(nameDom);
