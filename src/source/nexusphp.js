@@ -266,7 +266,7 @@ const getCategory = (category) => {
   category = category.replace(/[.-]/g, '').toLowerCase();
   if (category.match(/movie|bd|ultra|电影/ig)) {
     return 'movie';
-  } else if (category.match(/tv|drama|剧集/ig)) {
+  } else if (category.match(/tv|drama|剧集|电视/ig)) {
     return 'tv';
   } else if (category.match(/TVSeries/ig)) {
     return 'tvPack';
