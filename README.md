@@ -48,6 +48,7 @@
 |   HDU    |             ✅              |               ✅                |
 | KEEPFRDS |             ✅              |               ❌                |
 | LemonHD  |             ✅              |               ✅                |
+|   NYPT   |             ✅              |               ✅                |
 |  MTeam   |             ✅              |               ✅                |
 | OurBits  |             ✅              |               ✅                |
 |  PTHome  |             ✅              |               ✅                |

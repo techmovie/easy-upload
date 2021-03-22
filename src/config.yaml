@@ -1897,7 +1897,7 @@ PT_SITE:
         sport: '407'
         cartoon: '405'
         variety: '403'
-  nanyang:
+  NYPT:
     url: 'https://nanyangpt.com'
     host: nanyangpt.com
     siteType: NexusPHP

@@ -20,8 +20,7 @@ const fillTargetForm = (info) => {
     }
     info.title = mediaTitle;
   }
-
-  // 北洋站不用填写名称
+  // 北洋站没有配置name
   if (CURRENT_SITE_INFO.name) {
     const { title, subtitle } = info;
     let torrentTitle = title;
@@ -218,6 +217,25 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME === 'TJUPT') {
     $('#browsecat').change();
     handleTJUPT(info);
+  }
+  // 单独处理南洋
+  if (CURRENT_SITE_NAME === 'NYPT') {
+    $('#browsecat').change();
+    const domTimeout = setTimeout(() => {
+      const catMap = {
+        movie: '#name',
+        tv: '#series_enname',
+        tvPack: '#series_enname',
+        documentary: '#doc_enname',
+        variety: '#show_enname',
+        cartoon: '#anime_enname',
+      };
+      const selector = catMap[info.category];
+      if (selector) {
+        $(selector).val(info.title);
+      }
+      clearTimeout(domTimeout);
+    }, 2000);
   }
 };
 /*
