@@ -297,6 +297,9 @@ const getIMDBIdByUrl = (imdbLink) => {
 };
 
 const getSize = (size) => {
+  if (!size) {
+    return '';
+  }
   if (size.match(/T/i)) {
     return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
   } else if (size.match(/G/i)) {
@@ -337,6 +340,9 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   };
 };
 const getMediaValueByKey = (key, mediaInfo) => {
+  if (!mediaInfo) {
+    return '';
+  }
   const keyRegStr = key.replace(/\s/, '\\s*').replace(/(\(|\))/g, '\\$1');
   const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\n]+)`, 'i');
   return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
@@ -358,7 +364,8 @@ const getResolution = (mediaInfo) => {
   } else if (width >= 840 || height === 480) {
     return '480p';
   } else {
-    return `${width}x${height}`;
+    // return `${width}x${height}`;
+    return '';
   }
 };
 const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {

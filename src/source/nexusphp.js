@@ -118,6 +118,20 @@ export default () => {
   TORRENT_INFO.size = size ? getSize(size) : '';
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  if (CURRENT_SITE_NAME.match(/beitai/i)) {
+    // 从简略mediainfo中获取videoCodes
+    if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
+      const matchCodec = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)?.[2];
+      if (matchCodec) {
+        TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+      }
+    }
+  } else {
+    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title);
+  }
+  TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
+  TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
+
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
   const mediaInfoOrBDInfo = isBluray ? bdinfo : (TORRENT_INFO.mediaInfo || mediaInfo);
@@ -125,24 +139,12 @@ export default () => {
     TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
-  } else {
-    if (CURRENT_SITE_NAME.match(/beitai/i)) {
-      // 从简略mediainfo中获取videoCodes
-      if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
-        const matchCodec = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)?.[2];
-        if (matchCodec) {
-          TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
-        }
-      }
-    } else {
-      TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title);
+    if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
+      TORRENT_INFO.videoCodec = videoCodec;
+      TORRENT_INFO.audioCodec = audioCodec;
+      TORRENT_INFO.resolution = resolution;
+      TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
     }
-    TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
   }
 };
 
