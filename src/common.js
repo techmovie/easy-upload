@@ -275,7 +275,7 @@ const getTMDBIdByIMDBId = (imdbid) => {
         onload (res) {
           const data = JSON.parse(res.responseText);
           const isMovie = data.movie_results && data.movie_results.length > 0;
-          const isTV = !data.tv_results && data.tv_results.length > 1;
+          const isTV = !data.tv_results && data.tv_results.length > 0;
           if (res.status !== 200 && (!isMovie && !isTV)) {
             reject(new Error('请求失败'));
           }

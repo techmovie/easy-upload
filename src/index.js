@@ -233,6 +233,15 @@ if (CURRENT_SITE_NAME) {
         const path = catMap[TORRENT_INFO.category] || 'movie';
         url = url.replace('upload_movie', `upload_${path}`);
       }
+      if (url.match(/hdpost|blutopia/)) {
+        const catMap = {
+          movie: '1',
+          tv: '2',
+          tvPack: '2',
+        };
+        const path = catMap[TORRENT_INFO.category] || '1';
+        url = url.replace('1', path);
+      }
       if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
         alert('请等待页面加载完成');
         return;

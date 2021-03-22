@@ -69,7 +69,7 @@ const fillTargetForm = (info) => {
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo) {
-    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
+    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia|HDPOST/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '').replace(/\[quote\]\[\/quote\]/g, '');
     }
@@ -236,6 +236,13 @@ const fillTargetForm = (info) => {
       }
       clearTimeout(domTimeout);
     }, 2000);
+  }
+  // 单独处理UNIT3D剧集
+  if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && info.category.match(/tv/)) {
+    const season = info.title.match(/S0?(\d{1,2})/i)?.[1] ?? 1;
+    const episode = info.title.match(/EP?0?(\d{1,3})/i)?.[1] ?? 0;
+    $('#season_number').val(season);
+    $('#episode_number').val(episode);
   }
 };
 /*

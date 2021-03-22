@@ -44,6 +44,7 @@
 | HDChina  |             ✅              |               ✅                |
 | HDDolby  |             ✅              |               ✅                |
 |  HDHome  |             ✅              |               ✅                |
+|  HDPOST  |             ✅              |               ✅                |
 |  HDSky   |             ✅              |               ✅                |
 |   HDU    |             ✅              |               ✅                |
 | KEEPFRDS |             ✅              |               ❌                |
