@@ -274,7 +274,7 @@ const getCategory = (category) => {
     return 'tvPack';
   } else if (category.match(/综艺/ig)) {
     return 'variety';
-  } else if (category.match(/document|纪录|紀錄/ig)) {
+  } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
     return 'documentary';
   } else if (category.match(/sport|体育/ig)) {
     return 'sport';
