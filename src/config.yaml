@@ -1897,6 +1897,39 @@ PT_SITE:
         sport: '407'
         cartoon: '405'
         variety: '403'
+  nanyang:
+    url: 'https://nanyangpt.com'
+    host: nanyangpt.com
+    siteType: NexusPHP
+    asSource: true
+    asTarget: true
+    uploadPath: /upload.php
+    searchPath: /torrents.php
+    seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
+    searchKey: search
+    searchParam:
+      search_area: '{key}'
+      sort: '5'
+      type: desc
+    subtitle:
+      selector: 'input[name="small_descr"]'
+    description:
+      selector: '#descr'
+    imdb:
+      selector: 'input[name="url"][type="text"]'
+    douban:
+      selector: 'input[name="dburl"]'
+    category:
+      selector: '#browsecat'
+      map:
+        movie: '401'
+        tv: '402'
+        tvPack: '402'
+        documentary: '406'
+        concert: '407'
+        sport: '405'
+        cartoon: '403'
+        variety: '404'
   Blutopia:
     url: 'https://blutopia.xyz'
     host: blutopia.xyz
