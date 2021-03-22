@@ -55,7 +55,7 @@ export default () => {
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
     const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo.replace(/\n{2,}/g, '\n');
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') ?? '';
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';
