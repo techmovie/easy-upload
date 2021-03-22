@@ -597,7 +597,7 @@ const htmlToBBCode = (node) => {
         case 'OL': { pp('[list=1]', '[/list]'); break; }
         case 'LI': {
           const { className } = node;
-          if (CURRENT_SITE_NAME === 'Blutopia' && className) {
+          if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && className) {
             pp('[quote]', '[/quote]'); break;
           } else {
             pp('[*]', '\n'); break;
