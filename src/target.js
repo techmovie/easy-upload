@@ -110,8 +110,8 @@ const fillTargetForm = (info) => {
   }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
-    const fillIMDBId = CURRENT_SITE_NAME === 'Blutopia' ? imdbId.replace('tt', '') : imdbId;
+  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST/)) {
+    const fillIMDBId = CURRENT_SITE_INFO.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(CURRENT_SITE_INFO.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(id => {
       $(CURRENT_SITE_INFO.tmdb.selector).val(id);
@@ -313,7 +313,7 @@ const filterNexusDescription = (info) => {
   return filterDescription + '\n' + screenshotsBBCode;
 };
 const getThanksQuote = (info) => {
-  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType);
+  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === 'HDPOST';
   let thanksQuote = `转发自[b]${info.sourceSite}[/b]，感谢原发布者！`;
   if (!isChineseSite) {
     thanksQuote = `Torrent from [b]${info.sourceSite}[/b].\nAll thanks to the original uploader！`;

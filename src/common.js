@@ -94,7 +94,7 @@ const getPreciseCategory = (torrentInfo, category) => {
     } else if (description.match(/纪录/)) {
       category = 'documentary';
     }
-  } else if (category.match(/tv/)) {
+  } else if (category?.match(/tv/)) {
     if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
       category = 'tv';
     } else {
