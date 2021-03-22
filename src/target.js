@@ -223,7 +223,7 @@ const fillTargetForm = (info) => {
     $('#browsecat').change();
     const domTimeout = setTimeout(() => {
       const catMap = {
-        movie: '#name',
+        movie: '#movie_enname',
         tv: '#series_enname',
         tvPack: '#series_enname',
         documentary: '#doc_enname',
