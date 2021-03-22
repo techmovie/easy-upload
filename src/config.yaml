@@ -1898,12 +1898,12 @@ PT_SITE:
         cartoon: '405'
         variety: '403'
   nanyang:
-    url: 'https://nanyangpt.com/'
+    url: 'https://nanyangpt.com'
     host: nanyangpt.com
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    uploadPath: upload.php
+    uploadPath: /upload.php
     searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
     searchKey: search
