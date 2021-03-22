@@ -2255,6 +2255,21 @@ PT_SITE:
         720p: '4'
         576p: '5'
         480p: '5'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        dream: '1'
+        hdo: '9'
+        dbtv: '10'
+        nazorip: '12'
+        mteam: '2'
+        frds: '7'
+        wiki: '4'
+        beast: '11'
+        chd: '5'
+        cmct: '6'
+        pthome: '3'
+        other: '8'
   HDArea:
     url: 'https://www.hdarea.co'
     host: hdarea.co
@@ -2368,6 +2383,22 @@ PT_SITE:
           - '411'
         576p: '4'
         480p: '4'
+    team: 
+      selector: 'select[name="team_sel"]'
+      map:
+        epic: '1'
+        hdarea: '2'
+        hdwing: '3'
+        wiki: '4'
+        ttg: '5'
+        other: '6'
+        mteam: '7'
+        hdapad: '8'
+        chd: '9'
+        hdaccess: '10'
+        hdatv: '11'
+        cxcy: '12'
+        cmct: '13'
   BTSCHOOL:
     url: 'https://pt.btschool.club'
     host: btschool.club
