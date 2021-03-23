@@ -9,7 +9,11 @@ const fillTargetForm = (info) => {
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   const isBluray = info.videoType.match(/bluray/i);
   const { screenshots = [] } = info;
-  $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
+  if (CURRENT_SITE_NAME === 'HDRoute') {
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId?.replace('tt', '') ?? '');
+  } else {
+    $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
+  }
   // 针对hdb的站点的命名规则对标题进行处理
   if (CURRENT_SITE_NAME === 'HDBits') {
     let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
@@ -105,7 +109,14 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.poster) {
     const posterImage = (info.description + info.doubanInfo).match(/\[img\](http.+?poster.+?)\[\/img\]/);
     if (posterImage && posterImage[1]) {
-      $(CURRENT_SITE_INFO.poster).val(posterImage[1]);
+      const poster = posterImage[1];
+      $(CURRENT_SITE_INFO.poster).val(poster);
+      if (CURRENT_SITE_NAME === 'HDRoute') {
+        if (poster.match(/douban/)) {
+          $('input[name="poster"]').val(poster.replace(/\w_ratio_poster/, 'm_ratio_poster'));
+        }
+        description = description.replace(poster, '');
+      }
     }
   }
   // 过滤空标签
@@ -246,6 +257,22 @@ const fillTargetForm = (info) => {
     const episode = info.title.match(/EP?0?(\d{1,3})/i)?.[1] ?? 0;
     $('#season_number').val(season);
     $('#episode_number').val(episode);
+  }
+  // 单独处理路
+  if (CURRENT_SITE_NAME === 'HDRoute') {
+    const { description, doubanInfo } = info;
+    const fullDescription = description + doubanInfo;
+    const imdbRank = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)?.[1] ?? '';
+    $('#upload-imdb').val(imdbRank);
+    const originalName = fullDescription.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
+    const translateName = fullDescription.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
+    const summary = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)?.[2]?.split('/')?.[0] ?? '';
+    let chineseName = originalName;
+    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : originalName;
+    }
+    $('#title_chs').val(chineseName);
+    $('#upload_introduction').val(summary);
   }
 };
 /*

@@ -1,4 +1,87 @@
 PT_SITE:
+  HDRoute: 
+    url: 'http://hdroute.org'
+    host: hdroute.org
+    siteType: NexusPHP
+    asSource: false
+    asTarget: true
+    uploadPath: /upload.php
+    name:
+      selector: '#title_eng'
+    subtitle:
+      selector: 'input[name="title_sub"]'
+    description:
+      selector: 'textarea[name="description"]'
+    poster: 'input[name="poster_big"]'
+    imdb:
+      selector: '#upload-imdb_url'
+    anonymous: 
+      selector: 'input[name="is_anonymous"]'
+    tags:
+      chineseAudio: 'input[name="is_mandrain"]'
+      cantoneseAudio: 'input[name="is_cantonese"]'
+      DIY: 'input[name="is_diyed"]'
+      chineseSubtitle: 'input[name="is_chs_sub_incl"]'
+    category:
+      selector: '#type_category'
+      map:
+        movie: '1'
+        tv: '3'
+        tvPack: '3'
+        documentary: '2'
+        concert: '5'
+        sport: '6'
+        cartoon: '4'
+        variety: '9'
+    videoCodec:
+      selector: '#type_codec'
+      map:
+        h264: '1'
+        hevc: '7'
+        x264: '1'
+        x265: '7'
+        h265: '7'
+        mpeg2: '3'
+        mpeg4: '1'
+        vc1: '2'
+        xvid: '4'
+        dvd: '3'
+    audioCodec:
+      selector: '#type_audio'
+      map:
+        aac: '9'
+        ac3: '5'
+        dd: '5'
+        dd+: '5'
+        flac: '7'
+        dts: '4'
+        truehd: '3'
+        lpcm: '1'
+        dtshdma: '2'
+        atmos: '2'
+        dtsx: '4'
+    videoType:
+      selector: '#type_medium'
+      map:
+        uhdbluray: '1'
+        bluray: '1'
+        remux: '2'
+        encode: '4'
+        web: '6'
+        hddvd: '6'
+        hdtv: '3'
+        dvd: '6'
+        dvdrip: '6'
+        other: '6'
+    resolution:
+      selector: '#type_resolution'
+      map:
+        2160p: '7'
+        1080p: '1'
+        1080i: '2'
+        720p: '4'
+        576p: '6'
+        480p: '6'
   Bdc:
     url: 'https://broadcity.in'
     host: broadcity.in

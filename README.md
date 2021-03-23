@@ -45,6 +45,7 @@
 | HDDolby  |             ✅              |               ✅                |
 |  HDHome  |             ✅              |               ✅                |
 |  HDPOST  |             ✅              |               ✅                |
+| HDRoute  |             ❌              |               ✅                |
 |  HDSky   |             ✅              |               ✅                |
 |   HDU    |             ✅              |               ✅                |
 | KEEPFRDS |             ✅              |               ❌                |
