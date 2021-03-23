@@ -2054,6 +2054,8 @@ PT_SITE:
       selector: 'input[name="url"][type="text"]'
     douban:
       selector: 'input[name="douban_id"]'
+    anonymous: 
+      selector: 'input[name="uplver"]'
     tags: 
       chineseAudio: '#tag_gy'
       DIY: '#tag_diy'
