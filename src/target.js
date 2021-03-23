@@ -71,8 +71,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.mediaInfo) {
     if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
-      description = description.replace(mediaInfo.trim(), '')
-        .replace(/\[(quote|font)(=(\w| )+)?\](\s|\n)*\[\/(quote|font)\]/ig, ''); ;
+      description = description.replace(mediaInfo.trim(), '');
     }
   }
   // 删除简介中的截图
@@ -109,6 +108,9 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.poster).val(posterImage[1]);
     }
   }
+  // 过滤空标签
+  description = filterEmptyTags(description);
+
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST/)) {
@@ -319,7 +321,7 @@ const filterNexusDescription = (info) => {
     }
     return `[img]${img}[/img]`;
   });
-  return filterDescription + '\n' + screenshotsBBCode;
+  return filterDescription + '\n' + screenshotsBBCode.join('');
 };
 const getThanksQuote = (info) => {
   const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === 'HDPOST';
@@ -329,8 +331,13 @@ const getThanksQuote = (info) => {
   }
   return `[quote]${thanksQuote}[/quote]\n\n`;
 };
+// 是否为国内站点
 const isChineseTacker = (siteType) => {
   return siteType.match(/NexusPHP|TTG/);
+};
+// 过滤空标签
+const filterEmptyTags = (description) => {
+  return description.replace(/(\[\w+(=(\w|\s)+)?\](\s|\n)*)+(\s|\n)*(\[\/\w+\](\s|\n)*)+/g, '');
 };
 // 北洋特殊处理
 const handleTJUPT = (info) => {
