@@ -748,12 +748,12 @@ const getBDInfoFromBBCode = (bbcode) => {
   if (!bbcode) {
     return '';
   }
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  const quoteList = bbcode.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
   let bdInfo = '';
   if (quoteList && quoteList.length > 0) {
     quoteList.forEach(quote => {
       if (quote.match(/Disc\s*Size/i)) {
-        bdInfo += quote.replace(/\[(\/)?quote\]/g, '') + '\n';
+        bdInfo += quote.replace(/\[(\/)?(quote|font)(=(\w| )+)?\]/gi, '').trim() + '\n';
       }
     });
   }

@@ -69,7 +69,7 @@ const fillTargetForm = (info) => {
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo) {
-    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia|HDPOST/))) {
+    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '').replace(/\[quote\]\[\/quote\]/g, '');
     }
@@ -303,10 +303,11 @@ const disableTorrentChange = () => {
 const filterNexusDescription = (info) => {
   const { description, screenshots = [] } = info;
   let filterDescription = '';
-  const quoteList = description.match(/\[quote\](.|\n)+?\[\/quote\]/g);
+  const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
   if (quoteList && quoteList.length > 0) {
     quoteList.forEach(quote => {
-      if (!quote.match(/[\u4e00-\u9fa5]+/i)) {
+      const isMediaInfoOrBDInfo = quote.match(/Disc\s?Size|\.mpls|Unique\s?ID|唯一ID/i);
+      if (!quote.match(/[\u4e00-\u9fa5]+/i) && isMediaInfoOrBDInfo) {
         filterDescription += quote + '\n';
       }
     });
