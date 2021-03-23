@@ -71,7 +71,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.mediaInfo) {
     if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
-      description = description.replace(mediaInfo.trim(), '').replace(/\[quote\]\[\/quote\]/g, '');
+      description = description.replace(mediaInfo.trim(), '').replace(/\[(quote|font)(=(\w| )+)?\](\s|\n)*\[\/(quote|font)\]/ig, '');
     }
   }
   // 删除简介中的截图
