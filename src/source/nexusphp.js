@@ -17,7 +17,7 @@ export default () => {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
   if (CURRENT_SITE_NAME === 'TJUPT') {
-    const matchArray = title.match(/\[((\w|\.|\d|-)+)\]/g);
+    const matchArray = title.match(/\[((\w|\.|\d|-|\s)+)\]/g);
     const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
     title = realTitle.replace(/\[|\]/g, '');
   }
@@ -55,7 +55,7 @@ export default () => {
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
     const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo.replace(/\n{2,}/g, '\n');
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') ?? '';
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';
@@ -274,7 +274,7 @@ const getCategory = (category) => {
     return 'tvPack';
   } else if (category.match(/综艺/ig)) {
     return 'variety';
-  } else if (category.match(/document|纪录|紀錄/ig)) {
+  } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
     return 'documentary';
   } else if (category.match(/sport|体育/ig)) {
     return 'sport';

@@ -4,7 +4,7 @@ import getPTPInfo from './ptp';
 import getBHDInfo from './bhd';
 import getHDBInfo from './hdb';
 import getTTGInfo from './ttg';
-import getBluInfo from './blu';
+import getUNIT3DInfo from './unit3d';
 import getNexusPHPInfo from './nexusphp';
 
 let getTorrentInfo = getPTPInfo;
@@ -18,8 +18,8 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getHDBInfo;
 } else if (CURRENT_SITE_NAME === 'TTG') {
   getTorrentInfo = getTTGInfo;
-} else if (CURRENT_SITE_NAME === 'Blutopia') {
-  getTorrentInfo = getBluInfo;
+} else if (CURRENT_SITE_INFO.siteType === 'UNIT3D') {
+  getTorrentInfo = getUNIT3DInfo;
 }
 
 export default getTorrentInfo;

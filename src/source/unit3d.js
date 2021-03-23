@@ -7,10 +7,15 @@ export default () => {
   const { Category, Name, Type, Size, Resolution } = getBasicInfo();
 
   TORRENT_INFO.size = getSize(Size);
+  let title = formatTorrentTitle(Name);
   TORRENT_INFO.title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
   const IMDBYear = $('.movie-heading span:last').text();
   const movieName = $('.movie-heading span:first').text();
+  if (CURRENT_SITE_NAME === 'HDPOST') {
+    title = title.replace(movieName, '').trim();
+  }
+  TORRENT_INFO.title = title;
   if (!IMDBYear) {
     const matchYear = TORRENT_INFO.title.match(/(19|20)\d{2}/g);
     TORRENT_INFO.year = matchYear?.pop() ?? '';
@@ -20,16 +25,16 @@ export default () => {
   TORRENT_INFO.resolution = Resolution;
   const descriptionDom = $('.panel-heading:contains(Description)+div .panel-body');
   const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-  TORRENT_INFO.description = descriptionBBCode;
+  const mediaInfo = $('.decoda-code code').text();
+  TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
   const imdbUrl = $('.movie-details a:contains(IMDB)').attr('href');
   TORRENT_INFO.imdbUrl = imdbUrl;
-  TORRENT_INFO.movieName = movieName;
+  TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;
   const category = getCategory(Category);
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = getVideoType(Type, Resolution);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const mediaInfo = $('.decoda-code code').text();
   const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -51,11 +56,14 @@ const getBasicInfo = () => {
   return basicInfo;
 };
 const getCategory = (key) => {
-  const catMap = {
-    Movie: 'movie',
-    'TV Show': 'tv',
-  };
-  return catMap[key];
+  if (!key) {
+    return '';
+  }
+  if (key.match(/movie|电影/i)) {
+    return 'movie';
+  } else if (key.match(/tv|电视|剧集/)) {
+    return 'tv';
+  }
 };
 const getVideoType = (type, resolution) => {
   type = type.replace(/\s/g, '');

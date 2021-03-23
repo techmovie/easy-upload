@@ -94,7 +94,7 @@ const getPreciseCategory = (torrentInfo, category) => {
     } else if (description.match(/纪录/)) {
       category = 'documentary';
     }
-  } else if (category.match(/tv/)) {
+  } else if (category?.match(/tv/)) {
     if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
       category = 'tv';
     } else {
@@ -275,7 +275,7 @@ const getTMDBIdByIMDBId = (imdbid) => {
         onload (res) {
           const data = JSON.parse(res.responseText);
           const isMovie = data.movie_results && data.movie_results.length > 0;
-          const isTV = !data.tv_results && data.tv_results.length > 1;
+          const isTV = !data.tv_results && data.tv_results.length > 0;
           if (res.status !== 200 && (!isMovie && !isTV)) {
             reject(new Error('请求失败'));
           }
@@ -597,7 +597,7 @@ const htmlToBBCode = (node) => {
         case 'OL': { pp('[list=1]', '[/list]'); break; }
         case 'LI': {
           const { className } = node;
-          if (CURRENT_SITE_NAME === 'Blutopia' && className) {
+          if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && className) {
             pp('[quote]', '[/quote]'); break;
           } else {
             pp('[*]', '\n'); break;

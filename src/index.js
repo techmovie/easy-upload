@@ -196,7 +196,7 @@ if (CURRENT_SITE_NAME) {
     // 向当前所在站点添加按钮等内容
     console.log(TORRENT_INFO);
     let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
-    if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia/)) {
+    if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST/)) {
       const trDom = `<tr>
       <td class="rowhead nowrap">
       </td>
@@ -232,6 +232,15 @@ if (CURRENT_SITE_NAME) {
         };
         const path = catMap[TORRENT_INFO.category] || 'movie';
         url = url.replace('upload_movie', `upload_${path}`);
+      }
+      if (url.match(/hdpost|blutopia/)) {
+        const catMap = {
+          movie: '1',
+          tv: '2',
+          tvPack: '2',
+        };
+        const path = catMap[TORRENT_INFO.category] || '1';
+        url = url.replace('1', path);
       }
       if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
         alert('请等待页面加载完成');
