@@ -13,14 +13,20 @@ import style from './style';
   * @return
   * */
 const createSeedDom = (torrentDom) => {
+  const GMTargetSiteEnabled = GM_getValue('easy-seed.enabled-target-sites');
+  const GMSearchtSiteEnabled = GM_getValue('easy-seed.enabled-search-sites');
+  const targetSitesEnabled = GMTargetSiteEnabled === 'undefined' ? [] : JSON.parse(GMTargetSiteEnabled);
+  const searchSitesEnabled = GMSearchtSiteEnabled === 'undefined' ? [] : JSON.parse(GMSearchtSiteEnabled);
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     if (PT_SITE[siteName].asTarget) {
-      return `<li>
-      <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${siteName} </a>
-      <span>|</span>
-      </li>`;
+      if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
+        return `<li>
+        <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${siteName} </a>
+        <span>|</span>
+        </li>`;
+      }
     }
     return '';
   });
@@ -37,7 +43,10 @@ const createSeedDom = (torrentDom) => {
     }
     url = SEARCH_SITE_MAP[siteName].replace('{imdbid}', searchKeyWord);
     url = url.replace('{searchArea}', imdbId ? '4' : '0');
-    return `<li><a href="${url}" target="_blank">${siteName}</a> <span>|</span></li>`;
+    if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
+      return `<li><a href="${url}" target="_blank">${siteName}</a> <span>|</span></li>`;
+    }
+    return '';
   });
   const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
     ? `
@@ -51,7 +60,7 @@ const createSeedDom = (torrentDom) => {
     : '';
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
-    <h4>一键转种</h4>
+    <h4>EASY SEED 一键转种 <button id="easy-seed-setting" class="easy-seed-setting-btn">Setting</button></h4>
     <ul class="site-list">
       ${siteList.join('')}
     </ul>
@@ -76,6 +85,80 @@ const createSeedDom = (torrentDom) => {
   </div>
   `;
   torrentDom.prepend(seedDom);
+};
+
+const openSettingPanel = () => {
+  const GMTargetSiteEnabled = GM_getValue('easy-seed.enabled-target-sites');
+  const GMSearchtSiteEnabled = GM_getValue('easy-seed.enabled-search-sites');
+  const targetSitesEnabled = GMTargetSiteEnabled === 'undefined' ? [] : JSON.parse(GMTargetSiteEnabled);
+  const searchSitesEnabled = GMSearchtSiteEnabled === 'undefined' ? [] : JSON.parse(GMSearchtSiteEnabled);
+  const siteKeys = Object.keys(PT_SITE).sort();
+  const targetSiteList = siteKeys.map((siteName, index) => {
+    if (PT_SITE[siteName].asTarget) {
+      const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
+      return `<li>
+      <label><input name="target-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+    }
+    return '';
+  });
+  const searchSiteList = Object.keys(SEARCH_SITE_MAP).map(siteName => {
+    const checked = (searchSitesEnabled.includes(siteName)) ? 'checked' : '';
+    return `<li>
+      <label><input name="search-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+  });
+
+  const panelHtml = `
+  <div style="position: fixed;background: #f2f2f2;text-align: center;max-width:800px;width:80%;left:0; right:0; top:0;  margin:auto;"  id="easy-seed-setting-panel" class="easy-seed-setting-panel">
+  <h1>EASY SEED</h1>
+  <h4>站点启用设置</h4>
+  <section class="site-enable-setting">
+      <ul class="target-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
+        ${targetSiteList.join('')}
+      </ul>
+    </section>
+    <h4>站点搜索设置</h4>
+    <section class="site-enable-setting">
+    <ul class="search-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
+        ${searchSiteList.join('')}
+      </ul>
+    </section>
+    <div>
+      <span>
+        <button id="save-setting-btn" style="margin: 20px; color: #fff; background-color: #007bff; border-color: #007bff;" class="save-setting-btn">保存</button>
+        <button id="cancel-setting-btn" style="margin: 20px;color: #fff; background-color: #6c757d; border-color: #6c757d;" class="cancel-setting-btn">取消</button>
+      </span>
+    </div>
+  </div>
+  `;
+  $('body').append(panelHtml);
+  $('#easy-seed-setting-panel').on('click', '#save-setting-btn', () => {
+    saveSetting();
+  });
+  $('#easy-seed-setting-panel').on('click', '#cancel-setting-btn', () => {
+    $('#easy-seed-setting-panel').remove();
+  });
+};
+
+const saveSetting = () => {
+  const targetSitesEnabled = [];
+  const searchSitesEnabled = [];
+  $("input[name='target-site-enabled']:checked").each(function () {
+    targetSitesEnabled.push($(this).val());
+  });
+  $("input[name='search-site-enabled']:checked").each(function () {
+    searchSitesEnabled.push($(this).val());
+  });
+  console.log(targetSitesEnabled);
+  try {
+    GM_setValue('easy-seed.enabled-target-sites', JSON.stringify(targetSitesEnabled));
+    GM_setValue('easy-seed.enabled-search-sites', JSON.stringify(searchSitesEnabled));
+    $('#easy-seed-setting-panel').remove();
+    window.location.reload();
+  } catch (error) {
+    alert('保存本地站点设置失败');
+  }
 };
 
 const getThumbnailImgs = () => {
@@ -258,6 +341,11 @@ if (CURRENT_SITE_NAME) {
     if ($('#douban-info')) {
       $('#douban-info').click(() => {
         getDoubanLink();
+      });
+    }
+    if ($('#easy-seed-setting')) {
+      $('#easy-seed-setting').on('click', () => {
+        openSettingPanel();
       });
     }
   }
