@@ -193,7 +193,7 @@ const getBDInfoOrMediaInfo = (bbcode) => {
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
       bdinfo += quoteContent;
     }
-    if (quoteContent.match(/Unique ID/i)) {
+    if (quoteContent.match(/Unique\s*ID/i)) {
       mediaInfo += quoteContent;
     }
   }

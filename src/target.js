@@ -307,8 +307,8 @@ const filterNexusDescription = (info) => {
   const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
   if (quoteList && quoteList.length > 0) {
     quoteList.forEach(quote => {
-      const isMediaInfoOrBDInfo = quote.match(/Disc\s?Size|\.mpls|Unique\s?ID|唯一ID/i);
-      if (!quote.match(/[\u4e00-\u9fa5]+/i) && isMediaInfoOrBDInfo) {
+      const isMediaInfoOrBDInfo = quote.match(/Disc\s?Size|\.mpls|Unique\s?ID|唯一ID|Resolution/i);
+      if (!quote.match(/[\u4e00-\u9fa5]+/i) || isMediaInfoOrBDInfo) {
         filterDescription += quote + '\n';
       }
     });

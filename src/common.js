@@ -170,7 +170,7 @@ const getScreenshotsFromBBCode = (bbcode) => {
   if (allImages && allImages.length > 0) {
     // 过滤imdb、豆瓣、chd、柠檬无关图片
     allImages = allImages.filter(item => {
-      return !item.match(/GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+      return !item.match(/MoreScreens|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
     });
     return allImages.map(item => {
       let imgUrl = '';
