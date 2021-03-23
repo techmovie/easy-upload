@@ -1082,7 +1082,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+div+table>tbody>tr:nth-child(3)' 
+    seedDomSelector: '#top+div+table>tbody>tr:nth-child(4)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
@@ -1521,7 +1521,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: '#top+div+table>tbody>tr:nth-child(8)'
+    seedDomSelector: '#outer>table>tbody>tr:nth-child(5)'
     uploadPath: /upload_movie.php
     searchPath: /browse.php
     searchKey: search
