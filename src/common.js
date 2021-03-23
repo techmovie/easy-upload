@@ -204,18 +204,13 @@ const getSourceFromTitle = (title) => {
 };
 // 获取副标题
 const getSubTitle = (data) => {
-  const titles = data.this_title.concat(data.trans_title).join('/');
-  const { director = [] } = data;
-  const directorArray = director.map(item => {
-    return replaceEngName(item.name);
-  });
-  // 演员只选择前两位
-  const mainCast = data.cast.slice(0, 2).map(cast => {
-    return replaceEngName(cast.name);
-  });
-  const directorStr = directorArray.length > 0 ? `|导演: ${directorArray.join(' ')}` : '';
-  const castStr = mainCast.length > 0 ? `|主演:${mainCast.join(' ')}` : '';
-  return titles + directorStr + castStr;
+  const { chinese_title: chineseTitle, this_title: originalTitle, trans_title: transTitle } = data;
+  let title = '';
+  if (chineseTitle.match(/[\u4e00-\u9fa5]+/)) {
+    title += chineseTitle;
+  }
+  const moreTitle = originalTitle.concat(transTitle).filter(item => title !== item);
+  return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}`;
 };
 /*
 * 替换豆瓣演员中的英文名称
