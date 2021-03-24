@@ -17,7 +17,7 @@ export default () => {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
   if (CURRENT_SITE_NAME === 'TJUPT') {
-    const matchArray = title.match(/\[((\w|\.|\d|-|\s)+)\]/g);
+    const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
     const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
     title = realTitle.replace(/\[|\]/g, '');
   }
