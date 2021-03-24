@@ -9,10 +9,13 @@ const fillTargetForm = (info) => {
   const imdbId = getIMDBIdByUrl(info.imdbUrl);
   const isBluray = info.videoType.match(/bluray/i);
   const { screenshots = [] } = info;
+  const imdbSelector = CURRENT_SITE_INFO.imdb?.selector;
   if (CURRENT_SITE_NAME === 'HDRoute') {
-    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId?.replace('tt', '') ?? '');
+    $(imdbSelector).val(imdbId?.replace('tt', '') ?? '');
   } else {
-    $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbUrl);
+    if (imdbSelector) {
+      $(imdbSelector).val(info.imdbUrl);
+    }
   }
   // 针对hdb的站点的命名规则对标题进行处理
   if (CURRENT_SITE_NAME === 'HDBits') {
