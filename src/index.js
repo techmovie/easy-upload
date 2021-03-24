@@ -32,6 +32,9 @@ const createSeedDom = (torrentDom) => {
     if (siteName === 'TTG' && imdbId) {
       searchKeyWord = searchKeyWord.replace('tt', 'imdb');
     }
+    if (siteName === 'HDR' && imdbId) {
+      searchKeyWord = searchKeyWord.replace('tt', '');
+    }
     if (siteName === 'nzb.in' && (movieAkaName || movieName)) {
       searchKeyWord = movieAkaName || movieName;
     }

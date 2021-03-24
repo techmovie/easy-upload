@@ -48,6 +48,7 @@ const SEARCH_SITE_MAP = {
   FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
   'nzb.in': 'https://nzbs.in/search/{imdbid}?t=-1&ob=size_desc',
   Bdc: 'https://broadcity.in/browse.php?imdb={imdbid}',
+  HDR: 'http://hdroute.org/browse.php?dp=0&add=0&action=s&or=4&imdb={imdbid}',
 };
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
