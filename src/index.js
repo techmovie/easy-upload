@@ -13,10 +13,9 @@ import style from './style';
   * @return
   * */
 const createSeedDom = (torrentDom) => {
-  const GMTargetSiteEnabled = GM_getValue('easy-seed.enabled-target-sites');
-  const GMSearchtSiteEnabled = GM_getValue('easy-seed.enabled-search-sites');
-  const targetSitesEnabled = GMTargetSiteEnabled === 'undefined' ? [] : JSON.parse(GMTargetSiteEnabled);
-  const searchSitesEnabled = GMSearchtSiteEnabled === 'undefined' ? [] : JSON.parse(GMSearchtSiteEnabled);
+  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
+  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-sites'));
+
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
