@@ -220,6 +220,9 @@ const getMetaValue = (key, metaInfo) => {
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
+  if (CURRENT_SITE_NAME === 'HDSky' && key.match(/类型/)) {
+    regStr = `(${key}):\\s?.+?/([^\\s]+)?`;
+  }
   const reg = new RegExp(regStr);
   const matchValue = metaInfo.match(reg, 'i')?.[2];
   if (matchValue) {
@@ -268,12 +271,12 @@ const getCategory = (category) => {
   category = category.replace(/[.-]/g, '').toLowerCase();
   if (category.match(/movie|bd|ultra|电影/ig)) {
     return 'movie';
+  } else if (category.match(/综艺/ig)) {
+    return 'variety';
   } else if (category.match(/tv|drama|剧集|电视/ig)) {
     return 'tv';
   } else if (category.match(/TVSeries/ig)) {
     return 'tvPack';
-  } else if (category.match(/综艺/ig)) {
-    return 'variety';
   } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
     return 'documentary';
   } else if (category.match(/sport|体育/ig)) {
