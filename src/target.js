@@ -110,7 +110,7 @@ const fillTargetForm = (info) => {
   }
   // 海报填写
   if (CURRENT_SITE_INFO.poster) {
-    const posterImage = (info.description + info.doubanInfo).match(/\[img\](http.+?poster.+?)\[\/img\]/);
+    const posterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?poster[^[]+?)\[\/img\]/);
     if (posterImage && posterImage[1]) {
       const poster = posterImage[1];
       $(CURRENT_SITE_INFO.poster).val(poster);
