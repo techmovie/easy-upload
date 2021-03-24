@@ -52,7 +52,7 @@ const SEARCH_SITE_MAP = {
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
-const TMDB_API_URL = 'https://api.themoviedb.org';
+const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
 
 const getSiteName = (host) => {
