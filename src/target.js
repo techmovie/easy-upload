@@ -112,9 +112,7 @@ const fillTargetForm = (info) => {
       const poster = posterImage[1];
       $(CURRENT_SITE_INFO.poster).val(poster);
       if (CURRENT_SITE_NAME === 'HDRoute') {
-        if (poster.match(/douban/)) {
-          $('input[name="poster"]').val(poster.replace(/\w_ratio_poster/, 'm_ratio_poster'));
-        }
+        $('input[name="poster"]').val(poster);
         description = description.replace(poster, '');
       }
     }
