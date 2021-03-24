@@ -29,7 +29,7 @@ exports.userScriptComment = `// ==UserScript==
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_listValues
+// @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
 

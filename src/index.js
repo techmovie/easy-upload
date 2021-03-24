@@ -1,7 +1,7 @@
 // 入口文件
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, SEARCH_SITE_MAP, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode } from './common';
+import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -60,9 +60,12 @@ const createSeedDom = (torrentDom) => {
     : '';
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
-    <h4>EASY SEED 一键转种 <button id="easy-seed-setting" class="easy-seed-setting-btn">Setting</button></h4>
+    <h4>EASY SEED 一键转种 <span id="easy-seed-setting" class="easy-seed-setting-btn" style="cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M24 13.616v-3.232c-1.651-.587-2.694-.752-3.219-2.019v-.001c-.527-1.271.1-2.134.847-3.707l-2.285-2.285c-1.561.742-2.433 1.375-3.707.847h-.001c-1.269-.526-1.435-1.576-2.019-3.219h-3.232c-.582 1.635-.749 2.692-2.019 3.219h-.001c-1.271.528-2.132-.098-3.707-.847l-2.285 2.285c.745 1.568 1.375 2.434.847 3.707-.527 1.271-1.584 1.438-3.219 2.02v3.232c1.632.58 2.692.749 3.219 2.019.53 1.282-.114 2.166-.847 3.707l2.285 2.286c1.562-.743 2.434-1.375 3.707-.847h.001c1.27.526 1.436 1.579 2.019 3.219h3.232c.582-1.636.75-2.69 2.027-3.222h.001c1.262-.524 2.12.101 3.698.851l2.285-2.286c-.744-1.563-1.375-2.433-.848-3.706.527-1.271 1.588-1.44 3.221-2.021zm-12 2.384c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/></svg></span></h4>
     <ul class="site-list">
       ${siteList.join('')}
+      <li>
+        <button id="batch-seed-btn">一键群转</button>
+      </li>
     </ul>
     <section class="function-list">
       ${doubanDom}
@@ -88,16 +91,25 @@ const createSeedDom = (torrentDom) => {
 };
 
 const openSettingPanel = () => {
-  const GMTargetSiteEnabled = GM_getValue('easy-seed.enabled-target-sites');
-  const GMSearchtSiteEnabled = GM_getValue('easy-seed.enabled-search-sites');
-  const targetSitesEnabled = GMTargetSiteEnabled === 'undefined' ? [] : JSON.parse(GMTargetSiteEnabled);
-  const searchSitesEnabled = GMSearchtSiteEnabled === 'undefined' ? [] : JSON.parse(GMSearchtSiteEnabled);
+  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
+  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
+  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-sites'));
+
   const siteKeys = Object.keys(PT_SITE).sort();
   const targetSiteList = siteKeys.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
       return `<li>
       <label><input name="target-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+    }
+    return '';
+  });
+  const batchSeedSiteList = siteKeys.map((siteName, index) => {
+    if (PT_SITE[siteName].asTarget) {
+      const checked = (batchSeedSiteEnabled.includes(siteName)) ? 'checked' : '';
+      return `<li>
+      <label><input name="batch-seed-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
       </li>`;
     }
     return '';
@@ -110,17 +122,24 @@ const openSettingPanel = () => {
   });
 
   const panelHtml = `
-  <div style="position: fixed;background: #f2f2f2;text-align: center;max-width:800px;width:80%;left:0; right:0; top:0;  margin:auto;"  id="easy-seed-setting-panel" class="easy-seed-setting-panel">
-  <h1>EASY SEED</h1>
-  <h4>站点启用设置</h4>
-  <section class="site-enable-setting">
-      <ul class="target-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
-        ${targetSiteList.join('')}
+  <div style="position: fixed;background: #f2f2f2;text-align: center;max-width:800px;width:80%;left:0; right:0; top:20px;  margin:auto;"  id="easy-seed-setting-panel" class="easy-seed-setting-panel">
+    <h1 style="padding:20px">EASY SEED</h1>
+    <h3>转种站点启用</h3>
+    <section class="site-enable-setting">
+        <ul class="target-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
+          ${targetSiteList.join('')}
+        </ul>
+      </section>
+    <h3>批量转种启用</h3>
+    <i>一键批量转发到以下选中的站点</i>
+    <section class="site-enable-setting">
+      <ul class="batch-seed-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
+          ${batchSeedSiteList.join('')}
       </ul>
     </section>
-    <h4>站点搜索设置</h4>
+    <h3>站点搜索启用</h3>
     <section class="site-enable-setting">
-    <ul class="search-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
+      <ul class="search-sites-enable-list" style="list-style: none;display: flex;flex-direction: row;flex-wrap: wrap;">
         ${searchSiteList.join('')}
       </ul>
     </section>
@@ -144,21 +163,45 @@ const openSettingPanel = () => {
 const saveSetting = () => {
   const targetSitesEnabled = [];
   const searchSitesEnabled = [];
+  const batchSeedSiteEnabled = [];
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
   });
   $("input[name='search-site-enabled']:checked").each(function () {
     searchSitesEnabled.push($(this).val());
   });
+  $("input[name='batch-seed-site-enabled']:checked").each(function () {
+    batchSeedSiteEnabled.push($(this).val());
+  });
   console.log(targetSitesEnabled);
   try {
     GM_setValue('easy-seed.enabled-target-sites', JSON.stringify(targetSitesEnabled));
     GM_setValue('easy-seed.enabled-search-sites', JSON.stringify(searchSitesEnabled));
+    GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {
-    alert('保存本地站点设置失败');
+    showNotice({ title: '错误', text: '保存本地站点设置失败' });
   }
+};
+
+const openBatchSeedTabs = () => {
+  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
+  if (batchSeedSiteEnabled.length === 0) {
+    showNotice({ title: '错误', text: '请先设置群转列表' });
+    return false;
+  }
+  const siteKeys = Object.keys(PT_SITE).sort();
+  const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+  siteKeys.forEach((siteName, index) => {
+    const { url, uploadPath } = PT_SITE[siteName];
+    if (PT_SITE[siteName].asTarget) {
+      if (batchSeedSiteEnabled.includes(siteName)) {
+        GM_openInTab(url + uploadPath + '#torrentInfo=' + torrentInfo);
+      }
+    }
+  });
+  showNotice({ title: '成功', text: '转种页面已打开，请前往对应页面操作' });
 };
 
 const getThumbnailImgs = () => {
@@ -346,6 +389,11 @@ if (CURRENT_SITE_NAME) {
     if ($('#easy-seed-setting')) {
       $('#easy-seed-setting').on('click', () => {
         openSettingPanel();
+      });
+    }
+    if ($('#batch-seed-btn')) {
+      $('#batch-seed-btn').on('click', () => {
+        openBatchSeedTabs();
       });
     }
   }

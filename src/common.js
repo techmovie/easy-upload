@@ -762,6 +762,32 @@ const getBDInfoFromBBCode = (bbcode) => {
   }
   return bdInfo;
 };
+
+const showNotice = (message) => {
+  if (!('Notification' in window) || Notification.permission === 'denied') {
+    alert(message.text);
+  } else if (Notification.permission === 'granted') {
+    const myNotification = new Notification(message.title, {
+      body: message.text,
+    });
+    myNotification.onerror = () => {
+      alert(message.text);
+    };
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      if (permission === 'granted') {
+        const myNotification = new Notification(message.title, {
+          body: message.text,
+        });
+        myNotification.onerror = () => {
+          alert(message.text);
+        };
+      } else {
+        alert(message.text);
+      }
+    });
+  }
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -786,5 +812,6 @@ export {
   getDoubanInfo,
   getDoubanLinkByIMDB,
   getPreciseCategory,
+  showNotice,
 }
 ;
