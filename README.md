@@ -41,7 +41,7 @@
 | BeyondHD  |             ✅              |               ✅                |
 | Blutopia  |             ✅              |               ✅                |
 |  CHDBits  |             ✅              |               ✅                |
-|  DISCFAN  |             ✅              |               ✅                |
+|  DiscFan  |             ✅              |               ✅                |
 |  HD4FANS  |             ✅              |               ✅                |
 |   HDAI    |             ✅              |               ✅                |
 |  HDArea   |             ✅              |               ✅                |

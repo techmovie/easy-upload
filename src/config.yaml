@@ -2988,7 +2988,7 @@ PT_SITE:
         JP: '4'
         KR: '5'
         OT: '6'
-  DISCFAN:
+  DiscFan:
     url: 'https://discfan.net'
     host: discfan.net
     siteType: NexusPHP
