@@ -1,11 +1,11 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
+import { formatTorrentTitle, getSize, getAreaCode, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory } from '../common';
 
 /**
  * 获取 NexusPHP 默认数据
  */
 export default () => {
-  let title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
+  let title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
 
   let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
