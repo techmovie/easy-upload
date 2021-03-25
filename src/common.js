@@ -166,7 +166,7 @@ const getVideoCodecFromTitle = (title) => {
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
 const getScreenshotsFromBBCode = (bbcode) => {
-  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?(\.(png|jpg)))\])?\[img\](.*?\.(png|jpg|gif))\[\/img](\[url\])?/g);
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
   if (allImages && allImages.length > 0) {
     // 过滤imdb、豆瓣、chd、柠檬无关图片
     allImages = allImages.filter(item => {
