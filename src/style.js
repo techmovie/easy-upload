@@ -111,28 +111,57 @@ export default GM_addStyle(`
   left: 0;
   z-index: 2000;
   background: rgba(0,0,0,0.5);
+  color: #000;
+}
+#batch-seed-btn{
+  padding: 7px 15px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+.easy-seed-setting-panel *{
+  padding: 0;
+  margin: 0;
+}
+.easy-seed-setting-panel h3,.easy-seed-setting-panel h1{ 
+  color: #000;
+  margin-bottom: 15px;
 }
 .easy-seed-setting-panel .panel-content{
   margin-top: 200px;
   max-width: 800px;
+  box-sizing: border-box;
   margin: 50px auto;
   border-radius: 8px;
   background: #fff;
   position: relative;
   text-align:center;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 30%)
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  padding: 20px 30px 10px;
 }
 .easy-seed-setting-panel .panel-content ul{
   list-style: none;
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 .easy-seed-setting-panel .panel-content li{
-  margin:0;
-  width: 80px;
+  width: 90px;
   text-align: left;
   margin-bottom: 10px;
+}
+.easy-seed-setting-panel .panel-content li label{
+  cursor: pointer;
+  color: #000 !important;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.easy-seed-setting-panel .panel-content li label input{
+  margin: 0;
+  margin-right: 3px;
+  padding:0;
 }
 .easy-seed-setting-panel .site-enable-setting{
   padding-top: 5px;
@@ -164,5 +193,18 @@ export default GM_addStyle(`
   background: #fff;
   border-color: #409eff;
   color: #409eff
+}
+.easy-seed-setting-panel .confirm-btns {
+  padding-top: 15px;
+}
+#save-setting-btn{
+  background-color: #007bff;
+  border-color: #007bff;
+  color:#fff;
+}
+#save-setting-btn:hover{
+  background: #66b1ff;
+  border-color: #66b1ff;
+  color: #fff
 }
 `);

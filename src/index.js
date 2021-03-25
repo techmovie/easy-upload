@@ -127,7 +127,6 @@ const openSettingPanel = () => {
   const panelHtml = `
   <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
     <div class="panel-content">
-      <h1 style="padding:20px">EASY SEED</h1>
       <h3>转种站点启用</h3>
       <section class="site-enable-setting">
           <ul class="target-sites-enable-list" >
@@ -147,11 +146,9 @@ const openSettingPanel = () => {
           ${searchSiteList.join('')}
         </ul>
       </section>
-      <div>
-        <span>
-          <button id="save-setting-btn">保存</button>
-          <button id="cancel-setting-btn">取消</button>
-        </span>
+      <div class="confirm-btns">
+        <button id="save-setting-btn">保存</button>
+        <button id="cancel-setting-btn">取消</button>
       </div>
     </div>
   </div>
