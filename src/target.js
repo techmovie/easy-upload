@@ -374,7 +374,8 @@ const handleTJUPT = (info) => {
       const { title, description, doubanInfo, category, resolution } = info;
       $('#ename').val(title);
       const fullDescription = description + doubanInfo;
-      const area = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
+      let area = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
+      area = area.replace(/\[\/?.+?\]/g, '');
       const originalName = fullDescription.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
       const translateName = fullDescription.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
       const castArray = fullDescription.match(/(主\s+演)\s+([^◎]+)/)?.[2]?.split('\n')?.filter(item => !!item) ?? [];
