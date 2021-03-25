@@ -27,6 +27,9 @@ exports.userScriptComment = `// ==UserScript==
 // @match        http://www.hd.ai/Torrents.upload
 // @match        https://broadcity.in/browse.php?imdb=*
 // @grant        GM_addStyle
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
 
