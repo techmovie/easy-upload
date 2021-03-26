@@ -1222,7 +1222,7 @@ PT_SITE:
     siteType: NexusPHP
     asSource: true
     asTarget: true
-    seedDomSelector: 'tr:contains(基本信息) ' 
+    seedDomSelector: '#outer tr:contains(基本信息)' 
     uploadPath: /upload.php
     searchPath: /browse.php
     searchKey: search
