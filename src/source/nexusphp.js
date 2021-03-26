@@ -207,7 +207,7 @@ const getBDInfoOrMediaInfo = (bbcode) => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/\[\/?(quote)\]{1}?/g, '').replaceAll('\u200D', '');
+  return content.replace(/\[\/?(quote)\]{1}?/g, '').replace(/\u200D/g, '');
 };
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;

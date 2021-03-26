@@ -304,7 +304,7 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 const fillTeamName = (info) => {
   const teamMatch = info.title.match(/-([^-]+)$/);
   const teamConfig = CURRENT_SITE_INFO.team;
-  let teamName = teamMatch?.[1]?.replaceAll('-', '')?.split('@') ?? '';
+  let teamName = teamMatch?.[1]?.replace(/-/g, '')?.split('@') ?? '';
   if (teamName) {
     teamName = teamName.length > 1 ? teamName[1] : teamName[0];
     if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === 'BTSCHOOL') {
