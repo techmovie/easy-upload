@@ -321,7 +321,9 @@ const fillTeamName = (info) => {
       $('input[name="team"]').val(teamName);
       return;
     }
-    $(teamConfig.selector).val(matchValue.toLowerCase());
+    if (matchValue) {
+      $(teamConfig.selector).val(matchValue.toLowerCase());
+    }
   }
 };
 const disableTorrentChange = () => {
