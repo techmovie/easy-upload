@@ -162,7 +162,7 @@ const fillTargetForm = (info) => {
       matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
     });
   }
-  if (CURRENT_SITE_NAME.match(/HDHome|PTHome/i)) {
+  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
   }
   // 匿名勾选
