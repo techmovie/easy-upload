@@ -373,6 +373,12 @@ if (CURRENT_SITE_NAME) {
         const path = catMap[TORRENT_INFO.category] || '1';
         url = url.replace('1', path);
       }
+      if (TORRENT_INFO.isForbidden) {
+        const result = window.confirm('本种子禁止转载，确定要继续转载么？');
+        if (!result) {
+          return;
+        }
+      }
       if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
         alert('请等待页面加载完成');
         return;

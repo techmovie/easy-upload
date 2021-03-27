@@ -22,7 +22,7 @@ export default () => {
   TORRENT_INFO.size = sizeStr.replace(/,/g, '');
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-
+  TORRENT_INFO.isForbidden = !!$('#kt_d').text().match(/禁转/);
   window.onload = () => {
     const descriptionDom = $('#kt_d');
     let bbCodes = getFilterBBCode(descriptionDom[0]);

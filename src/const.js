@@ -32,6 +32,7 @@ const TORRENT_INFO = {
   sourceSite: '', // 种子来源站点简称
   sourceSiteType: '', // 种子来源站点类型
   size: '', // 种子大小 转换成 Bytes
+  isForbidden: false, // 是否禁转
 };
 // 快速检索
 const SEARCH_SITE_MAP = {

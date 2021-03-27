@@ -22,7 +22,11 @@ export default () => {
     title = realTitle.replace(/\[|\]/g, '');
   }
   if (CURRENT_SITE_NAME === 'PTer') {
-    descriptionBBCode = $('#descrcopyandpaster').val()?.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
+    if ($('#descrcopyandpaster')[0]) {
+      descriptionBBCode = $('#descrcopyandpaster').val()?.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
+    } else {
+      descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
+    }
   }
   if (CURRENT_SITE_NAME === 'LemonHD') {
     descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
@@ -102,6 +106,9 @@ export default () => {
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
   TORRENT_INFO.description = descriptionBBCode;
+  const fullInformation = $('#top').text() + subtitle + descriptionBBCode;
+  const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
+  TORRENT_INFO.isForbidden = !!isForbidden;
   // 兼容家园
   if (!processing || processing.match(/raw/)) {
     const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
