@@ -275,18 +275,26 @@ const getThumbnailImgs = () => {
   });
 };
 const getDoubanLink = () => {
+  $('#douban-info').attr('disabled', true).addClass('is-disabled');
+  const statusDom = $('.douban-section .douban-status');
   const doubanLink = $('.page__title>a').attr('href');
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
     getDoubanData();
     return false;
   }
+  statusDom.text('获取中...');
   const { imdbUrl, movieName } = TORRENT_INFO;
   getDoubanLinkByIMDB(imdbUrl, movieName).then(doubanUrl => {
+    if (!doubanUrl) {
+      throw new Error('豆瓣链接获取失败');
+    }
     TORRENT_INFO.doubanUrl = doubanUrl;
     getDoubanData();
   }).catch(error => {
-    throw new Error(error.message);
+    statusDom.text(error.message);
+  }).finally(() => {
+    $('#douban-info').removeAttr('disabled').removeClass('is-disabled');
   });
 };
 const getDoubanData = () => {
@@ -294,12 +302,11 @@ const getDoubanData = () => {
   const statusDom = $('.douban-section .douban-status');
   try {
     if (doubanUrl) {
-      statusDom.text('获取中...');
       getDoubanInfo(doubanUrl).then(data => {
         updateTorrentInfo(data);
         statusDom.text('获取成功');
       }).catch(error => {
-        throw new Error(error.message);
+        statusDom.text(error.message);
       });
     }
   } catch (error) {
