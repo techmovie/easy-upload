@@ -1,6 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable camelcase */
-import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, CURRENT_SITE_INFO } from './const';
+import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_SUGGEST_API, CURRENT_SITE_INFO } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -155,7 +155,11 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
             if (data && data.data) {
               resolve(doubanUrl + data.data.id);
             } else {
-              throw new Error('获取失败');
+              getDoubanLinkBySuggest(imdbId).then(res => {
+                resolve(doubanUrl + res);
+              }).catch(error => {
+                reject(new Error(error.message || '获取失败'));
+              });
             }
           },
         });
@@ -163,6 +167,23 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
     } catch (error) {
       reject(new Error(error.message));
     }
+  });
+};
+const getDoubanLinkBySuggest = (imdbId) => {
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `${DOUBAN_SUGGEST_API}?q=${imdbId}`,
+      onload (res) {
+        const data = JSON.parse(res.responseText);
+        if (data.length > 0) {
+          const doubanId = data[0].id;
+          resolve(doubanId);
+        } else {
+          reject(new Error('豆瓣id获取失败'));
+        }
+      },
+    });
   });
 };
 const transferImgs = (screenshots, isNSFW) => {

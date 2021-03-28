@@ -293,8 +293,6 @@ const getDoubanLink = () => {
     getDoubanData();
   }).catch(error => {
     statusDom.text(error.message);
-  }).finally(() => {
-    $('#douban-info').removeAttr('disabled').removeClass('is-disabled');
   });
 };
 const getDoubanData = () => {
@@ -307,6 +305,8 @@ const getDoubanData = () => {
         statusDom.text('获取成功');
       }).catch(error => {
         statusDom.text(error.message);
+      }).finally(() => {
+        $('#douban-info').removeAttr('disabled').removeClass('is-disabled');
       });
     }
   } catch (error) {
