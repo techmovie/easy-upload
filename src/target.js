@@ -123,6 +123,17 @@ const fillTargetForm = (info) => {
   // 过滤空标签
   description = filterEmptyTags(description);
 
+  // BHD可以通过设置为显示缩略图
+  if (CURRENT_SITE_NAME === 'BeyondHD') {
+    info.screenshots.forEach(img => {
+      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
+      if (description.match(regStr)) {
+        description = description.replace(regStr, function (p1, p2) {
+          return `[img=350x350]${p2}[/img]`;
+        });
+      }
+    });
+  }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST/)) {
