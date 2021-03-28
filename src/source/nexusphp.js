@@ -146,6 +146,11 @@ export default () => {
       TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
     }
   }
+  if (CURRENT_SITE_INFO === 'TCCF') {
+    TORRENT_INFO.format = getFormat(videoType);
+  } else {
+    TORRENT_INFO.format = getFormat(title + subtitle);
+  }
 };
 
 const getMetaInfo = (metaInfo) => {
@@ -223,6 +228,9 @@ const getMetaValue = (key, metaInfo) => {
   if (CURRENT_SITE_NAME === 'HDSky' && key.match(/类型/)) {
     regStr = `(${key}):\\s?.+?/([^\\s]+)?`;
   }
+  if (CURRENT_SITE_NAME === 'TCCF' && key.match(/类型/)) {
+    regStr = `(${key}):(.+?)\\s{2,}`;
+  }
   const reg = new RegExp(regStr);
   const matchValue = metaInfo.match(reg, 'i')?.[2];
   if (matchValue) {
@@ -285,6 +293,16 @@ const getCategory = (category) => {
     return 'concert';
   } else if (category.match(/anim|动(画|漫)/ig)) {
     return 'cartoon';
+  } else if (category.match(/App|软件|Software|軟體/ig)) {
+    return 'app';
+  } else if (category.match(/电子书|小说|Ebook/ig)) {
+    return 'ebook';
+  } else if (category.match(/杂志|magazine/ig)) {
+    return 'magazine';
+  } else if (category.match(/漫画|comics/ig)) {
+    return 'comics';
+  } else if (category.match(/公开课/ig)) {
+    return 'onlineCourse';
   }
   return '';
 };
@@ -304,5 +322,24 @@ const getResolution = (resolution) => {
   }
   return resolution;
 };
+
+const getFormat = (data) => {
+  if (data.match(/pdf/i)) {
+    return 'pdf';
+  } else if (data.match(/EPUB/i)) {
+    return 'epub';
+  } else if (data.match(/MOBI/i)) {
+    return 'mobi';
+  } else if (data.match(/mp3/i)) {
+    return 'mp3';
+  } else if (data.match(/mp4/i)) {
+    return 'mp4';
+  } else if (data.match(/txt/i)) {
+    return 'txt';
+  } else if (data.match(/azw3/i)) {
+    return 'azw3';
+  }
+  return 'other';
+}
 
 ;

@@ -6,6 +6,7 @@ const TORRENT_INFO = {
   year: '', // 电影年份
   category: '', // 电影、电视、音乐等
   videoType: '', // bluray remux encodes web-dl
+  format: '', // 文件格式
   source: '', // 视频来源
   videoCodec: '', // 视频编码
   audioCodec: '', // 音频编码
