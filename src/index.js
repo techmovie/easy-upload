@@ -13,7 +13,8 @@ import style from './style';
   * @return
   * */
 const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
-  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
+  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
@@ -37,6 +38,20 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     </div>
   </div>`
     : '';
+  const transferDom = transferImgClosed
+    ? ''
+    : `
+      <div class="function-list-item">
+      <h4>转缩略图</h4>
+      <div class="upload-section">
+        <button id="img-transfer">开始转换</button>
+        <div class="checkbox">
+          <input type="checkbox" id="nsfw">
+          <label for="nsfw">是否包含NSFW</label>
+        </div>
+        <div class="upload-status"></div>
+      </div>
+    </div>`;
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
@@ -46,26 +61,17 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
         <button id="batch-seed-btn">一键群转</button>
       </li>
     </ul>
-    <section class="function-list">
-      ${doubanDom}
-      <div class="function-list-item">
-        <h4>转缩略图</h4>
-        <div class="upload-section">
-          <button id="img-transfer">开始转换</button>
-          <div class="checkbox">
-            <input type="checkbox" id="nsfw">
-            <label for="nsfw">是否包含NSFW</label>
-          </div>
-          <div class="upload-status"></div>
-        </div>
-      </div>
-    </section>
+    ${(doubanDom || transferDom)
+    ? `<section class="function-list">
+        ${doubanDom}
+        ${transferDom}
+      </section>`
+    : ''}
     ${CURRENT_SITE_NAME === 'PTP'
     ? `<div class="ptp-search-list">
         ${searchListDom}
         <div/> `
     : ''}
-    
   </div>
   `;
   torrentDom.prepend(seedDom);
@@ -120,6 +126,7 @@ const openSettingPanel = () => {
   const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
   const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
   const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
 
   const siteKeys = Object.keys(PT_SITE).sort();
   const targetSiteList = siteKeys.map((siteName, index) => {
@@ -169,6 +176,10 @@ const openSettingPanel = () => {
           ${searchSiteList.join('')}
         </ul>
       </section>
+      <h3>额外功能关闭</h3>
+      <section class="site-enable-setting transfer-img-closed">
+      <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
+      </section>
       <div class="confirm-btns">
         <button id="save-setting-btn">保存</button>
         <button id="cancel-setting-btn">取消</button>
@@ -189,6 +200,7 @@ const saveSetting = () => {
   const targetSitesEnabled = [];
   const searchSitesEnabled = [];
   const batchSeedSiteEnabled = [];
+  const transferImgEnabled = $("input[name='transfer-img-closed']").attr('checked') || '';
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
   });
@@ -203,6 +215,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.enabled-target-sites', JSON.stringify(targetSitesEnabled));
     GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
     GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
+    GM_setValue('easy-seed.transfer-img-closed', transferImgEnabled);
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {

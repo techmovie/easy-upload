@@ -91,7 +91,7 @@ td.title-td h4{
 .seed-dom .function-list{
   display: flex;
   justify-content: space-around; 
-  padding: 15px 20px 0;
+  padding: 12px 20px 0;
 }
 .function-list-item{
   display: flex;
@@ -192,17 +192,20 @@ td.title-td h4{
   text-align: left;
   margin-bottom: 10px;
 }
-.easy-seed-setting-panel .panel-content li label{
+.easy-seed-setting-panel .panel-content label{
   cursor: pointer;
   color: #000 !important;
   font-size: 12px;
   display: flex;
   align-items: center;
 }
-.easy-seed-setting-panel .panel-content li label input{
+.easy-seed-setting-panel .panel-content label input{
   margin: 0;
   margin-right: 3px;
   padding:0;
+}
+.transfer-img-closed label {
+  justify-content: center;
 }
 .easy-seed-setting-panel .site-enable-setting{
   padding-top: 5px;
