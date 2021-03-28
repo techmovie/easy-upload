@@ -33,27 +33,11 @@ const TORRENT_INFO = {
   sourceSite: '', // 种子来源站点简称
   sourceSiteType: '', // 种子来源站点类型
   size: '', // 种子大小 转换成 Bytes
-};
-// 快速检索
-const SEARCH_SITE_MAP = {
-  HDB: 'https://hdbits.org/browse.php?search={imdbid}&sort=size&h=8&d=DESC',
-  PTP: 'https://passthepopcorn.me/torrents.php?action=advanced&searchstr={imdbid}',
-  MTeam: 'https://kp.m-team.cc/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
-  TTG: 'https://totheglory.im/browse.php?search_field={imdbid}&c=M&sort=5&type=desc',
-  CHD: 'https://chdbits.co/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area=4&search_mode=0',
-  BHD: 'https://beyond-hd.me/torrents/all?doSearch=Search&imdb={imdbid}&sorting=size&direction=desc',
-  BLU: 'https://blutopia.xyz/torrents?imdb={imdbid}',
-  SSD: 'https://springsunday.net/torrents.php?incldead=0&spstate=0&inclbookmarked=0&search={imdbid}&search_area={searchArea}&search_mode=0',
-  HDT: 'https://hd-torrents.org/torrents.php?search={imdbid}&active=0&options=2&order=size&by=DESC',
-  KG: 'https://karagarga.in/browse.php?search={imdbid}&search_type=imdb',
-  FL: 'https://filelist.io/browse.php?search={imdbid}&cat=0&searchin=3&sort=3',
-  'nzb.in': 'https://nzbs.in/search/{imdbid}?t=-1&ob=size_desc',
-  Bdc: 'https://broadcity.in/browse.php?imdb={imdbid}',
-  HDR: 'http://hdroute.org/browse.php?dp=0&add=0&action=s&or=4&imdb={imdbid}',
-  UHD: 'https://uhdbits.org/torrents.php?searchstr={imdbid}',
+  isForbidden: false, // 是否禁转
 };
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
+const DOUBAN_SUGGEST_API = 'https://movie.douban.com/j/subject_suggest';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
@@ -88,11 +72,11 @@ export {
   CODES_ARRAY,
   CURRENT_SITE_NAME,
   CURRENT_SITE_INFO,
-  SEARCH_SITE_MAP,
   PT_SITE,
   EUROPE_LIST,
   TMDB_API_URL,
   TMDB_API_KEY,
   HDB_TEAM,
+  DOUBAN_SUGGEST_API,
 }
 ;

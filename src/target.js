@@ -123,6 +123,17 @@ const fillTargetForm = (info) => {
   // 过滤空标签
   description = filterEmptyTags(description);
 
+  // BHD可以通过设置为显示缩略图
+  if (CURRENT_SITE_NAME === 'BeyondHD') {
+    info.screenshots.forEach(img => {
+      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
+      if (description.match(regStr)) {
+        description = description.replace(regStr, function (p1, p2) {
+          return `[img=350x350]${p2}[/img]`;
+        });
+      }
+    });
+  }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST/)) {
@@ -162,7 +173,7 @@ const fillTargetForm = (info) => {
       matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
     });
   }
-  if (CURRENT_SITE_NAME.match(/HDHome|PTHome/i)) {
+  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
   }
   // 匿名勾选
@@ -304,7 +315,7 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
 const fillTeamName = (info) => {
   const teamMatch = info.title.match(/-([^-]+)$/);
   const teamConfig = CURRENT_SITE_INFO.team;
-  let teamName = teamMatch?.[1]?.replaceAll('-', '')?.split('@') ?? '';
+  let teamName = teamMatch?.[1]?.replace(/-/g, '')?.split('@') ?? '';
   if (teamName) {
     teamName = teamName.length > 1 ? teamName[1] : teamName[0];
     if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === 'BTSCHOOL') {
@@ -321,7 +332,9 @@ const fillTeamName = (info) => {
       $('input[name="team"]').val(teamName);
       return;
     }
-    $(teamConfig.selector).val(matchValue.toLowerCase());
+    if (matchValue) {
+      $(teamConfig.selector).val(matchValue.toLowerCase());
+    }
   }
 };
 const disableTorrentChange = () => {

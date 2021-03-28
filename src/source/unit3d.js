@@ -8,12 +8,14 @@ export default () => {
 
   TORRENT_INFO.size = getSize(Size);
   let title = formatTorrentTitle(Name);
-  TORRENT_INFO.title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
   const IMDBYear = $('.movie-heading span:last').text();
   const movieName = $('.movie-heading span:first').text();
+
   if (CURRENT_SITE_NAME === 'HDPOST') {
-    title = title.replace(movieName, '').trim();
+    const englishTitle = title.match(/[\s\W\d]+(.+)/)?.[1] ?? '';
+    TORRENT_INFO.subtitle = title.replace(englishTitle, '')?.trim();
+    title = englishTitle;
   }
   TORRENT_INFO.title = title;
   if (!IMDBYear) {
@@ -23,7 +25,7 @@ export default () => {
     TORRENT_INFO.year = IMDBYear.replace(/\(|\)|\s/g, '');
   }
   TORRENT_INFO.resolution = Resolution;
-  const descriptionDom = $('.panel-heading:contains(Description)+div .panel-body');
+  const descriptionDom = $('.panel:contains(Media Info)').next().find('.panel-body');
   const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
   const mediaInfo = $('.decoda-code code').text();
   TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
@@ -48,10 +50,25 @@ export default () => {
 };
 const getBasicInfo = () => {
   const basicInfo = {};
+  const keyMap = {
+    Name: 'Name',
+    名称: 'Name',
+    名稱: 'Name',
+    Size: 'Size',
+    体积: 'Size',
+    體積: 'Size',
+    Category: 'Category',
+    类别: 'Category',
+    類別: 'Category',
+    Type: 'Type',
+    规格: 'Type',
+    規格: 'Type',
+    Resolution: 'Resolution',
+  };
   $('#vue+.panel table tr').each((index, element) => {
     const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
     const value = $(element).find('td:last').text();
-    basicInfo[key] = value.replace(/\n/g, '').trim();
+    basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
   });
   return basicInfo;
 };

@@ -19,12 +19,14 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://lemonhd.org/upload_*
 // @match        https://lemonhd.org/details*
 // @match        https://blutopia.xyz/torrents/*
-// @match        https://blutopia.xyz/torrents?imdb=*
+// @match        https://blutopia.xyz/torrents?*
 // @match        https://blutopia.xyz/upload/*
+// @match        https://pt.hdpost.top/torrents?*
 // @match        https://pt.hdpost.top/torrents/*
 // @match        https://*/upload*
 // @match        http://*/upload*
 // @match        http://www.hd.ai/Torrents.upload
+// @match        http://www.hd.ai/Torrents.index?*
 // @match        https://broadcity.in/browse.php?imdb=*
 // @grant        GM_addStyle
 // @grant        GM_getValue

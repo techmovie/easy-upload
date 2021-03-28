@@ -22,7 +22,11 @@ export default () => {
     title = realTitle.replace(/\[|\]/g, '');
   }
   if (CURRENT_SITE_NAME === 'PTer') {
-    descriptionBBCode = $('#descrcopyandpaster').val().replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
+    if ($('#descrcopyandpaster')[0]) {
+      descriptionBBCode = $('#descrcopyandpaster').val()?.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
+    } else {
+      descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
+    }
   }
   if (CURRENT_SITE_NAME === 'LemonHD') {
     descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
@@ -102,6 +106,16 @@ export default () => {
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
   TORRENT_INFO.description = descriptionBBCode;
+  const originalName = descriptionBBCode.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
+  const translateName = descriptionBBCode.match(/(译\s+名)\s+(.+)/)?.[2] ?? '';
+  if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+    TORRENT_INFO.movieName = originalName;
+  } else {
+    TORRENT_INFO.movieName = translateName.match(/(\w|\s){2,}/)?.[0]?.trim() ?? '';
+  }
+  const fullInformation = $('#top').text() + subtitle + descriptionBBCode;
+  const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
+  TORRENT_INFO.isForbidden = !!isForbidden;
   // 兼容家园
   if (!processing || processing.match(/raw/)) {
     const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
@@ -212,7 +226,7 @@ const getBDInfoOrMediaInfo = (bbcode) => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/\[\/?(quote)\]{1}?/g, '').replaceAll('\u200D', '');
+  return content.replace(/\[\/?(quote)\]{1}?/g, '').replace(/\u200D/g, '');
 };
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;

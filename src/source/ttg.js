@@ -19,10 +19,10 @@ export default () => {
   TORRENT_INFO.imdbUrl = getTorrentValueDom('IMDB').find('a').attr('href');
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1];
-  TORRENT_INFO.size = sizeStr.replaceAll(',', '');
+  TORRENT_INFO.size = sizeStr.replace(/,/g, '');
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-
+  TORRENT_INFO.isForbidden = !!$('#kt_d').text().match(/禁转/);
   window.onload = () => {
     const descriptionDom = $('#kt_d');
     let bbCodes = getFilterBBCode(descriptionDom[0]);
@@ -147,7 +147,7 @@ const getBDInfoOrMediaInfo = (bbcode) => {
   };
 };
 const formatQuoteContent = (content) => {
-  return content.replace(/\[(.+)\]?/g, '').replaceAll('\u200D', '');
+  return content.replace(/\[(.+)\]?/g, '').replace(/\u200D/g, '');
 };
 // 获取截图
 const getImages = (bbcode) => {

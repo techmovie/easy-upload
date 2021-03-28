@@ -1,13 +1,22 @@
 export default GM_addStyle(`
-.seed-dom h4{
-  text-align: center;
+td.title-td{
+  vertical-align: middle !important;
+}
+td.title-td h4{
+  text-align: right;
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 15px;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+}
+.ptp-seed-title h4{
+  margin: 0;
+  margin-right: 10px;
+  display: flex;
+  align-item: center;
 }
 .seed-dom button{
   line-height: 1;
@@ -25,8 +34,8 @@ export default GM_addStyle(`
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  padding: 8px 20px;
-  font-size: 14px;
+  padding: 6px 16px;
+  font-size: 13px;
   border-radius: 4px;
   margin:0;
   margin-right: 5px;
@@ -49,8 +58,18 @@ export default GM_addStyle(`
   list-style: none;
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
   flex-wrap: wrap;
+}
+.ptp-search-list{
+  display: flex;
+  align-items: center;
+  padding-top:10px;
+  justify-content: center;
+}
+.ptp-search-list h4{
+  margin: 0;
+  min-width: 60px;
+  margin-right: 15px;
 }
 .seed-dom li,.search-list li {
   margin-top: 0;
@@ -58,6 +77,7 @@ export default GM_addStyle(`
   margin-left: 0;
   margin-right: 5px;
   line-height: 24px;
+  font-weight: 600;
 }
 .seed-dom li:last-child span{
   display: none;
@@ -71,11 +91,32 @@ export default GM_addStyle(`
 .seed-dom .function-list{
   display: flex;
   justify-content: space-around; 
+  padding: 12px 20px 0;
+}
+.function-list-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+}
+.hdb-tr{
+  display: flex;
+}
+.hdb-tr td:last-child{
+  flex: 1;
+}
+.hdb-tr td:first-child>h4{
+  width:100px;
+}
+.function-list-item h4{
+  margin: 0;
+  padding: 0;
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 14px;
 }
 .upload-section,.douban-section{
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
   align-items: center;
 }
 .upload-section .upload-status,.douban-section .douban-status{
@@ -97,7 +138,7 @@ export default GM_addStyle(`
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 .easy-seed-setting-btn svg{
   height: 20px;
@@ -151,17 +192,20 @@ export default GM_addStyle(`
   text-align: left;
   margin-bottom: 10px;
 }
-.easy-seed-setting-panel .panel-content li label{
+.easy-seed-setting-panel .panel-content label{
   cursor: pointer;
   color: #000 !important;
   font-size: 12px;
   display: flex;
   align-items: center;
 }
-.easy-seed-setting-panel .panel-content li label input{
+.easy-seed-setting-panel .panel-content label input{
   margin: 0;
   margin-right: 3px;
   padding:0;
+}
+.transfer-img-closed label {
+  justify-content: center;
 }
 .easy-seed-setting-panel .site-enable-setting{
   padding-top: 5px;

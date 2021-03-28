@@ -1,4 +1,6 @@
-import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, CURRENT_SITE_INFO } from './const';
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable camelcase */
+import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_SUGGEST_API, CURRENT_SITE_INFO } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, ' ').replace(/\.(?!(\d+))/, ' ').trim();
@@ -15,21 +17,133 @@ const getDoubanInfo = (doubanUrl) => {
             if (data && data.success) {
               resolve(data);
             } else {
-              throw new Error('获取豆瓣信息失败');
+              getAnotherDoubanInfo(doubanUrl).then(res => {
+                resolve(res);
+              }).catch(error => {
+                reject(new Error(error.message));
+              });
             }
           },
         });
       } else {
-        throw new Error('无法获取豆瓣信息');
+        reject(new Error('豆瓣链接获取失败'));
       }
     } catch (error) {
-      reject(error.message);
+      console.log(error);
+      reject(new Error(error.message));
     }
   });
+};
+const getAnotherDoubanInfo = (doubanUrl) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (doubanUrl) {
+        const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
+        if (!doubanId) {
+          reject(new Error('豆瓣ID获取失败'));
+        }
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `https://movie.querydata.org/api?id=${doubanId}`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.id) {
+              resolve(formatDoubanInfo(data));
+            } else {
+              reject(new Error(data.message || '获取豆瓣信息失败'));
+            }
+          },
+        });
+      } else {
+        reject(new Error('豆瓣链接获取失败'));
+      }
+    } catch (error) {
+      reject(new Error(error.message));
+    }
+  });
+};
+const formatDoubanInfo = (data) => {
+  const { doubanId, imdbId, imdbRating, imdbVotes, dateReleased, alias, originalName, doubanRating, episodes, doubanVotes, year, duration, director, data: info, actor, writer } = data;
+  const [chineseInfo, englishInfo] = info;
+  const chineseTitle = chineseInfo.name;
+  const foreignTitle = englishInfo.name;
+  const directorArray = director.map(item => {
+    return {
+      name: `${item.data[0].name} ${item.data[1].name}`,
+    };
+  });
+  const actorArray = actor.map(item => {
+    return {
+      name: `${item.data[0].name} ${item.data[1].name}`,
+    };
+  });
+  const writerArray = writer.map(item => {
+    return {
+      name: `${item.data[0].name} ${item.data[1].name}`,
+    };
+  });
+  let transTitle = alias.split('/');
+  if (chineseTitle !== originalName && !alias.includes(chineseTitle)) {
+    transTitle = [chineseTitle].concat(transTitle);
+  }
+  const formatData = {
+    imdb_link: `https://www.imdb.com/title/${imdbId}`,
+    imdb_id: imdbId,
+    imdb_rating_average: imdbRating,
+    imdb_votes: imdbVotes,
+    imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
+    chinese_title: chineseTitle,
+    foreign_title: foreignTitle,
+    aka: alias.split('/'),
+    trans_title: transTitle,
+    this_title: [originalName],
+    year,
+    playdate: dateReleased.match(/\d+-\d+-\d+/)[0],
+    region: info[0].country,
+    genre: chineseInfo.genre,
+    language: chineseInfo.language,
+    episodes,
+    duration: `${duration / 60}分钟`,
+    introduction: chineseInfo.description,
+    douban_link: `https://movie.douban.com/subject/${doubanId}`,
+    douban_rating_average: doubanRating || 0,
+    douban_votes: doubanVotes,
+    douban_rating: `${doubanRating}/10 from ${doubanVotes} users`,
+    poster: chineseInfo.poster,
+    director: directorArray,
+    cast: actorArray,
+    writer: writerArray,
+  };
+
+  const { poster, this_title, trans_title, genre, year: movieYear, region, language, playdate, imdb_rating, imdb_link, douban_rating, douban_link, episodes: showEpisodes, duration: movieDuration, director: directors, writer: writers, cast: actors, introduction } = formatData;
+  let descr = poster ? `[img]${poster}[/img]\n\n` : '';
+  descr += trans_title ? `◎译　　名　${trans_title.join('/')}\n` : '';
+  descr += this_title ? `◎片　　名　${this_title}\n` : '';
+  descr += movieYear ? `◎年　　代　${movieYear.trim()}\n` : '';
+  descr += region ? `◎产　　地　${region}\n` : '';
+  descr += genre ? `◎类　　别　${genre}\n` : '';
+  descr += language ? `◎语　　言　${language}\n` : '';
+  descr += playdate ? `◎上映日期　${playdate}\n` : '';
+  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating}\n` : '';
+  descr += imdb_link ? `◎IMDb链接  ${imdb_link}\n` : '';
+  descr += douban_rating ? `◎豆瓣评分　${douban_rating}\n` : '';
+  descr += douban_link ? `◎豆瓣链接　${douban_link}\n` : '';
+  descr += showEpisodes ? `◎集　　数　${showEpisodes}\n` : '';
+  descr += movieDuration ? `◎片　　长　${movieDuration}\n` : '';
+  descr += directors && directors.length > 0 ? `◎导　　演　${directors.map(x => x.name).join(' / ')}\n` : '';
+  descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')}\n` : '';
+  descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join('\n' + '　'.repeat(4) + '  　').trim()}\n` : '';
+  descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, '\n' + '　'.repeat(2))}\n` : '';
+
+  formatData.format = descr.trim();
+  return formatData;
 };
 const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
   return new Promise((resolve, reject) => {
     try {
+      if (!imdbUrl) {
+        throw new Error('缺少IMDB信息');
+      }
       const doubanUrl = ' https://movie.douban.com/subject/';
       const imdbId = getIMDBIdByUrl(imdbUrl);
       if (imdbId) {
@@ -41,14 +155,35 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
             if (data && data.data) {
               resolve(doubanUrl + data.data.id);
             } else {
-              throw new Error('获取失败');
+              getDoubanLinkBySuggest(imdbId).then(res => {
+                resolve(doubanUrl + res);
+              }).catch(error => {
+                reject(new Error(error.message || '获取失败'));
+              });
             }
           },
         });
       }
     } catch (error) {
-      reject(error.message);
+      reject(new Error(error.message));
     }
+  });
+};
+const getDoubanLinkBySuggest = (imdbId) => {
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `${DOUBAN_SUGGEST_API}?q=${imdbId}`,
+      onload (res) {
+        const data = JSON.parse(res.responseText);
+        if (data.length > 0) {
+          const doubanId = data[0].id;
+          resolve(doubanId);
+        } else {
+          reject(new Error('豆瓣id获取失败'));
+        }
+      },
+    });
   });
 };
 const transferImgs = (screenshots, isNSFW) => {
@@ -484,7 +619,7 @@ const getInfoFromBDInfo = (bdInfo) => {
   const subtitleMatch = bdInfo.match(subtitleReg);
   const audioReg = new RegExp(`AUDIO:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${subtitleMatch ? '(SUBTITLE(S)?)' : hasFileInfo ? 'FILES:' : ''}`, 'i');
   const audioMatch = bdInfo.match(audioReg);
-  const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replaceAll(',', '');
+  const fileSize = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)?.[1]?.replace(/,/g, '');
   const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i); // 是否为bdinfo的另一种格式quickSummary
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
@@ -558,7 +693,7 @@ const getFilterBBCode = (content) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
     return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, function (match, p1) {
-      if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用|转载|注明|后果|负责/))) {
+      if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/))) {
         return '';
       }
       return match;
@@ -808,5 +943,6 @@ export {
   getDoubanLinkByIMDB,
   getPreciseCategory,
   showNotice,
+  getAnotherDoubanInfo,
 }
 ;
