@@ -1,4 +1,75 @@
 PT_SITE:
+  KG: 
+    url: 'https://karagarga.in'
+    host: karagarga.in
+    siteType: KG
+    asSource: false
+    asTarget: false
+    uploadPath: /upload.php
+    search: 
+      path: /browse.php
+      imdbOptionKey: 'imdb'
+      nameOptionKey: 'title'
+      params:
+        search: '{imdb}'
+        search_type: '{optionKey}'
+        sort: size
+        d: DESC
+  FL:
+    url: 'https://filelist.io'
+    host: filelist.io
+    siteType: FL
+    asSource: false
+    asTarget: false
+    uploadPath: /upload.php
+    search: 
+      path: /browse.php
+      imdbOptionKey: '3'
+      nameOptionKey: '0'
+      params:
+        search: '{imdb}'
+        searchin: '{optionKey}'
+        sort: '3'
+  HDT:
+    url: 'https://hd-torrents.org'
+    host: hd-torrents.org
+    siteType: HDT
+    asSource: false
+    asTarget: false
+    uploadPath: /upload.php
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '2'
+      nameOptionKey: '3'
+      params:
+        search: '{imdb}'
+        options: '{optionKey}'
+        order: size
+        by: DESC
+  UHDBits:
+    url: 'https://uhdbits.org'
+    host: uhdbits.org
+    siteType: gazelle
+    asSource: false
+    asTarget: false
+    uploadPath: /upload.php
+    search: 
+      path: /torrents.php
+      params:
+        order_way: desc
+        order_by: size
+        searchstr: '{imdb}'
+  nzb.in: 
+    url: 'https://nzbs.in'
+    host: nzbs.in
+    siteType: nzb
+    asSource: false
+    asTarget: false
+    search: 
+      path: /search/{name}
+      params:
+        t: -1
+        ob: size_desc
   SoulVoice:
     url: https://pt.soulvoice.club
     host: soulvoice.club
@@ -6,6 +77,16 @@ PT_SITE:
     asSource: false
     asTarget: true
     uploadPath: /upload.php
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -63,6 +144,18 @@ PT_SITE:
     asSource: false
     asTarget: true
     uploadPath: /upload.php
+    search: 
+      path: /browse.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      replaceKey: ['tt','']
+      params:
+        s: '{name}'
+        dp: '0'
+        add: '0'
+        action: 's'
+        or: '4'
+        imdb: '{imdb}'
     name:
       selector: '#title_eng'
     subtitle:
@@ -146,6 +239,13 @@ PT_SITE:
     asSource: false
     asTarget: false
     uploadPath: /upload.php
+    search: 
+      path: /browse.php
+      imdbOptionKey: 't_genre'
+      nameOptionKey: 't_name'
+      params:
+        imdb: '{imdb}'
+        search_area: '{optionKey}'
   HDPOST:
     url: 'https://pt.hdpost.top'
     host: hdpost.top
@@ -153,9 +253,13 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload/1
-    searchPath: /torrents
     needDoubanInfo: true
     seedDomSelector: '#vue+.panel table>tbody>tr:last' 
+    search: 
+      path: /torrents
+      params:
+        name: '{name}'
+        imdb: '{imdb}'
     name:
       selector: '#title'
     description:
@@ -205,11 +309,12 @@ PT_SITE:
     needDoubanInfo: true
     uploadPath: /upload.php
     seedDomSelector: '#details >tbody >tr:contains(Last seeded)' 
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      sort: size
-      d: DESC
+    search:
+      path: /browse.php
+      params:
+        sort: size
+        d: DESC
+        search: '{imdb}'
     name:
       selector: '#name'
     description:
@@ -259,12 +364,16 @@ PT_SITE:
     asTarget: true
     uploadPath: /upload.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(7)' 
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -400,12 +509,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -519,11 +632,14 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#main_table h1+table>tbody>tr:nth-child(2)' 
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search_field
-    searchParam:
-      sort: '5'
-      type: desc
+    search: 
+      path: /browse.php
+      replaceKey: ['tt','imdb']
+      params:
+        search_field: '{imdb}'
+        sort: '5'
+        type: desc
+        c: M
     name:
       selector: 'input[name="name"]'
     description:
@@ -698,13 +814,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.new.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -797,13 +917,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(4)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -1113,12 +1237,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: 'input[name="name"]'
     subtitle:
@@ -1217,12 +1345,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#outer tr:contains(基本信息)' 
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: 'input[name="name"]'
     subtitle:
@@ -1303,12 +1435,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '.table_details>tbody>tr:nth-child(1)'
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -1505,12 +1641,16 @@ PT_SITE:
     asTarget: false
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
   PTSBAO:
     url: 'https://ptsbao.club'
     host: ptsbao.club
@@ -1519,12 +1659,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+font+table>tbody>tr:nth-child(5)'
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -1642,12 +1786,16 @@ PT_SITE:
     asTarget: false
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
   LemonHD:
     url: 'https://lemonhd.org'
     host: lemonhd.org
@@ -1656,12 +1804,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#outer>table>tbody>tr:nth-child(5)'
     uploadPath: /upload_movie.php
-    searchPath: /browse.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: 'imdb'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -1756,10 +1908,11 @@ PT_SITE:
     asTarget: false
     needDoubanInfo: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      action: advanced
+    search: 
+      path: /torrents.php
+      params:
+        action: advanced
+        searchstr: '{imdb}'
     seedDomSelector: '' 
   BeyondHD:
     url: 'https://beyond-hd.me'
@@ -1770,12 +1923,18 @@ PT_SITE:
     seedDomSelector: '.table-details tr:last'
     needDoubanInfo: true
     uploadPath: /upload
-    searchPath: /torrents/all
-    searchKey: imdb
-    searchParam:
-      doSearch: Search
-      sorting: size
-      direction: desc
+    search: 
+      path: /torrents/all
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        imdb: '{imdb}'
+        search: '{name}'
+        sorting: size
+        direction: desc
+        doSearch: Search
     name:
       selector: '#title'
     description:
@@ -1910,13 +2069,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -1976,13 +2139,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2054,13 +2221,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     subtitle:
       selector: 'input[name="small_descr"]'
     description:
@@ -2087,13 +2258,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     subtitle:
       selector: 'input[name="small_descr"]'
     description:
@@ -2120,9 +2295,13 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload/1
-    searchPath: /torrents
     needDoubanInfo: true
     seedDomSelector: '#vue+.panel table tr:last' 
+    search: 
+      path: /torrents
+      params:
+        name: '{name}'
+        imdb: '{imdb}'
     name:
       selector: '#title'
     description:
@@ -2170,13 +2349,17 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2276,12 +2459,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2369,12 +2556,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2463,12 +2654,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2592,12 +2787,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2694,12 +2893,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2789,12 +2992,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2895,12 +3102,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -2989,12 +3200,16 @@ PT_SITE:
     asTarget: true
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
     uploadPath: /upload.php
-    searchPath: /torrents.php
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /torrents.php
+      imdbOptionKey: '4'
+      nameOptionKey: '0'
+      params:
+        incldead: '0'
+        search_area: '{optionKey}'
+        search: '{imdb}'
+        sort: '5'
+        type: desc
     name:
       selector: '#name'
     subtitle:
@@ -3045,13 +3260,15 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /Torrents.upload
-    searchPath: /torrents.php
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
-    searchKey: search
-    searchParam:
-      search_area: '{key}'
-      sort: '5'
-      type: desc
+    search: 
+      path: /Torrents.index
+      imdbOptionKey: '9'
+      nameOptionKey: '1'
+      params:
+        name: '{name}'
+        search_area: '{optionKey}'
+        imdb: '{imdb}'
     name:
       selector: '#name'
     subtitle:

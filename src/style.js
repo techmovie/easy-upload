@@ -68,6 +68,7 @@ td.title-td h4{
 }
 .ptp-search-list h4{
   margin: 0;
+  min-width: 60px;
   margin-right: 15px;
 }
 .seed-dom li,.search-list li {
@@ -103,7 +104,7 @@ td.title-td h4{
 .hdb-tr td:last-child{
   flex: 1;
 }
-.hdb-td>h4{
+.hdb-tr td:first-child>h4{
   width:100px;
 }
 .function-list-item h4{
