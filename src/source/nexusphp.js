@@ -106,6 +106,13 @@ export default () => {
   TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = subtitle;
   TORRENT_INFO.description = descriptionBBCode;
+  const originalName = descriptionBBCode.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
+  const translateName = descriptionBBCode.match(/(译\s+名)\s+(.+)/)?.[2] ?? '';
+  if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+    TORRENT_INFO.movieName = originalName;
+  } else {
+    TORRENT_INFO.movieName = translateName.match(/(\w|\s){2,}/)?.[0]?.trim() ?? '';
+  }
   const fullInformation = $('#top').text() + subtitle + descriptionBBCode;
   const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
   TORRENT_INFO.isForbidden = !!isForbidden;
