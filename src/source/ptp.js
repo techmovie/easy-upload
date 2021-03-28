@@ -18,7 +18,7 @@ export default () => {
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
-  let descriptionBBCode = getFilterBBCode(torrentDom.find('.bbcode-table-guard')[0]);
+  let descriptionBBCode = getFilterBBCode(torrentDom.find('#subtitle_manager+.movie-page__torrent__panel .bbcode-table-guard')[0]);
   if (TORRENT_INFO.category === 'concert') {
     descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
   }
