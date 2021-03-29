@@ -24,7 +24,7 @@ export default () => {
   } else {
     TORRENT_INFO.year = IMDBYear.replace(/\(|\)|\s/g, '');
   }
-  TORRENT_INFO.resolution = Resolution;
+  TORRENT_INFO.resolution = Resolution.match(/\d+(i|p)/i)?.[0];
   const descriptionDom = $('.panel:contains(Media Info)').next().find('.panel-body');
   const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
   const mediaInfo = $('.decoda-code code').text();
