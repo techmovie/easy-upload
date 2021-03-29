@@ -117,7 +117,7 @@ export default () => {
   const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
   TORRENT_INFO.isForbidden = !!isForbidden;
   // 兼容家园
-  if (!processing || processing.match(/raw/)) {
+  if (!processing || processing.match(/raw|encode/)) {
     const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
@@ -169,7 +169,7 @@ const getMetaInfo = (metaInfo) => {
     resolutionKey = '分辨率|解析度';
     videoTypeKey = '格式';
   }
-  if (CURRENT_SITE_NAME.match(/TLF|HDAI/i)) {
+  if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome/i)) {
     videoTypeKey = '媒介';
   }
   const category = getMetaValue('类型|分类|類別', metaInfo);
