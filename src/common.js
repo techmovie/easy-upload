@@ -786,9 +786,12 @@ const htmlToBBCode = (node) => {
           return `[img]${imgUrl}[/img]`;
         }
         case 'FONT': {
-          const { color } = node;
+          const { color, size } = node;
           if (color) {
             pp(`[color=${ensureProperColor(color)}]`, '[/color]');
+          }
+          if (size) {
+            pp(`[size=${size}]`, '[/size]');
           }
           break;
         }
