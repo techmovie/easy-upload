@@ -436,6 +436,14 @@ const handleClickEvent = () => {
       const path = catMap[TORRENT_INFO.category] || '1';
       url = url.replace('1', path);
     }
+    if (url.match(/bibliotik/)) {
+      const catMap = {
+        ebook: 'ebooks',
+        magazine: 'magazines',
+        audioBook: 'audiobooks',
+      };
+      url = url.replace('/upload', `/upload/${catMap[TORRENT_INFO.category] || 'ebooks'}`);
+    }
     if (TORRENT_INFO.isForbidden) {
       const result = window.confirm('本种子禁止转载，确定要继续转载么？');
       if (!result) {

@@ -163,7 +163,7 @@ export default () => {
   if (CURRENT_SITE_INFO === 'TCCF') {
     TORRENT_INFO.format = getFormat(videoType);
   } else {
-    TORRENT_INFO.format = getFormat(title + subtitle);
+    TORRENT_INFO.format = getFormat($('#top').text() + subtitle);
   }
 };
 
@@ -317,6 +317,8 @@ const getCategory = (category) => {
     return 'comics';
   } else if (category.match(/公开课/ig)) {
     return 'onlineCourse';
+  } else if (category.match(/资料/ig)) {
+    return 'ebook';
   }
   return '';
 };
@@ -352,6 +354,8 @@ const getFormat = (data) => {
     return 'txt';
   } else if (data.match(/azw3/i)) {
     return 'azw3';
+  } else if (data.match(/镜像/i)) {
+    return 'iso';
   }
   return 'other';
 }
