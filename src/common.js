@@ -277,13 +277,13 @@ const getAudioCodecFromTitle = (title) => {
   }
   return '';
 };
-const getVideoCodecFromTitle = (title) => {
+const getVideoCodecFromTitle = (title, videoType = '') => {
   title = title.replace(/\.|-/g, '');
-  if (title.match(/x264/i)) {
+  if (title.match(/x264/i) || (title.match(/h264|avc/i) && videoType === 'encode')) {
     return 'x264';
   } else if (title.match(/h264|AVC/i)) {
     return 'h264';
-  } else if (title.match(/x265/i)) {
+  } else if (title.match(/x265/i) || (title.match(/h265|hevc/i) && videoType === 'encode')) {
     return 'x265';
   } else if (title.match(/hevc|h265/i)) {
     return 'hevc';
