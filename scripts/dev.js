@@ -1,8 +1,14 @@
-const { yamlPlugin } = require('./helper');
-const chokidar = require('chokidar');
+const { yamlPlugin, notify } = require('./helper');
 
+const notifyError = (error) => {
+  if (error) {
+    const { location, text } = error.errors[0];
+    const { file, line, column } = location;
+    notify('Build failed', `${file}:${line}:${column} error:${text}`);
+  }
+};
 (async () => {
-  const builder = await require('esbuild').build({
+  require('esbuild').build({
     entryPoints: ['src/index.js'],
     outfile: '.cache/easy-seed.user.js',
     bundle: true,
@@ -10,9 +16,14 @@ const chokidar = require('chokidar');
     define: { $: 'jQuery' },
     plugins: [yamlPlugin],
     incremental: true,
-  });
-  chokidar.watch('src/**/*', { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
-    console.log(`${path}:${eventName}`);
-    builder.rebuild();
+    watch: {
+      onRebuild (error) {
+        if (error) {
+          notifyError(error);
+        }
+      },
+    },
+  }).catch(e => {
+    notifyError(e);
   });
 })();

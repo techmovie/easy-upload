@@ -1,5 +1,6 @@
 const fs = require('fs');
 const YAML = require('yaml');
+const notifier = require('node-notifier');
 
 const { version, author, description = '' } = require('../package.json');
 
@@ -23,6 +24,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://blutopia.xyz/upload/*
 // @match        https://pt.hdpost.top/torrents?*
 // @match        https://pt.hdpost.top/torrents/*
+// @match        https://asiancinema.me/torrents/*
+// @match        https://asiancinema.me/torrents?*
 // @match        https://*/upload*
 // @match        http://*/upload*
 // @match        http://www.hd.ai/Torrents.upload
@@ -58,4 +61,14 @@ exports.yamlPlugin = {
       }
     });
   },
+};
+exports.notify = (title, message) => {
+  notifier.notify(
+    {
+      title,
+      message,
+      sound: true,
+      wait: false,
+    },
+  );
 };

@@ -136,13 +136,13 @@ const fillTargetForm = (info) => {
   }
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST/)) {
+  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM/)) {
     const fillIMDBId = CURRENT_SITE_INFO.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(CURRENT_SITE_INFO.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(id => {
       $(CURRENT_SITE_INFO.tmdb.selector).val(id);
     });
-    if (CURRENT_SITE_NAME === 'BeyondHD') {
+    if (CURRENT_SITE_NAME.match(/BeyondHD|ACM/i)) {
       const { category, videoType } = info;
       // videoType和category交换
       info.category = videoType;

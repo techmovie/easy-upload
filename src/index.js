@@ -352,7 +352,7 @@ const fillSearchImdb = () => {
   const nameParam = getUrlParam('name');
   const searchType = getUrlParam('search_area');
   if (imdbParam || nameParam) {
-    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST/)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM/)) {
       filterBluTorrent(imdbParam, nameParam);
     } else if (CURRENT_SITE_NAME === 'Bdc') {
       $('#tsstac').val(imdbParam);
@@ -381,7 +381,7 @@ const insertTorrentPage = () => {
   </path>
   </svg>
   </span></h4>`;
-  if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST/)) {
+  if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|ACM/)) {
     const trDom = `<tr>
     <td class="rowhead nowrap title-td">
     ${easySeedTitleDom}
@@ -427,7 +427,7 @@ const handleClickEvent = () => {
       const path = catMap[TORRENT_INFO.category] || 'movie';
       url = url.replace('upload_movie', `upload_${path}`);
     }
-    if (url.match(/hdpost|blutopia/)) {
+    if (url.match(/hdpost|blutopia|asiancinema/)) {
       const catMap = {
         movie: '1',
         tv: '2',
