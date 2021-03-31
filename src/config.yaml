@@ -498,6 +498,10 @@ PT_SITE:
         concert: '406'
         sport: '407'
         cartoon: '405'
+        app: '422'
+        ebook: '427'
+        magazine: '427'
+        audioBook: '427'
     videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
@@ -2580,6 +2584,12 @@ PT_SITE:
         sport: '627'
         cartoon: '627'
         variety: '627'
+        app: '625'
+        ebook: '629'
+        magazine: '631'
+        comics: '632'
+        audioBook: '633'
+        onlineCourse: '634' 
     videoCodec:
       selector: 'select[name="codec_sel"]'
       map:
@@ -3479,3 +3489,25 @@ PT_SITE:
         tlf: '30'
         u2: '31'
         wiki: '25'
+  Bib:
+    url: ' https://bibliotik.me'
+    host:  bibliotik.me
+    siteType: Bib
+    asSource: false
+    asTarget: true
+    uploadPath: /upload
+    name:
+      selector: '#TitleField'
+    description:
+      selector: '#DescriptionField'
+    anonymous: 
+      selector: '#AnonymousField'
+    image: 
+      selector: '#ImageField'
+    format: 
+      selector: '#FormatField'
+      map: 
+        epub: '15'
+        mobi: '16'
+        pdf: '2'
+        azw3: '21'

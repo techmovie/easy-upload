@@ -830,7 +830,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.match(/引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]|Spoiler/)) {
+      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]|Spoiler)/)) {
         return '';
       }
       return node.textContent;

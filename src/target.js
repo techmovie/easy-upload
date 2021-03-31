@@ -69,7 +69,7 @@ const fillTargetForm = (info) => {
     } else {
       // 需要过滤掉中文信息
       const { sourceSiteType } = info;
-      if (isChineseTacker(sourceSiteType)) {
+      if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== 'Bib') {
         description = filterNexusDescription(info);
       }
     }
@@ -157,22 +157,33 @@ const fillTargetForm = (info) => {
       }
     }
   }
-  const category = CURRENT_SITE_INFO.category.map[info.category];
-  const keyArray = ['videoCodec', 'videoType', 'resolution', 'source', 'area'];
-  let finalSelectArray = [];
-  if (Array.isArray(category)) {
-    finalSelectArray = [...category];
-    keyArray.forEach(key => {
-      finalSelectArray = matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
-      if (finalSelectArray.length === 1) {
-        $(CURRENT_SITE_INFO.category.selector).val(finalSelectArray[0]);
-      }
-    });
-  } else {
-    [...keyArray, 'category'].forEach(key => {
-      matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
-    });
+  if (CURRENT_SITE_INFO.category) {
+    const category = CURRENT_SITE_INFO.category.map[info.category];
+    const keyArray = ['videoCodec', 'videoType', 'resolution', 'source', 'area'];
+    let finalSelectArray = [];
+    if (Array.isArray(category)) {
+      finalSelectArray = [...category];
+      keyArray.forEach(key => {
+        finalSelectArray = matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
+        if (finalSelectArray.length === 1) {
+          $(CURRENT_SITE_INFO.category.selector).val(finalSelectArray[0]);
+        }
+      });
+    } else {
+      [...keyArray, 'category'].forEach(key => {
+        matchSelectForm(CURRENT_SITE_INFO, info, key, finalSelectArray);
+      });
+    }
   }
+  if (CURRENT_SITE_INFO.format) {
+    const formatData = CURRENT_SITE_INFO.format;
+    $(formatData.selector).val(formatData.map[info.format]);
+  }
+  if (CURRENT_SITE_INFO.image) {
+    const image = info.description.match(/\[img\](.+?)\[\/img\]/)?.[1] ?? '';
+    $(CURRENT_SITE_INFO.image.selector).val(image);
+  }
+
   if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice/i)) {
     $(CURRENT_SITE_INFO.category.selector).change();
   }
