@@ -7,6 +7,5 @@ require('esbuild').build({
   target: 'chrome58',
   sourcemap: false,
   banner: userScriptComment,
-  minify: true, // 是否压缩
   plugins: [yamlPlugin],
 }).catch(() => process.exit(1));
