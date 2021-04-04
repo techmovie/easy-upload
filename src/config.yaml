@@ -1010,7 +1010,7 @@ PT_SITE:
     asSource: true
     asTarget: true
     uploadPath: /upload.php
-    seedDomSelector: '#top+font>table:nth-child(1)>tbody>tr:nth-child(4)' 
+    seedDomSelector: '#outer tr:contains(基本信息)' 
     search: 
       path: /torrents.php
       imdbOptionKey: '4'
