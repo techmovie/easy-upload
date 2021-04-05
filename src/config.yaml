@@ -52,7 +52,7 @@ PT_SITE:
         dvd:
           - '14'
           - '16'
-        dvdrip: ‘13'
+        dvdrip: '13'
         other: ''   
     resolution:
       selector: '#autores'
@@ -124,7 +124,7 @@ PT_SITE:
     host: hd-torrents.org
     siteType: HDT
     asSource: false
-    asTarget: false
+    asTarget: true
     uploadPath: /upload.php
     search: 
       path: /torrents.php
@@ -135,6 +135,158 @@ PT_SITE:
         options: '{optionKey}'
         order: size
         by: DESC
+    name:
+      selector: 'input[name="filename"]'
+    imdb: 
+      selector: 'input[name="infosite"]'
+    description: 
+       selector: 'textarea[name="info"]'
+    tags: 
+      HDR: 'input[name="HDR10"]'
+      HDR10+: 'input[name="HDR10Plus"]'
+      DolbyVision: 'input[name="DolbyVision"]'
+    anonymous: 
+      selector: 'input[name="anonymous"][value="true"]'
+    category:
+      selector: 'select[name="category"]'
+      map:
+        movie: 
+          - '70'
+          - '1'
+          - '71'
+          - '2'
+          - '64'
+          - '5'
+          - '3'
+          - '63'
+        tv: 
+          - '72'
+          - '59'
+          - '73'
+          - '60'
+          - '65'
+          - '30'
+          - '38'
+        tvPack:
+          - '72'
+          - '59'
+          - '73'
+          - '60'
+          - '65'
+          - '30'
+          - '38'
+        documentary: 
+          - '70'
+          - '1'
+          - '71'
+          - '2'
+          - '64'
+          - '5'
+          - '3'
+          - '63'
+        cartoon: 
+          - '70'
+          - '1'
+          - '71'
+          - '2'
+          - '64'
+          - '5'
+          - '3'
+          - '63'
+        concert: 
+          - '61'
+          - '62'
+          - '66'
+          - '57'
+          - '45'
+          - '44'
+        variety: 
+          - '72'
+          - '59'
+          - '73'
+          - '60'
+          - '65'
+          - '30'
+          - '38'
+    videoType:
+      map:
+        uhdbluray:
+          - '70'
+          - '72'
+        bluray: 
+          - '1'
+          - '59'
+          - '61'
+        remux: 
+          - '71'
+          - '2'
+          - '62'
+          - '73'
+          - '60'
+        encode: 
+          - '64'
+          - '5'
+          - '3'
+          - '65'
+          - '30'
+          - '38'
+          - '66'
+          - '57'
+          - '45'
+        web: 
+          - '64'
+          - '5'
+          - '3'
+          - '65'
+          - '30'
+          - '38'
+          - '66'
+          - '57'
+          - '45'
+        hdtv: 
+          - '64'
+          - '5'
+          - '3'
+          - '65'
+          - '30'
+          - '38'
+          - '66'
+          - '57'
+          - '45'
+    resolution:
+      map:
+        2160p: 
+          - '70'
+          - '72'
+          - '71'
+          - '73'
+          - '64'
+          - '65'
+          - '66'
+        1080p: 
+          - '1'
+          - '59'
+          - '61'
+          - '2'
+          - '60'
+          - '62'
+          - '5'
+          - '30'
+          - '57'
+        1080i: 
+          - '1'
+          - '59'
+          - '61'
+          - '2'
+          - '60'
+          - '62'
+          - '5'
+          - '30'
+          - '57'
+        720p: 
+          - '3'
+          - '38'
+          - '45'
   UHDBits:
     url: 'https://uhdbits.org'
     host: uhdbits.org

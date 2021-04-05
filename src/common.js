@@ -453,12 +453,12 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
   const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
-  const { videoCodec, isHdr, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
+  const { videoCodec, hdrFormat, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
   const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
   const subtitleLanguageArray = textPart.map(item => {
     return getMediaValueByKey('Language', item);
   });
-  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, isHdr, isDV);
+  const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
   const resolution = getResolution(videoPart);
   return {
     fileName,
@@ -514,7 +514,7 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   if (hdrFormat) {
     if (hdrFormat.match(/HDR10\+/i)) {
       mediaTags['HDR10+'] = true;
-    } else {
+    } else if (hdrFormat.match(/HDR\+/i)) {
       mediaTags.HDR = true;
     }
   }
@@ -532,7 +532,7 @@ const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
   const videoCodeId = getMediaValueByKey('Codec ID', mainVideo);
   const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
-  const isDV = secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).includes('Dolby Vision');
+  const isDV = hdrFormat.match(/Dolby\s*Vision/i) || (secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).match(/Dolby\s*Vision/i));
   const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
   let videoCodec = '';
   if (generalFormat === 'DVD Video') {

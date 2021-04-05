@@ -11,7 +11,7 @@ export default () => {
   const torrentDom = $(`#torrent_${torrentId}`);
   const ptpMovieTitle = $('.page__title').text().match(/]?([^[]+)/)[1]?.trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
-  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote:contains(Unique ID)').text()}`;
+  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote:contains(Codec ID)').text()}`;
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.movieAkaName = movieAkaName;
   TORRENT_INFO.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';

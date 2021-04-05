@@ -297,6 +297,13 @@ const fillTargetForm = (info) => {
     $('#title_chs').val(chineseName);
     $('#upload_introduction').val(summary);
   }
+
+  // 处理HDT
+  if (CURRENT_SITE_NAME === 'HDT') {
+    if (info.category !== 'tvPack') {
+      $('select[name="season"').val('true');
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单
