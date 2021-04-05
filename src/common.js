@@ -17,11 +17,15 @@ const getDoubanInfo = (doubanUrl) => {
             if (data && data.success) {
               resolve(data);
             } else {
-              getAnotherDoubanInfo(doubanUrl).then(res => {
-                resolve(res);
-              }).catch(error => {
-                reject(new Error(error.message));
-              });
+              if (doubanUrl.match(/\/book/)) {
+                reject(new Error(data.error));
+              } else {
+                getAnotherDoubanInfo(doubanUrl).then(res => {
+                  resolve(res);
+                }).catch(error => {
+                  reject(new Error(error.message));
+                });
+              }
             }
           },
         });
@@ -693,7 +697,7 @@ const getFilterBBCode = (content) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
     return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, function (match, p1) {
-      if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/))) {
+      if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|商业用途|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/))) {
         return '';
       }
       return match;

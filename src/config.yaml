@@ -163,9 +163,11 @@ PT_SITE:
     url: https://pt.soulvoice.club
     host: soulvoice.club
     siteType: NexusPHP
-    asSource: false
+    asSource: true
     asTarget: true
     uploadPath: /upload.php
+    seedDomSelector: '#outer tr:contains(基本信息)' 
+    needDoubanBookInfo: true
     search: 
       path: /torrents.php
       imdbOptionKey: '4'

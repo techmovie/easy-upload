@@ -114,12 +114,12 @@ td.title-td h4{
   font-weight: 600;
   font-size: 14px;
 }
-.upload-section,.douban-section{
+.upload-section,.douban-section,.douban-book-section{
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.upload-section .upload-status,.douban-section .douban-status{
+.upload-section .upload-status,.douban-section .douban-status,.douban-book-section .douban-book-status{
   margin-left: 5px;
   font-size: 14px;
   font-weight: 600;

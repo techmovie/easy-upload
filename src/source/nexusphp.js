@@ -92,7 +92,7 @@ export default () => {
   const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-  const doubanUrl = descriptionBBCode.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
+  const doubanUrl = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban.com\/subject\/\d+/)?.[0];
   if (doubanUrl) {
     TORRENT_INFO.doubanUrl = doubanUrl;
   }
