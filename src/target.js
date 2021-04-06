@@ -297,7 +297,7 @@ const fillTargetForm = (info) => {
     $('#upload_introduction').val(summary);
   }
 
-  if (CURRENT_SITE_NAME === 'Bib' && info.doubanBookInfo.success) {
+  if (CURRENT_SITE_NAME === 'Bib' && info.doubanBookInfo?.success) {
     // eslint-disable-next-line camelcase
     const { year, pager, translator, author, publisher, ISBN, book_intro } = info.doubanBookInfo;
     console.log(info.doubanBookInfo);
@@ -306,9 +306,12 @@ const fillTargetForm = (info) => {
     $('#IsbnField').val(ISBN);
     $('#YearField').val(year);
     $('#PagesField').val(pager);
+    $('#LanguageField').val('17');
     $('#inputFileID').replaceWith('<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>');
     $('#TranslatorsField').val(translator.join(','));
-    $('#DescriptionField').val(book_intro).show();
+    $('#DescriptionField').val(book_intro);
+    const event = new Event('change');
+    document.getElementById('DescriptionField').dispatchEvent(event);
   }
 };
 /*

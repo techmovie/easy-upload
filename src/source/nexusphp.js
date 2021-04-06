@@ -233,7 +233,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
@@ -311,6 +311,8 @@ const getCategory = (category) => {
     return 'app';
   } else if (category.match(/电子书|小说|Ebook/ig)) {
     return 'ebook';
+  } else if (category.match(/有声书|AudioBook/ig)) {
+    return 'audiobook';
   } else if (category.match(/杂志|magazine/ig)) {
     return 'magazine';
   } else if (category.match(/漫画|comics/ig)) {

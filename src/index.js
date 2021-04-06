@@ -331,7 +331,7 @@ const getDoubanBookInfo = () => {
   try {
     if (doubanUrl) {
       getDoubanInfo(doubanUrl).then(data => {
-        TORRENT_INFO.title = data.origin_title || data.chinese_title;
+        TORRENT_INFO.title = data.chinese_title || data.origin_title;
         TORRENT_INFO.image = data.poster;
         TORRENT_INFO.description = data.book_intro;
         TORRENT_INFO.doubanBookInfo = data;
