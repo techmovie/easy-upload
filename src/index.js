@@ -245,24 +245,23 @@ const openBatchSeedTabs = () => {
 const getThumbnailImgs = () => {
   const statusDom = $('.upload-section .upload-status');
   const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
-  let imgList = allImgs;
+  const imgList = [...new Set(allImgs)];
   if (imgList.length < 1) {
     throw new Error('获取图片列表失败');
   }
-  imgList = imgList.join('\n');
   const isNSFW = $('#nsfw').is(':checked');
   statusDom.text('转换中...');
   $('#img-transfer').attr('disabled', true).addClass('is-disabled');
-  transferImgs(imgList, isNSFW).then(data => {
+  transferImgs(imgList.join('\n'), isNSFW).then(data => {
     if (data.length) {
       const thumbnailImgs = data.map(imgData => {
         return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
       });
       TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
       let { description } = TORRENT_INFO;
-      allImgs.forEach((img, index) => {
+      imgList.forEach((img, index) => {
         if (description.includes(img)) {
-          description = description.replace(`[img]${img}[/img]`, thumbnailImgs[index]);
+          description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, 'ig'), thumbnailImgs[index]);
         }
       });
       TORRENT_INFO.description = description;

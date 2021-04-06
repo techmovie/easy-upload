@@ -756,13 +756,6 @@ const htmlToBBCode = (node) => {
         case 'BLOCKQUOTE':
         case 'PRE':
         case 'FIELDSET': {
-          const { tagName, className, lastElementChild } = node;
-          if (tagName === 'BLOCKQUOTE' && CURRENT_SITE_NAME === 'PTP' && className.match(/spoiler/)) {
-            if (lastElementChild.tagName === 'BLOCKQUOTE') {
-              return `[quote]${lastElementChild.textContent}[/quote]`;
-            }
-            return `[quote]${node.textContent}[/quote]`;
-          }
           pp('[quote]', '[/quote]'); break;
         }
         case 'TD': {
@@ -796,11 +789,9 @@ const htmlToBBCode = (node) => {
           break;
         }
         case 'A': {
-          const { href, textContent } = node;
+          const { href } = node;
           if (href && href.length > 0) {
             if (href.match(/javascript:void/)) {
-              return '';
-            } else if (CURRENT_SITE_NAME === 'PTP' && textContent.match(/Show comparison/)) {
               return '';
             } else {
               pp(`[url=${href}]`, '[/url]');
@@ -830,7 +821,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]|Spoiler)/)) {
+      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\])/)) {
         return '';
       }
       return node.textContent;

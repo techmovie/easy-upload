@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getFilterBBCode, getBDInfoFromBBCode } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getBDInfoFromBBCode } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
@@ -11,50 +11,43 @@ export default () => {
   const torrentDom = $(`#torrent_${torrentId}`);
   const ptpMovieTitle = $('.page__title').text().match(/]?([^[]+)/)[1]?.trim();
   const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
-  TORRENT_INFO.mediaInfo = `${torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote:contains(Codec ID)').text()}`;
+  const mediaInfoArray = [];
+  torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote:contains(Codec ID)').each(function (index, item) {
+    mediaInfoArray.push($(this).text());
+  });
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.movieAkaName = movieAkaName;
   TORRENT_INFO.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)[2];
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
   TORRENT_INFO.category = getPTPType();
-  let descriptionBBCode = getFilterBBCode(torrentDom.find('#subtitle_manager+.movie-page__torrent__panel .bbcode-table-guard')[0]);
-  if (TORRENT_INFO.category === 'concert') {
-    descriptionBBCode = $('#synopsis').text() + descriptionBBCode;
-  }
-  const { comparisonData, screenshots } = getPTPImage(torrentDom);
-  if (comparisonData) {
-    let comparisonImgs = [];
-    Object.keys(comparisonData).forEach(key => {
-      comparisonImgs = comparisonImgs.concat(comparisonData[key]);
-      descriptionBBCode = descriptionBBCode.replace(key + ':', '');
-      descriptionBBCode += '\n[b]' + key + ':[/b]\n' + comparisonData[key].map(url => {
-        return `[img]${url}[/img]`;
-      }).join('');
-    });
-    TORRENT_INFO.comparisonImgs = comparisonImgs;
-  }
-  TORRENT_INFO.description = descriptionBBCode;
-  const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
-  const [codes, container, source, ...otherInfo] = infoArray;
-  const isRemux = otherInfo.includes('Remux');
-  TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
-  const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
-  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
-  TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-  const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-  TORRENT_INFO.videoCodec = videoCodec;
-  TORRENT_INFO.audioCodec = audioCodec;
-  TORRENT_INFO.resolution = resolution;
-  TORRENT_INFO.tags = mediaTags;
-  let torrentName = fileName || torrentHeaderDom.data('releasename'); // 圆盘没有fileName
-  torrentName = formatTorrentTitle(torrentName);
-  TORRENT_INFO.title = torrentName;
-  TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-  TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
-  TORRENT_INFO.screenshots = screenshots;
+  const screenshots = getPTPImage(torrentDom);
+  getDescription(torrentId).then(res => {
+    const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
+    TORRENT_INFO.description = descriptionData;
+    const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
+    const [codes, container, source, ...otherInfo] = infoArray;
+    const isRemux = otherInfo.includes('Remux');
+    TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
+    const bdinfo = getBDInfoFromBBCode(descriptionData);
+    const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfoArray.join('\n');
+    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+    const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
+    TORRENT_INFO.resolution = resolution;
+    TORRENT_INFO.tags = mediaTags;
+    let torrentName = fileName || torrentHeaderDom.data('releasename'); // 圆盘没有fileName
+    torrentName = formatTorrentTitle(torrentName);
+    TORRENT_INFO.title = torrentName;
+    TORRENT_INFO.source = getPTPSource(source, codes, resolution);
+    TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
+    TORRENT_INFO.screenshots = screenshots;
+    console.log(TORRENT_INFO);
+  });
+
   let country = [];
   const matchArray = $('#movieinfo div').text().match(/Country:\s+([^\n]+)/);
   if (matchArray && matchArray.length > 0) {
@@ -78,31 +71,12 @@ const getPTPType = () => {
 // 获取截图 对比图和原始截图分开获取
 const getPTPImage = () => {
   const imgList = [];
-  let comparisonData = {};
   const torrentInfoPanel = $('.movie-page__torrent__panel');
-  const links = torrentInfoPanel.find('a:contains(Show comparison)');
-  for (let i = 0; i < links.length; i++) {
-    const clickFunc = links[i].getAttribute('onclick');
-    if (clickFunc && clickFunc.match(/BBCode.ScreenshotComparisonToggleShow/)) {
-      try {
-        const paramsStr = clickFunc.match(/\((.+)\)/)?.[1] ?? '';
-        const [comparisonTextStr = 'null', imgListStr = 'null'] = paramsStr.match(/\[.+?\]/g);
-        const comparisonText = JSON.parse(comparisonTextStr)?.join(',') ?? '';
-        const comparisonList = JSON.parse(imgListStr);
-        comparisonData[comparisonText] = comparisonList;
-      } catch (error) {
-        comparisonData = null;
-      }
-    }
-  }
   const imageDom = torrentInfoPanel.find('.bbcode__image');
   for (let i = 0; i < imageDom.length; i++) {
     imgList.push(imageDom[i].getAttribute('src'));
   }
-  return {
-    screenshots: imgList,
-    comparisonData,
-  };
+  return imgList;
 };
 const getPTPSource = (source, codes, resolution) => {
   if (codes.match(/BD100|BD66/i)) {
@@ -129,4 +103,64 @@ const getVideoType = (container, isRemux, codes, source) => {
     type = 'encode';
   }
   return type;
+};
+const getDescription = (id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`,
+        onload (res) {
+          const data = res.responseText;
+          if (data) {
+            resolve(data);
+          }
+        },
+      });
+    } catch (error) {
+      reject(new Error(error.message));
+    }
+  });
+};
+const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
+  let descriptionData = data;
+  screenshots.forEach(screenshot => {
+    const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, 'i');
+    if (!descriptionData.match(regStr)) {
+      descriptionData = descriptionData.replace(new RegExp(screenshot, 'g'), `[img]${screenshot}[/img]`);
+    }
+  });
+  descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, '[$1quote]');
+  descriptionData = descriptionData.replace(/\[(\/)?hide(=(.+?))?\]/g, '$3: [$1quote]');
+  descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\s)+?)\[\/align\]/g, '[$2]$3[/$2]');
+  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g);
+  let comparisonImgArray = [];
+  comparisonArray.forEach(item => {
+    comparisonImgArray = comparisonImgArray.concat(item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/ |\n/));
+  });
+  const comparisonImgs = [];
+  console.log(descriptionData);
+  comparisonImgArray.forEach(item => {
+    const formatImg = item.replace(/\s*/g, '');
+    if (item.match(/^https?.+/)) {
+      comparisonImgs.push(formatImg);
+      descriptionData = descriptionData.replace(new RegExp(`${item}(\\s)*`), `[img]${formatImg}[/img]`);
+    } else if (item.match(/^\[img\]/)) {
+      console.log(item);
+      descriptionData = descriptionData.replace(new RegExp(`${item}(\\s)*`), formatImg);
+    }
+  });
+  TORRENT_INFO.comparisonImgs = comparisonImgs;
+  descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/g, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/g, '');
+  mediaInfoArray.forEach(mediaInfo => {
+    const regStr = new RegExp(`\\[quote\\]${mediaInfo}\\[\\/quote\\]`, 'i');
+    if (!descriptionData.match(regStr)) {
+      descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
+    }
+  });
+  if (TORRENT_INFO.category === 'concert') {
+    descriptionData = $('#synopsis').text() + descriptionData;
+  }
+  console.log(descriptionData);
+  return descriptionData;
 };
