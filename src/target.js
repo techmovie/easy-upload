@@ -129,7 +129,7 @@ const fillTargetForm = (info) => {
       const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
       if (description.match(regStr)) {
         description = description.replace(regStr, function (p1, p2) {
-          return `[img=350x350]${p2}[/img]`;
+          return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
         });
       }
     });
