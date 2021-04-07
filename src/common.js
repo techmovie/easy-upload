@@ -738,7 +738,13 @@ const htmlToBBCode = (node) => {
         case 'I': { pp('[i]', '[/i]'); break; }
         case 'DIV': {
           if (node.className === 'codemain') {
-            pp('\n[quote]', '[/quote]'); break;
+            // 兼容朋友
+            if (node.firstChild && node.firstChild.tagName === 'PRE') {
+              pp('');
+              break;
+            } else {
+              pp('\n[quote]', '[/quote]'); break;
+            }
           } else {
             pp('\n', '\n'); break;
           }
