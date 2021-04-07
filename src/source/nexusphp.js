@@ -52,6 +52,7 @@ export default () => {
 
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
+    siteImdbUrl = $('#kimdb .imdbwp__link').attr('href');
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {
