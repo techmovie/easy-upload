@@ -276,13 +276,13 @@ const getThumbnailImgs = () => {
 const getDoubanLink = () => {
   $('#douban-info').attr('disabled', true).addClass('is-disabled');
   const statusDom = $('.douban-section .douban-status');
-  const doubanLink = $('.page__title>a').attr('href');
+  const doubanLink = $('.page__title>a').attr('href') || TORRENT_INFO.doubanUrl;
+  statusDom.text('获取中...');
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
     getDoubanData();
     return false;
   }
-  statusDom.text('获取中...');
   const { imdbUrl, movieName } = TORRENT_INFO;
   getDoubanLinkByIMDB(imdbUrl, movieName).then(doubanUrl => {
     if (!doubanUrl) {

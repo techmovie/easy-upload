@@ -53,6 +53,10 @@ export default () => {
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     [title, subtitle] = [subtitle, title];
     siteImdbUrl = $('#kimdb .imdbwp__link').attr('href');
+    TORRENT_INFO.doubanUrl = $('#kdouban .imdbwp__link').attr('href');
+    const element = document.createElement('div');
+    $(element).html($('#outer td').has('#kdescr').html());
+    descriptionBBCode = getFilterBBCode(element);
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {

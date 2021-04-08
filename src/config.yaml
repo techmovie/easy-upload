@@ -1886,6 +1886,7 @@ PT_SITE:
     asTarget: false
     seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
     uploadPath: /upload.php
+    needDoubanInfo: true
     search: 
       path: /torrents.php
       imdbOptionKey: '4'
