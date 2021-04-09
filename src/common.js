@@ -723,6 +723,7 @@ const htmlToBBCode = (node) => {
   switch (node.nodeType) {
     case 1: { // tag
       switch (node.tagName.toUpperCase()) {
+        case 'SCRIPT': { return ''; }
         case 'UL': { pp(null, null); break; }
         case 'OL': { pp('[list=1]', '[/list]'); break; }
         case 'LI': {
