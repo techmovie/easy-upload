@@ -143,6 +143,11 @@ td.title-td h4{
 .easy-seed-setting-btn svg{
   height: 20px;
   width: 20px;
+  animation: 3s linear rotate infinite;
+}
+@keyframes rotate {
+  from {transform: rotate(0deg)}
+  to   {transform: rotate(360deg) }
 }
 .easy-seed-setting-panel{
   position: fixed;
@@ -167,7 +172,7 @@ td.title-td h4{
   color: #000;
   margin-bottom: 15px;
 }
-.easy-seed-setting-panel .panel-content{
+.easy-seed-setting-panel .panel-content-wrap{
   margin-top: 200px;
   max-width: 800px;
   box-sizing: border-box;
@@ -178,6 +183,10 @@ td.title-td h4{
   text-align:center;
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
   padding: 20px 30px 10px;
+}
+.easy-seed-setting-panel .panel-content{
+  height: 500px;
+  overflow-y: auto;
 }
 .easy-seed-setting-panel .panel-content ul{
   list-style: none;

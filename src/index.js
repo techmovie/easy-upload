@@ -156,30 +156,32 @@ const openSettingPanel = () => {
 
   const panelHtml = `
   <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
-    <div class="panel-content">
-      <h3>转种站点启用</h3>
-      <section class="site-enable-setting">
-          <ul class="target-sites-enable-list" >
-            ${targetSiteList.join('')}
+    <div class="panel-content-wrap">
+      <div class="panel-content">
+        <h3>转种站点启用</h3>
+        <section class="site-enable-setting">
+            <ul class="target-sites-enable-list" >
+              ${targetSiteList.join('')}
+            </ul>
+          </section>
+        <h3>批量转种启用</h3>
+        <i>一键批量转发到以下选中的站点</i>
+        <section class="site-enable-setting">
+          <ul class="batch-seed-sites-enable-list">
+              ${batchSeedSiteList.join('')}
           </ul>
         </section>
-      <h3>批量转种启用</h3>
-      <i>一键批量转发到以下选中的站点</i>
-      <section class="site-enable-setting">
-        <ul class="batch-seed-sites-enable-list">
-            ${batchSeedSiteList.join('')}
-        </ul>
-      </section>
-      <h3>站点搜索启用</h3>
-      <section class="site-enable-setting">
-        <ul class="search-sites-enable-list">
-          ${searchSiteList.join('')}
-        </ul>
-      </section>
-      <h3>额外功能关闭</h3>
-      <section class="site-enable-setting transfer-img-closed">
-      <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
-      </section>
+        <h3>站点搜索启用</h3>
+        <section class="site-enable-setting">
+          <ul class="search-sites-enable-list">
+            ${searchSiteList.join('')}
+          </ul>
+        </section>
+        <h3>额外功能关闭</h3>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
+        </section>
+      </div>
       <div class="confirm-btns">
         <button id="save-setting-btn">保存</button>
         <button id="cancel-setting-btn">取消</button>
