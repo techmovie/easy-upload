@@ -1,0 +1,122 @@
+url: 'https://chdbits.co'
+host: chdbits.co
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+table>tbody>tr:nth-child(6)' 
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: 'textarea[name="descr"]'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+tags: 
+  chineseAudio: 'input[name="cnlang"]'
+  chineseSubtitle: 'input[name="cnsub"]'
+  DIY: 'input[name="diy"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '403'
+    tvPack: '402'
+    documentary: '404'
+    cartoon: '405'
+    sport: '407'
+    concert: '406'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '5'
+    h265: '5'
+    x264: '1'
+    x265: '5'
+    mpeg2: '4'
+    mpeg4: '6'
+    vc1: '2'
+    xvid: '6'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '7'
+    dd: '4'
+    dd+: '7'
+    flac: '1'
+    dts: '3'
+    truehd: '11'
+    lpcm: '13'
+    dtshdma: '10'
+    atmos: '10'
+    dtsx: '3'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray:
+      - '19'
+    bluray:
+      - '1'
+    remux:
+      - '3'
+    encode:
+      - '4'
+    web:
+      - '18'
+    hdtv:
+      - '6'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p:
+      - '6'
+    1080p:
+      - '1'
+    1080i:
+      - '2'
+    720p:
+      - '3'
+    480p:
+      - '5'
+area:
+  selector: 'select[name="processing_sel"]'
+  map:
+    CN: '8'
+    US: '3'
+    EU: '7'
+    HK: '5'
+    TW: '9'
+    JP: '4'
+    KR: '6'
+    OT: '0'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    chdbits: '14'
+    sgnb: '13'
+    remux: '1'
+    chdtv: '2'
+    chdpad: '15'
+    chdweb: '12'
+    chdhktv: '11'
+    stbox: '10'
+    onehd: '8'
+    blucook: '16'
+    hqc: '17'
+    gbt: '18'
+    kan: '19'

@@ -1,0 +1,18 @@
+url: 'https://pt.keepfrds.com'
+host: keepfrds.com
+siteType: NexusPHP
+asSource: true
+asTarget: false
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+uploadPath: /upload.php
+needDoubanInfo: true
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc

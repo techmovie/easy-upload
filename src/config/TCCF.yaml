@@ -1,0 +1,102 @@
+url: 'https://et8.org'
+host: et8.org
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '622'
+    tv: '623'
+    tvPack: '623'
+    documentary: '404'
+    concert: '626'
+    sport: '627'
+    cartoon: '627'
+    variety: '627'
+    app: '625'
+    ebook: '629'
+    magazine: '631'
+    comics: '632'
+    audioBook: '633'
+    onlineCourse: '634' 
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    x264: '7'
+    hevc: '8'
+    x265: '6'
+    h265: '8'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '4'
+    dd: '4'
+    dd+: '4'
+    flac: '1'
+    dts: '3'
+    truehd: '9'
+    lpcm: '10'
+    dtshdma: '8'
+    atmos: '8'
+    dtsx: '3'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '10'
+    bluray: '1'
+    remux: '5'
+    encode: '11'
+    web: '9'
+    hdtv: '6'
+    dvd: '7'
+    dvdrip: '4'
+    other: '0'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '5'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    torrentccf: '1'
+    tccf: '1'
+    tlf: '2'
+    bmdru: '3'
+    catedu: '4'
+    madfox: '5'
+    other: '7'

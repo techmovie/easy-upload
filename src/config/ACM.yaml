@@ -1,0 +1,88 @@
+url: 'https://asiancinema.me'
+host: asiancinema.me
+siteType: UNIT3D
+asSource: true
+asTarget: true
+uploadPath: /upload/1
+needDoubanInfo: true
+seedDomSelector: '#vue+.panel table>tbody>tr:last' 
+search:
+  path: /torrents
+  params:
+    name: '{name}'
+    imdb: '{imdb}'
+name:
+  selector: '#title'
+description:
+  selector: '#upload-form-description'
+imdb:
+  selector: '#autoimdb'
+tmdb:
+  selector: '#autotmdb'
+mediaInfo:
+  selector: 'textarea[name="mediainfo"]'
+anonymous: 
+  selector: '.radio-inline:first input[name="anonymous"]'
+videoType:
+  selector: '#autocat'
+  map:
+    movie: '1'
+    tv: '2'
+    tvPack: '2'
+category:
+  selector: '#autotype'
+  map:
+    BD100: '1'
+    BD66: '2'
+    UHD50: '3'
+    BD50: '4'
+    BD25: '5'
+    remux:
+      - '12'
+      - '7'
+    encode:
+      - '8'
+      - '10'
+      - '11'
+      - '13'
+    web: '9'
+    hdtv: '17'
+    dvd:
+      - '14'
+      - '16'
+    dvdrip: '13'
+    other: ''   
+resolution:
+  selector: '#autores'
+  map:
+    2160p:
+      - '1'
+      - '1'
+      - '2'
+      - '3'
+      - '12'
+      - '8'
+    1080p:
+      - '2'
+      - '4'
+      - '5'
+      - '7'
+      - '10'
+    1080i:
+      - '2'
+      - '4'
+      - '5'
+      - '7'
+      - '10'
+    720p:
+      - '3'
+      - '11'
+    576p:
+      - '4'
+      - '13'
+    480p:
+      - '5'
+      - '14'
+      - '16'
+      - '13'
+    other: ''

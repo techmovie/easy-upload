@@ -1,0 +1,14 @@
+url: 'https://filelist.io'
+host: filelist.io
+siteType: FL
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /browse.php
+  imdbOptionKey: '3'
+  nameOptionKey: '0'
+  params:
+    search: '{imdb}'
+    searchin: '{optionKey}'
+    sort: '3'

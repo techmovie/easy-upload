@@ -1,0 +1,13 @@
+url: 'https://passthepopcorn.me'
+host: passthepopcorn.me
+siteType: gazelle
+asSource: true
+asTarget: false
+needDoubanInfo: true
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  params:
+    action: advanced
+    searchstr: '{imdb}'
+seedDomSelector: '' 

@@ -1,0 +1,132 @@
+url: 'https://www.hdarea.co'
+host: hdarea.co
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: 'input[name="dburl"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: 
+      - '300'
+      - '401'
+      - '415'
+      - '416'
+      - '410'
+      - '411'
+      - '414'
+      - '412'
+      - '413'
+      - '417'
+    tv: 
+      - '402'
+      - '403'
+    tvPack: '402'
+    documentary: '404'
+    concert: '406'
+    sport: '407'
+    cartoon: '405'
+    variety: '403'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '7'
+    x264: '7'
+    hevc: '6'
+    x265: '6'
+    h265: '6'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '0'
+    dvd: '0'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '11'
+    dd: '5'
+    dd+: '4'
+    flac: '1'
+    dts: '3'
+    truehd: '7'
+    lpcm: '8'
+    dtshdma: '4'
+    atmos: '10'
+    dtsx: '0'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: 
+      - '1'
+      - '300'
+    bluray: 
+      - '1'
+      - '401'
+    remux: 
+      - '3'
+      - '415'
+    encode: '7'
+    web: 
+      - '9'
+      - '412'
+    hdtv: 
+      - '5'
+      - '413'
+    dvd: 
+      - '2'
+      - '414'
+    dvdrip: '6'
+    other: '0'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '5'
+    1080p: 
+      - '1'
+      - '410'
+    1080i: '2'
+    720p: 
+      - '3'
+      - '411'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    epic: '1'
+    hdarea: '2'
+    hdwing: '3'
+    wiki: '4'
+    ttg: '5'
+    other: '6'
+    mteam: '7'
+    hdapad: '8'
+    chd: '9'
+    hdaccess: '10'
+    hdatv: '11'
+    cxcy: '12'
+    cmct: '13'

@@ -1,0 +1,126 @@
+url: 'https://ptsbao.club'
+host: ptsbao.club
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+font+table>tbody>tr:nth-child(5)'
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: '#small_descr'
+description:
+  selector: 'textarea[name="descr"]'
+imdb:
+  selector: 'input[name="imdburl"][type="text"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+tags: 
+  chineseSubtitle: 'input[type="checkbox"][name="zz"]'
+# 太混乱了 不想做支持了
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '404'
+    concert: '414'
+    sport: '409'
+    cartoon: '405'
+    variety: '403'
+source:
+  selector: '#medium_sel'
+  map:
+    uhdbluray: '10'
+    bluray: '1'
+    hdtv: '5'
+    dvd: '3'
+    web: '2'
+    vhs: '9'
+    hddvd: '9'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '6'
+    x264: '1'
+    x265: '6'
+    h265: '6'
+    mpeg2: '4'
+    mpeg4: '5'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+audioCodec:
+  selector: '#audiocodec_sel'
+  map:
+    aac: '6'
+    ac3: '11'
+    dd: '10'
+    dd+: '10'
+    dts: '3'
+    truehd: '9'
+    lpcm: '12'
+    dtshdma: '8'
+    atmos: '8'
+    dtsx: '13'
+    flac: '1'
+videoType:
+  selector: '#source_sel'
+  map:
+    uhdbluray: '92'
+    bluray: '55'
+    remux: '88'
+    encode: 
+      - '3'
+      - '91'
+      - '92'
+    web: '4'
+    hdtv: '94'
+    dvd: '89'
+    dvdrip: '89'
+    other: ''
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: 
+      - '5'
+      - '92'
+    1080p: 
+      - '1'
+      - '3'
+    1080i: '1'
+    720p: 
+      - '2'
+      - '91'
+    576p: '3'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    ffansbd: '8'
+    ops: '11'
+    ffansweb: '12'
+    ffanstv: '13'
+    hqc: '10'
+    ttg: '3'
+    hdc: '6'
+    chd: '2'
+    hdsky: '9'
+    cmct: '4'
+    frds: '5'
+    other: '7'
+    ffansdvd: '14'
+    fhdmv: '15'
+    enichi: '16'

@@ -1,0 +1,182 @@
+url: 'https://totheglory.im'
+host: totheglory.im
+siteType: TTG
+asSource: true
+asTarget: true
+seedDomSelector: '#main_table h1+table>tbody>tr:nth-child(2)' 
+uploadPath: /upload.php
+search: 
+  path: /browse.php
+  replaceKey: ['tt','imdb']
+  params:
+    search_field: '{imdb}'
+    sort: '5'
+    type: desc
+    c: M
+name:
+  selector: 'input[name="name"]'
+description:
+  selector: 'textarea[name="descr"]'
+imdb:
+  selector: 'input[name="imdb_c"]'
+anonymous: 
+  selector: 'select[name="anonymity"]'
+  value: 'yes'
+category:
+  selector: 'select[name="type"]'
+  map:
+    movie:
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '108'
+      - '109'
+    tv:
+      - '69'
+      - '70'
+      - '73'
+      - '74'
+      - '75'
+      - '76'
+    tvPack: 
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    documentary:
+      - '62'
+      - '63'
+      - '67'
+    concert: '59'
+    sport: '57'
+    cartoon: '58'
+    variety:
+      - '103'
+      - '60'
+      - '101'
+videoType:
+  map:
+    uhdbluray:
+      - '109'
+    bluray:
+      - '54'
+      - '109'
+      - '67'
+    remux:
+      - '53'
+      - '108'
+      - '63'
+      - '70'
+      - '75'
+    encode:
+      - '53'
+      - '63'
+      - '70'
+      - '75'
+      - '52'
+      - '62'
+      - '69'
+      - '76'
+      - '108'
+    web:
+      - '53'
+      - '62'
+      - '63'
+      - '70'
+      - '75'
+      - '52'
+      - '69'
+      - '76'
+      - '108'
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    hdtv:
+      - '53'
+      - '63'
+      - '70'
+      - '75'
+      - '52'
+      - '62'
+      - '69'
+      - '76'
+      - '108'
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    dvd:
+      - '51'
+    dvdrip:
+      - '51'
+    other: ''
+resolution:
+  map:
+    2160p:
+      - '108'
+      - '109'
+      - '67'
+    1080p:
+      - '53'
+      - '63'
+      - '70'
+      - '75'
+      - '54'
+      - '67'
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    1080i:
+      - '53'
+      - '63'
+      - '70'
+      - '75'
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    720p:
+      - '52'
+      - '62'
+      - '69'
+      - '76'
+      - '87'
+      - '88'
+      - '99'
+      - '90'
+    576p: '51'
+    480p: '51'
+area:
+  map:
+    CN:
+      - '76'
+      - '75'
+      - '90'
+    US:
+      - '69'
+      - '70'
+      - '87'
+    EU:
+      - '69'
+      - '70'
+      - '87'
+    HK:
+      - '76'
+      - '75'
+      - '90'
+    TW:
+      - '76'
+      - '75'
+      - '90'
+    JP:
+      - '73'
+      - '88'
+      - '101'
+    KR:
+      - '74'
+      - '99'
+      - '103'
+    OT: ''

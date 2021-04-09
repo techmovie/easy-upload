@@ -1,0 +1,36 @@
+url: 'https://www.tjupt.org'
+host: tjupt.org
+siteType: NexusPHP
+asSource: true
+asTarget: true
+uploadPath: /upload.php
+seedDomSelector: '#top+table>tbody>tr:nth-child(5)' 
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: '#external_url'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '411'
+    concert: '406'
+    sport: '407'
+    cartoon: '405'
+    variety: '403'

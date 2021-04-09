@@ -1,0 +1,81 @@
+url: 'https://pt.hd4fans.org'
+host: hd4fans.org
+siteType: NexusPHP
+asSource: true
+asTarget: true
+uploadPath: /upload.php
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '403'
+    tvPack: '402'
+    documentary: '404'
+    concert: '406'
+    sport: '407'
+    cartoon: '405'
+    variety: '405'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '1'
+    bluray: '1'
+    hddvd: '2'
+    remux: '3'
+    encode: '7'
+    web: '7'
+    hdtv: '5'
+    dvd: '6'
+    dvdrip: '6'
+    other: ''
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '10'
+    x264: '1'
+    x265: '10'
+    h265: '10'
+    mpeg2: '4'
+    mpeg4: '5'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '5'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    chd: '2'
+    mysilu: '3'
+    wiki: '4'
+    other: '5'
+    cmct: '6'
+    r2ts: '7'
+    kbits: '8'

@@ -1,0 +1,69 @@
+url: 'https://pterclub.com'
+host: pterclub.com
+siteType: NexusPHP
+asSource: true
+asTarget: true
+uploadPath: /upload.php
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: 'input[name="douban"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+tags: 
+  chineseAudio: '#guoyu'
+  DIY: '#diy'
+  cantoneseAudio: '#yueyu'
+  chineseSubtitle: '#zhongzi'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '404'
+    tvPack: '404'
+    documentary: '402'
+    concert: '406'
+    sport: '407'
+    cartoon: '403'
+    variety: '405'
+videoType:
+  selector: 'select[name="source_sel"]'
+  map:
+    uhdbluray: '1'
+    bluray: '2'
+    remux: '3'
+    encode: '6'
+    web: '5'
+    hdtv: '4'
+    dvd: '7'
+    dvdrip: '7'
+    other: '15'
+area:
+  selector: 'select[name="team_sel"]'
+  map:
+    CN: '1'
+    US: '4'
+    EU: '4'
+    HK: '2'
+    TW: '3'
+    JP: '6'
+    KR: '5'
+    IND: '7'
+    OT: '8'

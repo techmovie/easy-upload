@@ -1,0 +1,13 @@
+url: 'https://broadcity.in'
+host: broadcity.in
+siteType: Bdc
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /browse.php
+  imdbOptionKey: 't_genre'
+  nameOptionKey: 't_name'
+  params:
+    imdb: '{imdb}'
+    search_area: '{optionKey}'

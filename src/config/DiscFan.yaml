@@ -1,0 +1,60 @@
+url: 'https://discfan.net'
+host: discfan.net
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)' 
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: 'textarea[name="descr"]'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: 'input[name="douban_url"]'
+category:
+  selector: '#browsecat1'
+  map:
+    tv: '411'
+    tvPack: '411'
+    documentary: '413'
+    cartoon: '419'  
+    sport: '417'
+    concert: '414'
+    variety: '416'
+videoType:
+  selector: 'select[name="source_sel"]'
+  map:
+    uhdbluray: '2'
+    bluray: '3'
+    remux: '0'
+    encode: '0'
+    web: '9'
+    hdtv: '1'
+    dvd: '4'
+    hddvd: '4'
+    dvdrip: '10'
+    other: '0'
+area:
+  selector: '#browsecat'
+  map:
+    CN: '401'
+    US: '410'
+    EU: '410'
+    HK: '404'
+    TW: '405'
+    JP: '403'
+    KR: '406'

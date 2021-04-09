@@ -1,0 +1,55 @@
+url: 'https://hdbits.org'
+host: hdbits.org
+siteType: HDB
+asSource: true
+asTarget: true
+needDoubanInfo: true
+uploadPath: /upload.php
+seedDomSelector: '#details >tbody >tr:contains(Last seeded)' 
+search:
+  path: /browse.php
+  params:
+    sort: size
+    d: DESC
+    search: '{imdb}'
+name:
+  selector: '#name'
+description:
+  selector: '#descr'
+imdb:
+  selector: '#imdb'
+mediaInfo:
+  selector: 'textarea[name="techinfo"]'
+category:
+  selector: '#type_category'
+  map:
+    movie: '1'
+    tv: '2'
+    tvPack: '2'
+    documentary: '3'
+    concert: '4'
+    sport: '5'
+    cartoon: '1'
+videoCodec:
+  selector: '#type_codec'
+  map:
+    h264: '1'
+    h265: '5'
+    hevc: '5'
+    x264: '1'
+    x265: '5'
+    mpeg2: '2'
+    vc1: '3'
+    xvid: '4'
+    bluray: '1'
+    uhdbluray: '5'
+    vp9: '6'
+videoType:
+  selector: '#type_medium'
+  map:
+    uhdbluray: '1'
+    bluray: '1'
+    remux: '5'
+    encode: '3'
+    web: '6'
+    hdtv: '4'

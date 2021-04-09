@@ -1,0 +1,66 @@
+url: https://pt.soulvoice.club
+host: soulvoice.club
+siteType: NexusPHP
+asSource: false
+asTarget: true
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '404'
+    cartoon: '405'
+    sport: '407'
+    concert: '406'
+    variety: '403'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '2'
+    h265: '2'
+    x264: '1'
+    x265: '2'
+    mpeg2: '5'
+    mpeg4: '1'
+    vc1: '5'
+    xvid: '5'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '3'
+    1080p: '1'
+    1080i: '2'
+    720p: '4'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    hds: '1'
+    chd: '2'
+    frds: '3'
+    cmct: '4'
+    other: '5'

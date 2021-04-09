@@ -1,0 +1,21 @@
+url: ' https://bibliotik.me'
+host:  bibliotik.me
+siteType: Bib
+asSource: false
+asTarget: true
+uploadPath: /upload
+name:
+  selector: '#TitleField'
+description:
+  selector: '#DescriptionField'
+anonymous: 
+  selector: '#AnonymousField'
+image: 
+  selector: '#ImageField'
+format: 
+  selector: '#FormatField'
+  map: 
+    epub: '15'
+    mobi: '16'
+    pdf: '2'
+    azw3: '21'

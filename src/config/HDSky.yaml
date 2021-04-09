@@ -1,0 +1,89 @@
+url: 'https://hdsky.me'
+host: hdsky.me
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#outer tr:contains(基本信息)' 
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: 'input[name="name"]'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban: 
+  selector: 'input[name="url_douban"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '411'
+    documentary: '404'
+    concert: '406'
+    sport: '407'
+    cartoon: '405'
+    variety: '403'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '12'
+    x264: '10'
+    x265: '13'
+    h265: '12'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '12'
+    dd: '12'
+    dd+: '12'
+    flac: '1'
+    dts: '3'
+    truehd: '11'
+    lpcm: '13'
+    dtshdma: '10'
+    atmos: '17'
+    dtsx: '16'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '13'
+    bluray: '1'
+    remux: '3'
+    encode: '7'
+    web: '11'
+    hddvd: '2'
+    hdtv: '5'
+    dvd: '6'
+    dvdrip: '6'
+    other: '0'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '5'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'

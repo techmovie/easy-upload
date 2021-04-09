@@ -1,0 +1,105 @@
+url: 'https://pt.btschool.club'
+host: btschool.club
+siteType: NexusPHP
+asSource: true
+asTarget: true
+seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+poster: 'input[name="picture"]'
+imdb:
+  selector: 'input[name="imdbid"]'
+douban:
+  selector: 'input[name="doubanid"]'
+tags: 
+  chineseAudio: 'input[type="checkbox"][name="span[]"][value="5"]'
+  chineseSubtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '405'
+    tv: '406'
+    tvPack: '406'
+    documentary: '408'
+    concert: '409'
+    sport: '410'
+    cartoon: '407'
+    variety: '412'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    x264: '1'
+    hevc: '10'
+    x265: '10'
+    h265: '10'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '10'
+    dd: '10'
+    dd+: '10'
+    flac: '1'
+    dts: '3'
+    truehd: '11'
+    lpcm: '5'
+    dtshdma: '3'
+    atmos: '3'
+    dtsx: '3'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '12'
+    bluray: '1'
+    remux: '3'
+    encode: '7'
+    web: '10'
+    hdtv: '5'
+    dvd: '6'
+    dvdrip: '6'
+    other: '11'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '5'
+    1080p: '1'
+    1080i: '1'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    btschool: '1'
+    zone: '13'
+    btshd: '2'
+    btstv: '3'
+    btspad: '4'
+    wiki: '5'
+    hdchina: '6'
+    hdbint: '7'
+    mteam: '9'
+    cmct: '10'
+    ourbits: '11'
+    other: '12'

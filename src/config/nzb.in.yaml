@@ -1,0 +1,10 @@
+url: 'https://nzbs.in'
+host: nzbs.in
+siteType: nzb
+asSource: false
+asTarget: false
+search: 
+  path: /search/{name}
+  params:
+    t: -1
+    ob: size_desc

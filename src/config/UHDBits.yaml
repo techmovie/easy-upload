@@ -1,0 +1,12 @@
+url: 'https://uhdbits.org'
+host: uhdbits.org
+siteType: gazelle
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  params:
+    order_way: desc
+    order_by: size
+    searchstr: '{imdb}'

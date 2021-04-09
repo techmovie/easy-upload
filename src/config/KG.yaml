@@ -1,0 +1,15 @@
+url: 'https://karagarga.in'
+host: karagarga.in
+siteType: KG
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /browse.php
+  imdbOptionKey: 'imdb'
+  nameOptionKey: 'title'
+  params:
+    search: '{imdb}'
+    search_type: '{optionKey}'
+    sort: size
+    d: DESC
