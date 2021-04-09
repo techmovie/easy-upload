@@ -182,7 +182,7 @@ td.title-td h4{
   position: relative;
   text-align:center;
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
-  padding: 20px 30px 10px;
+  padding: 20px 10px 10px 20px;
 }
 .easy-seed-setting-panel .panel-content{
   height: 500px;
@@ -240,7 +240,7 @@ td.title-td h4{
   border-radius: 4px;
   margin:0;
   margin-right: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .easy-seed-setting-panel button:hover {
   background: #fff;
