@@ -110,9 +110,14 @@ const fillTargetForm = (info) => {
   }
   // 海报填写
   if (CURRENT_SITE_INFO.poster) {
-    const posterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?poster[^[]+?)\[\/img\]/);
-    if (posterImage && posterImage[1]) {
-      const poster = posterImage[1];
+    let poster = '';
+    const doubanPosterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
+    if (doubanPosterImage && doubanPosterImage[1]) {
+      poster = doubanPosterImage[1];
+    } else {
+      poster = description.match(/\[img\](.+?)\[\/img\]/)?.[1] ?? '';
+    }
+    if (poster) {
       $(CURRENT_SITE_INFO.poster).val(poster);
       if (CURRENT_SITE_NAME === 'HDRoute') {
         $('input[name="poster"]').val(poster);
