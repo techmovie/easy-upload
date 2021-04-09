@@ -1,4 +1,4 @@
-import { PT_SITE } from './config.yaml';
+import { PT_SITE } from './config.json';
 const TORRENT_INFO = {
   title: '', // 标题
   subtitle: '', // 副标题

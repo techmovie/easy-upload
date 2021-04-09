@@ -1,6 +1,24 @@
-const fs = require('fs');
-const YAML = require('yaml');
 const notifier = require('node-notifier');
+const fs = require('fs');
+const path = require('path');
+const YAML = require('yaml');
+
+const srcFolder = path.join(__dirname, '..', 'src');
+const yamlDir = path.join(srcFolder, 'config');
+
+exports.yamlToJSON = () => {
+  const yamlFiles = fs.readdirSync(yamlDir);
+  const JSON_DATA = {
+    PT_SITE: {
+    },
+  };
+  yamlFiles.forEach(file => {
+    const fileName = file.replace('.yaml', '');
+    const source = fs.readFileSync(yamlDir + '/' + file, 'UTF-8');
+    JSON_DATA.PT_SITE[fileName] = YAML.parse(source);
+  });
+  fs.writeFileSync(`${srcFolder}/config.json`, JSON.stringify(JSON_DATA, null, 2));
+};
 
 const { version, author, description = '' } = require('../package.json');
 
@@ -38,30 +56,6 @@ exports.userScriptComment = `// ==UserScript==
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==`;
 
-// yaml 插件
-exports.yamlPlugin = {
-  name: 'yaml',
-  setup (build) {
-    build.onLoad({ filter: /\.yaml/ }, async (args) => {
-      const source = await fs.promises.readFile(args.path, 'utf8');
-      try {
-        const contents = JSON.stringify(YAML.parse(source), null, 2);
-        return { contents, loader: 'json' };
-      } catch (e) {
-        return {
-          errors: [{
-            text: (e && e.reason) || (e && e.message) || e,
-            location: e.mark && {
-              line: e.mark.line,
-              column: e.mark.column,
-              lineText: source.split(/\r\n|\r|\n/g)[e.mark.line],
-            },
-          }],
-        };
-      }
-    });
-  },
-};
 exports.notify = (title, message) => {
   notifier.notify(
     {

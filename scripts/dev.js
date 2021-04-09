@@ -1,4 +1,5 @@
-const { yamlPlugin, notify } = require('./helper');
+const { notify, yamlToJSON } = require('./helper');
+const chokidar = require('chokidar');
 
 const notifyError = (error) => {
   if (error) {
@@ -14,7 +15,6 @@ const notifyError = (error) => {
     bundle: true,
     target: 'es2016',
     define: { $: 'jQuery' },
-    plugins: [yamlPlugin],
     incremental: true,
     watch: {
       onRebuild (error) {
@@ -25,5 +25,9 @@ const notifyError = (error) => {
     },
   }).catch(e => {
     notifyError(e);
+  });
+  chokidar.watch('src/config/*', { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
+    console.log(`${path}:${eventName}`);
+    yamlToJSON();
   });
 })();
