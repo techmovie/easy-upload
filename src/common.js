@@ -918,6 +918,9 @@ const showNotice = (message) => {
     });
   }
 };
+const replaceRegSymbols = (string) => {
+  return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -944,5 +947,6 @@ export {
   getPreciseCategory,
   showNotice,
   getAnotherDoubanInfo,
+  replaceRegSymbols,
 }
 ;

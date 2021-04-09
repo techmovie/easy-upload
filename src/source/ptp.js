@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getBDInfoFromBBCode } from '../common';
+import { getUrlParam, formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getBDInfoFromBBCode, replaceRegSymbols } from '../common';
 
 export default () => {
   const torrentId = getUrlParam('torrentid');
@@ -113,7 +113,9 @@ const getDescription = (id) => {
         onload (res) {
           const data = res.responseText;
           if (data) {
-            resolve(data);
+            const element = document.createElement('span');
+            element.innerHTML = data;
+            resolve(element.innerText || element.textContent);
           }
         },
       });
@@ -131,36 +133,36 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     }
   });
   descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, '[$1quote]');
-  descriptionData = descriptionData.replace(/\[(\/)?hide(=(.+?))?\]/g, '$3: [$1quote]');
+  descriptionData = descriptionData.replace(/\[hide(=(.+?))?\]/g, '$2: [quote]').replace(/\[\/hide\]/g, '[/quote]');
+  descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, '[$1quote]');
   descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\s)+?)\[\/align\]/g, '[$2]$3[/$2]');
-  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g);
+  descriptionData = descriptionData.replace(/\r\n/g, '\n');
+  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g) || [];
   let comparisonImgArray = [];
   comparisonArray.forEach(item => {
-    comparisonImgArray = comparisonImgArray.concat(item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/ |\n/));
+    comparisonImgArray = comparisonImgArray.concat(item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/[ \r\n]/));
+    descriptionData = descriptionData.replace(item, item.replace(/\s/g, ''));
   });
   const comparisonImgs = [];
-  console.log(descriptionData);
-  comparisonImgArray.forEach(item => {
+  [...new Set(comparisonImgArray)].forEach(item => {
     const formatImg = item.replace(/\s*/g, '');
     if (item.match(/^https?.+/)) {
       comparisonImgs.push(formatImg);
-      descriptionData = descriptionData.replace(new RegExp(`${item}(\\s)*`), `[img]${formatImg}[/img]`);
-    } else if (item.match(/^\[img\]/)) {
-      console.log(item);
-      descriptionData = descriptionData.replace(new RegExp(`${item}(\\s)*`), formatImg);
+      descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item}`, 'gi'), `[img]${formatImg}[/img]`);
+    } else if (item.match(/^\[img\]/i)) {
+      comparisonImgs.push(formatImg.replace(/\[\/?img\]/g, ''));
     }
   });
   TORRENT_INFO.comparisonImgs = comparisonImgs;
   descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/g, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/g, '');
   mediaInfoArray.forEach(mediaInfo => {
-    const regStr = new RegExp(`\\[quote\\]${mediaInfo}\\[\\/quote\\]`, 'i');
+    const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo)}`, 'i');
     if (!descriptionData.match(regStr)) {
       descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
     }
   });
   if (TORRENT_INFO.category === 'concert') {
-    descriptionData = $('#synopsis').text() + descriptionData;
+    descriptionData = $('#synopsis').text() + '\n' + descriptionData;
   }
-  console.log(descriptionData);
   return descriptionData;
 };
