@@ -303,6 +303,10 @@ const fillTargetForm = (info) => {
     if (info.category !== 'tvPack') {
       $('select[name="season"').val('true');
     }
+    // IMDB地址最后需要带上「/」
+    if (imdbId) {
+      $(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
+    }
   }
 };
 /*
