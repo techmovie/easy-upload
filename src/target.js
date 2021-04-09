@@ -308,6 +308,13 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
     }
   }
+  // 处理Pter
+  if (CURRENT_SITE_NAME === 'Pter') {
+    const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
+    if (!language.match(/英语/) && info.area === 'EU') {
+      $(CURRENT_SITE_INFO.area.selector).val('8');
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单
