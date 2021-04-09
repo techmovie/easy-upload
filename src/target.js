@@ -189,8 +189,11 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.image.selector).val(image);
   }
 
-  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice/i)) {
-    $(CURRENT_SITE_INFO.category.selector).change();
+  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA/i)) {
+    setTimeout(() => {
+      const event = new Event('change');
+      document.querySelector(CURRENT_SITE_INFO.category.selector).dispatchEvent(event);
+    }, 500);
   }
   // 匿名勾选
   if (CURRENT_SITE_INFO.anonymous) {
@@ -212,7 +215,7 @@ const fillTargetForm = (info) => {
   // 填入制作组
   fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
-  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD/i)) {
+  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA/i)) {
     if (info.tags.DIY) {
       let categoryValue = '';
       if (CURRENT_SITE_NAME === 'PTHome') {
@@ -222,6 +225,8 @@ const fillTargetForm = (info) => {
       } else if (CURRENT_SITE_NAME === 'LemonHD') {
         $('select[name="tag_diy"]').val('yes');
         return;
+      } else if (CURRENT_SITE_NAME === '1PTBA') {
+        categoryValue = info.videoType === 'bluray' ? '1' : '4';
       }
       $(CURRENT_SITE_INFO.videoType.selector).val(categoryValue);
     }
