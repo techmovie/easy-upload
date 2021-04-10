@@ -54,6 +54,7 @@ exports.userScriptComment = `// ==UserScript==
 // @grant        GM_setValue
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
+// @license      MIT
 // ==/UserScript==`;
 
 exports.notify = (title, message) => {
