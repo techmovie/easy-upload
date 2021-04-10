@@ -3,7 +3,7 @@ host: hdsky.me
 siteType: NexusPHP
 asSource: true
 asTarget: true
-seedDomSelector: '#outer tr:contains(基本信息)' 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
 uploadPath: /upload.php
 search: 
   path: /torrents.php

@@ -3,7 +3,7 @@ host: keepfrds.com
 siteType: NexusPHP
 asSource: true
 asTarget: false
-seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
 uploadPath: /upload.php
 needDoubanInfo: true
 search: 

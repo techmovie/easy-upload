@@ -3,7 +3,7 @@ host: et8.org
 siteType: NexusPHP
 asSource: true
 asTarget: true
-seedDomSelector: '#top+table>tbody>tr:nth-child(3)'
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
 uploadPath: /upload.php
 search: 
   path: /torrents.php

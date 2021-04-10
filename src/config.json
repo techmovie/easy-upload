@@ -7,7 +7,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -241,7 +241,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -385,7 +385,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": false,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -689,7 +689,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(6)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(6)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -846,7 +846,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -940,7 +940,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -1039,7 +1039,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/Torrents.upload",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "search": {
         "path": "/Torrents.index",
         "imdbOptionKey": "9",
@@ -1198,7 +1198,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -1362,7 +1362,7 @@
       "siteType": "NexusPHP",
       "asSource": false,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -1811,7 +1811,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -1930,7 +1930,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#outer tr:contains(基本信息)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -2479,7 +2479,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#outer tr:contains(基本信息)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -2787,7 +2787,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -2905,7 +2905,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": false,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "needDoubanInfo": true,
       "search": {
@@ -2946,7 +2946,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#outer>table>tbody>tr:nth-child(5)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "uploadPath": "/upload_movie.php",
       "search": {
         "path": "/torrents.php",
@@ -3072,7 +3072,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#outer tr:contains(基本資訊)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(6)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -3257,7 +3257,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(5)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -3302,7 +3302,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -3432,7 +3432,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -3579,7 +3579,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+font+table>tbody>tr:nth-child(5)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -3733,7 +3733,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -3819,7 +3819,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.new.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -4026,7 +4026,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -4150,7 +4150,7 @@
       "asSource": true,
       "asTarget": true,
       "uploadPath": "/upload.php",
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(5)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(5)",
       "search": {
         "path": "/torrents.php",
         "imdbOptionKey": "4",
@@ -4195,7 +4195,7 @@
       "siteType": "NexusPHP",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#top+table>tbody>tr:nth-child(3)",
+      "seedDomSelector": "#top~table:first>tbody>tr:nth-child(3)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",
@@ -4313,7 +4313,7 @@
       "siteType": "TTG",
       "asSource": true,
       "asTarget": true,
-      "seedDomSelector": "#main_table h1+table>tbody>tr:nth-child(2)",
+      "seedDomSelector": "#main_table h1~table:first>tbody>tr:nth-child(2)",
       "uploadPath": "/upload.php",
       "search": {
         "path": "/browse.php",

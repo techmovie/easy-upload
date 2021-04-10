@@ -3,7 +3,7 @@ host: totheglory.im
 siteType: TTG
 asSource: true
 asTarget: true
-seedDomSelector: '#main_table h1+table>tbody>tr:nth-child(2)' 
+seedDomSelector: '#main_table h1~table:first>tbody>tr:nth-child(2)' 
 uploadPath: /upload.php
 search: 
   path: /browse.php

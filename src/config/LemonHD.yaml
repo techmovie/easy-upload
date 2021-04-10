@@ -3,7 +3,7 @@ host: lemonhd.org
 siteType: NexusPHP
 asSource: true
 asTarget: true
-seedDomSelector: '#outer>table>tbody>tr:nth-child(5)'
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
 uploadPath: /upload_movie.php
 search: 
   path: /torrents.php

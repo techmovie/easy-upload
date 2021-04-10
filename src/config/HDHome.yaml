@@ -4,7 +4,7 @@ siteType: NexusPHP
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#outer tr:contains(基本信息)' 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
 search: 
   path: /torrents.php
   imdbOptionKey: '4'
