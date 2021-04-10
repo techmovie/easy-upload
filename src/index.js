@@ -368,11 +368,11 @@ const fillSearchImdb = () => {
 const insertTorrentPage = () => {
   let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
   const searchList = getSearchList();
-  const searchListDom = `<td class="rowhead nowrap title-td">
+  const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
   <h4>快速检索</h4>
   </td>
-  <td class="rowfollow"> 
-  <ul class="search-list">
+  <td class="rowfollow detailshash"> 
+  <ul class="search-list ">
     ${searchList.join('')}
   </ul>
   </td>`;
@@ -388,6 +388,19 @@ const insertTorrentPage = () => {
     ${easySeedTitleDom}
     </td>
     <td class="rowfollow easy-seed-td"></td>
+    </tr>
+    <tr>
+    ${searchListDom}
+    </tr>`;
+    torrentInsertDom.after(trDom);
+    torrentInsertDom = $('.easy-seed-td');
+  }
+  if (CURRENT_SITE_NAME === 'HDT') {
+    const trDom = `<tr>
+    <td class="detailsleft" title-td" align="right">
+    ${easySeedTitleDom}
+    </td>
+    <td class="detailshash easy-seed-td" align="center"></td>
     </tr>
     <tr>
     ${searchListDom}

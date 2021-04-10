@@ -746,6 +746,8 @@ const htmlToBBCode = (node) => {
             } else {
               pp('\n[quote]', '[/quote]'); break;
             }
+          } else if (node.className === 'hidden' && CURRENT_SITE_NAME === 'HDT') {
+            pp('\n[quote]', '[/quote]'); break;
           } else {
             pp('\n', '\n'); break;
           }
@@ -765,8 +767,11 @@ const htmlToBBCode = (node) => {
         case 'FIELDSET': {
           pp('[quote]', '[/quote]'); break;
         }
+        case 'CENTER': {
+          pp('[center]', '[/center]'); break;
+        }
         case 'TD': {
-          if (CURRENT_SITE_NAME.match(/TTG|HDBits/)) {
+          if (CURRENT_SITE_NAME.match(/TTG|HDBits/) || CURRENT_SITE_NAME === 'HDT') {
             pp('[quote]', '[/quote]'); break;
           } else {
             return '';
@@ -778,7 +783,7 @@ const htmlToBBCode = (node) => {
           const dataSrc = node.getAttribute('data-src') || node.getAttribute('data-echo');
           if (dataSrc) {
             imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : location.origin + '/' + dataSrc;
-          } else if (src && !src.match(/ico_\w+.gif|jinzhuan/)) {
+          } else if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
             imgUrl = src;
           } else {
             return '';
@@ -796,9 +801,9 @@ const htmlToBBCode = (node) => {
           break;
         }
         case 'A': {
-          const { href } = node;
+          const { href, textContent } = node;
           if (href && href.length > 0) {
-            if (href.match(/javascript:void/)) {
+            if (href.match(/javascript:void/) || (textContent === 'show' && CURRENT_SITE_NAME === 'HDT')) {
               return '';
             } else {
               pp(`[url=${href}]`, '[/url]');
@@ -828,7 +833,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\])/)) {
+      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\])/)) {
         return '';
       }
       return node.textContent;
@@ -889,7 +894,7 @@ const getBDInfoFromBBCode = (bbcode) => {
     });
   }
   if (!bdInfo) {
-    bdInfo = bbcode.match(/Disc\s+(Title|Label)[^[]+/i)?.[0] ?? '';
+    bdInfo = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)?.[0] ?? '';
   }
   return bdInfo;
 };

@@ -405,7 +405,7 @@ const filterNexusDescription = (info) => {
 };
 const getThanksQuote = (info) => {
   const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === 'HDPOST';
-  let thanksQuote = `转发自[b]${info.sourceSite}[/b]，感谢原发布者！`;
+  let thanksQuote = `转自[b]${info.sourceSite}[/b]，感谢原发布者！`;
   if (!isChineseSite) {
     thanksQuote = `Torrent from [b]${info.sourceSite}[/b].\nAll thanks to the original uploader！`;
   }
@@ -417,7 +417,18 @@ const isChineseTacker = (siteType) => {
 };
 // 过滤空标签
 const filterEmptyTags = (description) => {
-  return description.replace(/(\[\w+(=(\w|\s)+)?\](\s|\n)*)+(\s|\n)*(\[\/\w+\](\s|\n)*)+/g, '');
+  // eslint-disable-next-line prefer-regex-literals
+  const reg = new RegExp('\\[(\\w+)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
+  if (description.match(reg)) {
+    description = description.replace(reg, function (match, p1, p2) {
+      if (p1 === p2) {
+        return '';
+      }
+    });
+    return filterEmptyTags(description);
+  } else {
+    return description;
+  }
 };
 // 北洋特殊处理
 const handleTJUPT = (info) => {

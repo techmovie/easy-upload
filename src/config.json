@@ -2586,8 +2586,10 @@
       "url": "https://hd-torrents.org",
       "host": "hd-torrents.org",
       "siteType": "HDT",
-      "asSource": false,
+      "asSource": true,
       "asTarget": true,
+      "seedDomSelector": ".listadetails>tbody>tr:nth-child(2)",
+      "needDoubanInfo": true,
       "uploadPath": "/upload.php",
       "search": {
         "path": "/torrents.php",

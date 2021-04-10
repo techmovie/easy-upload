@@ -58,7 +58,7 @@
 |  HDPOST   |             ✅              |               ✅                |
 |  HDRoute  |             ❌              |               ✅                |
 |   HDSky   |             ✅              |               ✅                |
-|    HDT    |             ❌              |               ✅                |
+|    HDT    |             ✅              |               ✅                |
 |    HDU    |             ✅              |               ✅                |
 | KEEPFRDS  |             ✅              |               ❌                |
 |  LemonHD  |             ✅              |               ✅                |

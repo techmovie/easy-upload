@@ -125,9 +125,10 @@ const getCategoryAndArea = (mediaInfo) => {
     videoType,
   };
 };
-// 获取logs 完整bdinfo或mediainfo
+// 获取完整bdinfo或mediainfo
 const getBDInfoOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g); let bdinfo = ''; let mediaInfo = '';
+  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) || [];
+  let bdinfo = ''; let mediaInfo = '';
   for (let i = 0; i < quoteList.length; i++) {
     const quoteContent = formatQuoteContent(quoteList[i]);
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
