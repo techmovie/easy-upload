@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         easy-seed PT一键转种
 // @namespace    https://github.com/techmovie/easy-seed
-// @version      1.1.4
+// @version      1.2.0
 // @description  easy seeding for different trackers
 // @author       birdplane
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
@@ -29,12 +29,135 @@
 // @grant        GM_setValue
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
+// @license      MIT
 // ==/UserScript==
 (() => {
   var __assign = Object.assign;
 
-  // src/config.yaml
+  // src/config.json
   var PT_SITE = {
+    "1PTBA": {
+      url: "https://1ptba.com",
+      host: "1ptba.com",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          x264: "1",
+          hevc: "10",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "18",
+          dd: "18",
+          "dd+": "18",
+          flac: "1",
+          dts: "3",
+          truehd: "20",
+          lpcm: "21",
+          dtshdma: "19",
+          atmos: "19",
+          dtsx: "3",
+          ape: "2",
+          wav: "22",
+          mp3: "4",
+          m4a: "5",
+          other: "7"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "10",
+          bluray: "13",
+          remux: "3",
+          encode: "7",
+          web: "11",
+          hdtv: "5",
+          dvd: "2",
+          dvdrip: "7",
+          other: "12",
+          cd: "8"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "11",
+          "2160p": "10",
+          "1080p": "2",
+          "1080i": "2",
+          "720p": "4",
+          "576p": "5",
+          "480p": "5"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          "1ptba": "1",
+          chd: "2",
+          mysilu: "3",
+          wiki: "4",
+          other: "5"
+        }
+      }
+    },
     ACM: {
       url: "https://asiancinema.me",
       host: "asiancinema.me",
@@ -148,278 +271,13 @@
         }
       }
     },
-    KG: {
-      url: "https://karagarga.in",
-      host: "karagarga.in",
-      siteType: "KG",
-      asSource: false,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/browse.php",
-        imdbOptionKey: "imdb",
-        nameOptionKey: "title",
-        params: {
-          search: "{imdb}",
-          search_type: "{optionKey}",
-          sort: "size",
-          d: "DESC"
-        }
-      }
-    },
-    FL: {
-      url: "https://filelist.io",
-      host: "filelist.io",
-      siteType: "FL",
-      asSource: false,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/browse.php",
-        imdbOptionKey: "3",
-        nameOptionKey: "0",
-        params: {
-          search: "{imdb}",
-          searchin: "{optionKey}",
-          sort: "3"
-        }
-      }
-    },
-    HDT: {
-      url: "https://hd-torrents.org",
-      host: "hd-torrents.org",
-      siteType: "HDT",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "2",
-        nameOptionKey: "3",
-        params: {
-          search: "{imdb}",
-          options: "{optionKey}",
-          order: "size",
-          by: "DESC"
-        }
-      },
-      name: {
-        selector: 'input[name="filename"]'
-      },
-      imdb: {
-        selector: 'input[name="infosite"]'
-      },
-      description: {
-        selector: 'textarea[name="info"]'
-      },
-      tags: {
-        HDR: 'input[name="HDR10"]',
-        "HDR10+": 'input[name="HDR10Plus"]',
-        DolbyVision: 'input[name="DolbyVision"]'
-      },
-      anonymous: {
-        selector: 'input[name="anonymous"][value="true"]'
-      },
-      category: {
-        selector: 'select[name="category"]',
-        map: {
-          movie: [
-            "70",
-            "1",
-            "71",
-            "2",
-            "64",
-            "5",
-            "3",
-            "63"
-          ],
-          tv: [
-            "72",
-            "59",
-            "73",
-            "60",
-            "65",
-            "30",
-            "38"
-          ],
-          tvPack: [
-            "72",
-            "59",
-            "73",
-            "60",
-            "65",
-            "30",
-            "38"
-          ],
-          documentary: [
-            "70",
-            "1",
-            "71",
-            "2",
-            "64",
-            "5",
-            "3",
-            "63"
-          ],
-          cartoon: [
-            "70",
-            "1",
-            "71",
-            "2",
-            "64",
-            "5",
-            "3",
-            "63"
-          ],
-          concert: [
-            "61",
-            "62",
-            "66",
-            "57",
-            "45",
-            "44"
-          ],
-          variety: [
-            "72",
-            "59",
-            "73",
-            "60",
-            "65",
-            "30",
-            "38"
-          ]
-        }
-      },
-      videoType: {
-        map: {
-          uhdbluray: [
-            "70",
-            "72"
-          ],
-          bluray: [
-            "1",
-            "59",
-            "61"
-          ],
-          remux: [
-            "71",
-            "2",
-            "62",
-            "73",
-            "60"
-          ],
-          encode: [
-            "64",
-            "5",
-            "3",
-            "65",
-            "30",
-            "38",
-            "66",
-            "57",
-            "45"
-          ],
-          web: [
-            "64",
-            "5",
-            "3",
-            "65",
-            "30",
-            "38",
-            "66",
-            "57",
-            "45"
-          ],
-          hdtv: [
-            "64",
-            "5",
-            "3",
-            "65",
-            "30",
-            "38",
-            "66",
-            "57",
-            "45"
-          ]
-        }
-      },
-      resolution: {
-        map: {
-          "2160p": [
-            "70",
-            "72",
-            "71",
-            "73",
-            "64",
-            "65",
-            "66"
-          ],
-          "1080p": [
-            "1",
-            "59",
-            "61",
-            "2",
-            "60",
-            "62",
-            "5",
-            "30",
-            "57"
-          ],
-          "1080i": [
-            "1",
-            "59",
-            "61",
-            "2",
-            "60",
-            "62",
-            "5",
-            "30",
-            "57"
-          ],
-          "720p": [
-            "3",
-            "38",
-            "45"
-          ]
-        }
-      }
-    },
-    UHDBits: {
-      url: "https://uhdbits.org",
-      host: "uhdbits.org",
-      siteType: "gazelle",
-      asSource: false,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        params: {
-          order_way: "desc",
-          order_by: "size",
-          searchstr: "{imdb}"
-        }
-      }
-    },
-    "nzb.in": {
-      url: "https://nzbs.in",
-      host: "nzbs.in",
-      siteType: "nzb",
-      asSource: false,
-      asTarget: false,
-      search: {
-        path: "/search/{name}",
-        params: {
-          t: -1,
-          ob: "size_desc"
-        }
-      }
-    },
-    SoulVoice: {
-      url: "https://pt.soulvoice.club",
-      host: "soulvoice.club",
+    BTSCHOOL: {
+      url: "https://pt.btschool.club",
+      host: "btschool.club",
       siteType: "NexusPHP",
-      asSource: false,
+      asSource: true,
       asTarget: true,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
@@ -442,46 +300,82 @@
       description: {
         selector: "#descr"
       },
+      poster: 'input[name="picture"]',
       imdb: {
-        selector: 'input[name="url"][type="text"]'
+        selector: 'input[name="imdbid"]'
       },
-      anonymous: {
-        selector: 'input[name="uplver"]'
+      douban: {
+        selector: 'input[name="doubanid"]'
+      },
+      tags: {
+        chineseAudio: 'input[type="checkbox"][name="span[]"][value="5"]',
+        chineseSubtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
       },
       category: {
         selector: "#browsecat",
         map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          cartoon: "405",
-          sport: "407",
-          concert: "406",
-          variety: "403"
+          movie: "405",
+          tv: "406",
+          tvPack: "406",
+          documentary: "408",
+          concert: "409",
+          sport: "410",
+          cartoon: "407",
+          variety: "412"
         }
       },
       videoCodec: {
         selector: 'select[name="codec_sel"]',
         map: {
           h264: "1",
-          hevc: "2",
-          h265: "2",
           x264: "1",
-          x265: "2",
-          mpeg2: "5",
+          hevc: "10",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
           mpeg4: "1",
-          vc1: "5",
-          xvid: "5"
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "10",
+          dd: "10",
+          "dd+": "10",
+          flac: "1",
+          dts: "3",
+          truehd: "11",
+          lpcm: "5",
+          dtshdma: "3",
+          atmos: "3",
+          dtsx: "3"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "12",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "10",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "11"
         }
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
         map: {
-          "2160p": "3",
+          "2160p": "5",
           "1080p": "1",
-          "1080i": "2",
-          "720p": "4",
+          "1080i": "1",
+          "720p": "3",
           "576p": "4",
           "480p": "4"
         }
@@ -489,128 +383,18 @@
       team: {
         selector: 'select[name="team_sel"]',
         map: {
-          hds: "1",
-          chd: "2",
-          frds: "3",
-          cmct: "4",
-          other: "5"
-        }
-      }
-    },
-    HDRoute: {
-      url: "http://hdroute.org",
-      host: "hdroute.org",
-      siteType: "NexusPHP",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/browse.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        replaceKey: [
-          "tt",
-          ""
-        ],
-        params: {
-          s: "{name}",
-          dp: "0",
-          add: "0",
-          action: "s",
-          or: "4",
-          imdb: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#title_eng"
-      },
-      subtitle: {
-        selector: 'input[name="title_sub"]'
-      },
-      description: {
-        selector: 'textarea[name="description"]'
-      },
-      poster: 'input[name="poster_big"]',
-      imdb: {
-        selector: "#upload-imdb_url"
-      },
-      anonymous: {
-        selector: 'input[name="is_anonymous"]'
-      },
-      tags: {
-        chineseAudio: 'input[name="is_mandrain"]',
-        cantoneseAudio: 'input[name="is_cantonese"]',
-        DIY: 'input[name="is_diyed"]',
-        chineseSubtitle: 'input[name="is_chs_sub_incl"]'
-      },
-      category: {
-        selector: "#type_category",
-        map: {
-          movie: "1",
-          tv: "3",
-          tvPack: "3",
-          documentary: "2",
-          concert: "5",
-          sport: "6",
-          cartoon: "4",
-          variety: "9"
-        }
-      },
-      videoCodec: {
-        selector: "#type_codec",
-        map: {
-          h264: "1",
-          hevc: "7",
-          x264: "1",
-          x265: "7",
-          h265: "7",
-          mpeg2: "3",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "4",
-          dvd: "3"
-        }
-      },
-      audioCodec: {
-        selector: "#type_audio",
-        map: {
-          aac: "9",
-          ac3: "5",
-          dd: "5",
-          "dd+": "5",
-          flac: "7",
-          dts: "4",
-          truehd: "3",
-          lpcm: "1",
-          dtshdma: "2",
-          atmos: "2",
-          dtsx: "4"
-        }
-      },
-      videoType: {
-        selector: "#type_medium",
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "2",
-          encode: "4",
-          web: "6",
-          hddvd: "6",
-          hdtv: "3",
-          dvd: "6",
-          dvdrip: "6",
-          other: "6"
-        }
-      },
-      resolution: {
-        selector: "#type_resolution",
-        map: {
-          "2160p": "7",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "4",
-          "576p": "6",
-          "480p": "6"
+          btschool: "1",
+          zone: "13",
+          btshd: "2",
+          btstv: "3",
+          btspad: "4",
+          wiki: "5",
+          hdchina: "6",
+          hdbint: "7",
+          mteam: "9",
+          cmct: "10",
+          ourbits: "11",
+          other: "12"
         }
       }
     },
@@ -631,15 +415,250 @@
         }
       }
     },
-    HDPOST: {
-      url: "https://pt.hdpost.top",
-      host: "hdpost.top",
+    BeiTai: {
+      url: "https://www.beitai.pt",
+      host: "beitai.pt",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: false,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      }
+    },
+    BeyondHD: {
+      url: "https://beyond-hd.me",
+      host: "beyond-hd.me",
+      siteType: "F3NIX",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: ".table-details tr:last",
+      needDoubanInfo: true,
+      uploadPath: "/upload",
+      search: {
+        path: "/torrents/all",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          imdb: "{imdb}",
+          search: "{name}",
+          sorting: "size",
+          direction: "desc",
+          doSearch: "Search"
+        }
+      },
+      name: {
+        selector: "#title"
+      },
+      description: {
+        selector: "#upload-form-description"
+      },
+      imdb: {
+        selector: "#imdbauto"
+      },
+      tmdb: {
+        selector: "#tmdbauto"
+      },
+      mediaInfo: {
+        selector: "#mediainfo"
+      },
+      anonymous: {
+        selector: 'input[name="anonymous"]'
+      },
+      videoType: {
+        selector: "#category_id",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2"
+        }
+      },
+      category: {
+        selector: "#autotype",
+        map: {
+          BD100: "UHD 100",
+          BD66: "UHD 66",
+          UHD50: "UHD 50",
+          BD50: "BD 50",
+          BD25: "BD 25",
+          remux: [
+            "UHD Remux",
+            "BD Remux",
+            "DVD Remux"
+          ],
+          encode: [
+            "2160p",
+            "1080p",
+            "720p",
+            "576p",
+            "540p",
+            "480p"
+          ],
+          web: [
+            "2160p",
+            "1080p",
+            "720p",
+            "576p",
+            "540p",
+            "480p"
+          ],
+          hdtv: [
+            "2160p",
+            "1080p",
+            "1080i",
+            "720p"
+          ],
+          dvd: [
+            "DVD 9",
+            "DVD 5",
+            "DVD Remux"
+          ],
+          dvdrip: [
+            "480p"
+          ],
+          other: ""
+        }
+      },
+      source: {
+        selector: "#autosource",
+        map: {
+          uhdbluray: [
+            "Blu-ray"
+          ],
+          bluray: [
+            "Blu-ray",
+            "BD 50",
+            "BD 25",
+            "BD Remux",
+            "UHD 100",
+            "UHD 66",
+            "UHD 50",
+            "UHD Remux",
+            "2160p",
+            "1080p",
+            "720p",
+            "576p",
+            "540p",
+            "480p"
+          ],
+          hdtv: [
+            "HDTV",
+            "2160p",
+            "1080p",
+            "1080i",
+            "720p"
+          ],
+          dvd: [
+            "DVD",
+            "DVD 9",
+            "DVD 5",
+            "DVD Remux",
+            "480p"
+          ],
+          web: [
+            "WEB",
+            "2160p",
+            "1080p",
+            "720p",
+            "576p",
+            "540p",
+            "480p"
+          ],
+          hddvd: "HD-DVD"
+        }
+      },
+      resolution: {
+        map: {
+          "2160p": [
+            "UHD 100",
+            "UHD 66",
+            "UHD 50",
+            "UHD Remux",
+            "2160p"
+          ],
+          "1080p": [
+            "BD 50",
+            "BD 25",
+            "BD Remux",
+            "1080p"
+          ],
+          "1080i": [
+            "BD 50",
+            "BD 25",
+            "BD Remux",
+            "1080i"
+          ],
+          "720p": [
+            "720p"
+          ],
+          "576p": [
+            "576p"
+          ],
+          "540p": [
+            "540p"
+          ],
+          "480p": [
+            "DVD 9",
+            "DVD 5",
+            "DVD Remux",
+            "480p"
+          ],
+          other: [
+            "Other"
+          ]
+        }
+      }
+    },
+    Bib: {
+      url: " https://bibliotik.me",
+      host: "bibliotik.me",
+      siteType: "Bib",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload",
+      name: {
+        selector: "#TitleField"
+      },
+      description: {
+        selector: "#DescriptionField"
+      },
+      anonymous: {
+        selector: "#AnonymousField"
+      },
+      image: {
+        selector: "#ImageField"
+      },
+      format: {
+        selector: "#FormatField",
+        map: {
+          epub: "15",
+          mobi: "16",
+          pdf: "2",
+          azw3: "21"
+        }
+      }
+    },
+    Blutopia: {
+      url: "https://blutopia.xyz",
+      host: "blutopia.xyz",
       siteType: "UNIT3D",
       asSource: true,
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: "#vue+.panel table>tbody>tr:last",
+      seedDomSelector: "#vue+.panel table tr:last",
       search: {
         path: "/torrents",
         params: {
@@ -678,8 +697,8 @@
         map: {
           uhdbluray: "1",
           bluray: "1",
-          remux: "2",
-          encode: "3",
+          remux: "3",
+          encode: "12",
           web: "4",
           hdtv: "6",
           dvd: "1",
@@ -690,267 +709,13 @@
       resolution: {
         selector: "#autores",
         map: {
-          "4320p": "1",
-          "2160p": "2",
-          "1080p": "3",
-          "1080i": "4",
+          "4320p": "11",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "3",
           "720p": "5",
           "576p": "6",
           "480p": "8"
-        }
-      }
-    },
-    HDBits: {
-      url: "https://hdbits.org",
-      host: "hdbits.org",
-      siteType: "HDB",
-      asSource: true,
-      asTarget: true,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#details >tbody >tr:contains(Last seeded)",
-      search: {
-        path: "/browse.php",
-        params: {
-          sort: "size",
-          d: "DESC",
-          search: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: "#imdb"
-      },
-      mediaInfo: {
-        selector: 'textarea[name="techinfo"]'
-      },
-      category: {
-        selector: "#type_category",
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2",
-          documentary: "3",
-          concert: "4",
-          sport: "5",
-          cartoon: "1"
-        }
-      },
-      videoCodec: {
-        selector: "#type_codec",
-        map: {
-          h264: "1",
-          h265: "5",
-          hevc: "5",
-          x264: "1",
-          x265: "5",
-          mpeg2: "2",
-          vc1: "3",
-          xvid: "4",
-          bluray: "1",
-          uhdbluray: "5",
-          vp9: "6"
-        }
-      },
-      videoType: {
-        selector: "#type_medium",
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "5",
-          encode: "3",
-          web: "6",
-          hdtv: "4"
-        }
-      }
-    },
-    MTeam: {
-      url: "https://kp.m-team.cc",
-      host: "m-team.cc",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#outer tr:contains(\u57FA\u672C\u8CC7\u8A0A)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      tags: {
-        chineseAudio: "#l_dub",
-        DIY: "#l_diy",
-        chineseSubtitle: "#l_sub"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: [
-            "401",
-            "419",
-            "420",
-            "421",
-            "439"
-          ],
-          tv: [
-            "403",
-            "402",
-            "435",
-            "438"
-          ],
-          tvPack: [
-            "403",
-            "402",
-            "435",
-            "438"
-          ],
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          app: "422",
-          ebook: "427",
-          magazine: "427",
-          audioBook: "427"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "16",
-          h265: "16",
-          x264: "1",
-          x265: "16",
-          mpeg2: "4",
-          mpeg4: "15",
-          vc1: "2",
-          xvid: "3"
-        }
-      },
-      videoType: {
-        map: {
-          uhdbluray: [
-            "421",
-            "438"
-          ],
-          bluray: [
-            "421",
-            "438"
-          ],
-          remux: "439",
-          encode: [
-            "401",
-            "419",
-            "403",
-            "402"
-          ],
-          web: [
-            "419",
-            "402"
-          ],
-          hdtv: [
-            "419",
-            "402"
-          ],
-          dvd: [
-            "420",
-            "435"
-          ],
-          dvdrip: [
-            "401",
-            "403"
-          ],
-          other: ""
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": [
-            "6",
-            "419",
-            "402"
-          ],
-          "1080p": [
-            "1",
-            "419",
-            "402"
-          ],
-          "1080i": [
-            "2",
-            "419",
-            "402"
-          ],
-          "720p": [
-            "3",
-            "419",
-            "402"
-          ],
-          "576p": [
-            "5",
-            "401",
-            "403"
-          ],
-          "480p": [
-            "5",
-            "401",
-            "403"
-          ]
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "1",
-          US: "2",
-          EU: "2",
-          HK: "3",
-          TW: "3",
-          JP: "4",
-          KR: "5",
-          OT: "6"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          mteam: "9",
-          mpad: "10",
-          tnp: "23",
-          mteamtv: "17",
-          kishd: "7",
-          bmdru: "6",
-          onehd: "18",
-          cnhk: "19",
-          stbox: "20",
-          r2hd: "21",
-          pack: "8",
-          geek: "24"
         }
       }
     },
@@ -1111,238 +876,106 @@
         }
       }
     },
-    TTG: {
-      url: "https://totheglory.im",
-      host: "totheglory.im",
-      siteType: "TTG",
+    DiscFan: {
+      url: "https://discfan.net",
+      host: "discfan.net",
+      siteType: "NexusPHP",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#main_table h1+table>tbody>tr:nth-child(2)",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       uploadPath: "/upload.php",
       search: {
-        path: "/browse.php",
-        replaceKey: [
-          "tt",
-          "imdb"
-        ],
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
         params: {
-          search_field: "{imdb}",
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
           sort: "5",
-          type: "desc",
-          c: "M"
+          type: "desc"
         }
       },
       name: {
-        selector: 'input[name="name"]'
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
       },
       description: {
         selector: 'textarea[name="descr"]'
       },
       imdb: {
-        selector: 'input[name="imdb_c"]'
+        selector: 'input[name="url"][type="text"]'
       },
-      anonymous: {
-        selector: 'select[name="anonymity"]',
-        value: "yes"
+      douban: {
+        selector: 'input[name="douban_url"]'
       },
       category: {
-        selector: 'select[name="type"]',
+        selector: "#browsecat1",
         map: {
-          movie: [
-            "51",
-            "52",
-            "53",
-            "54",
-            "108",
-            "109"
-          ],
-          tv: [
-            "69",
-            "70",
-            "73",
-            "74",
-            "75",
-            "76"
-          ],
-          tvPack: [
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          documentary: [
-            "62",
-            "63",
-            "67"
-          ],
-          concert: "59",
-          sport: "57",
-          cartoon: "58",
-          variety: [
-            "103",
-            "60",
-            "101"
-          ]
+          tv: "411",
+          tvPack: "411",
+          documentary: "413",
+          cartoon: "419",
+          sport: "417",
+          concert: "414",
+          variety: "416"
         }
       },
       videoType: {
+        selector: 'select[name="source_sel"]',
         map: {
-          uhdbluray: [
-            "109"
-          ],
-          bluray: [
-            "54",
-            "109",
-            "67"
-          ],
-          remux: [
-            "53",
-            "108",
-            "63",
-            "70",
-            "75"
-          ],
-          encode: [
-            "53",
-            "63",
-            "70",
-            "75",
-            "52",
-            "62",
-            "69",
-            "76",
-            "108"
-          ],
-          web: [
-            "53",
-            "62",
-            "63",
-            "70",
-            "75",
-            "52",
-            "69",
-            "76",
-            "108",
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          hdtv: [
-            "53",
-            "63",
-            "70",
-            "75",
-            "52",
-            "62",
-            "69",
-            "76",
-            "108",
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          dvd: [
-            "51"
-          ],
-          dvdrip: [
-            "51"
-          ],
-          other: ""
-        }
-      },
-      resolution: {
-        map: {
-          "2160p": [
-            "108",
-            "109",
-            "67"
-          ],
-          "1080p": [
-            "53",
-            "63",
-            "70",
-            "75",
-            "54",
-            "67",
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          "1080i": [
-            "53",
-            "63",
-            "70",
-            "75",
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          "720p": [
-            "52",
-            "62",
-            "69",
-            "76",
-            "87",
-            "88",
-            "99",
-            "90"
-          ],
-          "576p": "51",
-          "480p": "51"
+          uhdbluray: "2",
+          bluray: "3",
+          remux: "0",
+          encode: "0",
+          web: "9",
+          hdtv: "1",
+          dvd: "4",
+          hddvd: "4",
+          dvdrip: "10",
+          other: "0"
         }
       },
       area: {
+        selector: "#browsecat",
         map: {
-          CN: [
-            "76",
-            "75",
-            "90"
-          ],
-          US: [
-            "69",
-            "70",
-            "87"
-          ],
-          EU: [
-            "69",
-            "70",
-            "87"
-          ],
-          HK: [
-            "76",
-            "75",
-            "90"
-          ],
-          TW: [
-            "76",
-            "75",
-            "90"
-          ],
-          JP: [
-            "73",
-            "88",
-            "101"
-          ],
-          KR: [
-            "74",
-            "99",
-            "103"
-          ],
-          OT: ""
+          CN: "401",
+          US: "410",
+          EU: "410",
+          HK: "404",
+          TW: "405",
+          JP: "403",
+          KR: "406"
         }
       }
     },
-    SSD: {
-      url: "https://springsunday.net",
-      host: "springsunday.net",
+    FL: {
+      url: "https://filelist.io",
+      host: "filelist.io",
+      siteType: "FL",
+      asSource: false,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/browse.php",
+        imdbOptionKey: "3",
+        nameOptionKey: "0",
+        params: {
+          search: "{imdb}",
+          searchin: "{optionKey}",
+          sort: "3"
+        }
+      }
+    },
+    HD4FANS: {
+      url: "https://pt.hd4fans.org",
+      host: "hd4fans.org",
       siteType: "NexusPHP",
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload.new.php",
+      uploadPath: "/upload.php",
       seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       search: {
         path: "/torrents.php",
@@ -1360,35 +993,133 @@
         selector: "#name"
       },
       subtitle: {
-        selector: "#small_descr"
+        selector: 'input[name="small_descr"]'
       },
       description: {
         selector: "#descr"
       },
-      poster: "#url_poster",
       imdb: {
-        selector: "#url"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      mediaInfo: {
-        selector: "#Media_BDInfo"
-      },
-      screenshots: {
-        selector: "#url_vimages"
+        selector: 'input[name="url"][type="text"]'
       },
       category: {
         selector: "#browsecat",
         map: {
-          movie: "501",
-          tv: "502",
-          tvPack: "502",
-          documentary: "503",
-          concert: "507",
-          sport: "506",
-          cartoon: "504",
-          variety: "505"
+          movie: "401",
+          tv: "403",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "405"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          hddvd: "2",
+          remux: "3",
+          encode: "7",
+          web: "7",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: ""
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "10",
+          x264: "1",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "5",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          chd: "2",
+          mysilu: "3",
+          wiki: "4",
+          other: "5",
+          cmct: "6",
+          r2ts: "7",
+          kbits: "8"
+        }
+      }
+    },
+    HDAI: {
+      url: "http://www.hd.ai",
+      host: "hd.ai",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/Torrents.upload",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      search: {
+        path: "/Torrents.index",
+        imdbOptionKey: "9",
+        nameOptionKey: "1",
+        params: {
+          name: "{name}",
+          search_area: "{optionKey}",
+          imdb: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      poster: 'input[name="poster"]',
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="nfo"]'
+      },
+      screenshots: {
+        selector: 'textarea[name="screenshot"]'
+      },
+      tags: {
+        chineseAudio: 'input[type="checkbox"][name="tag[cn]"]',
+        chineseSubtitle: 'input[type="checkbox"][name="tag[zz]"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2",
+          documentary: "4",
+          concert: "6",
+          sport: "7",
+          cartoon: "5",
+          variety: "3"
         }
       },
       videoCodec: {
@@ -1399,27 +1130,340 @@
           x264: "2",
           x265: "1",
           h265: "1",
-          mpeg2: "4",
+          mpeg2: "5",
           mpeg4: "2",
           vc1: "3",
-          xvid: "",
-          dvd: "4"
+          xvid: "4",
+          dvd: "5"
         }
       },
       audioCodec: {
         selector: 'select[name="audiocodec_sel"]',
         map: {
-          aac: "5",
-          ac3: "4",
-          dd: "4",
-          "dd+": "4",
+          aac: "10",
+          ac3: "11",
+          dd: "11",
+          "dd+": "11",
           flac: "7",
-          dts: "3",
-          truehd: "2",
+          dts: "5",
+          truehd: "4",
           lpcm: "6",
-          dtshdma: "1",
+          dtshdma: "2",
           atmos: "3",
-          dtsx: "3"
+          dtsx: "1"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "2",
+          remux: "3",
+          encode: "5",
+          web: "4",
+          hdtv: "6",
+          dvd: "7",
+          dvdrip: "10",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "1",
+          "2160p": "2",
+          "1080p": "3",
+          "1080i": "4",
+          "720p": "5",
+          "576p": "6",
+          "480p": "6"
+        }
+      },
+      area: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          CN: "1",
+          US: "2",
+          EU: "2",
+          HK: "3",
+          TW: "3",
+          JP: "4",
+          KR: "5",
+          OT: "6"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          other: "1",
+          ao: "20",
+          beitai: "18",
+          beyondhd: "19",
+          beast: "23",
+          chd: "2",
+          chdbits: "3",
+          cmct: "4",
+          frds: "5",
+          fltth: "17",
+          hdai: "6",
+          hdchina: "7",
+          hdhome: "8",
+          hdsky: "9",
+          lemonhd: "28",
+          leaguehd: "29",
+          mteam: "10",
+          nypt: "24",
+          ngb: "26",
+          ourtv: "11",
+          ourbits: "12",
+          pter: "13",
+          pthome: "14",
+          putao: "22",
+          strife: "21",
+          tjupt: "15",
+          ttg: "16",
+          tlf: "30",
+          u2: "31",
+          wiki: "25"
+        }
+      }
+    },
+    HDArea: {
+      url: "https://www.hdarea.co",
+      host: "hdarea.co",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="dburl"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: [
+            "300",
+            "401",
+            "415",
+            "416",
+            "410",
+            "411",
+            "414",
+            "412",
+            "413",
+            "417"
+          ],
+          tv: [
+            "402",
+            "403"
+          ],
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "7",
+          x264: "7",
+          hevc: "6",
+          x265: "6",
+          h265: "6",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "0",
+          dvd: "0"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "11",
+          dd: "5",
+          "dd+": "4",
+          flac: "1",
+          dts: "3",
+          truehd: "7",
+          lpcm: "8",
+          dtshdma: "4",
+          atmos: "10",
+          dtsx: "0"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: [
+            "1",
+            "300"
+          ],
+          bluray: [
+            "1",
+            "401"
+          ],
+          remux: [
+            "3",
+            "415"
+          ],
+          encode: "7",
+          web: [
+            "9",
+            "412"
+          ],
+          hdtv: [
+            "5",
+            "413"
+          ],
+          dvd: [
+            "2",
+            "414"
+          ],
+          dvdrip: "6",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": [
+            "1",
+            "410"
+          ],
+          "1080i": "2",
+          "720p": [
+            "3",
+            "411"
+          ],
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          epic: "1",
+          hdarea: "2",
+          hdwing: "3",
+          wiki: "4",
+          ttg: "5",
+          other: "6",
+          mteam: "7",
+          hdapad: "8",
+          chd: "9",
+          hdaccess: "10",
+          hdatv: "11",
+          cxcy: "12",
+          cmct: "13"
+        }
+      }
+    },
+    HDAtmos: {
+      url: "https://hdatmos.club",
+      host: "hdatmos.club",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          concert: "406"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "10",
+          h265: "10",
+          x264: "1",
+          x265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "20",
+          ac3: "22",
+          dd: "23",
+          "dd+": "23",
+          flac: "17",
+          dts: "14",
+          truehd: "13",
+          lpcm: "15",
+          dtshdma: "10",
+          atmos: "11",
+          dtsx: "12"
         }
       },
       videoType: {
@@ -1427,13 +1471,463 @@
         map: {
           uhdbluray: "1",
           bluray: "1",
-          remux: "4",
-          encode: "6",
-          web: "7",
+          remux: "3",
+          encode: "7",
+          web: "10",
           hdtv: "5",
-          dvd: "3",
-          dvdrip: "10",
-          other: ""
+          dvd: "6",
+          hddvd: "2",
+          dvdrip: "13",
+          other: "13"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "15",
+          "2160p": "10",
+          "1080p": "11",
+          "1080i": "12",
+          "720p": "13",
+          "576p": "14",
+          "480p": "14"
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "3",
+          US: "4",
+          EU: "8",
+          HK: "5",
+          TW: "3",
+          JP: "5",
+          KR: "6",
+          OT: "9"
+        }
+      },
+      source: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: "6",
+          bluray: "6",
+          hdtv: "3",
+          dvd: "8",
+          web: "2",
+          vhs: "12",
+          hddvd: "7"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          other: "22"
+        }
+      }
+    },
+    HDBits: {
+      url: "https://hdbits.org",
+      host: "hdbits.org",
+      siteType: "HDB",
+      asSource: true,
+      asTarget: true,
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#details >tbody >tr:contains(Last seeded)",
+      search: {
+        path: "/browse.php",
+        params: {
+          sort: "size",
+          d: "DESC",
+          search: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: "#imdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="techinfo"]'
+      },
+      category: {
+        selector: "#type_category",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2",
+          documentary: "3",
+          concert: "4",
+          sport: "5",
+          cartoon: "1"
+        }
+      },
+      videoCodec: {
+        selector: "#type_codec",
+        map: {
+          h264: "1",
+          h265: "5",
+          hevc: "5",
+          x264: "1",
+          x265: "5",
+          mpeg2: "2",
+          vc1: "3",
+          xvid: "4",
+          bluray: "1",
+          uhdbluray: "5",
+          vp9: "6"
+        }
+      },
+      videoType: {
+        selector: "#type_medium",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "5",
+          encode: "3",
+          web: "6",
+          hdtv: "4"
+        }
+      }
+    },
+    HDChina: {
+      url: "https://hdchina.org",
+      host: "hdchina.org",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: ".table_details>tbody>tr:nth-child(1)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      poster: "#cover",
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_id"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: [
+            "20",
+            "17",
+            "16",
+            "9",
+            "410",
+            "27"
+          ],
+          tv: [
+            "13",
+            "25",
+            "26",
+            "24",
+            "27"
+          ],
+          tvPack: [
+            "20",
+            "21",
+            "22",
+            "23",
+            "27"
+          ],
+          documentary: [
+            "20",
+            "5",
+            "27"
+          ],
+          concert: "402",
+          sport: "15",
+          cartoon: "14",
+          variety: "401"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "10",
+          x264: "6",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: [
+            "1",
+            "27"
+          ],
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "8",
+          dd: "8",
+          "dd+": "8",
+          dts: "3",
+          truehd: "13",
+          lpcm: "11",
+          dtshdma: "12",
+          atmos: "15",
+          dtsx: "14",
+          flac: "1"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: [
+            "11",
+            "20",
+            "410"
+          ],
+          bluray: [
+            "11",
+            "20"
+          ],
+          remux: "6",
+          encode: "5",
+          web: "21",
+          hdtv: "13",
+          dvd: "14",
+          dvdrip: "4",
+          other: "15"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": [
+            "17",
+            "13",
+            "25",
+            "26",
+            "24",
+            "21",
+            "22",
+            "23",
+            "410"
+          ],
+          "1080p": [
+            "11",
+            "17",
+            "13",
+            "25",
+            "26",
+            "24",
+            "21",
+            "22",
+            "23"
+          ],
+          "1080i": [
+            "12",
+            "16",
+            "13",
+            "25",
+            "26",
+            "24",
+            "21",
+            "22",
+            "23"
+          ],
+          "720p": [
+            "13",
+            "9",
+            "13",
+            "25",
+            "26",
+            "24",
+            "21",
+            "22",
+            "23"
+          ],
+          "576p": "15",
+          "480p": "15"
+        }
+      },
+      area: {
+        map: {
+          CN: [
+            "25",
+            "22"
+          ],
+          US: [
+            "13",
+            "21"
+          ],
+          EU: [
+            "13",
+            "21"
+          ],
+          HK: [
+            "25",
+            "22"
+          ],
+          TW: [
+            "25",
+            "22"
+          ],
+          JP: [
+            "24",
+            "23"
+          ],
+          KR: [
+            "26",
+            "23"
+          ]
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          hdchina: "15",
+          hdctv: "16",
+          ihd: "12",
+          hdwing: "10",
+          hdwtv: "11",
+          kishd: "17",
+          openmv: "7",
+          hdc: "22",
+          diy: "23",
+          khq: "6",
+          exren: "30",
+          joma: "26",
+          anonymous: "25",
+          crss: "24",
+          ebp: "18",
+          don: "19",
+          esir: "20",
+          trollhd: "29",
+          wiki: "9",
+          beast: "4",
+          cmct: "2",
+          ngb: "8",
+          lu9998: "21",
+          taichi: "28",
+          u2: "27",
+          enichi: "31",
+          arey: "32",
+          other: "5"
+        }
+      }
+    },
+    HDDolby: {
+      url: "https://www.hddolby.com",
+      host: "hddolby.com",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_id"]'
+      },
+      tags: {
+        chineseAudio: "#tag_gy",
+        DIY: "#tag_diy",
+        chineseSubtitle: "#tag_zz",
+        cantoneseAudio: "#tag_yy",
+        HDR: "#tag_hdr10",
+        "HDR10+": "#tag_hdrm",
+        DolbyVision: "#tag_db"
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          x264: "3",
+          hevc: "2",
+          x265: "4",
+          h265: "2",
+          mpeg2: "6",
+          mpeg4: "0",
+          vc1: "5",
+          xvid: "0",
+          dvd: "0"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "2",
+          remux: "3",
+          encode: "10",
+          web: "6",
+          hdtv: "5",
+          dvd: "8",
+          dvdrip: "8",
+          other: "0"
         }
       },
       resolution: {
@@ -1447,17 +1941,21 @@
           "480p": "5"
         }
       },
-      area: {
-        selector: 'select[name="source_sel"]',
+      team: {
+        selector: 'select[name="team_sel"]',
         map: {
-          CN: "1",
-          US: "9",
-          EU: "9",
-          HK: "2",
-          TW: "2",
-          JP: "10",
-          KR: "10",
-          OT: "3"
+          dream: "1",
+          hdo: "9",
+          dbtv: "10",
+          nazorip: "12",
+          mteam: "2",
+          frds: "7",
+          wiki: "4",
+          beast: "11",
+          chd: "5",
+          cmct: "6",
+          pthome: "3",
+          other: "8"
         }
       }
     },
@@ -1825,6 +2323,1015 @@
         }
       }
     },
+    HDPOST: {
+      url: "https://pt.hdpost.top",
+      host: "hdpost.top",
+      siteType: "UNIT3D",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload/1",
+      needDoubanInfo: true,
+      seedDomSelector: "#vue+.panel table>tbody>tr:last",
+      search: {
+        path: "/torrents",
+        params: {
+          name: "{name}",
+          imdb: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#title"
+      },
+      description: {
+        selector: "#upload-form-description"
+      },
+      imdb: {
+        selector: "#autoimdb"
+      },
+      tmdb: {
+        selector: "#autotmdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      anonymous: {
+        selector: '.radio-inline:first input[name="anonymous"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2"
+        }
+      },
+      videoType: {
+        selector: "#autotype",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "2",
+          encode: "3",
+          web: "4",
+          hdtv: "6",
+          dvd: "1",
+          dvdrip: "12",
+          other: ""
+        }
+      },
+      resolution: {
+        selector: "#autores",
+        map: {
+          "4320p": "1",
+          "2160p": "2",
+          "1080p": "3",
+          "1080i": "4",
+          "720p": "5",
+          "576p": "6",
+          "480p": "8"
+        }
+      }
+    },
+    HDRoute: {
+      url: "http://hdroute.org",
+      host: "hdroute.org",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/browse.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        replaceKey: [
+          "tt",
+          ""
+        ],
+        params: {
+          s: "{name}",
+          dp: "0",
+          add: "0",
+          action: "s",
+          or: "4",
+          imdb: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#title_eng"
+      },
+      subtitle: {
+        selector: 'input[name="title_sub"]'
+      },
+      description: {
+        selector: 'textarea[name="description"]'
+      },
+      poster: 'input[name="poster_big"]',
+      imdb: {
+        selector: "#upload-imdb_url"
+      },
+      anonymous: {
+        selector: 'input[name="is_anonymous"]'
+      },
+      tags: {
+        chineseAudio: 'input[name="is_mandrain"]',
+        cantoneseAudio: 'input[name="is_cantonese"]',
+        DIY: 'input[name="is_diyed"]',
+        chineseSubtitle: 'input[name="is_chs_sub_incl"]'
+      },
+      category: {
+        selector: "#type_category",
+        map: {
+          movie: "1",
+          tv: "3",
+          tvPack: "3",
+          documentary: "2",
+          concert: "5",
+          sport: "6",
+          cartoon: "4",
+          variety: "9"
+        }
+      },
+      videoCodec: {
+        selector: "#type_codec",
+        map: {
+          h264: "1",
+          hevc: "7",
+          x264: "1",
+          x265: "7",
+          h265: "7",
+          mpeg2: "3",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "4",
+          dvd: "3"
+        }
+      },
+      audioCodec: {
+        selector: "#type_audio",
+        map: {
+          aac: "9",
+          ac3: "5",
+          dd: "5",
+          "dd+": "5",
+          flac: "7",
+          dts: "4",
+          truehd: "3",
+          lpcm: "1",
+          dtshdma: "2",
+          atmos: "2",
+          dtsx: "4"
+        }
+      },
+      videoType: {
+        selector: "#type_medium",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "2",
+          encode: "4",
+          web: "6",
+          hddvd: "6",
+          hdtv: "3",
+          dvd: "6",
+          dvdrip: "6",
+          other: "6"
+        }
+      },
+      resolution: {
+        selector: "#type_resolution",
+        map: {
+          "2160p": "7",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "4",
+          "576p": "6",
+          "480p": "6"
+        }
+      }
+    },
+    HDSky: {
+      url: "https://hdsky.me",
+      host: "hdsky.me",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#outer tr:contains(\u57FA\u672C\u4FE1\u606F)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="url_douban"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "411",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "12",
+          x264: "10",
+          x265: "13",
+          h265: "12",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "12",
+          dd: "12",
+          "dd+": "12",
+          flac: "1",
+          dts: "3",
+          truehd: "11",
+          lpcm: "13",
+          dtshdma: "10",
+          atmos: "17",
+          dtsx: "16"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "13",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "11",
+          hddvd: "2",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      }
+    },
+    HDT: {
+      url: "https://hd-torrents.org",
+      host: "hd-torrents.org",
+      siteType: "HDT",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "2",
+        nameOptionKey: "3",
+        params: {
+          search: "{imdb}",
+          options: "{optionKey}",
+          order: "size",
+          by: "DESC"
+        }
+      },
+      name: {
+        selector: 'input[name="filename"]'
+      },
+      imdb: {
+        selector: 'input[name="infosite"]'
+      },
+      description: {
+        selector: 'textarea[name="info"]'
+      },
+      tags: {
+        HDR: 'input[name="HDR10"]',
+        "HDR10+": 'input[name="HDR10Plus"]',
+        DolbyVision: 'input[name="DolbyVision"]'
+      },
+      anonymous: {
+        selector: 'input[name="anonymous"][value="true"]'
+      },
+      category: {
+        selector: 'select[name="category"]',
+        map: {
+          movie: [
+            "70",
+            "1",
+            "71",
+            "2",
+            "64",
+            "5",
+            "3",
+            "63"
+          ],
+          tv: [
+            "72",
+            "59",
+            "73",
+            "60",
+            "65",
+            "30",
+            "38"
+          ],
+          tvPack: [
+            "72",
+            "59",
+            "73",
+            "60",
+            "65",
+            "30",
+            "38"
+          ],
+          documentary: [
+            "70",
+            "1",
+            "71",
+            "2",
+            "64",
+            "5",
+            "3",
+            "63"
+          ],
+          cartoon: [
+            "70",
+            "1",
+            "71",
+            "2",
+            "64",
+            "5",
+            "3",
+            "63"
+          ],
+          concert: [
+            "61",
+            "62",
+            "66",
+            "57",
+            "45",
+            "44"
+          ],
+          variety: [
+            "72",
+            "59",
+            "73",
+            "60",
+            "65",
+            "30",
+            "38"
+          ]
+        }
+      },
+      videoType: {
+        map: {
+          uhdbluray: [
+            "70",
+            "72"
+          ],
+          bluray: [
+            "1",
+            "59",
+            "61"
+          ],
+          remux: [
+            "71",
+            "2",
+            "62",
+            "73",
+            "60"
+          ],
+          encode: [
+            "64",
+            "5",
+            "3",
+            "65",
+            "30",
+            "38",
+            "66",
+            "57",
+            "45"
+          ],
+          web: [
+            "64",
+            "5",
+            "3",
+            "65",
+            "30",
+            "38",
+            "66",
+            "57",
+            "45"
+          ],
+          hdtv: [
+            "64",
+            "5",
+            "3",
+            "65",
+            "30",
+            "38",
+            "66",
+            "57",
+            "45"
+          ]
+        }
+      },
+      resolution: {
+        map: {
+          "2160p": [
+            "70",
+            "72",
+            "71",
+            "73",
+            "64",
+            "65",
+            "66"
+          ],
+          "1080p": [
+            "1",
+            "59",
+            "61",
+            "2",
+            "60",
+            "62",
+            "5",
+            "30",
+            "57"
+          ],
+          "1080i": [
+            "1",
+            "59",
+            "61",
+            "2",
+            "60",
+            "62",
+            "5",
+            "30",
+            "57"
+          ],
+          "720p": [
+            "3",
+            "38",
+            "45"
+          ]
+        }
+      }
+    },
+    HDU: {
+      url: "https://pt.hdupt.com",
+      host: "hdupt.com",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "14",
+          x264: "16",
+          x265: "14",
+          h265: "14",
+          mpeg2: "18",
+          mpeg4: "18",
+          vc1: "2",
+          xvid: "3",
+          dvd: "18"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "2",
+          dd: "2",
+          "dd+": "2",
+          flac: "7",
+          dts: "4",
+          truehd: "3",
+          lpcm: "11",
+          dtshdma: "1",
+          atmos: "17",
+          dtsx: "16"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "11",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "10",
+          hddvd: "2",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "1",
+          US: "2",
+          EU: "2",
+          HK: "3",
+          TW: "3",
+          JP: "4",
+          KR: "5",
+          IND: "6",
+          SEA: "8",
+          OT: "7"
+        }
+      }
+    },
+    KEEPFRDS: {
+      url: "https://pt.keepfrds.com",
+      host: "keepfrds.com",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: false,
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      needDoubanInfo: true,
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      }
+    },
+    KG: {
+      url: "https://karagarga.in",
+      host: "karagarga.in",
+      siteType: "KG",
+      asSource: false,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/browse.php",
+        imdbOptionKey: "imdb",
+        nameOptionKey: "title",
+        params: {
+          search: "{imdb}",
+          search_type: "{optionKey}",
+          sort: "size",
+          d: "DESC"
+        }
+      }
+    },
+    LemonHD: {
+      url: "https://lemonhd.org",
+      host: "lemonhd.org",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#outer>table>tbody>tr:nth-child(5)",
+      uploadPath: "/upload_movie.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "imdb",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_url"]'
+      },
+      tags: {
+        chineseAudio: 'input[name="tag_gy"]',
+        DIY: "#tagDIY",
+        cantoneseAudio: 'input[name="tag_yy"]',
+        chineseSubtitle: 'input[name="tag_zz"]',
+        CC: 'input[name="tag_cc"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "10",
+          x264: "12",
+          x265: "11",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "8",
+          ac3: "14",
+          dd: "14",
+          "dd+": "14",
+          flac: "7",
+          dts: "6",
+          truehd: "2",
+          lpcm: "15",
+          dtshdma: "5",
+          atmos: "1",
+          dtsx: "4"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "9",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "11",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "7",
+          hddvd: "2",
+          other: "4"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "6",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "2",
+          "720p": "4",
+          "576p": "5",
+          "480p": "5"
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "1",
+          US: "3",
+          EU: "3",
+          HK: "2",
+          TW: "2",
+          JP: "4",
+          KR: "4",
+          OT: "5"
+        }
+      }
+    },
+    MTeam: {
+      url: "https://kp.m-team.cc",
+      host: "m-team.cc",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#outer tr:contains(\u57FA\u672C\u8CC7\u8A0A)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      tags: {
+        chineseAudio: "#l_dub",
+        DIY: "#l_diy",
+        chineseSubtitle: "#l_sub"
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: [
+            "401",
+            "419",
+            "420",
+            "421",
+            "439"
+          ],
+          tv: [
+            "403",
+            "402",
+            "435",
+            "438"
+          ],
+          tvPack: [
+            "403",
+            "402",
+            "435",
+            "438"
+          ],
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          app: "422",
+          ebook: "427",
+          magazine: "427",
+          audioBook: "427"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "16",
+          h265: "16",
+          x264: "1",
+          x265: "16",
+          mpeg2: "4",
+          mpeg4: "15",
+          vc1: "2",
+          xvid: "3"
+        }
+      },
+      videoType: {
+        map: {
+          uhdbluray: [
+            "421",
+            "438"
+          ],
+          bluray: [
+            "421",
+            "438"
+          ],
+          remux: "439",
+          encode: [
+            "401",
+            "419",
+            "403",
+            "402"
+          ],
+          web: [
+            "419",
+            "402"
+          ],
+          hdtv: [
+            "419",
+            "402"
+          ],
+          dvd: [
+            "420",
+            "435"
+          ],
+          dvdrip: [
+            "401",
+            "403"
+          ],
+          other: ""
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": [
+            "6",
+            "419",
+            "402"
+          ],
+          "1080p": [
+            "1",
+            "419",
+            "402"
+          ],
+          "1080i": [
+            "2",
+            "419",
+            "402"
+          ],
+          "720p": [
+            "3",
+            "419",
+            "402"
+          ],
+          "576p": [
+            "5",
+            "401",
+            "403"
+          ],
+          "480p": [
+            "5",
+            "401",
+            "403"
+          ]
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "1",
+          US: "2",
+          EU: "2",
+          HK: "3",
+          TW: "3",
+          JP: "4",
+          KR: "5",
+          OT: "6"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          mteam: "9",
+          mpad: "10",
+          tnp: "23",
+          mteamtv: "17",
+          kishd: "7",
+          bmdru: "6",
+          onehd: "18",
+          cnhk: "19",
+          stbox: "20",
+          r2hd: "21",
+          pack: "8",
+          geek: "24"
+        }
+      }
+    },
+    NYPT: {
+      url: "https://nanyangpt.com",
+      host: "nanyangpt.com",
+      siteType: "NexusPHP",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(5)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="dburl"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "406",
+          concert: "407",
+          sport: "405",
+          cartoon: "403",
+          variety: "404"
+        }
+      }
+    },
     OurBits: {
       url: "https://ourbits.club",
       host: "ourbits.club",
@@ -1954,123 +3461,14 @@
         }
       }
     },
-    HDSky: {
-      url: "https://hdsky.me",
-      host: "hdsky.me",
+    PTHome: {
+      url: "https://www.pthome.net",
+      host: "pthome.net",
       siteType: "NexusPHP",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#outer tr:contains(\u57FA\u672C\u4FE1\u606F)",
       uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: 'input[name="name"]'
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="url_douban"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "411",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "12",
-          x264: "10",
-          x265: "13",
-          h265: "12",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "12",
-          dd: "12",
-          "dd+": "12",
-          flac: "1",
-          dts: "3",
-          truehd: "11",
-          lpcm: "13",
-          dtshdma: "10",
-          atmos: "17",
-          dtsx: "16"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "13",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "11",
-          hddvd: "2",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      }
-    },
-    HDChina: {
-      url: "https://hdchina.org",
-      host: "hdchina.org",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: ".table_details>tbody>tr:nth-child(1)",
-      uploadPath: "/upload.php",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       search: {
         path: "/torrents.php",
         imdbOptionKey: "4",
@@ -2092,7 +3490,6 @@
       description: {
         selector: "#descr"
       },
-      poster: "#cover",
       imdb: {
         selector: 'input[name="url"][type="text"]'
       },
@@ -2102,57 +3499,40 @@
       anonymous: {
         selector: 'input[name="uplver"]'
       },
+      tags: {
+        chineseAudio: "#tag_gy",
+        DIY: "#tag_diy",
+        cantoneseAudio: "#tag_yy",
+        chineseSubtitle: "#tag_zz",
+        HDR: "#tag_hdr10",
+        "HDR10+": "#tag_hdrm",
+        DolbyVision: "#tag_db"
+      },
       category: {
         selector: "#browsecat",
         map: {
-          movie: [
-            "20",
-            "17",
-            "16",
-            "9",
-            "410",
-            "27"
-          ],
-          tv: [
-            "13",
-            "25",
-            "26",
-            "24",
-            "27"
-          ],
-          tvPack: [
-            "20",
-            "21",
-            "22",
-            "23",
-            "27"
-          ],
-          documentary: [
-            "20",
-            "5",
-            "27"
-          ],
-          concert: "402",
-          sport: "15",
-          cartoon: "14",
-          variety: "401"
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "408",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
         }
       },
       videoCodec: {
         selector: 'select[name="codec_sel"]',
         map: {
           h264: "1",
-          hevc: "10",
-          x264: "6",
-          x265: "10",
-          h265: "10",
+          x264: "1",
+          hevc: "6",
+          x265: "6",
+          h265: "6",
           mpeg2: "4",
-          mpeg4: [
-            "1",
-            "27"
-          ],
+          mpeg4: "1",
           vc1: "2",
-          xvid: "3",
+          xvid: "5",
           dvd: "4"
         }
       },
@@ -2160,176 +3540,74 @@
         selector: 'select[name="audiocodec_sel"]',
         map: {
           aac: "6",
-          ac3: "8",
-          dd: "8",
-          "dd+": "8",
+          ac3: "18",
+          dd: "18",
+          "dd+": "18",
+          flac: "1",
           dts: "3",
-          truehd: "13",
-          lpcm: "11",
-          dtshdma: "12",
-          atmos: "15",
-          dtsx: "14",
-          flac: "1"
+          truehd: "20",
+          lpcm: "21",
+          dtshdma: "19",
+          atmos: "19",
+          dtsx: "3"
         }
       },
       videoType: {
         selector: 'select[name="medium_sel"]',
         map: {
-          uhdbluray: [
-            "11",
-            "20",
-            "410"
-          ],
-          bluray: [
-            "11",
-            "20"
-          ],
-          remux: "6",
-          encode: "5",
-          web: "21",
-          hdtv: "13",
-          dvd: "14",
-          dvdrip: "4",
-          other: "15"
+          uhdbluray: "12",
+          bluray: "1",
+          remux: "3",
+          encode: "15",
+          web: "10",
+          hdtv: "5",
+          dvd: "2",
+          dvdrip: "15",
+          other: "11"
         }
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
         map: {
-          "2160p": [
-            "17",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23",
-            "410"
-          ],
-          "1080p": [
-            "11",
-            "17",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "1080i": [
-            "12",
-            "16",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "720p": [
-            "13",
-            "9",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "576p": "15",
-          "480p": "15"
-        }
-      },
-      area: {
-        map: {
-          CN: [
-            "25",
-            "22"
-          ],
-          US: [
-            "13",
-            "21"
-          ],
-          EU: [
-            "13",
-            "21"
-          ],
-          HK: [
-            "25",
-            "22"
-          ],
-          TW: [
-            "25",
-            "22"
-          ],
-          JP: [
-            "24",
-            "23"
-          ],
-          KR: [
-            "26",
-            "23"
-          ]
+          "4320p": "10",
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
         }
       },
       team: {
         selector: 'select[name="team_sel"]',
         map: {
-          hdchina: "15",
-          hdctv: "16",
-          ihd: "12",
-          hdwing: "10",
-          hdwtv: "11",
-          kishd: "17",
-          openmv: "7",
-          hdc: "22",
-          diy: "23",
-          khq: "6",
-          exren: "30",
-          joma: "26",
-          anonymous: "25",
-          crss: "24",
-          ebp: "18",
-          don: "19",
-          esir: "20",
-          trollhd: "29",
-          wiki: "9",
-          beast: "4",
-          cmct: "2",
-          ngb: "8",
-          lu9998: "21",
-          taichi: "28",
-          u2: "27",
-          enichi: "31",
-          arey: "32",
+          pthome: "19",
+          pth: "21",
+          pthweb: "20",
+          pthtv: "22",
+          pthaudio: "23",
+          pthebook: "24",
+          pthmusic: "25",
           other: "5"
         }
       }
     },
-    KEEPFRDS: {
-      url: "https://pt.keepfrds.com",
-      host: "keepfrds.com",
-      siteType: "NexusPHP",
+    PTP: {
+      url: "https://passthepopcorn.me",
+      host: "passthepopcorn.me",
+      siteType: "gazelle",
       asSource: true,
       asTarget: false,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      needDoubanInfo: true,
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
         params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
+          action: "advanced",
+          searchstr: "{imdb}"
         }
-      }
+      },
+      seedDomSelector: ""
     },
     PTSBAO: {
       url: "https://ptsbao.club",
@@ -2484,354 +3762,6 @@
         }
       }
     },
-    BeiTai: {
-      url: "https://www.beitai.pt",
-      host: "beitai.pt",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: false,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      }
-    },
-    LemonHD: {
-      url: "https://lemonhd.org",
-      host: "lemonhd.org",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#outer>table>tbody>tr:nth-child(5)",
-      uploadPath: "/upload_movie.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "imdb",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban_url"]'
-      },
-      tags: {
-        chineseAudio: 'input[name="tag_gy"]',
-        DIY: "#tagDIY",
-        cantoneseAudio: 'input[name="tag_yy"]',
-        chineseSubtitle: 'input[name="tag_zz"]',
-        CC: 'input[name="tag_cc"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "10",
-          x264: "12",
-          x265: "11",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "8",
-          ac3: "14",
-          dd: "14",
-          "dd+": "14",
-          flac: "7",
-          dts: "6",
-          truehd: "2",
-          lpcm: "15",
-          dtshdma: "5",
-          atmos: "1",
-          dtsx: "4"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "9",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "11",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "7",
-          hddvd: "2",
-          other: "4"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "6",
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "2",
-          "720p": "4",
-          "576p": "5",
-          "480p": "5"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "1",
-          US: "3",
-          EU: "3",
-          HK: "2",
-          TW: "2",
-          JP: "4",
-          KR: "4",
-          OT: "5"
-        }
-      }
-    },
-    PTP: {
-      url: "https://passthepopcorn.me",
-      host: "passthepopcorn.me",
-      siteType: "gazelle",
-      asSource: true,
-      asTarget: false,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        params: {
-          action: "advanced",
-          searchstr: "{imdb}"
-        }
-      },
-      seedDomSelector: ""
-    },
-    BeyondHD: {
-      url: "https://beyond-hd.me",
-      host: "beyond-hd.me",
-      siteType: "F3NIX",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: ".table-details tr:last",
-      needDoubanInfo: true,
-      uploadPath: "/upload",
-      search: {
-        path: "/torrents/all",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          imdb: "{imdb}",
-          search: "{name}",
-          sorting: "size",
-          direction: "desc",
-          doSearch: "Search"
-        }
-      },
-      name: {
-        selector: "#title"
-      },
-      description: {
-        selector: "#upload-form-description"
-      },
-      imdb: {
-        selector: "#imdbauto"
-      },
-      tmdb: {
-        selector: "#tmdbauto"
-      },
-      mediaInfo: {
-        selector: "#mediainfo"
-      },
-      anonymous: {
-        selector: 'input[name="anonymous"]'
-      },
-      videoType: {
-        selector: "#category_id",
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2"
-        }
-      },
-      category: {
-        selector: "#autotype",
-        map: {
-          BD100: "UHD 100",
-          BD66: "UHD 66",
-          UHD50: "UHD 50",
-          BD50: "BD 50",
-          BD25: "BD 25",
-          remux: [
-            "UHD Remux",
-            "BD Remux",
-            "DVD Remux"
-          ],
-          encode: [
-            "2160p",
-            "1080p",
-            "720p",
-            "576p",
-            "540p",
-            "480p"
-          ],
-          web: [
-            "2160p",
-            "1080p",
-            "720p",
-            "576p",
-            "540p",
-            "480p"
-          ],
-          hdtv: [
-            "2160p",
-            "1080p",
-            "1080i",
-            "720p"
-          ],
-          dvd: [
-            "DVD 9",
-            "DVD 5",
-            "DVD Remux"
-          ],
-          dvdrip: [
-            "480p"
-          ],
-          other: ""
-        }
-      },
-      source: {
-        selector: "#autosource",
-        map: {
-          uhdbluray: [
-            "Blu-ray"
-          ],
-          bluray: [
-            "Blu-ray",
-            "BD 50",
-            "BD 25",
-            "BD Remux",
-            "UHD 100",
-            "UHD 66",
-            "UHD 50",
-            "UHD Remux",
-            "2160p",
-            "1080p",
-            "720p",
-            "576p",
-            "540p",
-            "480p"
-          ],
-          hdtv: [
-            "HDTV",
-            "2160p",
-            "1080p",
-            "1080i",
-            "720p"
-          ],
-          dvd: [
-            "DVD",
-            "DVD 9",
-            "DVD 5",
-            "DVD Remux",
-            "480p"
-          ],
-          web: [
-            "WEB",
-            "2160p",
-            "1080p",
-            "720p",
-            "576p",
-            "540p",
-            "480p"
-          ],
-          hddvd: "HD-DVD"
-        }
-      },
-      resolution: {
-        map: {
-          "2160p": [
-            "UHD 100",
-            "UHD 66",
-            "UHD 50",
-            "UHD Remux",
-            "2160p"
-          ],
-          "1080p": [
-            "BD 50",
-            "BD 25",
-            "BD Remux",
-            "1080p"
-          ],
-          "1080i": [
-            "BD 50",
-            "BD 25",
-            "BD Remux",
-            "1080i"
-          ],
-          "720p": [
-            "720p"
-          ],
-          "576p": [
-            "576p"
-          ],
-          "540p": [
-            "540p"
-          ],
-          "480p": [
-            "DVD 9",
-            "DVD 5",
-            "DVD Remux",
-            "480p"
-          ],
-          other: [
-            "Other"
-          ]
-        }
-      }
-    },
     PTer: {
       url: "https://pterclub.com",
       host: "pterclub.com",
@@ -2918,13 +3848,13 @@
         }
       }
     },
-    HD4FANS: {
-      url: "https://pt.hd4fans.org",
-      host: "hd4fans.org",
+    SSD: {
+      url: "https://springsunday.net",
+      host: "springsunday.net",
       siteType: "NexusPHP",
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload.php",
+      uploadPath: "/upload.new.php",
       seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       search: {
         path: "/torrents.php",
@@ -2942,355 +3872,175 @@
         selector: "#name"
       },
       subtitle: {
-        selector: 'input[name="small_descr"]'
+        selector: "#small_descr"
       },
       description: {
         selector: "#descr"
       },
+      poster: "#url_poster",
       imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "403",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "405"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          hddvd: "2",
-          remux: "3",
-          encode: "7",
-          web: "7",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: ""
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "10",
-          x264: "1",
-          x265: "10",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: "5",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          chd: "2",
-          mysilu: "3",
-          wiki: "4",
-          other: "5",
-          cmct: "6",
-          r2ts: "7",
-          kbits: "8"
-        }
-      }
-    },
-    TJUPT: {
-      url: "https://www.tjupt.org",
-      host: "tjupt.org",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top+table>tbody>tr:nth-child(5)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: "#external_url"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "411",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      }
-    },
-    NYPT: {
-      url: "https://nanyangpt.com",
-      host: "nanyangpt.com",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top+table>tbody>tr:nth-child(5)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="dburl"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "406",
-          concert: "407",
-          sport: "405",
-          cartoon: "403",
-          variety: "404"
-        }
-      }
-    },
-    Blutopia: {
-      url: "https://blutopia.xyz",
-      host: "blutopia.xyz",
-      siteType: "UNIT3D",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload/1",
-      needDoubanInfo: true,
-      seedDomSelector: "#vue+.panel table tr:last",
-      search: {
-        path: "/torrents",
-        params: {
-          name: "{name}",
-          imdb: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#title"
-      },
-      description: {
-        selector: "#upload-form-description"
-      },
-      imdb: {
-        selector: "#autoimdb"
-      },
-      tmdb: {
-        selector: "#autotmdb"
-      },
-      mediaInfo: {
-        selector: 'textarea[name="mediainfo"]'
-      },
-      anonymous: {
-        selector: '.radio-inline:first input[name="anonymous"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2"
-        }
-      },
-      videoType: {
-        selector: "#autotype",
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "12",
-          web: "4",
-          hdtv: "6",
-          dvd: "1",
-          dvdrip: "12",
-          other: ""
-        }
-      },
-      resolution: {
-        selector: "#autores",
-        map: {
-          "4320p": "11",
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "3",
-          "720p": "5",
-          "576p": "6",
-          "480p": "8"
-        }
-      }
-    },
-    PTHome: {
-      url: "https://www.pthome.net",
-      host: "pthome.net",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban_id"]'
+        selector: "#url"
       },
       anonymous: {
         selector: 'input[name="uplver"]'
       },
-      tags: {
-        chineseAudio: "#tag_gy",
-        DIY: "#tag_diy",
-        cantoneseAudio: "#tag_yy",
-        chineseSubtitle: "#tag_zz",
-        HDR: "#tag_hdr10",
-        "HDR10+": "#tag_hdrm",
-        DolbyVision: "#tag_db"
+      mediaInfo: {
+        selector: "#Media_BDInfo"
+      },
+      screenshots: {
+        selector: "#url_vimages"
       },
       category: {
         selector: "#browsecat",
         map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "408",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
+          movie: "501",
+          tv: "502",
+          tvPack: "502",
+          documentary: "503",
+          concert: "507",
+          sport: "506",
+          cartoon: "504",
+          variety: "505"
         }
       },
       videoCodec: {
         selector: 'select[name="codec_sel"]',
         map: {
-          h264: "1",
-          x264: "1",
-          hevc: "6",
-          x265: "6",
-          h265: "6",
+          h264: "2",
+          hevc: "1",
+          x264: "2",
+          x265: "1",
+          h265: "1",
           mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "5",
+          mpeg4: "2",
+          vc1: "3",
+          xvid: "",
           dvd: "4"
         }
       },
       audioCodec: {
         selector: 'select[name="audiocodec_sel"]',
         map: {
-          aac: "6",
-          ac3: "18",
-          dd: "18",
-          "dd+": "18",
-          flac: "1",
+          aac: "5",
+          ac3: "4",
+          dd: "4",
+          "dd+": "4",
+          flac: "7",
           dts: "3",
-          truehd: "20",
-          lpcm: "21",
-          dtshdma: "19",
-          atmos: "19",
+          truehd: "2",
+          lpcm: "6",
+          dtshdma: "1",
+          atmos: "3",
           dtsx: "3"
         }
       },
       videoType: {
         selector: 'select[name="medium_sel"]',
         map: {
-          uhdbluray: "12",
+          uhdbluray: "1",
           bluray: "1",
-          remux: "3",
-          encode: "15",
-          web: "10",
+          remux: "4",
+          encode: "6",
+          web: "7",
           hdtv: "5",
-          dvd: "2",
-          dvdrip: "15",
-          other: "11"
+          dvd: "3",
+          dvdrip: "10",
+          other: ""
         }
       },
       resolution: {
         selector: 'select[name="standard_sel"]',
         map: {
-          "4320p": "10",
-          "2160p": "5",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "3",
+          "720p": "4",
+          "576p": "5",
+          "480p": "5"
+        }
+      },
+      area: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          CN: "1",
+          US: "9",
+          EU: "9",
+          HK: "2",
+          TW: "2",
+          JP: "10",
+          KR: "10",
+          OT: "3"
+        }
+      }
+    },
+    SoulVoice: {
+      url: "https://pt.soulvoice.club",
+      host: "soulvoice.club",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          concert: "406",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "2",
+          h265: "2",
+          x264: "1",
+          x265: "2",
+          mpeg2: "5",
+          mpeg4: "1",
+          vc1: "5",
+          xvid: "5"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "3",
           "1080p": "1",
           "1080i": "2",
-          "720p": "3",
+          "720p": "4",
           "576p": "4",
           "480p": "4"
         }
@@ -3298,13 +4048,10 @@
       team: {
         selector: 'select[name="team_sel"]',
         map: {
-          pthome: "19",
-          pth: "21",
-          pthweb: "20",
-          pthtv: "22",
-          pthaudio: "23",
-          pthebook: "24",
-          pthmusic: "25",
+          hds: "1",
+          chd: "2",
+          frds: "3",
+          cmct: "4",
           other: "5"
         }
       }
@@ -3432,14 +4179,14 @@
         }
       }
     },
-    HDDolby: {
-      url: "https://www.hddolby.com",
-      host: "hddolby.com",
+    TJUPT: {
+      url: "https://www.tjupt.org",
+      host: "tjupt.org",
       siteType: "NexusPHP",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
       uploadPath: "/upload.php",
+      seedDomSelector: "#top+table>tbody>tr:nth-child(5)",
       search: {
         path: "/torrents.php",
         imdbOptionKey: "4",
@@ -3451,9 +4198,6 @@
           sort: "5",
           type: "desc"
         }
-      },
-      name: {
-        selector: "#name"
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -3465,19 +4209,7 @@
         selector: 'input[name="url"][type="text"]'
       },
       douban: {
-        selector: 'input[name="douban_id"]'
-      },
-      tags: {
-        chineseAudio: "#tag_gy",
-        DIY: "#tag_diy",
-        chineseSubtitle: "#tag_zz",
-        cantoneseAudio: "#tag_yy",
-        HDR: "#tag_hdr10",
-        "HDR10+": "#tag_hdrm",
-        DolbyVision: "#tag_db"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
+        selector: "#external_url"
       },
       category: {
         selector: "#browsecat",
@@ -3485,610 +4217,11 @@
           movie: "401",
           tv: "402",
           tvPack: "402",
-          documentary: "404",
+          documentary: "411",
           concert: "406",
           sport: "407",
           cartoon: "405",
           variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          x264: "3",
-          hevc: "2",
-          x265: "4",
-          h265: "2",
-          mpeg2: "6",
-          mpeg4: "0",
-          vc1: "5",
-          xvid: "0",
-          dvd: "0"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "10",
-          web: "6",
-          hdtv: "5",
-          dvd: "8",
-          dvdrip: "8",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "3",
-          "720p": "4",
-          "576p": "5",
-          "480p": "5"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          dream: "1",
-          hdo: "9",
-          dbtv: "10",
-          nazorip: "12",
-          mteam: "2",
-          frds: "7",
-          wiki: "4",
-          beast: "11",
-          chd: "5",
-          cmct: "6",
-          pthome: "3",
-          other: "8"
-        }
-      }
-    },
-    HDArea: {
-      url: "https://www.hdarea.co",
-      host: "hdarea.co",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="dburl"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: [
-            "300",
-            "401",
-            "415",
-            "416",
-            "410",
-            "411",
-            "414",
-            "412",
-            "413",
-            "417"
-          ],
-          tv: [
-            "402",
-            "403"
-          ],
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "7",
-          x264: "7",
-          hevc: "6",
-          x265: "6",
-          h265: "6",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "0",
-          dvd: "0"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "11",
-          dd: "5",
-          "dd+": "4",
-          flac: "1",
-          dts: "3",
-          truehd: "7",
-          lpcm: "8",
-          dtshdma: "4",
-          atmos: "10",
-          dtsx: "0"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: [
-            "1",
-            "300"
-          ],
-          bluray: [
-            "1",
-            "401"
-          ],
-          remux: [
-            "3",
-            "415"
-          ],
-          encode: "7",
-          web: [
-            "9",
-            "412"
-          ],
-          hdtv: [
-            "5",
-            "413"
-          ],
-          dvd: [
-            "2",
-            "414"
-          ],
-          dvdrip: "6",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": [
-            "1",
-            "410"
-          ],
-          "1080i": "2",
-          "720p": [
-            "3",
-            "411"
-          ],
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          epic: "1",
-          hdarea: "2",
-          hdwing: "3",
-          wiki: "4",
-          ttg: "5",
-          other: "6",
-          mteam: "7",
-          hdapad: "8",
-          chd: "9",
-          hdaccess: "10",
-          hdatv: "11",
-          cxcy: "12",
-          cmct: "13"
-        }
-      }
-    },
-    BTSCHOOL: {
-      url: "https://pt.btschool.club",
-      host: "btschool.club",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: 'input[name="picture"]',
-      imdb: {
-        selector: 'input[name="imdbid"]'
-      },
-      douban: {
-        selector: 'input[name="doubanid"]'
-      },
-      tags: {
-        chineseAudio: 'input[type="checkbox"][name="span[]"][value="5"]',
-        chineseSubtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "405",
-          tv: "406",
-          tvPack: "406",
-          documentary: "408",
-          concert: "409",
-          sport: "410",
-          cartoon: "407",
-          variety: "412"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          x264: "1",
-          hevc: "10",
-          x265: "10",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "10",
-          dd: "10",
-          "dd+": "10",
-          flac: "1",
-          dts: "3",
-          truehd: "11",
-          lpcm: "5",
-          dtshdma: "3",
-          atmos: "3",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "12",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "11"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "1",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          btschool: "1",
-          zone: "13",
-          btshd: "2",
-          btstv: "3",
-          btspad: "4",
-          wiki: "5",
-          hdchina: "6",
-          hdbint: "7",
-          mteam: "9",
-          cmct: "10",
-          ourbits: "11",
-          other: "12"
-        }
-      }
-    },
-    HDU: {
-      url: "https://pt.hdupt.com",
-      host: "hdupt.com",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "14",
-          x264: "16",
-          x265: "14",
-          h265: "14",
-          mpeg2: "18",
-          mpeg4: "18",
-          vc1: "2",
-          xvid: "3",
-          dvd: "18"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "2",
-          dd: "2",
-          "dd+": "2",
-          flac: "7",
-          dts: "4",
-          truehd: "3",
-          lpcm: "11",
-          dtshdma: "1",
-          atmos: "17",
-          dtsx: "16"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "11",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hddvd: "2",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "1",
-          US: "2",
-          EU: "2",
-          HK: "3",
-          TW: "3",
-          JP: "4",
-          KR: "5",
-          IND: "6",
-          SEA: "8",
-          OT: "7"
-        }
-      }
-    },
-    HDAtmos: {
-      url: "https://hdatmos.club",
-      host: "hdatmos.club",
-      siteType: "NexusPHP",
-      asSource: false,
-      asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: 'textarea[name="descr"]'
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          cartoon: "405",
-          sport: "407",
-          concert: "406"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "10",
-          h265: "10",
-          x264: "1",
-          x265: "10",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "20",
-          ac3: "22",
-          dd: "23",
-          "dd+": "23",
-          flac: "17",
-          dts: "14",
-          truehd: "13",
-          lpcm: "15",
-          dtshdma: "10",
-          atmos: "11",
-          dtsx: "12"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hdtv: "5",
-          dvd: "6",
-          hddvd: "2",
-          dvdrip: "13",
-          other: "13"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "15",
-          "2160p": "10",
-          "1080p": "11",
-          "1080i": "12",
-          "720p": "13",
-          "576p": "14",
-          "480p": "14"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "3",
-          US: "4",
-          EU: "8",
-          HK: "5",
-          TW: "3",
-          JP: "5",
-          KR: "6",
-          OT: "9"
-        }
-      },
-      source: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "6",
-          bluray: "6",
-          hdtv: "3",
-          dvd: "8",
-          web: "2",
-          vhs: "12",
-          hddvd: "7"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          other: "22"
         }
       }
     },
@@ -4210,267 +4343,258 @@
         }
       }
     },
-    DiscFan: {
-      url: "https://discfan.net",
-      host: "discfan.net",
-      siteType: "NexusPHP",
+    TTG: {
+      url: "https://totheglory.im",
+      host: "totheglory.im",
+      siteType: "TTG",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
+      seedDomSelector: "#main_table h1+table>tbody>tr:nth-child(2)",
       uploadPath: "/upload.php",
       search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
+        path: "/browse.php",
+        replaceKey: [
+          "tt",
+          "imdb"
+        ],
         params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
+          search_field: "{imdb}",
           sort: "5",
-          type: "desc"
+          type: "desc",
+          c: "M"
         }
       },
       name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
+        selector: 'input[name="name"]'
       },
       description: {
         selector: 'textarea[name="descr"]'
       },
       imdb: {
-        selector: 'input[name="url"][type="text"]'
+        selector: 'input[name="imdb_c"]'
       },
-      douban: {
-        selector: 'input[name="douban_url"]'
-      },
-      category: {
-        selector: "#browsecat1",
-        map: {
-          tv: "411",
-          tvPack: "411",
-          documentary: "413",
-          cartoon: "419",
-          sport: "417",
-          concert: "414",
-          variety: "416"
-        }
-      },
-      videoType: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "2",
-          bluray: "3",
-          remux: "0",
-          encode: "0",
-          web: "9",
-          hdtv: "1",
-          dvd: "4",
-          hddvd: "4",
-          dvdrip: "10",
-          other: "0"
-        }
-      },
-      area: {
-        selector: "#browsecat",
-        map: {
-          CN: "401",
-          US: "410",
-          EU: "410",
-          HK: "404",
-          TW: "405",
-          JP: "403",
-          KR: "406"
-        }
-      }
-    },
-    HDAI: {
-      url: "http://www.hd.ai",
-      host: "hd.ai",
-      siteType: "NexusPHP",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/Torrents.upload",
-      seedDomSelector: "#top+table>tbody>tr:nth-child(3)",
-      search: {
-        path: "/Torrents.index",
-        imdbOptionKey: "9",
-        nameOptionKey: "1",
-        params: {
-          name: "{name}",
-          search_area: "{optionKey}",
-          imdb: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: 'input[name="poster"]',
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="nfo"]'
-      },
-      screenshots: {
-        selector: 'textarea[name="screenshot"]'
-      },
-      tags: {
-        chineseAudio: 'input[type="checkbox"][name="tag[cn]"]',
-        chineseSubtitle: 'input[type="checkbox"][name="tag[zz]"]'
+      anonymous: {
+        selector: 'select[name="anonymity"]',
+        value: "yes"
       },
       category: {
         selector: 'select[name="type"]',
         map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2",
-          documentary: "4",
-          concert: "6",
-          sport: "7",
-          cartoon: "5",
-          variety: "3"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "2",
-          hevc: "1",
-          x264: "2",
-          x265: "1",
-          h265: "1",
-          mpeg2: "5",
-          mpeg4: "2",
-          vc1: "3",
-          xvid: "4",
-          dvd: "5"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "10",
-          ac3: "11",
-          dd: "11",
-          "dd+": "11",
-          flac: "7",
-          dts: "5",
-          truehd: "4",
-          lpcm: "6",
-          dtshdma: "2",
-          atmos: "3",
-          dtsx: "1"
+          movie: [
+            "51",
+            "52",
+            "53",
+            "54",
+            "108",
+            "109"
+          ],
+          tv: [
+            "69",
+            "70",
+            "73",
+            "74",
+            "75",
+            "76"
+          ],
+          tvPack: [
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          documentary: [
+            "62",
+            "63",
+            "67"
+          ],
+          concert: "59",
+          sport: "57",
+          cartoon: "58",
+          variety: [
+            "103",
+            "60",
+            "101"
+          ]
         }
       },
       videoType: {
-        selector: 'select[name="medium_sel"]',
         map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "5",
-          web: "4",
-          hdtv: "6",
-          dvd: "7",
-          dvdrip: "10",
-          other: "0"
+          uhdbluray: [
+            "109"
+          ],
+          bluray: [
+            "54",
+            "109",
+            "67"
+          ],
+          remux: [
+            "53",
+            "108",
+            "63",
+            "70",
+            "75"
+          ],
+          encode: [
+            "53",
+            "63",
+            "70",
+            "75",
+            "52",
+            "62",
+            "69",
+            "76",
+            "108"
+          ],
+          web: [
+            "53",
+            "62",
+            "63",
+            "70",
+            "75",
+            "52",
+            "69",
+            "76",
+            "108",
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          hdtv: [
+            "53",
+            "63",
+            "70",
+            "75",
+            "52",
+            "62",
+            "69",
+            "76",
+            "108",
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          dvd: [
+            "51"
+          ],
+          dvdrip: [
+            "51"
+          ],
+          other: ""
         }
       },
       resolution: {
-        selector: 'select[name="standard_sel"]',
         map: {
-          "4320p": "1",
-          "2160p": "2",
-          "1080p": "3",
-          "1080i": "4",
-          "720p": "5",
-          "576p": "6",
-          "480p": "6"
+          "2160p": [
+            "108",
+            "109",
+            "67"
+          ],
+          "1080p": [
+            "53",
+            "63",
+            "70",
+            "75",
+            "54",
+            "67",
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          "1080i": [
+            "53",
+            "63",
+            "70",
+            "75",
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          "720p": [
+            "52",
+            "62",
+            "69",
+            "76",
+            "87",
+            "88",
+            "99",
+            "90"
+          ],
+          "576p": "51",
+          "480p": "51"
         }
       },
       area: {
-        selector: 'select[name="source_sel"]',
         map: {
-          CN: "1",
-          US: "2",
-          EU: "2",
-          HK: "3",
-          TW: "3",
-          JP: "4",
-          KR: "5",
-          OT: "6"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          other: "1",
-          ao: "20",
-          beitai: "18",
-          beyondhd: "19",
-          beast: "23",
-          chd: "2",
-          chdbits: "3",
-          cmct: "4",
-          frds: "5",
-          fltth: "17",
-          hdai: "6",
-          hdchina: "7",
-          hdhome: "8",
-          hdsky: "9",
-          lemonhd: "28",
-          leaguehd: "29",
-          mteam: "10",
-          nypt: "24",
-          ngb: "26",
-          ourtv: "11",
-          ourbits: "12",
-          pter: "13",
-          pthome: "14",
-          putao: "22",
-          strife: "21",
-          tjupt: "15",
-          ttg: "16",
-          tlf: "30",
-          u2: "31",
-          wiki: "25"
+          CN: [
+            "76",
+            "75",
+            "90"
+          ],
+          US: [
+            "69",
+            "70",
+            "87"
+          ],
+          EU: [
+            "69",
+            "70",
+            "87"
+          ],
+          HK: [
+            "76",
+            "75",
+            "90"
+          ],
+          TW: [
+            "76",
+            "75",
+            "90"
+          ],
+          JP: [
+            "73",
+            "88",
+            "101"
+          ],
+          KR: [
+            "74",
+            "99",
+            "103"
+          ],
+          OT: ""
         }
       }
     },
-    Bib: {
-      url: " https://bibliotik.me",
-      host: "bibliotik.me",
-      siteType: "Bib",
+    UHDBits: {
+      url: "https://uhdbits.org",
+      host: "uhdbits.org",
+      siteType: "gazelle",
       asSource: false,
-      asTarget: true,
-      uploadPath: "/upload",
-      name: {
-        selector: "#TitleField"
-      },
-      description: {
-        selector: "#DescriptionField"
-      },
-      anonymous: {
-        selector: "#AnonymousField"
-      },
-      image: {
-        selector: "#ImageField"
-      },
-      format: {
-        selector: "#FormatField",
-        map: {
-          epub: "15",
-          mobi: "16",
-          pdf: "2",
-          azw3: "21"
+      asTarget: false,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          order_way: "desc",
+          order_by: "size",
+          searchstr: "{imdb}"
+        }
+      }
+    },
+    "nzb.in": {
+      url: "https://nzbs.in",
+      host: "nzbs.in",
+      siteType: "nzb",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/search/{name}",
+        params: {
+          t: -1,
+          ob: "size_desc"
         }
       }
     }
@@ -5256,6 +5380,9 @@
     switch (node.nodeType) {
       case 1: {
         switch (node.tagName.toUpperCase()) {
+          case "SCRIPT": {
+            return "";
+          }
           case "UL": {
             pp(null, null);
             break;
@@ -5288,8 +5415,13 @@
           }
           case "DIV": {
             if (node.className === "codemain") {
-              pp("\n[quote]", "[/quote]");
-              break;
+              if (node.firstChild && node.firstChild.tagName === "PRE") {
+                pp("");
+                break;
+              } else {
+                pp("\n[quote]", "[/quote]");
+                break;
+              }
             } else {
               pp("\n", "\n");
               break;
@@ -5314,13 +5446,6 @@
           case "BLOCKQUOTE":
           case "PRE":
           case "FIELDSET": {
-            const {tagName, className, lastElementChild} = node;
-            if (tagName === "BLOCKQUOTE" && CURRENT_SITE_NAME === "PTP" && className.match(/spoiler/)) {
-              if (lastElementChild.tagName === "BLOCKQUOTE") {
-                return `[quote]${lastElementChild.textContent}[/quote]`;
-              }
-              return `[quote]${node.textContent}[/quote]`;
-            }
             pp("[quote]", "[/quote]");
             break;
           }
@@ -5356,11 +5481,9 @@
             break;
           }
           case "A": {
-            const {href, textContent} = node;
+            const {href} = node;
             if (href && href.length > 0) {
               if (href.match(/javascript:void/)) {
-                return "";
-              } else if (CURRENT_SITE_NAME === "PTP" && textContent.match(/Show comparison/)) {
                 return "";
               } else {
                 pp(`[url=${href}]`, "[/url]");
@@ -5414,7 +5537,7 @@
         break;
       }
       case 3: {
-        if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\]|Spoiler)/)) {
+        if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|\[show\])/)) {
           return "";
         }
         return node.textContent;
@@ -5506,10 +5629,13 @@
       });
     }
   };
+  var replaceRegSymbols = (string) => {
+    return string.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
+  };
 
   // src/target.js
   var fillTargetForm = (info) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
     console.log(info);
     if (CURRENT_SITE_NAME === "PTSBAO" && localStorage.getItem("autosave")) {
       localStorage.removeItem("autosave");
@@ -5605,9 +5731,14 @@
       }
     }
     if (CURRENT_SITE_INFO.poster) {
-      const posterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?poster[^[]+?)\[\/img\]/);
-      if (posterImage && posterImage[1]) {
-        const poster = posterImage[1];
+      let poster = "";
+      const doubanPosterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
+      if (doubanPosterImage && doubanPosterImage[1]) {
+        poster = doubanPosterImage[1];
+      } else {
+        poster = (_d = (_c = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _c[1]) != null ? _d : "";
+      }
+      if (poster) {
         $(CURRENT_SITE_INFO.poster).val(poster);
         if (CURRENT_SITE_NAME === "HDRoute") {
           $('input[name="poster"]').val(poster);
@@ -5621,7 +5752,7 @@
         const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
         if (description.match(regStr)) {
           description = description.replace(regStr, function(p1, p2) {
-            return `[img=350x350]${p2}[/img]`;
+            return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
           });
         }
       });
@@ -5669,11 +5800,14 @@
       $(formatData.selector).val(formatData.map[info.format]);
     }
     if (CURRENT_SITE_INFO.image) {
-      const image = (_d = (_c = info.description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _c[1]) != null ? _d : "";
+      const image = (_f = (_e = info.description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _e[1]) != null ? _f : "";
       $(CURRENT_SITE_INFO.image.selector).val(image);
     }
-    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice/i)) {
-      $(CURRENT_SITE_INFO.category.selector).change();
+    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA/i)) {
+      setTimeout(() => {
+        const event = new Event("change");
+        document.querySelector(CURRENT_SITE_INFO.category.selector).dispatchEvent(event);
+      }, 500);
     }
     if (CURRENT_SITE_INFO.anonymous) {
       const {selector, value = ""} = CURRENT_SITE_INFO.anonymous;
@@ -5691,7 +5825,7 @@
       });
     }
     fillTeamName(info);
-    if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD/i)) {
+    if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA/i)) {
       if (info.tags.DIY) {
         let categoryValue = "";
         if (CURRENT_SITE_NAME === "PTHome") {
@@ -5701,6 +5835,8 @@
         } else if (CURRENT_SITE_NAME === "LemonHD") {
           $('select[name="tag_diy"]').val("yes");
           return;
+        } else if (CURRENT_SITE_NAME === "1PTBA") {
+          categoryValue = info.videoType === "bluray" ? "1" : "4";
         }
         $(CURRENT_SITE_INFO.videoType.selector).val(categoryValue);
       }
@@ -5753,19 +5889,19 @@
       }, 2e3);
     }
     if (CURRENT_SITE_INFO.siteType === "UNIT3D" && info.category.match(/tv/)) {
-      const season = (_f = (_e = info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _e[1]) != null ? _f : 1;
-      const episode = (_h = (_g = info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _g[1]) != null ? _h : 0;
+      const season = (_h = (_g = info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _g[1]) != null ? _h : 1;
+      const episode = (_j = (_i = info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _i[1]) != null ? _j : 0;
       $("#season_number").val(season);
       $("#episode_number").val(episode);
     }
     if (CURRENT_SITE_NAME === "HDRoute") {
       const {description: description2, doubanInfo} = info;
       const fullDescription = description2 + doubanInfo;
-      const imdbRank = (_j = (_i = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _i[1]) != null ? _j : "";
+      const imdbRank = (_l = (_k = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _k[1]) != null ? _l : "";
       $("#upload-imdb").val(imdbRank);
-      const originalName = (_l = (_k = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _k[2]) != null ? _l : "";
-      const translateName = (_p = (_o = (_n = (_m = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _m[2]) == null ? void 0 : _n.split("/")) == null ? void 0 : _o[0]) != null ? _p : "";
-      const summary = (_t = (_s = (_r = (_q = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _q[2]) == null ? void 0 : _r.split("/")) == null ? void 0 : _s[0]) != null ? _t : "";
+      const originalName = (_n = (_m = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _m[2]) != null ? _n : "";
+      const translateName = (_r = (_q = (_p = (_o = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _o[2]) == null ? void 0 : _p.split("/")) == null ? void 0 : _q[0]) != null ? _r : "";
+      const summary = (_v = (_u = (_t = (_s = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _s[2]) == null ? void 0 : _t.split("/")) == null ? void 0 : _u[0]) != null ? _v : "";
       let chineseName = originalName;
       if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
         chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : originalName;
@@ -5776,6 +5912,15 @@
     if (CURRENT_SITE_NAME === "HDT") {
       if (info.category !== "tvPack") {
         $('select[name="season"').val("true");
+      }
+      if (imdbId) {
+        $(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
+      }
+    }
+    if (CURRENT_SITE_NAME === "Pter") {
+      const language = (_x = (_w = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _w[2]) != null ? _x : "";
+      if (!language.match(/英语/) && info.area === "EU") {
+        $(CURRENT_SITE_INFO.area.selector).val("8");
       }
     }
   };
@@ -5978,50 +6123,42 @@ All thanks to the original uploader\uFF01`;
     const torrentDom = $(`#torrent_${torrentId}`);
     const ptpMovieTitle = (_a = $(".page__title").text().match(/]?([^[]+)/)[1]) == null ? void 0 : _a.trim();
     const [movieName, movieAkaName = ""] = ptpMovieTitle.split(" AKA ");
-    TORRENT_INFO.mediaInfo = `${torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote:contains(Codec ID)").text()}`;
+    const mediaInfoArray = [];
+    torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote:contains(Codec ID)").each(function(index, item) {
+      mediaInfoArray.push($(this).text());
+    });
     TORRENT_INFO.movieName = movieName;
     TORRENT_INFO.movieAkaName = movieAkaName;
     TORRENT_INFO.imdbUrl = (_c = (_b = $("#imdb-title-link")) == null ? void 0 : _b.attr("href")) != null ? _c : "";
     TORRENT_INFO.year = $(".page__title").text().match(/\[(\d+)\]/)[2];
     const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
     TORRENT_INFO.category = getPTPType();
-    let descriptionBBCode = getFilterBBCode(torrentDom.find("#subtitle_manager+.movie-page__torrent__panel .bbcode-table-guard")[0]);
-    if (TORRENT_INFO.category === "concert") {
-      descriptionBBCode = $("#synopsis").text() + descriptionBBCode;
-    }
-    const {comparisonData, screenshots} = getPTPImage(torrentDom);
-    if (comparisonData) {
-      let comparisonImgs = [];
-      Object.keys(comparisonData).forEach((key) => {
-        comparisonImgs = comparisonImgs.concat(comparisonData[key]);
-        descriptionBBCode = descriptionBBCode.replace(key + ":", "");
-        descriptionBBCode += "\n[b]" + key + ":[/b]\n" + comparisonData[key].map((url) => {
-          return `[img]${url}[/img]`;
-        }).join("");
-      });
-      TORRENT_INFO.comparisonImgs = comparisonImgs;
-    }
-    TORRENT_INFO.description = descriptionBBCode;
-    const infoArray = torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().replace(/ /g, "").split("/");
-    const [codes, container, source, ...otherInfo] = infoArray;
-    const isRemux = otherInfo.includes("Remux");
-    TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType(container, isRemux, codes, source);
-    const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
-    const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo;
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-    const {videoCodec, audioCodec, fileName = "", resolution, mediaTags} = getInfoFunc(mediaInfoOrBDInfo);
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = mediaTags;
-    let torrentName = fileName || torrentHeaderDom.data("releasename");
-    torrentName = formatTorrentTitle(torrentName);
-    TORRENT_INFO.title = torrentName;
-    TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-    TORRENT_INFO.size = torrentHeaderDom.find(".nobr span").attr("title").replace(/[^\d]/g, "");
-    TORRENT_INFO.screenshots = screenshots;
+    const screenshots = getPTPImage(torrentDom);
+    getDescription(torrentId).then((res) => {
+      const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
+      TORRENT_INFO.description = descriptionData;
+      const infoArray = torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().replace(/ /g, "").split("/");
+      const [codes, container, source, ...otherInfo] = infoArray;
+      const isRemux = otherInfo.includes("Remux");
+      TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType(container, isRemux, codes, source);
+      const bdinfo = getBDInfoFromBBCode(descriptionData);
+      const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
+      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+      const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfoArray.join("\n");
+      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+      const {videoCodec, audioCodec, fileName = "", resolution, mediaTags} = getInfoFunc(mediaInfoOrBDInfo);
+      TORRENT_INFO.videoCodec = videoCodec;
+      TORRENT_INFO.audioCodec = audioCodec;
+      TORRENT_INFO.resolution = resolution;
+      TORRENT_INFO.tags = mediaTags;
+      let torrentName = fileName || torrentHeaderDom.data("releasename");
+      torrentName = formatTorrentTitle(torrentName);
+      TORRENT_INFO.title = torrentName;
+      TORRENT_INFO.source = getPTPSource(source, codes, resolution);
+      TORRENT_INFO.size = torrentHeaderDom.find(".nobr span").attr("title").replace(/[^\d]/g, "");
+      TORRENT_INFO.screenshots = screenshots;
+      console.log(TORRENT_INFO);
+    });
     let country = [];
     const matchArray = $("#movieinfo div").text().match(/Country:\s+([^\n]+)/);
     if (matchArray && matchArray.length > 0) {
@@ -6043,33 +6180,13 @@ All thanks to the original uploader\uFF01`;
     return typeMap[ptpType];
   };
   var getPTPImage = () => {
-    var _a, _b, _c, _d;
     const imgList = [];
-    let comparisonData = {};
     const torrentInfoPanel = $(".movie-page__torrent__panel");
-    const links = torrentInfoPanel.find("a:contains(Show comparison)");
-    for (let i = 0; i < links.length; i++) {
-      const clickFunc = links[i].getAttribute("onclick");
-      if (clickFunc && clickFunc.match(/BBCode.ScreenshotComparisonToggleShow/)) {
-        try {
-          const paramsStr = (_b = (_a = clickFunc.match(/\((.+)\)/)) == null ? void 0 : _a[1]) != null ? _b : "";
-          const [comparisonTextStr = "null", imgListStr = "null"] = paramsStr.match(/\[.+?\]/g);
-          const comparisonText = (_d = (_c = JSON.parse(comparisonTextStr)) == null ? void 0 : _c.join(",")) != null ? _d : "";
-          const comparisonList = JSON.parse(imgListStr);
-          comparisonData[comparisonText] = comparisonList;
-        } catch (error) {
-          comparisonData = null;
-        }
-      }
-    }
     const imageDom = torrentInfoPanel.find(".bbcode__image");
     for (let i = 0; i < imageDom.length; i++) {
       imgList.push(imageDom[i].getAttribute("src"));
     }
-    return {
-      screenshots: imgList,
-      comparisonData
-    };
+    return imgList;
   };
   var getPTPSource = (source, codes, resolution) => {
     if (codes.match(/BD100|BD66/i)) {
@@ -6096,6 +6213,68 @@ All thanks to the original uploader\uFF01`;
       type = "encode";
     }
     return type;
+  };
+  var getDescription = (id) => {
+    return new Promise((resolve, reject) => {
+      try {
+        GM_xmlhttpRequest({
+          method: "GET",
+          url: `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`,
+          onload(res) {
+            const data = res.responseText;
+            if (data) {
+              const element = document.createElement("span");
+              element.innerHTML = data;
+              resolve(element.innerText || element.textContent);
+            }
+          }
+        });
+      } catch (error) {
+        reject(new Error(error.message));
+      }
+    });
+  };
+  var formatDescriptionData = (data, screenshots, mediaInfoArray) => {
+    let descriptionData = data;
+    screenshots.forEach((screenshot) => {
+      const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, "i");
+      if (!descriptionData.match(regStr)) {
+        descriptionData = descriptionData.replace(new RegExp(screenshot, "g"), `[img]${screenshot}[/img]`);
+      }
+    });
+    descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, "[$1quote]");
+    descriptionData = descriptionData.replace(/\[hide(=(.+?))?\]/g, "$2: [quote]").replace(/\[\/hide\]/g, "[/quote]");
+    descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
+    descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\s)+?)\[\/align\]/g, "[$2]$3[/$2]");
+    descriptionData = descriptionData.replace(/\r\n/g, "\n");
+    const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g) || [];
+    let comparisonImgArray = [];
+    comparisonArray.forEach((item) => {
+      comparisonImgArray = comparisonImgArray.concat(item.replace(/\[\/?comparison(=(.+?))?\]/g, "").split(/[ \r\n]/));
+      descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
+    });
+    const comparisonImgs = [];
+    [...new Set(comparisonImgArray)].forEach((item) => {
+      const formatImg = item.replace(/\s*/g, "");
+      if (item.match(/^https?.+/)) {
+        comparisonImgs.push(formatImg);
+        descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item}`, "gi"), `[img]${formatImg}[/img]`);
+      } else if (item.match(/^\[img\]/i)) {
+        comparisonImgs.push(formatImg.replace(/\[\/?img\]/g, ""));
+      }
+    });
+    TORRENT_INFO.comparisonImgs = comparisonImgs;
+    descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/g, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/g, "");
+    mediaInfoArray.forEach((mediaInfo) => {
+      const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo)}`, "i");
+      if (!descriptionData.match(regStr)) {
+        descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
+      }
+    });
+    if (TORRENT_INFO.category === "concert") {
+      descriptionData = $("#synopsis").text() + "\n" + descriptionData;
+    }
+    return descriptionData;
   };
 
   // src/source/bhd.js
@@ -6638,6 +6817,11 @@ All thanks to the original uploader\uFF01`;
     }
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       [title, subtitle] = [subtitle, title];
+      siteImdbUrl = $("#kimdb .imdbwp__link").attr("href");
+      TORRENT_INFO.doubanUrl = $("#kdouban .imdbwp__link").attr("href");
+      const element = document.createElement("div");
+      $(element).html($("#outer td").has("#kdescr").html());
+      descriptionBBCode = getFilterBBCode(element);
     }
     if (CURRENT_SITE_NAME === "SSD") {
       TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
@@ -7093,6 +7277,11 @@ td.title-td h4{
 .easy-seed-setting-btn svg{
   height: 20px;
   width: 20px;
+  animation: 3s linear rotate infinite;
+}
+@keyframes rotate {
+  from {transform: rotate(0deg)}
+  to   {transform: rotate(360deg) }
 }
 .easy-seed-setting-panel{
   position: fixed;
@@ -7117,7 +7306,7 @@ td.title-td h4{
   color: #000;
   margin-bottom: 15px;
 }
-.easy-seed-setting-panel .panel-content{
+.easy-seed-setting-panel .panel-content-wrap{
   margin-top: 200px;
   max-width: 800px;
   box-sizing: border-box;
@@ -7127,7 +7316,11 @@ td.title-td h4{
   position: relative;
   text-align:center;
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
-  padding: 20px 30px 10px;
+  padding: 20px 10px 10px 20px;
+}
+.easy-seed-setting-panel .panel-content{
+  height: 500px;
+  overflow-y: auto;
 }
 .easy-seed-setting-panel .panel-content ul{
   list-style: none;
@@ -7181,7 +7374,7 @@ td.title-td h4{
   border-radius: 4px;
   margin:0;
   margin-right: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .easy-seed-setting-panel button:hover {
   background: #fff;
@@ -7337,30 +7530,32 @@ td.title-td h4{
     });
     const panelHtml = `
   <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
-    <div class="panel-content">
-      <h3>\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528</h3>
-      <section class="site-enable-setting">
-          <ul class="target-sites-enable-list" >
-            ${targetSiteList.join("")}
+    <div class="panel-content-wrap">
+      <div class="panel-content">
+        <h3>\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528</h3>
+        <section class="site-enable-setting">
+            <ul class="target-sites-enable-list" >
+              ${targetSiteList.join("")}
+            </ul>
+          </section>
+        <h3>\u6279\u91CF\u8F6C\u79CD\u542F\u7528</h3>
+        <i>\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9</i>
+        <section class="site-enable-setting">
+          <ul class="batch-seed-sites-enable-list">
+              ${batchSeedSiteList.join("")}
           </ul>
         </section>
-      <h3>\u6279\u91CF\u8F6C\u79CD\u542F\u7528</h3>
-      <i>\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9</i>
-      <section class="site-enable-setting">
-        <ul class="batch-seed-sites-enable-list">
-            ${batchSeedSiteList.join("")}
-        </ul>
-      </section>
-      <h3>\u7AD9\u70B9\u641C\u7D22\u542F\u7528</h3>
-      <section class="site-enable-setting">
-        <ul class="search-sites-enable-list">
-          ${searchSiteList.join("")}
-        </ul>
-      </section>
-      <h3>\u989D\u5916\u529F\u80FD\u5173\u95ED</h3>
-      <section class="site-enable-setting transfer-img-closed">
-      <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD</label>
-      </section>
+        <h3>\u7AD9\u70B9\u641C\u7D22\u542F\u7528</h3>
+        <section class="site-enable-setting">
+          <ul class="search-sites-enable-list">
+            ${searchSiteList.join("")}
+          </ul>
+        </section>
+        <h3>\u989D\u5916\u529F\u80FD\u5173\u95ED</h3>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD</label>
+        </section>
+      </div>
       <div class="confirm-btns">
         <button id="save-setting-btn">\u4FDD\u5B58</button>
         <button id="cancel-setting-btn">\u53D6\u6D88</button>
@@ -7423,24 +7618,23 @@ td.title-td h4{
   var getThumbnailImgs = () => {
     const statusDom = $(".upload-section .upload-status");
     const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
-    let imgList = allImgs;
+    const imgList = [...new Set(allImgs)];
     if (imgList.length < 1) {
       throw new Error("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25");
     }
-    imgList = imgList.join("\n");
     const isNSFW = $("#nsfw").is(":checked");
     statusDom.text("\u8F6C\u6362\u4E2D...");
     $("#img-transfer").attr("disabled", true).addClass("is-disabled");
-    transferImgs(imgList, isNSFW).then((data) => {
+    transferImgs(imgList.join("\n"), isNSFW).then((data) => {
       if (data.length) {
         const thumbnailImgs = data.map((imgData) => {
           return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
         });
         TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
         let {description} = TORRENT_INFO;
-        allImgs.forEach((img, index) => {
+        imgList.forEach((img, index) => {
           if (description.includes(img)) {
-            description = description.replace(`[img]${img}[/img]`, thumbnailImgs[index]);
+            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, "ig"), thumbnailImgs[index]);
           }
         });
         TORRENT_INFO.description = description;
@@ -7455,13 +7649,13 @@ td.title-td h4{
   var getDoubanLink = () => {
     $("#douban-info").attr("disabled", true).addClass("is-disabled");
     const statusDom = $(".douban-section .douban-status");
-    const doubanLink = $(".page__title>a").attr("href");
+    const doubanLink = $(".page__title>a").attr("href") || TORRENT_INFO.doubanUrl;
+    statusDom.text("\u83B7\u53D6\u4E2D...");
     if (doubanLink && doubanLink.match("movie.douban.com")) {
       TORRENT_INFO.doubanUrl = doubanLink;
       getDoubanData();
       return false;
     }
-    statusDom.text("\u83B7\u53D6\u4E2D...");
     const {imdbUrl, movieName} = TORRENT_INFO;
     getDoubanLinkByIMDB(imdbUrl, movieName).then((doubanUrl) => {
       if (!doubanUrl) {
