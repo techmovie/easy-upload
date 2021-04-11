@@ -16,7 +16,7 @@ export default () => {
   const { Category, Size, Genre } = getBasicInfo();
   let tags = getTagsFromSubtitle(title);
   let category = Category.toLowerCase().split(/\s|\//)[0];
-  category = Genre === 'Animation' ? 'cartoon' : category;
+  category = Genre.match(/Animation/i) ? 'cartoon' : category;
   const videoType = getVideoType(Category, title);
   const source = getSourceFromTitle(title);
   let resolution = title.match(/\d{3,4}(p|i)/i)?.[0];

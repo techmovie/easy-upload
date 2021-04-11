@@ -1,7 +1,10 @@
 // 入口文件
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, TORRENT_INFO } from './const';
 import { fillTargetForm } from './target';
-import { getSubTitle, getUrlParam, transferImgs, getDoubanInfo, getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice } from './common';
+import {
+  getSubTitle, getUrlParam, transferImgs, getDoubanInfo,
+  getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice, getPreciseCategory,
+} from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
 import style from './style';
@@ -322,15 +325,8 @@ const updateTorrentInfo = (data) => {
   if (areaMatch) {
     TORRENT_INFO.area = getAreaCode(areaMatch);
   }
-  let category = TORRENT_INFO.category;
-  if (category === 'movie') {
-    if (desc.match(/动画/)) {
-      category = 'cartoon';
-    } else if (desc.match(/纪录/)) {
-      category = 'documentary';
-    }
-    TORRENT_INFO.category = category;
-  }
+  const category = TORRENT_INFO.category;
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
 };
 const filterBluTorrent = (imdb = '', name = '') => {
   if (imdb) {

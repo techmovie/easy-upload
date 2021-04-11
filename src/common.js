@@ -222,11 +222,12 @@ const transferImgs = (screenshots, isNSFW) => {
 };
 // 获取更加准确的分类
 const getPreciseCategory = (torrentInfo, category) => {
-  const { description, title, subtitle } = torrentInfo;
+  const { description, title, subtitle, doubanInfo } = torrentInfo;
+  const movieGenre = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)?.[2] ?? '';
   if (category === 'movie') {
-    if (description.match(/动画/)) {
+    if (movieGenre.match(/动画/)) {
       category = 'cartoon';
-    } else if (description.match(/纪录/)) {
+    } else if (movieGenre.match(/纪录/)) {
       category = 'documentary';
     }
   } else if (category?.match(/tv/)) {
