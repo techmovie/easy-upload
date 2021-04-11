@@ -1,5 +1,6 @@
 export default GM_addStyle(`
 td.title-td{
+  min-width: 80px;
   vertical-align: middle !important;
 }
 td.title-td h4{

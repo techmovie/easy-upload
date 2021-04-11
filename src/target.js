@@ -64,7 +64,7 @@ const fillTargetForm = (info) => {
       // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
       if (doubanInfo) {
-        description = doubanInfo + description;
+        description = doubanInfo + '\n' + description;
       }
     } else {
       // 需要过滤掉中文信息

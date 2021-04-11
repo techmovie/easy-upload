@@ -378,7 +378,7 @@ const insertTorrentPage = () => {
   </path>
   </svg>
   </span></h4>`;
-  if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|ACM/)) {
+  if (CURRENT_SITE_INFO.siteType === 'NexusPHP' || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|ACM|KG/)) {
     const trDom = `<tr>
     <td class="rowhead nowrap title-td">
     ${easySeedTitleDom}

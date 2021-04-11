@@ -2927,9 +2927,11 @@
       "url": "https://karagarga.in",
       "host": "karagarga.in",
       "siteType": "KG",
-      "asSource": false,
+      "asSource": true,
       "asTarget": false,
       "uploadPath": "/upload.php",
+      "seedDomSelector": ".outer h1~table:first>tbody>tr:nth-child(6)",
+      "needDoubanInfo": true,
       "search": {
         "path": "/browse.php",
         "imdbOptionKey": "imdb",

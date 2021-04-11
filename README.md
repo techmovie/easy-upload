@@ -61,6 +61,7 @@
 |    HDT    |             ✅              |               ✅                |
 |    HDU    |             ✅              |               ✅                |
 | KEEPFRDS  |             ✅              |               ❌                |
+|    KG     |             ✅              |               ❌                |
 |  LemonHD  |             ✅              |               ✅                |
 |   MTeam   |             ✅              |               ✅                |
 |   NYPT    |             ✅              |               ✅                |

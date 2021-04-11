@@ -494,8 +494,9 @@ const getResolution = (mediaInfo) => {
     return '576p';
   } else if (width >= 840 || height === 480) {
     return '480p';
+  } else if (width && height) {
+    return `${width}x${height}`;
   } else {
-    // return `${width}x${height}`;
     return '';
   }
 };
@@ -739,7 +740,8 @@ const htmlToBBCode = (node) => {
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
         case 'DIV': {
-          if (node.className === 'codemain') {
+          const { className } = node;
+          if (className === 'codemain') {
             // 兼容朋友
             if (node.firstChild && node.firstChild.tagName === 'PRE') {
               pp('');
@@ -747,8 +749,15 @@ const htmlToBBCode = (node) => {
             } else {
               pp('\n[quote]', '[/quote]'); break;
             }
-          } else if (node.className === 'hidden' && CURRENT_SITE_NAME === 'HDT') {
+          } else if (className === 'hidden' && CURRENT_SITE_NAME === 'HDT') {
             pp('\n[quote]', '[/quote]'); break;
+          } else if (className.match('spoiler') && CURRENT_SITE_NAME === 'KG') {
+            if (className === 'spoiler-content') {
+              pp('\n[quote]', '[/quote]');
+            } else if (className === 'spoiler-header') {
+              return '';
+            }
+            break;
           } else {
             pp('\n', '\n'); break;
           }
@@ -772,7 +781,7 @@ const htmlToBBCode = (node) => {
           pp('[center]', '[/center]'); break;
         }
         case 'TD': {
-          if (CURRENT_SITE_NAME.match(/TTG|HDBits/) || CURRENT_SITE_NAME === 'HDT') {
+          if (CURRENT_SITE_NAME.match(/TTG|HDBits|KG/) || CURRENT_SITE_NAME === 'HDT') {
             pp('[quote]', '[/quote]'); break;
           } else {
             return '';

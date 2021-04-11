@@ -45,7 +45,7 @@ export default () => {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       resolution = mediaResolution;
-      tags = { ...TORRENT_INFO.tags, ...mediaTags };
+      tags = { ...tags, ...mediaTags };
     }
   }
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;

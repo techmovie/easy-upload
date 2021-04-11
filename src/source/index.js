@@ -7,6 +7,7 @@ import getTTGInfo from './ttg';
 import getUNIT3DInfo from './unit3d';
 import getNexusPHPInfo from './nexusphp';
 import getHDTInfo from './hdt';
+import getKGTInfo from './kg';
 
 let getTorrentInfo = getPTPInfo;
 if (!CURRENT_SITE_INFO) {
@@ -23,6 +24,8 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getUNIT3DInfo;
 } else if (CURRENT_SITE_NAME === 'HDT') {
   getTorrentInfo = getHDTInfo;
+} else if (CURRENT_SITE_NAME === 'KG') {
+  getTorrentInfo = getKGTInfo;
 }
 
 export default getTorrentInfo;
