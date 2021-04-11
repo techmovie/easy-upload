@@ -1,0 +1,14 @@
+url: http://shadowthein.net
+host: shadowthein.net
+siteType: its
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /browse.php
+  params:
+    incldead: 1
+    search: '{imdb}'
+    search_in: names
+    sort: 5
+    type: desc

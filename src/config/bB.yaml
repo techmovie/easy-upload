@@ -1,0 +1,13 @@
+url: https://baconbits.org
+host: baconbits.org
+siteType: gazelle
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  params:
+    searchstr: '{name}'
+    order_by: s4
+    order_way: desc
+    disablegrouping: 1

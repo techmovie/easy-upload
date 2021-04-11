@@ -1,0 +1,14 @@
+url: https://hdf.world
+host: hdf.world
+siteType: gazelle
+asSource: false
+asTarget: false
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  params:
+    order_way: desc
+    order_by: time
+    searchstr: '{name}'
+    group_results: '1'
+    action: basic

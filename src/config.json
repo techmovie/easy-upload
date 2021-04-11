@@ -1923,6 +1923,24 @@
         }
       }
     },
+    "HDF": {
+      "url": "https://hdf.world",
+      "host": "hdf.world",
+      "siteType": "gazelle",
+      "asSource": false,
+      "asTarget": false,
+      "uploadPath": "/upload.php",
+      "search": {
+        "path": "/torrents.php",
+        "params": {
+          "order_way": "desc",
+          "order_by": "time",
+          "searchstr": "{name}",
+          "group_results": "1",
+          "action": "basic"
+        }
+      }
+    },
     "HDHome": {
       "url": "https://hdhome.org",
       "host": "hdhome.org",
@@ -4549,6 +4567,41 @@
           "order_way": "desc",
           "order_by": "size",
           "searchstr": "{imdb}"
+        }
+      }
+    },
+    "bB": {
+      "url": "https://baconbits.org",
+      "host": "baconbits.org",
+      "siteType": "gazelle",
+      "asSource": false,
+      "asTarget": false,
+      "uploadPath": "/upload.php",
+      "search": {
+        "path": "/torrents.php",
+        "params": {
+          "searchstr": "{name}",
+          "order_by": "s4",
+          "order_way": "desc",
+          "disablegrouping": 1
+        }
+      }
+    },
+    "iTS": {
+      "url": "http://shadowthein.net",
+      "host": "shadowthein.net",
+      "siteType": "its",
+      "asSource": false,
+      "asTarget": false,
+      "uploadPath": "/upload.php",
+      "search": {
+        "path": "/browse.php",
+        "params": {
+          "incldead": 1,
+          "search": "{imdb}",
+          "search_in": "names",
+          "sort": 5,
+          "type": "desc"
         }
       }
     },

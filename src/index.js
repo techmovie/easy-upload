@@ -86,10 +86,10 @@ const getSearchList = () => {
     if (siteInfo.search) {
       const searchConfig = siteInfo.search;
       const { params, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-      const imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+      let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = '';
       const { movieAkaName, movieName } = TORRENT_INFO;
-      if (imdbId && !siteName.match('nzb')) {
+      if (imdbId && !siteName.match(/nzb|HDF|bB/)) {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
@@ -97,6 +97,7 @@ const getSearchList = () => {
         }
       } else {
         searchKeyWord = movieAkaName || movieName;
+        imdbId = '';
       }
 
       let searchParams = Object.keys(params).map(key => {
