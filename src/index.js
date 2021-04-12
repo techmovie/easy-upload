@@ -18,13 +18,15 @@ import style from './style';
 const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
   const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
+    const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
     if (PT_SITE[siteName].asTarget) {
       if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
         return `<li>
-        <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${siteName} </a>
+        <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${favIcon} ${siteName} </a>
         <span>|</span>
         </li>`;
       }
@@ -81,6 +83,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
 };
 const getSearchList = () => {
   const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
   const searchList = Object.keys(PT_SITE).sort().map(siteName => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
@@ -119,7 +122,8 @@ const getSearchList = () => {
         if (siteName.match('nzb')) {
           url = url.replace(/{name}/, searchKeyWord);
         }
-        return `<li><a href="${url}" target="_blank">${siteName}</a> <span>|</span></li>`;
+        const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
+        return `<li><a href="${url}" target="_blank">${favIcon} ${siteName}</a> <span>|</span></li>`;
       }
     }
     return '';
@@ -131,7 +135,7 @@ const openSettingPanel = () => {
   const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
   const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
-
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
   const siteKeys = Object.keys(PT_SITE).sort();
   const targetSiteList = siteKeys.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
@@ -185,6 +189,9 @@ const openSettingPanel = () => {
         <section class="site-enable-setting transfer-img-closed">
         <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
         </section>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>关闭站点图标显示</label>
+        </section>
       </div>
       <div class="confirm-btns">
         <button id="save-setting-btn">保存</button>
@@ -207,6 +214,7 @@ const saveSetting = () => {
   const searchSitesEnabled = [];
   const batchSeedSiteEnabled = [];
   const transferImgEnabled = $("input[name='transfer-img-closed']").attr('checked') || '';
+  const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr('checked') || '';
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
   });
@@ -222,6 +230,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
     GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
     GM_setValue('easy-seed.transfer-img-closed', transferImgEnabled);
+    GM_setValue('easy-seed.site-favicon-closed', siteFaviconEnabled);
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {
