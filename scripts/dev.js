@@ -26,6 +26,7 @@ const notifyError = (error) => {
   }).catch(e => {
     notifyError(e);
   });
+  yamlToJSON();
   chokidar.watch('src/config/*', { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
     console.log(`${path}:${eventName}`);
     yamlToJSON();
