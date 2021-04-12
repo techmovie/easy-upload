@@ -1,7 +1,8 @@
 # easy-seed
 
-[安装地址1](https://openuserjs.org/scripts/birdplane/easy-seed_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
-[安装地址2](https://greasyfork.org/zh-CN/scripts/424778-easy-seed-pt%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
+[安装地址1](https://greasyfork.org/zh-CN/scripts/423199-easy-seed-pt%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
+
+[安装地址2](https://openuserjs.org/scripts/birdplane/easy-seed_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
 
 [加入Telegram群组](https://t.me/easyseed)
 
