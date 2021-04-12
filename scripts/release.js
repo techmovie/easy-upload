@@ -29,10 +29,12 @@ bump().then(data => {
     color: 'blue',
   }).start();
   execa.sync('npm', ['run', 'build']);
-  spinner.text = '提交代码...';
+  spinner.text = '🔨 提交代码...';
   spinner.color = 'green';
   execa.sync('git', ['add', '.']);
   execa.sync('git', ['commit', '-m', `feat(new version): ${newVersion}`]);
   execa.sync('git', ['push']);
-  spinner.succeed(`🎉 v${newVersion}发布成功!`);
+  setTimeout(() => {
+    spinner.succeed(`🎉 v${newVersion}发布成功!`);
+  }, 600);
 });
