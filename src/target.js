@@ -185,8 +185,7 @@ const fillTargetForm = (info) => {
     $(formatData.selector).val(formatData.map[info.format]);
   }
   if (CURRENT_SITE_INFO.image) {
-    const image = info.description.match(/\[img\](.+?)\[\/img\]/)?.[1] ?? '';
-    $(CURRENT_SITE_INFO.image.selector).val(image);
+    $(CURRENT_SITE_INFO.image.selector).val(info.image);
   }
 
   if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA/i)) {
@@ -324,6 +323,22 @@ const fillTargetForm = (info) => {
     if (!language.match(/英语/) && info.area === 'EU') {
       $(CURRENT_SITE_INFO.area.selector).val('8');
     }
+  }
+  if (CURRENT_SITE_NAME === 'Bib' && info.doubanBookInfo?.success) {
+    // eslint-disable-next-line camelcase
+    const { year, pager, translator, author, publisher, ISBN, book_intro } = info.doubanBookInfo;
+    console.log(info.doubanBookInfo);
+    $('#AuthorsField').val(author.join(','));
+    $('#PublishersField').val(publisher);
+    $('#IsbnField').val(ISBN);
+    $('#YearField').val(year);
+    $('#PagesField').val(pager);
+    $('#LanguageField').val('17');
+    $('#inputFileID').replaceWith('<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>');
+    $('#TranslatorsField').val(translator.join(','));
+    $('#DescriptionField').val(book_intro);
+    const event = new Event('change');
+    document.getElementById('DescriptionField').dispatchEvent(event);
   }
 };
 /*

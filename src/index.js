@@ -43,6 +43,16 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     </div>
   </div>`
     : '';
+  const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo
+    ? `
+<div class="function-list-item">
+  <h4>获取豆瓣读书简介</h4>
+  <div class="douban-book-section">
+    <button id="douban-book-info">开始获取</button>
+    <div class="douban-book-status"></div>
+  </div>
+</div>`
+    : '';
   const transferDom = transferImgClosed
     ? ''
     : `
@@ -69,6 +79,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     ${(doubanDom || transferDom)
     ? `<section class="function-list">
         ${doubanDom}
+        ${doubanBookDom} 
         ${transferDom}
       </section>`
     : ''}
@@ -327,6 +338,28 @@ const getDoubanData = () => {
     statusDom.text(error.message);
   }
 };
+const getDoubanBookInfo = () => {
+  const { doubanUrl } = TORRENT_INFO;
+  const statusDom = $('.douban-book-section .douban-book-status');
+  statusDom.text('获取中...');
+  try {
+    if (doubanUrl) {
+      getDoubanInfo(doubanUrl).then(data => {
+        TORRENT_INFO.title = data.chinese_title || data.origin_title;
+        TORRENT_INFO.image = data.poster;
+        TORRENT_INFO.description = data.book_intro;
+        TORRENT_INFO.doubanBookInfo = data;
+        statusDom.text('获取成功');
+      }).catch(error => {
+        statusDom.text(error.message);
+      }).finally(() => {
+        $('#douban-book-info').removeAttr('disabled').removeClass('is-disabled');
+      });
+    }
+  } catch (error) {
+    statusDom.text(error.message);
+  }
+};
 const updateTorrentInfo = (data) => {
   const desc = data.format;
   TORRENT_INFO.doubanInfo = data.format;
@@ -504,6 +537,11 @@ if (CURRENT_SITE_NAME) {
     if ($('#douban-info')) {
       $('#douban-info').click(() => {
         getDoubanLink();
+      });
+    }
+    if ($('#douban-book-info')) {
+      $('#douban-book-info').click(() => {
+        getDoubanBookInfo();
       });
     }
     if ($('#easy-seed-setting')) {
