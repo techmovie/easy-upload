@@ -142,7 +142,10 @@ export default () => {
     if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
       const matchCodec = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)?.[2];
       if (matchCodec) {
-        TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+        let videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+        videoCodec = videoCodec.match(/hevc/i) ? 'x265' : videoCodec;
+        videoCodec = videoCodec.match(/mpeg4/i) ? 'x264' : videoCodec;
+        TORRENT_INFO.videoCodec = videoCodec;
       }
     }
   } else {
