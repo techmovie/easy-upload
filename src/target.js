@@ -324,6 +324,21 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.area.selector).val('8');
     }
   }
+  // 处理HDH iPad
+  if (CURRENT_SITE_NAME === 'HDHome') {
+    if (info.title.match(/iPad/i)) {
+      const categoryMap = {
+        movie: '412',
+        tv: '426',
+        tvPack: '433',
+        documentary: '418',
+      };
+      const ipadCat = categoryMap[info.category];
+      if (ipadCat) {
+        $('#browsecat').val(ipadCat);
+      }
+    }
+  }
   if (CURRENT_SITE_NAME === 'Bib' && info.doubanBookInfo?.success) {
     // eslint-disable-next-line camelcase
     const { year, pager, translator, author, publisher, ISBN, book_intro } = info.doubanBookInfo;
