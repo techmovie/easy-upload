@@ -149,7 +149,7 @@ export default () => {
       }
     }
   } else {
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(videoCodec || TORRENT_INFO.title, TORRENT_INFO.videoType);
+    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
   }
   TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
