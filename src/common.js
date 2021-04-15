@@ -213,9 +213,9 @@ const getIMDBData = (imdbUrl) => {
     }
   });
 };
-const transferImgs = (screenshots, isNSFW) => {
+const transferImgs = (screenshots) => {
   return new Promise((resolve, reject) => {
-    const params = encodeURI(`imgs=${screenshots}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`);
+    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
     try {
       GM_xmlhttpRequest({
         url: 'https://pixhost.to/remote/',

@@ -89,15 +89,64 @@ td.title-td h4{
 .seed-dom li a{
   font-weight: 600;
 }
-.seed-dom .function-list{
+.easy-seed-function-list{
   display: flex;
   justify-content: space-around; 
-  padding: 12px 20px 0;
+  padding: 6px 20px;
+}
+.easy-seed-function-list button{
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: .1s;
+  font-weight: 500;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  margin:0;
+  margin-right: 5px;
 }
 .function-list-item{
   display: flex;
   align-items: center;
   justify-content: space-between; 
+}
+.function-list-item input{
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 34px;
+    line-height: 40px;
+    outline: none;
+    width: 200px;
+    padding: 0 12px;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
+.function-list-item input::placeholder {
+  color: #c0c4cc
+}
+.function-list-item input:hover {
+  border-color: #c0c4cc
+}
+.function-list-item input:focus {
+    outline: none;
+    border-color: #409eff
 }
 .hdb-tr{
   display: flex;

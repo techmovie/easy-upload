@@ -17,9 +17,12 @@ import style from './style';
   * @return
   * */
 const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
-  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
-  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
+  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
+    ? ''
+    : GM_getValue('easy-seed.site-favicon-closed');
   const siteKeys = Object.keys(PT_SITE).sort();
   const siteList = siteKeys.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
@@ -34,40 +37,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     }
     return '';
   });
-  const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
-    ? `
-  <div class="function-list-item">
-    <h4>获取豆瓣简介</h4>
-    <div class="douban-section">
-      <button id="douban-info">开始获取</button>
-      <div class="douban-status"></div>
-    </div>
-  </div>`
-    : '';
-  const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo
-    ? `
-<div class="function-list-item">
-  <h4>获取豆瓣读书简介</h4>
-  <div class="douban-book-section">
-    <button id="douban-book-info">开始获取</button>
-    <div class="douban-book-status"></div>
-  </div>
-</div>`
-    : '';
-  const transferDom = transferImgClosed
-    ? ''
-    : `
-      <div class="function-list-item">
-      <h4>转缩略图</h4>
-      <div class="upload-section">
-        <button id="img-transfer">开始转换</button>
-        <div class="checkbox">
-          <input type="checkbox" id="nsfw">
-          <label for="nsfw">是否包含NSFW</label>
-        </div>
-        <div class="upload-status"></div>
-      </div>
-    </div>`;
+
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
@@ -77,15 +47,9 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
         <button id="batch-seed-btn">一键群转</button>
       </li>
     </ul>
-    ${(doubanDom || transferDom)
-    ? `<section class="function-list">
-        ${doubanDom}
-        ${doubanBookDom} 
-        ${transferDom}
-      </section>`
-    : ''}
     ${CURRENT_SITE_NAME === 'PTP'
-    ? `<div class="ptp-search-list">
+    ? `${getFunctionItems()}
+    <div class="ptp-search-list">
         ${searchListDom}
         <div/> `
     : ''}
@@ -94,8 +58,12 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
   torrentDom.prepend(seedDom);
 };
 const getSearchList = () => {
-  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
+  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
+    ? ''
+    : GM_getValue('easy-seed.site-favicon-closed');
   const searchList = Object.keys(PT_SITE).sort().map(siteName => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
@@ -119,7 +87,8 @@ const getSearchList = () => {
         return `${key}=${params[key]}`;
       }).join('&');
       if (imdbId) {
-        searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '').replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+        searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
+          .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
       } else {
         if (searchParams.match(/{name}/)) {
           searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
@@ -143,11 +112,21 @@ const getSearchList = () => {
   return searchList;
 };
 const openSettingPanel = () => {
-  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
-  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
-  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
-  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined ? '' : GM_getValue('easy-seed.transfer-img-closed');
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined ? '' : GM_getValue('easy-seed.site-favicon-closed');
+  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
+  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
+  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined
+    ? ''
+    : GM_getValue('easy-seed.transfer-img-closed');
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
+    ? ''
+    : GM_getValue('easy-seed.site-favicon-closed');
   const siteKeys = Object.keys(PT_SITE).sort();
   const targetSiteList = siteKeys.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
@@ -251,7 +230,9 @@ const saveSetting = () => {
 };
 
 const openBatchSeedTabs = () => {
-  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined ? [] : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
+  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined
+    ? []
+    : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
   if (batchSeedSiteEnabled.length === 0) {
     showNotice({ title: '错误', text: '请先设置群转列表' });
     return false;
@@ -277,10 +258,9 @@ const getThumbnailImgs = () => {
   if (imgList.length < 1) {
     throw new Error('获取图片列表失败');
   }
-  const isNSFW = $('#nsfw').is(':checked');
   statusDom.text('转换中...');
   $('#img-transfer').attr('disabled', true).addClass('is-disabled');
-  transferImgs(imgList.join('\n'), isNSFW).then(data => {
+  transferImgs(imgList.join('\n')).then(data => {
     if (data.length) {
       const thumbnailImgs = data.map(imgData => {
         return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
@@ -304,10 +284,13 @@ const getThumbnailImgs = () => {
 const getDoubanLink = () => {
   $('#douban-info').attr('disabled', true).addClass('is-disabled');
   const statusDom = $('.douban-section .douban-status');
-  const doubanLink = $('.page__title>a').attr('href') || TORRENT_INFO.doubanUrl;
+  const doubanLink = $('.page__title>a').attr('href') || TORRENT_INFO.doubanUrl || $('#douban-link').val();
   statusDom.text('获取中...');
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
+    if (doubanLink) {
+      $('#douban-link').val(doubanLink);
+    }
     getDoubanData();
     return false;
   }
@@ -317,6 +300,7 @@ const getDoubanLink = () => {
       throw new Error('豆瓣链接获取失败');
     }
     TORRENT_INFO.doubanUrl = doubanUrl;
+    $('#douban-link').val(doubanUrl);
     getDoubanData();
   }).catch(error => {
     statusDom.text(error.message);
@@ -341,7 +325,12 @@ const getDoubanData = () => {
   }
 };
 const getDoubanBookInfo = () => {
-  const { doubanUrl } = TORRENT_INFO;
+  let { doubanUrl } = TORRENT_INFO;
+  if (!doubanUrl) {
+    doubanUrl = $('#douban-link').val();
+  } else {
+    $('#douban-link').val(doubanUrl);
+  }
   const statusDom = $('.douban-book-section .douban-book-status');
   statusDom.text('获取中...');
   try {
@@ -357,6 +346,8 @@ const getDoubanBookInfo = () => {
       }).finally(() => {
         $('#douban-book-info').removeAttr('disabled').removeClass('is-disabled');
       });
+    } else {
+      throw new Error('缺少豆瓣链接');
     }
   } catch (error) {
     statusDom.text(error.message);
@@ -405,6 +396,50 @@ const fillSearchImdb = () => {
     }
   }
 };
+const getFunctionItems = () => {
+  const doubanSearchDom = `<div class="function-list-item">
+  <div class="douban-book-section">
+    <input type="text" placeholder="手动输入豆瓣链接" id="douban-link">
+  </div>
+  </div>`;
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined
+    ? ''
+    : GM_getValue('easy-seed.transfer-img-closed');
+  const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
+    ? `${doubanSearchDom}
+  <div class="function-list-item">
+    <div class="douban-section">
+      <button id="douban-info">获取豆瓣简介</button>
+      <div class="douban-status"></div>
+    </div>
+  </div>`
+    : '';
+  const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo
+    ? `${doubanSearchDom}
+<div class="function-list-item">
+  <div class="douban-book-section">
+    <button id="douban-book-info">获取豆瓣读书简介</button>
+    <div class="douban-book-status"></div>
+  </div>
+</div>`
+    : '';
+  const transferDom = transferImgClosed
+    ? ''
+    : `
+      <div class="function-list-item">
+      <div class="upload-section">
+        <button id="img-transfer">转缩略图</button>
+        <div class="upload-status"></div>
+      </div>
+    </div>`;
+  return ` ${(doubanDom || transferDom)
+      ? `<section class="easy-seed-function-list">
+          ${doubanDom}
+          ${doubanBookDom} 
+          ${transferDom}
+        </section>`
+      : ''}`;
+};
 // 将easy-seed插入种子页面
 const insertTorrentPage = () => {
   let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
@@ -416,6 +451,12 @@ const insertTorrentPage = () => {
   <ul class="search-list ">
     ${searchList.join('')}
   </ul>
+  </td>`;
+  const functionDom = `<td class="rowhead nowrap title-td detailsleft">
+  <h4>快捷操作</h4>
+  </td>
+  <td class="rowfollow detailshash"> 
+    ${getFunctionItems()}
   </td>`;
   const easySeedTitleDom = `
   <h4>一键转种 <span id="easy-seed-setting" class="easy-seed-setting-btn">
@@ -432,6 +473,9 @@ const insertTorrentPage = () => {
     <td class="rowfollow easy-seed-td"></td>
     </tr>
     <tr>
+    ${functionDom}
+    </tr>
+    <tr>
     ${searchListDom}
     </tr>`;
     torrentInsertDom.after(trDom);
@@ -445,6 +489,9 @@ const insertTorrentPage = () => {
     <td class="detailshash easy-seed-td" align="center"></td>
     </tr>
     <tr>
+    ${functionDom}
+    </tr>
+    <tr>
     ${searchListDom}
     </tr>`;
     torrentInsertDom.after(trDom);
@@ -454,6 +501,9 @@ const insertTorrentPage = () => {
     const trDom = `<tr class="hdb-tr">
     <td class="rowfollow title-td hdb-td">${easySeedTitleDom}</td>
     <td class="rowfollow easy-seed-td hdb-td"></td>
+    </tr>
+    <tr class="hdb-tr">
+    ${functionDom}
     </tr>
     <tr class="hdb-tr">
     ${searchListDom}
