@@ -992,7 +992,6 @@ const getRtIdFromTitle = (title, tv, year) => {
         const movies = tv ? resp.response.tvSeries : resp.response.movies;
         if (!Array.isArray(movies) || movies.length < 1) {
           console.log('no search results');
-          reject(new Error('no results'));
           return;
         }
         const sorted = movies.concat();
