@@ -1,5 +1,5 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from './const';
-import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl } from './common';
+import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData, getTMDBVideos, getRtIdFromTitle } from './common';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -144,8 +144,8 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM/)) {
     const fillIMDBId = CURRENT_SITE_INFO.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(CURRENT_SITE_INFO.imdb.selector).val(fillIMDBId);
-    getTMDBIdByIMDBId(imdbId).then(id => {
-      $(CURRENT_SITE_INFO.tmdb.selector).val(id);
+    getTMDBIdByIMDBId(imdbId).then(data => {
+      $(CURRENT_SITE_INFO.tmdb.selector).val(data.id);
     });
     if (CURRENT_SITE_NAME.match(/BeyondHD|ACM/i)) {
       const { category, videoType } = info;
@@ -355,6 +355,10 @@ const fillTargetForm = (info) => {
     const event = new Event('change');
     document.getElementById('DescriptionField').dispatchEvent(event);
   }
+
+  if (CURRENT_SITE_NAME === 'iTS') {
+    handleIts(info);
+  }
 };
 /*
 * 各个字段之间取交集填入表单
@@ -413,6 +417,16 @@ const disableTorrentChange = () => {
     $(nameSelector).attr('id', '').after(nameDom);
   }
 };
+
+const getScreenshotsBBCode = (imgArray) => {
+  return imgArray.map(img => {
+    if (img.match(/\[url=.+\]/i)) {
+      return img;
+    }
+    return `[img]${img}[/img]`;
+  });
+};
+
 const filterNexusDescription = (info) => {
   const { description, screenshots = [] } = info;
   let filterDescription = '';
@@ -565,6 +579,66 @@ const handleTJUPT = (info) => {
       clearTimeout(domTimeout);
     }
   }, 2000);
+};
+const handleIts = async (info) => {
+  let template = `[center]
+
+  [img]$poster$[/img]
+  
+  [color=darkorange][url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][/color]  [size=3]$imdbRate$[/size] [img]http://shadowthein.net/pic/star.gif[/img]  [size=3][color=darkorange][url=$rtUrl$][img]https://i.ibb.co/cDSgzxm/rt-logo.png[/img][/url][/color] $rtRate$[/size] [img]http://shadowthein.net/pic/star.gif[/img] [color=darkorange][url=$tmdbUrl$][img]https://i.ibb.co/VWMtVnN/0fa9aceda3e5.png[/img][/url][/color] [size=3]$tmdbRate$[/size]
+  
+  
+  [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
+  
+  $SYNOPSIS$
+  
+  
+  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
+  
+  [youtube]$youtubeUrl$[/youtube]
+  
+
+  [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
+  
+  $SCREENSHOTS$
+  
+  [/center]`;
+  const { imdbUrl, category, screenshots, comparisonImgs = [], resolution } = info;
+  if (!resolution.match(/2160|1080|720/) && category === 'movie') {
+    $('select[name="type"]').val('67');
+  }
+  const screenshotsBBCode = getScreenshotsBBCode(screenshots);
+  template = template.replace('$SCREENSHOTS$', screenshotsBBCode.join(''));
+  template = template.replace('$imdbUrl$', info.imdbUrl);
+  if (category.match(/tv|movie/)) {
+    try {
+      const imdbId = getIMDBIdByUrl(imdbUrl);
+      const { id: tmdbId, vote_average: tmdbRate } = await getTMDBIdByIMDBId(imdbId, {
+        append_to_response: 'videos',
+      });
+      const videos = await getTMDBVideos(tmdbId);
+      const youtubeId = videos.filter(video => video.site === 'YouTube')?.[0].key ?? '';
+      if (youtubeId) {
+        template = template.replace('$youtubeUrl$', `https://www.youtube.com/watch?v=${youtubeId}`);
+      }
+      template = template.replace('$tmdbUrl$', `https://www.themoviedb.org/movie/${tmdbId}`).replace('$tmdbRate$', tmdbRate); ;
+      const { poster, imdb_rating_average: imdbRate, description, year, aka } = await getIMDBData(imdbUrl);
+      template = template.replace('$imdbRate$', imdbRate).replace('$poster$', poster).replace('$SYNOPSIS$', description);
+      const movieName = aka.filter(item => item.country === 'USA')?.[0].title;
+      const rtInfo = await getRtIdFromTitle(movieName, !!category.match(/tv/), year);
+      const { score = 0, id = '' } = rtInfo;
+      template = template.replace('$rtRate$', `${score}%`).replace('$rtUrl$', `https://www.rottentomatoes.com/${id}`);
+      if (comparisonImgs.length > 0) {
+        const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
+        template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]\n\n
+        ${comparisonImgsBBCode.join('')}\n\n$1`);
+      }
+      $('textarea[name="descr"]').val(template);
+    } catch (error) {
+      console.log(error);
+      $('textarea[name="descr"]').val(template);
+    }
+  }
 };
 export {
   fillTargetForm,

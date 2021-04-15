@@ -190,6 +190,29 @@ const getDoubanLinkBySuggest = (imdbId) => {
     });
   });
 };
+const getIMDBData = (imdbUrl) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (!imdbUrl) {
+        throw new Error('缺少IMDB信息');
+      }
+      GM_xmlhttpRequest({
+        method: 'GET',
+        url: `${PT_GEN_API}?url=${imdbUrl}`,
+        onload (res) {
+          const data = JSON.parse(res.responseText);
+          if (data && data.success) {
+            resolve(data);
+          } else {
+            reject(data.error || '请求失败');
+          }
+        },
+      });
+    } catch (error) {
+      reject(new Error(error.message));
+    }
+  });
+};
 const transferImgs = (screenshots, isNSFW) => {
   return new Promise((resolve, reject) => {
     const params = encodeURI(`imgs=${screenshots}&content_type=${isNSFW ? 1 : 0}&max_th_size=300`);
@@ -414,14 +437,28 @@ const getTMDBIdByIMDBId = (imdbid) => {
           if (res.status !== 200 && (!isMovie && !isTV)) {
             reject(new Error('请求失败'));
           }
-          const id = isMovie ? data.movie_results[0].id : data.tv_results[0]?.id;
-          resolve(id);
+          const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
+          resolve(tmdbData);
         },
       });
     });
   } catch (error) {
     console.log(error);
   }
+};
+
+const getTMDBVideos = (tmdbId) => {
+  console.log(`${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`);
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`,
+      onload (res) {
+        const data = JSON.parse(res.responseText);
+        resolve(data.results || []);
+      },
+    });
+  });
 };
 const getIMDBIdByUrl = (imdbLink) => {
   const imdbIdArray = /tt\d+/.exec(imdbLink);
@@ -941,6 +978,96 @@ const showNotice = (message) => {
 const replaceRegSymbols = (string) => {
   return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
 };
+// https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
+const getRtIdFromTitle = (title, tv, year) => {
+  const MAX_YEAR_DIFF = 2;
+  tv = tv || false;
+  year = parseInt(year) || 1800;
+  return new Promise(function (resolve, reject) {
+    GM_xmlhttpRequest({
+      method: 'GET',
+      responseType: 'json',
+      url: `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`,
+      onload: (resp) => {
+        const movies = tv ? resp.response.tvSeries : resp.response.movies;
+        if (!Array.isArray(movies) || movies.length < 1) {
+          console.log('no search results');
+          reject(new Error('no results'));
+          return;
+        }
+        const sorted = movies.concat();
+        if (year && sorted) {
+          sorted.sort((a, b) => {
+            if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
+              // Prefer closest year to the given one
+              return Math.abs(a.year - year) - Math.abs(b.year - year);
+            } else {
+              return b.year - a.year; // In a tie, later year should come first
+            }
+          });
+        }
+        // Search for matches with exact title in order of proximity by year
+        let bestMatch, closeMatch;
+        for (const m of sorted) {
+          m.title = m.title || m.name;
+          if (m.title.toLowerCase() === title.toLowerCase()) {
+            bestMatch = bestMatch || m;
+            console.log('bestMatch', bestMatch);
+            // RT often includes original titles in parentheses for foreign films, so only check if they start the same
+          } else if (m.title.toLowerCase().startsWith(title.toLowerCase())) {
+            closeMatch = closeMatch || m;
+            console.log('closeMatch', closeMatch);
+          }
+          if (bestMatch && closeMatch) {
+            break;
+          }
+        }
+        // Fall back on closest year match if within 2 years, or whatever the first result was.
+        // RT years are often one year later than imdb, or even two
+        function yearComp (imdb, rt) {
+          return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
+        }
+        if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
+          if (closeMatch && yearComp(year, closeMatch.year)) {
+            bestMatch = closeMatch;
+          } else if (yearComp(year, sorted[0].year)) {
+            bestMatch = sorted[0];
+          }
+        }
+        bestMatch = bestMatch || closeMatch || movies[0];
+
+        if (bestMatch) {
+          const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, ''); // remove season suffix from tv matches
+          const score = bestMatch?.meterScore ?? '0';
+          resolve({
+            id,
+            score,
+          });
+        } else {
+          console.log('no match found on rt');
+          reject(new Error('no suitable match'));
+        }
+      },
+    });
+  });
+};
+const blobToJSON = (val) => new Promise((resolve) => {
+  GM_xmlhttpRequest({
+    method: 'GET',
+    responseType: 'blob',
+    url: val,
+    onload (res) {
+      const data = res.responseText;
+      const fileReader = new FileReader();
+      fileReader.onload = function (e) {
+        const jsonData = JSON.parse(e.target.result);
+        resolve(jsonData);
+      };
+      const blob = new Blob([data], { type: 'application/json' });
+      fileReader.readAsText(blob);
+    },
+  });
+});
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -968,5 +1095,9 @@ export {
   showNotice,
   getAnotherDoubanInfo,
   replaceRegSymbols,
+  getIMDBData,
+  getTMDBVideos,
+  getRtIdFromTitle,
+  blobToJSON,
 }
 ;
