@@ -26,8 +26,8 @@ exports.yamlToJSON = () => {
       const fileName = file.replace('.yaml', '');
       const source = fs.readFileSync(yamlDir + '/' + file, 'UTF-8');
       JSON_DATA.PT_SITE[fileName] = YAML.parse(source);
-      fs.writeFileSync(`${srcFolder}/config.json`, JSON.stringify(JSON_DATA, null, 2));
     });
+    fs.writeFileSync(`${srcFolder}/config.json`, JSON.stringify(JSON_DATA, null, 2));
   } catch (error) {
     notify('yamlToJSON Error', `${error.name}:${error.message}`);
     console.log(error);
