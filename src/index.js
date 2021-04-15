@@ -68,18 +68,18 @@ const getSearchList = () => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
       const searchConfig = siteInfo.search;
-      const { params, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
+      const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
       let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = '';
-      const { movieAkaName, movieName } = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB/)) {
+      const { movieAkaName, movieName, title } = TORRENT_INFO;
+      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
           searchKeyWord = imdbId;
         }
       } else {
-        searchKeyWord = movieAkaName || movieName;
+        searchKeyWord = movieAkaName || movieName || title;
         imdbId = '';
       }
 
@@ -99,8 +99,8 @@ const getSearchList = () => {
       }
 
       if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-        let url = `${siteInfo.url + path}?${searchParams}`;
-        if (siteName.match('nzb')) {
+        let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
+        if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
           url = url.replace(/{name}/, searchKeyWord);
         }
         const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';

@@ -72,8 +72,9 @@
 |  PTSBAO   |             ✅              |               ✅                |
 |   PTer    |             ✅              |               ✅                |
 |    SSD    |             ✅              |               ✅                |
-| SoulVoice |             ❌              |               ✅                |
+| SoulVoice |             ✅              |               ✅                |
 |   TCCF    |             ✅              |               ✅                |
 |   TJUPT   |             ✅              |               ✅                |
 |    TLF    |             ✅              |               ✅                |
 |    TTG    |             ✅              |               ✅                |
+|    iTS    |             ❌              |               ✅                |
