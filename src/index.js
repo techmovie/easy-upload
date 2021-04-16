@@ -3,8 +3,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, TORRENT_INFO } from './c
 import { fillTargetForm } from './target';
 import {
   getSubTitle, getUrlParam, transferImgs, getDoubanInfo,
-  getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice,
-  getPreciseCategory, blobToJSON,
+  getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice, getPreciseCategory,
 } from './common';
 import getTorrentInfo from './source';
 // eslint-disable-next-line no-unused-vars
@@ -238,13 +237,12 @@ const openBatchSeedTabs = () => {
     return false;
   }
   const siteKeys = Object.keys(PT_SITE).sort();
-  const torrentInfo = new Blob([JSON.stringify(TORRENT_INFO)], { type: 'application/json' });
-  const blobURL = URL.createObjectURL(torrentInfo);
+  const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
   siteKeys.forEach((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     if (PT_SITE[siteName].asTarget) {
       if (batchSeedSiteEnabled.includes(siteName)) {
-        GM_openInTab(url + uploadPath + '#torrentInfo=' + blobURL);
+        GM_openInTab(url + uploadPath + '#torrentInfo=' + torrentInfo);
       }
     }
   });
@@ -519,8 +517,7 @@ const insertTorrentPage = () => {
 };
 const handleClickEvent = () => {
   $('.site-list li>a').click(function () {
-    const torrentInfo = new Blob([JSON.stringify(TORRENT_INFO)], { type: 'application/json' });
-    const blobURL = URL.createObjectURL(torrentInfo);
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     let url = $(this).data('link');
     if (url.match(/lemonhd/)) {
       const catMap = {
@@ -561,19 +558,18 @@ const handleClickEvent = () => {
       alert('请等待页面加载完成');
       return;
     }
-    url = url.replace(/(#torrentInfo=)(.+)/, `$1${blobURL}`);
+    url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
     window.open(url);
   });
 };
 
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
-const torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
+let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
   if (torrentParams && CURRENT_SITE_INFO.asTarget) {
-    blobToJSON(torrentParams).then(data => {
-      fillTargetForm(data);
-    });
+    torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+    fillTargetForm(torrentParams);
   }
   if (CURRENT_SITE_INFO.asSource &&
   !location.pathname.match(/upload/ig) &&
