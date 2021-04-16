@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         easy-seed PT一键转种
 // @namespace    https://github.com/techmovie/easy-seed
-// @version      1.2.2
+// @version      1.2.3
 // @description  easy seeding for different trackers
 // @author       birdplane
 // @require      https://cdn.bootcss.com/jquery/1.7.1/jquery.min.js
@@ -5918,23 +5918,6 @@
       });
     });
   };
-  var blobToJSON = (val) => new Promise((resolve) => {
-    GM_xmlhttpRequest({
-      method: "GET",
-      responseType: "blob",
-      url: val,
-      onload(res) {
-        const data = res.responseText;
-        const fileReader = new FileReader();
-        fileReader.onload = function(e) {
-          const jsonData = JSON.parse(e.target.result);
-          resolve(jsonData);
-        };
-        const blob = new Blob([data], {type: "application/json"});
-        fileReader.readAsText(blob);
-      }
-    });
-  });
 
   // src/target.js
   var fillTargetForm = (info) => {
@@ -8369,13 +8352,12 @@ td.title-td h4{
       return false;
     }
     const siteKeys = Object.keys(PT_SITE).sort();
-    const torrentInfo = new Blob([JSON.stringify(TORRENT_INFO)], {type: "application/json"});
-    const blobURL = URL.createObjectURL(torrentInfo);
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     siteKeys.forEach((siteName, index) => {
       const {url, uploadPath} = PT_SITE[siteName];
       if (PT_SITE[siteName].asTarget) {
         if (batchSeedSiteEnabled.includes(siteName)) {
-          GM_openInTab(url + uploadPath + "#torrentInfo=" + blobURL);
+          GM_openInTab(url + uploadPath + "#torrentInfo=" + torrentInfo);
         }
       }
     });
@@ -8637,8 +8619,7 @@ td.title-td h4{
   };
   var handleClickEvent = () => {
     $(".site-list li>a").click(function() {
-      const torrentInfo = new Blob([JSON.stringify(TORRENT_INFO)], {type: "application/json"});
-      const blobURL = URL.createObjectURL(torrentInfo);
+      const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
       let url = $(this).data("link");
       if (url.match(/lemonhd/)) {
         const catMap = {
@@ -8679,7 +8660,7 @@ td.title-td h4{
         alert("\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210");
         return;
       }
-      url = url.replace(/(#torrentInfo=)(.+)/, `$1${blobURL}`);
+      url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
       window.open(url);
     });
   };
@@ -8688,9 +8669,8 @@ td.title-td h4{
   if (CURRENT_SITE_NAME) {
     fillSearchImdb();
     if (torrentParams && CURRENT_SITE_INFO.asTarget) {
-      blobToJSON(torrentParams).then((data) => {
-        fillTargetForm(data);
-      });
+      torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+      fillTargetForm(torrentParams);
     }
     if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig) && !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
       source_default();
