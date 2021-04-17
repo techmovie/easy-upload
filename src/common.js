@@ -451,7 +451,6 @@ const getTMDBIdByIMDBId = (imdbid) => {
 };
 
 const getTMDBVideos = (tmdbId) => {
-  console.log(`${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`);
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest({
       method: 'GET',
@@ -983,6 +982,7 @@ const replaceRegSymbols = (string) => {
 };
 // https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
 const getRtIdFromTitle = (title, tv, year) => {
+  console.log(title, year);
   const MAX_YEAR_DIFF = 2;
   tv = tv || false;
   year = parseInt(year) || 1800;

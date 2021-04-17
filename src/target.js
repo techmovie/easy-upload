@@ -386,21 +386,15 @@ const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
   return selectArray;
 };
 const fillTeamName = (info) => {
-  const teamMatch = info.title.match(/-([^-]+)$/);
   const teamConfig = CURRENT_SITE_INFO.team;
-  let teamName = teamMatch?.[1]?.replace(/-/g, '')?.split('@') ?? '';
-  if (teamName) {
-    teamName = teamName.length > 1 ? teamName[1] : teamName[0];
+  const teamName = getTeamName(info);
+  if (teamName && teamConfig) {
+    const formateTeamName = teamConfig.map[teamName.toLowerCase()];
+    const matchValue = formateTeamName || teamConfig.map.other;
     if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === 'BTSCHOOL') {
       $(teamConfig.selector).val(teamConfig.map.hdbint);
       return;
     }
-  } else {
-    teamName = 'other';
-  }
-  if (teamName && teamConfig) {
-    const formateTeamName = teamConfig.map[teamName.toLowerCase()];
-    const matchValue = formateTeamName || teamConfig.map.other;
     if (CURRENT_SITE_NAME === 'HDAI' && !formateTeamName) {
       $('input[name="team"]').val(teamName);
       return;
@@ -409,6 +403,17 @@ const fillTeamName = (info) => {
       $(teamConfig.selector).val(matchValue.toLowerCase());
     }
   }
+};
+// 获取制作组名称
+const getTeamName = (info) => {
+  const teamMatch = info.title.match(/-([^-]+)$/);
+  let teamName = teamMatch?.[1]?.replace(/-/g, '')?.split('@') ?? '';
+  if (teamName) {
+    teamName = teamName.length > 1 ? teamName[1] : teamName[0];
+  } else {
+    teamName = 'other';
+  }
+  return teamName;
 };
 const disableTorrentChange = () => {
   const nameSelector = CURRENT_SITE_INFO.name?.selector ?? '';
@@ -604,7 +609,17 @@ const handleIts = async (info) => {
   $SCREENSHOTS$
   
   [/center]`;
-  const { imdbUrl, category, screenshots, comparisonImgs = [], resolution } = info;
+  const collectionMap = {};
+  $('select[name="collection_id1"] option').each(function () {
+    const option = $(this);
+    collectionMap[option.text()] = option.val();
+  });
+  const collectionValueArr = [];
+  const teamName = getTeamName(info);
+  if (collectionMap[teamName]) {
+    collectionValueArr.push(collectionMap[teamName]);
+  }
+  const { imdbUrl, category, screenshots, comparisonImgs = [], resolution, movieName } = info;
   if (!resolution.match(/2160|1080|720/) && category === 'movie') {
     $('select[name="type"]').val('67');
   }
@@ -628,7 +643,19 @@ const handleIts = async (info) => {
         rtScore: 0,
         youtubeUrl: '',
       };
-      const { poster, imdb_rating_average: imdbRate, description, year, aka } = await getIMDBData(imdbUrl);
+      const { poster, imdb_rating_average: imdbRate, description, year, aka, directors = [], details = {} } = await getIMDBData(imdbUrl);
+      let language = details.Language || '';
+      language = language?.split('|')?.[0]?.trim() ?? '';
+      const director = directors.map(item => item.name)[0];
+      if (collectionMap[director]) {
+        collectionValueArr.push(collectionMap[director]);
+      }
+      if (collectionMap[language]) {
+        collectionValueArr.push(collectionMap[language]);
+      }
+      collectionValueArr.forEach((value, index) => {
+        $(`select[name="collection_id${index + 1}"]`).val(value);
+      });
       replaceParams.poster = poster;
       replaceParams.synopsis = description;
       replaceParams.imdbScore = imdbRate;
@@ -643,8 +670,8 @@ const handleIts = async (info) => {
       if (youtubeId.length > 0) {
         replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
       }
-      const movieName = aka.filter(item => item.country.match(/(World-wide)|UK|USA/))?.[0].title;
-      const rtInfo = await getRtIdFromTitle(movieName, !!category.match(/tv/), year);
+      const searchMovieName = movieName || aka.filter(item => item.country.match(/(World-wide)|UK|USA/))?.[0].title;
+      const rtInfo = await getRtIdFromTitle(searchMovieName, !!category.match(/tv/), year);
       const { score = 0, id = '' } = rtInfo;
       replaceParams.rtScore = `${score}%`;
       replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
@@ -653,7 +680,7 @@ const handleIts = async (info) => {
       });
       $('textarea[name="descr"]').val(template);
     } catch (error) {
-      console.log(error);
+      $('textarea[name="descr"]').val(error.message);
     }
   }
 };
