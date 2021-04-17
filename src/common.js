@@ -339,6 +339,9 @@ const getScreenshotsFromBBCode = (bbcode) => {
       let imgUrl = '';
       if (item.match(/\[url=http(s)*:.+/)) {
         imgUrl = item.match(/=(([^\]])+)/)?.[1];
+        if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
+          imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        }
       } else {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
       }
