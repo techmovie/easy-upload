@@ -22,7 +22,10 @@ if (currentBranch !== CURRENT_BRANCH) {
   process.exit();
 }
 checkGitTreeClean();
-bump().then(data => {
+bump({
+  tag: true,
+  commit: 'chore(release): %s',
+}).then(data => {
   const { newVersion } = data;
   const spinner = ora({
     text: '📦 打包中...',
