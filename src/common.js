@@ -906,7 +906,7 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/diy/i)) {
     tags.DIY = true;
   }
-  if (title.match(/国配|国语/i)) {
+  if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语言/)) {
     tags.chineseAudio = true;
   }
   if (title.match(/Atoms|杜比全景声/i)) {
@@ -925,7 +925,7 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/粤/i)) {
     tags.cantoneseAudio = true;
   }
-  if (title.match(/简|繁|中字/i)) {
+  if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i)) {
     tags.chineseSubtitle = true;
   }
   if (title.match(/Criterion|CC标准/i)) {
