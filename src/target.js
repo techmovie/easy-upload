@@ -76,7 +76,7 @@ const fillTargetForm = (info) => {
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo) {
-    if (!(isBluray && CURRENT_SITE_NAME.match(/HDBits|Blutopia/))) {
+    if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits|Blutopia)/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
     }
@@ -358,6 +358,15 @@ const fillTargetForm = (info) => {
 
   if (CURRENT_SITE_NAME === 'iTS') {
     handleIts(info);
+  }
+  if (CURRENT_SITE_NAME === 'UHDBits') {
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbId);
+    const teamName = getTeamName(info);
+    $('#team').val(teamName === 'other' ? 'Unknown' : teamName);
+    if (info.title.match(/web-?rip/i)) {
+      $(CURRENT_SITE_INFO.videoType.selector).val('WEBRip');
+    }
+    $('#imdb_button').click();
   }
 };
 /*
