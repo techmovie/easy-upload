@@ -496,7 +496,6 @@ const insertTorrentPage = () => {
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
   }
-  console.log(functionDom.replace(/<\/?tr>/g, ''));
   if (CURRENT_SITE_NAME === 'HDBits') {
     const trDom = `<tr class="hdb-tr">
     <td class="rowfollow title-td hdb-td">${easySeedTitleDom}</td>

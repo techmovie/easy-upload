@@ -341,6 +341,8 @@ const getScreenshotsFromBBCode = (bbcode) => {
         imgUrl = item.match(/=(([^\]])+)/)?.[1];
         if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
           imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        } else if (item.match(/https:\/\/pixhost\.to/)) {
+          imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, 'img53.$1/images');
         }
       } else {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
