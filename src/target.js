@@ -220,7 +220,7 @@ const fillTargetForm = (info) => {
   // 填入制作组
   fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
-  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA/i)) {
+  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA|52pt/i)) {
     if (info.tags.DIY) {
       let categoryValue = '';
       if (CURRENT_SITE_NAME === 'PTHome') {
@@ -232,6 +232,8 @@ const fillTargetForm = (info) => {
         return;
       } else if (CURRENT_SITE_NAME === '1PTBA') {
         categoryValue = info.videoType === 'bluray' ? '1' : '4';
+      } else if (CURRENT_SITE_NAME === '52pt') {
+        categoryValue = info.videoType === 'bluray' ? '2' : '12';
       }
       $(CURRENT_SITE_INFO.videoType.selector).val(categoryValue);
     }
@@ -373,6 +375,18 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.videoType.selector).val('WEBRip');
     }
     $('#imdb_button').click();
+  }
+  if (CURRENT_SITE_NAME === '52PT') {
+    const { tags, videoType, resolution } = info;
+    let videoTypeValue = videoType;
+    if (videoType.match(/bluray/)) {
+      if (tags.chineseAudio || tags.cantoneseAudio || tags.chineseSubtitle) {
+        videoTypeValue = videoType === 'bluray' ? '14' : '15';
+      }
+    } else if (videoType === 'remux' && resolution === '2160p') {
+      videoTypeValue = '5';
+    }
+    $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
   }
 };
 /*
