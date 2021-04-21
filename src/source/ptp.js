@@ -41,12 +41,12 @@ export default () => {
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-    const { videoCodec, audioCodec, fileName = '', resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
     TORRENT_INFO.tags = mediaTags;
-    let torrentName = fileName || torrentHeaderDom.data('releasename'); // 圆盘没有fileName
+    let torrentName = torrentHeaderDom.data('releasename');
     torrentName = formatTorrentTitle(torrentName);
     TORRENT_INFO.title = torrentName;
     TORRENT_INFO.source = getPTPSource(source, codes, resolution);
