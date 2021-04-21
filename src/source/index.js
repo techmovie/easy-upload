@@ -7,7 +7,8 @@ import getTTGInfo from './ttg';
 import getUNIT3DInfo from './unit3d';
 import getNexusPHPInfo from './nexusphp';
 import getHDTInfo from './hdt';
-import getKGTInfo from './kg';
+import getKGInfo from './kg';
+import getUHDInfo from './uhd';
 
 let getTorrentInfo = getPTPInfo;
 if (!CURRENT_SITE_INFO) {
@@ -25,7 +26,9 @@ if (!CURRENT_SITE_INFO) {
 } else if (CURRENT_SITE_NAME === 'HDT') {
   getTorrentInfo = getHDTInfo;
 } else if (CURRENT_SITE_NAME === 'KG') {
-  getTorrentInfo = getKGTInfo;
+  getTorrentInfo = getKGInfo;
+} else if (CURRENT_SITE_NAME === 'UHDBits') {
+  getTorrentInfo = getUHDInfo;
 }
 
 export default getTorrentInfo;

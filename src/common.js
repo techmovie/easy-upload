@@ -809,7 +809,8 @@ const htmlToBBCode = (node) => {
         }
         case 'P': { pp('\n'); break; }
         case 'BR': {
-          if (CURRENT_SITE_INFO.siteType === 'NexusPHP' && CURRENT_SITE_NAME !== 'OurBits') {
+          if ((CURRENT_SITE_INFO.siteType === 'NexusPHP' && CURRENT_SITE_NAME !== 'OurBits') ||
+           CURRENT_SITE_NAME.match(/^(UHDBits|HDBits)/)) {
             pp('');
           } else {
             pp('\n');

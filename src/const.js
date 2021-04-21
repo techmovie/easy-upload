@@ -34,6 +34,7 @@ const TORRENT_INFO = {
   sourceSiteType: '', // 种子来源站点类型
   size: '', // 种子大小 转换成 Bytes
   isForbidden: false, // 是否禁转
+  poster: '', // 海报
 };
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';

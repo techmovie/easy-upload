@@ -40,13 +40,13 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
-      <div class="ptp-seed-title">${CURRENT_SITE_NAME === 'PTP' ? titleDom : ''}</div>
+      <div class="ptp-seed-title">${CURRENT_SITE_INFO.siteType === 'gazelle' ? titleDom : ''}</div>
       ${siteList.join('')}
       <li>
         <button id="batch-seed-btn">一键群转</button>
       </li>
     </ul>
-    ${CURRENT_SITE_NAME === 'PTP'
+    ${CURRENT_SITE_INFO.siteType === 'gazelle'
     ? `${getFunctionItems()}
     <div class="ptp-search-list">
         ${searchListDom}
@@ -395,7 +395,7 @@ const fillSearchImdb = () => {
   }
 };
 const getFunctionItems = () => {
-  const doubanSearchDom = CURRENT_SITE_INFO.needDoubanBookInfo
+  const doubanSearchDom = (CURRENT_SITE_INFO.needDoubanBookInfo || CURRENT_SITE_INFO.needDoubanInfo)
     ? `<div class="function-list-item">
   <div class="douban-book-section">
     <input type="text" placeholder="手动输入豆瓣链接" id="douban-link">
@@ -513,6 +513,10 @@ const insertTorrentPage = () => {
   if (CURRENT_SITE_NAME === 'PTP') {
     const torrentId = getUrlParam('torrentid');
     torrentInsertDom = $(`#torrent_${torrentId} >td`);
+  } else if (CURRENT_SITE_NAME === 'UHDBits') {
+    const torrentId = getUrlParam('torrentid');
+    $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
+    torrentInsertDom = $(`#torrent_${torrentId} >td blockquote:first`);
   }
   createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
 };

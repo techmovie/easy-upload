@@ -13,11 +13,15 @@ td.title-td h4{
   align-items: center;
   justify-content: flex-end;
 }
-.ptp-seed-title h4{
-  margin: 0;
-  margin-right: 10px;
+.ptp-seed-title {
   display: flex;
-  align-item: center;
+  align-items: center;
+}
+.ptp-seed-title h4{
+  margin: 0 !important;
+  margin-right: 10px !important;
+  display: flex;
+  align-items: center;
 }
 .seed-dom button{
   line-height: 1;
@@ -59,6 +63,7 @@ td.title-td h4{
   list-style: none;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 }
 .ptp-search-list{

@@ -73,6 +73,9 @@ const fillTargetForm = (info) => {
         description = filterNexusDescription(info);
       }
     }
+    if (mediaInfo && !description.includes(mediaInfo)) {
+      description += `\n[quote]${mediaInfo}[/quote]`;
+    }
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo) {
@@ -110,12 +113,14 @@ const fillTargetForm = (info) => {
   }
   // 海报填写
   if (CURRENT_SITE_INFO.poster) {
-    let poster = '';
-    const doubanPosterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
-    if (doubanPosterImage && doubanPosterImage[1]) {
-      poster = doubanPosterImage[1];
-    } else {
-      poster = description.match(/\[img\](.+?)\[\/img\]/)?.[1] ?? '';
+    let poster = info.poster;
+    if (!poster) {
+      const doubanPosterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
+      if (doubanPosterImage && doubanPosterImage[1]) {
+        poster = doubanPosterImage[1];
+      } else {
+        poster = description.match(/\[img\](.+?)\[\/img\]/)?.[1] ?? '';
+      }
     }
     if (poster) {
       $(CURRENT_SITE_INFO.poster).val(poster);
@@ -125,8 +130,6 @@ const fillTargetForm = (info) => {
       }
     }
   }
-  // 过滤空标签
-  description = filterEmptyTags(description);
 
   // BHD可以通过设置为显示缩略图
   if (CURRENT_SITE_NAME === 'BeyondHD') {
@@ -139,6 +142,9 @@ const fillTargetForm = (info) => {
       }
     });
   }
+  // 过滤空标签
+  description = filterEmptyTags(description);
+
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM/)) {
