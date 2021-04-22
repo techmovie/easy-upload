@@ -43,7 +43,7 @@ exports.userScriptComment = `// ==UserScript==
 // @version      ${version}
 // @description  ${description}
 // @author       ${author}
-// @require      https://code.jquery.com/jquery-1.7.1.min.js
+// @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://uhdbits.org/torrents.php?id=*
 // @match        http://*/details.php?id=*
