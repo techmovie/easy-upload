@@ -19,7 +19,6 @@ export default () => {
 
   const descriptionDom = $('.panel-heading:contains(Description)').next('.panel-body').find('.forced-nfo');
   const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-  TORRENT_INFO.description = descriptionBBCode;
   const { category: movieCat, countries, imdbUrl } = getMovieDetails();
   TORRENT_INFO.movieName = movieName;
   let category = Category.toLowerCase().replace(/s/, '');
@@ -31,6 +30,7 @@ export default () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfo = mediaInfo;
+  TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
   TORRENT_INFO.videoCodec = videoCodec;

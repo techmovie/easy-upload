@@ -31,11 +31,15 @@ export default () => {
   TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
   const descriptionDom = $(`#torrent_${torrentId} #description`);
-  const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+  let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
 
   getMediaInfo(torrentId).then(data => {
     if (data) {
       TORRENT_INFO.mediaInfo = data;
+      descriptionBBCode += `\n[quote]${data}[/quote]`;
+      TORRENT_INFO.description = descriptionBBCode;
+      TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+      TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
       const isBluray = videoType.match(/bluray/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       const { videoCodec, audioCodec, mediaTags, resolution: mediaResolution } = getInfoFunc(data);
@@ -63,9 +67,6 @@ export default () => {
   TORRENT_INFO.size = size;
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.videoType = videoType;
-  TORRENT_INFO.description = descriptionBBCode;
-  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
 };
 
 const getMediaInfo = (torrentId) => {

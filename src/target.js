@@ -59,7 +59,8 @@ const fillTargetForm = (info) => {
   let description = '';
   // 内站直接填写完整简介
   if (info.description) {
-    description = info.description;
+    // 去简介前的空格和换行
+    description = info.description.replace(/^(\s+)/g, '');
     if (isChineseTacker(CURRENT_SITE_INFO.siteType) && CURRENT_SITE_NAME !== 'SSD') {
       // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
@@ -72,9 +73,6 @@ const fillTargetForm = (info) => {
       if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== 'Bib') {
         description = filterNexusDescription(info);
       }
-    }
-    if (mediaInfo && !description.includes(mediaInfo)) {
-      description += `\n[quote]${mediaInfo}[/quote]`;
     }
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里

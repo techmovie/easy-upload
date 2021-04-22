@@ -39,6 +39,8 @@ export default () => {
     getMediaInfo(torrentId).then(data => {
       if (data) {
         TORRENT_INFO.mediaInfo = data;
+        descriptionBBCode += `\n[quote]${data}[/quote]`;
+        TORRENT_INFO.description = descriptionBBCode;
         const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
@@ -55,7 +57,7 @@ export default () => {
     TORRENT_INFO.tags = { ...tags, ...mediaTags };
   }
   TORRENT_INFO.size = size;
-  TORRENT_INFO.screenshots = getImages(descriptionDom);
+  TORRENT_INFO.screenshots = getImages();
 };
 const getBasicInfo = () => {
   const videoTypeMap = {
@@ -94,7 +96,7 @@ const getMediaInfo = (torrentId) => {
   });
 };
 // 获取截图
-const getImages = (descriptionDom) => {
+const getImages = () => {
   const screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
   return screenshots;
 };
