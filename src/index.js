@@ -113,7 +113,7 @@ const getSearchList = () => {
 const openSettingPanel = () => {
   const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined
     ? []
-    : JSON.parse(GM_getValue('easy-seed.enabled-target-sites')); ;
+    : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
   const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined
     ? []
     : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
