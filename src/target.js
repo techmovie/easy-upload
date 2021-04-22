@@ -1,5 +1,8 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from './const';
-import { getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData, getTMDBVideos, getRtIdFromTitle } from './common';
+import {
+  getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData,
+  getTMDBVideos, getRtIdFromTitle, getFilterImages,
+} from './common';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -460,7 +463,7 @@ const getScreenshotsBBCode = (imgArray) => {
 };
 
 const filterNexusDescription = (info) => {
-  const { description, screenshots = [] } = info;
+  const { description } = info;
   let filterDescription = '';
   const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
   if (quoteList && quoteList.length > 0) {
@@ -471,13 +474,8 @@ const filterNexusDescription = (info) => {
       }
     });
   }
-  const screenshotsBBCode = screenshots.map(img => {
-    if (img.match(/\[url=.+\]/i)) {
-      return img;
-    }
-    return `[img]${img}[/img]`;
-  });
-  return filterDescription + '\n' + screenshotsBBCode.join('');
+  const allImages = getFilterImages(description);
+  return filterDescription + '\n' + allImages.join('');
 };
 const getThanksQuote = (info) => {
   const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === 'HDPOST';

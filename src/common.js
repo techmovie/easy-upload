@@ -324,17 +324,33 @@ const getVideoCodecFromTitle = (title, videoType = '') => {
   }
   return '';
 };
+
+const getFilterImages = (bbcode) => {
+  if (!bbcode) {
+    return [];
+  }
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\]){0,1}/g);
+  if (allImages && allImages.length > 0) {
+    allImages = allImages.map(img => {
+      if (img.match(/\[url=.+?\]/)) {
+        return img + '[/url]';
+      }
+      return img;
+    });
+    // 过滤imdb、豆瓣、chd、柠檬无关图片
+    return allImages.filter(item => {
+      return !item.match(/MoreScreens|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+    });
+  }
+  return [];
+};
 /*
 * 过滤真实原始截图地址
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
 const getScreenshotsFromBBCode = (bbcode) => {
-  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+  const allImages = getFilterImages(bbcode);
   if (allImages && allImages.length > 0) {
-    // 过滤imdb、豆瓣、chd、柠檬无关图片
-    allImages = allImages.filter(item => {
-      return !item.match(/MoreScreens|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
-    });
     return allImages.map(item => {
       let imgUrl = '';
       if (item.match(/\[url=http(s)*:.+/)) {
@@ -350,6 +366,7 @@ const getScreenshotsFromBBCode = (bbcode) => {
       return imgUrl;
     });
   }
+  return '';
 };
 // 从标题获取source
 const getSourceFromTitle = (title) => {
@@ -1061,23 +1078,6 @@ const getRtIdFromTitle = (title, tv, year) => {
     });
   });
 };
-const blobToJSON = (val) => new Promise((resolve) => {
-  GM_xmlhttpRequest({
-    method: 'GET',
-    responseType: 'blob',
-    url: val,
-    onload (res) {
-      const data = res.responseText;
-      const fileReader = new FileReader();
-      fileReader.onload = function (e) {
-        const jsonData = JSON.parse(e.target.result);
-        resolve(jsonData);
-      };
-      const blob = new Blob([data], { type: 'application/json' });
-      fileReader.readAsText(blob);
-    },
-  });
-});
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1108,6 +1108,6 @@ export {
   getIMDBData,
   getTMDBVideos,
   getRtIdFromTitle,
-  blobToJSON,
+  getFilterImages,
 }
 ;
