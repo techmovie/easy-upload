@@ -776,7 +776,7 @@ const htmlToBBCode = (node) => {
         case 'LI': {
           const { className } = node;
           if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && className) {
-            pp('[quote]', '[/quote]'); break;
+            return `[quote]${node.textContent.trim()}[/quote]`;
           } else {
             pp('[*]', '\n'); break;
           }
@@ -827,7 +827,8 @@ const htmlToBBCode = (node) => {
           pp('[center]', '[/center]'); break;
         }
         case 'TD': {
-          if (CURRENT_SITE_NAME.match(/TTG|HDBits|KG/) || CURRENT_SITE_NAME === 'HDT') {
+          if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG)/) || CURRENT_SITE_NAME === 'HDT' ||
+           CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
           } else {
             return '';
@@ -835,8 +836,12 @@ const htmlToBBCode = (node) => {
         }
         case 'IMG': {
           let imgUrl = '';
-          const { src } = node;
+          const { src, title } = node;
           const dataSrc = node.getAttribute('data-src') || node.getAttribute('data-echo');
+          // blu等unit3d站点会把:m:转成icon图片
+          if (title === ':m:') {
+            return ':m:';
+          }
           if (dataSrc) {
             imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : location.origin + '/' + dataSrc;
           } else if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {

@@ -1,5 +1,10 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
+import {
+  formatTorrentTitle, getInfoFromMediaInfo,
+  getInfoFromBDInfo, getSize, getSourceFromTitle,
+  getFilterBBCode, getBDInfoFromBBCode,
+  getTagsFromSubtitle, getPreciseCategory,
+} from '../common';
 
 export default () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -9,7 +14,9 @@ export default () => {
   TORRENT_INFO.size = getSize(Size);
   let title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
-  const IMDBYear = $('.movie-heading span:last').text();
+  const category = getCategory(Category);
+  const videoType = getVideoType(Type, Resolution);
+  let IMDBYear = $('.movie-heading span:last').text();
   const movieName = $('.movie-heading span:first').text();
 
   if (CURRENT_SITE_NAME === 'HDPOST') {
@@ -17,27 +24,28 @@ export default () => {
     TORRENT_INFO.subtitle = title.replace(englishTitle, '')?.trim();
     title = englishTitle;
   }
-  TORRENT_INFO.title = title;
+  if (CURRENT_SITE_NAME === 'ACM') {
+    title = title.replace(/\/\s+\W+/, '');
+  }
   if (!IMDBYear) {
     const matchYear = TORRENT_INFO.title.match(/(19|20)\d{2}/g);
-    TORRENT_INFO.year = matchYear?.pop() ?? '';
+    IMDBYear = matchYear?.pop() ?? '';
   } else {
-    TORRENT_INFO.year = IMDBYear.replace(/\(|\)|\s/g, '');
+    IMDBYear = IMDBYear.replace(/\(|\)|\s/g, '');
   }
-  TORRENT_INFO.resolution = Resolution.match(/\d+(i|p)/i)?.[0];
-  const descriptionDom = $('.panel:contains(Media Info)').next().find('.panel-body');
-  const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-  const mediaInfo = $('.decoda-code code').text();
-  TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
   const imdbUrl = $('.movie-details a:contains(IMDB)').attr('href');
-  TORRENT_INFO.imdbUrl = imdbUrl;
-  TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;
-  const category = getCategory(Category);
-  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-  TORRENT_INFO.videoType = getVideoType(Type, Resolution);
-  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
+  const resolution = Resolution.match(/\d+(i|p)/i)?.[0];
+
+  const descriptionDom = $('.fa-sticky-note').parents('.panel-heading')
+    .siblings('.table-responsive').find('.panel-body').clone();
+  descriptionDom.find('#collection_waypoint').remove();
+  let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+  const mediaInfo = $('.decoda-code code').text();
   const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
+  if (mediaInfo) {
+    descriptionBBCode += `\n[quote]${mediaInfo}[/quote]`;
+  }
+  const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
@@ -45,7 +53,17 @@ export default () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.tags = { ...tags, ...mediaTags };
-  TORRENT_INFO.screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
+  TORRENT_INFO.screenshots = descriptionBBCode.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
+  TORRENT_INFO.title = title;
+  TORRENT_INFO.year = IMDBYear;
+  TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;
+  TORRENT_INFO.resolution = resolution;
+  TORRENT_INFO.imdbUrl = imdbUrl;
+  TORRENT_INFO.poster = $('.movie-poster').attr('src');
+  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
+  TORRENT_INFO.source = getSourceFromTitle(title);
+  TORRENT_INFO.videoType = videoType;
+  TORRENT_INFO.description = descriptionBBCode;
   return TORRENT_INFO;
 };
 const getBasicInfo = () => {
@@ -67,8 +85,10 @@ const getBasicInfo = () => {
   };
   $('#vue+.panel table tr').each((index, element) => {
     const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
-    const value = $(element).find('td:last').text();
-    basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
+    if (keyMap[key]) {
+      const value = $(element).find('td:last').text();
+      basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
+    }
   });
   return basicInfo;
 };
@@ -78,7 +98,7 @@ const getCategory = (key) => {
   }
   if (key.match(/movie|电影/i)) {
     return 'movie';
-  } else if (key.match(/tv|电视|剧集/)) {
+  } else if (key.match(/tv|电视|剧集/i)) {
     return 'tv';
   }
 };
