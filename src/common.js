@@ -578,7 +578,7 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   if (hdrFormat) {
     if (hdrFormat.match(/HDR10\+/i)) {
       mediaTags['HDR10+'] = true;
-    } else if (hdrFormat.match(/HDR\+/i)) {
+    } else if (hdrFormat.match(/HDR/i)) {
       mediaTags.HDR = true;
     }
   }
@@ -958,25 +958,26 @@ const getTagsFromSubtitle = (title) => {
   }
   return tags;
 };
-const getBDInfoFromBBCode = (bbcode) => {
-  if (!bbcode) {
-    return '';
+const getBDInfoOrMediaInfo = (bbcode) => {
+  const quoteList = bbcode?.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
+  let bdinfo = ''; let mediaInfo = '';
+  quoteList.forEach(quote => {
+    const quoteContent = quote.replace(/\[\/?quote\]/g, '').replace(/\u200D/g, '');
+    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
+      bdinfo += quoteContent;
+    }
+    if (quoteContent.match(/(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i)) {
+      mediaInfo += quoteContent;
+    }
+  });
+  if (!bdinfo) {
+    bdinfo = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)?.[0] ?? '';
   }
-  const quoteList = bbcode.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
-  let bdInfo = '';
-  if (quoteList && quoteList.length > 0) {
-    quoteList.forEach(quote => {
-      if (quote.match(/Disc\s*Size/i)) {
-        bdInfo += quote.replace(/\[(\/)?(quote|font)(=(\w| )+)?\]/gi, '').trim() + '\n';
-      }
-    });
-  }
-  if (!bdInfo) {
-    bdInfo = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)?.[0] ?? '';
-  }
-  return bdInfo;
+  return {
+    bdinfo,
+    mediaInfo,
+  };
 };
-
 const showNotice = (message) => {
   if (!('Notification' in window) || Notification.permission === 'denied') {
     alert(message.text);
@@ -1094,7 +1095,7 @@ export {
   getSourceFromTitle,
   htmlToBBCode,
   getFilterBBCode,
-  getBDInfoFromBBCode,
+  getBDInfoOrMediaInfo,
   getScreenshotsFromBBCode,
   getTagsFromSubtitle,
   getVideoCodecFromTitle,

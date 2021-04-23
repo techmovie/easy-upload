@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo,
   getInfoFromBDInfo, getSize, getSourceFromTitle,
-  getFilterBBCode, getBDInfoFromBBCode,
+  getFilterBBCode, getBDInfoOrMediaInfo,
   getTagsFromSubtitle, getPreciseCategory,
 } from '../common';
 
@@ -41,7 +41,7 @@ export default () => {
   descriptionDom.find('#collection_waypoint').remove();
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
   const mediaInfo = $('.decoda-code code').text();
-  const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
+  const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
   if (mediaInfo) {
     descriptionBBCode += `\n[quote]${mediaInfo}[/quote]`;
   }

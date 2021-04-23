@@ -1,5 +1,10 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getUrlParam, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle, getFilterBBCode, getBDInfoFromBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
+import {
+  formatTorrentTitle, getUrlParam, getSize,
+  getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
+  getFilterBBCode, getBDInfoOrMediaInfo,
+  getTagsFromSubtitle, getPreciseCategory,
+} from '../common';
 
 export default () => {
   const torrentId = getUrlParam('id');
@@ -33,7 +38,7 @@ export default () => {
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const bdinfo = getBDInfoFromBBCode(descriptionBBCode);
+  const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
   if (!isBluray) {
     TORRENT_INFO.bdinfo = bdinfo;
     getMediaInfo(torrentId).then(data => {

@@ -1,7 +1,7 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo,
-  getBDInfoFromBBCode, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
+  getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
   getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 
@@ -76,27 +76,6 @@ const getBasicInfo = () => {
   return basicInfo;
 };
 
-const getBDInfoOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
-  let bdinfo = ''; let mediaInfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = quoteList[i].replace(/\[\/?quote\]/g, '');
-    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += quoteContent;
-    }
-    if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += quoteContent;
-    }
-  }
-  // 有一些bdinfo是没有放在引用里的
-  if (!bdinfo) {
-    bdinfo = getBDInfoFromBBCode(bbcode);
-  }
-  return {
-    bdinfo,
-    mediaInfo,
-  };
-};
 const getVideoType = (type, title) => {
   if (type.match(/Remux/i)) {
     return 'remux';

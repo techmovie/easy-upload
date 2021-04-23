@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getSize, getAreaCode, getFilterBBCode, getSourceFromTitle,
   getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo,
-  getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoFromBBCode, getPreciseCategory,
+  getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoOrMediaInfo, getPreciseCategory,
 } from '../common';
 
 /**
@@ -214,31 +214,6 @@ const getMetaInfo = (metaInfo) => {
     processing,
     size,
   };
-};
-// 获取完整bdinfo或mediainfo
-const getBDInfoOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
-  let bdinfo = ''; let mediaInfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = formatQuoteContent(quoteList[i]);
-    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += quoteContent;
-    }
-    if (quoteContent.match(/Unique\s*ID/i)) {
-      mediaInfo += quoteContent;
-    }
-  }
-  // 有一些bdinfo是没有放在引用里的
-  if (!bdinfo) {
-    bdinfo = getBDInfoFromBBCode(bbcode);
-  }
-  return {
-    bdinfo,
-    mediaInfo,
-  };
-};
-const formatQuoteContent = (content) => {
-  return content.replace(/\[\/?(quote)\]{1}?/g, '').replace(/\u200D/g, '');
 };
 const getMetaValue = (key, metaInfo) => {
   let regStr = `(${key}):\\s?([^\u4e00-\u9fa5]+)?`;

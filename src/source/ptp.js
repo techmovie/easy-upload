@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  replaceRegSymbols,
+  replaceRegSymbols, getBDInfoOrMediaInfo,
 } from '../common';
 
 export default () => {
@@ -18,7 +18,7 @@ export default () => {
   const mediaInfoArray = [];
   torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').each(function () {
     const textContent = $(this).text();
-    if (textContent.match(/(Codec\s*ID)|mpls/i)) {
+    if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)/i)) {
       mediaInfoArray.push(textContent);
     }
   });
@@ -62,23 +62,6 @@ export default () => {
   }
   TORRENT_INFO.area = getAreaCode(country?.[0]);
   return TORRENT_INFO;
-};
-const getBDInfoOrMediaInfo = (bbcode) => {
-  const quoteList = bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g) || [];
-  let bdinfo = ''; let mediaInfo = '';
-  for (let i = 0; i < quoteList.length; i++) {
-    const quoteContent = quoteList[i].replace(/\[\/?quote\]/g, '');
-    if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += quoteContent;
-    }
-    if (quoteContent.match(/Unique ID/i)) {
-      mediaInfo += quoteContent;
-    }
-  }
-  return {
-    bdinfo,
-    mediaInfo,
-  };
 };
 const getPTPType = () => {
   const typeMap = {
