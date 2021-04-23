@@ -329,7 +329,7 @@ const getFilterImages = (bbcode) => {
   if (!bbcode) {
     return [];
   }
-  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\]){0,1}/g);
+  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
   if (allImages && allImages.length > 0) {
     allImages = allImages.map(img => {
       if (img.match(/\[url=.+?\]/)) {
@@ -339,7 +339,7 @@ const getFilterImages = (bbcode) => {
     });
     // 过滤imdb、豆瓣、chd、柠檬无关图片
     return allImages.filter(item => {
-      return !item.match(/MoreScreens|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+      return !item.match(/MoreScreens|PTer\.png|CS\.png|GDJT|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
     });
   }
   return [];
