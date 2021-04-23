@@ -1,0 +1,62 @@
+url: https://aither.cc
+host: aither.cc
+siteType: UNIT3D
+icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUnPUA0UVVAZWpQfoRTgolJc3lIcXdSgYc5Wl4zUFQfMDIuSExCaG1SgYhckZhimKBbkJdajpVPfIJEa3Bdk5pXiZBLdnxFbXI4WFwvSU1PfYN1paxvoahsn6aGsLZhmKBbj5ZRgIZVho06W182VVlYi5Jgl59elJyLs7miw8eoxsqryMywy8+px8ucvsNrn6ZflZ0yTlJJcng/Y2iavcJtoKeBrbNelJtDaW4rREcxTVE9X2R5qK5KdHoqQkUoP0IsRUiNtbo3VlomOz5NeX8lOj0jNjkeLzEgMjQiNDchMzYkODslOTxYipEoPkEiNTgbKiwZJykcLC4dLS8uR0tBZmsaKCoZJig+YWYSHB0XIyUWIiQWISMfMTMRGhsVICIUHyATHR4cKy0QGRoTHh8YJScQGBkPFxj////TR8cdAAAAAWJLR0Roy2z0IgAAAAd0SU1FB+UEFw4WFlDBxPsAAAEBSURBVBjTFcppX4IwHADgPwmWmuWRVmCZdF9W2mmFlnlWNtBGY7YxWfL9v0H69vk9AMpCRFVVLaotaksxiENiObmymkpnsupaLr++sQmKbhS2UoVtwyjulEx9F/b2Dw6Pjk9Oz87LF1rpMgtXlap5faNG8+nb8l0ldw8PtcenZwvq9Yaiv5jVV2jWI2+tdqfb679bmWQsAR/Nz8FXHNkOGvZH2qgBqPfdH2LXdTFy2j/NLhBc8+iYenP6VbpjYHzgC59zOtOJhSgEojNmbE5c4tafD4RxTKaMCCGkg6WEMAypx8kscdcOwhACSTjFtkddNJFMBMCoCIj0bIq4DKY++wfZwT9SAOOuEQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0yM1QxNDoyMjoyMiswMDowMNu9360AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMjNUMTQ6MjI6MjIrMDA6MDCq4GcRAAAAAElFTkSuQmCC" /></svg>'
+asSource: true
+asTarget: true
+uploadPath: /upload/1
+needDoubanInfo: true
+seedDomSelector: '#vue+.panel table tr:last' 
+search: 
+  path: /torrents
+  params:
+    name: '{name}'
+    imdb: '{imdb}'
+name:
+  selector: '#title'
+description:
+  selector: '#upload-form-description'
+imdb:
+  selector: '#autoimdb'
+tmdb:
+  selector: '#autotmdb'
+mediaInfo:
+  selector: 'textarea[name="mediainfo"]'
+anonymous: 
+  selector: '.radio-inline:first input[name="anonymous"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '1'
+    tv: '2'
+    tvPack: '2'
+    documentary: '1'
+    concert: '3'
+    sport: '9'
+    cartoon: '405'
+    app: '10'
+    ebook: '11'
+    magazine: '11'
+    audioBook: '14'
+videoType:
+  selector: '#autotype'
+  map:
+    uhdbluray: '1'
+    bluray: '1'
+    remux: '2'
+    encode: '3'
+    web: '4'
+    hdtv: '6'
+    dvd: '1'
+    dvdrip: '3'
+    other: '7'
+resolution:
+  selector: '#autores'
+  map:
+    4320p: '1'
+    2160p: '3'
+    1080p: '3'
+    1080i: '4'
+    720p: '5'
+    576p: '6'
+    480p: '8'

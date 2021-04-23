@@ -62,7 +62,7 @@ export default () => {
   TORRENT_INFO.poster = $('.movie-poster').attr('src');
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(title);
-  TORRENT_INFO.videoType = videoType;
+  TORRENT_INFO.videoType = videoType.toLowerCase();
   TORRENT_INFO.description = descriptionBBCode;
   return TORRENT_INFO;
 };

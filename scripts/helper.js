@@ -59,6 +59,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://pt.hdpost.top/torrents/*
 // @match        https://asiancinema.me/torrents/*
 // @match        https://asiancinema.me/torrents?*
+// @match        https://aither.cc/torrents/*
+// @match        https://aither.cc/torrents?*
 // @match        https://*/upload*
 // @match        http://*/upload*
 // @match        http://www.hd.ai/Torrents.upload

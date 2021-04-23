@@ -148,7 +148,7 @@ const fillTargetForm = (info) => {
 
   $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM/)) {
+  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM|Aither/)) {
     const fillIMDBId = CURRENT_SITE_INFO.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(CURRENT_SITE_INFO.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(data => {

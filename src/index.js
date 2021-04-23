@@ -383,7 +383,7 @@ const fillSearchImdb = () => {
   const nameParam = getUrlParam('name');
   const searchType = getUrlParam('search_area');
   if (imdbParam || nameParam) {
-    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM/)) {
+    if (CURRENT_SITE_INFO.siteType === 'UNIT3D') {
       filterBluTorrent(imdbParam, nameParam);
     } else if (CURRENT_SITE_NAME === 'Bdc') {
       $('#tsstac').val(imdbParam);
@@ -468,7 +468,7 @@ const insertTorrentPage = () => {
   </svg>
   </span></h4>`;
   if (CURRENT_SITE_INFO.siteType === 'NexusPHP' ||
-   CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|ACM|KG|iTS/)) {
+   CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/)) {
     const trDom = `<tr>
     <td class="rowhead nowrap title-td">
     ${easySeedTitleDom}
@@ -536,11 +536,20 @@ const handleClickEvent = () => {
       const path = catMap[TORRENT_INFO.category] || 'movie';
       url = url.replace('upload_movie', `upload_${path}`);
     }
-    if (url.match(/hdpost|blutopia|asiancinema/)) {
+    if (url.match(/hdpost|blutopia|asiancinema|aither/)) {
       const catMap = {
         movie: '1',
         tv: '2',
         tvPack: '2',
+        documentary: '1',
+        // 以下为aither的配置
+        concert: '3',
+        sport: '9',
+        cartoon: '405',
+        app: '10',
+        ebook: '11',
+        magazine: '11',
+        audioBook: '14',
       };
       const path = catMap[TORRENT_INFO.category] || '1';
       url = url.replace('1', path);
