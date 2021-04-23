@@ -23,15 +23,16 @@ if (currentBranch !== CURRENT_BRANCH) {
 }
 checkGitTreeClean();
 bump({
-  tag: true,
-  commit: 'chore(release): %s',
+  tag: false,
+  commit: 'chore: update pkg version %s',
 }).then(data => {
   const { newVersion } = data;
   const spinner = ora({
     text: '📦 打包中...',
     color: 'blue',
   }).start();
-  execa.sync('npm', ['run', 'build']);
+  execa.sync('yarn', ['changelog']);
+  execa.sync('yarn', ['build']);
   spinner.text = '🔨 提交代码...';
   spinner.color = 'green';
   execa.sync('git', ['add', '.']);
