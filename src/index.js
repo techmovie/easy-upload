@@ -126,6 +126,9 @@ const openSettingPanel = () => {
   const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
     ? ''
     : GM_getValue('easy-seed.site-favicon-closed');
+  const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') === undefined
+    ? ''
+    : GM_getValue('easy-seed.ptp-img-api-key');
   const siteKeys = Object.keys(PT_SITE).sort();
   const targetSiteList = siteKeys.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
@@ -175,6 +178,10 @@ const openSettingPanel = () => {
             ${searchSiteList.join('')}
           </ul>
         </section>
+        <h3>图床配置</h3>
+        <section class="site-enable-setting img-upload-setting">
+        <label>ptpimg ApiKey: <input name="ptp-img-api-key" type="text" value='${ptpImgApiKey}'/></label>
+        </section>
         <h3>额外功能关闭</h3>
         <section class="site-enable-setting transfer-img-closed">
         <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
@@ -205,6 +212,7 @@ const saveSetting = () => {
   const batchSeedSiteEnabled = [];
   const transferImgEnabled = $("input[name='transfer-img-closed']").attr('checked') || '';
   const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr('checked') || '';
+  const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
   });
@@ -221,6 +229,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
     GM_setValue('easy-seed.transfer-img-closed', transferImgEnabled);
     GM_setValue('easy-seed.site-favicon-closed', siteFaviconEnabled);
+    GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {
@@ -521,8 +530,7 @@ const insertTorrentPage = () => {
   createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
 };
 const handleClickEvent = () => {
-  $('.site-list li>a').click(function () {
-    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+  $('.site-list li>a').click(async function () {
     let url = $(this).data('link');
     if (url.match(/lemonhd/)) {
       const catMap = {
@@ -562,6 +570,30 @@ const handleClickEvent = () => {
       };
       url = url.replace('/upload', `/upload/${catMap[TORRENT_INFO.category] || 'ebooks'}`);
     }
+    if (url.match(/baconbits/)) {
+      const catMap = {
+        movie: 'Movies',
+        tv: 'TV',
+        tvPack: 'TV',
+        documentary: 'Movies',
+        cartoon: 'Anime',
+        app: 'Applications',
+        ebook: 'E-Books',
+        magazine: 'Magazines',
+        audioBook: 'Audiobooks',
+        comics: 'Comics',
+      };
+      const formDom = await new Promise((resolve, reject) => {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`,
+          onload (res) {
+            resolve(res.responseText);
+          },
+        });
+      });
+      TORRENT_INFO.formDom = formDom;
+    }
     if (TORRENT_INFO.isForbidden) {
       const result = window.confirm('本种子禁止转载，确定要继续转载么？');
       if (!result) {
@@ -572,6 +604,7 @@ const handleClickEvent = () => {
       alert('请等待页面加载完成');
       return;
     }
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
     window.open(url);
   });

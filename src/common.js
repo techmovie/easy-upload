@@ -207,6 +207,9 @@ const getIMDBData = (imdbUrl) => {
             reject(data.error || '请求失败');
           }
         },
+        onerror (res) {
+          console.log(res);
+        },
       });
     } catch (error) {
       reject(new Error(error.message));
@@ -233,7 +236,7 @@ const transferImgs = (screenshots) => {
           let imgResultList = [];
           if (data && data.length) {
             imgResultList = JSON.parse(data[2]).images;
-            if (imgResultList.length.length < 1) {
+            if (imgResultList.length < 1) {
               throw new Error(new Error('上传失败，请重试'));
             }
             resolve(imgResultList);
@@ -514,7 +517,9 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
   const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
   const textPart = mediaArray.filter(item => item.startsWith('Text'));
-  const fileName = getMediaValueByKey('Complete name', generalPart).replace(/\.avi|\.mkv|\.mp4|\.ts/i, '');
+  const completeName = getMediaValueByKey('Complete name', generalPart);
+  const format = completeName?.match(/\.(\w+)$/i)?.[1]?.toLowerCase() ?? '';
+  const fileName = completeName.replace(/\.\w+$/i, '');
   const fileSize = getSize(getMediaValueByKey('File size', generalPart));
   const { videoCodec, hdrFormat, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
   const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
@@ -526,6 +531,8 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   return {
     fileName,
     fileSize,
+    format,
+    subtitles: subtitleLanguageArray,
     videoCodec,
     audioCodec,
     resolution,
@@ -704,6 +711,7 @@ const getInfoFromBDInfo = (bdInfo) => {
   return {
     fileSize,
     videoCodec,
+    subtitles: subtitleLanguageArray,
     audioCodec,
     resolution,
     mediaTags,
@@ -1079,6 +1087,45 @@ const getRtIdFromTitle = (title, tv, year) => {
     });
   });
 };
+const uploadToPtpImg = (imgArray) => {
+  return new Promise((resolve, reject) => {
+    const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
+    if (!apiKey) {
+      showNotice({
+        title: 'ptpimg上传失败',
+        text: '请到配置面板中填入ptpimg的api_key',
+      });
+      return;
+    }
+    const data = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
+    GM_xmlhttpRequest({
+      url: 'https://ptpimg.me/upload.php',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+      data,
+      onload (res) {
+        if (!res || !res.responseText) {
+          reject(new Error('上传失败，请重试'));
+        }
+        const data = JSON.parse(res.responseText);
+        if (!data) {
+          reject(new Error('上传失败，请重试'));
+        }
+        let imgResultList = [];
+        if (data && data.length) {
+          imgResultList = data.map(img => {
+            return `https://ptpimg.me/${img.code}.${img.ext}`;
+          });
+          resolve(imgResultList);
+        } else {
+          throw new Error('上传失败，请重试');
+        }
+      },
+    });
+  });
+};
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1110,5 +1157,6 @@ export {
   getTMDBVideos,
   getRtIdFromTitle,
   getFilterImages,
+  uploadToPtpImg,
 }
 ;

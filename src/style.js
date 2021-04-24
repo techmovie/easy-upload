@@ -223,6 +223,33 @@ td.title-td h4{
   padding: 0;
   margin: 0;
 }
+.easy-seed-setting-panel input[type="text"]{
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 34px;
+  line-height: 40px;
+  outline: none;
+  width: 200px;
+  padding: 0 12px;
+  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
+.easy-seed-setting-panel input[type="text"]::placeholder {
+  color: #c0c4cc
+}
+.easy-seed-setting-panel input[type="text"]:hover {
+  border-color: #c0c4cc
+}
+.easy-seed-setting-panel input[type="text"]:focus {
+    outline: none;
+    border-color: #409eff
+}
 .easy-seed-setting-panel h3,.easy-seed-setting-panel h1{ 
   color: #000;
   margin-bottom: 15px;
@@ -273,6 +300,7 @@ td.title-td h4{
 }
 .easy-seed-setting-panel .site-enable-setting{
   padding-top: 5px;
+  margin-bottom: 8px;
 }
 .easy-seed-setting-panel button{
   line-height: 1;
@@ -304,6 +332,9 @@ td.title-td h4{
 }
 .easy-seed-setting-panel .confirm-btns {
   padding-top: 15px;
+}
+.easy-seed-setting-panel .img-upload-setting label{
+  justify-content: center;
 }
 #save-setting-btn{
   background-color: #007bff;
