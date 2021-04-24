@@ -1,5 +1,8 @@
 // 入口文件
-import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, TORRENT_INFO } from './const';
+import {
+  CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE,
+  TORRENT_INFO, SORTED_SITE_KEYS,
+} from './const';
 import { fillTargetForm } from './target';
 import {
   getSubTitle, getUrlParam, transferImgs, getDoubanInfo,
@@ -22,8 +25,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
   const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
     ? ''
     : GM_getValue('easy-seed.site-favicon-closed');
-  const siteKeys = Object.keys(PT_SITE).sort();
-  const siteList = siteKeys.map((siteName, index) => {
+  const siteList = SORTED_SITE_KEYS.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
     if (PT_SITE[siteName].asTarget) {
@@ -63,7 +65,7 @@ const getSearchList = () => {
   const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
     ? ''
     : GM_getValue('easy-seed.site-favicon-closed');
-  const searchList = Object.keys(PT_SITE).sort().map(siteName => {
+  const searchList = SORTED_SITE_KEYS.map(siteName => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
       const searchConfig = siteInfo.search;
@@ -129,8 +131,7 @@ const openSettingPanel = () => {
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') === undefined
     ? ''
     : GM_getValue('easy-seed.ptp-img-api-key');
-  const siteKeys = Object.keys(PT_SITE).sort();
-  const targetSiteList = siteKeys.map((siteName, index) => {
+  const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
       return `<li>
@@ -139,7 +140,7 @@ const openSettingPanel = () => {
     }
     return '';
   });
-  const batchSeedSiteList = siteKeys.map((siteName, index) => {
+  const batchSeedSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (batchSeedSiteEnabled.includes(siteName)) ? 'checked' : '';
       return `<li>
@@ -148,7 +149,7 @@ const openSettingPanel = () => {
     }
     return '';
   });
-  const searchSiteList = Object.keys(PT_SITE).sort().map(siteName => {
+  const searchSiteList = SORTED_SITE_KEYS.map(siteName => {
     const checked = (searchSitesEnabled.includes(siteName)) ? 'checked' : '';
     return `<li>
       <label><input name="search-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
@@ -245,9 +246,8 @@ const openBatchSeedTabs = () => {
     showNotice({ title: '错误', text: '请先设置群转列表' });
     return false;
   }
-  const siteKeys = Object.keys(PT_SITE).sort();
   const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-  siteKeys.forEach((siteName, index) => {
+  SORTED_SITE_KEYS.forEach((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     if (PT_SITE[siteName].asTarget) {
       if (batchSeedSiteEnabled.includes(siteName)) {
