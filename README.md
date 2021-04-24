@@ -43,6 +43,7 @@
 |   1PTBA   |             ✅              |               ✅                |
 |   52pt    |             ✅              |               ✅                |
 |    ACM    |             ✅              |               ✅                |
+|  Aither   |             ✅              |               ✅                |
 | BTSCHOOL  |             ✅              |               ✅                |
 |  BeiTai   |             ✅              |               ❌                |
 | BeyondHD  |             ✅              |               ✅                |
