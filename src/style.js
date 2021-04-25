@@ -219,7 +219,7 @@ td.title-td h4{
   font-size: 12px;
   border-radius: 20px;
   border-style: outset;
-  border-width: 2px 2px;
+  border-width: 3px 3px;
 }
 .easy-seed-setting-panel *{
   padding: 0;
