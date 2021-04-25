@@ -1,3 +1,25 @@
+## [1.2.6](https://github.com/techmovie/easy-seed/compare/1.2.5...1.2.6) (2021-04-25)
+
+
+### Bug Fixes
+
+* site names sorted by lowercase letter ([75e38a4](https://github.com/techmovie/easy-seed/commit/75e38a4ad100054b72e6fe4ef067b73c12f9d7ef)), closes [#57](https://github.com/techmovie/easy-seed/issues/57)
+
+
+### Features
+
+* bB剧集标题按上传规则补充相关信息 ([377e63a](https://github.com/techmovie/easy-seed/commit/377e63a1100e53ee4501073e1aacba4bd42e2b0b)), closes [#57](https://github.com/techmovie/easy-seed/issues/57)
+* 增加ptpimg apikey获取按钮 增加apikey获取指引 ([60dce3c](https://github.com/techmovie/easy-seed/commit/60dce3c749e5350559cf758ddb0a58bc51efaa60))
+* **newsite:** support Aither ([45b1fc0](https://github.com/techmovie/easy-seed/commit/45b1fc03baeb985212bf1817213ae6f0be32c832)), closes [#49](https://github.com/techmovie/easy-seed/issues/49)
+* **newsite:** support bB(target) ([fc9ab62](https://github.com/techmovie/easy-seed/commit/fc9ab62cb7a70d8aefeb8a85452e07d0a339a180)), closes [#43](https://github.com/techmovie/easy-seed/issues/43)
+
+
+### Performance Improvements
+
+* change quick search style ([889ff2f](https://github.com/techmovie/easy-seed/commit/889ff2f153e8a5f8aa04768d315ba2eeaf9d07c4)), closes [#57](https://github.com/techmovie/easy-seed/issues/57)
+
+
+
 ## [1.2.5](https://github.com/techmovie/easy-seed/compare/1.2.4...1.2.5) (2021-04-23)
 
 
