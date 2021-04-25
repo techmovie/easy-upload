@@ -61,6 +61,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://asiancinema.me/torrents?*
 // @match        https://aither.cc/torrents/*
 // @match        https://aither.cc/torrents?*
+// @match        https://ptpimg.me*
 // @match        https://*/upload*
 // @match        http://*/upload*
 // @match        http://www.hd.ai/Torrents.upload

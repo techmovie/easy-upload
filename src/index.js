@@ -38,7 +38,8 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     }
     return '';
   });
-
+  const gazelleSearchListDom = searchListDom.match(/<ul(.|\n)+?<\/ul>/)?.[0]
+    ?.replace(/(<ul.+?>)/, '$1\n<div class="ptp-seed-title"><h4>快速检索</h4></div>');
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
@@ -51,8 +52,8 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     ${CURRENT_SITE_INFO.siteType === 'gazelle'
     ? `${getFunctionItems()}
     <div class="ptp-search-list">
-        ${searchListDom}
-        <div/> `
+        ${gazelleSearchListDom}
+    <div/> `
     : ''}
   </div>
   `;
