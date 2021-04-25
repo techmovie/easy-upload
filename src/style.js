@@ -215,20 +215,11 @@ td.title-td h4{
   color: #000;
 }
 #batch-seed-btn{
-  border-color: transparent;
-  color: #409eff;
-  background: transparent;
-  padding-left: 0;
-  padding-right: 0;
-}
-#batch-seed-btn:hover {
-  color: #66b1ff;
-  border-color: transparent;
-  background-color: transparent
-}
-#batch-seed-btn:active {
-  color: #3a8ee6;
-  background-color: transparent
+  padding: 1px 3px;
+  font-size: 12px;
+  border-radius: 20px;
+  border-style: outset;
+  border-width: 2px 2px;
 }
 .easy-seed-setting-panel *{
   padding: 0;
