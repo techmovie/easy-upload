@@ -3,11 +3,30 @@ import {
   getIMDBData, getInfoFromMediaInfo, showNotice, uploadToPtpImg,
   getInfoFromBDInfo,
 } from '../common';
-export default async (info) => {
-  const { title, category, imdbUrl, formDom, source, screenshots, mediaInfo, videoType } = info;
+export default (info) => {
+  const {
+    title, category, imdbUrl, formDom, tags,
+    source, screenshots, mediaInfo, videoType,
+  } = info;
   const { category: categoryConfig } = CURRENT_SITE_INFO;
   $(categoryConfig.selector).attr('onchange', '').val(categoryConfig.map[category]);
   $('#dynamic_form').html(formDom);
+  const isBluray = videoType.match(/bluray/i);
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
+  info.source = getSource(source, title);
+  info.format = getFormat(format, videoType);
+  const tvTitleArray = [];
+  ['source', 'videoCodec', 'audioCodec', 'format', 'resolution', 'mediaInfo'].forEach(key => {
+    const { selector = '', map } = CURRENT_SITE_INFO[key];
+    if (map) {
+      const mapValue = map[info[key]];
+      $(selector).val(mapValue);
+      tvTitleArray.push(mapValue);
+    } else {
+      $(selector).val(info[key]);
+    }
+  });
   if (imdbUrl) {
     getIMDBData(imdbUrl).then(imdbData => {
       let { name, year, genre, directors = [], actors = [], description, poster, details, aka } = imdbData;
@@ -18,6 +37,14 @@ export default async (info) => {
       })?.[0]?.title;
       if (akaName && originalTitle !== movieTitle) {
         movieTitle += ` AKA ${akaName}`;
+      }
+      if (category.match(/tv/i)) {
+        let seasonEpisode = title.match(/S\d+(E\d+)?/i)?.[0];
+        if (seasonEpisode) {
+          seasonEpisode = seasonEpisode.toUpperCase().replace(/S0?(\d+)$/, 'Season $1');
+          movieTitle += ` ${seasonEpisode} `;
+        }
+        movieTitle += `[${tvTitleArray.join(' / ')}]`;
       }
       $(CURRENT_SITE_INFO.name.selector).val(movieTitle);
       $(CURRENT_SITE_INFO.year.selector).val(year);
@@ -41,34 +68,20 @@ export default async (info) => {
   if (category !== 'movie') {
     return;
   }
-  const isBluray = videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { format = '', subtitles = [], mediaTags } = getInfoFunc(mediaInfo);
-  let releaseInfo = '';
+  const releaseInfo = [];
   if (videoType === 'remux') {
-    releaseInfo += 'REMUX';
+    releaseInfo.push('Remux');
   }
   if (title.match(/Commentary/i)) {
-    releaseInfo += ' / w. Commentary';
+    releaseInfo.push('w. Commentary');
   }
   if (subtitles.length > 0) {
-    releaseInfo += 'w. Subtitles';
+    releaseInfo.push('w. Subtitles');
   }
-  if (mediaTags.HDR) {
-    releaseInfo += ' / HDR';
+  if (tags.HDR) {
+    releaseInfo.push('HDR');
   }
-  $('input[name="remaster_title"]').val(releaseInfo.replace(/^\/|\/$/g, '').trim());
-  info.source = getSource(source, title);
-  info.format = getFormat(format, videoType);
-  ['source', 'videoCodec', 'audioCodec', 'resolution', 'mediaInfo', 'format'].forEach(key => {
-    const { selector = '', map } = CURRENT_SITE_INFO[key];
-    if (map) {
-      $(selector).val(map[info[key]]);
-    } else {
-      $(selector).val(info[key]);
-    }
-  });
-
+  $('input[name="remaster_title"]').val(releaseInfo.join(' / '));
   screenshots.forEach((img, index) => {
     index++;
     let inputDom = $(`input[name='screenshot${index}']`);
@@ -100,5 +113,5 @@ const getFormat = (format, videoType) => {
   } else if (videoType.match(/dvd/)) {
     format = 'vob';
   }
-  return format;
+  return format || 'mkv';
 };
