@@ -336,6 +336,17 @@ td.title-td h4{
 .easy-seed-setting-panel .img-upload-setting label{
   justify-content: center;
 }
+.easy-seed-setting-panel .img-upload-setting label input{
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.easy-seed-setting-panel .img-upload-setting label a{
+  color: #000;
+  font-weight: 500;
+}
+.easy-seed-setting-panel .img-upload-setting label a:hover{
+  color: #f7d584;
+}
 #save-setting-btn{
   background-color: #007bff;
   border-color: #007bff;
@@ -345,5 +356,8 @@ td.title-td h4{
   background: #66b1ff;
   border-color: #66b1ff;
   color: #fff
+}
+.ptp-api-key-btn{
+  text-align: center;
 }
 `);

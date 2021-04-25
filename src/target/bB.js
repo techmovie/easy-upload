@@ -70,7 +70,7 @@ export default (info) => {
   }
   const releaseInfo = [];
   if (videoType === 'remux') {
-    releaseInfo.push('Remux');
+    releaseInfo.push('REMUX');
   }
   if (title.match(/Commentary/i)) {
     releaseInfo.push('w. Commentary');

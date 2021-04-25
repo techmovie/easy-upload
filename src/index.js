@@ -9,8 +9,8 @@ import {
   getDoubanLinkByIMDB, getIMDBIdByUrl, getAreaCode, showNotice, getPreciseCategory,
 } from './common';
 import getTorrentInfo from './source';
-// eslint-disable-next-line no-unused-vars
-import style from './style';
+import './site-dom/ptpimg';
+import './style';
 
 /*
   * 向源站点页面注入DOM
@@ -181,7 +181,17 @@ const openSettingPanel = () => {
         </section>
         <h3>图床配置</h3>
         <section class="site-enable-setting img-upload-setting">
-        <label>ptpimg ApiKey: <input name="ptp-img-api-key" type="text" value='${ptpImgApiKey}'/></label>
+        <label>
+        ptpimg ApiKey:   
+        <input name="ptp-img-api-key" type="text" value='${ptpImgApiKey}'/>
+        <a 
+        target="_blank"
+        href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
+        >
+        如何获取？
+        </a>
+        </label>
+       
         </section>
         <h3>额外功能关闭</h3>
         <section class="site-enable-setting transfer-img-closed">
