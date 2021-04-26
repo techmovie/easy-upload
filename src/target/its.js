@@ -1,6 +1,6 @@
 import {
   getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData,
-  getTMDBVideos, getRtIdFromTitle,
+  getTMDBVideos, getRtIdFromTitle, uploadToPtpImg,
 } from '../common';
 import { getTeamName, getScreenshotsBBCode } from './common';
 
@@ -10,21 +10,14 @@ export default async (info) => {
 
   [img]$poster$[/img]
   
-  [color=darkorange][url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][/color]  [size=3]$imdbScore$[/size] [img]https://ptpimg.me/6ze1yb.gif[/img]  [size=3][color=darkorange][url=$rtUrl$][img]https://ptpimg.me/8r4772.png[/img][/url][/color] $rtScore$[/size] [img]https://ptpimg.me/6ze1yb.gif[/img] [color=darkorange][url=$tmdbUrl$][img]https://i.ibb.co/VWMtVnN/0fa9aceda3e5.png[/img][/url][/color] [size=3]$tmdbScore$[/size]
-  
-  
+  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size][*][url=$youtubeUrl$][img]https://i.ibb.co/TtHYsVC/youutbe-logo.png[/img][/url]
+
+
   [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
-  
   $synopsis$
-  
-  
-  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
-  
-  [youtube]$youtubeUrl$[/youtube]
   
 
   [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
-  
   $SCREENSHOTS$
   
   [/center]`;
@@ -43,11 +36,11 @@ export default async (info) => {
     $('select[name="type"]').val('67');
   }
   const screenshotsBBCode = getScreenshotsBBCode(screenshots);
-  template = template.replace('$SCREENSHOTS$', screenshotsBBCode.join(''));
+  template = template.replace('$SCREENSHOTS$', screenshotsBBCode.join('\n'));
   if (comparisonImgs.length > 0) {
     const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
     template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]\n\n
-    ${comparisonImgsBBCode.join('')}\n\n$1`);
+    ${comparisonImgsBBCode.join(' ')}\n\n$1`);
   }
   if (category.match(/tv|movie/)) {
     try {
@@ -94,6 +87,11 @@ export default async (info) => {
       const { score = 0, id = '' } = rtInfo;
       replaceParams.rtScore = `${score}%`;
       replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
+      const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
+      if (ptpImgApiKey) {
+        const ptpImgPoster = await uploadToPtpImg([poster]);
+        replaceParams.poster = ptpImgPoster;
+      }
       Object.keys(replaceParams).forEach(key => {
         template = template.replace(`$${key}$`, replaceParams[key]);
       });
