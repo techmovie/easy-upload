@@ -10,10 +10,8 @@ import getHDTInfo from './hdt';
 import getKGInfo from './kg';
 import getUHDInfo from './uhd';
 
-let getTorrentInfo = getPTPInfo;
-if (!CURRENT_SITE_INFO) {
-  getTorrentInfo = undefined;
-} else if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+let getTorrentInfo = undefined;
+if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
   getTorrentInfo = getNexusPHPInfo;
 } else if (CURRENT_SITE_NAME === 'BeyondHD') {
   getTorrentInfo = getBHDInfo;
@@ -29,6 +27,8 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getKGInfo;
 } else if (CURRENT_SITE_NAME === 'UHDBits') {
   getTorrentInfo = getUHDInfo;
+} else if (CURRENT_SITE_NAME === 'PTP') {
+  getTorrentInfo = getPTPInfo;
 }
 
 export default getTorrentInfo;
