@@ -194,8 +194,7 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  }
-  if (CURRENT_SITE_NAME === 'HDT') {
+  } else if (CURRENT_SITE_NAME === 'HDT') {
     const trDom = `<tr>
     <td class="detailsleft" title-td" align="right">
     ${easySeedTitleDom}
@@ -208,8 +207,7 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  }
-  if (CURRENT_SITE_NAME === 'HDBits') {
+  } else if (CURRENT_SITE_NAME === 'HDBits') {
     const trDom = `<tr class="hdb-tr">
     <td class="rowfollow title-td hdb-td">${easySeedTitleDom}</td>
     <td class="rowfollow easy-seed-td hdb-td"></td>
@@ -222,8 +220,7 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  }
-  if (CURRENT_SITE_NAME === 'PTP') {
+  } else if (CURRENT_SITE_NAME === 'PTP') {
     const torrentId = getUrlParam('torrentid');
     torrentInsertDom = $(`#torrent_${torrentId} >td`);
   } else if (CURRENT_SITE_NAME === 'UHDBits') {
