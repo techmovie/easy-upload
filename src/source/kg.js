@@ -108,9 +108,7 @@ const getVideoType = (title, source, genreVideoType, hasMediainfo) => {
       return source;
     }
   }
-  if (title.match(/Remux/i)) {
-    return 'remux';
-  } else if (title.match(/UHD/i) && title.match(/Blu-Ray/i)) {
+  if (title.match(/UHD/i) && title.match(/Blu-Ray/i)) {
     return 'uhdbluray';
   } else if (title.match(/Blu-Ray/i)) {
     return 'bluray';
