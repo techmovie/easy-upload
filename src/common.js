@@ -3,7 +3,7 @@
 import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_SUGGEST_API, CURRENT_SITE_INFO } from './const';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
-  return title.replace(/\.(?!(\d+))/ig, " ").replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, " ").trim();
+  return title.replace(/\.(?!(\d+))/ig, ' ').replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
 const getDoubanInfo = (doubanUrl) => {
   return new Promise((resolve, reject) => {
