@@ -37,6 +37,7 @@ bump({
   spinner.color = 'green';
   execa.sync('git', ['add', '.']);
   execa.sync('git', ['commit', '-m', `chore(release): ${newVersion}`]);
+  execa.sync('git', ['pull', '--rebase']);
   execa.sync('git', ['push']);
   setTimeout(() => {
     spinner.succeed(`🎉 v${newVersion}发布成功!`);
