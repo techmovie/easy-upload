@@ -17,6 +17,12 @@ export default () => {
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
 
   // 站点自定义数据覆盖 开始
+  if (CURRENT_SITE_NAME === 'MTeam') {
+    descriptionBBCode = descriptionBBCode
+      .replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, '')
+      .replace(/(http(s)?)%3A/g, '$1:')
+      .replace(/%2F/g, '/');
+  }
   if (CURRENT_SITE_NAME === 'HDArea') {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
