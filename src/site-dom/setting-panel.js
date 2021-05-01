@@ -1,4 +1,4 @@
-import { showNotice } from '../common';
+import { showNotice, $t } from '../common';
 import {
   PT_SITE,
   TORRENT_INFO, SORTED_SITE_KEYS,
@@ -52,26 +52,26 @@ const openSettingPanel = () => {
   <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
     <div class="panel-content-wrap">
       <div class="panel-content">
-        <h3>转种站点启用</h3>
+        <h3>${$t('转种站点启用')}</h3>
         <section class="site-enable-setting">
             <ul class="target-sites-enable-list" >
               ${targetSiteList.join('')}
             </ul>
           </section>
-        <h3>批量转种启用</h3>
-        <i>一键批量转发到以下选中的站点</i>
+        <h3>${$t('批量转种启用')}</h3>
+        <i>${$t('一键批量转发到以下选中的站点')}</i>
         <section class="site-enable-setting">
           <ul class="batch-seed-sites-enable-list">
               ${batchSeedSiteList.join('')}
           </ul>
         </section>
-        <h3>站点搜索启用</h3>
+        <h3>${$t('站点搜索启用')}</h3>
         <section class="site-enable-setting">
           <ul class="search-sites-enable-list">
             ${searchSiteList.join('')}
           </ul>
         </section>
-        <h3>图床配置</h3>
+        <h3>${$t('图床配置')}</h3>
         <section class="site-enable-setting img-upload-setting">
         <label>
         ptpimg ApiKey:   
@@ -80,22 +80,22 @@ const openSettingPanel = () => {
         target="_blank"
         href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
         >
-        如何获取？
+        ${$t('如何获取？')}
         </a>
         </label>
        
         </section>
-        <h3>额外功能关闭</h3>
+        <h3>${$t('额外功能关闭')}</h3>
         <section class="site-enable-setting transfer-img-closed">
-        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>关闭转缩略图功能</label>
+        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>${$t('关闭转缩略图功能')}</label>
         </section>
         <section class="site-enable-setting transfer-img-closed">
-        <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>关闭站点图标显示</label>
+        <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>${$t('关闭站点图标显示')}</label>
         </section>
       </div>
       <div class="confirm-btns">
-        <button id="save-setting-btn">保存</button>
-        <button id="cancel-setting-btn">取消</button>
+        <button id="save-setting-btn">${$t('保存')}</button>
+        <button id="cancel-setting-btn">${$t('取消')}</button>
       </div>
     </div>
   </div>
@@ -135,7 +135,7 @@ const saveSetting = () => {
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {
-    showNotice({ title: '错误', text: '保存本地站点设置失败' });
+    showNotice({ title: $t('错误'), text: $t('保存本地站点设置失败') });
   }
 };
 const openBatchSeedTabs = () => {
@@ -143,7 +143,7 @@ const openBatchSeedTabs = () => {
     ? []
     : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
   if (batchSeedSiteEnabled.length === 0) {
-    showNotice({ title: '错误', text: '请先设置群转列表' });
+    showNotice({ title: $t('错误'), text: $t('请先设置群转列表') });
     return false;
   }
   const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
@@ -155,7 +155,7 @@ const openBatchSeedTabs = () => {
       }
     }
   });
-  showNotice({ title: '成功', text: '转种页面已打开，请前往对应页面操作' });
+  showNotice({ title: $t('成功'), text: $t('转种页面已打开，请前往对应页面操作') });
 };
 export {
   openSettingPanel,

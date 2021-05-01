@@ -1,7 +1,7 @@
 import { CURRENT_SITE_INFO } from '../const';
 import {
   getIMDBData, getInfoFromMediaInfo, showNotice, uploadToPtpImg,
-  getInfoFromBDInfo,
+  getInfoFromBDInfo, $t,
 } from '../common';
 export default (info) => {
   const {
@@ -59,7 +59,7 @@ export default (info) => {
       uploadToPtpImg([poster]).then(img => {
         $(CURRENT_SITE_INFO.poster.selector).val(img[0]);
       }).catch(error => {
-        showNotice({ text: error.message || '封面上传失败' });
+        showNotice({ text: error.message || $t('封面上传失败') });
       });
     }).catch(error => {
       console.log(error);

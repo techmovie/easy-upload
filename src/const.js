@@ -42,6 +42,7 @@ const DOUBAN_SUGGEST_API = 'https://movie.douban.com/j/subject_suggest';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
+const USE_CHINESE = /zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
 
 const getSiteName = (host) => {
   let siteName = '';
@@ -92,5 +93,6 @@ export {
   HDB_TEAM,
   DOUBAN_SUGGEST_API,
   SORTED_SITE_KEYS,
+  USE_CHINESE,
 }
 ;

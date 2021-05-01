@@ -1,0 +1,43 @@
+豆瓣链接获取失败: Failed to get Douban link
+豆瓣ID获取失败: Failed to get Douban ID
+获取豆瓣信息失败: Failed to get Douban data
+缺少IMDB信息: Missing IMDB information
+获取失败: Request failed
+获取成功: Data request successful
+请求失败: Request failed
+上传失败，请重试: Upload failed, please try again
+ptpimg上传失败: PtpImg upload failed
+请到配置面板中填入ptpimg的api_key: Please enter the API_KEY of ptpimg in the setting panel
+封面上传失败: Failed to upload poster
+数据加载中...: Loading data...
+获取图片列表失败: Failed to get list of images
+转换中...: Converting...
+转换成功！: Conversed!
+获取中...: Requesting...
+缺少豆瓣链接: Missing Douban link
+本种子禁止转载，确定要继续转载么？: Transfer of this torrent is prohibited, are you sure to continue?
+请等待页面加载完成: Please wait for the page to load
+手动输入豆瓣链接: Enter the Douban link
+获取豆瓣简介: Get data of Douban
+获取豆瓣读书简介: Get data of Douban Book
+转缩略图: Convert to thumbnails
+快速检索: Quick search
+一键群转: Batch transfer
+快捷操作: Quick operation
+一键转种: Transfer to
+转种站点启用: Select sites for the 'Transfer to' section
+批量转种启用: Select sites for the 'Batch transfer' button
+一键批量转发到以下选中的站点: One-click batch transfer to the selected sites below
+站点搜索启用: Select sites for the 'Quick search' section
+图床配置: Image Host Settings
+如何获取？: How to get it?
+额外功能关闭: Turn off extra features
+关闭转缩略图功能: Remove the 'Convert to thumbnails' button
+关闭站点图标显示: Remove the icons
+保存: Save
+取消: Cancel
+错误: Error
+成功: Success
+保存本地站点设置失败: Failed to save local site settings
+请先设置群转列表: Please set up the group transfer list first
+转种页面已打开，请前往对应页面操作: The transfer pages have been opened, please go to the corresponding page to operate

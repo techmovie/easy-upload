@@ -27,7 +27,7 @@ const notifyError = (error) => {
     notifyError(e);
   });
   yamlToJSON();
-  chokidar.watch('src/config/*', { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
+  chokidar.watch(['src/config/*', 'src/i18n/*.yaml'], { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
     console.log(`${path}:${eventName}`);
     yamlToJSON();
   });

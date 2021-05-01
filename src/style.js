@@ -220,6 +220,7 @@ td.title-td h4{
   background: transparent;
   padding-left: 0;
   padding-right: 0;
+  font-weight: 600;
 }
 #batch-seed-btn:hover {
   color: #66b1ff;

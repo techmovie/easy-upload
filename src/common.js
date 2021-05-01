@@ -1,6 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable camelcase */
-import { CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY, TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API, DOUBAN_SUGGEST_API, CURRENT_SITE_INFO } from './const';
+import {
+  CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY,
+  TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API,
+  DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
+} from './const';
+import i18nConfig from './i18n';
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/\.(?!(\d+))/ig, ' ').replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
@@ -30,7 +35,7 @@ const getDoubanInfo = (doubanUrl) => {
           },
         });
       } else {
-        reject(new Error('豆瓣链接获取失败'));
+        reject(new Error($t('豆瓣链接获取失败')));
       }
     } catch (error) {
       console.log(error);
@@ -44,7 +49,7 @@ const getAnotherDoubanInfo = (doubanUrl) => {
       if (doubanUrl) {
         const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
         if (!doubanId) {
-          reject(new Error('豆瓣ID获取失败'));
+          reject(new Error($t('豆瓣ID获取失败')));
         }
         GM_xmlhttpRequest({
           method: 'GET',
@@ -54,12 +59,12 @@ const getAnotherDoubanInfo = (doubanUrl) => {
             if (data && data.id) {
               resolve(formatDoubanInfo(data));
             } else {
-              reject(new Error(data.message || '获取豆瓣信息失败'));
+              reject(new Error(data.message || $t('获取豆瓣信息失败')));
             }
           },
         });
       } else {
-        reject(new Error('豆瓣链接获取失败'));
+        reject(new Error($t('豆瓣链接获取失败')));
       }
     } catch (error) {
       reject(new Error(error.message));
@@ -146,7 +151,7 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
   return new Promise((resolve, reject) => {
     try {
       if (!imdbUrl) {
-        throw new Error('缺少IMDB信息');
+        throw new Error($t('缺少IMDB信息'));
       }
       const doubanUrl = ' https://movie.douban.com/subject/';
       const imdbId = getIMDBIdByUrl(imdbUrl);
@@ -162,7 +167,7 @@ const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
               getDoubanLinkBySuggest(imdbId).then(res => {
                 resolve(doubanUrl + res);
               }).catch(error => {
-                reject(new Error(error.message || '获取失败'));
+                reject(new Error(error.message || $t('获取失败')));
               });
             }
           },
@@ -184,7 +189,7 @@ const getDoubanLinkBySuggest = (imdbId) => {
           const doubanId = data[0].id;
           resolve(doubanId);
         } else {
-          reject(new Error('豆瓣id获取失败'));
+          reject(new Error($t('豆瓣ID获取失败')));
         }
       },
     });
@@ -194,7 +199,7 @@ const getIMDBData = (imdbUrl) => {
   return new Promise((resolve, reject) => {
     try {
       if (!imdbUrl) {
-        throw new Error('缺少IMDB信息');
+        throw new Error('$t(缺少IMDB信息)');
       }
       GM_xmlhttpRequest({
         method: 'GET',
@@ -204,7 +209,7 @@ const getIMDBData = (imdbUrl) => {
           if (data && data.success) {
             resolve(data);
           } else {
-            reject(data.error || '请求失败');
+            reject(data.error || '$t(请求失败)');
           }
         },
         onerror (res) {
@@ -231,17 +236,17 @@ const transferImgs = (screenshots) => {
         onload (res) {
           const data = res.responseText.match(/(upload_results = )({.*})(;)/);
           if (!data) {
-            reject(new Error('上传失败，请重试'));
+            reject(new Error($t('上传失败，请重试')));
           }
           let imgResultList = [];
           if (data && data.length) {
             imgResultList = JSON.parse(data[2]).images;
             if (imgResultList.length < 1) {
-              throw new Error(new Error('上传失败，请重试'));
+              throw new Error($t('上传失败，请重试'));
             }
             resolve(imgResultList);
           } else {
-            throw new Error('上传失败，请重试');
+            throw new Error($t('上传失败，请重试'));
           }
         },
       });
@@ -460,7 +465,7 @@ const getTMDBIdByIMDBId = (imdbid) => {
           const isMovie = data.movie_results && data.movie_results.length > 0;
           const isTV = !data.tv_results && data.tv_results.length > 0;
           if (res.status !== 200 && (!isMovie && !isTV)) {
-            reject(new Error('请求失败'));
+            reject(new Error($t('请求失败')));
           }
           const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
           resolve(tmdbData);
@@ -1092,8 +1097,8 @@ const uploadToPtpImg = (imgArray) => {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
     if (!apiKey) {
       showNotice({
-        title: 'ptpimg上传失败',
-        text: '请到配置面板中填入ptpimg的api_key',
+        title: $t('ptpimg上传失败'),
+        text: $t('请到配置面板中填入ptpimg的api_key'),
       });
       return;
     }
@@ -1107,11 +1112,11 @@ const uploadToPtpImg = (imgArray) => {
       data,
       onload (res) {
         if (!res || !res.responseText) {
-          reject(new Error('上传失败，请重试'));
+          reject(new Error($t('上传失败，请重试')));
         }
         const data = JSON.parse(res.responseText);
         if (!data) {
-          reject(new Error('上传失败，请重试'));
+          reject(new Error($t('上传失败，请重试')));
         }
         let imgResultList = [];
         if (data && data.length) {
@@ -1120,11 +1125,15 @@ const uploadToPtpImg = (imgArray) => {
           });
           resolve(imgResultList);
         } else {
-          throw new Error('上传失败，请重试');
+          throw new Error($t('上传失败，请重试'));
         }
       },
     });
   });
+};
+const $t = (key) => {
+  const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
+  return i18nConfig[languageKey]?.[key] ?? key;
 };
 export {
   getUrlParam,
@@ -1158,5 +1167,6 @@ export {
   getRtIdFromTitle,
   getFilterImages,
   uploadToPtpImg,
+  $t,
 }
 ;

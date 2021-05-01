@@ -1,6 +1,7 @@
 import {
   CURRENT_SITE_NAME, TORRENT_INFO,
 } from '../const';
+import { $t } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
 import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo } from './button-function';
 export default () => {
@@ -97,13 +98,13 @@ const handleSiteClickEvent = () => {
       TORRENT_INFO.formDom = formDom;
     }
     if (TORRENT_INFO.isForbidden) {
-      const result = window.confirm('本种子禁止转载，确定要继续转载么？');
+      const result = window.confirm($t('本种子禁止转载，确定要继续转载么？'));
       if (!result) {
         return;
       }
     }
     if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
-      alert('请等待页面加载完成');
+      alert($t('请等待页面加载完成'));
       return;
     }
     const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));

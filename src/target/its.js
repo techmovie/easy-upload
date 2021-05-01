@@ -1,11 +1,12 @@
 import {
   getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData,
   getTMDBVideos, getRtIdFromTitle, uploadToPtpImg,
+  $t,
 } from '../common';
 import { getTeamName, getScreenshotsBBCode } from './common';
 
 export default async (info) => {
-  $('textarea[name="descr"]').val('数据加载中...');
+  $('textarea[name="descr"]').val($t('数据加载中...'));
   let template = `[center]
 
   [img]$poster$[/img]

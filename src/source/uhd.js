@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
-  getUrlParam, getSize, getSourceFromTitle,
+  getUrlParam, getSize, getSourceFromTitle, $t,
 } from '../common';
 
 export default () => {
@@ -77,7 +77,7 @@ const getMediaInfo = (torrentId) => {
       onload (res) {
         const data = res.responseText;
         if (res.status !== 200 || !data) {
-          reject(new Error('请求失败'));
+          reject(new Error($t('请求失败')));
         }
         resolve(data.replace(/\r\n/g, '\n'));
       },
