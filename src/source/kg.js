@@ -45,7 +45,7 @@ export default () => {
   TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
   if (genreVideoType === 'dvdr' && RipSpecs) {
-    TORRENT_INFO.videoCodec = 'mepg2';
+    TORRENT_INFO.videoCodec = 'mpeg2';
     const audioCodec = RipSpecs.match(/DVD\sAudio:(.+)/)?.[1] ?? '';
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec);
     resolution = '480p';
