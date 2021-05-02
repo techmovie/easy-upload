@@ -374,6 +374,13 @@ const fillTargetForm = (info) => {
     }
     $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
   }
+  if (CURRENT_SITE_NAME === 'BTSCHOOL') {
+    $(imdbSelector).val(imdbId);
+    if (info.doubanUrl) {
+      const doubanId = info.doubanUrl.match(/\/(\d+)/)?.[1] ?? '';
+      $(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单
