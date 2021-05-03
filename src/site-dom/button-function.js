@@ -43,7 +43,12 @@ const getThumbnailImgs = () => {
 };
 const getDoubanLink = () => {
   $('#douban-info').text($t('获取中...')).attr('disabled', true).addClass('is-disabled');
-  const doubanLink = $('.page__title>a').attr('href') || TORRENT_INFO.doubanUrl || $('#douban-link').val();
+  // https://github.com/techmovie/DouBan-Info-for-PT
+  const scriptDoubanLink = $('.douban-dom').attr('douban-link');
+  const doubanLink = $('.page__title>a').attr('href') ||
+   scriptDoubanLink ||
+   TORRENT_INFO.doubanUrl ||
+    $('#douban-link').val();
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
     if (doubanLink) {

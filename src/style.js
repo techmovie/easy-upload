@@ -407,7 +407,10 @@ td.title-td h4{
   font-weight: 700;
   font-size: 16px;
   color: #303133;
-  margin: 0
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
 }
 
 .notification-content {
