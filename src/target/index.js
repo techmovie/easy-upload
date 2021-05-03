@@ -205,7 +205,7 @@ const fillTargetForm = (info) => {
     $(CURRENT_SITE_INFO.image.selector).val(info.image);
   }
 
-  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA/i)) {
+  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos/i)) {
     setTimeout(() => {
       const event = new Event('change');
       document.querySelector(CURRENT_SITE_INFO.category.selector).dispatchEvent(event);
