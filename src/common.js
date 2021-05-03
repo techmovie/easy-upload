@@ -4,6 +4,7 @@ import {
   CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY,
   TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API,
   DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
+  NOTIFICATION_TEMPLATE,
 } from './const';
 import i18nConfig from './i18n';
 const formatTorrentTitle = (title) => {
@@ -91,7 +92,7 @@ const formatDoubanInfo = (data) => {
       name: `${item.data[0].name} ${item.data[1].name}`,
     };
   });
-  let transTitle = alias.split('/');
+  let transTitle = alias?.split('/') ?? '';
   if (chineseTitle !== originalName && !alias.includes(chineseTitle)) {
     transTitle = [chineseTitle].concat(transTitle);
   }
@@ -107,7 +108,7 @@ const formatDoubanInfo = (data) => {
     trans_title: transTitle,
     this_title: [originalName],
     year,
-    playdate: dateReleased.match(/\d+-\d+-\d+/)[0],
+    playdate: dateReleased?.match(/\d+-\d+-\d+/)[0] ?? '',
     region: info[0].country,
     genre: chineseInfo.genre,
     language: chineseInfo.language,
@@ -991,31 +992,6 @@ const getBDInfoOrMediaInfo = (bbcode) => {
     mediaInfo,
   };
 };
-const showNotice = (message) => {
-  if (!('Notification' in window) || Notification.permission === 'denied') {
-    alert(message.text);
-  } else if (Notification.permission === 'granted') {
-    const myNotification = new Notification(message.title, {
-      body: message.text,
-    });
-    myNotification.onerror = () => {
-      alert(message.text);
-    };
-  } else if (Notification.permission !== 'denied') {
-    Notification.requestPermission(function (permission) {
-      if (permission === 'granted') {
-        const myNotification = new Notification(message.title, {
-          body: message.text,
-        });
-        myNotification.onerror = () => {
-          alert(message.text);
-        };
-      } else {
-        alert(message.text);
-      }
-    });
-  }
-};
 const replaceRegSymbols = (string) => {
   return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
 };
@@ -1092,6 +1068,43 @@ const getRtIdFromTitle = (title, tv, year) => {
     });
   });
 };
+
+const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
+  const id = new Date().getTime();
+  const lastId = $('.easy-notification:last').attr('id');
+  if (lastId && id - lastId < 800) {
+    return;
+  }
+  const zIndex = parseInt($('.easy-notification:last').css('zIndex')) || 2000;
+  let removeTimer = null;
+  const notificationDom = NOTIFICATION_TEMPLATE.replace('#title#', title)
+    .replace('#message#', text)
+    .replace('#id#', id)
+    .replace('#top#', 16)
+    .replace('#zIndex#', zIndex + 1);
+  $('body').append(notificationDom);
+  const offsetHeight = $('.easy-notification:last')[0].offsetHeight;
+  $('.easy-notification:last').prevAll('.easy-notification').each(function () {
+    const top = parseInt($(this).css('top'));
+    $(this).css('top', offsetHeight + top + 16 + 'px');
+  });
+  $('.easy-notification:last').addClass('easy-notification-enter');
+  $(`#${id}`).find('.notification-close-btn').click(function () {
+    const offsetHeight = $(`#${id}`)[0].offsetHeight;
+    const nextDom = $(`#${id}`).prevAll('.easy-notification');
+    $(`#${id}`).remove();
+    nextDom.each(function () {
+      const top = parseInt($(this).css('top'));
+      $(this).css('top', top - offsetHeight + 'px');
+    });
+    clearTimeout(removeTimer);
+  });
+  removeTimer = setTimeout(() => {
+    $(`#${id}`).remove();
+    clearTimeout(removeTimer);
+  }, 3000);
+};
+
 const uploadToPtpImg = (imgArray) => {
   return new Promise((resolve, reject) => {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');

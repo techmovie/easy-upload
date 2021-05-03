@@ -1,4 +1,4 @@
-import { showNotice, $t } from '../common';
+import { $t, showNotice } from '../common';
 import {
   PT_SITE,
   TORRENT_INFO, SORTED_SITE_KEYS,

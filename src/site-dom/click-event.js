@@ -1,7 +1,7 @@
 import {
   CURRENT_SITE_NAME, TORRENT_INFO,
 } from '../const';
-import { $t } from '../common';
+import { $t, showNotice } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
 import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo } from './button-function';
 export default () => {
@@ -104,7 +104,9 @@ const handleSiteClickEvent = () => {
       }
     }
     if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
-      alert($t('请等待页面加载完成'));
+      showNotice({
+        text: $t('请等待页面加载完成'),
+      });
       return;
     }
     const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));

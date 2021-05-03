@@ -75,7 +75,6 @@ const getFunctionItems = () => {
   <div class="function-list-item">
     <div class="douban-section">
       <button id="douban-info">${$t('获取豆瓣简介')}</button>
-      <div class="douban-status"></div>
     </div>
   </div>`
     : '';
@@ -84,7 +83,6 @@ const getFunctionItems = () => {
 <div class="function-list-item">
   <div class="douban-book-section">
     <button id="douban-book-info">${$t('获取豆瓣读书简介')}</button>
-    <div class="douban-book-status"></div>
   </div>
 </div>`
     : '';
@@ -94,7 +92,6 @@ const getFunctionItems = () => {
       <div class="function-list-item">
       <div class="upload-section">
         <button id="img-transfer">${$t('转缩略图')}</button>
-        <div class="upload-status"></div>
       </div>
     </div>`;
   return (doubanDom || transferDom || doubanSearchDom)

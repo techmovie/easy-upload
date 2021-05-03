@@ -4,17 +4,16 @@ import {
 import {
   getSubTitle, transferImgs, getDoubanInfo, $t,
   getDoubanLinkByIMDB, getAreaCode, getPreciseCategory,
+  showNotice,
 } from '../common';
 
 const getThumbnailImgs = () => {
-  const statusDom = $('.upload-section .upload-status');
   const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
   const imgList = [...new Set(allImgs)];
   if (imgList.length < 1) {
     throw new Error($t('获取图片列表失败'));
   }
-  statusDom.text($t('转换中...'));
-  $('#img-transfer').attr('disabled', true).addClass('is-disabled');
+  $('#img-transfer').text($t('转换中...')).attr('disabled', true).addClass('is-disabled');
   transferImgs(imgList.join('\n')).then(data => {
     if (data.length) {
       const thumbnailImgs = data.map(imgData => {
@@ -28,19 +27,23 @@ const getThumbnailImgs = () => {
         }
       });
       TORRENT_INFO.description = description;
-      statusDom.text($t('转换成功！'));
+      showNotice({
+        title: $t('成功'),
+        text: $t('转换成功！'),
+      });
     }
   }).catch(error => {
-    statusDom.text(error.message);
+    showNotice({
+      title: $t('错误'),
+      text: error.message,
+    });
   }).finally(() => {
-    $('#img-transfer').removeAttr('disabled').removeClass('is-disabled');
+    $('#img-transfer').text($t('转缩略图')).removeAttr('disabled').removeClass('is-disabled');
   });
 };
 const getDoubanLink = () => {
-  $('#douban-info').attr('disabled', true).addClass('is-disabled');
-  const statusDom = $('.douban-section .douban-status');
+  $('#douban-info').text($t('获取中...')).attr('disabled', true).addClass('is-disabled');
   const doubanLink = $('.page__title>a').attr('href') || TORRENT_INFO.doubanUrl || $('#douban-link').val();
-  statusDom.text($t('获取中...'));
   if (doubanLink && doubanLink.match('movie.douban.com')) {
     TORRENT_INFO.doubanUrl = doubanLink;
     if (doubanLink) {
@@ -51,32 +54,34 @@ const getDoubanLink = () => {
   }
   const { imdbUrl, movieName } = TORRENT_INFO;
   getDoubanLinkByIMDB(imdbUrl, movieName).then(doubanUrl => {
-    if (!doubanUrl) {
-      throw new Error($t('豆瓣链接获取失败'));
-    }
     TORRENT_INFO.doubanUrl = doubanUrl;
     $('#douban-link').val(doubanUrl);
     getDoubanData();
   }).catch(error => {
-    statusDom.text(error.message);
+    showNotice({
+      title: $t('错误'),
+      text: error.message,
+    });
+    $('#douban-info').text($t('获取豆瓣简介')).removeAttr('disabled').removeClass('is-disabled');
   });
 };
 const getDoubanData = () => {
   const { doubanUrl } = TORRENT_INFO;
-  const statusDom = $('.douban-section .douban-status');
-  try {
-    if (doubanUrl) {
-      getDoubanInfo(doubanUrl).then(data => {
-        updateTorrentInfo(data);
-        statusDom.text($t('获取成功'));
-      }).catch(error => {
-        statusDom.text(error.message);
-      }).finally(() => {
-        $('#douban-info').removeAttr('disabled').removeClass('is-disabled');
+  if (doubanUrl) {
+    getDoubanInfo(doubanUrl).then(data => {
+      updateTorrentInfo(data);
+      showNotice({
+        title: $t('成功'),
+        text: $t('获取成功'),
       });
-    }
-  } catch (error) {
-    statusDom.text(error.message);
+    }).catch(error => {
+      showNotice({
+        title: $t('错误'),
+        text: error.message,
+      });
+    }).finally(() => {
+      $('#douban-info').text($t('获取豆瓣简介')).removeAttr('disabled').removeClass('is-disabled');
+    });
   }
 };
 const getDoubanBookInfo = () => {
@@ -86,26 +91,31 @@ const getDoubanBookInfo = () => {
   } else {
     $('#douban-link').val(doubanUrl);
   }
-  const statusDom = $('.douban-book-section .douban-book-status');
-  statusDom.text($t('获取中...'));
-  try {
-    if (doubanUrl) {
-      getDoubanInfo(doubanUrl).then(data => {
-        TORRENT_INFO.title = data.chinese_title || data.origin_title;
-        TORRENT_INFO.image = data.poster;
-        TORRENT_INFO.description = data.book_intro;
-        TORRENT_INFO.doubanBookInfo = data;
-        statusDom.text($t('获取成功'));
-      }).catch(error => {
-        statusDom.text(error.message);
-      }).finally(() => {
-        $('#douban-book-info').removeAttr('disabled').removeClass('is-disabled');
+  if (doubanUrl) {
+    $('#douban-book-info').text($t('获取中...')).attr('disabled', true).addClass('is-disabled');
+    getDoubanInfo(doubanUrl).then(data => {
+      TORRENT_INFO.title = data.chinese_title || data.origin_title;
+      TORRENT_INFO.image = data.poster;
+      TORRENT_INFO.description = data.book_intro;
+      TORRENT_INFO.doubanBookInfo = data;
+      showNotice({
+        title: $t('成功'),
+        text: $t('获取成功'),
       });
-    } else {
-      throw new Error($t('缺少豆瓣链接'));
-    }
-  } catch (error) {
-    statusDom.text(error.message);
+    }).catch(error => {
+      showNotice({
+        title: $t('错误'),
+        text: error.message,
+      });
+    }).finally(() => {
+      $('#douban-book-info').text($t('获取豆瓣读书简介'))
+        .removeAttr('disabled').removeClass('is-disabled');
+    });
+  } else {
+    showNotice({
+      title: $t('错误'),
+      text: $t('缺少豆瓣链接'),
+    });
   }
 };
 const updateTorrentInfo = (data) => {

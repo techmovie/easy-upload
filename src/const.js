@@ -79,6 +79,19 @@ const EUROPE_LIST = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', '
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
 const HDB_TEAM = ['Chotab', 'CRiSC', 'CtrlHD', 'DON', 'EA', 'EbP', 'Geek', 'LolHD', 'NTb', 'RightSiZE', 'SA89', 'SbR', 'TayTo', 'VietHD'];
+const NOTIFICATION_TEMPLATE = `
+<div class="easy-notification" id="#id#" style="top: #top#px; z-index:#zIndex#;">
+  <div class="notification-wrapper">
+    <h2 class="notification-title">#title#</h2>
+    <div class="notification-content">
+      <p>#message#</p>
+    </div>
+    <div class="notification-close-btn">
+    <svg t="1619966620126" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2006" width="200" height="200"><path d="M572.16 512l183.466667-183.04a42.666667 42.666667 0 1 0-60.586667-60.586667L512 451.84l-183.04-183.466667a42.666667 42.666667 0 0 0-60.586667 60.586667l183.466667 183.04-183.466667 183.04a42.666667 42.666667 0 0 0 0 60.586667 42.666667 42.666667 0 0 0 60.586667 0l183.04-183.466667 183.04 183.466667a42.666667 42.666667 0 0 0 60.586667 0 42.666667 42.666667 0 0 0 0-60.586667z" p-id="2007" fill="#909399"></path></svg>
+    </div>
+  </div>
+</div>
+`;
 export {
   TORRENT_INFO,
   DOUBAN_SEARCH_API,
@@ -94,5 +107,6 @@ export {
   DOUBAN_SUGGEST_API,
   SORTED_SITE_KEYS,
   USE_CHINESE,
+  NOTIFICATION_TEMPLATE,
 }
 ;
