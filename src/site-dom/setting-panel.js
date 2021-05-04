@@ -94,8 +94,8 @@ const openSettingPanel = () => {
         </section>
       </div>
       <div class="confirm-btns">
-        <button id="save-setting-btn">${$t('保存')}</button>
         <button id="cancel-setting-btn">${$t('取消')}</button>
+        <button id="save-setting-btn">${$t('保存')}</button>
       </div>
     </div>
   </div>

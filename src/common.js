@@ -1102,7 +1102,7 @@ const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
   removeTimer = setTimeout(() => {
     $(`#${id}`).remove();
     clearTimeout(removeTimer);
-  }, 3000);
+  }, 4000);
 };
 
 const uploadToPtpImg = (imgArray) => {
