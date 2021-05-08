@@ -10,8 +10,10 @@ import getHDTInfo from './hdt';
 import getKGInfo from './kg';
 import getUHDInfo from './uhd';
 
-let getTorrentInfo = undefined;
-if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
+let getTorrentInfo;
+if (!CURRENT_SITE_INFO) {
+  getTorrentInfo = null;
+} else if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
   getTorrentInfo = getNexusPHPInfo;
 } else if (CURRENT_SITE_NAME === 'BeyondHD') {
   getTorrentInfo = getBHDInfo;
