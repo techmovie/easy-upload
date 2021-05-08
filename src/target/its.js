@@ -6,7 +6,6 @@ import {
 import { getTeamName, getScreenshotsBBCode } from './common';
 
 export default async (info) => {
-  $('textarea[name="descr"]').val($t('数据加载中...'));
   let template = `[center]
 
   [img]$poster$[/img]
@@ -45,7 +44,8 @@ export default async (info) => {
     template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]\n\n
     [box][hide]${comparisonImgsBBCode.join(' ')}[/hide][/box]\n\n$1`);
   }
-  if (category.match(/tv|movie/)) {
+  if (category.match(/tv|movie|cartoon|documentary/)) {
+    $('textarea[name="descr"]').val($t('数据加载中...'));
     try {
       const replaceParams = {
         tmdbUrl: '',
