@@ -1,3 +1,33 @@
+# [1.3.0](https://github.com/techmovie/easy-seed/compare/1.2.6...1.3.0) (2021-05-08)
+
+
+### Bug Fixes
+
+* **hdatmos:** add category selector change event ([d59da2b](https://github.com/techmovie/easy-seed/commit/d59da2bbc248bb444e3ebae8b82656304464ad89))
+* 'mepg2' to 'mpeg2' ([ba7cd94](https://github.com/techmovie/easy-seed/commit/ba7cd9462490df257cfc708fb9e1a3a362844c5d))
+* **btschool:** replace urls of imdb and douban to ids ([2f1297f](https://github.com/techmovie/easy-seed/commit/2f1297f40be82c932a52f9ddda6d04bb69bd30dc))
+* link to english greasyfork ([c063daf](https://github.com/techmovie/easy-seed/commit/c063daf539b4391b40f320ccf9478ad1e166d440))
+* repalce iTS upload template ([32a2ff9](https://github.com/techmovie/easy-seed/commit/32a2ff95acd173f947391f99b9396ad94d4dbb85))
+* replace space of iTS title to dot ([73272b7](https://github.com/techmovie/easy-seed/commit/73272b76f26a8a7a7f3aa40cf6c43aa8cd770617))
+* 修复转缩略图后上传失败的图片被替换为undefined ([a175fb1](https://github.com/techmovie/easy-seed/commit/a175fb18859a2a4f929cc59c44b0b027cdc0da60))
+* 去除MT图片链接多余内容 ([92e4078](https://github.com/techmovie/easy-seed/commit/92e4078e1aaf51f80424b4cb29b5392f72a0af90))
+
+
+### Features
+
+* 支持从DouBan-Info-for-PT中获取豆瓣链接 ([92d4027](https://github.com/techmovie/easy-seed/commit/92d40273e773d8a1670ba90374b1d98ca0ed39a9))
+* **search:** add btn support ([4f08f2d](https://github.com/techmovie/easy-seed/commit/4f08f2d670027100a60eb598f88cf19674ddc6f5))
+* change status text or alert to notification function ([fa8a07b](https://github.com/techmovie/easy-seed/commit/fa8a07bdbe3625b6631b51eb09aaebf35238d3d2)), closes [#57](https://github.com/techmovie/easy-seed/issues/57)
+* **localization:** support English ([18adb38](https://github.com/techmovie/easy-seed/commit/18adb384dab9ed052128d4a024ecca5777715755))
+* add English README and Wiki pages ([29574dc](https://github.com/techmovie/easy-seed/commit/29574dc8ad58109d7cb2c29a503f9e697861262a))
+
+
+### Performance Improvements
+
+* 优化部分细节 ([94a6467](https://github.com/techmovie/easy-seed/commit/94a6467e40c3fde62a86c972f3555f16bd29dd8a))
+
+
+
 ## [1.2.6](https://github.com/techmovie/easy-seed/compare/1.2.5...1.2.6) (2021-04-25)
 
 

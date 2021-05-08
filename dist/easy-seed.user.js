@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         easy-seed PT一键转种
 // @namespace    https://github.com/techmovie/easy-seed
-// @version      1.2.6
+// @version      1.3.0
 // @description  easy seeding for different trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -22,7 +22,7 @@
 // @match        https://asiancinema.me/torrents?*
 // @match        https://aither.cc/torrents/*
 // @match        https://aither.cc/torrents?*
-// @match        https://ptpimg.me*
+// @match        https://ptpimg.me/*
 // @match        https://*/upload*
 // @match        http://*/upload*
 // @match        http://www.hd.ai/Torrents.upload
@@ -480,6 +480,23 @@
           "720p": "5",
           "576p": "6",
           "480p": "8"
+        }
+      }
+    },
+    BTN: {
+      url: "https://broadcasthe.net",
+      host: "broadcasthe.net",
+      siteType: "BTN",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve"><image id="image0" width="32" height="32" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAFR0lEQVRYw72Xa4hVVRTH/2ufM/ecO2rWlI+iLClUyuqLVPSQRDR6CzpjZYUladibUqEv00QfytA0GfEZZhFqokWFEoE9JdIgSEIoyyJxepjPmXvP2evRB7t3zp17Zxyv0IYFh7PX/q/fXnudxT7AGYyofedlAxbuGH4mGlT3yrd/vy62dBUIscAt9fdf0v6/AeTbv78Ig+LdznQoABiRpV4n8qwxO05Xy9W1+zicQpwOhTAgDLCnMKTx9UiFdQEIO5DAKt5pXdnsHWDTnlwuaWwxR5M0jDfKDyu2o61NAQCaVPtTFscI7+wfHxE9oEK7fc69iZaLCrXC1D6C13+M4mK0NiRd36D8YC49sTkYdf+d5XnPANew0lj3w+V54fcC9rMa4JfnE78RKw809g+gfc/AeJAsd7AZJEKkCqeab7BwejeAAt5XGqfl6SiIZjrVs0kVJEJkfEccdW7Bmj1NpwSIG4NnHdlDJExQAVQAU4NPjpWdNAHEV1omA5byLlPV0noSJgeZHIfhwr4Blu0cQypzoUJmipKJyt4i+IWyHycnd1xhxfJ0yic+VOiOrAZUiJRnYO2eCbUBWjfloji/BdAh5Z2rwFTAheJsPDS2o+zbc/c9MoA547qKOWlWkV+yWjCNIpMNWLy9qQogHjriBlIZlU29KYulSSs/Nu7LikwxAz6ttEwNAABmXHXYuPikCXdmj4JEzstFTZOqANSF15LCQQQlMy/7i52HV1QVqq9xBD6tcks6fv0YIt9lNUnFuSCcUAUQFLumgpnAArDAWEBJ4T3Mu+WvagCPrChEAOUqN7S1pHbiyAr7T7NklBRurQS4uTU0F55F2bMHGEf/3gxUNryT6TpFDWRGsbNhg6ketNIxqADOnYX5aweVAZrGnjORlC+FMkrm0s4jhbapX9cSZfHHrSeA+qQmQdsEdoXjR7LaUB48MIzvLQNYQ3QO2AeljmbMoKRo6GX4v45tNJF9xmImYqp6oHisa1Nv/pQWKjum92Sw7gyQ7zKYIGumvcYH3prXWUyP3yjGr6pwe1GK12PVk/t6X2AV2lAB0pMbDAHgH0s+yav8CbOhwMlLggVBI55aPQxLH/mjpuby+R0psAD9GOqCHCRTI84lZvpFdxG2P38IadphFVUtjfl83NyfAH2NAU+snGzkRlLp0xaBpemhrkWzd3UDADBOdkHZuqs6JYvyLZi9srHu6K2tjs89727i1FV+NcnecjK6AexdeK+lWw4Jg5SvCYcMGFc3QDLqEqc8hUo3J2GA2Uz0/SqAROhrmBzKFgvBotCF6zB/9YV1bN9FQbAYaudXFDdpAWYfVQHglZajzH6BiiYQRcmcyMgozK/A42sv6HfsZ9Y0Rc+PXuJM7yIVKmmZqKqXJclL9+yrBgDgX37wTRi/36NpwKncGg9q+DI3743pp4odPL3y9jjKfeXUP0rqKatjqt+k3x16MetffZFcsO6KWGQzuWA0wSrmzWAGfK7stzmTXeX2G4YwR1dR0HA7gSYSUZWuAh3Meh8vnrWjbwAAmNs+PG6MPnPAqJ5T/7UnNYCzb8gQgsjVEjSgo2AyAYvm7O051+tVOvf4sispzK13RFcTWV1XbgOZwX5ho4f5tdmf1fLpW/i59QNyvnONczaNjIKeR9J3YKgRfZpYYRqWPHOkN99TCzY3B9GQm25D6O5ywJ0gGlZroXU/HBaHrUixLQ32foBly5K+5E8vtc2L88EwNyk0NxNhONipjAVAQu5nMj2oIls9H96MVW1d/ZWs/++4uTmIcfEIc+SSn47+hm9X+Xpk/gV3p5H+s+SSlQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNS0wM1QxNDoyNjowMyswMDowMDXaY4EAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDUtMDNUMTQ6MjY6MDMrMDA6MDBEh9s9AAAAAElFTkSuQmCC" /></svg>',
+      asSource: false,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          action: "advanced",
+          imdb: "{imdb}",
+          artistname: "{name}"
         }
       }
     },
@@ -5178,6 +5195,7 @@
   var PT_GEN_API = "https://media.pttool.workers.dev";
   var TMDB_API_URL = "https://api.tmdb.org";
   var TMDB_API_KEY = "3d62cb1443c6b34b61262ab332aaf78c";
+  var USE_CHINESE = /zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
   var getSiteName = (host) => {
     let siteName = "";
     try {
@@ -5212,10 +5230,121 @@
   var CURRENT_SITE_NAME = getSiteName(location.host);
   var CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
   var HDB_TEAM = ["Chotab", "CRiSC", "CtrlHD", "DON", "EA", "EbP", "Geek", "LolHD", "NTb", "RightSiZE", "SA89", "SbR", "TayTo", "VietHD"];
+  var NOTIFICATION_TEMPLATE = `
+<div class="easy-notification" id="#id#" style="top: #top#px; z-index:#zIndex#;">
+  <div class="notification-wrapper">
+    <h2 class="notification-title">#title#</h2>
+    <div class="notification-content">
+      <p>#message#</p>
+    </div>
+    <div class="notification-close-btn">
+    <svg t="1619966620126" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2006" width="200" height="200"><path d="M572.16 512l183.466667-183.04a42.666667 42.666667 0 1 0-60.586667-60.586667L512 451.84l-183.04-183.466667a42.666667 42.666667 0 0 0-60.586667 60.586667l183.466667 183.04-183.466667 183.04a42.666667 42.666667 0 0 0 0 60.586667 42.666667 42.666667 0 0 0 60.586667 0l183.04-183.466667 183.04 183.466667a42.666667 42.666667 0 0 0 60.586667 0 42.666667 42.666667 0 0 0 0-60.586667z" p-id="2007" fill="#909399"></path></svg>
+    </div>
+  </div>
+</div>
+`;
+
+  // src/i18n.json
+  var en_US = {
+    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
+    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
+    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
+    \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
+    \u83B7\u53D6\u5931\u8D25: "Request failed",
+    \u83B7\u53D6\u6210\u529F: "Data request successful",
+    \u8BF7\u6C42\u5931\u8D25: "Request failed",
+    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
+    ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
+    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
+    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
+    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
+    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
+    "\u8F6C\u6362\u4E2D...": "Converting...",
+    "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
+    "\u83B7\u53D6\u4E2D...": "Requesting...",
+    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
+    "\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent is prohibited, are you sure to continue?",
+    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
+    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
+    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
+    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
+    \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
+    \u5FEB\u901F\u68C0\u7D22: "Quick search",
+    \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
+    \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
+    \u4E00\u952E\u8F6C\u79CD: "Transfer to",
+    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
+    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
+    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
+    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
+    \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
+    "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
+    \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
+    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
+    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
+    \u4FDD\u5B58: "Save",
+    \u53D6\u6D88: "Cancel",
+    \u9519\u8BEF: "Error",
+    \u6210\u529F: "Success",
+    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
+    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the group transfer list first",
+    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
+    \u63D0\u793A: "Hint"
+  };
+  var zh_CN = {
+    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
+    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
+    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
+    \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
+    \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
+    \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
+    \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
+    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
+    ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
+    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
+    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
+    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
+    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
+    "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
+    "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
+    "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
+    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
+    "\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
+    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
+    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
+    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
+    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
+    \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
+    \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
+    \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
+    \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
+    \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
+    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
+    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
+    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
+    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
+    \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
+    "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
+    \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
+    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
+    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
+    \u4FDD\u5B58: "\u4FDD\u5B58",
+    \u53D6\u6D88: "\u53D6\u6D88",
+    \u9519\u8BEF: "\u9519\u8BEF",
+    \u6210\u529F: "\u6210\u529F",
+    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
+    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
+    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
+    \u63D0\u793A: "\u63D0\u793A"
+  };
+  var i18n_default = {
+    en_US,
+    "zh-CN": zh_CN
+  };
 
   // src/common.js
   var formatTorrentTitle = (title) => {
-    return title.replace(/(?<!(([^\d]+\d{1})|([^\w]+H)))(\.)/ig, " ").replace(/\.(?!(\d+))/, " ").trim();
+    return title.replace(/\.(?!(\d+))/ig, " ").replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, " ").trim();
   };
   var getDoubanInfo = (doubanUrl) => {
     return new Promise((resolve, reject) => {
@@ -5242,7 +5371,7 @@
             }
           });
         } else {
-          reject(new Error("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25"));
+          reject(new Error($t("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25")));
         }
       } catch (error) {
         console.log(error);
@@ -5257,7 +5386,7 @@
         if (doubanUrl) {
           const doubanId = (_b = (_a = doubanUrl.match(/subject\/(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
           if (!doubanId) {
-            reject(new Error("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25"));
+            reject(new Error($t("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25")));
           }
           GM_xmlhttpRequest({
             method: "GET",
@@ -5267,12 +5396,12 @@
               if (data && data.id) {
                 resolve(formatDoubanInfo(data));
               } else {
-                reject(new Error(data.message || "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25"));
+                reject(new Error(data.message || $t("\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25")));
               }
             }
           });
         } else {
-          reject(new Error("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25"));
+          reject(new Error($t("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25")));
         }
       } catch (error) {
         reject(new Error(error.message));
@@ -5280,6 +5409,7 @@
     });
   };
   var formatDoubanInfo = (data) => {
+    var _a, _b;
     const {doubanId, imdbId, imdbRating, imdbVotes, dateReleased, alias, originalName, doubanRating, episodes, doubanVotes, year, duration, director, data: info, actor, writer} = data;
     const [chineseInfo, englishInfo] = info;
     const chineseTitle = chineseInfo.name;
@@ -5299,7 +5429,7 @@
         name: `${item.data[0].name} ${item.data[1].name}`
       };
     });
-    let transTitle = alias.split("/");
+    let transTitle = (_a = alias == null ? void 0 : alias.split("/")) != null ? _a : "";
     if (chineseTitle !== originalName && !alias.includes(chineseTitle)) {
       transTitle = [chineseTitle].concat(transTitle);
     }
@@ -5315,7 +5445,7 @@
       trans_title: transTitle,
       this_title: [originalName],
       year,
-      playdate: dateReleased.match(/\d+-\d+-\d+/)[0],
+      playdate: (_b = dateReleased == null ? void 0 : dateReleased.match(/\d+-\d+-\d+/)[0]) != null ? _b : "",
       region: info[0].country,
       genre: chineseInfo.genre,
       language: chineseInfo.language,
@@ -5379,7 +5509,7 @@
     return new Promise((resolve, reject) => {
       try {
         if (!imdbUrl) {
-          throw new Error("\u7F3A\u5C11IMDB\u4FE1\u606F");
+          throw new Error($t("\u7F3A\u5C11IMDB\u4FE1\u606F"));
         }
         const doubanUrl = " https://movie.douban.com/subject/";
         const imdbId = getIMDBIdByUrl(imdbUrl);
@@ -5395,7 +5525,7 @@
                 getDoubanLinkBySuggest(imdbId).then((res2) => {
                   resolve(doubanUrl + res2);
                 }).catch((error) => {
-                  reject(new Error(error.message || "\u83B7\u53D6\u5931\u8D25"));
+                  reject(new Error(error.message || $t("\u83B7\u53D6\u5931\u8D25")));
                 });
               }
             }
@@ -5417,7 +5547,7 @@
             const doubanId = data[0].id;
             resolve(doubanId);
           } else {
-            reject(new Error("\u8C46\u74E3id\u83B7\u53D6\u5931\u8D25"));
+            reject(new Error($t("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25")));
           }
         }
       });
@@ -5427,7 +5557,7 @@
     return new Promise((resolve, reject) => {
       try {
         if (!imdbUrl) {
-          throw new Error("\u7F3A\u5C11IMDB\u4FE1\u606F");
+          throw new Error("$t(\u7F3A\u5C11IMDB\u4FE1\u606F)");
         }
         GM_xmlhttpRequest({
           method: "GET",
@@ -5437,7 +5567,7 @@
             if (data && data.success) {
               resolve(data);
             } else {
-              reject(data.error || "\u8BF7\u6C42\u5931\u8D25");
+              reject(data.error || "$t(\u8BF7\u6C42\u5931\u8D25)");
             }
           },
           onerror(res) {
@@ -5464,17 +5594,17 @@
           onload(res) {
             const data = res.responseText.match(/(upload_results = )({.*})(;)/);
             if (!data) {
-              reject(new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+              reject(new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5")));
             }
             let imgResultList = [];
             if (data && data.length) {
               imgResultList = JSON.parse(data[2]).images;
               if (imgResultList.length < 1) {
-                throw new Error(new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+                throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
               }
               resolve(imgResultList);
             } else {
-              throw new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+              throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
             }
           }
         });
@@ -5669,7 +5799,7 @@
             const isMovie = data.movie_results && data.movie_results.length > 0;
             const isTV = !data.tv_results && data.tv_results.length > 0;
             if (res.status !== 200 && (!isMovie && !isTV)) {
-              reject(new Error("\u8BF7\u6C42\u5931\u8D25"));
+              reject(new Error($t("\u8BF7\u6C42\u5931\u8D25")));
             }
             const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
             resolve(tmdbData);
@@ -6245,31 +6375,6 @@
       mediaInfo
     };
   };
-  var showNotice = (message) => {
-    if (!("Notification" in window) || Notification.permission === "denied") {
-      alert(message.text);
-    } else if (Notification.permission === "granted") {
-      const myNotification = new Notification(message.title, {
-        body: message.text
-      });
-      myNotification.onerror = () => {
-        alert(message.text);
-      };
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission(function(permission) {
-        if (permission === "granted") {
-          const myNotification = new Notification(message.title, {
-            body: message.text
-          });
-          myNotification.onerror = () => {
-            alert(message.text);
-          };
-        } else {
-          alert(message.text);
-        }
-      });
-    }
-  };
   var replaceRegSymbols = (string) => {
     return string.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
   };
@@ -6340,13 +6445,44 @@
       });
     });
   };
+  var showNotice = ({title = `${$t("\u63D0\u793A")}`, text = ""}) => {
+    const id = new Date().getTime();
+    const lastId = $(".easy-notification:last").attr("id");
+    if (lastId && id - lastId < 800) {
+      return;
+    }
+    const zIndex = parseInt($(".easy-notification:last").css("zIndex")) || 2e3;
+    let removeTimer = null;
+    const notificationDom = NOTIFICATION_TEMPLATE.replace("#title#", title).replace("#message#", text).replace("#id#", id).replace("#top#", 16).replace("#zIndex#", zIndex + 1);
+    $("body").append(notificationDom);
+    const offsetHeight = $(".easy-notification:last")[0].offsetHeight;
+    $(".easy-notification:last").prevAll(".easy-notification").each(function() {
+      const top = parseInt($(this).css("top"));
+      $(this).css("top", offsetHeight + top + 16 + "px");
+    });
+    $(".easy-notification:last").addClass("easy-notification-enter");
+    $(`#${id}`).find(".notification-close-btn").click(function() {
+      const offsetHeight2 = $(`#${id}`)[0].offsetHeight;
+      const nextDom = $(`#${id}`).prevAll(".easy-notification");
+      $(`#${id}`).remove();
+      nextDom.each(function() {
+        const top = parseInt($(this).css("top"));
+        $(this).css("top", top - offsetHeight2 + "px");
+      });
+      clearTimeout(removeTimer);
+    });
+    removeTimer = setTimeout(() => {
+      $(`#${id}`).remove();
+      clearTimeout(removeTimer);
+    }, 4e3);
+  };
   var uploadToPtpImg = (imgArray) => {
     return new Promise((resolve, reject) => {
       const apiKey = GM_getValue("easy-seed.ptp-img-api-key");
       if (!apiKey) {
         showNotice({
-          title: "ptpimg\u4E0A\u4F20\u5931\u8D25",
-          text: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key"
+          title: $t("ptpimg\u4E0A\u4F20\u5931\u8D25"),
+          text: $t("\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key")
         });
         return;
       }
@@ -6360,11 +6496,11 @@
         data,
         onload(res) {
           if (!res || !res.responseText) {
-            reject(new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+            reject(new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5")));
           }
           const data2 = JSON.parse(res.responseText);
           if (!data2) {
-            reject(new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+            reject(new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5")));
           }
           let imgResultList = [];
           if (data2 && data2.length) {
@@ -6373,11 +6509,16 @@
             });
             resolve(imgResultList);
           } else {
-            throw new Error("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+            throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
           }
         }
       });
     });
+  };
+  var $t = (key) => {
+    var _a, _b;
+    const languageKey = USE_CHINESE ? "zh_CN" : "en_US";
+    return (_b = (_a = i18n_default[languageKey]) == null ? void 0 : _a[key]) != null ? _b : key;
   };
 
   // src/target/common.js
@@ -6404,26 +6545,19 @@
   // src/target/its.js
   var its_default = async (info) => {
     var _a, _b, _c, _d, _e, _f, _g;
-    $('textarea[name="descr"]').val("\u6570\u636E\u52A0\u8F7D\u4E2D...");
+    $('textarea[name="descr"]').val($t("\u6570\u636E\u52A0\u8F7D\u4E2D..."));
     let template = `[center]
 
   [img]$poster$[/img]
   
-  [color=darkorange][url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][/color]  [size=3]$imdbScore$[/size] [img]https://ptpimg.me/6ze1yb.gif[/img]  [size=3][color=darkorange][url=$rtUrl$][img]https://ptpimg.me/8r4772.png[/img][/url][/color] $rtScore$[/size] [img]https://ptpimg.me/6ze1yb.gif[/img] [color=darkorange][url=$tmdbUrl$][img]https://i.ibb.co/VWMtVnN/0fa9aceda3e5.png[/img][/url][/color] [size=3]$tmdbScore$[/size]
-  
-  
+  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size][*][url=$youtubeUrl$][img]https://i.ibb.co/TtHYsVC/youutbe-logo.png[/img][/url]
+
+
   [color=DarkOrange][size=2]\u25E2 SYNOPSIS \u25E3[/size][/color]
-  
   $synopsis$
-  
-  
-  [color=DarkOrange][size=2]\u25E2 TRAILER \u25E3[/size][/color]
-  
-  [youtube]$youtubeUrl$[/youtube]
   
 
   [color=DarkOrange][size=2]\u25E2 SCREENSHOTS \u25E3[/size][/color]
-  
   $SCREENSHOTS$
   
   [/center]`;
@@ -6442,13 +6576,13 @@
       $('select[name="type"]').val("67");
     }
     const screenshotsBBCode = getScreenshotsBBCode(screenshots);
-    template = template.replace("$SCREENSHOTS$", screenshotsBBCode.join(""));
+    template = template.replace("$SCREENSHOTS$", screenshotsBBCode.join("\n"));
     if (comparisonImgs.length > 0) {
       const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
       template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]\u25E2 COMPARISONS \u25E3[/size][/color]
 
 
-    ${comparisonImgsBBCode.join("")}
+    ${comparisonImgsBBCode.join(" ")}
 
 $1`);
     }
@@ -6497,6 +6631,11 @@ $1`);
         const {score = 0, id = ""} = rtInfo;
         replaceParams.rtScore = `${score}%`;
         replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
+        const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") || "";
+        if (ptpImgApiKey) {
+          const ptpImgPoster = await uploadToPtpImg([poster]);
+          replaceParams.poster = ptpImgPoster;
+        }
         Object.keys(replaceParams).forEach((key) => {
           template = template.replace(`$${key}$`, replaceParams[key]);
         });
@@ -6711,7 +6850,7 @@ ${description}`);
         uploadToPtpImg([poster]).then((img) => {
           $(CURRENT_SITE_INFO.poster.selector).val(img[0]);
         }).catch((error) => {
-          showNotice({text: error.message || "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25"});
+          showNotice({text: error.message || $t("\u5C01\u9762\u4E0A\u4F20\u5931\u8D25")});
         });
       }).catch((error) => {
         console.log(error);
@@ -6769,7 +6908,7 @@ ${description}`);
 
   // src/target/index.js
   var fillTargetForm = (info) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
     console.log(info);
     if (CURRENT_SITE_NAME === "bB") {
       bB_default(info);
@@ -6803,7 +6942,7 @@ ${description}`);
       let torrentTitle = title;
       if (CURRENT_SITE_NAME === "TTG") {
         torrentTitle += `[${subtitle}]`;
-      } else if (CURRENT_SITE_NAME === "SSD") {
+      } else if (CURRENT_SITE_NAME.match(/SSD|iTS/)) {
         torrentTitle = title.replace(/\s/ig, ".");
       }
       $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
@@ -6942,7 +7081,7 @@ ${description}`);
     if (CURRENT_SITE_INFO.image) {
       $(CURRENT_SITE_INFO.image.selector).val(info.image);
     }
-    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA/i)) {
+    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos/i)) {
       setTimeout(() => {
         const event = new Event("change");
         document.querySelector(CURRENT_SITE_INFO.category.selector).dispatchEvent(event);
@@ -7092,6 +7231,13 @@ ${description}`);
         videoTypeValue = "5";
       }
       $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
+    }
+    if (CURRENT_SITE_NAME === "BTSCHOOL") {
+      $(imdbSelector).val(imdbId);
+      if (info.doubanUrl) {
+        const doubanId = (_m = (_l = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _l[1]) != null ? _m : "";
+        $(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+      }
     }
   };
   var matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
@@ -7544,7 +7690,7 @@ All thanks to the original uploader\uFF01`;
         onload(res) {
           const data = res.responseText;
           if (res.status !== 200 || !data) {
-            reject(new Error("\u8BF7\u6C42\u5931\u8D25"));
+            reject(new Error($t("\u8BF7\u6C42\u5931\u8D25")));
           }
           resolve(data);
         }
@@ -7847,6 +7993,9 @@ All thanks to the original uploader\uFF01`;
     let subtitle = $("td.rowhead:contains('\u526F\u6807\u9898'), td.rowhead:contains('\u526F\u6A19\u984C')").next().text();
     let siteImdbUrl = $("#kimdb>a").attr("href");
     let descriptionBBCode = getFilterBBCode($("#kdescr")[0]);
+    if (CURRENT_SITE_NAME === "MTeam") {
+      descriptionBBCode = descriptionBBCode.replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, "").replace(/(http(s)?)%3A/g, "$1:").replace(/%2F/g, "/");
+    }
     if (CURRENT_SITE_NAME === "HDArea") {
       title = (_d = (_c = $("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d.trim();
     }
@@ -8294,7 +8443,7 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
     if (genreVideoType === "dvdr" && RipSpecs) {
-      TORRENT_INFO.videoCodec = "mepg2";
+      TORRENT_INFO.videoCodec = "mpeg2";
       const audioCodec = (_i = (_h = RipSpecs.match(/DVD\sAudio:(.+)/)) == null ? void 0 : _h[1]) != null ? _i : "";
       TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec);
       resolution = "480p";
@@ -8356,9 +8505,7 @@ All thanks to the original uploader\uFF01`;
         return source;
       }
     }
-    if (title.match(/Remux/i)) {
-      return "remux";
-    } else if (title.match(/UHD/i) && title.match(/Blu-Ray/i)) {
+    if (title.match(/UHD/i) && title.match(/Blu-Ray/i)) {
       return "uhdbluray";
     } else if (title.match(/Blu-Ray/i)) {
       return "bluray";
@@ -8448,7 +8595,7 @@ All thanks to the original uploader\uFF01`;
         onload(res) {
           const data = res.responseText;
           if (res.status !== 200 || !data) {
-            reject(new Error("\u8BF7\u6C42\u5931\u8D25"));
+            reject(new Error($t("\u8BF7\u6C42\u5931\u8D25")));
           }
           resolve(data.replace(/\r\n/g, "\n"));
         }
@@ -8474,10 +8621,8 @@ All thanks to the original uploader\uFF01`;
   };
 
   // src/source/index.js
-  var getTorrentInfo = ptp_default;
-  if (!CURRENT_SITE_INFO) {
-    getTorrentInfo = void 0;
-  } else if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
+  var getTorrentInfo = void 0;
+  if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
     getTorrentInfo = nexusphp_default;
   } else if (CURRENT_SITE_NAME === "BeyondHD") {
     getTorrentInfo = bhd_default;
@@ -8493,8 +8638,608 @@ All thanks to the original uploader\uFF01`;
     getTorrentInfo = kg_default;
   } else if (CURRENT_SITE_NAME === "UHDBits") {
     getTorrentInfo = uhd_default;
+  } else if (CURRENT_SITE_NAME === "PTP") {
+    getTorrentInfo = ptp_default;
   }
   var source_default = getTorrentInfo;
+
+  // src/site-dom/main.js
+  var getSearchList = () => {
+    const searchSitesEnabled = GM_getValue("easy-seed.enabled-search-site-list") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-search-site-list"));
+    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
+    const searchList = SORTED_SITE_KEYS.map((siteName) => {
+      const siteInfo = PT_SITE[siteName];
+      if (siteInfo.search) {
+        const searchConfig = siteInfo.search;
+        const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
+        let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+        let searchKeyWord = "";
+        const {movieAkaName, movieName, title} = TORRENT_INFO;
+        if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
+          if (replaceKey) {
+            searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+          } else {
+            searchKeyWord = imdbId;
+          }
+        } else {
+          searchKeyWord = movieAkaName || movieName || title;
+          imdbId = "";
+        }
+        let searchParams = Object.keys(params).map((key) => {
+          return `${key}=${params[key]}`;
+        }).join("&");
+        if (imdbId) {
+          searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+        } else {
+          if (searchParams.match(/{name}/)) {
+            searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
+          } else {
+            searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
+          }
+          searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
+        }
+        if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
+          let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
+          if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
+            url = url.replace(/{name}/, searchKeyWord);
+          }
+          const favIcon = siteFaviconClosed === "" && PT_SITE[siteName].icon ? PT_SITE[siteName].icon : "";
+          return `<li><a href="${url}" target="_blank">${favIcon} ${siteName}</a> <span>|</span></li>`;
+        }
+      }
+      return "";
+    });
+    return searchList;
+  };
+  var getFunctionItems = () => {
+    const doubanSearchDom = CURRENT_SITE_INFO.needDoubanBookInfo || CURRENT_SITE_INFO.needDoubanInfo ? `<div class="function-list-item">
+  <div class="douban-book-section">
+    <input type="text" placeholder="${$t("\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5")}" id="douban-link">
+  </div>
+  </div>` : "";
+    const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") === void 0 ? "" : GM_getValue("easy-seed.transfer-img-closed");
+    const doubanDom = CURRENT_SITE_INFO.needDoubanInfo ? `${doubanSearchDom}
+  <div class="function-list-item">
+    <div class="douban-section">
+      <button id="douban-info">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</button>
+    </div>
+  </div>` : "";
+    const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo ? `${doubanSearchDom}
+<div class="function-list-item">
+  <div class="douban-book-section">
+    <button id="douban-book-info">${$t("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB")}</button>
+  </div>
+</div>` : "";
+    const transferDom = transferImgClosed ? "" : `
+      <div class="function-list-item">
+      <div class="upload-section">
+        <button id="img-transfer">${$t("\u8F6C\u7F29\u7565\u56FE")}</button>
+      </div>
+    </div>`;
+    return doubanDom || transferDom || doubanSearchDom ? `<section class="easy-seed-function-list">
+          ${doubanDom}
+          ${doubanBookDom} 
+          ${transferDom}
+        </section>` : "";
+  };
+  var createSeedDom = (torrentDom, titleDom = "", searchListDom = "") => {
+    var _a, _b;
+    const targetSitesEnabled = GM_getValue("easy-seed.enabled-target-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-target-sites"));
+    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
+    const siteList = SORTED_SITE_KEYS.map((siteName, index) => {
+      const {url, uploadPath} = PT_SITE[siteName];
+      const favIcon = siteFaviconClosed === "" && PT_SITE[siteName].icon ? PT_SITE[siteName].icon : "";
+      if (PT_SITE[siteName].asTarget) {
+        if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
+          return `<li>
+        <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${favIcon} ${siteName} </a>
+        <span>|</span>
+        </li>`;
+        }
+      }
+      return "";
+    });
+    const gazelleSearchListDom = (_b = (_a = searchListDom.match(/<ul(.|\n)+?<\/ul>/)) == null ? void 0 : _a[0]) == null ? void 0 : _b.replace(/(<ul.+?>)/, `$1
+<div class="ptp-seed-title"><h4>${$t("\u5FEB\u901F\u68C0\u7D22")}</h4></div>`);
+    const seedDom = `
+  <div class="seed-dom movie-page__torrent__panel">
+    <ul class="site-list">
+      <div class="ptp-seed-title">${CURRENT_SITE_INFO.siteType === "gazelle" ? titleDom : ""}</div>
+      ${siteList.join("")}
+      <li>
+        <button id="batch-seed-btn">${$t("\u4E00\u952E\u7FA4\u8F6C")}</button>
+      </li>
+    </ul>
+    ${CURRENT_SITE_INFO.siteType === "gazelle" ? `${getFunctionItems()}
+    <div class="ptp-search-list">
+        ${gazelleSearchListDom}
+    <div/> ` : ""}
+  </div>
+  `;
+    torrentDom.prepend(seedDom);
+  };
+  var insertTorrentPage = () => {
+    let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
+    const searchList = getSearchList();
+    const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
+  <h4>${$t("\u5FEB\u901F\u68C0\u7D22")}</h4>
+  </td>
+  <td class="rowfollow detailshash"> 
+  <ul class="search-list ">
+    ${searchList.join("")}
+  </ul>
+  </td>`;
+    const functionItems = getFunctionItems();
+    const functionDom = functionItems ? `<tr><td class="rowhead nowrap title-td detailsleft">
+  <h4>${$t("\u5FEB\u6377\u64CD\u4F5C")}</h4>
+  </td>
+  <td class="rowfollow detailshash"> 
+    ${functionItems}
+  </td></tr>` : "";
+    const easySeedTitleDom = `
+  <h4>${$t("\u4E00\u952E\u8F6C\u79CD")} <span id="easy-seed-setting" class="easy-seed-setting-btn">
+  <svg t="1616602641809" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1165" width="32" height="32"><path d="M636.2112 847.7696c5.7344-42.5472 39.8848-76.7488 82.432-82.3808 20.1216-2.6624 39.2192 0.8704 55.6544 9.0112 32.5632 16.0768 72.3456 4.864 92.3136-25.3952 8.1408-12.3392 15.5648-25.1392 22.2208-38.4 16.6912-33.1264 4.8128-72.8064-25.7536-93.8496-1.4336-0.9728-2.816-1.9968-4.1984-3.072-34.2016-26.2656-46.848-73.216-30.2592-113.0496 7.7312-18.6368 20.3264-33.28 35.4816-43.4176 30.3104-20.2752 40.704-60.4672 24.2176-92.9792a383.37536 383.37536 0 0 0-19.3024-33.7408c-20.224-31.5392-60.4672-42.1376-94.5152-26.4192-1.536 0.7168-3.1232 1.3824-4.7616 2.048-39.936 15.9744-86.6304 2.9696-112.4864-31.4368-12.0832-16.0768-18.3296-34.304-19.4048-52.4288-2.1504-36.5056-31.6928-65.6896-68.1472-67.9936a388.59776 388.59776 0 0 0-47.9744-0.0512c-36.9152 2.2528-65.1776 32.2048-68.2496 69.0688-0.1536 1.6896-0.3072 3.3792-0.5632 5.0688-5.7344 42.3936-39.7312 76.4416-82.0736 82.2272-20.0192 2.7136-39.0656-0.7168-55.4496-8.704-32.5632-15.8208-72.192-4.5056-92.0064 25.7536a386.85184 386.85184 0 0 0-22.1696 38.5024c-16.5376 32.9728-4.864 72.3968 25.3952 93.5424 1.3824 0.9728 2.7648 1.9968 4.096 3.0208 33.6896 26.112 46.1312 72.3968 30.1056 111.872-7.6288 18.7904-20.1728 33.6384-35.3792 43.9296-29.952 20.2752-39.8848 60.2112-23.6032 92.4672 5.9392 11.7248 12.3904 23.0912 19.456 34.0992 20.0704 31.3856 59.9552 42.0352 93.9008 26.624 1.536-0.7168 3.1232-1.3824 4.7104-1.9968 39.68-15.6672 85.8624-2.7648 111.6672 31.232 12.288 16.2304 18.6368 34.6112 19.712 52.9408 2.0992 36.352 31.744 65.2288 68.096 67.6864 8.6016 0.5632 17.2544 0.8704 25.9584 0.8704 7.4752 0 14.8992-0.2048 22.3232-0.6656 36.8128-2.1504 65.024-32.1024 68.096-68.864 0.0512-1.6896 0.256-3.4304 0.4608-5.12z" fill="#FFF7E6" p-id="1166"></path><path d="M515.7888 514.816m-127.7952 0a127.7952 127.7952 0 1 0 255.5904 0 127.7952 127.7952 0 1 0-255.5904 0Z" fill="#FD973F" p-id="1167"></path><path d="M515.7888 668.2112c-84.5824 0-153.3952-68.8128-153.3952-153.3952 0-84.5824 68.8128-153.3952 153.3952-153.3952s153.3952 68.8128 153.3952 153.3952c-0.0512 84.5824-68.8128 153.3952-153.3952 153.3952z m0-255.5392c-56.32 0-102.1952 45.824-102.1952 102.1952s45.824 102.1952 102.1952 102.1952 102.1952-45.824 102.1952-102.1952-45.8752-102.1952-102.1952-102.1952zM886.1696 437.1968c-6.0416 0-12.0832-2.0992-16.9472-6.4a25.6 25.6 0 0 1-2.2016-36.1472c14.8992-16.8448 18.0736-41.5744 7.936-61.5424a388.5568 388.5568 0 0 0-20.224-35.328c-12.4416-19.4048-35.5328-29.0304-58.7776-24.576a25.60512 25.60512 0 0 1-29.952-20.3264 25.60512 25.60512 0 0 1 20.3264-29.952c43.9808-8.3968 87.7056 10.0864 111.5136 47.2064 8.2432 12.8 15.9232 26.2144 22.784 39.8336 19.5584 38.5536 13.4144 86.2208-15.2576 118.6304-5.12 5.6832-12.1344 8.6016-19.2 8.6016z" fill="#44454A" p-id="1168"></path><path d="M515.7888 968.448c-10.1888 0-20.48-0.3584-30.6176-1.024-53.7088-3.6352-96.5632-46.3872-99.6352-99.4304-0.9216-16.1792-6.7584-31.6928-16.7936-44.9536-21.9136-28.8768-60.7744-39.7312-94.5152-26.4192-1.3824 0.512-2.7136 1.0752-3.9936 1.6896-50.1248 22.784-107.6224 6.2976-136.704-39.1168a459.9552 459.9552 0 0 1-22.9376-40.2432c-24.064-47.6672-9.1136-105.984 34.816-135.68 13.3632-9.0624 23.7568-21.9648 30.0032-37.3248 13.6192-33.536 3.1744-72.448-25.4976-94.72-1.1776-0.9216-2.3552-1.792-3.5328-2.6112-45.0048-31.4368-60.3648-88.8832-36.5056-136.5504 7.7824-15.5648 16.5888-30.8736 26.1632-45.4656 29.2352-44.6464 87.296-60.8256 135.0144-37.6832 14.4384 7.0144 30.72 9.5232 47.104 7.3216 35.9936-4.9152 64.5632-33.536 69.4784-69.632 0.2048-1.4336 0.3584-2.8672 0.4608-4.3008 4.6592-54.8864 46.6432-97.0752 99.9424-100.352 18.688-1.1264 37.8368-1.1264 56.6272 0.1024 53.76 3.4304 96.6656 46.336 99.7888 99.7888 0.9216 15.9744 6.656 31.3856 16.4864 44.544 14.4384 19.2 37.632 31.232 62.1568 32.2048 14.1312 0.5632 25.1392 12.4928 24.576 26.5728-0.5632 14.1312-12.6976 25.088-26.5728 24.576-40.2944-1.5872-77.1584-20.7872-101.0688-52.6848-15.9232-21.1968-25.1392-46.1824-26.6752-72.2432-1.6384-27.648-23.9616-49.8688-51.9168-51.6608-16.64-1.0752-33.6896-1.0752-50.2272-0.0512-27.6992 1.6896-49.6128 24.1664-52.0704 53.4528-0.2048 2.2528-0.4608 4.608-0.768 6.912-7.9872 58.8288-54.5792 105.472-113.3056 113.5104-26.4192 3.584-52.7872-0.5632-76.3904-11.9808-24.6272-11.9296-54.6816-3.5328-69.8368 19.6608a404.15744 404.15744 0 0 0-23.1936 40.2944c-12.3904 24.7808-3.9936 54.9376 20.0192 71.68 1.8944 1.3312 3.7888 2.7136 5.632 4.1472 46.6432 36.1984 63.744 99.7376 41.472 154.4192-10.0864 24.7808-26.9312 45.6704-48.7424 60.416-22.6304 15.3088-30.2592 45.5168-17.8176 70.2464 6.144 12.1856 13.0048 24.1664 20.3776 35.6864 15.2576 23.808 45.6704 32.256 72.3968 20.1728 2.0992-0.9216 4.2496-1.8432 6.4-2.7136 55.04-21.7088 118.3744-3.9936 154.112 43.1104 16.2304 21.4016 25.6 46.592 27.0848 72.96 1.5872 27.3408 23.9104 49.408 51.968 51.3024 16.6912 1.1264 33.6384 1.2288 50.5344 0.256 27.5456-1.5872 49.3056-24.0128 51.7632-53.248 0.2048-2.3552 0.4608-4.6592 0.768-6.9632 7.9872-59.136 54.784-105.8304 113.8176-113.664 26.5216-3.5328 53.0432 0.768 76.6464 12.4416 24.6272 12.1856 54.784 3.84 70.0416-19.4048 8.4992-12.9024 16.3328-26.4192 23.2448-40.192 12.544-24.8832 3.9936-55.1424-20.3264-71.8848-1.9456-1.3312-3.84-2.7136-5.7344-4.1984-47.5648-36.5568-64.7168-100.7104-41.728-155.9552a25.55904 25.55904 0 0 1 33.4848-13.7728 25.55904 25.55904 0 0 1 13.7728 33.4848c-13.8752 33.3824-3.1232 73.6256 25.6512 95.6928 1.1776 0.9216 2.3552 1.792 3.584 2.6112 45.6192 31.4368 61.184 89.1392 37.0176 137.1136-7.8336 15.5136-16.64 30.72-26.2144 45.312-29.4912 44.7488-87.7056 60.7232-135.4752 37.1712-14.4896-7.168-30.8736-9.7792-47.2576-7.5776-35.6352 4.7104-64.9728 34.048-69.7856 69.7344-0.2048 1.4848-0.3584 2.9696-0.4608 4.4032-4.5568 54.8352-46.5408 96.9728-99.7888 100.0448-8.7552 0.4096-17.6128 0.6656-26.3168 0.6656z" fill="#44454A" p-id="1169">
+  </path>
+  </svg>
+  </span></h4>`;
+    if (CURRENT_SITE_INFO.siteType === "NexusPHP" || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/)) {
+      const trDom = `<tr>
+    <td class="rowhead nowrap title-td">
+    ${easySeedTitleDom}
+    </td>
+    <td class="rowfollow easy-seed-td"></td>
+    </tr>
+    ${functionDom}
+    <tr>
+    ${searchListDom}
+    </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $(".easy-seed-td");
+    } else if (CURRENT_SITE_NAME === "HDT") {
+      const trDom = `<tr>
+    <td class="detailsleft" title-td" align="right">
+    ${easySeedTitleDom}
+    </td>
+    <td class="detailshash easy-seed-td" align="center"></td>
+    </tr>
+    ${functionDom}
+    <tr>
+    ${searchListDom}
+    </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $(".easy-seed-td");
+    } else if (CURRENT_SITE_NAME === "HDBits") {
+      const trDom = `<tr class="hdb-tr">
+    <td class="rowfollow title-td hdb-td">${easySeedTitleDom}</td>
+    <td class="rowfollow easy-seed-td hdb-td"></td>
+    </tr>
+    <tr class="hdb-tr">
+    ${functionDom.replace(/<\/?tr>/g, "")}
+    </tr>
+    <tr class="hdb-tr">
+    ${searchListDom}
+    </tr>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $(".easy-seed-td");
+    } else if (CURRENT_SITE_NAME === "PTP") {
+      const torrentId = getUrlParam("torrentid");
+      torrentInsertDom = $(`#torrent_${torrentId} >td`);
+    } else if (CURRENT_SITE_NAME === "UHDBits") {
+      const torrentId = getUrlParam("torrentid");
+      $(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
+      torrentInsertDom = $(`#torrent_${torrentId} >td blockquote:first`);
+    }
+    createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
+  };
+
+  // src/site-dom/quick-search.js
+  var filterBluTorrent = (imdb = "", name = "") => {
+    if (imdb) {
+      $("#imdb").val(imdb);
+    } else if (name) {
+      $("#search").val(name);
+    }
+    const token = $('meta[name="csrf_token"]').attr("content");
+    GM_xmlhttpRequest({
+      method: "GET",
+      url: `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`,
+      onload(res) {
+        $("#facetedSearch").html(res.responseText);
+      }
+    });
+  };
+  var fillSearchImdb = () => {
+    const imdbParam = getUrlParam("imdb");
+    const nameParam = getUrlParam("name");
+    const searchType = getUrlParam("search_area");
+    if (imdbParam || nameParam) {
+      if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
+        filterBluTorrent(imdbParam, nameParam);
+      } else if (CURRENT_SITE_NAME === "Bdc") {
+        $("#tsstac").val(imdbParam);
+        $("#search_type").val(searchType);
+      } else if (CURRENT_SITE_NAME === "HDAI") {
+        $('input[name="keyword"]').val(imdbParam || nameParam);
+        $('select[name="keyword_area"]').val(searchType);
+      }
+    }
+  };
+
+  // src/site-dom/setting-panel.js
+  var openSettingPanel = () => {
+    const targetSitesEnabled = GM_getValue("easy-seed.enabled-target-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-target-sites"));
+    const batchSeedSiteEnabled = GM_getValue("easy-seed.enabled-batch-seed-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-batch-seed-sites"));
+    const searchSitesEnabled = GM_getValue("easy-seed.enabled-search-site-list") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-search-site-list"));
+    const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") === void 0 ? "" : GM_getValue("easy-seed.transfer-img-closed");
+    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
+    const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") === void 0 ? "" : GM_getValue("easy-seed.ptp-img-api-key");
+    const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
+      if (PT_SITE[siteName].asTarget) {
+        const checked = targetSitesEnabled.includes(siteName) ? "checked" : "";
+        return `<li>
+      <label><input name="target-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+      }
+      return "";
+    });
+    const batchSeedSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
+      if (PT_SITE[siteName].asTarget) {
+        const checked = batchSeedSiteEnabled.includes(siteName) ? "checked" : "";
+        return `<li>
+      <label><input name="batch-seed-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+      }
+      return "";
+    });
+    const searchSiteList = SORTED_SITE_KEYS.map((siteName) => {
+      const checked = searchSitesEnabled.includes(siteName) ? "checked" : "";
+      return `<li>
+      <label><input name="search-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
+      </li>`;
+    });
+    const panelHtml = `
+  <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
+    <div class="panel-content-wrap">
+      <div class="panel-content">
+        <h3>${$t("\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528")}</h3>
+        <section class="site-enable-setting">
+            <ul class="target-sites-enable-list" >
+              ${targetSiteList.join("")}
+            </ul>
+          </section>
+        <h3>${$t("\u6279\u91CF\u8F6C\u79CD\u542F\u7528")}</h3>
+        <i>${$t("\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9")}</i>
+        <section class="site-enable-setting">
+          <ul class="batch-seed-sites-enable-list">
+              ${batchSeedSiteList.join("")}
+          </ul>
+        </section>
+        <h3>${$t("\u7AD9\u70B9\u641C\u7D22\u542F\u7528")}</h3>
+        <section class="site-enable-setting">
+          <ul class="search-sites-enable-list">
+            ${searchSiteList.join("")}
+          </ul>
+        </section>
+        <h3>${$t("\u56FE\u5E8A\u914D\u7F6E")}</h3>
+        <section class="site-enable-setting img-upload-setting">
+        <label>
+        ptpimg ApiKey:   
+        <input name="ptp-img-api-key" type="text" value='${ptpImgApiKey}'/>
+        <a 
+        target="_blank"
+        href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
+        >
+        ${$t("\u5982\u4F55\u83B7\u53D6\uFF1F")}
+        </a>
+        </label>
+       
+        </section>
+        <h3>${$t("\u989D\u5916\u529F\u80FD\u5173\u95ED")}</h3>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>${$t("\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD")}</label>
+        </section>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>${$t("\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A")}</label>
+        </section>
+      </div>
+      <div class="confirm-btns">
+        <button id="cancel-setting-btn">${$t("\u53D6\u6D88")}</button>
+        <button id="save-setting-btn">${$t("\u4FDD\u5B58")}</button>
+      </div>
+    </div>
+  </div>
+  `;
+    $("body").append(panelHtml);
+    $("#easy-seed-setting-panel").on("click", "#save-setting-btn", () => {
+      saveSetting();
+    });
+    $("#easy-seed-setting-panel").on("click", "#cancel-setting-btn", () => {
+      $("#easy-seed-setting-panel").remove();
+    });
+  };
+  var saveSetting = () => {
+    const targetSitesEnabled = [];
+    const searchSitesEnabled = [];
+    const batchSeedSiteEnabled = [];
+    const transferImgEnabled = $("input[name='transfer-img-closed']").attr("checked") || "";
+    const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr("checked") || "";
+    const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
+    $("input[name='target-site-enabled']:checked").each(function() {
+      targetSitesEnabled.push($(this).val());
+    });
+    $("input[name='search-site-enabled']:checked").each(function() {
+      searchSitesEnabled.push($(this).val());
+    });
+    $("input[name='batch-seed-site-enabled']:checked").each(function() {
+      batchSeedSiteEnabled.push($(this).val());
+    });
+    console.log(targetSitesEnabled);
+    try {
+      GM_setValue("easy-seed.enabled-target-sites", JSON.stringify(targetSitesEnabled));
+      GM_setValue("easy-seed.enabled-search-site-list", JSON.stringify(searchSitesEnabled));
+      GM_setValue("easy-seed.enabled-batch-seed-sites", JSON.stringify(batchSeedSiteEnabled));
+      GM_setValue("easy-seed.transfer-img-closed", transferImgEnabled);
+      GM_setValue("easy-seed.site-favicon-closed", siteFaviconEnabled);
+      GM_setValue("easy-seed.ptp-img-api-key", ptpImgApiKey);
+      $("#easy-seed-setting-panel").remove();
+      window.location.reload();
+    } catch (error) {
+      showNotice({title: $t("\u9519\u8BEF"), text: $t("\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25")});
+    }
+  };
+  var openBatchSeedTabs = () => {
+    const batchSeedSiteEnabled = GM_getValue("easy-seed.enabled-batch-seed-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-batch-seed-sites"));
+    if (batchSeedSiteEnabled.length === 0) {
+      showNotice({title: $t("\u9519\u8BEF"), text: $t("\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868")});
+      return false;
+    }
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+    SORTED_SITE_KEYS.forEach((siteName, index) => {
+      const {url, uploadPath} = PT_SITE[siteName];
+      if (PT_SITE[siteName].asTarget) {
+        if (batchSeedSiteEnabled.includes(siteName)) {
+          GM_openInTab(url + uploadPath + "#torrentInfo=" + torrentInfo);
+        }
+      }
+    });
+    showNotice({title: $t("\u6210\u529F"), text: $t("\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C")});
+  };
+
+  // src/site-dom/button-function.js
+  var getThumbnailImgs = () => {
+    const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
+    const imgList = [...new Set(allImgs)];
+    if (imgList.length < 1) {
+      throw new Error($t("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25"));
+    }
+    $("#img-transfer").text($t("\u8F6C\u6362\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+    transferImgs(imgList.join("\n")).then((data) => {
+      if (data.length) {
+        const thumbnailImgs = data.map((imgData) => {
+          return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
+        });
+        TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
+        let {description} = TORRENT_INFO;
+        imgList.forEach((img, index) => {
+          if (description.includes(img)) {
+            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, "ig"), thumbnailImgs[index] || "");
+          }
+        });
+        TORRENT_INFO.description = description;
+        showNotice({
+          title: $t("\u6210\u529F"),
+          text: $t("\u8F6C\u6362\u6210\u529F\uFF01")
+        });
+      }
+    }).catch((error) => {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: error.message
+      });
+    }).finally(() => {
+      $("#img-transfer").text($t("\u8F6C\u7F29\u7565\u56FE")).removeAttr("disabled").removeClass("is-disabled");
+    });
+  };
+  var getDoubanLink = () => {
+    $("#douban-info").text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+    const scriptDoubanLink = $(".douban-dom").attr("douban-link");
+    const doubanLink = $(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || $("#douban-link").val();
+    if (doubanLink && doubanLink.match("movie.douban.com")) {
+      TORRENT_INFO.doubanUrl = doubanLink;
+      if (doubanLink) {
+        $("#douban-link").val(doubanLink);
+      }
+      getDoubanData();
+      return false;
+    }
+    const {imdbUrl, movieName} = TORRENT_INFO;
+    getDoubanLinkByIMDB(imdbUrl, movieName).then((doubanUrl) => {
+      TORRENT_INFO.doubanUrl = doubanUrl;
+      $("#douban-link").val(doubanUrl);
+      getDoubanData();
+    }).catch((error) => {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: error.message
+      });
+      $("#douban-info").text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
+    });
+  };
+  var getDoubanData = () => {
+    const {doubanUrl} = TORRENT_INFO;
+    if (doubanUrl) {
+      getDoubanInfo(doubanUrl).then((data) => {
+        updateTorrentInfo(data);
+        showNotice({
+          title: $t("\u6210\u529F"),
+          text: $t("\u83B7\u53D6\u6210\u529F")
+        });
+      }).catch((error) => {
+        showNotice({
+          title: $t("\u9519\u8BEF"),
+          text: error.message
+        });
+      }).finally(() => {
+        $("#douban-info").text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
+      });
+    }
+  };
+  var getDoubanBookInfo = () => {
+    let {doubanUrl} = TORRENT_INFO;
+    if (!doubanUrl) {
+      doubanUrl = $("#douban-link").val();
+    } else {
+      $("#douban-link").val(doubanUrl);
+    }
+    if (doubanUrl) {
+      $("#douban-book-info").text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+      getDoubanInfo(doubanUrl).then((data) => {
+        TORRENT_INFO.title = data.chinese_title || data.origin_title;
+        TORRENT_INFO.image = data.poster;
+        TORRENT_INFO.description = data.book_intro;
+        TORRENT_INFO.doubanBookInfo = data;
+        showNotice({
+          title: $t("\u6210\u529F"),
+          text: $t("\u83B7\u53D6\u6210\u529F")
+        });
+      }).catch((error) => {
+        showNotice({
+          title: $t("\u9519\u8BEF"),
+          text: error.message
+        });
+      }).finally(() => {
+        $("#douban-book-info").text($t("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
+      });
+    } else {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: $t("\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5")
+      });
+    }
+  };
+  var updateTorrentInfo = (data) => {
+    var _a;
+    const desc = data.format;
+    TORRENT_INFO.doubanInfo = data.format;
+    TORRENT_INFO.subtitle = getSubTitle(data);
+    const areaMatch = (_a = desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2];
+    if (areaMatch) {
+      TORRENT_INFO.area = getAreaCode(areaMatch);
+    }
+    const category = TORRENT_INFO.category;
+    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
+  };
+
+  // src/site-dom/click-event.js
+  var click_event_default = () => {
+    if ($("#easy-seed-setting")[0]) {
+      $("#easy-seed-setting").on("click", () => {
+        openSettingPanel();
+      });
+    }
+    if ($("#batch-seed-btn")[0]) {
+      $("#batch-seed-btn").on("click", () => {
+        openBatchSeedTabs();
+      });
+    }
+    if ($("#img-transfer")[0]) {
+      $("#img-transfer").click(() => {
+        getThumbnailImgs();
+      });
+    }
+    if ($("#douban-info")[0]) {
+      $("#douban-info").click(() => {
+        getDoubanLink();
+      });
+    }
+    if ($("#douban-book-info")[0]) {
+      $("#douban-book-info").click(() => {
+        getDoubanBookInfo();
+      });
+    }
+    handleSiteClickEvent();
+  };
+  var handleSiteClickEvent = () => {
+    $(".site-list li>a").click(async function() {
+      let url = $(this).data("link");
+      if (url.match(/lemonhd/)) {
+        const catMap = {
+          movie: "movie",
+          tv: "tv",
+          tvPack: "tv",
+          variety: "tv",
+          documentary: "doc",
+          concert: "mv"
+        };
+        const path = catMap[TORRENT_INFO.category] || "movie";
+        url = url.replace("upload_movie", `upload_${path}`);
+      }
+      if (url.match(/hdpost|blutopia|asiancinema|aither/)) {
+        const catMap = {
+          movie: "1",
+          tv: "2",
+          tvPack: "2",
+          documentary: "1",
+          concert: "3",
+          sport: "9",
+          cartoon: "405",
+          app: "10",
+          ebook: "11",
+          magazine: "11",
+          audioBook: "14"
+        };
+        const path = catMap[TORRENT_INFO.category] || "1";
+        url = url.replace("1", path);
+      }
+      if (url.match(/bibliotik/)) {
+        const catMap = {
+          ebook: "ebooks",
+          magazine: "magazines",
+          audioBook: "audiobooks"
+        };
+        url = url.replace("/upload", `/upload/${catMap[TORRENT_INFO.category] || "ebooks"}`);
+      }
+      if (url.match(/baconbits/)) {
+        const catMap = {
+          movie: "Movies",
+          tv: "TV",
+          tvPack: "TV",
+          documentary: "Movies",
+          cartoon: "Anime",
+          app: "Applications",
+          ebook: "E-Books",
+          magazine: "Magazines",
+          audioBook: "Audiobooks",
+          comics: "Comics"
+        };
+        const formDom = await new Promise((resolve, reject) => {
+          GM_xmlhttpRequest({
+            method: "GET",
+            url: `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`,
+            onload(res) {
+              resolve(res.responseText);
+            }
+          });
+        });
+        TORRENT_INFO.formDom = formDom;
+      }
+      if (TORRENT_INFO.isForbidden) {
+        const result = window.confirm($t("\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F"));
+        if (!result) {
+          return;
+        }
+      }
+      if (CURRENT_SITE_NAME === "TTG" && !TORRENT_INFO.description) {
+        showNotice({
+          text: $t("\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210")
+        });
+        return;
+      }
+      const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+      url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
+      window.open(url);
+    });
+  };
 
   // src/site-dom/ptpimg.js
   if (location.host === "ptpimg.me") {
@@ -8643,6 +9388,18 @@ td.title-td h4{
   margin:0;
   margin-right: 5px;
 }
+.easy-seed-function-list button:hover {
+  background: #fff;
+  border-color: #409eff;
+  color: #409eff
+}
+.easy-seed-function-list button.is-disabled, .easy-seed-function-list button.is-disabled:hover {
+  color: #c0c4cc;
+  cursor: not-allowed;
+  background-image: none;
+  background-color: #fff;
+  border-color: #ebeef5;
+}
 .function-list-item{
   display: flex;
   align-items: center;
@@ -8696,11 +9453,6 @@ td.title-td h4{
   justify-content: center;
   align-items: center;
 }
-.upload-section .upload-status,.douban-section .douban-status,.douban-book-section .douban-book-status{
-  margin-left: 5px;
-  font-size: 14px;
-  font-weight: 600;
-}
 .upload-section #nsfw{
   margin-left: 0;
   position: static;
@@ -8742,6 +9494,7 @@ td.title-td h4{
   background: transparent;
   padding-left: 0;
   padding-right: 0;
+  font-weight: 600;
 }
 #batch-seed-btn:hover {
   color: #66b1ff;
@@ -8893,563 +9646,72 @@ td.title-td h4{
 .ptp-api-key-btn{
   text-align: center;
 }
+.easy-notification{
+  display: flex;
+  width: 330px;
+  padding: 14px 26px 14px 13px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ebeef5;
+  position: fixed;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  transition: opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;
+  overflow: hidden;
+  right:0;
+  transform: translateX(100%);
+}
+.easy-notification-enter{
+  right: 16px;
+  transform: translateX(0);
+}
+.notification-wrapper {
+  margin-left: 13px;
+  margin-right: 8px
+}
+
+.notification-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #303133;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.notification-content {
+  font-size: 14px;
+  line-height: 21px;
+  margin: 6px 0 0;
+  color: #606266;
+  text-align: justify
+}
+
+.notification-content p {
+  margin: 0
+}
+
+.notification-close-btn svg {
+  height: 22px;
+  width: 22px;
+  font-size: 22px
+}
+.notification-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  cursor: pointer;
+  color: #909399;
+  font-size: 16px
+}
+
+.notification-close-btn:hover {
+  color: #606266
+}
 `);
 
   // src/index.js
-  var createSeedDom = (torrentDom, titleDom = "", searchListDom = "") => {
-    var _a, _b;
-    const targetSitesEnabled = GM_getValue("easy-seed.enabled-target-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-target-sites"));
-    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
-    const siteList = SORTED_SITE_KEYS.map((siteName, index) => {
-      const {url, uploadPath} = PT_SITE[siteName];
-      const favIcon = siteFaviconClosed === "" && PT_SITE[siteName].icon ? PT_SITE[siteName].icon : "";
-      if (PT_SITE[siteName].asTarget) {
-        if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
-          return `<li>
-        <a href="javascript:void(0);" data-link="${url}${uploadPath}#torrentInfo=null">${favIcon} ${siteName} </a>
-        <span>|</span>
-        </li>`;
-        }
-      }
-      return "";
-    });
-    const gazelleSearchListDom = (_b = (_a = searchListDom.match(/<ul(.|\n)+?<\/ul>/)) == null ? void 0 : _a[0]) == null ? void 0 : _b.replace(/(<ul.+?>)/, '$1\n<div class="ptp-seed-title"><h4>\u5FEB\u901F\u68C0\u7D22</h4></div>');
-    const seedDom = `
-  <div class="seed-dom movie-page__torrent__panel">
-    <ul class="site-list">
-      <div class="ptp-seed-title">${CURRENT_SITE_INFO.siteType === "gazelle" ? titleDom : ""}</div>
-      ${siteList.join("")}
-      <li>
-        <button id="batch-seed-btn">\u4E00\u952E\u7FA4\u8F6C</button>
-      </li>
-    </ul>
-    ${CURRENT_SITE_INFO.siteType === "gazelle" ? `${getFunctionItems()}
-    <div class="ptp-search-list">
-        ${gazelleSearchListDom}
-    <div/> ` : ""}
-  </div>
-  `;
-    torrentDom.prepend(seedDom);
-  };
-  var getSearchList = () => {
-    const searchSitesEnabled = GM_getValue("easy-seed.enabled-search-site-list") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-search-site-list"));
-    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
-    const searchList = SORTED_SITE_KEYS.map((siteName) => {
-      const siteInfo = PT_SITE[siteName];
-      if (siteInfo.search) {
-        const searchConfig = siteInfo.search;
-        const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
-        let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-        let searchKeyWord = "";
-        const {movieAkaName, movieName, title} = TORRENT_INFO;
-        if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
-          if (replaceKey) {
-            searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-          } else {
-            searchKeyWord = imdbId;
-          }
-        } else {
-          searchKeyWord = movieAkaName || movieName || title;
-          imdbId = "";
-        }
-        let searchParams = Object.keys(params).map((key) => {
-          return `${key}=${params[key]}`;
-        }).join("&");
-        if (imdbId) {
-          searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
-        } else {
-          if (searchParams.match(/{name}/)) {
-            searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
-          } else {
-            searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-          }
-          searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
-        }
-        if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-          let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
-          if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
-            url = url.replace(/{name}/, searchKeyWord);
-          }
-          const favIcon = siteFaviconClosed === "" && PT_SITE[siteName].icon ? PT_SITE[siteName].icon : "";
-          return `<li><a href="${url}" target="_blank">${favIcon} ${siteName}</a> <span>|</span></li>`;
-        }
-      }
-      return "";
-    });
-    return searchList;
-  };
-  var openSettingPanel = () => {
-    const targetSitesEnabled = GM_getValue("easy-seed.enabled-target-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-target-sites"));
-    const batchSeedSiteEnabled = GM_getValue("easy-seed.enabled-batch-seed-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-batch-seed-sites"));
-    const searchSitesEnabled = GM_getValue("easy-seed.enabled-search-site-list") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-search-site-list"));
-    const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") === void 0 ? "" : GM_getValue("easy-seed.transfer-img-closed");
-    const siteFaviconClosed = GM_getValue("easy-seed.site-favicon-closed") === void 0 ? "" : GM_getValue("easy-seed.site-favicon-closed");
-    const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") === void 0 ? "" : GM_getValue("easy-seed.ptp-img-api-key");
-    const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
-      if (PT_SITE[siteName].asTarget) {
-        const checked = targetSitesEnabled.includes(siteName) ? "checked" : "";
-        return `<li>
-      <label><input name="target-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
-      </li>`;
-      }
-      return "";
-    });
-    const batchSeedSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
-      if (PT_SITE[siteName].asTarget) {
-        const checked = batchSeedSiteEnabled.includes(siteName) ? "checked" : "";
-        return `<li>
-      <label><input name="batch-seed-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
-      </li>`;
-      }
-      return "";
-    });
-    const searchSiteList = SORTED_SITE_KEYS.map((siteName) => {
-      const checked = searchSitesEnabled.includes(siteName) ? "checked" : "";
-      return `<li>
-      <label><input name="search-site-enabled" type="checkbox" value="${siteName}" ${checked}/>${siteName} </label>
-      </li>`;
-    });
-    const panelHtml = `
-  <div id="easy-seed-setting-panel" class="easy-seed-setting-panel">
-    <div class="panel-content-wrap">
-      <div class="panel-content">
-        <h3>\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528</h3>
-        <section class="site-enable-setting">
-            <ul class="target-sites-enable-list" >
-              ${targetSiteList.join("")}
-            </ul>
-          </section>
-        <h3>\u6279\u91CF\u8F6C\u79CD\u542F\u7528</h3>
-        <i>\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9</i>
-        <section class="site-enable-setting">
-          <ul class="batch-seed-sites-enable-list">
-              ${batchSeedSiteList.join("")}
-          </ul>
-        </section>
-        <h3>\u7AD9\u70B9\u641C\u7D22\u542F\u7528</h3>
-        <section class="site-enable-setting">
-          <ul class="search-sites-enable-list">
-            ${searchSiteList.join("")}
-          </ul>
-        </section>
-        <h3>\u56FE\u5E8A\u914D\u7F6E</h3>
-        <section class="site-enable-setting img-upload-setting">
-        <label>
-        ptpimg ApiKey:   
-        <input name="ptp-img-api-key" type="text" value='${ptpImgApiKey}'/>
-        <a 
-        target="_blank"
-        href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
-        >
-        \u5982\u4F55\u83B7\u53D6\uFF1F
-        </a>
-        </label>
-       
-        </section>
-        <h3>\u989D\u5916\u529F\u80FD\u5173\u95ED</h3>
-        <section class="site-enable-setting transfer-img-closed">
-        <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD</label>
-        </section>
-        <section class="site-enable-setting transfer-img-closed">
-        <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A</label>
-        </section>
-      </div>
-      <div class="confirm-btns">
-        <button id="save-setting-btn">\u4FDD\u5B58</button>
-        <button id="cancel-setting-btn">\u53D6\u6D88</button>
-      </div>
-    </div>
-  </div>
-  `;
-    $("body").append(panelHtml);
-    $("#easy-seed-setting-panel").on("click", "#save-setting-btn", () => {
-      saveSetting();
-    });
-    $("#easy-seed-setting-panel").on("click", "#cancel-setting-btn", () => {
-      $("#easy-seed-setting-panel").remove();
-    });
-  };
-  var saveSetting = () => {
-    const targetSitesEnabled = [];
-    const searchSitesEnabled = [];
-    const batchSeedSiteEnabled = [];
-    const transferImgEnabled = $("input[name='transfer-img-closed']").attr("checked") || "";
-    const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr("checked") || "";
-    const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
-    $("input[name='target-site-enabled']:checked").each(function() {
-      targetSitesEnabled.push($(this).val());
-    });
-    $("input[name='search-site-enabled']:checked").each(function() {
-      searchSitesEnabled.push($(this).val());
-    });
-    $("input[name='batch-seed-site-enabled']:checked").each(function() {
-      batchSeedSiteEnabled.push($(this).val());
-    });
-    console.log(targetSitesEnabled);
-    try {
-      GM_setValue("easy-seed.enabled-target-sites", JSON.stringify(targetSitesEnabled));
-      GM_setValue("easy-seed.enabled-search-site-list", JSON.stringify(searchSitesEnabled));
-      GM_setValue("easy-seed.enabled-batch-seed-sites", JSON.stringify(batchSeedSiteEnabled));
-      GM_setValue("easy-seed.transfer-img-closed", transferImgEnabled);
-      GM_setValue("easy-seed.site-favicon-closed", siteFaviconEnabled);
-      GM_setValue("easy-seed.ptp-img-api-key", ptpImgApiKey);
-      $("#easy-seed-setting-panel").remove();
-      window.location.reload();
-    } catch (error) {
-      showNotice({title: "\u9519\u8BEF", text: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25"});
-    }
-  };
-  var openBatchSeedTabs = () => {
-    const batchSeedSiteEnabled = GM_getValue("easy-seed.enabled-batch-seed-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-batch-seed-sites"));
-    if (batchSeedSiteEnabled.length === 0) {
-      showNotice({title: "\u9519\u8BEF", text: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868"});
-      return false;
-    }
-    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-    SORTED_SITE_KEYS.forEach((siteName, index) => {
-      const {url, uploadPath} = PT_SITE[siteName];
-      if (PT_SITE[siteName].asTarget) {
-        if (batchSeedSiteEnabled.includes(siteName)) {
-          GM_openInTab(url + uploadPath + "#torrentInfo=" + torrentInfo);
-        }
-      }
-    });
-    showNotice({title: "\u6210\u529F", text: "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C"});
-  };
-  var getThumbnailImgs = () => {
-    const statusDom = $(".upload-section .upload-status");
-    const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
-    const imgList = [...new Set(allImgs)];
-    if (imgList.length < 1) {
-      throw new Error("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25");
-    }
-    statusDom.text("\u8F6C\u6362\u4E2D...");
-    $("#img-transfer").attr("disabled", true).addClass("is-disabled");
-    transferImgs(imgList.join("\n")).then((data) => {
-      if (data.length) {
-        const thumbnailImgs = data.map((imgData) => {
-          return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
-        });
-        TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
-        let {description} = TORRENT_INFO;
-        imgList.forEach((img, index) => {
-          if (description.includes(img)) {
-            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, "ig"), thumbnailImgs[index]);
-          }
-        });
-        TORRENT_INFO.description = description;
-        statusDom.text("\u8F6C\u6362\u6210\u529F\uFF01");
-      }
-    }).catch((error) => {
-      statusDom.text(error.message);
-    }).finally(() => {
-      $("#img-transfer").removeAttr("disabled").removeClass("is-disabled");
-    });
-  };
-  var getDoubanLink = () => {
-    $("#douban-info").attr("disabled", true).addClass("is-disabled");
-    const statusDom = $(".douban-section .douban-status");
-    const doubanLink = $(".page__title>a").attr("href") || TORRENT_INFO.doubanUrl || $("#douban-link").val();
-    statusDom.text("\u83B7\u53D6\u4E2D...");
-    if (doubanLink && doubanLink.match("movie.douban.com")) {
-      TORRENT_INFO.doubanUrl = doubanLink;
-      if (doubanLink) {
-        $("#douban-link").val(doubanLink);
-      }
-      getDoubanData();
-      return false;
-    }
-    const {imdbUrl, movieName} = TORRENT_INFO;
-    getDoubanLinkByIMDB(imdbUrl, movieName).then((doubanUrl) => {
-      if (!doubanUrl) {
-        throw new Error("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25");
-      }
-      TORRENT_INFO.doubanUrl = doubanUrl;
-      $("#douban-link").val(doubanUrl);
-      getDoubanData();
-    }).catch((error) => {
-      statusDom.text(error.message);
-    });
-  };
-  var getDoubanData = () => {
-    const {doubanUrl} = TORRENT_INFO;
-    const statusDom = $(".douban-section .douban-status");
-    try {
-      if (doubanUrl) {
-        getDoubanInfo(doubanUrl).then((data) => {
-          updateTorrentInfo(data);
-          statusDom.text("\u83B7\u53D6\u6210\u529F");
-        }).catch((error) => {
-          statusDom.text(error.message);
-        }).finally(() => {
-          $("#douban-info").removeAttr("disabled").removeClass("is-disabled");
-        });
-      }
-    } catch (error) {
-      statusDom.text(error.message);
-    }
-  };
-  var getDoubanBookInfo = () => {
-    let {doubanUrl} = TORRENT_INFO;
-    if (!doubanUrl) {
-      doubanUrl = $("#douban-link").val();
-    } else {
-      $("#douban-link").val(doubanUrl);
-    }
-    const statusDom = $(".douban-book-section .douban-book-status");
-    statusDom.text("\u83B7\u53D6\u4E2D...");
-    try {
-      if (doubanUrl) {
-        getDoubanInfo(doubanUrl).then((data) => {
-          TORRENT_INFO.title = data.chinese_title || data.origin_title;
-          TORRENT_INFO.image = data.poster;
-          TORRENT_INFO.description = data.book_intro;
-          TORRENT_INFO.doubanBookInfo = data;
-          statusDom.text("\u83B7\u53D6\u6210\u529F");
-        }).catch((error) => {
-          statusDom.text(error.message);
-        }).finally(() => {
-          $("#douban-book-info").removeAttr("disabled").removeClass("is-disabled");
-        });
-      } else {
-        throw new Error("\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5");
-      }
-    } catch (error) {
-      statusDom.text(error.message);
-    }
-  };
-  var updateTorrentInfo = (data) => {
-    var _a;
-    const desc = data.format;
-    TORRENT_INFO.doubanInfo = data.format;
-    TORRENT_INFO.subtitle = getSubTitle(data);
-    const areaMatch = (_a = desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2];
-    if (areaMatch) {
-      TORRENT_INFO.area = getAreaCode(areaMatch);
-    }
-    const category = TORRENT_INFO.category;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  };
-  var filterBluTorrent = (imdb = "", name = "") => {
-    if (imdb) {
-      $("#imdb").val(imdb);
-    } else if (name) {
-      $("#search").val(name);
-    }
-    const token = $('meta[name="csrf_token"]').attr("content");
-    GM_xmlhttpRequest({
-      method: "GET",
-      url: `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`,
-      onload(res) {
-        $("#facetedSearch").html(res.responseText);
-      }
-    });
-  };
-  var fillSearchImdb = () => {
-    const imdbParam = getUrlParam("imdb");
-    const nameParam = getUrlParam("name");
-    const searchType = getUrlParam("search_area");
-    if (imdbParam || nameParam) {
-      if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
-        filterBluTorrent(imdbParam, nameParam);
-      } else if (CURRENT_SITE_NAME === "Bdc") {
-        $("#tsstac").val(imdbParam);
-        $("#search_type").val(searchType);
-      } else if (CURRENT_SITE_NAME === "HDAI") {
-        $('input[name="keyword"]').val(imdbParam || nameParam);
-        $('select[name="keyword_area"]').val(searchType);
-      }
-    }
-  };
-  var getFunctionItems = () => {
-    const doubanSearchDom = CURRENT_SITE_INFO.needDoubanBookInfo || CURRENT_SITE_INFO.needDoubanInfo ? `<div class="function-list-item">
-  <div class="douban-book-section">
-    <input type="text" placeholder="\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5" id="douban-link">
-  </div>
-  </div>` : "";
-    const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") === void 0 ? "" : GM_getValue("easy-seed.transfer-img-closed");
-    const doubanDom = CURRENT_SITE_INFO.needDoubanInfo ? `${doubanSearchDom}
-  <div class="function-list-item">
-    <div class="douban-section">
-      <button id="douban-info">\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB</button>
-      <div class="douban-status"></div>
-    </div>
-  </div>` : "";
-    const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo ? `${doubanSearchDom}
-<div class="function-list-item">
-  <div class="douban-book-section">
-    <button id="douban-book-info">\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB</button>
-    <div class="douban-book-status"></div>
-  </div>
-</div>` : "";
-    const transferDom = transferImgClosed ? "" : `
-      <div class="function-list-item">
-      <div class="upload-section">
-        <button id="img-transfer">\u8F6C\u7F29\u7565\u56FE</button>
-        <div class="upload-status"></div>
-      </div>
-    </div>`;
-    return doubanDom || transferDom || doubanSearchDom ? `<section class="easy-seed-function-list">
-          ${doubanDom}
-          ${doubanBookDom} 
-          ${transferDom}
-        </section>` : "";
-  };
-  var insertTorrentPage = () => {
-    let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
-    const searchList = getSearchList();
-    const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
-  <h4>\u5FEB\u901F\u68C0\u7D22</h4>
-  </td>
-  <td class="rowfollow detailshash"> 
-  <ul class="search-list ">
-    ${searchList.join("")}
-  </ul>
-  </td>`;
-    const functionItems = getFunctionItems();
-    const functionDom = functionItems ? `<tr><td class="rowhead nowrap title-td detailsleft">
-  <h4>\u5FEB\u6377\u64CD\u4F5C</h4>
-  </td>
-  <td class="rowfollow detailshash"> 
-    ${functionItems}
-  </td></tr>` : "";
-    const easySeedTitleDom = `
-  <h4>\u4E00\u952E\u8F6C\u79CD <span id="easy-seed-setting" class="easy-seed-setting-btn">
-  <svg t="1616602641809" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1165" width="32" height="32"><path d="M636.2112 847.7696c5.7344-42.5472 39.8848-76.7488 82.432-82.3808 20.1216-2.6624 39.2192 0.8704 55.6544 9.0112 32.5632 16.0768 72.3456 4.864 92.3136-25.3952 8.1408-12.3392 15.5648-25.1392 22.2208-38.4 16.6912-33.1264 4.8128-72.8064-25.7536-93.8496-1.4336-0.9728-2.816-1.9968-4.1984-3.072-34.2016-26.2656-46.848-73.216-30.2592-113.0496 7.7312-18.6368 20.3264-33.28 35.4816-43.4176 30.3104-20.2752 40.704-60.4672 24.2176-92.9792a383.37536 383.37536 0 0 0-19.3024-33.7408c-20.224-31.5392-60.4672-42.1376-94.5152-26.4192-1.536 0.7168-3.1232 1.3824-4.7616 2.048-39.936 15.9744-86.6304 2.9696-112.4864-31.4368-12.0832-16.0768-18.3296-34.304-19.4048-52.4288-2.1504-36.5056-31.6928-65.6896-68.1472-67.9936a388.59776 388.59776 0 0 0-47.9744-0.0512c-36.9152 2.2528-65.1776 32.2048-68.2496 69.0688-0.1536 1.6896-0.3072 3.3792-0.5632 5.0688-5.7344 42.3936-39.7312 76.4416-82.0736 82.2272-20.0192 2.7136-39.0656-0.7168-55.4496-8.704-32.5632-15.8208-72.192-4.5056-92.0064 25.7536a386.85184 386.85184 0 0 0-22.1696 38.5024c-16.5376 32.9728-4.864 72.3968 25.3952 93.5424 1.3824 0.9728 2.7648 1.9968 4.096 3.0208 33.6896 26.112 46.1312 72.3968 30.1056 111.872-7.6288 18.7904-20.1728 33.6384-35.3792 43.9296-29.952 20.2752-39.8848 60.2112-23.6032 92.4672 5.9392 11.7248 12.3904 23.0912 19.456 34.0992 20.0704 31.3856 59.9552 42.0352 93.9008 26.624 1.536-0.7168 3.1232-1.3824 4.7104-1.9968 39.68-15.6672 85.8624-2.7648 111.6672 31.232 12.288 16.2304 18.6368 34.6112 19.712 52.9408 2.0992 36.352 31.744 65.2288 68.096 67.6864 8.6016 0.5632 17.2544 0.8704 25.9584 0.8704 7.4752 0 14.8992-0.2048 22.3232-0.6656 36.8128-2.1504 65.024-32.1024 68.096-68.864 0.0512-1.6896 0.256-3.4304 0.4608-5.12z" fill="#FFF7E6" p-id="1166"></path><path d="M515.7888 514.816m-127.7952 0a127.7952 127.7952 0 1 0 255.5904 0 127.7952 127.7952 0 1 0-255.5904 0Z" fill="#FD973F" p-id="1167"></path><path d="M515.7888 668.2112c-84.5824 0-153.3952-68.8128-153.3952-153.3952 0-84.5824 68.8128-153.3952 153.3952-153.3952s153.3952 68.8128 153.3952 153.3952c-0.0512 84.5824-68.8128 153.3952-153.3952 153.3952z m0-255.5392c-56.32 0-102.1952 45.824-102.1952 102.1952s45.824 102.1952 102.1952 102.1952 102.1952-45.824 102.1952-102.1952-45.8752-102.1952-102.1952-102.1952zM886.1696 437.1968c-6.0416 0-12.0832-2.0992-16.9472-6.4a25.6 25.6 0 0 1-2.2016-36.1472c14.8992-16.8448 18.0736-41.5744 7.936-61.5424a388.5568 388.5568 0 0 0-20.224-35.328c-12.4416-19.4048-35.5328-29.0304-58.7776-24.576a25.60512 25.60512 0 0 1-29.952-20.3264 25.60512 25.60512 0 0 1 20.3264-29.952c43.9808-8.3968 87.7056 10.0864 111.5136 47.2064 8.2432 12.8 15.9232 26.2144 22.784 39.8336 19.5584 38.5536 13.4144 86.2208-15.2576 118.6304-5.12 5.6832-12.1344 8.6016-19.2 8.6016z" fill="#44454A" p-id="1168"></path><path d="M515.7888 968.448c-10.1888 0-20.48-0.3584-30.6176-1.024-53.7088-3.6352-96.5632-46.3872-99.6352-99.4304-0.9216-16.1792-6.7584-31.6928-16.7936-44.9536-21.9136-28.8768-60.7744-39.7312-94.5152-26.4192-1.3824 0.512-2.7136 1.0752-3.9936 1.6896-50.1248 22.784-107.6224 6.2976-136.704-39.1168a459.9552 459.9552 0 0 1-22.9376-40.2432c-24.064-47.6672-9.1136-105.984 34.816-135.68 13.3632-9.0624 23.7568-21.9648 30.0032-37.3248 13.6192-33.536 3.1744-72.448-25.4976-94.72-1.1776-0.9216-2.3552-1.792-3.5328-2.6112-45.0048-31.4368-60.3648-88.8832-36.5056-136.5504 7.7824-15.5648 16.5888-30.8736 26.1632-45.4656 29.2352-44.6464 87.296-60.8256 135.0144-37.6832 14.4384 7.0144 30.72 9.5232 47.104 7.3216 35.9936-4.9152 64.5632-33.536 69.4784-69.632 0.2048-1.4336 0.3584-2.8672 0.4608-4.3008 4.6592-54.8864 46.6432-97.0752 99.9424-100.352 18.688-1.1264 37.8368-1.1264 56.6272 0.1024 53.76 3.4304 96.6656 46.336 99.7888 99.7888 0.9216 15.9744 6.656 31.3856 16.4864 44.544 14.4384 19.2 37.632 31.232 62.1568 32.2048 14.1312 0.5632 25.1392 12.4928 24.576 26.5728-0.5632 14.1312-12.6976 25.088-26.5728 24.576-40.2944-1.5872-77.1584-20.7872-101.0688-52.6848-15.9232-21.1968-25.1392-46.1824-26.6752-72.2432-1.6384-27.648-23.9616-49.8688-51.9168-51.6608-16.64-1.0752-33.6896-1.0752-50.2272-0.0512-27.6992 1.6896-49.6128 24.1664-52.0704 53.4528-0.2048 2.2528-0.4608 4.608-0.768 6.912-7.9872 58.8288-54.5792 105.472-113.3056 113.5104-26.4192 3.584-52.7872-0.5632-76.3904-11.9808-24.6272-11.9296-54.6816-3.5328-69.8368 19.6608a404.15744 404.15744 0 0 0-23.1936 40.2944c-12.3904 24.7808-3.9936 54.9376 20.0192 71.68 1.8944 1.3312 3.7888 2.7136 5.632 4.1472 46.6432 36.1984 63.744 99.7376 41.472 154.4192-10.0864 24.7808-26.9312 45.6704-48.7424 60.416-22.6304 15.3088-30.2592 45.5168-17.8176 70.2464 6.144 12.1856 13.0048 24.1664 20.3776 35.6864 15.2576 23.808 45.6704 32.256 72.3968 20.1728 2.0992-0.9216 4.2496-1.8432 6.4-2.7136 55.04-21.7088 118.3744-3.9936 154.112 43.1104 16.2304 21.4016 25.6 46.592 27.0848 72.96 1.5872 27.3408 23.9104 49.408 51.968 51.3024 16.6912 1.1264 33.6384 1.2288 50.5344 0.256 27.5456-1.5872 49.3056-24.0128 51.7632-53.248 0.2048-2.3552 0.4608-4.6592 0.768-6.9632 7.9872-59.136 54.784-105.8304 113.8176-113.664 26.5216-3.5328 53.0432 0.768 76.6464 12.4416 24.6272 12.1856 54.784 3.84 70.0416-19.4048 8.4992-12.9024 16.3328-26.4192 23.2448-40.192 12.544-24.8832 3.9936-55.1424-20.3264-71.8848-1.9456-1.3312-3.84-2.7136-5.7344-4.1984-47.5648-36.5568-64.7168-100.7104-41.728-155.9552a25.55904 25.55904 0 0 1 33.4848-13.7728 25.55904 25.55904 0 0 1 13.7728 33.4848c-13.8752 33.3824-3.1232 73.6256 25.6512 95.6928 1.1776 0.9216 2.3552 1.792 3.584 2.6112 45.6192 31.4368 61.184 89.1392 37.0176 137.1136-7.8336 15.5136-16.64 30.72-26.2144 45.312-29.4912 44.7488-87.7056 60.7232-135.4752 37.1712-14.4896-7.168-30.8736-9.7792-47.2576-7.5776-35.6352 4.7104-64.9728 34.048-69.7856 69.7344-0.2048 1.4848-0.3584 2.9696-0.4608 4.4032-4.5568 54.8352-46.5408 96.9728-99.7888 100.0448-8.7552 0.4096-17.6128 0.6656-26.3168 0.6656z" fill="#44454A" p-id="1169">
-  </path>
-  </svg>
-  </span></h4>`;
-    if (CURRENT_SITE_INFO.siteType === "NexusPHP" || CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/)) {
-      const trDom = `<tr>
-    <td class="rowhead nowrap title-td">
-    ${easySeedTitleDom}
-    </td>
-    <td class="rowfollow easy-seed-td"></td>
-    </tr>
-    ${functionDom}
-    <tr>
-    ${searchListDom}
-    </tr>`;
-      torrentInsertDom.after(trDom);
-      torrentInsertDom = $(".easy-seed-td");
-    }
-    if (CURRENT_SITE_NAME === "HDT") {
-      const trDom = `<tr>
-    <td class="detailsleft" title-td" align="right">
-    ${easySeedTitleDom}
-    </td>
-    <td class="detailshash easy-seed-td" align="center"></td>
-    </tr>
-    ${functionDom}
-    <tr>
-    ${searchListDom}
-    </tr>`;
-      torrentInsertDom.after(trDom);
-      torrentInsertDom = $(".easy-seed-td");
-    }
-    if (CURRENT_SITE_NAME === "HDBits") {
-      const trDom = `<tr class="hdb-tr">
-    <td class="rowfollow title-td hdb-td">${easySeedTitleDom}</td>
-    <td class="rowfollow easy-seed-td hdb-td"></td>
-    </tr>
-    <tr class="hdb-tr">
-    ${functionDom.replace(/<\/?tr>/g, "")}
-    </tr>
-    <tr class="hdb-tr">
-    ${searchListDom}
-    </tr>`;
-      torrentInsertDom.after(trDom);
-      torrentInsertDom = $(".easy-seed-td");
-    }
-    if (CURRENT_SITE_NAME === "PTP") {
-      const torrentId = getUrlParam("torrentid");
-      torrentInsertDom = $(`#torrent_${torrentId} >td`);
-    } else if (CURRENT_SITE_NAME === "UHDBits") {
-      const torrentId = getUrlParam("torrentid");
-      $(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
-      torrentInsertDom = $(`#torrent_${torrentId} >td blockquote:first`);
-    }
-    createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
-  };
-  var handleClickEvent = () => {
-    $(".site-list li>a").click(async function() {
-      let url = $(this).data("link");
-      if (url.match(/lemonhd/)) {
-        const catMap = {
-          movie: "movie",
-          tv: "tv",
-          tvPack: "tv",
-          variety: "tv",
-          documentary: "doc",
-          concert: "mv"
-        };
-        const path = catMap[TORRENT_INFO.category] || "movie";
-        url = url.replace("upload_movie", `upload_${path}`);
-      }
-      if (url.match(/hdpost|blutopia|asiancinema|aither/)) {
-        const catMap = {
-          movie: "1",
-          tv: "2",
-          tvPack: "2",
-          documentary: "1",
-          concert: "3",
-          sport: "9",
-          cartoon: "405",
-          app: "10",
-          ebook: "11",
-          magazine: "11",
-          audioBook: "14"
-        };
-        const path = catMap[TORRENT_INFO.category] || "1";
-        url = url.replace("1", path);
-      }
-      if (url.match(/bibliotik/)) {
-        const catMap = {
-          ebook: "ebooks",
-          magazine: "magazines",
-          audioBook: "audiobooks"
-        };
-        url = url.replace("/upload", `/upload/${catMap[TORRENT_INFO.category] || "ebooks"}`);
-      }
-      if (url.match(/baconbits/)) {
-        const catMap = {
-          movie: "Movies",
-          tv: "TV",
-          tvPack: "TV",
-          documentary: "Movies",
-          cartoon: "Anime",
-          app: "Applications",
-          ebook: "E-Books",
-          magazine: "Magazines",
-          audioBook: "Audiobooks",
-          comics: "Comics"
-        };
-        const formDom = await new Promise((resolve, reject) => {
-          GM_xmlhttpRequest({
-            method: "GET",
-            url: `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`,
-            onload(res) {
-              resolve(res.responseText);
-            }
-          });
-        });
-        TORRENT_INFO.formDom = formDom;
-      }
-      if (TORRENT_INFO.isForbidden) {
-        const result = window.confirm("\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F");
-        if (!result) {
-          return;
-        }
-      }
-      if (CURRENT_SITE_NAME === "TTG" && !TORRENT_INFO.description) {
-        alert("\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210");
-        return;
-      }
-      const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-      url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
-      window.open(url);
-    });
-  };
   var paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
   var torrentParams = paramsMatchArray && paramsMatchArray.length > 0 ? paramsMatchArray[2] : null;
   if (CURRENT_SITE_NAME) {
@@ -9462,32 +9724,7 @@ td.title-td h4{
       source_default();
       console.log(TORRENT_INFO);
       insertTorrentPage();
-      handleClickEvent();
-      if ($("#img-transfer")) {
-        $("#img-transfer").click(() => {
-          getThumbnailImgs();
-        });
-      }
-      if ($("#douban-info")) {
-        $("#douban-info").click(() => {
-          getDoubanLink();
-        });
-      }
-      if ($("#douban-book-info")) {
-        $("#douban-book-info").click(() => {
-          getDoubanBookInfo();
-        });
-      }
-      if ($("#easy-seed-setting")) {
-        $("#easy-seed-setting").on("click", () => {
-          openSettingPanel();
-        });
-      }
-      if ($("#batch-seed-btn")) {
-        $("#batch-seed-btn").on("click", () => {
-          openBatchSeedTabs();
-        });
-      }
+      click_event_default();
     }
   }
 })();
