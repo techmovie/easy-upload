@@ -11,15 +11,17 @@ export default async (info) => {
 
   [img]$poster$[/img]
   
-  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size][*][url=$youtubeUrl$][img]https://i.ibb.co/TtHYsVC/youutbe-logo.png[/img][/url]
+  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size]
 
 
   [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
   $synopsis$
   
+  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
+  [youtube]$youtubeUrl$[/youtube]
 
   [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
-  $SCREENSHOTS$
+  [box][hide]$SCREENSHOTS$[/hide][/box]
   
   [/center]`;
   const collectionMap = {};
@@ -41,7 +43,7 @@ export default async (info) => {
   if (comparisonImgs.length > 0) {
     const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
     template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]\n\n
-    ${comparisonImgsBBCode.join(' ')}\n\n$1`);
+    [box][hide]${comparisonImgsBBCode.join(' ')}[/hide][/box]\n\n$1`);
   }
   if (category.match(/tv|movie/)) {
     try {
