@@ -75,7 +75,7 @@ Support reproducing torrents for mainstream Chinese and international private tr
 |   NYPT    |             ✅             |            ✅            |
 |  OurBits  |             ✅             |            ✅            |
 |  PTHome   |             ✅             |            ✅            |
-|    PTP    |             ✅             |            ❌            |
+|    PTP    |             ✅             |            ✅            |
 |  PTSBAO   |             ✅             |            ✅            |
 |   PTer    |             ✅             |            ✅            |
 |    SSD    |             ✅             |            ✅            |

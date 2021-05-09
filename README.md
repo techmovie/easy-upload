@@ -75,7 +75,7 @@
 |   NYPT    |             ✅              |               ✅                |
 |  OurBits  |             ✅              |               ✅                |
 |  PTHome   |             ✅              |               ✅                |
-|    PTP    |             ✅              |               ❌                |
+|    PTP    |             ✅              |               ✅                |
 |  PTSBAO   |             ✅              |               ✅                |
 |   PTer    |             ✅              |               ✅                |
 |    SSD    |             ✅              |               ✅                |
