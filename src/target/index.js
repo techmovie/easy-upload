@@ -9,11 +9,16 @@ import handleTJUPT from './tjupt';
 import handleHDRoute from './hdr';
 import handleBib from './bib';
 import handleBb from './bB';
+import handlePTP from './ptp';
 
 const fillTargetForm = (info) => {
   console.log(info);
   if (CURRENT_SITE_NAME === 'bB') {
     handleBb(info);
+    return false;
+  }
+  if (CURRENT_SITE_NAME === 'PTP') {
+    handlePTP(info);
     return false;
   }
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {

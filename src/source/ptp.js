@@ -149,7 +149,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
   });
   descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, '[$1quote]');
-  descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\s)+?)\[\/align\]/g, '[$2]$3[/$2]');
+  descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
   const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g) || [];
   let comparisonImgArray = [];
   comparisonArray.forEach(item => {

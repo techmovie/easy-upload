@@ -214,7 +214,7 @@ const getIMDBData = (imdbUrl) => {
           }
         },
         onerror (res) {
-          console.log(res);
+          reject(new Error(res));
         },
       });
     } catch (error) {

@@ -11,7 +11,7 @@ export default () => {
   const torrentFileName = torrentFileDom.text().replace(/\.torrent$/, '');
   const fileName = Filename.replace(/\.\w+$/, ''); // 删除文件后缀名
   const title = formatTorrentTitle(fileName || torrentFileName);
-  const imdbUrl = InternetLink.match(/imdb/) ? InternetLink : '';
+  const imdbUrl = InternetLink?.match(/imdb/) ? InternetLink : '';
   const [movieName, movieAkaName = ''] = $('.outer h1').text().split('- ')?.[1].replace(/\(\d+\)/, '').trim().split(/AKA/i);
   const country = $('.outer h1 img').attr('alt');
   const year = Year;

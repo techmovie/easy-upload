@@ -1,9 +1,33 @@
 import {
   CURRENT_SITE_NAME, TORRENT_INFO,
 } from '../const';
-import { $t, showNotice } from '../common';
+import { $t, showNotice, getIMDBIdByUrl } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
 import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo } from './button-function';
+const getPTPGroupId = (imdbUrl) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const imdbId = getIMDBIdByUrl(imdbUrl);
+      if (imdbId) {
+        GM_xmlhttpRequest({
+          method: 'GET',
+          url: `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`,
+          onload (res) {
+            const data = JSON.parse(res.responseText);
+            if (data && data.Movies && data.Movies.length > 0) {
+              resolve(data.Movies[0].GroupId);
+            } else {
+              resolve('');
+            }
+          },
+        });
+      }
+    } catch (error) {
+      reject(new Error(error.message));
+    }
+  });
+};
+
 export default () => {
   if ($('#easy-seed-setting')[0]) {
     $('#easy-seed-setting').on('click', () => {
@@ -96,6 +120,12 @@ const handleSiteClickEvent = () => {
         });
       });
       TORRENT_INFO.formDom = formDom;
+    }
+    if (url.match(/passthepopcorn/)) {
+      const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
+      if (groupId) {
+        url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+      }
     }
     if (TORRENT_INFO.isForbidden) {
       const result = window.confirm($t('本种子禁止转载，确定要继续转载么？'));
