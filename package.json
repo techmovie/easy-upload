@@ -1,9 +1,9 @@
 {
-  "name": "easy-seed",
-  "description": "easy seeding for different trackers",
+  "name": "easy-upload",
+  "description": "easy uploading torrents to other trackers",
   "version": "1.3.0",
   "main": "src/index.js",
-  "repository": "git@github.com:techmovie/easy-seed.git",
+  "repository": "git@github.com:techmovie/easy-upload.git",
   "author": "birdplane",
   "license": "MIT",
   "scripts": {

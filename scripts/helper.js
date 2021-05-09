@@ -47,8 +47,8 @@ const { version, author, description = '' } = require('../package.json');
 
 // 油猴前置注释
 exports.userScriptComment = `// ==UserScript==
-// @name         easy-seed PT一键转种
-// @namespace    https://github.com/techmovie/easy-seed
+// @name         EasyUpload PT一键转种
+// @namespace    https://github.com/techmovie/easy-upload
 // @version      ${version}
 // @description  ${description}
 // @author       ${author}

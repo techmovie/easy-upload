@@ -12,7 +12,7 @@ assignees: ''
 * Browser：
 * Browser Version ：
 * Script managet extension[e.g. tampermonkey Violentmonkey]：
-* easy-seed version：
+* easy-upload version：
 
 **Describe the bug**
 A clear and concise description of what the bug is.

@@ -150,7 +150,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
   `;
   torrentDom.prepend(seedDom);
 };
-// 将easy-seed插入种子页面
+// 将easy-upload插入种子页面
 const insertTorrentPage = () => {
   let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
   const searchList = getSearchList();

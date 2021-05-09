@@ -11,7 +11,7 @@ const notifyError = (error) => {
 (async () => {
   require('esbuild').build({
     entryPoints: ['src/index.js'],
-    outfile: '.cache/easy-seed.user.js',
+    outfile: '.cache/easy-upload.user.js',
     bundle: true,
     target: 'es2016',
     define: { $: 'jQuery' },

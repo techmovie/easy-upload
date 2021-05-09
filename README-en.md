@@ -1,10 +1,10 @@
-# easy-seed
+# easy-upload
 
-[Installation address 1](https://greasyfork.org/en/scripts/423199-easy-seed-pt%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
+[Installation address 1](https://greasyfork.org/en/scripts/423199)
 
-[Installation address 2](https://openuserjs.org/scripts/birdplane/easy-seed_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
+[Installation address 2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
 
-[Join Telegram group](https://t.me/easyseed)
+[Join Telegram group](https://t.me/easyupload)
 
 ## About
 
@@ -16,7 +16,7 @@ Support reproducing torrents for mainstream Chinese and international private tr
 * Support batch transfer. Batch transfer to target sites with one-click.
 * Add thumbnail transfer from original image to meet screenshot requirements by some sites.
 * Support grabbing Douban movie description based on IMDB info, when some domestic sites requires Douban info in reproducing from international sites.
-* Allow filling info on upload page by unified yaml config of the site, making it easier to add an unsupported site. If you want to add an unsupported site, please turn to [Site Configuration Rules](https://github.com/techmovie/easy-seed/wiki/How-to-Add-Unsupported-Sites)
+* Allow filling info on upload page by unified yaml config of the site, making it easier to add an unsupported site. If you want to add an unsupported site, please turn to [Site Configuration Rules](https://github.com/techmovie/easy-upload/wiki/How-to-Add-Unsupported-Sites)
 * Support quick search of current resource, and the site for searching is configurable.
 
 ## Settings
@@ -35,7 +35,7 @@ Support reproducing torrents for mainstream Chinese and international private tr
 
 ## Todo
 
-  Please refer [Project plan](https://github.com/techmovie/easy-seed/projects)
+  Please refer [Project plan](https://github.com/techmovie/easy-upload/projects)
 
   I don’t have access or upload permission to all sites, so any help including testing and PR is welcoming.
 
