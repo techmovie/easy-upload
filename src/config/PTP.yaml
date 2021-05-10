@@ -48,17 +48,6 @@ videoCodec:
     BD66: 'BD66'
     BD50: 'BD50'
     BD25: 'BD25'
-format: 
-  selector: '#container'
-  map:
-    mkv: 'MKV'
-    mp4: 'MP4'
-    mpg: 'MPG'
-    avi: 'AVI'
-    ts: 'Other'
-    vob: 'VOB IFO'
-    iso: 'ISO'
-    m2ts: 'm2ts'
 source: 
   selector: '#source'
   map:

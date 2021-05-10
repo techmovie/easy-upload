@@ -1,12 +1,11 @@
 import { CURRENT_SITE_INFO } from '../const';
 import {
-  getInfoFromMediaInfo,
-  getInfoFromBDInfo, getUrlParam, getBDType, getScreenshotsFromBBCode,
+  getUrlParam, getBDType, getScreenshotsFromBBCode,
 } from '../common';
 export default (info) => {
   const {
     title, imdbUrl, tags, size,
-    videoCodec, mediaInfo, videoType,
+    videoCodec, videoType,
     resolution,
   } = info;
   const groupId = getUrlParam('groupid');
@@ -15,13 +14,9 @@ export default (info) => {
     // eslint-disable-next-line no-undef
     AutoFill();
   }
-  const isBluray = videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { format = '' } = getInfoFunc(mediaInfo);
   info.resolution = getResolution(resolution, videoType, title);
-  info.format = getFormat(format, videoType);
   info.videoCodec = getVideoCodec(videoCodec, videoType, size);
-  ['category', 'source', 'videoCodec', 'format', 'resolution'].forEach(key => {
+  ['category', 'source', 'videoCodec', 'resolution'].forEach(key => {
     const { selector = '', map } = CURRENT_SITE_INFO[key];
     if (map) {
       const mapValue = map[info[key]];
@@ -85,14 +80,6 @@ const getResolution = (resolution, videoType, title) => {
     return 'PAL';
   }
   return resolution;
-};
-const getFormat = (format, videoType) => {
-  if (videoType.match(/bluray/)) {
-    format = 'm2ts';
-  } else if (videoType.match(/dvd/)) {
-    format = 'vob';
-  }
-  return format || 'mkv';
 };
 const getDescription = (info) => {
   const { description, mediaInfo } = info;
