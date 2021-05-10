@@ -20,7 +20,7 @@ const TORRENT_INFO = {
     chineseAudio: false,
     cantoneseAudio: false,
     chineseSubtitle: false,
-    atoms: false,
+    atmos: false,
     dtsx: false,
     HDR: false,
     DolbyVision: false,

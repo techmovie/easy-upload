@@ -52,7 +52,7 @@ const getEditionInfo = (videoType, tags) => {
   if (tags.DolbyVision) {
     editionInfo.push('Dolby Vision');
   }
-  if (tags.atoms) {
+  if (tags.atmos) {
     editionInfo.push('Dolby Atmos');
   }
   if (tags.dtsx) {

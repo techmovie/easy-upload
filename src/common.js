@@ -289,8 +289,8 @@ const getAudioCodecFromTitle = (title) => {
     return '';
   }
   title = title.replace(/:|-|\s/g, '');
-  if (title.match(/atoms/i)) {
-    return 'atoms';
+  if (title.match(/atmos/i)) {
+    return 'atmos';
   } else if (title.match(/dtshdma/i)) {
     return 'dtshdma';
   } else if (title.match(/dtsx/i)) {
@@ -948,8 +948,8 @@ const getTagsFromSubtitle = (title) => {
   if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语言/)) {
     tags.chineseAudio = true;
   }
-  if (title.match(/Atoms|杜比全景声/i)) {
-    tags.atoms = true;
+  if (title.match(/Atmos|杜比全景声/i)) {
+    tags.atmos = true;
   }
   if (title.match(/HDR/i)) {
     if (title.match(/HDR10\+/i)) {
