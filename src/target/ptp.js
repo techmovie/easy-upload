@@ -11,7 +11,7 @@ export default (info) => {
   } = info;
   const groupId = getUrlParam('groupid');
   if (!groupId) {
-    $(CURRENT_SITE_INFO.imdb).val(imdbUrl || 0);
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbUrl || 0);
     // eslint-disable-next-line no-undef
     AutoFill();
   }
