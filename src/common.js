@@ -1212,6 +1212,22 @@ const saveScreenshotsToPtpimg = (imgArray) => {
   });
 };
 
+function fetch (url, options = {}) {
+  return new Promise((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: options.method || 'GET',
+      url,
+      onload: (res) => {
+        let result = res.responseText;
+        if (options.json) {
+          result = JSON.parse(options.json);
+        }
+        resolve(result);
+      },
+    });
+  });
+}
+
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1248,5 +1264,6 @@ export {
   urlToFile,
   getOriginalImgUrl,
   saveScreenshotsToPtpimg,
+  fetch,
 }
 ;

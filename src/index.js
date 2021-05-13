@@ -23,9 +23,10 @@ if (CURRENT_SITE_NAME) {
   if (CURRENT_SITE_INFO.asSource &&
   !location.pathname.match(/upload/ig) &&
   !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam('imdb') || getUrlParam('name')))) {
-    getTorrentInfo();
-    // 向当前所在站点添加按钮等内容
-    console.log(TORRENT_INFO);
+    getTorrentInfo().then(() => {
+      // 向当前所在站点添加按钮等内容
+      console.log(TORRENT_INFO);
+    });
     insertTorrentPage();
     handleClickEvent();
   }

@@ -6,7 +6,7 @@ import {
   getTagsFromSubtitle, getPreciseCategory,
 } from '../common';
 
-export default () => {
+export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const { Category, Name, Type, Size, Resolution } = getBasicInfo();
