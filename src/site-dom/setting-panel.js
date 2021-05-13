@@ -14,15 +14,10 @@ const openSettingPanel = () => {
   const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined
     ? []
     : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
-  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined
-    ? ''
-    : GM_getValue('easy-seed.transfer-img-closed');
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
-    ? ''
-    : GM_getValue('easy-seed.site-favicon-closed');
-  const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') === undefined
-    ? ''
-    : GM_getValue('easy-seed.ptp-img-api-key');
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
+  const uploadImgClosed = GM_getValue('easy-seed.upload-img-closed') || '';
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') || '';
+  const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
   const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
@@ -90,6 +85,9 @@ const openSettingPanel = () => {
         <label><input name="transfer-img-closed" type="checkbox" ${transferImgClosed}/>${$t('关闭转缩略图功能')}</label>
         </section>
         <section class="site-enable-setting transfer-img-closed">
+        <label><input name="upload-img-closed" type="checkbox" ${uploadImgClosed}/>${$t('关闭转存ptpimg功能')}</label>
+        </section>
+        <section class="site-enable-setting transfer-img-closed">
         <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>${$t('关闭站点图标显示')}</label>
         </section>
       </div>
@@ -113,6 +111,7 @@ const saveSetting = () => {
   const searchSitesEnabled = [];
   const batchSeedSiteEnabled = [];
   const transferImgEnabled = $("input[name='transfer-img-closed']").attr('checked') || '';
+  const uploadImgEnabled = $("input[name='upload-img-closed']").attr('checked') || '';
   const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr('checked') || '';
   const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
   $("input[name='target-site-enabled']:checked").each(function () {
@@ -130,6 +129,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
     GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
     GM_setValue('easy-seed.transfer-img-closed', transferImgEnabled);
+    GM_setValue('easy-seed.upload-img-closed', uploadImgEnabled);
     GM_setValue('easy-seed.site-favicon-closed', siteFaviconEnabled);
     GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
     $('#easy-seed-setting-panel').remove();

@@ -34,6 +34,7 @@ ptpimg上传失败: PtpImg upload failed
 额外功能关闭: Turn off extra features
 关闭转缩略图功能: Remove the 'Convert to thumbnails' button
 关闭站点图标显示: Remove the icons
+关闭转存ptpimg功能: Remove the 'Upload screenshots to ptpimg' button
 保存: Save
 取消: Cancel
 错误: Error
@@ -42,3 +43,6 @@ ptpimg上传失败: PtpImg upload failed
 请先设置群转列表: Please set up the group transfer list first
 转种页面已打开，请前往对应页面操作: The transfer pages have been opened, please go to the corresponding page to operate
 提示: 'Hint'
+转存截图到ptpimg: 'Upload screenshots to ptpimg'
+无需转存: No need to upload
+上传中，请稍候...: Uploading,be patient

@@ -353,29 +353,36 @@ const getFilterImages = (bbcode) => {
   }
   return [];
 };
+const getScreenshotsFromBBCode = (bbcode) => {
+  const allImages = getFilterImages(bbcode);
+  if (allImages && allImages.length > 0) {
+    return getOriginalImgUrl(allImages);
+  }
+  return '';
+};
 /*
 * 过滤真实原始截图地址
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
-const getScreenshotsFromBBCode = (bbcode) => {
-  const allImages = getFilterImages(bbcode);
-  if (allImages && allImages.length > 0) {
-    return allImages.map(item => {
-      let imgUrl = '';
-      if (item.match(/\[url=http(s)*:.+/)) {
-        imgUrl = item.match(/=(([^\]])+)/)?.[1];
-        if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
-          imgUrl = item.match(/img\](([^[])+)/)?.[1];
-        } else if (item.match(/https:\/\/pixhost\.to/)) {
-          imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, 'img53.$1/images');
-        }
-      } else {
+const getOriginalImgUrl = (imgArray) => {
+  return imgArray.map(item => {
+    let imgUrl = item;
+    if (item.match(/\[url=http(s)*:.+/)) {
+      imgUrl = item.match(/=(([^\]])+)/)?.[1];
+      if (imgUrl.match(/img\.hdbits\.org/)) {
+        const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)[1];
+        imgUrl = `https://i.hdbits.org/${imgId}.png`;
+      } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
+      } else if (item.match(/https:\/\/pixhost\.to/)) {
+        const hostNumber = item.match(/img\]https:\/\/t(\d+)\./)?.[1];
+        imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
       }
-      return imgUrl;
-    });
-  }
-  return '';
+    } else if (item.match(/\[img\]/)) {
+      imgUrl = item.match(/img\](([^[])+)/)?.[1];
+    }
+    return imgUrl;
+  });
 };
 // 从标题获取source
 const getSourceFromTitle = (title) => {
@@ -1150,7 +1157,7 @@ const uploadToPtpImg = (imgArray, isFiles = false) => {
           });
           resolve(imgResultList);
         } else {
-          throw new Error($t('上传失败，请重试'));
+          reject(new Error($t('上传失败，请重试')));
         }
       },
     });
@@ -1174,6 +1181,34 @@ const urlToFile = (url) => {
         resolve(file);
       },
     });
+  });
+};
+const saveScreenshotsToPtpimg = (imgArray) => {
+  return new Promise((resolve, reject) => {
+    const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
+    const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
+    if (isPtpHost) {
+      reject(new Error($t('无需转存')));
+    } else if (isHdbHost) {
+      const promiseArray = imgArray.map(item => {
+        return urlToFile(item);
+      });
+      Promise.all(promiseArray).then(res => {
+        uploadToPtpImg(res, true).then(data => {
+          resolve(data);
+        }).catch(error => {
+          reject(new Error(error.message));
+        });
+      }).catch(error => {
+        reject(new Error(error.message));
+      });
+    } else {
+      uploadToPtpImg(imgArray).then(data => {
+        resolve(data);
+      }).catch(error => {
+        reject(new Error(error.message));
+      });
+    }
   });
 };
 
@@ -1211,5 +1246,7 @@ export {
   uploadToPtpImg,
   $t,
   urlToFile,
+  getOriginalImgUrl,
+  saveScreenshotsToPtpimg,
 }
 ;

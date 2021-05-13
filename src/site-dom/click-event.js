@@ -3,7 +3,7 @@ import {
 } from '../const';
 import { $t, showNotice, getIMDBIdByUrl } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
-import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo } from './button-function';
+import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo, uploadScreenshotsToPtpimg } from './button-function';
 const getPTPGroupId = (imdbUrl) => {
   return new Promise((resolve, reject) => {
     try {
@@ -52,6 +52,11 @@ export default () => {
   if ($('#douban-book-info')[0]) {
     $('#douban-book-info').click(() => {
       getDoubanBookInfo();
+    });
+  }
+  if (document.querySelector('#upload-to-ptp')) {
+    $('#upload-to-ptp').click(function () {
+      uploadScreenshotsToPtpimg(this);
     });
   }
   handleSiteClickEvent();

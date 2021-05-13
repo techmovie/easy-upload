@@ -4,7 +4,7 @@ import {
 import {
   getSubTitle, transferImgs, getDoubanInfo, $t,
   getDoubanLinkByIMDB, getAreaCode, getPreciseCategory,
-  showNotice,
+  showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
 } from '../common';
 
 const getThumbnailImgs = () => {
@@ -134,8 +134,36 @@ const updateTorrentInfo = (data) => {
   const category = TORRENT_INFO.category;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
 };
+const uploadScreenshotsToPtpimg = (selfDom) => {
+  const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
+  $(selfDom).text($t('上传中，请稍候...')).attr('disabled', true).addClass('is-disabled');
+  saveScreenshotsToPtpimg(screenshots).then(data => {
+    showNotice({ text: $t('成功') });
+    let { description } = TORRENT_INFO;
+    TORRENT_INFO.screenshots = data;
+    const screenBBCode = data.map(img => {
+      return `[img]${img}[/img]`;
+    });
+    const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+    if (allImages && allImages.length > 0) {
+      allImages.forEach(img => {
+        if (img.match(/\[url=.+?\]/)) {
+          img += '[/url]';
+        }
+        description = description.replace(img, '');
+      });
+    }
+    TORRENT_INFO.description = description + '\n' + screenBBCode.join('');
+  }).catch(error => {
+    showNotice({ title: $t('错误'), text: error.message });
+  }).finally(() => {
+    $(selfDom).text($t('转存截图到ptpimg'))
+      .removeAttr('disabled').removeClass('is-disabled');
+  });
+};
 export {
   getThumbnailImgs,
   getDoubanLink,
   getDoubanBookInfo,
+  uploadScreenshotsToPtpimg,
 };

@@ -94,12 +94,22 @@ const getFunctionItems = () => {
         <button id="img-transfer">${$t('转缩略图')}</button>
       </div>
     </div>`;
+  const uploadImgClosed = GM_getValue('easy-seed.upload-img-closed') || '';
+  const uploadImgDom = uploadImgClosed
+    ? ''
+    : `
+<div class="function-list-item">
+<div class="upload-section">
+  <button id="upload-to-ptp">${$t('转存截图到ptpimg')}</button>
+</div>
+</div>`;
   return (doubanDom || transferDom || doubanSearchDom)
     ? `<section class="easy-seed-function-list">
-          ${doubanDom}
-          ${doubanBookDom} 
-          ${transferDom}
-        </section>`
+        ${doubanDom}
+        ${doubanBookDom} 
+        ${transferDom}
+        ${uploadImgDom}
+      </section>`
     : '';
 };
 /*
