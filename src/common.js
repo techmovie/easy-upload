@@ -1104,8 +1104,7 @@ const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
     clearTimeout(removeTimer);
   }, 4000);
 };
-
-const uploadToPtpImg = (imgArray) => {
+const uploadToPtpImg = (imgArray, isFiles = false) => {
   return new Promise((resolve, reject) => {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
     if (!apiKey) {
@@ -1115,19 +1114,32 @@ const uploadToPtpImg = (imgArray) => {
       });
       return;
     }
-    const data = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
-    GM_xmlhttpRequest({
+    let formData;
+    const options = {
       url: 'https://ptpimg.me/upload.php',
       method: 'POST',
-      headers: {
+      responseType: 'json',
+    };
+    if (isFiles) {
+      formData = new FormData();
+      imgArray.forEach((img, index) => {
+        formData.append(`file-upload[${index}]`, img);
+      });
+      formData.append('api_key', apiKey);
+    } else {
+      formData = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
+      options.headers = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-      data,
+      };
+    }
+    options.data = formData;
+    GM_xmlhttpRequest({
+      ...options,
       onload (res) {
         if (!res || !res.responseText) {
           reject(new Error($t('上传失败，请重试')));
         }
-        const data = JSON.parse(res.responseText);
+        const data = res.responseText;
         if (!data) {
           reject(new Error($t('上传失败，请重试')));
         }
@@ -1148,6 +1160,23 @@ const $t = (key) => {
   const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
   return i18nConfig[languageKey]?.[key] ?? key;
 };
+
+const urlToFile = (url) => {
+  return new Promise((resolve, reject) => {
+    const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
+    GM_xmlhttpRequest({
+      method: 'GET',
+      responseType: 'blob',
+      url,
+      onload (res) {
+        const data = res.responseText;
+        const file = new File([data], filename, { type: data.type });
+        resolve(file);
+      },
+    });
+  });
+};
+
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1181,5 +1210,6 @@ export {
   getFilterImages,
   uploadToPtpImg,
   $t,
+  urlToFile,
 }
 ;
