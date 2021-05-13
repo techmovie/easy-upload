@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "scatking",
+      "name": "scatking",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34273647?v=4",
+      "profile": "https://github.com/scatking",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "easy-upload",
+  "projectOwner": "techmovie",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
