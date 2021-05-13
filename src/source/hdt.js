@@ -5,7 +5,7 @@ import {
   getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 
-export default () => {
+export default async () => {
   const title = document.title.replace(/HD-Torrents.org\s*-/ig, '').trim();
   const imdbInfoDom = $('#IMDBDetailsInfoHideShowTR .imdbnew2');
   const imdbUlrDom = imdbInfoDom.find('>a');

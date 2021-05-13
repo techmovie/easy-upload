@@ -225,7 +225,7 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  } else if (CURRENT_SITE_NAME === 'PTP') {
+  } else if (['PTP', 'BTN'].includes(CURRENT_SITE_NAME)) {
     const torrentId = getUrlParam('torrentid');
     torrentInsertDom = $(`#torrent_${torrentId} >td`);
   } else if (CURRENT_SITE_NAME === 'UHDBits') {

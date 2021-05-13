@@ -6,7 +6,7 @@ import {
   getUrlParam, getSize, getSourceFromTitle, $t,
 } from '../common';
 
-export default () => {
+export default async () => {
   const torrentId = getUrlParam('torrentid');
   if (!torrentId) {
     return false;

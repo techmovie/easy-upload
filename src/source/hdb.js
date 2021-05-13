@@ -6,7 +6,7 @@ import {
   getTagsFromSubtitle, getPreciseCategory, $t,
 } from '../common';
 
-export default () => {
+export default async () => {
   const torrentId = getUrlParam('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;

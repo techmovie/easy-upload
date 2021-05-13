@@ -5,7 +5,7 @@ import {
   replaceRegSymbols, getBDInfoOrMediaInfo,
 } from '../common';
 
-export default () => {
+export default async () => {
   const torrentId = getUrlParam('torrentid');
   if (!torrentId) {
     return false;

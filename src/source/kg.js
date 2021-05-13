@@ -5,7 +5,7 @@ import {
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 
-export default () => {
+export default async () => {
   const { InternetLink, Year, Type, Genres, Source, Size, Filename = '', RipSpecs = '', Subtitles, 'Language(s)': language } = getBasicInfo();
   const torrentFileDom = getBasicInfoDom('Download').find('a.index');
   const torrentFileName = torrentFileDom.text().replace(/\.torrent$/, '');

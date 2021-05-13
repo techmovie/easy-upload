@@ -9,6 +9,7 @@ import getNexusPHPInfo from './nexusphp';
 import getHDTInfo from './hdt';
 import getKGInfo from './kg';
 import getUHDInfo from './uhd';
+import getBTNInfo from './btn';
 
 let getTorrentInfo;
 if (!CURRENT_SITE_INFO) {
@@ -31,6 +32,8 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getUHDInfo;
 } else if (CURRENT_SITE_NAME === 'PTP') {
   getTorrentInfo = getPTPInfo;
+} else if (CURRENT_SITE_NAME === 'BTN') {
+  getTorrentInfo = getBTNInfo;
 }
 
 export default getTorrentInfo;
