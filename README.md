@@ -98,3 +98,17 @@
 支付宝:
 
 <img alt="alipay.png" src="https://ptpimg.me/3dw5k6.jpg" width="200">
+
+## 致谢
+
+### 协作者
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars.githubusercontent.com/u/18325797?v=3" width="75px;"/><br /><sub>Yongjie</sub>](https://github.com/btguys)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=btguys) | [<img src="https://avatars.githubusercontent.com/u/69023953?v=3" width="75px;"/><br /><sub>Purfview</sub>](https://github.com/Purfview)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=Purfview) | [<img src="https://avatars.githubusercontent.com/u/22229456?v=3" width="75px;"/><br /><sub>arvin</sub>](https://github.com/ma3252788)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=ma3252788) | [<img src="https://avatars.githubusercontent.com/u/11496663?v=3" width="75px;"/><br /><sub>luoye</sub>](https://github.com/luoye-fe)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=luoye-fe) |
+| :---: | :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+### 捐赠者
+
+|  姓名   | 金额 |    时间    |
+| :-------: | :------------------------: | :----------------------------: |
+|   韩老王   |                           |               2021/05/13               |
+
