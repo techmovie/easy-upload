@@ -91,7 +91,7 @@ const getMediaInfo = (torrentId) => {
       method: 'GET',
       url: `https://hdbits.org/details/mediainfo?id=${torrentId}`,
       onload (res) {
-        const data = res.responseText;
+        const data = res.responseText.replace(/\r\n/g, '\n');
         if (res.status !== 200 || !data) {
           reject(new Error($t('请求失败')));
         }

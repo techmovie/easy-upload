@@ -1,6 +1,7 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
 import {
-  getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getFilterImages,
+  getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
+  getFilterImages, getBDInfoOrMediaInfo,
 } from '../common';
 import { getTeamName } from './common';
 
@@ -158,10 +159,15 @@ const fillTargetForm = (info) => {
       }
     });
   }
+  if (CURRENT_SITE_NAME === 'PTer') {
+    const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+    description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
+    description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
+  }
   // 过滤空标签
   description = filterEmptyTags(description);
-
-  $(CURRENT_SITE_INFO.description.selector).val(getThanksQuote(info) + description.trim());
+  description = getThanksQuote(info) + description.trim();
+  $(CURRENT_SITE_INFO.description.selector).val(description);
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM|Aither/)) {
     const fillIMDBId = CURRENT_SITE_INFO.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
@@ -330,7 +336,7 @@ const fillTargetForm = (info) => {
     }
   }
   // 处理Pter
-  if (CURRENT_SITE_NAME === 'Pter') {
+  if (CURRENT_SITE_NAME === 'PTer') {
     const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
     if (!language.match(/英语/) && info.area === 'EU') {
       $(CURRENT_SITE_INFO.area.selector).val('8');
