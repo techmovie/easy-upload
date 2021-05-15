@@ -37,6 +37,7 @@
     "@commitlint/config-conventional": "^12.1.1",
     "@jsdevtools/version-bump-prompt": "^6.1.0",
     "@types/jquery": "^3.5.5",
+    "all-contributors-cli": "^6.20.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commitizen": "^4.2.4",

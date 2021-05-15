@@ -20,6 +20,7 @@
 * 外站向内站转载时，需要补充豆瓣简介，增加了根据IMDB获取豆瓣简介的功能
 * 可以通过站点的yaml统一配置来进行上传页的内容填写，新增支持站点更容易。如果需要自行添加目前项目还不支持的站点，可以参考[站点配置规则](https://github.com/techmovie/easy-upload/wiki/%E5%A6%82%E4%BD%95%E5%A2%9E%E5%8A%A0%E7%9B%AE%E5%89%8D%E8%BF%98%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E7%AB%99%E7%82%B9%E9%85%8D%E7%BD%AE)
 * 支持对当前资源的快速检索，检索站点可配置
+* 支持批量将截图转存至ptpimg，可以解决部分站点截图无法在其他站点显示的问题
 
 ## 设置
 * 点击「齿轮」图标打开设置面板
@@ -34,6 +35,11 @@
 * 大部分外站需要完整的MediaInfo，而部分内站的官组都没提供，转载到外站时，需要手动获取MediaInfo
 * 由于TTG的图片加载策略，需要等页面完全加载完整后再点击转载到其他站，否则种子信息会获取不完整。
 * 由于部分内站上传页的分类填写过于混乱，会有部分种子分类填写不上的问题，欢迎提Issue
+
+## CHANGELOG
+
+[CHANGELOG](CHANGELOG.md)
+
 ## 后续计划
   参考[项目规划](https://github.com/techmovie/easy-upload/projects)
 
@@ -48,6 +54,7 @@
 |    ACM    |             ✅              |               ✅                |
 |  Aither   |             ✅              |               ✅                |
 |    bB     |             ❌              |               ✅                |
+|    BTN    |             ✅              |               ❌                |
 | BTSCHOOL  |             ✅              |               ✅                |
 |  BeiTai   |             ✅              |               ❌                |
 | BeyondHD  |             ✅              |               ✅                |
@@ -103,12 +110,25 @@
 
 ### 协作者
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars.githubusercontent.com/u/18325797?v=3" width="75px;"/><br /><sub>Yongjie</sub>](https://github.com/btguys)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=btguys) | [<img src="https://avatars.githubusercontent.com/u/69023953?v=3" width="75px;"/><br /><sub>Purfview</sub>](https://github.com/Purfview)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=Purfview) | [<img src="https://avatars.githubusercontent.com/u/22229456?v=3" width="75px;"/><br /><sub>arvin</sub>](https://github.com/ma3252788)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=ma3252788) | [<img src="https://avatars.githubusercontent.com/u/11496663?v=3" width="75px;"/><br /><sub>luoye</sub>](https://github.com/luoye-fe)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=luoye-fe) |
-| :---: | :---: | :---: | :---: |
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/btguy"><img src="https://avatars.githubusercontent.com/u/53667733?v=4?s=75" width="75px;" alt=""/><br /><sub><b>btguy</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=btguy" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Purfview"><img src="https://avatars.githubusercontent.com/u/69023953?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Purfview</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=Purfview" title="Code">💻</a></td>
+    <td align="center"><a href="http://weibo.com/mcj9"><img src="https://avatars.githubusercontent.com/u/22229456?v=4?s=75" width="75px;" alt=""/><br /><sub><b>arvin</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=ma3252788" title="Code">💻</a></td>
+    <td align="center"><a href="https://luoyefe.com/"><img src="https://avatars.githubusercontent.com/u/11496663?v=4?s=75" width="75px;" alt=""/><br /><sub><b>luoye</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=luoye-fe" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/sabersalv"><img src="https://avatars.githubusercontent.com/u/2525544?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Saber</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=sabersalv" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/scatking"><img src="https://avatars.githubusercontent.com/u/34273647?v=4?s=75" width="75px;" alt=""/><br /><sub><b>scatking</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=scatking" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 ### 捐赠者
 
-|  姓名   | 金额 |    时间    |
-| :-------: | :------------------------: | :----------------------------: |
-|   韩老王   |                           |               2021/05/13               |
-
+|  姓名  | 金额  |    时间    |
+| :----: | :---: | :--------: |
+| 韩老王 |  ¥30  | 2021/05/13 |

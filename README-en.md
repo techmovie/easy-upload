@@ -18,6 +18,7 @@ Support reproducing torrents for mainstream Chinese and international private tr
 * Support grabbing Douban movie description based on IMDB info, when some domestic sites requires Douban info in reproducing from international sites.
 * Allow filling info on upload page by unified yaml config of the site, making it easier to add an unsupported site. If you want to add an unsupported site, please turn to [Site Configuration Rules](https://github.com/techmovie/easy-upload/wiki/How-to-Add-Unsupported-Sites)
 * Support quick search of current resource, and the site for searching is configurable.
+* Support batch uploading screenshots to ptpimg, which can solve the problem that screenshots of some sites cannot be displayed on other sites
 
 ## Settings
 * Click the gear wheel icon to open settings panel.
@@ -32,6 +33,11 @@ Support reproducing torrents for mainstream Chinese and international private tr
 * Most international sites require full MediaInfo data while even some official resources in Chinese sites fail to provide it. In this case, MediaInfo data needs a manual extraction.
 * For the image loading strategy of ToTheGlory, wait and click the reproduce button only after the page fully loaded, otherwise resource info will be obtained partially.
 * Because the type info in some Chinese upload pages is too confusing, it may not be successfully filled. Please feel free to start a new issue.
+
+
+## CHANGELOG
+
+[CHANGELOG](CHANGELOG.md)
 
 ## Todo
 
@@ -48,6 +54,7 @@ Support reproducing torrents for mainstream Chinese and international private tr
 |    ACM    |             ✅             |            ✅            |
 |  Aither   |             ✅             |            ✅            |
 |    bB     |             ❌             |            ✅            |
+|    BTN    |             ✅             |            ❌            |
 | BTSCHOOL  |             ✅             |            ✅            |
 |  BeiTai   |             ✅             |            ❌            |
 | BeyondHD  |             ✅             |            ✅            |
@@ -95,12 +102,26 @@ You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmov
 
 ## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars.githubusercontent.com/u/18325797?v=3" width="75px;"/><br /><sub>Yongjie</sub>](https://github.com/btguys)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=btguys) | [<img src="https://avatars.githubusercontent.com/u/69023953?v=3" width="75px;"/><br /><sub>Purfview</sub>](https://github.com/Purfview)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=Purfview) | [<img src="https://avatars.githubusercontent.com/u/22229456?v=3" width="75px;"/><br /><sub>arvin</sub>](https://github.com/ma3252788)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=ma3252788) | [<img src="https://avatars.githubusercontent.com/u/11496663?v=3" width="75px;"/><br /><sub>luoye</sub>](https://github.com/luoye-fe)<br />[💻](https://github.com/techmovie/easy-upload/commits?author=luoye-fe) |
-| :---: | :---: | :---: | :---: |
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/btguy"><img src="https://avatars.githubusercontent.com/u/53667733?v=4?s=75" width="75px;" alt=""/><br /><sub><b>btguy</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=btguy" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Purfview"><img src="https://avatars.githubusercontent.com/u/69023953?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Purfview</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=Purfview" title="Code">💻</a></td>
+    <td align="center"><a href="http://weibo.com/mcj9"><img src="https://avatars.githubusercontent.com/u/22229456?v=4?s=75" width="75px;" alt=""/><br /><sub><b>arvin</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=ma3252788" title="Code">💻</a></td>
+    <td align="center"><a href="https://luoyefe.com/"><img src="https://avatars.githubusercontent.com/u/11496663?v=4?s=75" width="75px;" alt=""/><br /><sub><b>luoye</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=luoye-fe" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/sabersalv"><img src="https://avatars.githubusercontent.com/u/2525544?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Saber</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=sabersalv" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/scatking"><img src="https://avatars.githubusercontent.com/u/34273647?v=4?s=75" width="75px;" alt=""/><br /><sub><b>scatking</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=scatking" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Donors
 
 |  Name  | Amount |    Time    |
-| :-------: | :------------------------: | :----------------------------: |
-|   韩老王   |                           |               2021/05/13               |
+| :----: | :----: | :--------: |
+| 韩老王 |  ¥30   | 2021/05/13 |
