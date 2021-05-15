@@ -1,3 +1,24 @@
+# [2.1.0](https://github.com/techmovie/easy-upload/compare/2.0.0...2.1.0) (2021-05-15)
+
+
+### Bug Fixes
+
+* atoms => atmos ([e49b257](https://github.com/techmovie/easy-upload/commit/e49b25719953897dbd60cf694a4356e94bf6678e))
+* remove animation replace setting  icon ([a2e71f7](https://github.com/techmovie/easy-upload/commit/a2e71f74b6b1006c7d17da4d7152c3c15cbd79df)), closes [#57](https://github.com/techmovie/easy-upload/issues/57)
+* **ptp:** "Container" optiton leaves at "Auto-detect" ([ff67402](https://github.com/techmovie/easy-upload/commit/ff67402465664bc330e8563d8c74791bf4c67d3e)), closes [#76](https://github.com/techmovie/easy-upload/issues/76)
+* **ptp:** fail to fill imdb url ([d9f32c0](https://github.com/techmovie/easy-upload/commit/d9f32c010851f381d2c361ceaba774cd6a709dd0)), closes [#77](https://github.com/techmovie/easy-upload/issues/77)
+
+
+### Features
+
+* 优化mediainfo bbcode ([81989e9](https://github.com/techmovie/easy-upload/commit/81989e952d945e41327ff3bfbf1bdbde03c07764)), closes [#78](https://github.com/techmovie/easy-upload/issues/78)
+* **btn:** 完善BTN ([fce29ea](https://github.com/techmovie/easy-upload/commit/fce29ea2b14cc13873427474999fabe81edfb387)), closes [#81](https://github.com/techmovie/easy-upload/issues/81)
+* add button for  uploading screenshots to ptpimg ([ced863c](https://github.com/techmovie/easy-upload/commit/ced863ccfc658493a28589a21e2c0b113e54b113)), closes [#75](https://github.com/techmovie/easy-upload/issues/75) [#63](https://github.com/techmovie/easy-upload/issues/63)
+* support upload image file to ptpimg ([07e5555](https://github.com/techmovie/easy-upload/commit/07e55553c8581670cc57808438a5f8b551ea9eff))
+* 增加BTN源站点支持 ([83fa4c5](https://github.com/techmovie/easy-upload/commit/83fa4c5b1d8a388443db9dc075fa8b357ff6e5ca))
+
+
+
 # [2.0.0](https://github.com/techmovie/easy-upload/compare/1.3.0...2.0.0) (2021-05-09)
 
 
