@@ -1,9 +1,14 @@
 import {
-  CURRENT_SITE_NAME, TORRENT_INFO,
+  CURRENT_SITE_NAME, TORRENT_INFO, PT_SITE,
 } from '../const';
 import { $t, showNotice, getIMDBIdByUrl } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
-import { getThumbnailImgs, getDoubanLink, getDoubanBookInfo, uploadScreenshotsToPtpimg } from './button-function';
+import {
+  getThumbnailImgs,
+  getDoubanBookInfo,
+  getDoubanData,
+  uploadScreenshotsToPtpimg,
+} from './button-function';
 const getPTPGroupId = (imdbUrl) => {
   return new Promise((resolve, reject) => {
     try {
@@ -11,9 +16,10 @@ const getPTPGroupId = (imdbUrl) => {
       if (imdbId) {
         GM_xmlhttpRequest({
           method: 'GET',
+          responseType: 'json',
           url: `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`,
           onload (res) {
-            const data = JSON.parse(res.responseText);
+            const data = res.responseText;
             if (data && data.Movies && data.Movies.length > 0) {
               resolve(data.Movies[0].GroupId);
             } else {
@@ -21,6 +27,8 @@ const getPTPGroupId = (imdbUrl) => {
             }
           },
         });
+      } else {
+        resolve('');
       }
     } catch (error) {
       reject(new Error(error.message));
@@ -45,8 +53,8 @@ export default () => {
     });
   }
   if ($('#douban-info')[0]) {
-    $('#douban-info').click(() => {
-      getDoubanLink();
+    $('#douban-info').click(function () {
+      getDoubanData(this);
     });
   }
   if ($('#douban-book-info')[0]) {
@@ -60,6 +68,7 @@ export default () => {
     });
   }
   handleSiteClickEvent();
+  handleSearchClickEvent();
 };
 const handleSiteClickEvent = () => {
   $('.site-list li>a').click(async function () {
@@ -128,9 +137,7 @@ const handleSiteClickEvent = () => {
     }
     if (url.match(/passthepopcorn/)) {
       const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
-      if (groupId) {
-        url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
-      }
+      url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
     }
     if (TORRENT_INFO.isForbidden) {
       const result = window.confirm($t('本种子禁止转载，确定要继续转载么？'));
@@ -146,6 +153,47 @@ const handleSiteClickEvent = () => {
     }
     const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
     url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
-    window.open(url);
+    GM_openInTab(url);
+  });
+};
+const handleSearchClickEvent = () => {
+  $('.search-list li>a').click(async function () {
+    const siteName = $(this).data('site');
+    const siteInfo = PT_SITE[siteName];
+    const searchConfig = siteInfo.search;
+    const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
+    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+    let searchKeyWord = '';
+    const { movieAkaName, movieName, title } = TORRENT_INFO;
+    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
+      if (replaceKey) {
+        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+      } else {
+        searchKeyWord = imdbId;
+      }
+    } else {
+      searchKeyWord = movieAkaName || movieName || title;
+      imdbId = '';
+    }
+    let searchParams = Object.keys(params).map(key => {
+      return `${key}=${params[key]}`;
+    }).join('&');
+    if (imdbId) {
+      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
+        .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+    } else {
+      if (searchParams.match(/{name}/)) {
+        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
+      } else {
+        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
+      }
+      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
+    }
+
+    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
+    if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
+      url = url.replace(/{name}/, searchKeyWord);
+    }
+    GM_openInTab(url);
   });
 };

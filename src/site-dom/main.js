@@ -1,9 +1,9 @@
 import {
-  getUrlParam, getIMDBIdByUrl, $t,
+  getUrlParam, $t,
 } from '../common';
 import {
   CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE,
-  TORRENT_INFO, SORTED_SITE_KEYS,
+  SORTED_SITE_KEYS,
 } from '../const';
 const getSearchList = () => {
   const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined
@@ -15,44 +15,9 @@ const getSearchList = () => {
   const searchList = SORTED_SITE_KEYS.map(siteName => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
-      const searchConfig = siteInfo.search;
-      const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-      let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-      let searchKeyWord = '';
-      const { movieAkaName, movieName, title } = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
-        if (replaceKey) {
-          searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-        } else {
-          searchKeyWord = imdbId;
-        }
-      } else {
-        searchKeyWord = movieAkaName || movieName || title;
-        imdbId = '';
-      }
-
-      let searchParams = Object.keys(params).map(key => {
-        return `${key}=${params[key]}`;
-      }).join('&');
-      if (imdbId) {
-        searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
-          .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
-      } else {
-        if (searchParams.match(/{name}/)) {
-          searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
-        } else {
-          searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-        }
-        searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
-      }
-
       if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-        let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
-        if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
-          url = url.replace(/{name}/, searchKeyWord);
-        }
         const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
-        return `<li><a href="${url}" target="_blank">${favIcon} ${siteName}</a> <span>|</span></li>`;
+        return `<li><a href="javascript:void(0);" data-site="${siteName}">${favIcon} ${siteName}</a> <span>|</span></li>`;
       }
     }
     return '';
@@ -86,7 +51,7 @@ const getFunctionItems = () => {
   </div>
 </div>`
     : '';
-  const transferDom = transferImgClosed
+  const transferDom = transferImgClosed || CURRENT_SITE_NAME === 'BTN'
     ? ''
     : `
       <div class="function-list-item">
@@ -95,7 +60,7 @@ const getFunctionItems = () => {
       </div>
     </div>`;
   const uploadImgClosed = GM_getValue('easy-seed.upload-img-closed') || '';
-  const uploadImgDom = uploadImgClosed
+  const uploadImgDom = uploadImgClosed || CURRENT_SITE_NAME === 'BTN'
     ? ''
     : `
 <div class="function-list-item">

@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 import {
   CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY,
-  TMDB_API_URL, PT_GEN_API, DOUBAN_SEARCH_API,
+  TMDB_API_URL, PT_GEN_API,
   DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
   NOTIFICATION_TEMPLATE,
 } from './const';
@@ -148,49 +148,28 @@ const formatDoubanInfo = (data) => {
   formatData.format = descr.trim();
   return formatData;
 };
-const getDoubanLinkByIMDB = (imdbUrl, movieName) => {
-  return new Promise((resolve, reject) => {
-    try {
-      if (!imdbUrl) {
-        throw new Error($t('缺少IMDB信息'));
-      }
-      const doubanUrl = ' https://movie.douban.com/subject/';
-      const imdbId = getIMDBIdByUrl(imdbUrl);
-      if (imdbId) {
-        GM_xmlhttpRequest({
-          method: 'GET',
-          url: `${DOUBAN_SEARCH_API}/${imdbId}`,
-          onload (res) {
-            const data = JSON.parse(res.responseText);
-            if (data && data.data) {
-              resolve(doubanUrl + data.data.id);
-            } else {
-              getDoubanLinkBySuggest(imdbId).then(res => {
-                resolve(doubanUrl + res);
-              }).catch(error => {
-                reject(new Error(error.message || $t('获取失败')));
-              });
-            }
-          },
-        });
-      }
-    } catch (error) {
-      reject(new Error(error.message));
-    }
-  });
-};
-const getDoubanLinkBySuggest = (imdbId) => {
+const getDoubanIdByIMDB = (query) => {
+  const imdbId = getIMDBIdByUrl(query);
+  const params = imdbId || query;
+  const url = DOUBAN_SUGGEST_API.replace('{query}', params);
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest({
       method: 'GET',
-      url: `${DOUBAN_SUGGEST_API}?q=${imdbId}`,
+      url,
       onload (res) {
-        const data = JSON.parse(res.responseText);
-        if (data.length > 0) {
-          const doubanId = data[0].id;
-          resolve(doubanId);
-        } else {
+        const doc = new DOMParser().parseFromString(res.responseText, 'text/html');
+        const linkDom = doc.querySelector('.result-list .result h3 a');
+        if (!linkDom) {
           reject(new Error($t('豆瓣ID获取失败')));
+        } else {
+          const { href, textContent } = linkDom;
+          const season = textContent.match(/第(.+?)季/)?.[1] ?? '';
+          const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1];
+          resolve({
+            id: doubanId,
+            season,
+            title: textContent,
+          });
         }
       },
     });
@@ -848,7 +827,7 @@ const htmlToBBCode = (node) => {
         case 'P': { pp('\n'); break; }
         case 'BR': {
           if ((CURRENT_SITE_INFO.siteType === 'NexusPHP' && CURRENT_SITE_NAME !== 'OurBits') ||
-           CURRENT_SITE_NAME.match(/^(UHDBits|HDBits)/)) {
+           CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/)) {
             pp('');
           } else {
             pp('\n');
@@ -1250,7 +1229,7 @@ export {
   getVideoCodecFromTitle,
   transferImgs,
   getDoubanInfo,
-  getDoubanLinkByIMDB,
+  getDoubanIdByIMDB,
   getPreciseCategory,
   showNotice,
   getAnotherDoubanInfo,

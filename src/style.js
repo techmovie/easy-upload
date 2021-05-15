@@ -98,6 +98,7 @@ td.title-td h4{
   display: flex;
   justify-content: space-around; 
   padding: 6px 20px;
+  flex-wrap: wrap;
 }
 .easy-seed-function-list button{
   line-height: 1;
@@ -136,7 +137,8 @@ td.title-td h4{
 .function-list-item{
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 .function-list-item input{
     -webkit-appearance: none;

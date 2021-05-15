@@ -2,8 +2,8 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  getBDInfoOrMediaInfo,
-  getFilterBBCode, fetch,
+  getBDInfoOrMediaInfo, getSize,
+  getFilterBBCode, fetch, getSourceFromTitle,
 } from '../common';
 
 export default async () => {
@@ -25,10 +25,10 @@ export default async () => {
 
 function getTorrentInfo ({ torrentId }) {
   const torrentName = $(`#torrent_${torrentId}`).prev().find('> td').text().replace(/»/, '').trim();
-  const { container, source } = getSpecs({ torrentId });
+  const { container, source, size } = getSpecs({ torrentId });
   const seasonTitle = $('#content > div > h2').contents().last().text().trim();
   const [season, year] = seasonTitle.match(/(.*) \[(\d+)\]/).slice(1);
-  const showName = $('#content > div > h2 > a > img').attr('alt');
+  const movieName = $('#content > div > h2 > a > img').attr('alt').replace(/\(\d+\)/, '').trim();
   const description = getFilterBBCode($(`#torrent_${torrentId} > td > blockquote`).last()[0]);
   const videoType = getVideoType({ torrentName, source });
   const isBluray = videoType.match(/bluray/i);
@@ -37,14 +37,16 @@ function getTorrentInfo ({ torrentId }) {
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfo);
   const category = getCategory({ season });
+  const sourceFrom = getSourceFromTitle(torrentName);
 
   return {
     title: formatTorrentTitle(torrentName),
-    container,
-    source,
+    format: container.toLowerCase(),
+    source: sourceFrom,
+    size: getSize(size),
     resolution,
     year,
-    showName,
+    movieName,
     description,
     videoType,
     mediaInfo,
@@ -56,8 +58,8 @@ function getTorrentInfo ({ torrentId }) {
 }
 
 async function getShowInfo () {
-  const serieUrl = $('#content > .thin > h2 > a').prop('href');
-  const html = await fetch(serieUrl);
+  const seriesUrl = $('#content > .thin > h2 > a').prop('href');
+  const html = await fetch(seriesUrl);
   const infoHtml = html.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)[1];
   const infoDom = new DOMParser().parseFromString(infoHtml, 'text/html');
   const info = Object.fromEntries(Array.from(infoDom.querySelectorAll('tr')).map(tr => {
@@ -96,8 +98,10 @@ function getCategory ({ season }) {
 function getSpecs ({ torrentId }) {
   // MKV / H.264 / NFO / HDTV / 1080p / Scene
   // ISO / H.265 / BD50 / 2160p / Scene
-  const rawSpecs = $(`#torrent_${torrentId}`).prev().prev().find('> td > a').text().replace(/»/, '').split('/').map(v => v.trim());
+  const specsDom = $(`#torrent_${torrentId}`).prev().prev();
+  const rawSpecs = specsDom.find('> td > a').text().replace(/»/, '').split('/').map(v => v.trim());
   const specs = rawSpecs.filter(v => !['NFO'].includes(v));
+  const size = specsDom.find('> td').next('td').text().replace(/\s/g, '');
   const [container, videoCodec, source, resolution, group] = specs;
   return {
     container,
@@ -105,5 +109,6 @@ function getSpecs ({ torrentId }) {
     source,
     resolution,
     group,
+    size,
   };
 };

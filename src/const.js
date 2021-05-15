@@ -38,7 +38,7 @@ const TORRENT_INFO = {
 };
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
-const DOUBAN_SUGGEST_API = 'https://movie.douban.com/j/subject_suggest';
+const DOUBAN_SUGGEST_API = 'https://www.douban.com/search?cat=1002&q={query}';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';

@@ -3,7 +3,7 @@ import {
 } from '../const';
 import {
   getSubTitle, transferImgs, getDoubanInfo, $t,
-  getDoubanLinkByIMDB, getAreaCode, getPreciseCategory,
+  getDoubanIdByIMDB, getAreaCode, getPreciseCategory,
   showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
 } from '../common';
 
@@ -41,53 +41,59 @@ const getThumbnailImgs = () => {
     $('#img-transfer').text($t('转缩略图')).removeAttr('disabled').removeClass('is-disabled');
   });
 };
-const getDoubanLink = () => {
-  $('#douban-info').text($t('获取中...')).attr('disabled', true).addClass('is-disabled');
-  // https://github.com/techmovie/DouBan-Info-for-PT
-  const scriptDoubanLink = $('.douban-dom').attr('douban-link');
-  const doubanLink = $('.page__title>a').attr('href') ||
+const getDoubanData = async (selfDom) => {
+  try {
+    $(selfDom).text($t('获取中...')).attr('disabled', true).addClass('is-disabled');
+    let doubanUrl;
+    // https://github.com/techmovie/DouBan-Info-for-PT
+    const scriptDoubanLink = $('.douban-dom').attr('douban-link');
+    const doubanLink = $('.page__title>a').attr('href') ||
    scriptDoubanLink ||
    TORRENT_INFO.doubanUrl ||
     $('#douban-link').val();
-  if (doubanLink && doubanLink.match('movie.douban.com')) {
-    TORRENT_INFO.doubanUrl = doubanLink;
-    if (doubanLink) {
-      $('#douban-link').val(doubanLink);
+    if (doubanLink && doubanLink.match('movie.douban.com')) {
+      doubanUrl = doubanLink;
+    } else {
+      const { imdbUrl, movieName } = TORRENT_INFO;
+      const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+      let { id, season = '' } = doubanData;
+      if (season) {
+        const tvData = await getTvSeasonData(doubanData);
+        id = tvData.id;
+      }
+      doubanUrl = `https://movie.douban.com/subject/${id}`;
     }
-    getDoubanData();
-    return false;
-  }
-  const { imdbUrl, movieName } = TORRENT_INFO;
-  getDoubanLinkByIMDB(imdbUrl, movieName).then(doubanUrl => {
-    TORRENT_INFO.doubanUrl = doubanUrl;
-    $('#douban-link').val(doubanUrl);
-    getDoubanData();
-  }).catch(error => {
+    if (doubanUrl) {
+      TORRENT_INFO.doubanUrl = doubanUrl;
+      $('#douban-link').val(doubanUrl);
+      const movieData = await getDoubanInfo(doubanUrl);
+      updateTorrentInfo(movieData);
+    }
+  } catch (error) {
     showNotice({
       title: $t('错误'),
       text: error.message,
     });
+  } finally {
     $('#douban-info').text($t('获取豆瓣简介')).removeAttr('disabled').removeClass('is-disabled');
-  });
-};
-const getDoubanData = () => {
-  const { doubanUrl } = TORRENT_INFO;
-  if (doubanUrl) {
-    getDoubanInfo(doubanUrl).then(data => {
-      updateTorrentInfo(data);
-      showNotice({
-        title: $t('成功'),
-        text: $t('获取成功'),
-      });
-    }).catch(error => {
-      showNotice({
-        title: $t('错误'),
-        text: error.message,
-      });
-    }).finally(() => {
-      $('#douban-info').text($t('获取豆瓣简介')).removeAttr('disabled').removeClass('is-disabled');
-    });
   }
+};
+const getTvSeasonData = (data) => {
+  const { title: torrentTitle } = TORRENT_INFO;
+  return new Promise((resolve, reject) => {
+    const { season = '', title } = data;
+    if (season) {
+      const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? 1;
+      if (parseInt(seasonNumber) === 1) {
+        resolve(data);
+      } else {
+        const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
+        getDoubanIdByIMDB(query).then(data => {
+          resolve(data);
+        });
+      }
+    }
+  });
 };
 const getDoubanBookInfo = () => {
   let { doubanUrl } = TORRENT_INFO;
@@ -163,7 +169,7 @@ const uploadScreenshotsToPtpimg = (selfDom) => {
 };
 export {
   getThumbnailImgs,
-  getDoubanLink,
   getDoubanBookInfo,
   uploadScreenshotsToPtpimg,
+  getDoubanData,
 };
