@@ -14,29 +14,29 @@ search:
 sourceInfo:
   editionTags:
     Trumpable: null
-    Scene: Scene
-    Masters of Cinema: Masters of Cinema
-    The Criterion Collection: The Criterion Collection
-    Warner Archive Collection: Warner Archive Collection
-    "Director's Cut": "Director's Cut"
-    Extended Edition: Extended Edition
-    Rifftrax: Rifftrax
-    Theatrical Cut: Theatrical Cut
-    Uncut: Uncut
-    Unrated: Unrated
-    2-Disc Set: 2-Disc Set
-    2in1: 2in1
-    3D: 3D
-    3D Anaglyph: 3D Anaglyph
-    3D Full SBS: 3D Full SBS
-    3D Half OU: 3D Half OU
-    3D Half SBS: 3D Half SBS
-    4K Restoration: 4K Restoration
-    10-bit: 10-bit
-    Extras: Extras
-    Remux: Remux
-    With Commentary: WithCommentary
-    Dolby Atmos: DolbyAtoms
+    Scene: scene
+    Masters of Cinema: masters_of_cinema
+    The Criterion Collection: the_criterion_collection
+    Warner Archive Collection: warner_archive_collection
+    "Director's Cut": director_s_cut
+    Extended Edition: extended_edition
+    Rifftrax: rifftrax
+    Theatrical Cut: theatrical_cut
+    Uncut: uncut
+    Unrated: unrated
+    2-Disc Set: 2_disc_set
+    2in1: 2_in_1
+    3D: 3d
+    3D Anaglyph: 3d_anaglyph
+    3D Full SBS: 3d_full_sbs
+    3D Half OU: 3d_half_ou
+    3D Half SBS: 3d_half_sbs
+    4K Restoration: 4k_restoration
+    10-bit: 10_bit
+    Extras: extras
+    Remux: remux
+    With Commentary: with_commentary
+    Dolby Atmos: dolby_atoms
 description:
   selector: '#release_desc'
 poster: '#image'
