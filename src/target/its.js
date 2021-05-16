@@ -33,12 +33,13 @@ export default async (info) => {
   if (collectionMap[teamName]) {
     collectionValueArr.push(collectionMap[teamName]);
   }
-  const { imdbUrl, category, screenshots, comparisonImgs = [], resolution, movieName } = info;
+  const { imdbUrl, category, screenshots, comparisons = [], resolution, movieName } = info;
   if (!resolution.match(/2160|1080|720/) && category === 'movie') {
     $('select[name="type"]').val('67');
   }
   const screenshotsBBCode = getScreenshotsBBCode(screenshots);
   template = template.replace('$SCREENSHOTS$', screenshotsBBCode.join('\n'));
+  const comparisonImgs = comparisons.flatMap(v => v.imgs);
   if (comparisonImgs.length > 0) {
     const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
     template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]\n\n
