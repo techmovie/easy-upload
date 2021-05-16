@@ -566,26 +566,28 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
   const mediaTags = {};
   if (hasChineseAudio) {
-    mediaTags.chineseAudio = true;
+    mediaTags.chinese_audio = true;
   }
   if (languageArray.includes('Cantonese')) {
-    mediaTags.cantoneseAudio = true;
+    mediaTags.cantonese_audio = true;
   }
   if (hasChineseSubtitle) {
-    mediaTags.chineseSubtitle = true;
+    mediaTags.chinese_subtitle = true;
   }
   if (hdrFormat) {
     if (hdrFormat.match(/HDR10\+/i)) {
-      mediaTags['HDR10+'] = true;
+      mediaTags.hdr10plus = true;
     } else if (hdrFormat.match(/HDR/i)) {
-      mediaTags.HDR = true;
+      mediaTags.hdr = true;
     }
   }
   if (isDV) {
-    mediaTags.DolbyVision = true;
+    mediaTags.dolby_vision = true;
   }
   if (audioCodec.match(/dtsx|atmos/ig)) {
-    mediaTags[audioCodec] = true;
+    mediaTags.dts_x = true;
+  } else if (audioCodec.match(/atmos/ig)) {
+    mediaTags.dolby_atmos = true;
   }
   return mediaTags;
 };
@@ -929,32 +931,32 @@ const htmlToBBCode = (node) => {
 const getTagsFromSubtitle = (title) => {
   const tags = {};
   if (title.match(/diy/i)) {
-    tags.DIY = true;
+    tags.diy = true;
   }
   if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语言/)) {
-    tags.chineseAudio = true;
+    tags.chinese_audio = true;
   }
   if (title.match(/Atmos|杜比全景声/i)) {
-    tags.atmos = true;
+    tags.dolby_atoms = true;
   }
   if (title.match(/HDR/i)) {
     if (title.match(/HDR10\+/i)) {
-      tags['HDR10+'] = true;
+      tags.hdr10_plus = true;
     } else {
-      tags.HDR = true;
+      tags.hdr = true;
     }
   }
   if (title.match(/DoVi|(Dolby\s*Vision)|杜比视界/i)) {
-    tags.DolbyVision = true;
+    tags.dolby_vision = true;
   }
   if (title.match(/粤/i)) {
     tags.cantoneseAudio = true;
   }
   if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i)) {
-    tags.chineseSubtitle = true;
+    tags.chinese_subtitle = true;
   }
   if (title.match(/Criterion|CC标准/i)) {
-    tags.CC = true;
+    tags.the_criterion_collection = true;
   }
   return tags;
 };

@@ -78,7 +78,7 @@ export default (info) => {
   if (subtitles.length > 0) {
     releaseInfo.push('w. Subtitles');
   }
-  if (tags.HDR) {
+  if (tags.hdr) {
     releaseInfo.push('HDR');
   }
   $('input[name="remaster_title"]').val(releaseInfo.join(' / '));
