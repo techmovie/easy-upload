@@ -155,22 +155,27 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, '[$1quote]');
   descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
   const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g) || [];
-  let comparisonImgArray = [];
+  const comparisons = [];
   comparisonArray.forEach(item => {
-    comparisonImgArray = comparisonImgArray.concat(item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/[ \r\n]/));
     descriptionData = descriptionData.replace(item, item.replace(/\s/g, ''));
+    const title = item.match(/\[comparison=(.*?)\]/)[1];
+    const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/[ \r\n]/);
+    const imgs = [];
+    [...new Set(comparisonImgArray)].forEach(item => {
+      const formatImg = item.replace(/\s*/g, '');
+      if (item.match(/^https?.+/)) {
+        imgs.push(formatImg);
+        descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item}`, 'gi'), `[img]${formatImg}[/img]`);
+      } else if (item.match(/^\[img\]/i)) {
+        imgs.push(formatImg.replace(/\[\/?img\]/g, ''));
+      }
+    });
+    comparisons.push({
+      title,
+      imgs,
+    });
   });
-  const comparisonImgs = [];
-  [...new Set(comparisonImgArray)].forEach(item => {
-    const formatImg = item.replace(/\s*/g, '');
-    if (item.match(/^https?.+/)) {
-      comparisonImgs.push(formatImg);
-      descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item}`, 'gi'), `[img]${formatImg}[/img]`);
-    } else if (item.match(/^\[img\]/i)) {
-      comparisonImgs.push(formatImg.replace(/\[\/?img\]/g, ''));
-    }
-  });
-  TORRENT_INFO.comparisonImgs = comparisonImgs;
+  TORRENT_INFO.comparisons = comparisons;
   descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/g, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/g, '');
   mediaInfoArray.forEach(mediaInfo => {
     const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo)}`, 'i');

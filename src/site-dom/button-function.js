@@ -8,7 +8,7 @@ import {
 } from '../common';
 
 const getThumbnailImgs = () => {
-  const allImgs = TORRENT_INFO.screenshots.concat(TORRENT_INFO.comparisonImgs);
+  const allImgs = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map(v => v.imgs));
   const imgList = [...new Set(allImgs)];
   if (imgList.length < 1) {
     throw new Error($t('获取图片列表失败'));
