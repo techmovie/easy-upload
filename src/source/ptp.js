@@ -32,9 +32,12 @@ export default async () => {
   getDescription(torrentId).then(res => {
     const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
     TORRENT_INFO.description = descriptionData;
-    const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().replace(/ /g, '').split('/');
-    const [codes, container, source, ...otherInfo] = infoArray;
+    // Remux / 2D/3D Edition
+    const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().trim().split(' / ');
+    // eslint-disable-next-line no-unused-vars
+    const [codes, container, source, resolution1, ...otherInfo] = infoArray;
     const isRemux = otherInfo.includes('Remux');
+    const { knownTags, otherTags } = getTags(otherInfo);
     TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionData);
@@ -45,7 +48,8 @@ export default async () => {
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = mediaTags;
+    TORRENT_INFO.tags = { ...mediaTags, ...knownTags };
+    TORRENT_INFO.otherTags = otherTags;
     let torrentName = torrentHeaderDom.data('releasename');
     torrentName = formatTorrentTitle(torrentName);
     TORRENT_INFO.title = torrentName;
@@ -178,4 +182,23 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     descriptionData = $('#synopsis').text() + '\n' + descriptionData;
   }
   return descriptionData;
+};
+
+function getTags (rawTags) {
+  const knownTags = {};
+  const otherTags = {};
+  for (const rawTag of rawTags) {
+    const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
+    if (tag) {
+      knownTags[tag] = true;
+    } else if (tag === null) {
+      // skip
+    } else {
+      otherTags[rawTag] = true;
+    }
+  }
+  return {
+    knownTags,
+    otherTags,
+  };
 };

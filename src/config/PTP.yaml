@@ -11,6 +11,32 @@ search:
   params:
     action: advanced
     searchstr: '{imdb}'
+sourceInfo:
+  editionTags:
+    Trumpable: null
+    Scene: Scene
+    Masters of Cinema: Masters of Cinema
+    The Criterion Collection: The Criterion Collection
+    Warner Archive Collection: Warner Archive Collection
+    "Director's Cut": "Director's Cut"
+    Extended Edition: Extended Edition
+    Rifftrax: Rifftrax
+    Theatrical Cut: Theatrical Cut
+    Uncut: Uncut
+    Unrated: Unrated
+    2-Disc Set: 2-Disc Set
+    2in1: 2in1
+    3D: 3D
+    3D Anaglyph: 3D Anaglyph
+    3D Full SBS: 3D Full SBS
+    3D Half OU: 3D Half OU
+    3D Half SBS: 3D Half SBS
+    4K Restoration: 4K Restoration
+    10-bit: 10-bit
+    Extras: Extras
+    Remux: Remux
+    With Commentary: WithCommentary
+    Dolby Atmos: DolbyAtoms
 description:
   selector: '#release_desc'
 poster: '#image'
@@ -70,4 +96,3 @@ resolution:
     NTSC: 'NTSC'
     PAL: 'PAL'
     other: Other
-
