@@ -27,7 +27,7 @@ const TORRENT_INFO = {
   }, // 标签 diy 中字 国配等
   mediaInfo: '', // mediainfo或者bdInfo
   screenshots: [],
-  comparisonImgs: [], // 对比图
+  comparisons: [], // 对比图
   movieAkaName: '', // 别名一般为电影英文名称
   movieName: '', // imdb电影原始名称 一般为拼音
   sourceSite: '', // 种子来源站点简称
