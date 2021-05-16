@@ -46,7 +46,7 @@ const getEditionInfo = (videoType, tags) => {
   if (tags.hdr) {
     editionInfo.push('HDR10');
   }
-  if (tags.hdr10plus) {
+  if (tags.hdr10_plus) {
     editionInfo.push('HDR10+');
   }
   if (tags.dolby_vision) {

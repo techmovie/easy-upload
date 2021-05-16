@@ -576,7 +576,7 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   }
   if (hdrFormat) {
     if (hdrFormat.match(/HDR10\+/i)) {
-      mediaTags.hdr10plus = true;
+      mediaTags.hdr10_plus = true;
     } else if (hdrFormat.match(/HDR/i)) {
       mediaTags.hdr = true;
     }
@@ -950,7 +950,7 @@ const getTagsFromSubtitle = (title) => {
     tags.dolby_vision = true;
   }
   if (title.match(/粤/i)) {
-    tags.cantoneseAudio = true;
+    tags.cantonese_audio = true;
   }
   if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i)) {
     tags.chinese_subtitle = true;
