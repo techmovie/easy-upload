@@ -25,9 +25,9 @@ description:
 imdb:
   selector: 'input[name="url"][type="text"]'
 tags: 
-  chineseAudio: '#l_dub'
-  DIY: '#l_diy'
-  chineseSubtitle: '#l_sub'
+  chinese_audio: '#l_dub'
+  diy: '#l_diy'
+  chinese_subtitle: '#l_sub'
 category:
   selector: '#browsecat'
   map:

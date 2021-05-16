@@ -27,7 +27,7 @@ imdb:
 anonymous: 
   selector: 'input[name="uplver"]'
 tags: 
-  chineseSubtitle: 'input[type="checkbox"][name="zz"]'
+  chinese_subtitle: 'input[type="checkbox"][name="zz"]'
 # 太混乱了 不想做支持了
 category:
   selector: '#browsecat'

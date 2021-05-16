@@ -28,8 +28,8 @@ imdb:
 douban:
   selector: 'input[name="doubanid"]'
 tags: 
-  chineseAudio: 'input[type="checkbox"][name="span[]"][value="5"]'
-  chineseSubtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
+  chinese_audio: 'input[type="checkbox"][name="span[]"][value="5"]'
+  chinese_subtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
 category:
   selector: '#browsecat'
   map:

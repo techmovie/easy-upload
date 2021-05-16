@@ -24,9 +24,9 @@ description:
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 tags: 
-  HDR: 'input[name="HDR10"]'
-  HDR10+: 'input[name="HDR10Plus"]'
-  DolbyVision: 'input[name="DolbyVision"]'
+  hdr: 'input[name="HDR10"]'
+  hdr10_plus: 'input[name="HDR10Plus"]'
+  dolby_vision: 'input[name="DolbyVision"]'
 anonymous: 
   selector: 'input[name="anonymous"][value="true"]'
 category:

@@ -27,11 +27,11 @@ imdb:
 douban: 
   selector: 'input[name="douban_url"]'
 tags: 
-  chineseAudio: 'input[name="tag_gy"]'
-  DIY: '#tagDIY'
-  cantoneseAudio: 'input[name="tag_yy"]'
-  chineseSubtitle: 'input[name="tag_zz"]'
-  CC: 'input[name="tag_cc"]'
+  chinese_audio: 'input[name="tag_gy"]'
+  diy: '#tagDIY'
+  cantonese_audio: 'input[name="tag_yy"]'
+  chinese_subtitle: 'input[name="tag_zz"]'
+  the_criterion_collection: 'input[name="tag_cc"]'
 category:
   selector: '#browsecat'
   map:

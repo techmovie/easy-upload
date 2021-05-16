@@ -27,13 +27,13 @@ imdb:
 douban:
   selector: 'input[name="douban_id"]'
 tags: 
-  chineseAudio: '#tag_gy'
-  DIY: '#tag_diy'
-  chineseSubtitle: '#tag_zz'
-  cantoneseAudio: '#tag_yy'
-  HDR: '#tag_hdr10'
-  HDR10+: '#tag_hdrm'
-  DolbyVision: '#tag_db'
+  chinese_audio: '#tag_gy'
+  diy: '#tag_diy'
+  chinese_subtitle: '#tag_zz'
+  cantonese_audio: '#tag_yy'
+  hdr: '#tag_hdr10'
+  hdr10_plus: '#tag_hdrm'
+  dolby_vision: '#tag_db'
 anonymous: 
   selector: 'input[name="uplver"]'
 category:

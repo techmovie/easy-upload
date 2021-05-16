@@ -43,19 +43,19 @@ const getEditionInfo = (videoType, tags) => {
   if (videoType === 'remux') {
     editionInfo.push('Remux');
   }
-  if (tags.HDR) {
+  if (tags.hdr) {
     editionInfo.push('HDR10');
   }
-  if (tags['HDR10+']) {
+  if (tags.hdr10plus) {
     editionInfo.push('HDR10+');
   }
-  if (tags.DolbyVision) {
+  if (tags.dolby_vision) {
     editionInfo.push('Dolby Vision');
   }
-  if (tags.atmos) {
+  if (tags.dolby_atmos) {
     editionInfo.push('Dolby Atmos');
   }
-  if (tags.dtsx) {
+  if (tags.dts_x) {
     editionInfo.push('DTS:X');
   }
   return editionInfo;

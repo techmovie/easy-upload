@@ -243,7 +243,7 @@ const fillTargetForm = (info) => {
   fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
   if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA|52pt/i)) {
-    if (info.tags.DIY) {
+    if (info.tags.diy) {
       let categoryValue = '';
       if (CURRENT_SITE_NAME === 'PTHome') {
         categoryValue = info.videoType === 'bluray' ? '14' : '13';
@@ -377,7 +377,7 @@ const fillTargetForm = (info) => {
     const { tags, videoType, resolution } = info;
     let videoTypeValue = videoType;
     if (videoType.match(/bluray/)) {
-      if (tags.chineseAudio || tags.cantoneseAudio || tags.chineseSubtitle) {
+      if (tags.chinese_audio || tags.cantonese_audio || tags.chinese_subtitle) {
         videoTypeValue = videoType === 'bluray' ? '14' : '15';
       }
     } else if (videoType === 'remux' && resolution === '2160p') {

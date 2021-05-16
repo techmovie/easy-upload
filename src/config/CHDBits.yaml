@@ -27,9 +27,9 @@ imdb:
 anonymous: 
   selector: 'input[name="uplver"]'
 tags: 
-  chineseAudio: 'input[name="cnlang"]'
-  chineseSubtitle: 'input[name="cnsub"]'
-  DIY: 'input[name="diy"]'
+  chinese_audio: 'input[name="cnlang"]'
+  chinese_subtitle: 'input[name="cnsub"]'
+  diy: 'input[name="diy"]'
 category:
   selector: '#browsecat'
   map:

@@ -18,13 +18,13 @@ export default async () => {
   const size = Size.match(/\((.+?)\)/)?.[1].replace(/,|(bytes)/g, '');
   let tags = getTagsFromSubtitle(title);
   if (Subtitles.match(/Chinese/i)) {
-    tags.chineseSubtitle = true;
+    tags.chinese_subtitle = true;
   }
   if (language.match(/Chinese|Mandarin/i)) {
-    tags.chineseAudio = true;
+    tags.chinese_audio = true;
   }
   if (language.match(/Cantonese/)) {
-    tags.cantoneseAudio = true;
+    tags.cantonese_audio = true;
   }
   let category = Type.toLowerCase();
   category = Genres.match(/Animation/i) ? 'cartoon' : category;
