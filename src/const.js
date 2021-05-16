@@ -16,14 +16,14 @@ const TORRENT_INFO = {
   doubanInfo: '', // 豆瓣简介
   imdbUrl: '', // imdb地址
   tags: {
-    DIY: false,
-    chineseAudio: false,
-    cantoneseAudio: false,
-    chineseSubtitle: false,
-    atmos: false,
-    dtsx: false,
-    HDR: false,
-    DolbyVision: false,
+    diy: false,
+    chinese_audio: false,
+    cantonese_audio: false,
+    chinese_subtitle: false,
+    dolby_atoms: false,
+    dts_x: false,
+    hdr: false,
+    dolby_vision: false,
   }, // 标签 diy 中字 国配等
   mediaInfo: '', // mediainfo或者bdInfo
   screenshots: [],

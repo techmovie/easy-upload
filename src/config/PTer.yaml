@@ -29,10 +29,10 @@ douban:
 anonymous: 
   selector: 'input[name="uplver"]'
 tags: 
-  chineseAudio: '#guoyu'
-  DIY: '#diy'
-  cantoneseAudio: '#yueyu'
-  chineseSubtitle: '#zhongzi'
+  chinese_audio: '#guoyu'
+  diy: '#diy'
+  cantonese_audio: '#yueyu'
+  chinese_subtitle: '#zhongzi'
 category:
   selector: '#browsecat'
   map:

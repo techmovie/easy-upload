@@ -28,13 +28,13 @@ imdb:
 anonymous: 
   selector: 'input[name="uplver"]'
 tags: 
-  chineseAudio: '#tagGY'
-  DIY: '#tagDIY'
-  cantoneseAudio: '#tag_yy'
-  chineseSubtitle: '#tagZZ'
-  HDR: '#tagHDR10'
-  HDR10+: '#tagHDR10P'
-  DolbyVision: '#tagDB'
+  chinese_audio: '#tagGY'
+  diy: '#tagDIY'
+  cantonese_audio: '#tag_yy'
+  chinese_subtitle: '#tagZZ'
+  hdr: '#tagHDR10'
+  hdr10_plus: '#tagHDR10P'
+  dolby_vision: '#tagDB'
 category:
   selector: 'select[name="type"]'
   map:

@@ -28,8 +28,8 @@ mediaInfo:
 screenshots:
   selector: 'textarea[name="screenshot"]'
 tags: 
-  chineseAudio: 'input[type="checkbox"][name="tag[cn]"]'
-  chineseSubtitle: 'input[type="checkbox"][name="tag[zz]"]'
+  chinese_audio: 'input[type="checkbox"][name="tag[cn]"]'
+  chinese_subtitle: 'input[type="checkbox"][name="tag[zz]"]'
 category:
   selector: 'select[name="type"]'
   map:

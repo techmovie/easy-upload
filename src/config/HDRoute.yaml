@@ -29,10 +29,10 @@ imdb:
 anonymous: 
   selector: 'input[name="is_anonymous"]'
 tags:
-  chineseAudio: 'input[name="is_mandrain"]'
-  cantoneseAudio: 'input[name="is_cantonese"]'
-  DIY: 'input[name="is_diyed"]'
-  chineseSubtitle: 'input[name="is_chs_sub_incl"]'
+  chinese_audio: 'input[name="is_mandrain"]'
+  cantonese_audio: 'input[name="is_cantonese"]'
+  diy: 'input[name="is_diyed"]'
+  chinese_subtitle: 'input[name="is_chs_sub_incl"]'
 category:
   selector: '#type_category'
   map:
