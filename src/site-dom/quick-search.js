@@ -1,7 +1,7 @@
 import {
   CURRENT_SITE_INFO, CURRENT_SITE_NAME,
 } from '../const';
-import { getUrlParam } from '../common';
+import { getUrlParam, fetch } from '../common';
 const filterBluTorrent = (imdb = '', name = '') => {
   if (imdb) {
     $('#imdb').val(imdb);
@@ -9,12 +9,11 @@ const filterBluTorrent = (imdb = '', name = '') => {
     $('#search').val(name);
   }
   const token = $('meta[name="csrf_token"]').attr('content');
-  GM_xmlhttpRequest({
-    method: 'GET',
-    url: `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`,
-    onload (res) {
-      $('#facetedSearch').html(res.responseText);
-    },
+  const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
+  fetch(url, {
+    responseType: 'text',
+  }).then(data => {
+    $('#facetedSearch').html(data);
   });
 };
 // 某些站点需要将IMDB填入检索表单

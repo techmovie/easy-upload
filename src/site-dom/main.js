@@ -6,12 +6,9 @@ import {
   SORTED_SITE_KEYS,
 } from '../const';
 const getSearchList = () => {
-  const searchSitesEnabled = GM_getValue('easy-seed.enabled-search-site-list') === undefined
-    ? []
-    : JSON.parse(GM_getValue('easy-seed.enabled-search-site-list'));
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
-    ? ''
-    : GM_getValue('easy-seed.site-favicon-closed');
+  const searchListSetting = GM_getValue('easy-seed.enabled-search-site-list');
+  const searchSitesEnabled = searchListSetting ? JSON.parse(searchListSetting) : [];
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') || '';
   const searchList = SORTED_SITE_KEYS.map(siteName => {
     const siteInfo = PT_SITE[siteName];
     if (siteInfo.search) {
@@ -32,9 +29,7 @@ const getFunctionItems = () => {
   </div>
   </div>`
     : '';
-  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') === undefined
-    ? ''
-    : GM_getValue('easy-seed.transfer-img-closed');
+  const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
   const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
     ? `${doubanSearchDom}
   <div class="function-list-item">
@@ -85,12 +80,9 @@ const getFunctionItems = () => {
 * @return
 * */
 const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
-  const targetSitesEnabled = GM_getValue('easy-seed.enabled-target-sites') === undefined
-    ? []
-    : JSON.parse(GM_getValue('easy-seed.enabled-target-sites'));
-  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') === undefined
-    ? ''
-    : GM_getValue('easy-seed.site-favicon-closed');
+  const targetSetting = GM_getValue('easy-seed.enabled-target-sites');
+  const targetSitesEnabled = targetSetting ? JSON.parse(targetSetting) : [];
+  const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') || '';
   const siteList = SORTED_SITE_KEYS.map((siteName, index) => {
     const { url, uploadPath } = PT_SITE[siteName];
     const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';

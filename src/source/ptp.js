@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  replaceRegSymbols, getBDInfoOrMediaInfo,
+  replaceRegSymbols, getBDInfoOrMediaInfo, fetch,
 } from '../common';
 
 export default async () => {
@@ -118,17 +118,15 @@ const getVideoType = (container, isRemux, codes, source) => {
 const getDescription = (id) => {
   return new Promise((resolve, reject) => {
     try {
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`,
-        onload (res) {
-          const data = res.responseText;
-          if (data) {
-            const element = document.createElement('span');
-            element.innerHTML = data;
-            resolve(element.innerText || element.textContent);
-          }
-        },
+      const url = `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`;
+      fetch(url, {
+        responseType: 'text',
+      }).then(data => {
+        if (data) {
+          const element = document.createElement('span');
+          element.innerHTML = data;
+          resolve(element.innerText || element.textContent);
+        }
       });
     } catch (error) {
       reject(new Error(error.message));

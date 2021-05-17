@@ -139,9 +139,10 @@ const saveSetting = () => {
   }
 };
 const openBatchSeedTabs = () => {
-  const batchSeedSiteEnabled = GM_getValue('easy-seed.enabled-batch-seed-sites') === undefined
-    ? []
-    : JSON.parse(GM_getValue('easy-seed.enabled-batch-seed-sites'));
+  const batchSeedSetting = GM_getValue('easy-seed.enabled-batch-seed-sites');
+  const batchSeedSiteEnabled = batchSeedSetting
+    ? JSON.parse(batchSeedSetting)
+    : [];
   if (batchSeedSiteEnabled.length === 0) {
     showNotice({ title: $t('错误'), text: $t('请先设置群转列表') });
     return false;

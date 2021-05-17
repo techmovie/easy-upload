@@ -12,6 +12,15 @@
 ## 关于
 
 支持国内外主流PT站的转载种子脚本，尽可能减少不必要的重复工作，让发种更易上手。
+
+## 兼容性
+
+### [Tampermonkey](https://tampermonkey.net/) / [Violentmonkey](https://violentmonkey.github.io/)
+完全兼容, 但在较旧的浏览器中 Violentmonkey 可能无法运行此脚本.
+
+### ~~[Greasemonkey](https://www.greasespot.net/)~~
+Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Firefox上运行，因此本脚本不做支持。强烈建议安装以上两种。
+
 ## 功能
 * 支持国内外不同架构的站点互转，自动填写简介、视频参数等信息
 * 支持转载站点的自定义配置

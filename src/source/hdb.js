@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getUrlParam, getSize,
   getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
-  getFilterBBCode, getBDInfoOrMediaInfo,
+  getFilterBBCode, getBDInfoOrMediaInfo, fetch,
   getTagsFromSubtitle, getPreciseCategory, $t,
 } from '../common';
 
@@ -87,16 +87,14 @@ const getBasicInfo = () => {
 };
 const getMediaInfo = (torrentId) => {
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `https://hdbits.org/details/mediainfo?id=${torrentId}`,
-      onload (res) {
-        const data = res.responseText.replace(/\r\n/g, '\n');
-        if (res.status !== 200 || !data) {
-          reject(new Error($t('请求失败')));
-        }
-        resolve(data);
-      },
+    fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
+      responseType: 'text',
+    }).then(res => {
+      const data = res.replace(/\r\n/g, '\n');
+      if (!data) {
+        reject(new Error($t('请求失败')));
+      }
+      resolve(data);
     });
   });
 };

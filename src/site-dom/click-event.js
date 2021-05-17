@@ -1,7 +1,7 @@
 import {
   CURRENT_SITE_NAME, TORRENT_INFO, PT_SITE,
 } from '../const';
-import { $t, showNotice, getIMDBIdByUrl } from '../common';
+import { $t, showNotice, getIMDBIdByUrl, fetch } from '../common';
 import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
 import {
   getThumbnailImgs,
@@ -14,18 +14,13 @@ const getPTPGroupId = (imdbUrl) => {
     try {
       const imdbId = getIMDBIdByUrl(imdbUrl);
       if (imdbId) {
-        GM_xmlhttpRequest({
-          method: 'GET',
-          responseType: 'json',
-          url: `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`,
-          onload (res) {
-            const data = res.responseText;
-            if (data && data.Movies && data.Movies.length > 0) {
-              resolve(data.Movies[0].GroupId);
-            } else {
-              resolve('');
-            }
-          },
+        const url = `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
+        fetch(url).then(data => {
+          if (data && data.Movies && data.Movies.length > 0) {
+            resolve(data.Movies[0].GroupId);
+          } else {
+            resolve('');
+          }
         });
       } else {
         resolve('');
@@ -125,12 +120,11 @@ const handleSiteClickEvent = () => {
         comics: 'Comics',
       };
       const formDom = await new Promise((resolve, reject) => {
-        GM_xmlhttpRequest({
-          method: 'GET',
-          url: `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`,
-          onload (res) {
-            resolve(res.responseText);
-          },
+        const url = `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
+        fetch(url, {
+          responseType: 'text',
+        }).then(data => {
+          resolve(data);
         });
       });
       TORRENT_INFO.formDom = formDom;

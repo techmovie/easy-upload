@@ -10,6 +10,14 @@
 
 Support reproducing torrents for mainstream Chinese and international private trackers sites, making upload handy by reducing repetitive work. 
 
+## Compatibility
+
+### [Tampermonkey](https://tampermonkey.net/) / [Violentmonkey](https://violentmonkey.github.io/)
+Fully compatible, but Violentmonkey may not be able to run this script in older browsers.
+
+### ~~[Greasemonkey](https://www.greasespot.net/)~~
+Greasemonkey 4 is significantly inconsistent with the API of the above two script managers and only runs on Firefox, so this script is not supported Greasemonkey. Both of the above are highly recommended.
+
 ## Features
 * Support transfer between Chinese and international sites of different web architectures by automatically fill in info such as description, video parameters, etc. 
 * Support custom configuration of transfer sites.

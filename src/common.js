@@ -15,25 +15,20 @@ const getDoubanInfo = (doubanUrl) => {
   return new Promise((resolve, reject) => {
     try {
       if (doubanUrl) {
-        GM_xmlhttpRequest({
-          method: 'GET',
-          url: `${PT_GEN_API}?url=${doubanUrl}`,
-          onload (res) {
-            const data = JSON.parse(res.responseText);
-            if (data && data.success) {
-              resolve(data);
+        fetch(`${PT_GEN_API}?url=${doubanUrl}`).then(data => {
+          if (data && data.success) {
+            resolve(data);
+          } else {
+            if (doubanUrl.match(/\/book/)) {
+              reject(new Error(data.error));
             } else {
-              if (doubanUrl.match(/\/book/)) {
-                reject(new Error(data.error));
-              } else {
-                getAnotherDoubanInfo(doubanUrl).then(res => {
-                  resolve(res);
-                }).catch(error => {
-                  reject(new Error(error.message));
-                });
-              }
+              getAnotherDoubanInfo(doubanUrl).then(res => {
+                resolve(res);
+              }).catch(error => {
+                reject(new Error(error.message));
+              });
             }
-          },
+          }
         });
       } else {
         reject(new Error($t('豆瓣链接获取失败')));
@@ -52,17 +47,12 @@ const getAnotherDoubanInfo = (doubanUrl) => {
         if (!doubanId) {
           reject(new Error($t('豆瓣ID获取失败')));
         }
-        GM_xmlhttpRequest({
-          method: 'GET',
-          url: `https://movie.querydata.org/api?id=${doubanId}`,
-          onload (res) {
-            const data = JSON.parse(res.responseText);
-            if (data && data.id) {
-              resolve(formatDoubanInfo(data));
-            } else {
-              reject(new Error(data.message || $t('获取豆瓣信息失败')));
-            }
-          },
+        fetch(`https://movie.querydata.org/api?id=${doubanId}`).then(data => {
+          if (data && data.id) {
+            resolve(formatDoubanInfo(data));
+          } else {
+            reject(new Error(data.message || $t('获取豆瓣信息失败')));
+          }
         });
       } else {
         reject(new Error($t('豆瓣链接获取失败')));
@@ -149,15 +139,15 @@ const formatDoubanInfo = (data) => {
   return formatData;
 };
 const getDoubanIdByIMDB = (query) => {
-  const imdbId = getIMDBIdByUrl(query);
-  const params = imdbId || query;
-  const url = DOUBAN_SUGGEST_API.replace('{query}', params);
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url,
-      onload (res) {
-        const doc = new DOMParser().parseFromString(res.responseText, 'text/html');
+    try {
+      const imdbId = getIMDBIdByUrl(query);
+      const params = imdbId || query;
+      const url = DOUBAN_SUGGEST_API.replace('{query}', params);
+      fetch(url, {
+        responseType: 'text',
+      }).then(data => {
+        const doc = new DOMParser().parseFromString(data, 'text/html');
         const linkDom = doc.querySelector('.result-list .result h3 a');
         if (!linkDom) {
           reject(new Error($t('豆瓣ID获取失败')));
@@ -171,8 +161,10 @@ const getDoubanIdByIMDB = (query) => {
             title: textContent,
           });
         }
-      },
-    });
+      });
+    } catch (error) {
+      reject(new Error(error.message));
+    }
   });
 };
 const getIMDBData = (imdbUrl) => {
@@ -181,21 +173,12 @@ const getIMDBData = (imdbUrl) => {
       if (!imdbUrl) {
         throw new Error('$t(缺少IMDB信息)');
       }
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${PT_GEN_API}?url=${imdbUrl}`,
-        onload (res) {
-          const data = JSON.parse(res.responseText);
-          if (data && data.success) {
-            resolve(data);
-          } else {
-            reject(data.error || '$t(请求失败)');
-          }
-        },
-        onerror (res) {
-          reject(new Error(res));
-        },
-      });
+      const data = fetch(`${PT_GEN_API}?url=${imdbUrl}`);
+      if (data && data.success) {
+        resolve(data);
+      } else {
+        reject(new Error(data.error || '$t(请求失败)'));
+      }
     } catch (error) {
       reject(new Error(error.message));
     }
@@ -203,35 +186,34 @@ const getIMDBData = (imdbUrl) => {
 };
 const transferImgs = (screenshots) => {
   return new Promise((resolve, reject) => {
-    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
     try {
-      GM_xmlhttpRequest({
-        url: 'https://pixhost.to/remote/',
+      const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
+      fetch('https://pixhost.to/remote/', {
         method: 'POST',
+        responseType: 'text',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
         data: params,
-        onload (res) {
-          const data = res.responseText.match(/(upload_results = )({.*})(;)/);
-          if (!data) {
+      }).then(res => {
+        const data = res.match(/(upload_results = )({.*})(;)/);
+        if (!data) {
+          reject(new Error($t('上传失败，请重试')));
+        }
+        let imgResultList = [];
+        if (data && data.length) {
+          imgResultList = JSON.parse(data[2]).images;
+          if (imgResultList.length < 1) {
             reject(new Error($t('上传失败，请重试')));
           }
-          let imgResultList = [];
-          if (data && data.length) {
-            imgResultList = JSON.parse(data[2]).images;
-            if (imgResultList.length < 1) {
-              throw new Error($t('上传失败，请重试'));
-            }
-            resolve(imgResultList);
-          } else {
-            throw new Error($t('上传失败，请重试'));
-          }
-        },
+          resolve(imgResultList);
+        } else {
+          reject(new Error($t('上传失败，请重试')));
+        }
       });
     } catch (error) {
-      reject(error.message);
+      reject(new Error(error.message));
     }
   });
 };
@@ -442,37 +424,29 @@ const getBDType = (size) => {
 };
 
 const getTMDBIdByIMDBId = (imdbid) => {
-  try {
-    return new Promise((resolve, reject) => {
-      GM_xmlhttpRequest({
-        method: 'GET',
-        url: `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`,
-        onload (res) {
-          const data = JSON.parse(res.responseText);
-          const isMovie = data.movie_results && data.movie_results.length > 0;
-          const isTV = !data.tv_results && data.tv_results.length > 0;
-          if (res.status !== 200 && (!isMovie && !isTV)) {
-            reject(new Error($t('请求失败')));
-          }
-          const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
-          resolve(tmdbData);
-        },
+  return new Promise((resolve, reject) => {
+    try {
+      const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
+      fetch(url).then(data => {
+        const isMovie = data.movie_results && data.movie_results.length > 0;
+        const isTV = !data.tv_results && data.tv_results.length > 0;
+        if (!isMovie && !isTV) {
+          throw new Error($t('请求失败'));
+        }
+        const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
+        resolve(tmdbData);
       });
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 };
 
 const getTMDBVideos = (tmdbId) => {
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`,
-      onload (res) {
-        const data = JSON.parse(res.responseText);
-        resolve(data.results || []);
-      },
+    const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
+    fetch(url).then(data => {
+      resolve(data.results || []);
     });
   });
 };
@@ -985,74 +959,70 @@ const replaceRegSymbols = (string) => {
 };
 // https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
 const getRtIdFromTitle = (title, tv, year) => {
-  console.log(title, year);
-  const MAX_YEAR_DIFF = 2;
-  tv = tv || false;
-  year = parseInt(year) || 1800;
-  return new Promise(function (resolve, reject) {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      responseType: 'json',
-      url: `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`,
-      onload: (resp) => {
-        const movies = tv ? resp.response.tvSeries : resp.response.movies;
-        if (!Array.isArray(movies) || movies.length < 1) {
-          console.log('no search results');
-          return;
-        }
-        const sorted = movies.concat();
-        if (year && sorted) {
-          sorted.sort((a, b) => {
-            if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
-              // Prefer closest year to the given one
-              return Math.abs(a.year - year) - Math.abs(b.year - year);
-            } else {
-              return b.year - a.year; // In a tie, later year should come first
-            }
-          });
-        }
-        // Search for matches with exact title in order of proximity by year
-        let bestMatch, closeMatch;
-        for (const m of sorted) {
-          m.title = m.title || m.name;
-          if (m.title.toLowerCase() === title.toLowerCase()) {
-            bestMatch = bestMatch || m;
-            console.log('bestMatch', bestMatch);
-            // RT often includes original titles in parentheses for foreign films, so only check if they start the same
-          } else if (m.title.toLowerCase().startsWith(title.toLowerCase())) {
-            closeMatch = closeMatch || m;
-            console.log('closeMatch', closeMatch);
+  return new Promise((resolve, reject) => {
+    console.log(title, year);
+    const MAX_YEAR_DIFF = 2;
+    tv = tv || false;
+    year = parseInt(year) || 1800;
+    const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
+    fetch(url).then(data => {
+      const movies = tv ? data.tvSeries : data.movies;
+      if (!Array.isArray(movies) || movies.length < 1) {
+        console.log('no search results');
+        return;
+      }
+      const sorted = movies.concat();
+      if (year && sorted) {
+        sorted.sort((a, b) => {
+          if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
+            // Prefer closest year to the given one
+            return Math.abs(a.year - year) - Math.abs(b.year - year);
+          } else {
+            return b.year - a.year; // In a tie, later year should come first
           }
-          if (bestMatch && closeMatch) {
-            break;
-          }
+        });
+      }
+      // Search for matches with exact title in order of proximity by year
+      let bestMatch, closeMatch;
+      for (const m of sorted) {
+        m.title = m.title || m.name;
+        if (m.title.toLowerCase() === title.toLowerCase()) {
+          bestMatch = bestMatch || m;
+          console.log('bestMatch', bestMatch);
+          // RT often includes original titles in parentheses for foreign films, so only check if they start the same
+        } else if (m.title.toLowerCase().startsWith(title.toLowerCase())) {
+          closeMatch = closeMatch || m;
+          console.log('closeMatch', closeMatch);
         }
-        // Fall back on closest year match if within 2 years, or whatever the first result was.
-        // RT years are often one year later than imdb, or even two
-        function yearComp (imdb, rt) {
-          return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
+        if (bestMatch && closeMatch) {
+          break;
         }
-        if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
-          if (closeMatch && yearComp(year, closeMatch.year)) {
-            bestMatch = closeMatch;
-          } else if (yearComp(year, sorted[0].year)) {
-            bestMatch = sorted[0];
-          }
+      }
+      // Fall back on closest year match if within 2 years, or whatever the first result was.
+      // RT years are often one year later than imdb, or even two
+      function yearComp (imdb, rt) {
+        return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
+      }
+      if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
+        if (closeMatch && yearComp(year, closeMatch.year)) {
+          bestMatch = closeMatch;
+        } else if (yearComp(year, sorted[0].year)) {
+          bestMatch = sorted[0];
         }
-        bestMatch = bestMatch || closeMatch || movies[0];
+      }
+      bestMatch = bestMatch || closeMatch || movies[0];
 
-        if (bestMatch) {
-          const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, ''); // remove season suffix from tv matches
-          const score = bestMatch?.meterScore ?? '0';
-          resolve({
-            id,
-            score,
-          });
-        } else {
-          console.log('no match found on rt');
-          reject(new Error('no suitable match'));
-        }
-      },
+      if (bestMatch) {
+        const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, ''); // remove season suffix from tv matches
+        const score = bestMatch?.meterScore ?? '0';
+        resolve({
+          id,
+          score,
+        });
+      } else {
+        console.log('no match found on rt');
+        resolve('');
+      }
     });
   });
 };
@@ -1121,26 +1091,23 @@ const uploadToPtpImg = (imgArray, isFiles = false) => {
       };
     }
     options.data = formData;
-    GM_xmlhttpRequest({
-      ...options,
-      onload (res) {
-        if (!res || !res.responseText) {
-          reject(new Error($t('上传失败，请重试')));
-        }
-        const data = res.responseText;
-        if (!data) {
-          reject(new Error($t('上传失败，请重试')));
-        }
-        let imgResultList = [];
-        if (data && data.length) {
-          imgResultList = data.map(img => {
-            return `https://ptpimg.me/${img.code}.${img.ext}`;
-          });
-          resolve(imgResultList);
-        } else {
-          reject(new Error($t('上传失败，请重试')));
-        }
-      },
+    fetch(options).then(res => {
+      if (!res || !res.responseText) {
+        reject(new Error($t('上传失败，请重试')));
+      }
+      const data = res.responseText;
+      if (!data) {
+        reject(new Error($t('上传失败，请重试')));
+      }
+      let imgResultList = [];
+      if (data && data.length) {
+        imgResultList = data.map(img => {
+          return `https://ptpimg.me/${img.code}.${img.ext}`;
+        });
+        resolve(imgResultList);
+      } else {
+        reject(new Error($t('上传失败，请重试')));
+      }
     });
   });
 };
@@ -1152,15 +1119,11 @@ const $t = (key) => {
 const urlToFile = (url) => {
   return new Promise((resolve, reject) => {
     const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
-    GM_xmlhttpRequest({
-      method: 'GET',
+    fetch(url, {
       responseType: 'blob',
-      url,
-      onload (res) {
-        const data = res.responseText;
-        const file = new File([data], filename, { type: data.type });
-        resolve(file);
-      },
+    }).then(data => {
+      const file = new File([data], filename, { type: data.type });
+      resolve(file);
     });
   });
 };
@@ -1187,7 +1150,7 @@ const saveScreenshotsToPtpimg = (imgArray) => {
       uploadToPtpImg(imgArray).then(data => {
         resolve(data);
       }).catch(error => {
-        reject(new Error(error.message));
+        reject(error.message);
       });
     }
   });
@@ -1196,14 +1159,20 @@ const saveScreenshotsToPtpimg = (imgArray) => {
 function fetch (url, options = {}) {
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest({
-      method: options.method || 'GET',
+      method: 'GET',
       url,
+      responseType: 'json',
+      ...options,
       onload: (res) => {
-        let result = res.responseText;
-        if (options.json) {
-          result = JSON.parse(options.json);
+        const { statusText, status, responseText } = res;
+        if (status !== 200) {
+          reject(new Error(statusText || status));
+        } else {
+          resolve(responseText);
         }
-        resolve(result);
+      },
+      onerror: (error) => {
+        reject(error);
       },
     });
   });

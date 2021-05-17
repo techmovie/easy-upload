@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
-  getUrlParam, getSize, getSourceFromTitle, $t,
+  getUrlParam, getSize, getSourceFromTitle, $t, fetch,
 } from '../common';
 
 export default async () => {
@@ -69,16 +69,14 @@ export default async () => {
 
 const getMediaInfo = (torrentId) => {
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url: `https://uhdbits.org/torrents.php?action=mediainfo&id=${torrentId}`,
-      onload (res) {
-        const data = res.responseText;
-        if (res.status !== 200 || !data) {
-          reject(new Error($t('请求失败')));
-        }
-        resolve(data.replace(/\r\n/g, '\n'));
-      },
+    const url = `https://uhdbits.org/torrents.php?action=mediainfo&id=${torrentId}`;
+    fetch(url, {
+      responseType: 'text',
+    }).then(data => {
+      if (!data) {
+        reject(new Error($t('请求失败')));
+      }
+      resolve(data.replace(/\r\n/g, '\n'));
     });
   });
 };
