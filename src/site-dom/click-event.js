@@ -37,6 +37,11 @@ export default () => {
       openSettingPanel();
     });
   }
+  if ($('#quick-search')[0]) {
+    $('#quick-search').on('click', () => {
+      quickSearch();
+    });
+  }
   if ($('#batch-seed-btn')[0]) {
     $('#batch-seed-btn').on('click', () => {
       openBatchSeedTabs();
@@ -183,11 +188,83 @@ const handleSearchClickEvent = () => {
       }
       searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
     }
+    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
+    if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
+      url = url.replace(/{name}/, searchKeyWord);
+    }
+    if ($(this).attr('torrentUrl')) {
+      url = $(this).attr('torrentUrl');
+    }
+    console.log(url);
+    GM_openInTab(url);
+  });
+};
+const quickSearch = () => {
+  $('.search-list li>a').each(function () {
+    const $this = $(this);
+    $this.css('background', 'white');
+    const siteName = $(this).data('site');
+    const siteInfo = PT_SITE[siteName];
+    const searchConfig = siteInfo.search;
+    const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
+    const torrentTitle = TORRENT_INFO.title;
+    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+    let searchKeyWord = '';
+    const { movieAkaName, movieName, title } = TORRENT_INFO;
+    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
+      if (replaceKey) {
+        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+      } else {
+        searchKeyWord = imdbId;
+      }
+    } else {
+      searchKeyWord = movieAkaName || movieName || title;
+      imdbId = '';
+    }
+    let searchParams = Object.keys(params).map(key => {
+      return `${key}=${params[key]}`;
+    }).join('&');
+    if (imdbId) {
+      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
+        .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+    } else {
+      if (searchParams.match(/{name}/)) {
+        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
+      } else {
+        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
+      }
+      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
+    }
 
     let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
     if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
       url = url.replace(/{name}/, searchKeyWord);
     }
-    GM_openInTab(url);
+    $this.attr('torrentUrl', url);
+    // 以上直接照搬的上面的handleSearchClickEvent
+    // 以下是通过GET搜索页面来判断是否有重复种子
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: url,
+      timeout: 45e3,
+      onload: function (res) {
+        const doc = (new DOMParser()).parseFromString(res.responseText, 'text/html');
+        const body = doc.querySelector('body');
+        const torrentRes = $(body).find('table.torrents:last > tbody > tr:gt(0)');
+        const torrentTotalNum = torrentRes.length;
+        if (torrentTotalNum > 0) {
+          $this.css('background', 'yellow');// 存在相同imdbid的种子则背景变成黄色
+          if (res.responseText.match(torrentTitle) != null) {
+            $this.css('background', 'red');// 存在完全同名的种子则背景变红
+            torrentRes.each(function () {
+              if ($(this).text().match(torrentTitle)) {
+                url = siteInfo.url + '/' + $(this).find('.torrentname a:first').attr('href');// 获取到同名种子的url，但是这里还没有完成点击站名跳转到重名种子的功能
+                $this.attr('torrentUrl', url);
+              }
+            });
+          }
+        }
+      },
+    });
   });
 };
