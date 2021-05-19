@@ -39,7 +39,7 @@ sourceInfo:
     With Commentary: with_commentary
     Dolby Atmos: dolby_atmos
     HDR10: hdr10
-    HDR10+: hdr10_plu
+    HDR10+: hdr10_plus
 description:
   selector: '#release_desc'
 poster: '#image'
