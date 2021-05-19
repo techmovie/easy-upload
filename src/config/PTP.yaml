@@ -26,6 +26,7 @@ sourceInfo:
     Unrated: unrated
     2-Disc Set: 2_disc_set
     2in1: 2_in_1
+    2D/3D Edition: 2d_3d_edition
     3D: 3d
     3D Anaglyph: 3d_anaglyph
     3D Full SBS: 3d_full_sbs
@@ -36,7 +37,9 @@ sourceInfo:
     Extras: extras
     Remux: remux
     With Commentary: with_commentary
-    Dolby Atmos: dolby_atoms
+    Dolby Atmos: dolby_atmos
+    HDR10: hdr10
+    HDR10+: hdr10_plus
 description:
   selector: '#release_desc'
 poster: '#image'
