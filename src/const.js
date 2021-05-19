@@ -25,6 +25,7 @@ const TORRENT_INFO = {
     hdr: false,
     dolby_vision: false,
   }, // 标签 diy 中字 国配等
+  otherTags: {},
   mediaInfo: '', // mediainfo或者bdInfo
   screenshots: [],
   comparisons: [], // 对比图
