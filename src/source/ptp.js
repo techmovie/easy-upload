@@ -85,7 +85,13 @@ const getPTPImage = () => {
   const torrentInfoPanel = $('.movie-page__torrent__panel');
   const imageDom = torrentInfoPanel.find('.bbcode__image');
   for (let i = 0; i < imageDom.length; i++) {
-    imgList.push(imageDom[i].getAttribute('src'));
+    // <a href><img />. e.g. ptp332121
+    const parent = imageDom[i].parentElement;
+    if (parent.tagName === 'A' && parent.getAttribute('href').match(/\.png$/)) {
+      imgList.push(parent.getAttribute('href'));
+    } else {
+      imgList.push(imageDom[i].getAttribute('src'));
+    }
   }
   return imgList;
 };
