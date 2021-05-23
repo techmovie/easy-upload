@@ -67,6 +67,10 @@ const getDoubanData = async (selfDom) => {
       TORRENT_INFO.doubanUrl = doubanUrl;
       $('#douban-link').val(doubanUrl);
       const movieData = await getDoubanInfo(doubanUrl);
+      showNotice({
+        title: $t('成功'),
+        text: $t('获取成功'),
+      });
       updateTorrentInfo(movieData);
     }
   } catch (error) {
@@ -78,22 +82,19 @@ const getDoubanData = async (selfDom) => {
     $('#douban-info').text($t('获取豆瓣简介')).removeAttr('disabled').removeClass('is-disabled');
   }
 };
-const getTvSeasonData = (data) => {
+const getTvSeasonData = async (data) => {
   const { title: torrentTitle } = TORRENT_INFO;
-  return new Promise((resolve, reject) => {
-    const { season = '', title } = data;
-    if (season) {
-      const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? 1;
-      if (parseInt(seasonNumber) === 1) {
-        resolve(data);
-      } else {
-        const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
-        getDoubanIdByIMDB(query).then(data => {
-          resolve(data);
-        });
-      }
+  const { season = '', title } = data;
+  if (season) {
+    const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? 1;
+    if (parseInt(seasonNumber) === 1) {
+      return data;
+    } else {
+      const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
+      const response = await getDoubanIdByIMDB(query);
+      return response;
     }
-  });
+  }
 };
 const getDoubanBookInfo = () => {
   let { doubanUrl } = TORRENT_INFO;

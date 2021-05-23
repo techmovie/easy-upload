@@ -85,18 +85,12 @@ const getBasicInfo = () => {
     videoType: videoTypeMap[videoType],
   };
 };
-const getMediaInfo = (torrentId) => {
-  return new Promise((resolve, reject) => {
-    fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
-      responseType: 'text',
-    }).then(res => {
-      const data = res.replace(/\r\n/g, '\n');
-      if (!data) {
-        reject(new Error($t('请求失败')));
-      }
-      resolve(data);
-    });
+const getMediaInfo = async (torrentId) => {
+  const res = await fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
+    responseType: 'text',
   });
+  const data = res.replace(/\r\n/g, '\n');
+  return data || '';
 };
 // 获取截图
 const getImages = () => {

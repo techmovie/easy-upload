@@ -9,26 +9,19 @@ import {
   getDoubanData,
   uploadScreenshotsToPtpimg,
 } from './button-function';
-const getPTPGroupId = (imdbUrl) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const imdbId = getIMDBIdByUrl(imdbUrl);
-      if (imdbId) {
-        const url = `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
-        fetch(url).then(data => {
-          if (data && data.Movies && data.Movies.length > 0) {
-            resolve(data.Movies[0].GroupId);
-          } else {
-            resolve('');
-          }
-        });
-      } else {
-        resolve('');
-      }
-    } catch (error) {
-      reject(new Error(error.message));
+const getPTPGroupId = async (imdbUrl) => {
+  const imdbId = getIMDBIdByUrl(imdbUrl);
+  if (imdbId) {
+    const url = `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
+    const data = await fetch(url);
+    if (data && data.Movies && data.Movies.length > 0) {
+      return data.Movies[0].GroupId;
+    } else {
+      return '';
     }
-  });
+  } else {
+    return '';
+  }
 };
 
 export default () => {
@@ -119,13 +112,9 @@ const handleSiteClickEvent = () => {
         audioBook: 'Audiobooks',
         comics: 'Comics',
       };
-      const formDom = await new Promise((resolve, reject) => {
-        const url = `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
-        fetch(url, {
-          responseType: 'text',
-        }).then(data => {
-          resolve(data);
-        });
+      const bBDomUrl = `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
+      const formDom = await fetch(bBDomUrl, {
+        responseType: 'text',
       });
       TORRENT_INFO.formDom = formDom;
     }

@@ -59,7 +59,9 @@ function getTorrentInfo ({ torrentId }) {
 
 async function getShowInfo () {
   const seriesUrl = $('#content > .thin > h2 > a').prop('href');
-  const html = await fetch(seriesUrl);
+  const html = await fetch(seriesUrl, {
+    responseType: 'text',
+  });
   const infoHtml = html.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)[1];
   const infoDom = new DOMParser().parseFromString(infoHtml, 'text/html');
   const info = Object.fromEntries(Array.from(infoDom.querySelectorAll('tr')).map(tr => {

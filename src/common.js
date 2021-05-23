@@ -11,56 +11,52 @@ const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
   return title.replace(/\.(?!(\d+))/ig, ' ').replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
-const getDoubanInfo = (doubanUrl) => {
-  return new Promise((resolve, reject) => {
-    try {
-      if (doubanUrl) {
-        fetch(`${PT_GEN_API}?url=${doubanUrl}`).then(data => {
-          if (data && data.success) {
-            resolve(data);
-          } else {
-            if (doubanUrl.match(/\/book/)) {
-              reject(new Error(data.error));
-            } else {
-              getAnotherDoubanInfo(doubanUrl).then(res => {
-                resolve(res);
-              }).catch(error => {
-                reject(new Error(error.message));
-              });
-            }
-          }
-        });
-      } else {
-        reject(new Error($t('豆瓣链接获取失败')));
-      }
-    } catch (error) {
-      console.log(error);
-      reject(new Error(error.message));
-    }
+const handleError = (error) => {
+  showNotice({
+    text: error.message || error,
   });
 };
-const getAnotherDoubanInfo = (doubanUrl) => {
-  return new Promise((resolve, reject) => {
-    try {
-      if (doubanUrl) {
-        const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
-        if (!doubanId) {
-          reject(new Error($t('豆瓣ID获取失败')));
-        }
-        fetch(`https://movie.querydata.org/api?id=${doubanId}`).then(data => {
-          if (data && data.id) {
-            resolve(formatDoubanInfo(data));
-          } else {
-            reject(new Error(data.message || $t('获取豆瓣信息失败')));
-          }
-        });
+const getDoubanInfo = async (doubanUrl) => {
+  try {
+    if (doubanUrl) {
+      const data = await fetch(`${PT_GEN_API}?url=${doubanUrl}`);
+      if (data && data.success) {
+        return data;
       } else {
-        reject(new Error($t('豆瓣链接获取失败')));
+        // 豆瓣读书无需二次获取数据
+        if (doubanUrl.match(/\/book/)) {
+          throw data.error;
+        } else {
+          const doubanInfo = await getAnotherDoubanInfo(doubanUrl);
+          return doubanInfo;
+        }
       }
-    } catch (error) {
-      reject(new Error(error.message));
+    } else {
+      throw $t('豆瓣链接获取失败');
     }
-  });
+  } catch (error) {
+    handleError(error);
+  }
+};
+const getAnotherDoubanInfo = async (doubanUrl) => {
+  try {
+    if (doubanUrl) {
+      const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
+      if (!doubanId) {
+        throw $t('豆瓣ID获取失败');
+      }
+      const data = await fetch(`https://movie.querydata.org/api?id=${doubanId}`);
+      if (data && data.id) {
+        return formatDoubanInfo(data);
+      } else {
+        throw data.message || $t('获取豆瓣信息失败');
+      }
+    } else {
+      throw $t('豆瓣链接获取失败');
+    }
+  } catch (error) {
+    handleError(error);
+  }
 };
 const formatDoubanInfo = (data) => {
   const { doubanId, imdbId, imdbRating, imdbVotes, dateReleased, alias, originalName, doubanRating, episodes, doubanVotes, year, duration, director, data: info, actor, writer } = data;
@@ -138,84 +134,77 @@ const formatDoubanInfo = (data) => {
   formatData.format = descr.trim();
   return formatData;
 };
-const getDoubanIdByIMDB = (query) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const imdbId = getIMDBIdByUrl(query);
-      const params = imdbId || query;
-      const url = DOUBAN_SUGGEST_API.replace('{query}', params);
-      fetch(url, {
-        responseType: 'text',
-      }).then(data => {
-        const doc = new DOMParser().parseFromString(data, 'text/html');
-        const linkDom = doc.querySelector('.result-list .result h3 a');
-        if (!linkDom) {
-          reject(new Error($t('豆瓣ID获取失败')));
-        } else {
-          const { href, textContent } = linkDom;
-          const season = textContent.match(/第(.+?)季/)?.[1] ?? '';
-          const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1];
-          resolve({
-            id: doubanId,
-            season,
-            title: textContent,
-          });
-        }
+const getDoubanIdByIMDB = async (query) => {
+  try {
+    const imdbId = getIMDBIdByUrl(query);
+    const params = imdbId || query;
+    const url = DOUBAN_SUGGEST_API.replace('{query}', params);
+    const data = await fetch(url, {
+      responseType: 'text',
+    });
+    const doc = new DOMParser().parseFromString(data, 'text/html');
+    const linkDom = doc.querySelector('.result-list .result h3 a');
+    if (!linkDom) {
+      throw $t('豆瓣ID获取失败');
+    } else {
+      const { href, textContent } = linkDom;
+      const season = textContent.match(/第(.+?)季/)?.[1] ?? '';
+      const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1];
+      return ({
+        id: doubanId,
+        season,
+        title: textContent,
       });
-    } catch (error) {
-      reject(new Error(error.message));
     }
-  });
+  } catch (error) {
+    handleError(error);
+  }
 };
-const getIMDBData = (imdbUrl) => {
-  return new Promise((resolve, reject) => {
-    try {
-      if (!imdbUrl) {
-        throw new Error('$t(缺少IMDB信息)');
-      }
-      const data = fetch(`${PT_GEN_API}?url=${imdbUrl}`);
-      if (data && data.success) {
-        resolve(data);
-      } else {
-        reject(new Error(data.error || '$t(请求失败)'));
-      }
-    } catch (error) {
-      reject(new Error(error.message));
+const getIMDBData = async (imdbUrl) => {
+  try {
+    if (!imdbUrl) {
+      throw new Error('$t(缺少IMDB信息)');
     }
-  });
+    const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
+    if (data && data.success) {
+      return data;
+    } else {
+      throw data.error || $t('请求失败');
+    }
+  } catch (error) {
+    handleError(error);
+  }
 };
-const transferImgs = (screenshots) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
-      fetch('https://pixhost.to/remote/', {
-        method: 'POST',
-        responseType: 'text',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        },
-        data: params,
-      }).then(res => {
-        const data = res.match(/(upload_results = )({.*})(;)/);
-        if (!data) {
-          reject(new Error($t('上传失败，请重试')));
-        }
-        let imgResultList = [];
-        if (data && data.length) {
-          imgResultList = JSON.parse(data[2]).images;
-          if (imgResultList.length < 1) {
-            reject(new Error($t('上传失败，请重试')));
-          }
-          resolve(imgResultList);
-        } else {
-          reject(new Error($t('上传失败，请重试')));
-        }
-      });
-    } catch (error) {
-      reject(new Error(error.message));
+const transferImgs = async (screenshots) => {
+  try {
+    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
+    const res = await fetch('https://pixhost.to/remote/', {
+      method: 'POST',
+      responseType: 'text',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+      data: params,
+    });
+
+    const data = res.match(/(upload_results = )({.*})(;)/);
+    if (!data) {
+      throw $t('上传失败，请重试');
     }
-  });
+    let imgResultList = [];
+    if (data && data.length) {
+      imgResultList = JSON.parse(data[2]).images;
+      if (imgResultList.length < 1) {
+        throw $t('上传失败，请重试');
+      }
+      return imgResultList;
+    } else {
+      throw $t('上传失败，请重试');
+    }
+  } catch (error) {
+    handleError(error);
+  }
 };
 // 获取更加准确的分类
 const getPreciseCategory = (torrentInfo, category) => {
@@ -423,32 +412,26 @@ const getBDType = (size) => {
   }
 };
 
-const getTMDBIdByIMDBId = (imdbid) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
-      fetch(url).then(data => {
-        const isMovie = data.movie_results && data.movie_results.length > 0;
-        const isTV = !data.tv_results && data.tv_results.length > 0;
-        if (!isMovie && !isTV) {
-          throw new Error($t('请求失败'));
-        }
-        const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
-        resolve(tmdbData);
-      });
-    } catch (error) {
-      console.log(error);
+const getTMDBIdByIMDBId = async (imdbid) => {
+  try {
+    const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
+    const data = await fetch(url);
+    const isMovie = data.movie_results && data.movie_results.length > 0;
+    const isTV = !data.tv_results && data.tv_results.length > 0;
+    if (!isMovie && !isTV) {
+      throw $t('请求失败');
     }
-  });
+    const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
+    return tmdbData;
+  } catch (error) {
+    return {};
+  }
 };
 
-const getTMDBVideos = (tmdbId) => {
-  return new Promise((resolve, reject) => {
-    const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
-    fetch(url).then(data => {
-      resolve(data.results || []);
-    });
-  });
+const getTMDBVideos = async (tmdbId) => {
+  const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
+  const data = await fetch(url);
+  return data.results || [];
 };
 const getIMDBIdByUrl = (imdbLink) => {
   const imdbIdArray = /tt\d+/.exec(imdbLink);
@@ -958,73 +941,70 @@ const replaceRegSymbols = (string) => {
   return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
 };
 // https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
-const getRtIdFromTitle = (title, tv, year) => {
-  return new Promise((resolve, reject) => {
-    console.log(title, year);
-    const MAX_YEAR_DIFF = 2;
-    tv = tv || false;
-    year = parseInt(year) || 1800;
-    const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
-    fetch(url).then(data => {
-      const movies = tv ? data.tvSeries : data.movies;
-      if (!Array.isArray(movies) || movies.length < 1) {
-        console.log('no search results');
-        return;
-      }
-      const sorted = movies.concat();
-      if (year && sorted) {
-        sorted.sort((a, b) => {
-          if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
-            // Prefer closest year to the given one
-            return Math.abs(a.year - year) - Math.abs(b.year - year);
-          } else {
-            return b.year - a.year; // In a tie, later year should come first
-          }
-        });
-      }
-      // Search for matches with exact title in order of proximity by year
-      let bestMatch, closeMatch;
-      for (const m of sorted) {
-        m.title = m.title || m.name;
-        if (m.title.toLowerCase() === title.toLowerCase()) {
-          bestMatch = bestMatch || m;
-          console.log('bestMatch', bestMatch);
-          // RT often includes original titles in parentheses for foreign films, so only check if they start the same
-        } else if (m.title.toLowerCase().startsWith(title.toLowerCase())) {
-          closeMatch = closeMatch || m;
-          console.log('closeMatch', closeMatch);
-        }
-        if (bestMatch && closeMatch) {
-          break;
-        }
-      }
-      // Fall back on closest year match if within 2 years, or whatever the first result was.
-      // RT years are often one year later than imdb, or even two
-      function yearComp (imdb, rt) {
-        return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
-      }
-      if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
-        if (closeMatch && yearComp(year, closeMatch.year)) {
-          bestMatch = closeMatch;
-        } else if (yearComp(year, sorted[0].year)) {
-          bestMatch = sorted[0];
-        }
-      }
-      bestMatch = bestMatch || closeMatch || movies[0];
-
-      if (bestMatch) {
-        const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, ''); // remove season suffix from tv matches
-        const score = bestMatch?.meterScore ?? '0';
-        resolve({
-          id,
-          score,
-        });
+const getRtIdFromTitle = async (title, tv, year) => {
+  console.log(title, year);
+  const MAX_YEAR_DIFF = 2;
+  tv = tv || false;
+  year = parseInt(year) || 1800;
+  const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
+  const data = await fetch(url);
+  const movies = tv ? data.tvSeries : data.movies;
+  if (!Array.isArray(movies) || movies.length < 1) {
+    console.log('no search results');
+    return {};
+  }
+  const sorted = movies.concat();
+  if (year && sorted) {
+    sorted.sort((a, b) => {
+      if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
+        // Prefer closest year to the given one
+        return Math.abs(a.year - year) - Math.abs(b.year - year);
       } else {
-        console.log('no match found on rt');
-        resolve('');
+        return b.year - a.year; // In a tie, later year should come first
       }
     });
-  });
+  }
+  // Search for matches with exact title in order of proximity by year
+  let bestMatch, closeMatch;
+  for (const m of sorted) {
+    m.title = m.title || m.name;
+    if (m.title.toLowerCase() === title.toLowerCase()) {
+      bestMatch = bestMatch || m;
+      console.log('bestMatch', bestMatch);
+      // RT often includes original titles in parentheses for foreign films, so only check if they start the same
+    } else if (m.title.toLowerCase().startsWith(title.toLowerCase())) {
+      closeMatch = closeMatch || m;
+      console.log('closeMatch', closeMatch);
+    }
+    if (bestMatch && closeMatch) {
+      break;
+    }
+  }
+  // Fall back on closest year match if within 2 years, or whatever the first result was.
+  // RT years are often one year later than imdb, or even two
+  function yearComp (imdb, rt) {
+    return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
+  }
+  if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
+    if (closeMatch && yearComp(year, closeMatch.year)) {
+      bestMatch = closeMatch;
+    } else if (yearComp(year, sorted[0].year)) {
+      bestMatch = sorted[0];
+    }
+  }
+  bestMatch = bestMatch || closeMatch || movies[0];
+
+  if (bestMatch) {
+    const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, ''); // remove season suffix from tv matches
+    const score = bestMatch?.meterScore ?? '0';
+    return {
+      id,
+      score,
+    };
+  } else {
+    console.log('no match found on rt');
+    return {};
+  }
 };
 
 const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
@@ -1062,8 +1042,8 @@ const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
     clearTimeout(removeTimer);
   }, 4000);
 };
-const uploadToPtpImg = (imgArray, isFiles = false) => {
-  return new Promise((resolve, reject) => {
+const uploadToPtpImg = async (imgArray, isFiles = false) => {
+  try {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
     if (!apiKey) {
       showNotice({
@@ -1074,7 +1054,6 @@ const uploadToPtpImg = (imgArray, isFiles = false) => {
     }
     let formData;
     const options = {
-      url: 'https://ptpimg.me/upload.php',
       method: 'POST',
       responseType: 'json',
     };
@@ -1091,69 +1070,56 @@ const uploadToPtpImg = (imgArray, isFiles = false) => {
       };
     }
     options.data = formData;
-    fetch(options).then(res => {
-      if (!res || !res.responseText) {
-        reject(new Error($t('上传失败，请重试')));
-      }
-      const data = res.responseText;
-      if (!data) {
-        reject(new Error($t('上传失败，请重试')));
-      }
-      let imgResultList = [];
-      if (data && data.length) {
-        imgResultList = data.map(img => {
-          return `https://ptpimg.me/${img.code}.${img.ext}`;
-        });
-        resolve(imgResultList);
-      } else {
-        reject(new Error($t('上传失败，请重试')));
-      }
-    });
-  });
+    const data = await fetch('https://ptpimg.me/upload.php', options);
+    if (!data) {
+      throw $t('上传失败，请重试');
+    }
+    let imgResultList = [];
+    if (data && data.length) {
+      imgResultList = data.map(img => {
+        return `https://ptpimg.me/${img.code}.${img.ext}`;
+      });
+      return imgResultList;
+    } else {
+      throw $t('上传失败，请重试');
+    }
+  } catch (error) {
+    handleError(error);
+  }
 };
 const $t = (key) => {
   const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
   return i18nConfig[languageKey]?.[key] ?? key;
 };
 
-const urlToFile = (url) => {
-  return new Promise((resolve, reject) => {
-    const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
-    fetch(url, {
-      responseType: 'blob',
-    }).then(data => {
-      const file = new File([data], filename, { type: data.type });
-      resolve(file);
-    });
+const urlToFile = async (url) => {
+  const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
+  const data = await fetch(url, {
+    responseType: 'blob',
   });
+  const file = new File([data], filename, { type: data.type });
+  return file;
 };
-const saveScreenshotsToPtpimg = (imgArray) => {
-  return new Promise((resolve, reject) => {
+const saveScreenshotsToPtpimg = async (imgArray) => {
+  try {
     const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
     const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
     if (isPtpHost) {
-      reject(new Error($t('无需转存')));
+      throw $t('无需转存');
     } else if (isHdbHost) {
       const promiseArray = imgArray.map(item => {
         return urlToFile(item);
       });
-      Promise.all(promiseArray).then(res => {
-        uploadToPtpImg(res, true).then(data => {
-          resolve(data);
-        }).catch(error => {
-          reject(new Error(error.message));
-        });
-      }).catch(error => {
-        reject(new Error(error.message));
-      });
+      const fileArray = await Promise.all(promiseArray);
+      const data = uploadToPtpImg(fileArray, true);
+      return data;
     } else {
-      uploadToPtpImg(imgArray).then(data => {
-        resolve(data);
-      }).catch(error => {
-        reject(error.message);
-      });
+      const data = await uploadToPtpImg(imgArray);
+      return data;
     }
-  });
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 function fetch (url, options = {}) {

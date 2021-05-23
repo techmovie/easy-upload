@@ -121,23 +121,17 @@ const getVideoType = (container, isRemux, codes, source) => {
   }
   return type;
 };
-const getDescription = (id) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const url = `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`;
-      fetch(url, {
-        responseType: 'text',
-      }).then(data => {
-        if (data) {
-          const element = document.createElement('span');
-          element.innerHTML = data;
-          resolve(element.innerText || element.textContent);
-        }
-      });
-    } catch (error) {
-      reject(new Error(error.message));
-    }
+const getDescription = async (id) => {
+  const url = `https://passthepopcorn.me/torrents.php?action=get_description&id=${id}`;
+  const data = await fetch(url, {
+    responseType: 'text',
   });
+  if (data) {
+    const element = document.createElement('span');
+    element.innerHTML = data;
+    return (element.innerText || element.textContent);
+  }
+  return '';
 };
 const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   let descriptionData = data.replace(/\r\n/g, '\n');

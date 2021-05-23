@@ -67,18 +67,12 @@ export default async () => {
   TORRENT_INFO.videoType = videoType;
 };
 
-const getMediaInfo = (torrentId) => {
-  return new Promise((resolve, reject) => {
-    const url = `https://uhdbits.org/torrents.php?action=mediainfo&id=${torrentId}`;
-    fetch(url, {
-      responseType: 'text',
-    }).then(data => {
-      if (!data) {
-        reject(new Error($t('请求失败')));
-      }
-      resolve(data.replace(/\r\n/g, '\n'));
-    });
+const getMediaInfo = async (torrentId) => {
+  const url = `https://uhdbits.org/torrents.php?action=mediainfo&id=${torrentId}`;
+  const data = await fetch(url, {
+    responseType: 'text',
   });
+  return data || '';
 };
 const getVideoType = (videoType, resolution) => {
   videoType = videoType.replace('-', '').toLowerCase();
