@@ -1164,11 +1164,12 @@ function fetch (url, options = {}) {
       responseType: 'json',
       ...options,
       onload: (res) => {
-        const { statusText, status, responseText } = res;
+        const { statusText, status, responseText, responseType } = res;
         if (status !== 200) {
           reject(new Error(statusText || status));
         } else {
-          resolve(responseText);
+          const result = responseType === 'json' ? JSON.parse(responseText) : responseText
+          resolve(result);
         }
       },
       onerror: (error) => {
