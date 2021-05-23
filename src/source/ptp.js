@@ -158,12 +158,12 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   });
   descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, '[$1quote]');
   descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
-  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/g) || [];
+  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/ig) || [];
   const comparisons = [];
   comparisonArray.forEach(item => {
     descriptionData = descriptionData.replace(item, item.replace(/\s/g, ''));
-    const title = item.match(/\[comparison=(.*?)\]/)[1];
-    const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/g, '').split(/[ \r\n]/);
+    const title = item.match(/\[comparison=(.*?)\]/i)[1];
+    const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, '').split(/[ \r\n]/);
     const imgs = [];
     [...new Set(comparisonImgArray)].forEach(item => {
       const formatImg = item.replace(/\s*/g, '');
@@ -180,7 +180,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     });
   });
   TORRENT_INFO.comparisons = comparisons;
-  descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/g, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/g, '');
+  descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/ig, '');
   mediaInfoArray.forEach(mediaInfo => {
     const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo)}`, 'i');
     if (!descriptionData.match(regStr)) {
