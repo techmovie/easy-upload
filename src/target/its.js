@@ -59,7 +59,7 @@ export default async (info) => {
         rtScore: 0,
         youtubeUrl: '',
       };
-      const { poster, imdb_rating_average: imdbRate, description, year, aka, directors = [], details = {} } = await getIMDBData(imdbUrl);
+      const { poster = '', imdb_rating_average: imdbRate = 0, description = '', year, aka, directors = [], details = {} } = await getIMDBData(imdbUrl);
       let language = details.Language || '';
       language = language?.split('|')?.[0]?.trim() ?? '';
       const director = directors.map(item => item.name)[0];
@@ -79,12 +79,14 @@ export default async (info) => {
       const { id: tmdbId, vote_average: tmdbRate } = await getTMDBIdByIMDBId(imdbId, {
         append_to_response: 'videos',
       });
-      replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
-      replaceParams.tmdbScore = tmdbRate;
-      const videos = await getTMDBVideos(tmdbId);
-      const youtubeId = videos.filter(video => video.site === 'YouTube')?.[0]?.key ?? '';
-      if (youtubeId.length > 0) {
-        replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
+      if (tmdbId) {
+        replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
+        replaceParams.tmdbScore = tmdbRate;
+        const videos = await getTMDBVideos(tmdbId);
+        const youtubeId = videos.filter(video => video.site === 'YouTube')?.[0]?.key ?? '';
+        if (youtubeId.length > 0) {
+          replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
+        }
       }
       const searchMovieName = movieName || aka.filter(item => item.country.match(/(World-wide)|UK|USA/))?.[0].title;
       const rtInfo = await getRtIdFromTitle(searchMovieName, !!category.match(/tv/), year);
@@ -94,7 +96,7 @@ export default async (info) => {
       const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
       if (ptpImgApiKey) {
         const ptpImgPoster = await uploadToPtpImg([poster]);
-        replaceParams.poster = ptpImgPoster;
+        replaceParams.poster = ptpImgPoster || '';
       }
       Object.keys(replaceParams).forEach(key => {
         template = template.replace(`$${key}$`, replaceParams[key]);
