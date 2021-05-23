@@ -35,7 +35,7 @@ export default async () => {
     // Remux / 2D/3D Edition
     const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().trim().split(' / ');
     // eslint-disable-next-line no-unused-vars
-    const [codes, container, source, resolution1, ...otherInfo] = infoArray;
+    const [codes, container, source, resolution, ...otherInfo] = infoArray;
     const isRemux = otherInfo.includes('Remux');
     const { knownTags, otherTags } = getTags(otherInfo);
     TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
@@ -44,19 +44,19 @@ export default async () => {
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     TORRENT_INFO.tags = { ...knownTags };
     TORRENT_INFO.otherTags = otherTags;
+    TORRENT_INFO.resolution = resolution;
     if (mediaInfoOrBDInfo) {
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-      const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+      const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.resolution = resolution;
       TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
     }
     let torrentName = torrentHeaderDom.data('releasename');
     torrentName = formatTorrentTitle(torrentName);
     TORRENT_INFO.title = torrentName;
-    TORRENT_INFO.source = getPTPSource(source, codes, resolution1);
+    TORRENT_INFO.source = getPTPSource(source, codes, resolution);
     TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
     TORRENT_INFO.screenshots = screenshots;
     console.log(TORRENT_INFO);
