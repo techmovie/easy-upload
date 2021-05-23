@@ -1130,11 +1130,11 @@ function fetch (url, options = {}) {
       responseType: 'json',
       ...options,
       onload: (res) => {
-        const { statusText, status, responseText } = res;
+        const { statusText, status, response } = res;
         if (status !== 200) {
           reject(new Error(statusText || status));
         } else {
-          resolve(responseText);
+          resolve(response);
         }
       },
       onerror: (error) => {
