@@ -3,6 +3,7 @@ const TORRENT_INFO = {
   title: '', // 标题
   subtitle: '', // 副标题
   description: '', // 描述
+  originalDescription: '', // 原始描述
   year: '', // 电影年份
   category: '', // 电影、电视、音乐等
   videoType: '', // bluray remux encodes web-dl
