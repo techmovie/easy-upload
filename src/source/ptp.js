@@ -142,6 +142,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   descriptionData = descriptionData.split('\n').map(line => {
     return line.trim();
   }).join('\n');
+  TORRENT_INFO.originalDescription = descriptionData;
   screenshots.forEach(screenshot => {
     const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, 'i');
     if (!descriptionData.match(regStr)) {
@@ -155,10 +156,11 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   });
   descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, '[$1quote]');
   descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
-  const comparisonArray = descriptionData.match(/\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/ig) || [];
+  const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/ig) || [];
   const comparisons = [];
   comparisonArray.forEach(item => {
     descriptionData = descriptionData.replace(item, item.replace(/\s/g, ''));
+    const reason = item.match(/(\n.*\n)?\[comparison=/)[1] || '';
     const title = item.match(/\[comparison=(.*?)\]/i)[1];
     const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, '').split(/[ \r\n]/);
     const imgs = [];
@@ -174,6 +176,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     comparisons.push({
       title,
       imgs,
+      reason,
     });
   });
   TORRENT_INFO.comparisons = comparisons;
