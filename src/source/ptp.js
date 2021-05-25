@@ -40,19 +40,19 @@ export default async () => {
     const { knownTags, otherTags } = getTags(otherInfo);
     TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionData);
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     TORRENT_INFO.tags = { ...knownTags };
     TORRENT_INFO.otherTags = otherTags;
     TORRENT_INFO.resolution = resolution;
-    if (mediaInfoOrBDInfo) {
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-      const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-      TORRENT_INFO.videoCodec = videoCodec;
-      TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
-    }
+
+    // mediainfo
+    const mediaInfoOrBDInfo = mediaInfoArray.join('\n\n');
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+    const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
+    TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
+
     let torrentName = torrentHeaderDom.data('releasename');
     torrentName = formatTorrentTitle(torrentName);
     TORRENT_INFO.title = torrentName;
