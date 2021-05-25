@@ -45,7 +45,7 @@ export default async () => {
     TORRENT_INFO.resolution = resolution;
 
     // mediainfo
-    const mediaInfoOrBDInfo = getMediainfo();
+    const mediaInfoOrBDInfo = mediaInfoArray.join('\n\n');
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
     const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
@@ -211,7 +211,3 @@ function getTags (rawTags) {
     otherTags,
   };
 };
-
-function getMediainfo () {
-  return $('.mediainfo--in-release-description + blockquote.spoiler').text();
-}
