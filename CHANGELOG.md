@@ -1,3 +1,30 @@
+## [2.1.1](https://github.com/techmovie/easy-upload/compare/2.1.0...2.1.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* add dual_audio etc tags for PTP ([#106](https://github.com/techmovie/easy-upload/issues/106)) ([8b22ebc](https://github.com/techmovie/easy-upload/commit/8b22ebcd25a14de451c2228969750847c1f802f7))
+* its 数据请求失败依旧展示模版内容 ([05b3df2](https://github.com/techmovie/easy-upload/commit/05b3df2817e233acfafc9ce0fe7562538164d66f))
+* PTP comparison支持大小写 ([#101](https://github.com/techmovie/easy-upload/issues/101)) ([4ebe6a8](https://github.com/techmovie/easy-upload/commit/4ebe6a812da8faaab6393a957169c1155c369c56))
+* PTP增加originalDescription ([#103](https://github.com/techmovie/easy-upload/issues/103)) ([93fc621](https://github.com/techmovie/easy-upload/commit/93fc6210bc385eb2fe9add1ae83ba110709fcaf9))
+* tag改为小写 ([#89](https://github.com/techmovie/easy-upload/issues/89)) ([2fa0d70](https://github.com/techmovie/easy-upload/commit/2fa0d70dd4f1bb5ee17d0e8a3b733f84b4bcb42b))
+* 使用response替代responseText ([025dd1a](https://github.com/techmovie/easy-upload/commit/025dd1a690f254529c83f6e4fbc7ae3a58c31f01))
+* 修复PTP图片带链接 ([#99](https://github.com/techmovie/easy-upload/issues/99)) ([6f0882a](https://github.com/techmovie/easy-upload/commit/6f0882a6c99b1fda58dbd88fac4df2460ba2fac5))
+* 修复几个错误的tag ([#90](https://github.com/techmovie/easy-upload/issues/90)) ([664376d](https://github.com/techmovie/easy-upload/commit/664376dfde656b6494b9c6a95b42499b13e66481))
+* 处理PTP mediainfo得不到的情况 ([#102](https://github.com/techmovie/easy-upload/issues/102)) ([39c346f](https://github.com/techmovie/easy-upload/commit/39c346ff99e8cafbfb2d4b6c7c8bb86b27342769))
+* 完善截图过滤规则 ([#93](https://github.com/techmovie/easy-upload/issues/93)) ([9f0eb1a](https://github.com/techmovie/easy-upload/commit/9f0eb1a609fa75f19ceb7d5bb073396fe077afdd))
+* 更准确的获取PTP mediainfo ([#104](https://github.com/techmovie/easy-upload/issues/104)) ([d5106b0](https://github.com/techmovie/easy-upload/commit/d5106b006cfed42e581854a6d82637bf72483f06))
+* 补充PTP额外版本信息 ([#94](https://github.com/techmovie/easy-upload/issues/94)) ([c21676e](https://github.com/techmovie/easy-upload/commit/c21676e341076959045d14d8526ef2f33c313d58))
+* **uhd:** remove poster & fix videoType error ([ef35134](https://github.com/techmovie/easy-upload/commit/ef35134d872db8118387737486a4b88574802c63))
+
+
+### Features
+
+* comparisonImgs改为comparisons ([#87](https://github.com/techmovie/easy-upload/issues/87)) ([de3bfda](https://github.com/techmovie/easy-upload/commit/de3bfdada0bc5375d3957731655079156e6d2201))
+* 完善PTP版本标签 ([18be3b7](https://github.com/techmovie/easy-upload/commit/18be3b755612eebe439a9e89871710591e3b9564))
+
+
+
 # [2.1.0](https://github.com/techmovie/easy-upload/compare/2.0.0...2.1.0) (2021-05-15)
 
 
