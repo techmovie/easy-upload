@@ -3,7 +3,7 @@ import {
 } from '../common';
 import {
   CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE,
-  SORTED_SITE_KEYS,
+  SORTED_SITE_KEYS, TORRENT_INFO,
 } from '../const';
 const getSearchList = () => {
   const searchListSetting = GM_getValue('easy-seed.enabled-search-site-list');
@@ -30,7 +30,7 @@ const getFunctionItems = () => {
   </div>`
     : '';
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
-  const doubanDom = CURRENT_SITE_INFO.needDoubanInfo
+  const doubanDom = CURRENT_SITE_INFO.needDoubanInfo || !TORRENT_INFO.doubanUrl
     ? `${doubanSearchDom}
   <div class="function-list-item">
     <div class="douban-section">
