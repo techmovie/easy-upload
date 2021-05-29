@@ -79,6 +79,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*
+// @match        https://piratethenet.org/browse.php?*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue

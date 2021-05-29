@@ -30,6 +30,9 @@ const fillSearchImdb = () => {
     } else if (CURRENT_SITE_NAME === 'HDAI') {
       $('input[name="keyword"]').val(imdbParam || nameParam);
       $('select[name="keyword_area"]').val(searchType);
+    } else if (CURRENT_SITE_NAME === 'PTN') {
+      $('#movieimdb').val(imdbParam);
+      $('#moviename').val(nameParam);
     }
   }
 };

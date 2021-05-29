@@ -11,6 +11,7 @@ import handleHDRoute from './hdr';
 import handleBib from './bib';
 import handleBb from './bB';
 import handlePTP from './ptp';
+import handlePTN from './ptn';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -163,6 +164,9 @@ const fillTargetForm = (info) => {
     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
     description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
+  }
+  if (CURRENT_SITE_NAME === 'PTN') {
+    description = info.imdbUrl + '\n\n' + description;
   }
   // 过滤空标签
   description = filterEmptyTags(description);
@@ -391,6 +395,9 @@ const fillTargetForm = (info) => {
       const doubanId = info.doubanUrl.match(/\/(\d+)/)?.[1] ?? '';
       $(CURRENT_SITE_INFO.douban.selector).val(doubanId);
     }
+  }
+  if (CURRENT_SITE_NAME === 'PTN') {
+    handlePTN(info);
   }
 };
 /*
