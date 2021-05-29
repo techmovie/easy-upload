@@ -18,6 +18,7 @@ const openSettingPanel = () => {
   const uploadImgClosed = GM_getValue('easy-seed.upload-img-closed') || '';
   const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') || '';
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
+  const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
@@ -90,6 +91,9 @@ const openSettingPanel = () => {
         <section class="site-enable-setting transfer-img-closed">
         <label><input name="site-favicon-closed" type="checkbox" ${siteFaviconClosed}/>${$t('关闭站点图标显示')}</label>
         </section>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="thanks-quote-closed" type="checkbox" ${thanksQuoteClosed}/>${$t('不显示致谢内容')}</label>
+        </section>
       </div>
       <div class="confirm-btns">
         <button id="cancel-setting-btn">${$t('取消')}</button>
@@ -113,6 +117,7 @@ const saveSetting = () => {
   const transferImgEnabled = $("input[name='transfer-img-closed']").attr('checked') || '';
   const uploadImgEnabled = $("input[name='upload-img-closed']").attr('checked') || '';
   const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr('checked') || '';
+  const thanksQuoteEnabled = $("input[name='thanks-quote-closed']").attr('checked') || '';
   const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
@@ -132,6 +137,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.upload-img-closed', uploadImgEnabled);
     GM_setValue('easy-seed.site-favicon-closed', siteFaviconEnabled);
     GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
+    GM_setValue('easy-seed.thanks-quote-closed', thanksQuoteEnabled);
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {

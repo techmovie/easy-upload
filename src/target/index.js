@@ -170,7 +170,10 @@ const fillTargetForm = (info) => {
   }
   // 过滤空标签
   description = filterEmptyTags(description);
-  description = getThanksQuote(info) + description.trim();
+  const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
+  if (!thanksQuoteClosed) {
+    description = getThanksQuote(info) + description.trim();
+  }
   $(CURRENT_SITE_INFO.description.selector).val(description);
   // 站点特殊处理
   if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia|HDPOST|ACM|Aither/)) {
