@@ -217,7 +217,7 @@ const getPreciseCategory = (torrentInfo, category) => {
       category = 'documentary';
     }
   } else if (category?.match(/tv/)) {
-    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle.match(/第[^\s]集/)) {
+    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle?.match(/第[^\s]集/)) {
       category = 'tv';
     } else {
       category = 'tvPack';
@@ -779,6 +779,10 @@ const htmlToBBCode = (node) => {
               return '';
             }
             break;
+          } else if (className === 'spoiler-text' && CURRENT_SITE_INFO.siteType === 'AvistaZ') {
+            pp('\n[quote]', '[/quote]'); break;
+          } else if (className === 'spoiler-toggle' && CURRENT_SITE_INFO.siteType === 'AvistaZ') {
+            return '';
           } else {
             pp('\n', '\n'); break;
           }

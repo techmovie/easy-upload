@@ -77,6 +77,8 @@ exports.userScriptComment = `// ==UserScript==
 // @match        http://www.hd.ai/Torrents.upload
 // @match        http://www.hd.ai/Torrents.index?*
 // @match        https://broadcity.in/browse.php?imdb=*
+// @match        https://privatehd.to/torrent/*
+// @match        https://avistaz.to/torrent/*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue

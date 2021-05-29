@@ -61,6 +61,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |   52pt    |             ✅             |            ✅            |
 |    ACM    |             ✅             |            ✅            |
 |  Aither   |             ✅             |            ✅            |
+|  AvistaZ  |             ✅             |            ❌            |
 |    bB     |             ❌             |            ✅            |
 |    BTN    |             ✅             |            ❌            |
 | BTSCHOOL  |             ✅             |            ✅            |
@@ -89,6 +90,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |   MTeam   |             ✅             |            ✅            |
 |   NYPT    |             ✅             |            ✅            |
 |  OurBits  |             ✅             |            ✅            |
+| PrivateHD |             ✅             |            ❌            |
 |  PTHome   |             ✅             |            ✅            |
 |    PTP    |             ✅             |            ✅            |
 |  PTSBAO   |             ✅             |            ✅            |
