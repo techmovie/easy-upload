@@ -12,10 +12,10 @@
   "commitConvention": "angular",
   "contributors": [
     {
-      "login": "btguy",
-      "name": "btguy",
-      "avatar_url": "https://avatars.githubusercontent.com/u/53667733?v=4",
-      "profile": "https://github.com/btguy",
+      "login": "btguys",
+      "name": "Yongjie",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18325797?v=4",
+      "profile": "https://github.com/btguys",
       "contributions": [
         "code"
       ]
@@ -75,5 +75,5 @@
       ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 5
 }

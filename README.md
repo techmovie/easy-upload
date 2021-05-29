@@ -123,11 +123,13 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/btguy"><img src="https://avatars.githubusercontent.com/u/53667733?v=4?s=75" width="75px;" alt=""/><br /><sub><b>btguy</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=btguy" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/btguys"><img src="https://avatars.githubusercontent.com/u/18325797?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Yongjie</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=btguys" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Purfview"><img src="https://avatars.githubusercontent.com/u/69023953?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Purfview</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=Purfview" title="Code">💻</a></td>
     <td align="center"><a href="http://weibo.com/mcj9"><img src="https://avatars.githubusercontent.com/u/22229456?v=4?s=75" width="75px;" alt=""/><br /><sub><b>arvin</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=ma3252788" title="Code">💻</a></td>
     <td align="center"><a href="https://luoyefe.com/"><img src="https://avatars.githubusercontent.com/u/11496663?v=4?s=75" width="75px;" alt=""/><br /><sub><b>luoye</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=luoye-fe" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/sabersalv"><img src="https://avatars.githubusercontent.com/u/2525544?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Saber</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=sabersalv" title="Code">💻</a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="https://github.com/scatking"><img src="https://avatars.githubusercontent.com/u/34273647?v=4?s=75" width="75px;" alt=""/><br /><sub><b>scatking</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=scatking" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/kidgokugoku"><img src="https://avatars.githubusercontent.com/u/82298915?v=4?s=75" width="75px;" alt=""/><br /><sub><b>kidgokugoku</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=kidgokugoku" title="Code">💻</a></td>
   </tr>
@@ -139,6 +141,7 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 ### 捐赠者
 
-|  姓名  | 金额  |    时间    |
-| :----: | :---: | :--------: |
-| 韩老王 |  ¥30  | 2021/05/13 |
+|  姓名  |  金额  |    时间    |
+| :----: | :----: | :--------: |
+| 韩老王 |  ¥30   | 2021/05/13 |
+|  **特  | ¥30.01 | 2021/05/27 |
