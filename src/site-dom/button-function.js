@@ -2,22 +2,31 @@ import {
   TORRENT_INFO,
 } from '../const';
 import {
-  getSubTitle, transferImgs, getDoubanInfo, $t,
+  getSubTitle, transferImgs, getDoubanInfo, $t, fetch,
   getDoubanIdByIMDB, getAreaCode, getPreciseCategory,
   showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
 } from '../common';
 
-const getThumbnailImgs = () => {
-  const allImgs = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map(v => v.imgs));
-  const imgList = [...new Set(allImgs)];
-  if (imgList.length < 1) {
-    throw new Error($t('获取图片列表失败'));
-  }
-  $('#img-transfer').text($t('转换中...')).attr('disabled', true).addClass('is-disabled');
-  transferImgs(imgList.join('\n')).then(data => {
-    if (data.length) {
-      const thumbnailImgs = data.map(imgData => {
-        return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
+const getThumbnailImgs = async () => {
+  try {
+    const allImgs = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map(v => v.imgs));
+    const imgList = [...new Set(allImgs)];
+    if (imgList.length < 1) {
+      throw new Error($t('获取图片列表失败'));
+    }
+    $('#img-transfer').text($t('转换中...')).attr('disabled', true).addClass('is-disabled');
+    const imgbbHtml = await fetch('https://imgbb.com', {
+      responseType: 'text',
+    });
+    const authToken = imgbbHtml.match(/PF\.obj\.config\.auth_token="(.+)?"/)?.[1];
+    const uploadedImgs = [];
+    for (let index = 0; index < imgList.length; index++) {
+      const data = await transferImgs(imgList[index], authToken);
+      uploadedImgs.push(data);
+    }
+    if (uploadedImgs.length) {
+      const thumbnailImgs = uploadedImgs.map(imgData => {
+        return `[url=${imgData.url}][img]${imgData.display_url}[/img][/url]`;
       });
       TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
       let { description } = TORRENT_INFO;
@@ -32,14 +41,14 @@ const getThumbnailImgs = () => {
         text: $t('转换成功！'),
       });
     }
-  }).catch(error => {
+  } catch (error) {
     showNotice({
       title: $t('错误'),
       text: error.message,
     });
-  }).finally(() => {
+  } finally {
     $('#img-transfer').text($t('转缩略图')).removeAttr('disabled').removeClass('is-disabled');
-  });
+  }
 };
 const getDoubanData = async (selfDom) => {
   try {

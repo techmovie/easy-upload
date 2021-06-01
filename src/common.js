@@ -175,30 +175,23 @@ const getIMDBData = async (imdbUrl) => {
     handleError(error);
   }
 };
-const transferImgs = async (screenshots) => {
+const transferImgs = async (screenshot, authToken) => {
   try {
-    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
-    const res = await fetch('https://pixhost.to/remote/', {
+    const formData = new FormData();
+    formData.append('type', 'url');
+    formData.append('source', screenshot);
+    formData.append('action', 'upload');
+    formData.append('timestamp', Date.now());
+    formData.append('auth_token', authToken);
+    const res = await fetch('https://imgbb.com/json', {
       method: 'POST',
-      responseType: 'text',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-      data: params,
+      data: formData,
     });
-
-    const data = res.match(/(upload_results = )({.*})(;)/);
-    if (!data) {
+    if (res.status_txt !== 'OK') {
       throw $t('上传失败，请重试');
     }
-    let imgResultList = [];
-    if (data && data.length) {
-      imgResultList = JSON.parse(data[2]).images;
-      if (imgResultList.length < 1) {
-        throw $t('上传失败，请重试');
-      }
-      return imgResultList;
+    if (res.image) {
+      return res.image;
     } else {
       throw $t('上传失败，请重试');
     }
@@ -1134,6 +1127,7 @@ function fetch (url, options = {}) {
       responseType: 'json',
       ...options,
       onload: (res) => {
+        console.log(res);
         const { statusText, status, response } = res;
         if (status !== 200) {
           reject(new Error(statusText || status));
