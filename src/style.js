@@ -207,6 +207,11 @@ td.title-td h4{
 .easy-seed-setting-btn svg{
   height: 20px;
   width: 20px;
+  animation: 5s linear rotate infinite;
+}
+@keyframes rotate {
+  from {transform: rotate(0deg)}
+  to   {transform: rotate(360deg) }
 }
 .easy-seed-setting-panel{
   position: fixed;
