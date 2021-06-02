@@ -26,7 +26,7 @@ const getThumbnailImgs = async () => {
     }
     if (uploadedImgs.length) {
       const thumbnailImgs = uploadedImgs.map(imgData => {
-        return `[url=${imgData.url}][img]${imgData.display_url}[/img][/url]`;
+        return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
       });
       TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
       let { description } = TORRENT_INFO;
