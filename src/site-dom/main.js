@@ -52,6 +52,7 @@ const getFunctionItems = () => {
       <div class="function-list-item">
       <div class="upload-section">
         <button id="img-transfer">${$t('转缩略图')}</button>
+        <div id="transfer-progress"></div>
       </div>
     </div>`;
   const uploadImgClosed = GM_getValue('easy-seed.upload-img-closed') || '';

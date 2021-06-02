@@ -15,6 +15,7 @@ const getThumbnailImgs = async () => {
       throw new Error($t('获取图片列表失败'));
     }
     $('#img-transfer').text($t('转换中...')).attr('disabled', true).addClass('is-disabled');
+    $('#transfer-progress').show().text(`0 / ${imgList.length}`);
     const imgbbHtml = await fetch('https://imgbb.com', {
       responseType: 'text',
     });
@@ -22,7 +23,10 @@ const getThumbnailImgs = async () => {
     const uploadedImgs = [];
     for (let index = 0; index < imgList.length; index++) {
       const data = await transferImgs(imgList[index], authToken);
-      uploadedImgs.push(data);
+      if (data) {
+        uploadedImgs.push(data);
+        $('#transfer-progress').text(`${uploadedImgs.length} / ${imgList.length}`);
+      }
     }
     if (uploadedImgs.length) {
       const thumbnailImgs = uploadedImgs.map(imgData => {

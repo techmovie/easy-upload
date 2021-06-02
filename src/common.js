@@ -186,6 +186,7 @@ const transferImgs = async (screenshot, authToken) => {
     const res = await fetch('https://imgbb.com/json', {
       method: 'POST',
       data: formData,
+      timeout: 3e5,
     });
     if (res.status_txt !== 'OK') {
       throw $t('上传失败，请重试');
@@ -1127,13 +1128,15 @@ function fetch (url, options = {}) {
       responseType: 'json',
       ...options,
       onload: (res) => {
-        console.log(res);
         const { statusText, status, response } = res;
         if (status !== 200) {
           reject(new Error(statusText || status));
         } else {
           resolve(response);
         }
+      },
+      ontimeout: () => {
+        reject(new Error('timeout'));
       },
       onerror: (error) => {
         reject(error);

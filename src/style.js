@@ -444,4 +444,7 @@ td.title-td h4{
 .notification-close-btn:hover {
   color: #606266
 }
+#transfer-progress{
+  display: none;
+}
 `);
