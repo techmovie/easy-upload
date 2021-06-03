@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  replaceRegSymbols, getBDInfoOrMediaInfo, fetch,
+  replaceRegSymbols, fetch,
 } from '../common';
 
 export default async () => {
