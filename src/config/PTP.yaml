@@ -43,6 +43,7 @@ sourceInfo:
     Dolby Atmos: dolby_atmos
     HDR10: hdr10
     HDR10+: hdr10_plus
+    Two-Disc Set: two_disc_set
 description:
   selector: '#release_desc'
 poster: '#image'

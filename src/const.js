@@ -28,6 +28,7 @@ const TORRENT_INFO = {
   }, // 标签 diy 中字 国配等
   otherTags: {},
   mediaInfo: '', // mediainfo或者bdInfo
+  mediaInfos: [], // 多个mediainfo
   screenshots: [],
   comparisons: [], // 对比图
   movieAkaName: '', // 别名一般为电影英文名称
