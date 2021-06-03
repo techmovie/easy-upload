@@ -1,3 +1,23 @@
+# [2.2.0](https://github.com/techmovie/easy-upload/compare/2.1.1...2.2.0) (2021-06-03)
+
+
+### Bug Fixes
+
+* change img host from pixhost to imgbb ([f4e65a7](https://github.com/techmovie/easy-upload/commit/f4e65a75691a2dbdf220e9d19329ce24256dcf34)), closes [#109](https://github.com/techmovie/easy-upload/issues/109)
+* correct imgbb thumb url ([df3beb8](https://github.com/techmovie/easy-upload/commit/df3beb8caaeb0c321861db9792c35baded170632))
+
+
+### Features
+
+* add img transfer progress ([d02cf41](https://github.com/techmovie/easy-upload/commit/d02cf419bee130e6b0a0dc7a165b5bac0ea89705)), closes [#96](https://github.com/techmovie/easy-upload/issues/96)
+* restore icon animation ([dfe0733](https://github.com/techmovie/easy-upload/commit/dfe0733a229df4596386237d54658003bc564fb9))
+* 如果源站点无法获取豆瓣链接，显示获取豆瓣简介按钮 ([7a813ea](https://github.com/techmovie/easy-upload/commit/7a813ea7c7922d29eaca164368b551a691ea0589)), closes [#108](https://github.com/techmovie/easy-upload/issues/108)
+* 支持关闭显示感谢内容 ([c6f4f28](https://github.com/techmovie/easy-upload/commit/c6f4f289b9e15aae5f144509435a1d157520e547)), closes [#107](https://github.com/techmovie/easy-upload/issues/107)
+* **new site:** add PHD and  AvistaZ support (source) ([b505bbc](https://github.com/techmovie/easy-upload/commit/b505bbc2b2f0aa8ed1b50a995a2e4dac40dcffe3)), closes [#58](https://github.com/techmovie/easy-upload/issues/58)
+* **new site:** add ptn support (target) ([02e08b0](https://github.com/techmovie/easy-upload/commit/02e08b059e81b1fd54d581f67ddb8bcd2ed627d3)), closes [#98](https://github.com/techmovie/easy-upload/issues/98)
+
+
+
 ## [2.1.1](https://github.com/techmovie/easy-upload/compare/2.1.0...2.1.1) (2021-05-27)
 
 
