@@ -18,7 +18,7 @@ export default async () => {
   const mediaInfoArray = [];
   torrentDom.find('.mediainfo.mediainfo--in-release-description').next('blockquote').each(function () {
     const textContent = $(this).text();
-    if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)/i)) {
+    if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
       mediaInfoArray.push(textContent);
     }
   });
@@ -47,7 +47,8 @@ export default async () => {
     // mediainfo
     const mediaInfoOrBDInfo = mediaInfoArray.join('\n\n');
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.trim();
+    TORRENT_INFO.mediaInfos = mediaInfoArray.map(v => v.trim());
     const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
@@ -160,7 +161,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   const comparisons = [];
   comparisonArray.forEach(item => {
     descriptionData = descriptionData.replace(item, item.replace(/\s/g, ''));
-    const reason = item.match(/(\n.*\n)?\[comparison=/)[1] || '';
+    const reason = item.match(/(\n.*\n)?\[comparison=/i)[1] || '';
     const title = item.match(/\[comparison=(.*?)\]/i)[1];
     const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, '').split(/[ \r\n]/);
     const imgs = [];
