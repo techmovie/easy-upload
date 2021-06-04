@@ -174,7 +174,7 @@ const handleSearchClickEvent = () => {
     }
 
     let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
-    if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
+    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD/)) {
       url = url.replace(/{name}/, searchKeyWord);
     }
     GM_openInTab(url);
