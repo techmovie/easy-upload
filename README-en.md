@@ -136,7 +136,8 @@ You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmov
 
 ## Donors
 
-|  Name  | Amount |    Time    |
-| :----: | :----: | :--------: |
-| 韩老王 |  ¥30   | 2021/05/13 |
-|  **特  | ¥30.01 | 2021/05/27 |
+|  Name  |    Amount     |    Time    |
+| :----: | :-----------: | :--------: |
+| 韩老王 |      ¥30      | 2021/05/13 |
+|  **特  |    ¥30.01     | 2021/05/27 |
+|  J**e  | 0.00055484BTC | 2021/06/05 |
