@@ -79,12 +79,19 @@ const getDoubanData = async (selfDom) => {
     if (doubanUrl) {
       TORRENT_INFO.doubanUrl = doubanUrl;
       $('#douban-link').val(doubanUrl);
-      const movieData = await getDoubanInfo(doubanUrl);
-      showNotice({
-        title: $t('成功'),
-        text: $t('获取成功'),
-      });
-      updateTorrentInfo(movieData);
+      if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
+        const movieData = await getDoubanInfo(doubanUrl);
+        showNotice({
+          title: $t('成功'),
+          text: $t('获取成功'),
+        });
+        updateTorrentInfo(movieData);
+      } else {
+        showNotice({
+          title: $t('成功'),
+          text: $t('获取成功'),
+        });
+      }
     }
   } catch (error) {
     showNotice({
