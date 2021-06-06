@@ -118,6 +118,12 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 
 <img alt="alipay.png" src="https://ptpimg.me/3dw5k6.jpg" width="200">
 
+BTC: 
+
+**`3GtDDerL86ydyujq9uTounWXgLZ1hVFGPY`**
+
+<img alt="btc.png" src="https://ptpimg.me/i63q23.jpg" width="200">
+
 ## 致谢
 
 ### 协作者
@@ -144,8 +150,8 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 ### 捐赠者
 
-|  姓名  |    金额    |    时间    |
-| :----: | :--------: | :--------: |
-| 韩老王 |    ¥30     | 2021/05/13 |
-|  **特  |   ¥30.01   | 2021/05/27 |
-|  J**e  | 0.00055BTC | 2021/06/05 |
+|  姓名  |     金额      |    时间    |
+| :----: | :-----------: | :--------: |
+| 韩老王 |      ¥30      | 2021/05/13 |
+|  **特  |    ¥30.01     | 2021/05/27 |
+|  J**e  | 0.00055484BTC | 2021/06/05 |

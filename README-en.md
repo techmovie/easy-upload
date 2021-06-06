@@ -107,7 +107,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 
 ## Buy Me a Coffee
 
-You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmovie) if you enjoy the features and continuous support helps the maintenance and development of this project. Thank you.
+You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmovie) or [BTC](https://ptpimg.me/i63q23.jpg) **`3GtDDerL86ydyujq9uTounWXgLZ1hVFGPY`** if you enjoy the features and continuous support helps the maintenance and development of this project. Thank you.
 
 ## Credits
 
