@@ -9,9 +9,11 @@ needDoubanInfo: true
 seedDomSelector: '#vue+.panel table tr:last' 
 search: 
   path: /torrents
+  replaceKey: ['tt','']
   params:
     name: '{name}'
-    imdb: '{imdb}'
+    imdbId: '{imdb}'
+    sortField: size
 name:
   selector: '#title'
 description:

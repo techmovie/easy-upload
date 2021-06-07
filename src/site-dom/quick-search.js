@@ -22,7 +22,7 @@ const fillSearchImdb = () => {
   const nameParam = getUrlParam('name');
   const searchType = getUrlParam('search_area');
   if (imdbParam || nameParam) {
-    if (CURRENT_SITE_INFO.siteType === 'UNIT3D') {
+    if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_NAME !== 'Blutopia') {
       filterBluTorrent(imdbParam, nameParam);
     } else if (CURRENT_SITE_NAME === 'Bdc') {
       $('#tsstac').val(imdbParam);
