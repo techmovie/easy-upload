@@ -30,6 +30,8 @@ export default async () => {
   TORRENT_INFO.category = getPTPType();
   const screenshots = getPTPImage(torrentDom);
   getDescription(torrentId).then(res => {
+    const releaseName = torrentHeaderDom.data('releasename');
+    const releaseGroup = getReleaseGroup(releaseName);
     const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
     TORRENT_INFO.description = descriptionData;
     // Remux / 2D/3D Edition
@@ -37,7 +39,7 @@ export default async () => {
     // eslint-disable-next-line no-unused-vars
     const [codes, container, source, resolution, ...otherInfo] = infoArray;
     const isRemux = otherInfo.includes('Remux');
-    const { knownTags, otherTags } = getTags(otherInfo);
+    const { knownTags, otherTags } = getTags(otherInfo, [releaseGroup]);
     TORRENT_INFO.videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, codes, source);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     TORRENT_INFO.tags = { ...knownTags };
@@ -54,8 +56,7 @@ export default async () => {
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
 
-    let torrentName = torrentHeaderDom.data('releasename');
-    torrentName = formatTorrentTitle(torrentName);
+    const torrentName = formatTorrentTitle(releaseName);
     TORRENT_INFO.title = torrentName;
     TORRENT_INFO.source = getPTPSource(source, codes, resolution);
     TORRENT_INFO.size = torrentHeaderDom.find('.nobr span').attr('title').replace(/[^\d]/g, '');
@@ -194,14 +195,14 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
   return descriptionData;
 };
 
-function getTags (rawTags) {
+function getTags (rawTags, exclude = []) {
   const knownTags = {};
   const otherTags = {};
   for (const rawTag of rawTags) {
     const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
     if (tag) {
       knownTags[tag] = true;
-    } else if (tag === null) {
+    } else if (tag === null || exclude.includes(rawTag)) {
       // skip
     } else {
       otherTags[rawTag] = true;
@@ -212,3 +213,7 @@ function getTags (rawTags) {
     otherTags,
   };
 };
+
+function getReleaseGroup (releasename) {
+  return releasename.match(/-(\w+?)$/)?.[1];
+}
