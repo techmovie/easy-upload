@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.0
+// @version      2.2.1
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -921,9 +921,14 @@
       seedDomSelector: "#vue+.panel table tr:last",
       search: {
         path: "/torrents",
+        replaceKey: [
+          "tt",
+          ""
+        ],
         params: {
           name: "{name}",
-          imdb: "{imdb}"
+          imdbId: "{imdb}",
+          sortField: "size"
         }
       },
       name: {
@@ -3106,6 +3111,107 @@
         }
       }
     },
+    HDTime: {
+      url: "https://hdtime.org",
+      host: "hdtime.org",
+      siteType: "NexusPHP",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABnlBMVEVyICB6Hh57HR2GGhqKGBiLGBiRJiajTEx+IiKeQkKDLS2BKiqYOjp9ISGYODiNHh6PFxeQFxeuWlqzYWGeNjaxXl6iQECSHx+nSUm1ZGS0Y2OtV1eaMDCTIyOuV1e0ZGTt4eH59fW7dHTz7OzIlJSXLy/Vr6/////+/f3y6enJmJicNDSbOzvq19fStbX28PDjzs7izMzw5ub17+/CioqeQ0PRq6vhysrz6+vizc3gysrBlZXl09OpU1OjRka0amrn1NTfxsakSUmfPDyjRESqVVXu4uLcvr6pVlaiRETfysqXKSmSHR27dXX8+vqsVVWZKyvq3Nz37+/y5eX9/PytVlbx6Oj38vKwXFz+/v77+Pj59PSsVlbw5+f38/OwXV37+fnWs7O8gYH48/OQGBixYGCvW1uZMTHLm5vr3d2pUFDFiIjBgIDPoqL17u7Tra2bNDT8+/vkz8+tXFyRGxvRr6/ZvLyvXl7XubnXurq4d3eVKCi+hYXbv7/Zvb2mSUmTISGWJyfQra2aMzOcNTWVJCSQGhqXKiqRGhqbMzMP6rAIAAAAEHRSTlPB4en7/f39/en96en96f39DMn6iQAAAAFiS0dEJy0PqCMAAAAHdElNRQflBgoEEjQ06RnvAAABJUlEQVQ4y2NgYGTCAxgZGBiZWVhxAhZmRgYmFgE8gIWJgYlVQBAnEGAdNgrYhIRFgGxRYTFxCUkgkJKWEZSVkwQDeXYOBiZOBUUloAJlRRVVNXUg0NDU0tbRVYcAPS40BfoGhkbqxiamZuYGiuoWllbW3GgKbGzt7B3UHZ2cXVzd1N09PHl40RR4eQv6+PoZ+QsKBgSqq6mCHcmpoBEUHBwcAlMgGBoWHoGqIDIqOjpaA64gJjYuHlVBQmJSUlIyTEFKqr5+GqoCFDekpGeoZ2bhVKCQnZObF5JfgFMBCBQWFZcgK+ArLSsHKqiorKquqQWCOq36BiC/sam2phqsgL+5pRUo0KLt3dbeAgTa3uB46uhsaW8bNAmGcgWEsh7BzEso+wMAFb1rT/22c/EAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDYtMTBUMDQ6MTg6NTErMDA6MDD9uTIQAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA2LTEwVDA0OjE4OjUxKzAwOjAwjOSKrAAAAABJRU5ErkJggg==" /></svg>',
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      tags: {
+        diy: 'input[type="checkbox"][name="tags[]"][value="8"]',
+        chinese_audio: 'input[type="checkbox"][name="tags[]"][value="16"]',
+        chinese_subtitle: 'input[type="checkbox"][name="tags[]"][value="32"]',
+        hdr: 'input[type="checkbox"][name="tags[]"][value="64"]',
+        hdr10_plus: 'input[type="checkbox"][name="tags[]"][value="64"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "12",
+          x264: "10",
+          x265: "12",
+          h265: "12",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "1 ",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "7",
+          hddvd: "2",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "0"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          hdtime: "6",
+          hdt: "12",
+          vtime: "15",
+          padtime: "7",
+          cmct: "8",
+          wiki: "4",
+          beast: "3",
+          chd: "2",
+          other: "5"
+        }
+      }
+    },
     HDU: {
       url: "https://pt.hdupt.com",
       host: "hdupt.com",
@@ -3963,7 +4069,8 @@
           "With Commentary": "with_commentary",
           "Dolby Atmos": "dolby_atmos",
           HDR10: "hdr10",
-          "HDR10+": "hdr10_plus"
+          "HDR10+": "hdr10_plus",
+          "Two-Disc Set": "two_disc_set"
         }
       },
       description: {
@@ -4307,7 +4414,7 @@
       icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBjAw7XIc2AAAA6pJREFUOMt11F+o33UdBvDX8/19f2dtMk87W42tieco889GgQtBAhllobmzLBsUEiyoLrLQiXgT5J0RQU23izQk6sLdhYbbWTIxhtnUvCiqZcPtKDQw286O4M7Ozu/8vu8ufktc4Ac+F++L53m/P5/neT/xf2dyer+mu6jS26o8KD6PFn/Bz+kdZngXBspvZ2ceuAzf+2Cx5SeLlmdfIc2NeCIxGfl15PnwcXyTWod7IvN0L05cv9O5E4ff52g/SHjh6OOkWUX9AFeV3KOGf9T0kSfV8N6oH2IcR6pb1vRWXDbh+4Qbd/1CFhZUsoX6AmbIv6V3vepgWfKsqlvx5f/hOlw9vV/DyqiL7dT0Pui7cGGr5FNRnyg+ivmob0vGVbUYo0LWU+epzzW9Fad1y39vGFJfwb4WG1R3L7Ub8ziiakyyXpo9iQXSqmqLldSakk34ZLidejCsVs6WeqJV3U+jdqnqV/IC3gxV3F7V7SrNgWb+tXe7j91m9und8K+p6f1/HV4xcbh3/uwq1W2P+hF1JT6SqR17z6ZqAio5iT+HncqYOF+8FHmG/L6a5mRqODh1cA+YuvMxMkTuwEPK9zO1Y++BlK+KMdSlG0QVyUgQ3iIvFM/hb2ROvNsOx5eWm3N9ZRKnexOb7/hDcUasCVegjwaRS48f1RPi02FnuHskQt3WZXELhnhdaiFTd+51aY71uAGTiU3YhA1Ghl6L1UYNV6ItJYWkMFfM4MctvpR4+5ajD7x6bPu+t5tmg/rPa6zb2KSMYVWpcbI16roamXp9uFZsHTWttal8Q2xs8F08/vL2R29Ou0p1p2+xdsNkStcNlxa7qrnZQ3tmpXmp0hzHJDVZnKJ5uDihKBXc0ER1KTdF/crye9+h7qO+FgNp+t6cGSmq6Z0zWPgdnsK28HUsYV4iyXzJky164gzey2iH1xSTpf1nkreumX5svrioGyynv3IFOVk1PI5t1OawDs+RXybts20lr5AD0syouga3Rm3GDioli7igXBRXUiewiKERdqbkH3n96LwbP6uV3iM0y1Fder25Gg52UDeVHJFmP915NbJRsaxyVfhecVzVq3hn9tD9o2954zfa2YP3LcG1O/dJk9Swrq6yTWpjqlNpHu0P5s4MxtaIrKbbXUzgYcOld9J+SHxV1WhHiHhaeapSD6nhZwb98WOpbqm4GdfhEZpn9FY4dfD+DyPEcFglz1NvJHWs5AS+hS/WKML+RH4mXqQbzB66PP7hvxsRnTJglc+dAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA2OjQ4OjQ4KzAwOjAwwTRopQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNjo0ODo0OCswMDowMLBp0BkAAAAASUVORK5CYII=" /></svg>',
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload.new.php",
+      uploadPath: "/upload.php",
       seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
       search: {
         path: "/torrents.php",
@@ -4510,6 +4617,16 @@
           cmct: "4",
           other: "5"
         }
+      }
+    },
+    SubHD: {
+      url: "https://subhd.tv",
+      host: "subhd.tv",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 11 11" enable-background="new 0 0 11 11" xml:space="preserve">  <image id="image0" width="11" height="11" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAMAAACecocUAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA5FBMVEUAie0Aie4AiO0Lje4wn/FBpvIsnfAIjO4mmvCo1vnb7vzc7vzc7/yd0fgcle8Fi+6j1PjR6ftNrPMzoPFktvTk8v2Py/cBie4Tke/V6/wHi+4Ahe0Bh+1etPRwvfUGjO4HjO6h0/j1+v5kt/QNj+4ble9/w/bJ5vvo9P3q9f3B4vpRrvMSke8PkO5lt/TP6PvY7Pwfl+8Ah+0om/C94PpQrfMAhu0AhO1suvUvnvEQkO+/4frM5/tMrPPF5Pu+4PoAiO44ovG84Prg8Pze7/y33fo1ofERkO82ovFFqfIPj+7///92Ih8bAAAAAXRSTlPpmTCCugAAAAFiS0dES2kLhVAAAAAHdElNRQflBgQEKCzi8yjzAAAAgUlEQVQI1xXK5xbBQBRF4TtHlAgG0YPoojMEiRYtyvs/kOvft9faRAIRLRqLQxAzoSeNVDrDAZnN5c1CsVQGoVLVa1a90bTZrXZH75o98CPQHwyd0Xjyf+RUzrT5YrlSpNYb19ru9o6nCP7h6Hqn88UHBbje7sbjGSIgjtf7E36ZP28ZDcGwKhEtAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA2LTA0VDA0OjQwOjQ0KzAwOjAwUjx2WwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNi0wNFQwNDo0MDo0NCswMDowMCNhzucAAAAASUVORK5CYII=" /></svg>',
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/search/{name}"
       }
     },
     TCCF: {
@@ -5302,6 +5419,19 @@
         }
       }
     },
+    zimuku: {
+      url: "http://zimuku.org",
+      host: "zimuku.org",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACHDwAAjA8AAP1SAACBQAAAfXkAAOmLAAA85QAAGcxzPIV3AAACXlBMVEUbbZ0ZbJwAWpCpx9n///4DWIoZbJ0abJwEXpP6/P3///+5yNEAW5EIYZbK1NlMgJ8QaJsZa5wDXpQAQ3rd4+b///0AUIMDXpMYbJ0OZJcYX4kYbJ4LYZQTR2UYbqEabJ0AWo8FQGIab6EAGC4ALU8ALU0ALE0AIUMAPWIBXJETTW4WcKYZcKIacKMMZpoKRmkZbqARZZcJRGUnd6YWaZoNZJcMY5YJYZUIYpUeU3MYbaAPZ5qjq7CnpKOZlZNCa4MOWodzjJuBhol8foAISG0bb6EabZ0KYJIHW4wAV4pbmLshUm8MZ50NZJgOZpkbbZ4SaJtYkrUjVHIXbaAPZpgrUGYVPVQOOlQKOFMLOFMAK0oiRVr08vBeX2AJTXUbb6AXbqEYb6IZcKMSa6AAXJWHtdC4sawAHzQMYpUbcKIRZ5k4fqjs8vZFTE8APWYac6gbbp4Ya5sgb53l3dkCHzAOZJgccaMIYZUBXJICXZIASoWkpKQAEjcAY50CXpQCXJIWa50HYJTW4+z9/f33+fr2+Prz9vjy8/T1/P/9/f4oapEXa53n7fM1YHgVbJ/09/s5ZHwVa50+c5NXZm9DW2k/WWk+WWkqSVv5+fmLkpc1U2Q/WmpOZXNmdn+EiIoLQ2QacKEVa5wSap4TbKAUbKD6+/xthJMJaKASa58QaZ0OZZn7/PxxhpQPaJwOZZcAVY32+PlmnLyArcdqnr1kmrtwhZIGYJTf6O5OanoTa59tnboAMU8acKIWapsoc5/99PA6Q0cQZpgSaZyFkplXanY2VGYJNU8ANlsSaJobbp8uYKy2AAAAAWJLR0QKaND0VgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAd0SU1FB+UGBAQjFV4CeTAAAAGYSURBVDjLY2BAAEYmZhZWNgacgJ2Dk4uLmwebDBTw8nFxcfELsMMBVF6QAwqEhEW4uETFxGF8DgmIzZJcuICUNFiBDE4FsnIgBfIKOBUoKoHt4AEylVVUUYGaOlBUA6yAXRPI1NLW0UUBOnpAUX0DsBsMgUwjYxNTM2RgbgEUtbQCm2BtY2tnj2G/g6OTs4sr2A1u7h6eXhgKvH18/VxhQekfEIihICgYObDdQkLDwiMigSAiKjoGJB8bF48SHW4JiUkgkJySCpJOS8/IxBqhWdk5IPncvPwClMiEsQqLQNLFJaVlyBLs5ZoVlVBQBZSvrqmtA3MqNOsbQAoam7iaW1ohoA2ooL0Dwm7p5OLq6gYq4OjBGVlcvX0gBf24FUwAKZg4afKUqdMgYPoMLq6ZsyDs2XPmzpu/AOSIhYsWL4GClKVcXMuWQzkrVq5SQg+HitVcXGvW4k74lCrIWheyfgMeBVkbN23eAvTaVlwKtm2H+H3HThwKQnZBFOzeg0PB3n0g6f0HDvrjUMB+6PCRo8eOnziJKgwAyLSNK8OfEhgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDYtMDRUMDQ6MzU6MjErMDA6MDAJeY68AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA2LTA0VDA0OjM1OjIxKzAwOjAweCQ2AAAAAABJRU5ErkJggg==" /></svg>',
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/search",
+        params: {
+          q: "{imdb}"
+        }
+      }
+    },
     \u8C46\u74E3\u7535\u5F71: {
       url: "https://search.douban.com",
       host: "search.douban.com",
@@ -5357,6 +5487,7 @@
     },
     otherTags: {},
     mediaInfo: "",
+    mediaInfos: [],
     screenshots: [],
     comparisons: [],
     movieAkaName: "",
@@ -7562,6 +7693,11 @@ ${description}`);
     if (CURRENT_SITE_NAME === "PTN") {
       ptn_default(info);
     }
+    if (CURRENT_SITE_NAME === "HDTime") {
+      if (info.videoType.match(/bluray/i)) {
+        $(CURRENT_SITE_INFO.category.selector).val("424");
+      }
+    }
   };
   var matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
     const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : void 0;
@@ -7662,7 +7798,7 @@ All thanks to the original uploader\uFF01`;
     const mediaInfoArray = [];
     torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote").each(function() {
       const textContent = $(this).text();
-      if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)/i)) {
+      if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
         mediaInfoArray.push(textContent);
       }
     });
@@ -7674,12 +7810,14 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.category = getPTPType();
     const screenshots = getPTPImage(torrentDom);
     getDescription2(torrentId).then((res) => {
+      const releaseName = torrentHeaderDom.data("releasename");
+      const releaseGroup = getReleaseGroup(releaseName);
       const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
       TORRENT_INFO.description = descriptionData;
       const infoArray = torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().trim().split(" / ");
       const [codes, container, source, resolution, ...otherInfo] = infoArray;
       const isRemux = otherInfo.includes("Remux");
-      const {knownTags, otherTags} = getTags(otherInfo);
+      const {knownTags, otherTags} = getTags(otherInfo, [releaseGroup]);
       TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType(container, isRemux, codes, source);
       const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
       TORRENT_INFO.tags = __assign({}, knownTags);
@@ -7687,13 +7825,13 @@ All thanks to the original uploader\uFF01`;
       TORRENT_INFO.resolution = resolution;
       const mediaInfoOrBDInfo = mediaInfoArray.join("\n\n");
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.trim();
+      TORRENT_INFO.mediaInfos = mediaInfoArray.map((v) => v.trim());
       const {videoCodec, audioCodec, mediaTags} = getInfoFunc(mediaInfoOrBDInfo);
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.tags = __assign(__assign({}, TORRENT_INFO.tags), mediaTags);
-      let torrentName = torrentHeaderDom.data("releasename");
-      torrentName = formatTorrentTitle(torrentName);
+      const torrentName = formatTorrentTitle(releaseName);
       TORRENT_INFO.title = torrentName;
       TORRENT_INFO.source = getPTPSource(source, codes, resolution);
       TORRENT_INFO.size = torrentHeaderDom.find(".nobr span").attr("title").replace(/[^\d]/g, "");
@@ -7795,7 +7933,7 @@ All thanks to the original uploader\uFF01`;
     const comparisons = [];
     comparisonArray.forEach((item) => {
       descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
-      const reason = item.match(/(\n.*\n)?\[comparison=/)[1] || "";
+      const reason = item.match(/(\n.*\n)?\[comparison=/i)[1] || "";
       const title = item.match(/\[comparison=(.*?)\]/i)[1];
       const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
       const imgs = [];
@@ -7827,14 +7965,14 @@ All thanks to the original uploader\uFF01`;
     }
     return descriptionData;
   };
-  function getTags(rawTags) {
+  function getTags(rawTags, exclude = []) {
     const knownTags = {};
     const otherTags = {};
     for (const rawTag of rawTags) {
       const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
       if (tag) {
         knownTags[tag] = true;
-      } else if (tag === null) {
+      } else if (tag === null || exclude.includes(rawTag)) {
       } else {
         otherTags[rawTag] = true;
       }
@@ -7843,6 +7981,10 @@ All thanks to the original uploader\uFF01`;
       knownTags,
       otherTags
     };
+  }
+  function getReleaseGroup(releasename) {
+    var _a;
+    return (_a = releasename.match(/-(\w+?)$/)) == null ? void 0 : _a[1];
   }
 
   // src/source/bhd.js
@@ -9353,7 +9495,7 @@ ${screenshotsBBCode.join("")}`;
     const nameParam = getUrlParam("name");
     const searchType = getUrlParam("search_area");
     if (imdbParam || nameParam) {
-      if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
+      if (CURRENT_SITE_INFO.siteType === "UNIT3D" && CURRENT_SITE_NAME !== "Blutopia") {
         filterBluTorrent(imdbParam, nameParam);
       } else if (CURRENT_SITE_NAME === "Bdc") {
         $("#tsstac").val(imdbParam);
@@ -9591,12 +9733,19 @@ ${screenshotsBBCode.join("")}`;
       if (doubanUrl) {
         TORRENT_INFO.doubanUrl = doubanUrl;
         $("#douban-link").val(doubanUrl);
-        const movieData = await getDoubanInfo(doubanUrl);
-        showNotice({
-          title: $t("\u6210\u529F"),
-          text: $t("\u83B7\u53D6\u6210\u529F")
-        });
-        updateTorrentInfo(movieData);
+        if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
+          const movieData = await getDoubanInfo(doubanUrl);
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+          updateTorrentInfo(movieData);
+        } else {
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+        }
       }
     } catch (error) {
       showNotice({
@@ -9856,7 +10005,7 @@ ${screenshotsBBCode.join("")}`;
         searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
       }
       let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
-      if (siteName.match(/nzb|TMDB|豆瓣读书/)) {
+      if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD/)) {
         url = url.replace(/{name}/, searchKeyWord);
       }
       GM_openInTab(url);

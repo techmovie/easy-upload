@@ -1,3 +1,22 @@
+## [2.2.1](https://github.com/techmovie/easy-upload/compare/2.2.0...2.2.1) (2021-06-10)
+
+
+### Bug Fixes
+
+* PTP Editon tags remove release group name ([#111](https://github.com/techmovie/easy-upload/issues/111)) ([0a185aa](https://github.com/techmovie/easy-upload/commit/0a185aa2065dd426e9252269b5d50822b4fc7000))
+* ptp多个修复 ([#110](https://github.com/techmovie/easy-upload/issues/110)) ([3d4b638](https://github.com/techmovie/easy-upload/commit/3d4b6388919dd37e02ed6526fa5e5abaeced1972))
+* 已有中文简介的情况只更新豆瓣链接 ([53de6a7](https://github.com/techmovie/easy-upload/commit/53de6a7758d4ce9b07d65d21f27bb847b4c4f847)), closes [#108](https://github.com/techmovie/easy-upload/issues/108)
+* 替换ssd上传页路径 ([80a4150](https://github.com/techmovie/easy-upload/commit/80a4150c6f578be978d64bfc2f5bb49814552369))
+* 适配新版blu ([0c6a351](https://github.com/techmovie/easy-upload/commit/0c6a3514b3e1241d38ad7e47d2285dffc4a72a7e))
+
+
+### Features
+
+* **new site:** 支持HDTime ([fda8488](https://github.com/techmovie/easy-upload/commit/fda84882f0d7b276e57bd7ca8d6c3a3a940f06aa))
+* add zimuku and SubHD  support for quick search ([d8eb2a3](https://github.com/techmovie/easy-upload/commit/d8eb2a32b17525a09d5a93df18d84b0f6a443d84))
+
+
+
 # [2.2.0](https://github.com/techmovie/easy-upload/compare/2.1.1...2.2.0) (2021-06-03)
 
 
