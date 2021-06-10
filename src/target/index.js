@@ -402,6 +402,11 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME === 'PTN') {
     handlePTN(info);
   }
+  if (CURRENT_SITE_NAME === 'HDTime') {
+    if (info.videoType.match(/bluray/i)) {
+      $(CURRENT_SITE_INFO.category.selector).val('424');
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单

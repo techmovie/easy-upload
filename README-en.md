@@ -82,6 +82,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |  HDRoute  |             ❌             |            ✅            |
 |   HDSky   |             ✅             |            ✅            |
 |    HDT    |             ✅             |            ✅            |
+|  HDTime   |             ✅             |            ✅            |
 |    HDU    |             ✅             |            ✅            |
 |    iTS    |             ❌             |            ✅            |
 | KEEPFRDS  |             ✅             |            ❌            |
