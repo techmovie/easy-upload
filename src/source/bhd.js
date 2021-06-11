@@ -4,7 +4,9 @@ import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInf
 export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-  const { Category, Name, Source, Type, Size } = getBasicInfo();
+  const basicInfo = getBasicInfo();
+  const editionTags = getEditionTags(basicInfo);
+  const { Category, Name, Source, Type, Size } = basicInfo;
   TORRENT_INFO.size = getSize(Size);
   TORRENT_INFO.title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
@@ -30,13 +32,16 @@ export default async () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfo = mediaInfo;
+  TORRENT_INFO.mediaInfos = [mediaInfo];
+  TORRENT_INFO.originalDescription = descriptionBBCode;
   TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.resolution = resolution;
-  TORRENT_INFO.tags = { ...tags, ...mediaTags };
+  TORRENT_INFO.tags = { ...tags, ...mediaTags, ...editionTags.knownTags };
+  TORRENT_INFO.otherTags = editionTags.otherTags;
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.screenshots = getImages();
   return TORRENT_INFO;
@@ -100,4 +105,26 @@ const getVideoType = (type) => {
     return 'encode';
   }
   return type;
+};
+
+const getEditionTags = ({ Video, Audio, Hybrid, Edition, Region, Extras }) => {
+  const knownTags = {};
+  const otherTags = {};
+  const text = [Video, Audio, Edition, Extras].filter(v => Boolean(v)).join(' / ');
+  for (const [source, target] of Object.entries(CURRENT_SITE_INFO.sourceInfo.editionTags)) {
+    if (text.includes(source)) {
+      knownTags[target] = true;
+    };
+  }
+  if (Hybrid) {
+    otherTags.Hybrid = true;
+  }
+  // fix hdr10 hdr10+
+  if (knownTags.hdr10_plus && knownTags.hdr10) {
+    delete knownTags.hdr10;
+  }
+  return {
+    knownTags,
+    otherTags,
+  };
 };
