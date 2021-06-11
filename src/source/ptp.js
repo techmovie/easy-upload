@@ -202,7 +202,7 @@ function getTags (rawTags, exclude = []) {
     const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
     if (tag) {
       knownTags[tag] = true;
-    } else if (tag === null || exclude.includes(rawTag)) {
+    } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech/)) {
       // skip
     } else {
       otherTags[rawTag] = true;
