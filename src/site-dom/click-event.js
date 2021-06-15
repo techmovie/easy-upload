@@ -23,6 +23,20 @@ const getPTPGroupId = async (imdbUrl) => {
     return '';
   }
 };
+const getGPWGroupId = async (imdbUrl) => {
+  const imdbId = getIMDBIdByUrl(imdbUrl);
+  if (imdbId) {
+    const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}`;
+    const data = await fetch(url);
+    if (data && data.Dupe) {
+      return data.GroupID;
+    } else {
+      return '';
+    }
+  } else {
+    return '';
+  }
+};
 
 export default () => {
   if ($('#easy-seed-setting')[0]) {
@@ -120,6 +134,10 @@ const handleSiteClickEvent = () => {
     }
     if (url.match(/passthepopcorn/)) {
       const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
+      url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+    }
+    if (url.match(/greatposterwall/)) {
+      const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
       url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
     }
     if (TORRENT_INFO.isForbidden) {

@@ -2,6 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
 import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
   getFilterImages, getBDInfoOrMediaInfo,
+  getInfoFromMediaInfo, getInfoFromBDInfo,
 } from '../common';
 import { getTeamName } from './common';
 
@@ -407,6 +408,21 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.category.selector).val('424');
     }
   }
+  if (CURRENT_SITE_NAME === 'GPW') {
+    $('#imdb_button').click();
+    const { videoType } = info;
+    const isBluray = videoType.match(/bluray/i);
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
+    const videoFormat = getFormat(format, videoType);
+    const formatConfig = CURRENT_SITE_INFO.format;
+    $(formatConfig.selector).val(formatConfig.map[videoFormat]);
+    if (subtitles.length > 0) {
+      $('#mixed_subtitles').attr('checked', true);
+      const event = new Event('change');
+      document.querySelector('#mixed_subtitles').dispatchEvent(event);
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单
@@ -477,7 +493,7 @@ const filterNexusDescription = (info) => {
   return filterDescription + '\n' + allImages.join('');
 };
 const getThanksQuote = (info) => {
-  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === 'HDPOST';
+  const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
   let thanksQuote = `转自[b]${info.sourceSite}[/b]，感谢原发布者！`;
   if (!isChineseSite) {
     thanksQuote = `Torrent from [b]${info.sourceSite}[/b].\nAll thanks to the original uploader！`;
@@ -502,6 +518,14 @@ const filterEmptyTags = (description) => {
   } else {
     return description;
   }
+};
+const getFormat = (format, videoType) => {
+  if (videoType.match(/bluray/) && format !== 'iso') {
+    format = 'm2ts';
+  } else if (videoType.match(/dvd/)) {
+    format = 'vob';
+  }
+  return format || 'mkv';
 };
 export {
   fillTargetForm,

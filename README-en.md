@@ -70,6 +70,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 | Blutopia  |             ✅             |            ✅            |
 |  CHDBits  |             ✅             |            ✅            |
 |  DiscFan  |             ✅             |            ✅            |
+|    GPW    |             ❌             |            ✅            |
 |  HD4FANS  |             ✅             |            ✅            |
 |   HDAI    |             ✅             |            ✅            |
 |  HDArea   |             ✅             |            ✅            |

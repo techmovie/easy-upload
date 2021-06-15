@@ -447,4 +447,7 @@ td.title-td h4{
 #transfer-progress{
   display: none;
 }
+#upload form:not(.autofilled,.no-imdb-id) .collapse{
+  display: block !important;
+}
 `);
