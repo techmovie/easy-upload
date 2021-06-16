@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.1
+// @version      2.2.2
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -717,6 +717,44 @@
           doSearch: "Search"
         }
       },
+      sourceInfo: {
+        editionTags: {
+          "10-bit": "10_bit",
+          "2-Disc Set": "2_disc_set",
+          "2D/3D Edition": "2d_3d_edition",
+          "2in1": "2_in_1",
+          "3D": "3d",
+          "3D Anaglyph": "3d_anaglyph",
+          "3D Full SBS": "3d_full_sbs",
+          "3D Half OU": "3d_half_ou",
+          "3D Half SBS": "3d_half_sbs",
+          "4K Remaster": "4k_remaster",
+          "4K Restoration": "4k_restoration",
+          "Digital Extras": "extras",
+          "Director's Cut": "director_s_cut",
+          "Dolby Atmos": "dolby_atmos",
+          "Dolby Vision": "dolby_vision",
+          "Dual Audio": "dual_audio",
+          "English Dub": "english_dub",
+          "Extended Cut": "extended_edition",
+          "Extended Edition": "extended_edition",
+          Extras: "extras",
+          HDR10: "hdr10",
+          "HDR10+": "hdr10_plus",
+          "Masters of Cinema": "masters_of_cinema",
+          Scene: "scene",
+          "The Criterion Collection": "the_criterion_collection",
+          "Theatrical Cut": "theatrical_cut",
+          Trumpable: null,
+          "Two-Disc Set": "two_disc_set",
+          Remux: "remux",
+          Rifftrax: "rifftrax",
+          Uncut: "uncut",
+          Unrated: "unrated",
+          "Warner Archive Collection": "warner_archive_collection",
+          Commentary: "with_commentary"
+        }
+      },
       name: {
         selector: "#title"
       },
@@ -1234,6 +1272,145 @@
           search: "{imdb}",
           searchin: "{optionKey}",
           sort: "3"
+        }
+      }
+    },
+    GPW: {
+      url: "https://greatposterwall.com",
+      host: "greatposterwall.com",
+      siteType: "gazelle",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="12px" viewBox="0 0 22 24" enable-background="new 0 0 22 24" xml:space="preserve">  <image id="image0" width="22" height="24" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAMAAADJYP15AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABVlBMVEUAAAAvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMH////T/m9bAAAAcHRSTlMAABScbxoq5/nNlouiawwn4/36fQENv7PZH3D85e83GcnmK5OtCcbdOWzyWjjfowdURS3wQ3PcxQ8bYuGdBChjj5rWqqu2ICRMCL0y29cCprcje/v30U/+znJJX/boSPQGEsM6CpX1hBGN4FCw6p41N9CYMAAAAAFiS0dEca8HXOIAAAAHdElNRQflBg8QJipZPSzlAAABIUlEQVQoz13R11bCQBAG4AyCYkGToKImWBAsCAQLKmLsLRbsohKw9zbvf+WWILv+V3u+zJmdnSgKCfga/AGgUcRAY1OwuaW1LdQuOXSoiKhperhTdOjqJhyJYE+vxNBnIJomRvvlLgODSDMUkxmGGccTMvtGqI6O/Sse14kmJ0C+MZWmxRmrrlYsOzlF58PpGaE2N2sk0wbluXmB8wsF5FmkncFesoE1Xg5yXmGcWE2xiyG/xnndZtUbm1vbO+Tg7HJW9yhDzthXD8iheOg1PzomG3dOTs/OL+j3sMely6vrctytZAOsefXGc9R0Mmrmlg0Kd/coxHzgKwAou3V1/bU/BI9PRk2fX5y/t8LrW5Rf+h5yhA2A9fH5VdIK3z9Frr/KLlYZgS4NmAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0xNVQxNjozODo0MiswMDowMN+dGPkAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMTVUMTY6Mzg6NDIrMDA6MDCuwKBFAAAAAElFTkSuQmCC" /></svg>',
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          searchstr: "{imdb}",
+          order_by: "size",
+          order_way: "desc",
+          group_results: 1,
+          action: "basic",
+          searchsubmit: 1
+        }
+      },
+      needDoubanInfo: true,
+      targetInfo: {
+        editionTags: {
+          "10_bit": "10_bit",
+          "2_disc_set": "2_disc_set",
+          "2d_3d_edition": "2d_3d_edition",
+          "2_in_1": "2_in_1",
+          "3d": "3d",
+          "3d_anaglyph": "3d_anaglyph",
+          "3d_full_sbs": "3d_full_sbs",
+          "3d_half_ou": "3d_half_ou",
+          "3d_half_sbs": "3d_half_sbs",
+          "4k_remaster": "4k_remaster",
+          "4k_restoration": "4k_restoration",
+          director_s_cut: "director_s_cut",
+          dolby_atmos: "dolby_atmos",
+          dolby_vision: "dolby_vision",
+          dual_audio: "dual_audio",
+          english_dub: "english_dub",
+          extended_edition: "extended_edition",
+          extras: "extras",
+          hdr10: "hdr10",
+          hdr10_plus: "hdr10plus",
+          masters_of_cinema: "masters_of_cinema",
+          scene: null,
+          the_criterion_collection: "the_criterion_collection",
+          theatrical_cut: "theatrical_cut",
+          two_disc_set: "2_disc_set",
+          remux: null,
+          rifftrax: "rifftrax",
+          uncut: "uncut",
+          unrated: "unrated",
+          warner_archive_collection: "warner_archive_collection",
+          with_commentary: "with_commentary"
+        }
+      },
+      description: {
+        selector: "#release_desc"
+      },
+      imdb: {
+        selector: "#imdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo[]"]'
+      },
+      category: {
+        selector: "#releasetype",
+        map: {
+          movie: "1",
+          tv: "3",
+          tvPack: "3",
+          concert: "5"
+        }
+      },
+      source: {
+        selector: "#source",
+        map: {
+          uhdbluray: "Blu-ray",
+          bluray: "Blu-ray",
+          web: "WEB",
+          hdtv: "HDTV",
+          hddvd: "HD-DVD",
+          dvd: "DVD",
+          other: "Other"
+        }
+      },
+      videoCodec: {
+        selector: "#codec",
+        map: {
+          h264: "H.264",
+          hevc: "H.265",
+          x264: "x264",
+          x265: "x265",
+          h265: "H.265",
+          mpeg2: "Other",
+          mpeg4: "H.264",
+          vc1: "Other",
+          xvid: "xvid"
+        }
+      },
+      resolution: {
+        selector: "#resolution",
+        map: {
+          NTSC: "NTSC",
+          PAL: "PAL",
+          "2160p": "2160p",
+          "1080p": "1080p",
+          "1080i": "1080i",
+          "720p": "720p",
+          "576p": "576p",
+          "480p": "480p"
+        }
+      },
+      format: {
+        selector: "#container",
+        map: {
+          mkv: "MKV",
+          mp4: "MP4",
+          avi: "AVI",
+          ts: "TS",
+          wmv: "WMV",
+          vob: "VOB IFO",
+          iso: "ISO",
+          mpg: "MPG",
+          m2ts: "m2ts"
+        }
+      },
+      videoType: {
+        selector: "#processing",
+        map: {
+          encode: "Encode",
+          remux: "Remux",
+          DIY: "DIY",
+          bluray: "Untouched",
+          uhdbluray: "Untouched",
+          dvd: "Untouched",
+          dvdrip: "Encode"
         }
       }
     },
@@ -4040,37 +4217,40 @@
       },
       sourceInfo: {
         editionTags: {
-          Trumpable: null,
-          "Dual Audio": "dual_audio",
-          Scene: "scene",
-          "Masters of Cinema": "masters_of_cinema",
-          "The Criterion Collection": "the_criterion_collection",
-          "Warner Archive Collection": "warner_archive_collection",
-          "Director's Cut": "director_s_cut",
-          "Extended Edition": "extended_edition",
-          "Extended Cut": "extended_edition",
-          Rifftrax: "rifftrax",
-          "Theatrical Cut": "theatrical_cut",
-          Uncut: "uncut",
-          Unrated: "unrated",
+          "10-bit": "10_bit",
           "2-Disc Set": "2_disc_set",
-          "2in1": "2_in_1",
           "2D/3D Edition": "2d_3d_edition",
+          "2in1": "2_in_1",
           "3D": "3d",
           "3D Anaglyph": "3d_anaglyph",
           "3D Full SBS": "3d_full_sbs",
           "3D Half OU": "3d_half_ou",
           "3D Half SBS": "3d_half_sbs",
-          "4K Restoration": "4k_restoration",
           "4K Remaster": "4k_remaster",
-          "10-bit": "10_bit",
-          Extras: "extras",
-          Remux: "remux",
-          "With Commentary": "with_commentary",
+          "4K Restoration": "4k_restoration",
+          "Director's Cut": "director_s_cut",
           "Dolby Atmos": "dolby_atmos",
+          "Dolby Vision": "dolby_vision",
+          "Dual Audio": "dual_audio",
+          "English Dub": "english_dub",
+          "Extended Cut": "extended_edition",
+          "Extended Edition": "extended_edition",
+          Extras: "extras",
           HDR10: "hdr10",
           "HDR10+": "hdr10_plus",
-          "Two-Disc Set": "two_disc_set"
+          "Masters of Cinema": "masters_of_cinema",
+          Scene: "scene",
+          "The Criterion Collection": "the_criterion_collection",
+          "Theatrical Cut": "theatrical_cut",
+          Trumpable: null,
+          "Two-Disc Set": "two_disc_set",
+          Remux: "remux",
+          Reported: null,
+          Rifftrax: "rifftrax",
+          Uncut: "uncut",
+          Unrated: "unrated",
+          "Warner Archive Collection": "warner_archive_collection",
+          "With Commentary": "with_commentary"
         }
       },
       description: {
@@ -6046,7 +6226,11 @@
   };
   var getBDType = (size) => {
     const GBSize = size / 1e9;
-    if (GBSize < 25) {
+    if (GBSize < 5) {
+      return "DVD5";
+    } else if (GBSize < 25) {
+      return "DVD9";
+    } else if (GBSize < 25) {
       return "BD25";
     } else if (GBSize < 50) {
       return "BD50";
@@ -6201,7 +6385,7 @@
     const isEncoded = !!getMediaValueByKey("Encoding settings", mainVideo);
     let videoCodec = "";
     if (generalFormat === "DVD Video") {
-      videoCodec = "DVD";
+      videoCodec = "mpeg2";
     } else if (generalFormat === "MPEG-4") {
       videoCodec = "mpeg4";
     } else if (videoFormat === "MPEG Video" && videoFormatVersion === "Version 2") {
@@ -7341,6 +7525,191 @@ ${description}`);
     $("#format").val(format);
   };
 
+  // src/target/gpw.js
+  var gpw_default = async (info) => {
+    const site = CURRENT_SITE_INFO;
+    const isUploadSuccess = !$("#mediainfo")[0];
+    if (isUploadSuccess) {
+      return;
+    }
+    const isAddFormat = getUrlParam("groupid");
+    if (!isAddFormat) {
+      $(site.imdb.selector).val(info.imdbUrl || 0);
+      $("#imdb_button").click();
+      $("#upload .collapse").show();
+    }
+    $(site.category.selector).val(site.category.map[info.category]);
+    fillEditionInfo(info);
+    fillMediaInfo(info);
+    if (!$(site.source.selector).val()) {
+      handleNoAutoCheck(info);
+    }
+    fillScene(info);
+    fillProcessing(info);
+    let description;
+    if (info.sourceSite === "PTP") {
+      description = buildPTPDescription(info);
+    } else if (info.sourceSite === "BeyondHD") {
+      description = info.originalDescription;
+    } else {
+      description = buildDescription(info);
+    }
+    $(site.description.selector).val(description);
+    document.querySelector("#description-container .bbcode-preview-button").click();
+  };
+  function buildDescription(info) {
+    let description = "";
+    if (info.comparisons.length > 0) {
+      for (const comparison of info.comparisons) {
+        description += `${comparison.reason}[comparison=${comparison.title}]
+${comparison.imgs.join("\n")}
+[/comparison]
+
+`;
+      }
+    }
+    if (info.screenshots.length > 0) {
+      description += info.screenshots.map((v) => `[img]${v}[/img]`).join("\n") + "\n\n";
+    }
+    return description.trim();
+  }
+  function fillEditionInfo(info) {
+    const site = CURRENT_SITE_INFO;
+    const editionTags = Object.keys(info.tags).map((tag) => site.targetInfo.editionTags[tag]).filter(Boolean);
+    let otherTag;
+    if (Object.keys(info.otherTags).length > 0) {
+      otherTag = Object.keys(info.otherTags).join(", ");
+    }
+    if (editionTags.length > 0 || otherTag) {
+      $("#movie_edition_information").click();
+    }
+    if (editionTags.length > 0) {
+      for (const tag of editionTags) {
+        $(`#movie_remaster_tags a[onclick*="'${tag}'"]`).click();
+      }
+    }
+    if (otherTag) {
+      $("#other-button").click();
+      $("[name=remaster_custom_title]").val(otherTag);
+    }
+  }
+  function buildPTPDescription(info) {
+    let text = info.originalDescription;
+    text = text.replaceAll("http://ptpimg.me", "https://ptpimg.me");
+    for (const mediainfo of info.mediaInfos) {
+      text = text.replace(mediainfo, "");
+    }
+    text = text.replaceAll(/\[(mediainfo|bdinfo)\][\s\S]*?\[\/(mediainfo|bdinfo)\]/gi, "");
+    text = text.replaceAll(/^(?!\[img\])https:\/\/ptpimg.me.*?png(?!\[\/img\])$/gim, (imgUrl) => {
+      return `[img]${imgUrl}[/img]`;
+    });
+    text = text.replaceAll(/\[comparison.*\][\s\S]*\[\/comparison\]/gi, (comparisonText) => {
+      return comparisonText.replaceAll("[img]", "").replaceAll("[/img]", "").split("https://ptpimg.me").join("\nhttps://ptpimg.me").replaceAll(/\s*\n\s*/g, "\n");
+    });
+    text = text.replaceAll(/\[hide(.*)?\]\s*\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\[\/hide\]/gi, (imgText) => {
+      var _a;
+      const imgs = [];
+      for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
+        imgs.push(urlMatch[1]);
+      }
+      const rawTitle = ((_a = imgText.match(/^\[hide=(.*?)\]/)) == null ? void 0 : _a[1]) || "";
+      const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map((v) => v.trim());
+      if (comparisonTitles.length >= 2) {
+        return `[comparison=${comparisonTitles.join(", ")}]
+${imgs.join("\n")}
+[/comparison]
+`;
+      } else {
+        const hideTitle = rawTitle ? `=${rawTitle}` : "";
+        return `[hide${hideTitle}]
+[img]${imgs.join("[/img]\n[img]")}[/img]
+[/hide]
+`;
+      }
+    });
+    text = text + "\n\n";
+    text = text.replaceAll(/\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\n\n/gi, (imgText) => {
+      const imgs = [];
+      for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
+        imgs.push(urlMatch[1]);
+      }
+      return `[hide]
+[img]${imgs.join("[/img]\n[img]")}[/img]
+[/hide]
+`;
+    });
+    text = text.replaceAll(/\n\s*\n/g, "\n\n");
+    return text.trim();
+  }
+  function fillMediaInfo(info) {
+    for (let i = 1; i < info.mediaInfos.length; i++) {
+      $("#add-mediainfo")[0].click();
+    }
+    const textareas = Array.from($('[name="mediainfo[]"]'));
+    for (const [index, textarea] of textareas.entries()) {
+      textarea.value = info.mediaInfos[index];
+    }
+    ;
+    $('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
+  }
+  function fillScene(info) {
+    if (info.tags.scene) {
+      $("#scene").prop("checked", true);
+    }
+  }
+  function fillProcessing(info) {
+    let {videoType, size, source, tags} = info;
+    if (source.match(/bluray|hddvd|dvd/)) {
+      if (tags.diy) {
+        videoType = "DIY";
+      }
+      const videoTypeConfig = CURRENT_SITE_INFO.videoType;
+      const {selector, map} = videoTypeConfig;
+      $(selector).val(map[videoType]);
+      document.querySelector("#processing").dispatchEvent(new Event("change"));
+      if (map[videoType] === "Untouched") {
+        const bdType = getBDType(size);
+        $('select[name="processing_other"]').val(bdType);
+      }
+    }
+  }
+  function handleNoAutoCheck(info) {
+    const {
+      mediaInfo,
+      videoType
+    } = info;
+    const isBluray = videoType.match(/bluray/i);
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const {format = "", subtitles = []} = getInfoFunc(mediaInfo);
+    info.format = getFormat2(format, videoType);
+    ["source", "videoCodec", "format", "resolution"].forEach((key) => {
+      const {selector = "", map} = CURRENT_SITE_INFO[key];
+      if (map) {
+        const mapValue = map[info[key]];
+        $(selector).val(mapValue);
+        if (key === "videoCodec" && mapValue === "Other") {
+          document.querySelector(selector).dispatchEvent(new Event("change"));
+          $('input[name="codec_other"]').val(info[key].toUpperCase());
+        }
+      } else {
+        $(selector).val(info[key]);
+      }
+    });
+    if (subtitles.length > 0) {
+      $("#mixed_subtitles").attr("checked", true);
+      const event = new Event("change");
+      document.querySelector("#mixed_subtitles").dispatchEvent(event);
+    }
+  }
+  var getFormat2 = (format, videoType) => {
+    if (videoType.match(/bluray/) && format !== "iso") {
+      format = "m2ts";
+    } else if (videoType.match(/dvd/)) {
+      format = "vob";
+    }
+    return format || "mkv";
+  };
+
   // src/target/index.js
   var fillTargetForm = (info) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
@@ -7351,6 +7720,10 @@ ${description}`);
     }
     if (CURRENT_SITE_NAME === "PTP") {
       ptp_default(info);
+      return false;
+    }
+    if (CURRENT_SITE_NAME === "GPW") {
+      gpw_default(info);
       return false;
     }
     if (CURRENT_SITE_NAME === "PTSBAO" && localStorage.getItem("autosave")) {
@@ -7756,7 +8129,7 @@ ${description}`);
     return filterDescription + "\n" + allImages.join("");
   };
   var getThanksQuote = (info) => {
-    const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME === "HDPOST";
+    const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
     let thanksQuote = `\u8F6C\u81EA[b]${info.sourceSite}[/b]\uFF0C\u611F\u8C22\u539F\u53D1\u5E03\u8005\uFF01`;
     if (!isChineseSite) {
       thanksQuote = `Torrent from [b]${info.sourceSite}[/b].
@@ -7972,7 +8345,7 @@ All thanks to the original uploader\uFF01`;
       const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
       if (tag) {
         knownTags[tag] = true;
-      } else if (tag === null || exclude.includes(rawTag)) {
+      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech/i)) {
       } else {
         otherTags[rawTag] = true;
       }
@@ -7991,7 +8364,9 @@ All thanks to the original uploader\uFF01`;
   var bhd_default = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const {Category, Name, Source, Type, Size} = getBasicInfo();
+    const basicInfo = getBasicInfo();
+    const editionTags = getEditionTags(basicInfo);
+    const {Category, Name, Source, Type, Size} = basicInfo;
     TORRENT_INFO.size = getSize(Size);
     TORRENT_INFO.title = formatTorrentTitle(Name);
     const tags = getTagsFromSubtitle(TORRENT_INFO.title);
@@ -8016,6 +8391,8 @@ All thanks to the original uploader\uFF01`;
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const mediaInfo = $("#stats-full code").text();
     TORRENT_INFO.mediaInfo = mediaInfo;
+    TORRENT_INFO.mediaInfos = [mediaInfo];
+    TORRENT_INFO.originalDescription = descriptionBBCode;
     TORRENT_INFO.description = `${descriptionBBCode}
 [quote]${mediaInfo}[/quote]`;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -8023,7 +8400,8 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = __assign(__assign({}, tags), mediaTags);
+    TORRENT_INFO.tags = __assign(__assign(__assign({}, tags), mediaTags), editionTags.knownTags);
+    TORRENT_INFO.otherTags = editionTags.otherTags;
     TORRENT_INFO.imdbUrl = imdbUrl;
     TORRENT_INFO.screenshots = getImages();
     return TORRENT_INFO;
@@ -8087,6 +8465,27 @@ All thanks to the original uploader\uFF01`;
       return "encode";
     }
     return type;
+  };
+  var getEditionTags = ({Video, Audio, Hybrid, Edition, Region, Extras}) => {
+    const knownTags = {};
+    const otherTags = {};
+    const text = [Video, Audio, Edition, Extras].filter((v) => Boolean(v)).join(" / ");
+    for (const [source, target] of Object.entries(CURRENT_SITE_INFO.sourceInfo.editionTags)) {
+      if (text.includes(source)) {
+        knownTags[target] = true;
+      }
+      ;
+    }
+    if (Hybrid) {
+      otherTags.Hybrid = true;
+    }
+    if (knownTags.hdr10_plus && knownTags.hdr10) {
+      delete knownTags.hdr10;
+    }
+    return {
+      knownTags,
+      otherTags
+    };
   };
 
   // src/source/hdb.js
@@ -8629,9 +9028,9 @@ All thanks to the original uploader\uFF01`;
       }
     }
     if (CURRENT_SITE_INFO === "TCCF") {
-      TORRENT_INFO.format = getFormat2(videoType);
+      TORRENT_INFO.format = getFormat3(videoType);
     } else {
-      TORRENT_INFO.format = getFormat2($("#top").text() + subtitle);
+      TORRENT_INFO.format = getFormat3($("#top").text() + subtitle);
     }
   };
   var getMetaInfo = (metaInfo) => {
@@ -8771,7 +9170,7 @@ All thanks to the original uploader\uFF01`;
     }
     return resolution;
   };
-  var getFormat2 = (data) => {
+  var getFormat3 = (data) => {
     if (data.match(/pdf/i)) {
       return "pdf";
     } else if (data.match(/EPUB/i)) {
@@ -9858,6 +10257,20 @@ ${screenshotsBBCode.join("")}`;
       return "";
     }
   };
+  var getGPWGroupId = async (imdbUrl) => {
+    const imdbId = getIMDBIdByUrl(imdbUrl);
+    if (imdbId) {
+      const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
+      const data = await fetch(url);
+      if (data && data.GroupID) {
+        return data.GroupID;
+      } else {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  };
   var click_event_default = () => {
     if ($("#easy-seed-setting")[0]) {
       $("#easy-seed-setting").on("click", () => {
@@ -9954,6 +10367,12 @@ ${screenshotsBBCode.join("")}`;
       if (url.match(/passthepopcorn/)) {
         const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
         url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+      }
+      if (url.match(/greatposterwall/)) {
+        const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
+        if (groupId) {
+          url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+        }
       }
       if (TORRENT_INFO.isForbidden) {
         const result = window.confirm($t("\u672C\u79CD\u5B50\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F"));
@@ -10484,6 +10903,9 @@ td.title-td h4{
 }
 #transfer-progress{
   display: none;
+}
+#upload form:not(.autofilled,.no-imdb-id) .collapse{
+  display: block !important;
 }
 `);
 

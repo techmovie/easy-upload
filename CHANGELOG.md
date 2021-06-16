@@ -1,3 +1,21 @@
+## [2.2.2](https://github.com/techmovie/easy-upload/compare/2.2.1...2.2.2) (2021-06-16)
+
+
+### Bug Fixes
+
+* gpw GroupId => GroupID ([a238f47](https://github.com/techmovie/easy-upload/commit/a238f47fc651d648fbc49f5c522736c4eca3405b))
+* PTP edition tags remove freeleech ([#114](https://github.com/techmovie/easy-upload/issues/114)) ([3a42f64](https://github.com/techmovie/easy-upload/commit/3a42f64581c9b73e7b07ac8d1d188cc02ad158fa))
+* 完善GPW目标站 ([#117](https://github.com/techmovie/easy-upload/issues/117)) ([79e2cec](https://github.com/techmovie/easy-upload/commit/79e2cecceb265feb717ec062c110dabac5327dfa))
+
+
+### Features
+
+* 完善GPW ([6c6456e](https://github.com/techmovie/easy-upload/commit/6c6456e78bfde91791d5aaf690584cee98f6abb2))
+* **new site:** support GPW(target) ([292cbc4](https://github.com/techmovie/easy-upload/commit/292cbc4e0efece643d8739e7b9925e8e481b5db8))
+* BHD add editionTags, mediaInfos, originalDescription ([#115](https://github.com/techmovie/easy-upload/issues/115)) ([4b5d243](https://github.com/techmovie/easy-upload/commit/4b5d24331953dfcd99a18a688c810c5203acea9c))
+
+
+
 ## [2.2.1](https://github.com/techmovie/easy-upload/compare/2.2.0...2.2.1) (2021-06-10)
 
 
