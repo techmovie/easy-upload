@@ -13,6 +13,7 @@ import handleBib from './bib';
 import handleBb from './bB';
 import handlePTP from './ptp';
 import handlePTN from './ptn';
+import handleGPW from './gpw';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -22,6 +23,10 @@ const fillTargetForm = (info) => {
   }
   if (CURRENT_SITE_NAME === 'PTP') {
     handlePTP(info);
+    return false;
+  }
+  if (CURRENT_SITE_NAME === 'GPW') {
+    handleGPW(info);
     return false;
   }
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {
