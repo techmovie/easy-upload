@@ -1,6 +1,7 @@
 import { CURRENT_SITE_INFO } from '../const';
 import {
-  getUrlParam,
+  getBDType, getInfoFromBDInfo,
+  getUrlParam, getInfoFromMediaInfo,
 } from '../common';
 
 export default async (info) => {
@@ -19,11 +20,19 @@ export default async (info) => {
     $('#upload .collapse').show();
   }
 
+  $(site.category.selector).val(site.category.map[info.category]);
+
   fillEditionInfo(info);
 
   fillMediaInfo(info);
 
+  if (!$(site.source.selector).val()) {
+    handleNoAutoCheck(info);
+  }
+
   fillScene(info);
+
+  fillProcessing(info);
 
   let description;
   if (info.sourceSite === 'PTP') {
@@ -35,7 +44,7 @@ export default async (info) => {
   }
   $(site.description.selector).val(description);
 
-  document.querySelector('#description-container [value=Preview]').click();
+  document.querySelector('#description-container .bbcode-preview-button').click();
 };
 
 function buildDescription (info) {
@@ -145,3 +154,57 @@ function fillScene (info) {
     $('#scene').prop('checked', true);
   }
 }
+
+function fillProcessing (info) {
+  let { videoType, size, source, tags } = info;
+  if (source.match(/bluray|hddvd|dvd/)) {
+    if (tags.diy) {
+      videoType = 'DIY';
+    }
+    const videoTypeConfig = CURRENT_SITE_INFO.videoType;
+    const { selector, map } = videoTypeConfig;
+    $(selector).val(map[videoType]);
+    document.querySelector('#processing').dispatchEvent(new Event('change'));
+    if (map[videoType] === 'Untouched') {
+      const bdType = getBDType(size);
+      $('select[name="processing_other"]').val(bdType);
+    }
+  }
+}
+// 兼容自动检测失败的情况
+function handleNoAutoCheck (info) {
+  const {
+    mediaInfo, videoType,
+  } = info;
+  const isBluray = videoType.match(/bluray/i);
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
+  info.format = getFormat(format, videoType);
+  ['source', 'videoCodec', 'format', 'resolution'].forEach(key => {
+    const { selector = '', map } = CURRENT_SITE_INFO[key];
+    if (map) {
+      const mapValue = map[info[key]];
+      $(selector).val(mapValue);
+
+      if (key === 'videoCodec' && mapValue === 'Other') {
+        document.querySelector(selector).dispatchEvent(new Event('change'));
+        $('input[name="codec_other"]').val(info[key].toUpperCase());
+      }
+    } else {
+      $(selector).val(info[key]);
+    }
+  });
+  if (subtitles.length > 0) {
+    $('#mixed_subtitles').attr('checked', true);
+    const event = new Event('change');
+    document.querySelector('#mixed_subtitles').dispatchEvent(event);
+  }
+}
+const getFormat = (format, videoType) => {
+  if (videoType.match(/bluray/) && format !== 'iso') {
+    format = 'm2ts';
+  } else if (videoType.match(/dvd/)) {
+    format = 'vob';
+  }
+  return format || 'mkv';
+};

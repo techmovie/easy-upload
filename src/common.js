@@ -395,7 +395,11 @@ const getAreaCode = (area) => {
 * */
 const getBDType = (size) => {
   const GBSize = size / 1e9;
-  if (GBSize < 25) {
+  if (GBSize < 5) {
+    return 'DVD5';
+  } else if (GBSize < 25) {
+    return 'DVD9';
+  } else if (GBSize < 25) {
     return 'BD25';
   } else if (GBSize < 50) {
     return 'BD50';
@@ -552,7 +556,7 @@ const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
   let videoCodec = '';
   if (generalFormat === 'DVD Video') {
-    videoCodec = 'DVD';
+    videoCodec = 'mpeg2';
   } else if (generalFormat === 'MPEG-4') {
     videoCodec = 'mpeg4';
   } else if (videoFormat === 'MPEG Video' && videoFormatVersion === 'Version 2') {

@@ -60,7 +60,7 @@ category:
     movie: '1'
     tv: '3'
     tvPack: '3'
-    music: '5'
+    concert: '5'
 source:
   selector: '#source'
   map:
@@ -86,6 +86,8 @@ videoCodec:
 resolution:
   selector: '#resolution'
   map:
+    NTSC: NTSC
+    PAL: PAL
     2160p: '2160p'
     1080p: '1080p'
     1080i: '1080i'
@@ -104,3 +106,13 @@ format:
     iso: ISO
     mpg: MPG
     m2ts: 'm2ts'
+videoType:
+  selector: '#processing'
+  map:
+    encode: Encode
+    remux: Remux
+    DIY: DIY
+    bluray: Untouched
+    uhdbluray: Untouched
+    dvd: Untouched
+    dvdrip: Encode
