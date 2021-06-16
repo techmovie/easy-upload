@@ -28,7 +28,7 @@ const getGPWGroupId = async (imdbUrl) => {
   if (imdbId) {
     const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
     const data = await fetch(url);
-    if (data && data.GroupId) {
+    if (data && data.GroupID) {
       return data.GroupID;
     } else {
       return '';
