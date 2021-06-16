@@ -26,9 +26,9 @@ const getPTPGroupId = async (imdbUrl) => {
 const getGPWGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
-    const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}`;
+    const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
     const data = await fetch(url);
-    if (data && data.Dupe) {
+    if (data && data.GroupId) {
       return data.GroupID;
     } else {
       return '';
@@ -138,7 +138,9 @@ const handleSiteClickEvent = () => {
     }
     if (url.match(/greatposterwall/)) {
       const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
-      url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+      if (groupId) {
+        url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+      }
     }
     if (TORRENT_INFO.isForbidden) {
       const result = window.confirm($t('本种子禁止转载，确定要继续转载么？'));

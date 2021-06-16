@@ -15,6 +15,39 @@ search:
     action: basic
     searchsubmit: 1
 needDoubanInfo: true
+targetInfo:
+  editionTags:
+    10_bit: 10_bit
+    2_disc_set: 2_disc_set
+    2d_3d_edition: 2d_3d_edition
+    2_in_1: 2_in_1
+    3d: 3d
+    3d_anaglyph: 3d_anaglyph
+    3d_full_sbs: 3d_full_sbs
+    3d_half_ou: 3d_half_ou
+    3d_half_sbs: 3d_half_sbs
+    4k_remaster: 4k_remaster
+    4k_restoration: 4k_restoration
+    director_s_cut: director_s_cut
+    dolby_atmos: dolby_atmos
+    dolby_vision: dolby_vision
+    dual_audio: dual_audio
+    english_dub: english_dub
+    extended_edition: extended_edition
+    extras: extras
+    hdr10: hdr10
+    hdr10_plus: hdr10plus
+    masters_of_cinema: masters_of_cinema
+    scene: null
+    the_criterion_collection: the_criterion_collection
+    theatrical_cut: theatrical_cut
+    two_disc_set: 2_disc_set
+    remux: null
+    rifftrax: rifftrax
+    uncut: uncut
+    unrated: unrated
+    warner_archive_collection: warner_archive_collection
+    with_commentary: with_commentary
 description:
   selector: '#release_desc'
 imdb:
