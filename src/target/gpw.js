@@ -218,7 +218,7 @@ function transformInfo (info) {
   }
 
   // mediainfos contains both mediainfo and bdinfo
-  if (info.videoType === 'encode') {
+  if (['encode', 'remux'].includes(info.videoType)) {
     const newMediaInfos = [];
     for (const mediaInfo of info.mediaInfos) {
       if (mediaInfo.match(/Disc Title|Disc Label/i)) {
