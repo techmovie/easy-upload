@@ -162,11 +162,14 @@ function fillProcessing (info) {
     const videoTypeConfig = CURRENT_SITE_INFO.videoType;
     const { selector, map } = videoTypeConfig;
     $(selector).val(map[videoType]);
-    document.querySelector('#processing').dispatchEvent(new Event('change'));
+    // change event to trigger processing_other fields
+    $(selector)[0].dispatchEvent(new Event('change'));
     if (map[videoType] === 'Untouched') {
       const bdType = getBDType(size);
       $('select[name="processing_other"]').val(bdType);
     }
+    // input event to trigger validation
+    $(selector)[0].dispatchEvent(new Event('input'));
   }
 }
 // 兼容自动检测失败的情况
