@@ -12,6 +12,8 @@ export default async (info) => {
     return;
   }
 
+  transformInfo(info);
+
   const isAddFormat = getUrlParam('groupid');
   if (!isAddFormat) {
     $(site.imdb.selector).val(info.imdbUrl || 0);
@@ -207,4 +209,23 @@ const getFormat = (format, videoType) => {
     format = 'vob';
   }
   return format || 'mkv';
+};
+
+function transformInfo (info) {
+  // mediainfo -> mediainfos
+  if (info.mediaInfos.length === 0 && info.mediaInfo) {
+    info.mediaInfos = [info.mediaInfo];
+  }
+
+  // mediainfos contains both mediainfo and bdinfo
+  if (info.videoType === 'encode') {
+    const newMediaInfos = [];
+    for (const mediaInfo of info.mediaInfos) {
+      if (mediaInfo.match(/Disc Title|Disc Label/i)) {
+        continue;
+      }
+      newMediaInfos.push(mediaInfo);
+    }
+    info.mediaInfos = newMediaInfos;
+  }
 };
