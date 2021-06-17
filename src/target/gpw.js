@@ -26,8 +26,10 @@ export default async (info) => {
 
   fillEditionInfo(info);
 
+  // 1. 先使用站内自动填充功能
   fillMediaInfo(info);
 
+  // 2. 自动填充失败后脚本填充
   if (!$(site.source.selector).val()) {
     handleNoAutoCheck(info);
   }
@@ -140,6 +142,9 @@ function fillMediaInfo (info) {
     textarea.value = info.mediaInfos[index];
     textarea.dispatchEvent(new Event('input'));
   };
+
+  // 使用站内自动填充功能
+  $('[name="mediainfo[]"]')[0].dispatchEvent(new Event('change'));
 }
 
 function fillScene (info) {
