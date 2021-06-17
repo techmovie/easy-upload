@@ -166,20 +166,22 @@ const uploadScreenshotsToPtpimg = (selfDom) => {
   $(selfDom).text($t('上传中，请稍候...')).attr('disabled', true).addClass('is-disabled');
   saveScreenshotsToPtpimg(screenshots).then(data => {
     showNotice({ text: $t('成功') });
-    let { description } = TORRENT_INFO;
+    let { description, originalDescription } = TORRENT_INFO;
     TORRENT_INFO.screenshots = data;
     const screenBBCode = data.map(img => {
       return `[img]${img}[/img]`;
     });
-    const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+    const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
     if (allImages && allImages.length > 0) {
       allImages.forEach(img => {
         if (img.match(/\[url=.+?\]/)) {
           img += '[/url]';
         }
+        originalDescription = originalDescription.replace(img, '');
         description = description.replace(img, '');
       });
     }
+    TORRENT_INFO.originalDescription = originalDescription + '\n' + screenBBCode.join('');
     TORRENT_INFO.description = description + '\n' + screenBBCode.join('');
   }).catch(error => {
     showNotice({ title: $t('错误'), text: error.message });
