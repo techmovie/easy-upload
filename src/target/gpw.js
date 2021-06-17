@@ -36,15 +36,7 @@ export default async (info) => {
 
   fillProcessing(info);
 
-  let description;
-  if (info.sourceSite === 'PTP') {
-    description = buildPTPDescription(info);
-  } else if (info.sourceSite === 'BeyondHD') {
-    description = info.originalDescription;
-  } else {
-    description = buildDescription(info);
-  }
-  $(site.description.selector).val(description);
+  fillDescription(info);
 
   document.querySelector('#description-container .bbcode-preview-button').click();
 };
@@ -146,9 +138,8 @@ function fillMediaInfo (info) {
   const textareas = Array.from($('[name="mediainfo[]"]'));
   for (const [index, textarea] of textareas.entries()) {
     textarea.value = info.mediaInfos[index];
+    textarea.dispatchEvent(new Event('input'));
   };
-
-  $('[name="mediainfo[]"]')[0].dispatchEvent(new Event('change'));
 }
 
 function fillScene (info) {
@@ -229,3 +220,17 @@ function transformInfo (info) {
     info.mediaInfos = newMediaInfos;
   }
 };
+
+function fillDescription (info) {
+  const site = CURRENT_SITE_INFO;
+  let description;
+  if (info.sourceSite === 'PTP') {
+    description = buildPTPDescription(info);
+  } else if (info.sourceSite === 'BeyondHD') {
+    description = info.originalDescription;
+  } else {
+    description = buildDescription(info);
+  }
+  $(site.description.selector).val(description);
+  $(site.description.selector)[0].dispatchEvent(new Event('input'));
+}
