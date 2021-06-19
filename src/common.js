@@ -19,9 +19,13 @@ const handleError = (error) => {
 const getDoubanInfo = async (doubanUrl) => {
   try {
     if (doubanUrl) {
-      const data = await fetch(`${PT_GEN_API}?url=${doubanUrl}`);
-      if (data && data.success) {
-        return data;
+      const data = await fetch(doubanUrl, {
+        responseType: 'text',
+      });
+      if (data) {
+        const doubanData = await getDataFromDoubanPage(data);
+        doubanData.format = getDoubanFormat(doubanData);
+        return doubanData;
       } else {
         // 豆瓣读书无需二次获取数据
         if (doubanUrl.match(/\/book/)) {
@@ -37,6 +41,139 @@ const getDoubanInfo = async (doubanUrl) => {
   } catch (error) {
     handleError(error);
   }
+};
+const getDataFromDoubanPage = async (domString) => {
+  const dom = new DOMParser().parseFromString(domString, 'text/html');
+  const fetchAnchor = function (anchor) {
+    return anchor[0].nextSibling.nodeValue.trim();
+  };
+
+  // title
+  const chineseTitle = $('title', dom).text().replace('(豆瓣)', '').trim();
+  const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, '').trim();
+  let aka, transTitle, thisTitle;
+  const akaAnchor = $('#info span.pl:contains("又名")', dom);
+  if (akaAnchor.length > 0) {
+    aka = fetchAnchor(akaAnchor).split(' / ').sort(function (a, b) { // 首字(母)排序
+      return a.localeCompare(b);
+    }).join('/');
+    aka = aka.split('/');
+  }
+  if (foreignTitle) {
+    transTitle = chineseTitle + (aka ? ('/' + aka.join('/')) : '');
+    thisTitle = foreignTitle;
+  } else {
+    transTitle = aka.join('/') || '';
+    thisTitle = chineseTitle;
+  }
+  transTitle = transTitle.split('/');
+  thisTitle = thisTitle.split('/');
+
+  // json
+  const jsonData = JSON.parse($('head > script[type="application/ld+json"]', dom).html().replace(/(\r\n|\n|\r|\t)/gm, ''));
+  const rating = jsonData.aggregateRating ? jsonData.aggregateRating.ratingValue : 0;
+  const votes = jsonData.aggregateRating ? jsonData.aggregateRating.ratingCount : 0;
+  const director = jsonData.director ? jsonData.director : [];
+  const writer = jsonData.author ? jsonData.author : [];
+  const cast = jsonData.actor ? jsonData.actor : [];
+  const poster = jsonData.image
+    .replace(/s(_ratio_poster|pic)/g, 'l$1')
+    .replace('img3', 'img1');
+
+  // rate
+  const doubanLink = `https://movie.douban.com${jsonData.url}`;
+  let imdbId, imdbLink, imdbAverageRating, imdbVotes, imdbRating;
+  const imdbLinkAnchor = $('#info span.pl:contains("IMDb")', dom);
+  const hasImdb = imdbLinkAnchor.length > 0;
+  if (hasImdb) {
+    imdbId = fetchAnchor(imdbLinkAnchor);
+    imdbLink = `https://www.imdb.com/title/${imdbId}/`;
+    let imdbData = await fetch(
+      `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
+      {
+        responseType: 'text',
+      },
+    );
+    imdbData = imdbData.replace(/(imdb\.rating\.run\()|\)/g, '');
+    imdbData = JSON.parse(imdbData);
+    if (imdbData.resource) {
+      imdbAverageRating = imdbData.resource.rating || 0;
+      imdbVotes = imdbData.resource.ratingCount || 0;
+      imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
+    }
+  }
+
+  const year = ' ' + $('#content > h1 > span.year', dom).text().substr(1, 4);
+  const playdate = $('#info span[property="v:initialReleaseDate"]', dom).map(function () { // 上映日期
+    return $(this).text().trim();
+  }).toArray().sort(function (a, b) { // 按上映日期升序排列
+    return new Date(a) - new Date(b);
+  });
+  const introductionDom = $('#link-report > span.all.hidden, #link-report > [property="v:summary"]', dom);
+  const summary = (
+    introductionDom.length > 0 ? introductionDom.text() : '暂无相关剧情介绍'
+  ).split('\n').map(a => a.trim()).filter(a => a.length > 0).join('\n'); // 处理简介缩进
+  const genre = $('#info span[property="v:genre"]', dom).map(function () { // 类别
+    return $(this).text().trim();
+  }).toArray(); // 类别
+  const language = fetchAnchor($('#info span.pl:contains("语言")', dom));
+  const region = fetchAnchor($('#info span.pl:contains("制片国家/地区")', dom)); // 产地
+  const runtimeAnchor = $('#info span.pl:contains("单集片长")', dom);
+  const runtime = runtimeAnchor[0] ? fetchAnchor(runtimeAnchor) : $('#info span[property="v:runtime"]', dom).text().trim();
+  const episodesAnchor = $('#info span.pl:contains("集数")'); // 集数
+  const episodes = episodesAnchor[0] ? fetchAnchor(episodesAnchor) : '';
+  let tags;
+  const tag_another = $('div.tags-body > a[href^="/tag"]', dom);
+  if (tag_another.length > 0) {
+    tags = tag_another.map(function () {
+      return $(this).text();
+    }).get();
+  }
+
+  // awards
+  const awardsPage = await fetch(`${doubanLink}/awards`, {
+    responseType: 'text',
+  });
+  const awardsDoc = new DOMParser().parseFromString(awardsPage, 'text/html');
+  const awards = $('#content > div > div.article', awardsDoc).html()
+    .replace(/[ \n]/g, '')
+    .replace(/<\/li><li>/g, '</li> <li>')
+    .replace(/<\/a><span/g, '</a> <span')
+    .replace(/<(div|ul)[^>]*>/g, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/ +\n/g, '\n')
+    .trim();
+  return {
+    imdb_link: imdbLink,
+    imdb_id: imdbId,
+    imdb_rating_average: imdbAverageRating,
+    imdb_votes: imdbVotes,
+    imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
+    chinese_title: chineseTitle,
+    foreign_title: foreignTitle,
+    aka,
+    trans_title: transTitle,
+    this_title: thisTitle,
+    year,
+    playdate,
+    region,
+    genre,
+    language,
+    episodes,
+    duration: runtime,
+    introduction: summary,
+    douban_link: doubanLink,
+    douban_rating_average: rating || 0,
+    douban_votes: votes,
+    douban_rating: `${rating}/10 from ${votes} users`,
+    poster: poster,
+    director,
+    cast,
+    writer,
+    awards,
+    tags,
+  };
 };
 const getAnotherDoubanInfo = async (doubanUrl) => {
   try {
@@ -59,7 +196,13 @@ const getAnotherDoubanInfo = async (doubanUrl) => {
   }
 };
 const formatDoubanInfo = (data) => {
-  const { doubanId, imdbId, imdbRating, imdbVotes, dateReleased, alias, originalName, doubanRating, episodes, doubanVotes, year, duration, director, data: info, actor, writer } = data;
+  const {
+    doubanId, imdbId, imdbRating,
+    imdbVotes, dateReleased, alias,
+    originalName, doubanRating, episodes,
+    doubanVotes, year, duration, director,
+    data: info, actor, writer,
+  } = data;
   const [chineseInfo, englishInfo] = info;
   const chineseTitle = chineseInfo.name;
   const foreignTitle = englishInfo.name;
@@ -94,9 +237,9 @@ const formatDoubanInfo = (data) => {
     trans_title: transTitle,
     this_title: [originalName],
     year,
-    playdate: dateReleased?.match(/\d+-\d+-\d+/)[0] ?? '',
+    playdate: [dateReleased?.match(/\d+-\d+-\d+/)[0]] ?? [],
     region: info[0].country,
-    genre: chineseInfo.genre,
+    genre: chineseInfo.genre.split('/'),
     language: chineseInfo.language,
     episodes,
     duration: `${duration / 60}分钟`,
@@ -111,16 +254,27 @@ const formatDoubanInfo = (data) => {
     writer: writerArray,
   };
 
-  const { poster, this_title, trans_title, genre, year: movieYear, region, language, playdate, imdb_rating, imdb_link, douban_rating, douban_link, episodes: showEpisodes, duration: movieDuration, director: directors, writer: writers, cast: actors, introduction } = formatData;
+  formatData.format = getDoubanFormat(formatData);
+  return formatData;
+};
+const getDoubanFormat = (data) => {
+  const {
+    poster, this_title, trans_title, genre,
+    year: movieYear, region, language, playdate,
+    imdb_rating, imdb_link, douban_rating, douban_link,
+    episodes: showEpisodes, duration: movieDuration, imdb_rating_average,
+    director: directors, writer: writers, cast: actors, introduction,
+    awards, tags,
+  } = data;
   let descr = poster ? `[img]${poster}[/img]\n\n` : '';
   descr += trans_title ? `◎译　　名　${trans_title.join('/')}\n` : '';
-  descr += this_title ? `◎片　　名　${this_title}\n` : '';
+  descr += this_title ? `◎片　　名　${this_title.join('/')}\n` : '';
   descr += movieYear ? `◎年　　代　${movieYear.trim()}\n` : '';
   descr += region ? `◎产　　地　${region}\n` : '';
-  descr += genre ? `◎类　　别　${genre}\n` : '';
+  descr += genre ? `◎类　　别　${genre.join(' / ')}\n` : '';
   descr += language ? `◎语　　言　${language}\n` : '';
-  descr += playdate ? `◎上映日期　${playdate}\n` : '';
-  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating}\n` : '';
+  descr += playdate ? `◎上映日期　${playdate.join(' / ')}\n` : '';
+  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating_average}\n` : '';
   descr += imdb_link ? `◎IMDb链接  ${imdb_link}\n` : '';
   descr += douban_rating ? `◎豆瓣评分　${douban_rating}\n` : '';
   descr += douban_link ? `◎豆瓣链接　${douban_link}\n` : '';
@@ -129,10 +283,10 @@ const formatDoubanInfo = (data) => {
   descr += directors && directors.length > 0 ? `◎导　　演　${directors.map(x => x.name).join(' / ')}\n` : '';
   descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')}\n` : '';
   descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join('\n' + '　'.repeat(4) + '  　').trim()}\n` : '';
+  descr += tags && tags.length > 0 ? `\n◎标　　签　${tags.join(' | ')}\n` : '';
   descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, '\n' + '　'.repeat(2))}\n` : '';
-
-  formatData.format = descr.trim();
-  return formatData;
+  descr += awards ? `\n◎获奖情况\n\n　　${awards.replace(/\n/g, '\n' + '　'.repeat(2))}\n` : '';
+  return descr.trim();
 };
 const getDoubanIdByIMDB = async (query) => {
   try {
