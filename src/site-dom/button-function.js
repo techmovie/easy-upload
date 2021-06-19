@@ -36,7 +36,7 @@ const getThumbnailImgs = async () => {
       let { description } = TORRENT_INFO;
       imgList.forEach((img, index) => {
         if (description.includes(img)) {
-          description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, 'ig'), thumbnailImgs[index] || '');
+          description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), thumbnailImgs[index] || '');
         }
       });
       TORRENT_INFO.description = description;
