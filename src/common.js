@@ -551,7 +551,7 @@ const getBDType = (size) => {
   const GBSize = size / 1e9;
   if (GBSize < 5) {
     return 'DVD5';
-  } else if (GBSize < 25) {
+  } else if (GBSize < 9) {
     return 'DVD9';
   } else if (GBSize < 25) {
     return 'BD25';
