@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.2
+// @version      2.2.3
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -32,6 +32,7 @@
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*
 // @match        https://piratethenet.org/browse.php?*
+// @match        https://teamhd.org/details/id*
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -491,16 +492,16 @@
       url: "https://avistaz.to",
       host: "avistaz.to",
       siteType: "AvistaZ",
-      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xml:space="preserve">  <image id="image0" width="22" height="22" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QUPDicuFlMtFwAABCJJREFUOMu1lW1olWUYx3/3/TzPeT9nZ+7NHecr25TFFPFl2UJNtJqURUYFkVFQoCAlTIrCXiDB8IuUFGqCJYn2oZJEhH0Im1NC0G3OaJ7N6Uhzm562s7Oz85w9z3P1wQ2cVh+s/nB9u+7ffV339XLD/yT1L86FgKlAAMgDvYD9t+DtEc11T3SDX5WVKjUjrIg7wtgQ3NiW8VIn87IMeBqYDlSOX5AB9gI7AA/AnAB+ZkHPGMaagLe03G9siMIKS0hoCAh4KNIvofraBqVi2GOKC1lgFDgJ/AI4wHKgBxhSAE1zNKkRL7Jk9sw3SyLxzYFrl0qVYyMo9HieWQ+yAl2O0JyT9JEhOXTRpgC4AMwDHgVc4ArQah6t0fzmEVod5aMSX36TWVxgySCIA0pBly3s7hd+yghBDcvCisqQiq3SrE/2SVNeKAeqgONAB9AC9Jjr3vLTvdd+tVipjUbUsMRyIW6BbYMCx4IZLhQBHRnoTguFGaE6rIoVPD9esIPAaeB34BzgmM0H7Jr5MTabiI8pIVSijHSqlayCMp8wTytqsopnA9AaFE5pQfthSRw1amD4DZLHr9MGnAIuT9TMnFbIC0EflYgCXxroo1PyTI+C6lPY7eDLKkoRUgIRv2LqLKHDgVEPttSqkuIQya+6JHtnd+lIAQ06ipaYQpm3uHnjZ5ygQ7mGs+3w4rDHOQQDiAFeDhLXFLVBiEdgfkIVf1Cvwn+8rm/cCTatmFRhKhABy09vOszMWAp93qUrI3yPUCfCEq1ZrxTPALmssLFdWFmnSJTi681Kdbxi8khoYoSJCCoijJTXMDpnFaUVJciIUCaKEmCf5/GG65IUQQM/ukKbT3iqFiQiECFOzeRBMwkxIiYFWinOX+0gELwMRWl+CEEjLv1AP/CJCM2uy3bD4LAIK2ph9jTwBIBBMjIZPBYkiY/FoqC13+Z0t0tqKE/7tdvACcXHO/851+WBCBx4UKEjkPfI2w7J1NDkiHXG4IQXwsv7hLqFCSrmLuZsLyyqhHfXQti67TgdeF9pChQYU6HTESQIY356BxzO/zp4F/h6Tg7nLLrNMCyoCrPlyRAtO6Pseg3SGpzxDJMKhmqEdUth2IOqWSBBSGv5bvk2udp8afJT6IcbjYsDjux2feStgCZRlKOk2M87h+DTY2A7tx1zAj0zhbpHYGAQBkYgZ0rr1Qx7LuyHt7+8K+JjO13O9LD/Zo49rhFydLSaIy3wbfO9S/hmCuqroSAELUmupF221q+g++sW/lpNu+DIh0R7ji58b/hE1cArj2kB7rENq5Fb3+A+vpQzpYWsBNi1lX/WF42w/WWM059Tv2gu+4BOIF0Ux9aaUaC/oY7mzoNs+XgT5SL39/kYwDTL5KEnlrM2HGQNUOv3Ed25QzF/wX0x/xv9CdGEqkHFq79tAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTE1VDE0OjM5OjQ2KzAwOjAwBxpkNgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0xNVQxNDozOTo0NiswMDowMHZH3IoAAAAASUVORK5CYII=" /></svg>',
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xml:space="preserve">  <image id="image0" width="22" height="22" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QUPDicuFlMtFwAABCJJREFUOMu1lW1olWUYx3/3/TzPeT9nZ+7NHecr25TFFPFl2UJNtJqURUYFkVFQoCAlTIrCXiDB8IuUFGqCJYn2oZJEhH0Im1NC0G3OaJ7N6Uhzm562s7Oz85w9z3P1wQ2cVh+s/nB9u+7ffV339XLD/yT1L86FgKlAAMgDvYD9t+DtEc11T3SDX5WVKjUjrIg7wtgQ3NiW8VIn87IMeBqYDlSOX5AB9gI7AA/AnAB+ZkHPGMaagLe03G9siMIKS0hoCAh4KNIvofraBqVi2GOKC1lgFDgJ/AI4wHKgBxhSAE1zNKkRL7Jk9sw3SyLxzYFrl0qVYyMo9HieWQ+yAl2O0JyT9JEhOXTRpgC4AMwDHgVc4ArQah6t0fzmEVod5aMSX36TWVxgySCIA0pBly3s7hd+yghBDcvCisqQiq3SrE/2SVNeKAeqgONAB9AC9Jjr3vLTvdd+tVipjUbUsMRyIW6BbYMCx4IZLhQBHRnoTguFGaE6rIoVPD9esIPAaeB34BzgmM0H7Jr5MTabiI8pIVSijHSqlayCMp8wTytqsopnA9AaFE5pQfthSRw1amD4DZLHr9MGnAIuT9TMnFbIC0EflYgCXxroo1PyTI+C6lPY7eDLKkoRUgIRv2LqLKHDgVEPttSqkuIQya+6JHtnd+lIAQ06ipaYQpm3uHnjZ5ygQ7mGs+3w4rDHOQQDiAFeDhLXFLVBiEdgfkIVf1Cvwn+8rm/cCTatmFRhKhABy09vOszMWAp93qUrI3yPUCfCEq1ZrxTPALmssLFdWFmnSJTi681Kdbxi8khoYoSJCCoijJTXMDpnFaUVJciIUCaKEmCf5/GG65IUQQM/ukKbT3iqFiQiECFOzeRBMwkxIiYFWinOX+0gELwMRWl+CEEjLv1AP/CJCM2uy3bD4LAIK2ph9jTwBIBBMjIZPBYkiY/FoqC13+Z0t0tqKE/7tdvACcXHO/851+WBCBx4UKEjkPfI2w7J1NDkiHXG4IQXwsv7hLqFCSrmLuZsLyyqhHfXQti67TgdeF9pChQYU6HTESQIY356BxzO/zp4F/h6Tg7nLLrNMCyoCrPlyRAtO6Pseg3SGpzxDJMKhmqEdUth2IOqWSBBSGv5bvk2udp8afJT6IcbjYsDjux2feStgCZRlKOk2M87h+DTY2A7tx1zAj0zhbpHYGAQBkYgZ0rr1Qx7LuyHt7+8K+JjO13O9LD/Zo49rhFydLSaIy3wbfO9S/hmCuqroSAELUmupF221q+g++sW/lpNu+DIh0R7ji58b/hE1cArj2kB7rENq5Fb3+A+vpQzpYWsBNi1lX/WF42w/WWM059Tv2gu+4BOIF0Ux9aaUaC/oY7mzoNs+XgT5SL39/kYwDTL5KEnlrM2HGQNUOv3Ed25QzF/wX0x/xv9CdGEqkHFq79tAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTE1VDE0OjM5OjQ2KzAwOjAwBxpkNgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0xNVQxNDozOTo0NiswMDowMHZH3IoAAAAASUVORK5CYII=" /></svg>',
       asSource: true,
       asTarget: false,
       uploadPath: "/upload.php",
       seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
       needDoubanInfo: true,
       search: {
-        path: "/browse.php",
+        path: "/torrents",
         params: {
-          search: "{name}",
+          search: "{imdb}",
           in: "1",
           order: "size",
           sort: "desc"
@@ -5335,6 +5336,23 @@
         }
       }
     },
+    TeamHD: {
+      url: "https://teamhd.org",
+      host: "teamhd.org",
+      siteType: "TeamHD",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC" /></svg>',
+      asSource: true,
+      asTarget: false,
+      seedDomSelector: "#details_hop",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse",
+        params: {
+          incldead: "0",
+          search: "{name}"
+        }
+      }
+    },
     UHDBits: {
       url: "https://uhdbits.org",
       host: "uhdbits.org",
@@ -5851,9 +5869,13 @@
   var getDoubanInfo = async (doubanUrl) => {
     try {
       if (doubanUrl) {
-        const data = await fetch(`${PT_GEN_API}?url=${doubanUrl}`);
-        if (data && data.success) {
-          return data;
+        const data = await fetch(doubanUrl, {
+          responseType: "text"
+        });
+        if (data) {
+          const doubanData = await getDataFromDoubanPage(data);
+          doubanData.format = getDoubanFormat(doubanData);
+          return doubanData;
         } else {
           if (doubanUrl.match(/\/book/)) {
             throw data.error;
@@ -5868,6 +5890,115 @@
     } catch (error) {
       handleError(error);
     }
+  };
+  var getDataFromDoubanPage = async (domString) => {
+    const dom = new DOMParser().parseFromString(domString, "text/html");
+    const fetchAnchor = function(anchor) {
+      return anchor[0].nextSibling.nodeValue.trim();
+    };
+    const chineseTitle = $("title", dom).text().replace("(\u8C46\u74E3)", "").trim();
+    const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, "").trim();
+    let aka, transTitle, thisTitle;
+    const akaAnchor = $('#info span.pl:contains("\u53C8\u540D")', dom);
+    if (akaAnchor.length > 0) {
+      aka = fetchAnchor(akaAnchor).split(" / ").sort(function(a, b) {
+        return a.localeCompare(b);
+      }).join("/");
+      aka = aka.split("/");
+    }
+    if (foreignTitle) {
+      transTitle = chineseTitle + (aka ? "/" + aka.join("/") : "");
+      thisTitle = foreignTitle;
+    } else {
+      transTitle = aka.join("/") || "";
+      thisTitle = chineseTitle;
+    }
+    transTitle = transTitle.split("/");
+    thisTitle = thisTitle.split("/");
+    const jsonData = JSON.parse($('head > script[type="application/ld+json"]', dom).html().replace(/(\r\n|\n|\r|\t)/gm, ""));
+    const rating = jsonData.aggregateRating ? jsonData.aggregateRating.ratingValue : 0;
+    const votes = jsonData.aggregateRating ? jsonData.aggregateRating.ratingCount : 0;
+    const director = jsonData.director ? jsonData.director : [];
+    const writer = jsonData.author ? jsonData.author : [];
+    const cast = jsonData.actor ? jsonData.actor : [];
+    const poster = jsonData.image.replace(/s(_ratio_poster|pic)/g, "l$1").replace("img3", "img1");
+    const doubanLink = `https://movie.douban.com${jsonData.url}`;
+    let imdbId, imdbLink, imdbAverageRating, imdbVotes, imdbRating;
+    const imdbLinkAnchor = $('#info span.pl:contains("IMDb")', dom);
+    const hasImdb = imdbLinkAnchor.length > 0;
+    if (hasImdb) {
+      imdbId = fetchAnchor(imdbLinkAnchor);
+      imdbLink = `https://www.imdb.com/title/${imdbId}/`;
+      let imdbData = await fetch(`https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`, {
+        responseType: "text"
+      });
+      imdbData = imdbData.replace(/(imdb\.rating\.run\()|\)/g, "");
+      imdbData = JSON.parse(imdbData);
+      if (imdbData.resource) {
+        imdbAverageRating = imdbData.resource.rating || 0;
+        imdbVotes = imdbData.resource.ratingCount || 0;
+        imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
+      }
+    }
+    const year = " " + $("#content > h1 > span.year", dom).text().substr(1, 4);
+    const playdate = $('#info span[property="v:initialReleaseDate"]', dom).map(function() {
+      return $(this).text().trim();
+    }).toArray().sort(function(a, b) {
+      return new Date(a) - new Date(b);
+    });
+    const introductionDom = $('#link-report > span.all.hidden, #link-report > [property="v:summary"]', dom);
+    const summary = (introductionDom.length > 0 ? introductionDom.text() : "\u6682\u65E0\u76F8\u5173\u5267\u60C5\u4ECB\u7ECD").split("\n").map((a) => a.trim()).filter((a) => a.length > 0).join("\n");
+    const genre = $('#info span[property="v:genre"]', dom).map(function() {
+      return $(this).text().trim();
+    }).toArray();
+    const language = fetchAnchor($('#info span.pl:contains("\u8BED\u8A00")', dom));
+    const region = fetchAnchor($('#info span.pl:contains("\u5236\u7247\u56FD\u5BB6/\u5730\u533A")', dom));
+    const runtimeAnchor = $('#info span.pl:contains("\u5355\u96C6\u7247\u957F")', dom);
+    const runtime = runtimeAnchor[0] ? fetchAnchor(runtimeAnchor) : $('#info span[property="v:runtime"]', dom).text().trim();
+    const episodesAnchor = $('#info span.pl:contains("\u96C6\u6570")');
+    const episodes = episodesAnchor[0] ? fetchAnchor(episodesAnchor) : "";
+    let tags;
+    const tag_another = $('div.tags-body > a[href^="/tag"]', dom);
+    if (tag_another.length > 0) {
+      tags = tag_another.map(function() {
+        return $(this).text();
+      }).get();
+    }
+    const awardsPage = await fetch(`${doubanLink}/awards`, {
+      responseType: "text"
+    });
+    const awardsDoc = new DOMParser().parseFromString(awardsPage, "text/html");
+    const awards = $("#content > div > div.article", awardsDoc).html().replace(/[ \n]/g, "").replace(/<\/li><li>/g, "</li> <li>").replace(/<\/a><span/g, "</a> <span").replace(/<(div|ul)[^>]*>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/ +\n/g, "\n").trim();
+    return {
+      imdb_link: imdbLink,
+      imdb_id: imdbId,
+      imdb_rating_average: imdbAverageRating,
+      imdb_votes: imdbVotes,
+      imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
+      chinese_title: chineseTitle,
+      foreign_title: foreignTitle,
+      aka,
+      trans_title: transTitle,
+      this_title: thisTitle,
+      year,
+      playdate,
+      region,
+      genre,
+      language,
+      episodes,
+      duration: runtime,
+      introduction: summary,
+      douban_link: doubanLink,
+      douban_rating_average: rating || 0,
+      douban_votes: votes,
+      douban_rating: `${rating}/10 from ${votes} users`,
+      poster,
+      director,
+      cast,
+      writer,
+      awards,
+      tags
+    };
   };
   var getAnotherDoubanInfo = async (doubanUrl) => {
     var _a, _b;
@@ -5891,8 +6022,25 @@
     }
   };
   var formatDoubanInfo = (data) => {
-    var _a, _b;
-    const {doubanId, imdbId, imdbRating, imdbVotes, dateReleased, alias, originalName, doubanRating, episodes, doubanVotes, year, duration, director, data: info, actor, writer} = data;
+    var _a;
+    const {
+      doubanId,
+      imdbId,
+      imdbRating,
+      imdbVotes,
+      dateReleased,
+      alias,
+      originalName,
+      doubanRating,
+      episodes,
+      doubanVotes,
+      year,
+      duration,
+      director,
+      data: info,
+      actor,
+      writer
+    } = data;
     const [chineseInfo, englishInfo] = info;
     const chineseTitle = chineseInfo.name;
     const foreignTitle = englishInfo.name;
@@ -5927,9 +6075,9 @@
       trans_title: transTitle,
       this_title: [originalName],
       year,
-      playdate: (_b = dateReleased == null ? void 0 : dateReleased.match(/\d+-\d+-\d+/)[0]) != null ? _b : "",
+      playdate: [dateReleased == null ? void 0 : dateReleased.match(/\d+-\d+-\d+/)[0]],
       region: info[0].country,
-      genre: chineseInfo.genre,
+      genre: chineseInfo.genre.split("/"),
       language: chineseInfo.language,
       episodes,
       duration: `${duration / 60}\u5206\u949F`,
@@ -5943,25 +6091,51 @@
       cast: actorArray,
       writer: writerArray
     };
-    const {poster, this_title, trans_title, genre, year: movieYear, region, language, playdate, imdb_rating, imdb_link, douban_rating, douban_link, episodes: showEpisodes, duration: movieDuration, director: directors, writer: writers, cast: actors, introduction} = formatData;
+    formatData.format = getDoubanFormat(formatData);
+    return formatData;
+  };
+  var getDoubanFormat = (data) => {
+    const {
+      poster,
+      this_title,
+      trans_title,
+      genre,
+      year: movieYear,
+      region,
+      language,
+      playdate,
+      imdb_rating,
+      imdb_link,
+      douban_rating,
+      douban_link,
+      episodes: showEpisodes,
+      duration: movieDuration,
+      imdb_rating_average,
+      director: directors,
+      writer: writers,
+      cast: actors,
+      introduction,
+      awards,
+      tags
+    } = data;
     let descr = poster ? `[img]${poster}[/img]
 
 ` : "";
     descr += trans_title ? `\u25CE\u8BD1\u3000\u3000\u540D\u3000${trans_title.join("/")}
 ` : "";
-    descr += this_title ? `\u25CE\u7247\u3000\u3000\u540D\u3000${this_title}
+    descr += this_title ? `\u25CE\u7247\u3000\u3000\u540D\u3000${this_title.join("/")}
 ` : "";
     descr += movieYear ? `\u25CE\u5E74\u3000\u3000\u4EE3\u3000${movieYear.trim()}
 ` : "";
     descr += region ? `\u25CE\u4EA7\u3000\u3000\u5730\u3000${region}
 ` : "";
-    descr += genre ? `\u25CE\u7C7B\u3000\u3000\u522B\u3000${genre}
+    descr += genre ? `\u25CE\u7C7B\u3000\u3000\u522B\u3000${genre.join(" / ")}
 ` : "";
     descr += language ? `\u25CE\u8BED\u3000\u3000\u8A00\u3000${language}
 ` : "";
-    descr += playdate ? `\u25CE\u4E0A\u6620\u65E5\u671F\u3000${playdate}
+    descr += playdate ? `\u25CE\u4E0A\u6620\u65E5\u671F\u3000${playdate.join(" / ")}
 ` : "";
-    descr += imdb_rating ? `\u25CEIMDb\u8BC4\u5206  ${imdb_rating}
+    descr += imdb_rating ? `\u25CEIMDb\u8BC4\u5206  ${imdb_rating_average}
 ` : "";
     descr += imdb_link ? `\u25CEIMDb\u94FE\u63A5  ${imdb_link}
 ` : "";
@@ -5979,13 +6153,20 @@
 ` : "";
     descr += actors && actors.length > 0 ? `\u25CE\u4E3B\u3000\u3000\u6F14\u3000${actors.map((x) => x.name).join("\n" + "\u3000".repeat(4) + "  \u3000").trim()}
 ` : "";
+    descr += tags && tags.length > 0 ? `
+\u25CE\u6807\u3000\u3000\u7B7E\u3000${tags.join(" | ")}
+` : "";
     descr += introduction ? `
 \u25CE\u7B80\u3000\u3000\u4ECB
 
 \u3000\u3000${introduction.replace(/\n/g, "\n" + "\u3000".repeat(2))}
 ` : "";
-    formatData.format = descr.trim();
-    return formatData;
+    descr += awards ? `
+\u25CE\u83B7\u5956\u60C5\u51B5
+
+\u3000\u3000${awards.replace(/\n/g, "\n" + "\u3000".repeat(2))}
+` : "";
+    return descr.trim();
   };
   var getDoubanIdByIMDB = async (query) => {
     var _a, _b, _c;
@@ -6228,7 +6409,7 @@
     const GBSize = size / 1e9;
     if (GBSize < 5) {
       return "DVD5";
-    } else if (GBSize < 25) {
+    } else if (GBSize < 9) {
       return "DVD9";
     } else if (GBSize < 25) {
       return "BD25";
@@ -6798,7 +6979,7 @@
     }
     return tags;
   };
-  var getBDInfoOrMediaInfo2 = (bbcode) => {
+  var getBDInfoOrMediaInfo = (bbcode) => {
     var _a, _b, _c;
     const quoteList = (_a = bbcode == null ? void 0 : bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g)) != null ? _a : [];
     let bdinfo = "";
@@ -7532,6 +7713,7 @@ ${description}`);
     if (isUploadSuccess) {
       return;
     }
+    transformInfo(info);
     const isAddFormat = getUrlParam("groupid");
     if (!isAddFormat) {
       $(site.imdb.selector).val(info.imdbUrl || 0);
@@ -7546,15 +7728,7 @@ ${description}`);
     }
     fillScene(info);
     fillProcessing(info);
-    let description;
-    if (info.sourceSite === "PTP") {
-      description = buildPTPDescription(info);
-    } else if (info.sourceSite === "BeyondHD") {
-      description = info.originalDescription;
-    } else {
-      description = buildDescription(info);
-    }
-    $(site.description.selector).val(description);
+    fillDescription(info);
     document.querySelector("#description-container .bbcode-preview-button").click();
   };
   function buildDescription(info) {
@@ -7648,6 +7822,7 @@ ${imgs.join("\n")}
     const textareas = Array.from($('[name="mediainfo[]"]'));
     for (const [index, textarea] of textareas.entries()) {
       textarea.value = info.mediaInfos[index];
+      textarea.dispatchEvent(new Event("input"));
     }
     ;
     $('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
@@ -7666,11 +7841,12 @@ ${imgs.join("\n")}
       const videoTypeConfig = CURRENT_SITE_INFO.videoType;
       const {selector, map} = videoTypeConfig;
       $(selector).val(map[videoType]);
-      document.querySelector("#processing").dispatchEvent(new Event("change"));
+      $(selector)[0].dispatchEvent(new Event("change"));
       if (map[videoType] === "Untouched") {
         const bdType = getBDType(size);
         $('select[name="processing_other"]').val(bdType);
       }
+      $(selector)[0].dispatchEvent(new Event("input"));
     }
   }
   function handleNoAutoCheck(info) {
@@ -7709,6 +7885,34 @@ ${imgs.join("\n")}
     }
     return format || "mkv";
   };
+  function transformInfo(info) {
+    if (info.mediaInfos.length === 0 && info.mediaInfo) {
+      info.mediaInfos = [info.mediaInfo];
+    }
+    if (["encode", "remux"].includes(info.videoType)) {
+      const newMediaInfos = [];
+      for (const mediaInfo of info.mediaInfos) {
+        if (mediaInfo.match(/Disc Title|Disc Label/i)) {
+          continue;
+        }
+        newMediaInfos.push(mediaInfo);
+      }
+      info.mediaInfos = newMediaInfos;
+    }
+  }
+  function fillDescription(info) {
+    const site = CURRENT_SITE_INFO;
+    let description;
+    if (info.sourceSite === "PTP") {
+      description = buildPTPDescription(info);
+    } else if (info.sourceSite === "BeyondHD") {
+      description = info.originalDescription;
+    } else {
+      description = buildDescription(info);
+    }
+    $(site.description.selector).val(description);
+    $(site.description.selector)[0].dispatchEvent(new Event("input"));
+  }
 
   // src/target/index.js
   var fillTargetForm = (info) => {
@@ -7847,15 +8051,15 @@ ${imgs.join("\n")}
         }
       });
     }
+    description = filterEmptyTags(description);
     if (CURRENT_SITE_NAME === "PTer") {
-      const {mediaInfo: mediaInfo2, bdinfo} = getBDInfoOrMediaInfo2(description);
+      const {mediaInfo: mediaInfo2, bdinfo} = getBDInfoOrMediaInfo(description);
       description = description.replace(`[quote]${mediaInfo2}[/quote]`, `[hide=mediainfo]${mediaInfo2}[/hide]`);
       description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
     }
     if (CURRENT_SITE_NAME === "PTN") {
       description = info.imdbUrl + "\n\n" + description;
     }
-    description = filterEmptyTags(description);
     const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
     if (!thanksQuoteClosed) {
       description = getThanksQuote(info) + description.trim();
@@ -8196,11 +8400,13 @@ All thanks to the original uploader\uFF01`;
       TORRENT_INFO.tags = __assign({}, knownTags);
       TORRENT_INFO.otherTags = otherTags;
       TORRENT_INFO.resolution = resolution;
-      const mediaInfoOrBDInfo = mediaInfoArray.join("\n\n");
+      const mediaInfoOrBDInfo = mediaInfoArray.filter((media) => {
+        return TORRENT_INFO.videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
+      });
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.trim();
-      TORRENT_INFO.mediaInfos = mediaInfoArray.map((v) => v.trim());
-      const {videoCodec, audioCodec, mediaTags} = getInfoFunc(mediaInfoOrBDInfo);
+      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.join("\n\n").trim();
+      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map((v) => v.trim());
+      const {videoCodec, audioCodec, mediaTags} = getInfoFunc(mediaInfoOrBDInfo.join("\n\n"));
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.tags = __assign(__assign({}, TORRENT_INFO.tags), mediaTags);
@@ -8328,7 +8534,7 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.comparisons = comparisons;
     descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/ig, "");
     mediaInfoArray.forEach((mediaInfo) => {
-      const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo)}`, "i");
+      const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo).slice(0, 1e4)}`, "i");
       if (!descriptionData.match(regStr)) {
         descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
       }
@@ -8522,7 +8728,7 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.videoType = videoType;
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const {bdinfo} = getBDInfoOrMediaInfo2(descriptionBBCode);
+    const {bdinfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     if (!isBluray) {
       TORRENT_INFO.bdinfo = bdinfo;
       getMediaInfo(torrentId).then((data) => {
@@ -8783,7 +8989,7 @@ All thanks to the original uploader\uFF01`;
     descriptionDom.find("#collection_waypoint").remove();
     let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     const mediaInfo = $(".decoda-code code").text();
-    const {bdinfo} = getBDInfoOrMediaInfo2(descriptionBBCode);
+    const {bdinfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     if (mediaInfo) {
       descriptionBBCode += `
 [quote]${mediaInfo}[/quote]`;
@@ -9014,7 +9220,7 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.resolution = getResolution3(resolution || TORRENT_INFO.title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const {bdinfo, mediaInfo} = getBDInfoOrMediaInfo2(descriptionBBCode);
+    const {bdinfo, mediaInfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo || mediaInfo;
     if (mediaInfoOrBDInfo) {
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
@@ -9223,7 +9429,7 @@ All thanks to the original uploader\uFF01`;
       }
     });
     const isBluray = videoType.match(/bluray/i);
-    const {bdinfo, mediaInfo} = getBDInfoOrMediaInfo2(descriptionBBCode);
+    const {bdinfo, mediaInfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : TORRENT_INFO.mediaInfo || mediaInfo;
     if (mediaInfoOrBDInfo) {
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
@@ -9332,7 +9538,7 @@ All thanks to the original uploader\uFF01`;
     let descriptionBBCode = getFilterBBCode(descriptionDom.find("article")[0]);
     descriptionBBCode = descriptionBBCode.replace(/(.|\n)+?_{5,}/g, "");
     const isBluray = videoType.match(/bluray/i);
-    const {bdinfo} = getBDInfoOrMediaInfo2(descriptionBBCode);
+    const {bdinfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
       TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
@@ -9513,7 +9719,7 @@ All thanks to the original uploader\uFF01`;
     const description = getFilterBBCode($(`#torrent_${torrentId} > td > blockquote`).last()[0]);
     const videoType = getVideoType9({torrentName, source});
     const isBluray = videoType.match(/bluray/i);
-    const mediaInfoOrBDInfo = getBDInfoOrMediaInfo2(description);
+    const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
     const mediaInfo = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const {resolution, videoCodec, audioCodec, mediaTags: tags} = getInfoFunc(mediaInfo);
@@ -9677,34 +9883,134 @@ ${screenshotsBBCode.join("")}`;
     return "";
   };
 
+  // src/source/teamhd.js
+  var teamhd_default = async () => {
+    const torrentInfo = getTorrentInfo3();
+    torrentInfo.category = getPreciseCategory(torrentInfo, torrentInfo.category);
+    try {
+      let {movieName, year} = torrentInfo;
+      movieName = movieName.toLowerCase().replace(/\s/g, "_");
+      const url = `https://v2.sg.media-imdb.com/suggestion/${movieName[0]}/${movieName}_${year}.json`;
+      const imdbSearch = await fetch(url);
+      if (imdbSearch && imdbSearch.d.length) {
+        torrentInfo.imdbUrl = `https://www.imdb.com/title/${imdbSearch.d[0].id}`;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    Object.assign(TORRENT_INFO, torrentInfo);
+  };
+  var getTorrentInfo3 = () => {
+    var _a;
+    const basicInfoText = $(".download").text().replace(/.+?\//g, "").trim();
+    const year = basicInfoText.match(/\((\d{4})\)/)[1];
+    const movieName = basicInfoText.match(/(.+)\(\d{4}\)/)[1].trim();
+    const resolution = basicInfoText.match(/(\s*(\d+(p|i)))$/i)[2];
+    const videoType = getVideoType11(basicInfoText, resolution);
+    let size = $("#details_hop").text().match(/-\s*(.+?GB)/)[1];
+    size = getSize(size);
+    const category = getCategory4($('#details_hop a[href*="browse/cat"]').attr("href"));
+    const fileName = (_a = $(".download").attr("href").match(/name=(.+)/)[1].replace(/\.torrent/g, "")) == null ? void 0 : _a.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "");
+    const title = formatTorrentTitle(fileName);
+    const source = getSourceFromTitle(title);
+    const tags = getTagsFromSubtitle(title);
+    const isBluray = videoType.match(/bluray/i);
+    const mediaInfo = $('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
+    const bdInfo = $('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
+    const eacLogs = $('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
+    const mediaInfoOrBDInfo = isBluray ? bdInfo : mediaInfo;
+    const screenshotsBBCode = $('#details a[href*="teamhd.org/redirector.php"]').map(function() {
+      const url = $(this).attr("href").replace(/.+?url=/g, "");
+      return `[url=${url}][img]${$(this).find("img").attr("src")}[/img][/url]`;
+    }).get();
+    const screenshots = getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const {videoCodec, audioCodec, mediaTags} = getInfoFunc(mediaInfoOrBDInfo);
+    const description = `[quote]${eacLogs}[/quote]
+
+[quote]${mediaInfoOrBDInfo}[/quote]
+
+${screenshotsBBCode.join("")}`;
+    return {
+      sourceSite: CURRENT_SITE_NAME,
+      sourceSiteType: CURRENT_SITE_INFO.siteType,
+      title,
+      movieName,
+      year,
+      size,
+      category,
+      videoType,
+      resolution,
+      source,
+      videoCodec,
+      audioCodec,
+      screenshots,
+      mediaInfo: mediaInfoOrBDInfo,
+      mediaInfos: [mediaInfoOrBDInfo],
+      description,
+      tags: __assign(__assign({}, tags), mediaTags)
+    };
+  };
+  var getCategory4 = (link) => {
+    const catNum = link.match(/cat(\d+)/)[1];
+    const map = {
+      29: "movie",
+      25: "cartoon",
+      28: "document",
+      31: "sport",
+      32: "tv",
+      33: "tvPack"
+    };
+    return map[catNum] || "";
+  };
+  var getVideoType11 = (type, resolution) => {
+    if (type.match(/Remux/i)) {
+      return "remux";
+    } else if (type.match(/Blu-Ray.+?Disc/i)) {
+      if (resolution === "2160p") {
+        return "uhdbluray";
+      }
+      return "bluray";
+    } else if (type.match(/HDTV/i)) {
+      return "hdtv";
+    } else if (type.match(/web(-)*(dl|rip)/i)) {
+      return "web";
+    } else if (type.match(/rip/i)) {
+      return "encode";
+    }
+    return "";
+  };
+
   // src/source/index.js
-  var getTorrentInfo3;
+  var getTorrentInfo4;
   if (!CURRENT_SITE_INFO) {
-    getTorrentInfo3 = null;
+    getTorrentInfo4 = null;
   } else if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
-    getTorrentInfo3 = nexusphp_default;
+    getTorrentInfo4 = nexusphp_default;
   } else if (CURRENT_SITE_NAME === "BeyondHD") {
-    getTorrentInfo3 = bhd_default;
+    getTorrentInfo4 = bhd_default;
   } else if (CURRENT_SITE_NAME === "HDBits") {
-    getTorrentInfo3 = hdb_default;
+    getTorrentInfo4 = hdb_default;
   } else if (CURRENT_SITE_NAME === "TTG") {
-    getTorrentInfo3 = ttg_default;
+    getTorrentInfo4 = ttg_default;
   } else if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
-    getTorrentInfo3 = unit3d_default;
+    getTorrentInfo4 = unit3d_default;
   } else if (CURRENT_SITE_NAME === "HDT") {
-    getTorrentInfo3 = hdt_default;
+    getTorrentInfo4 = hdt_default;
   } else if (CURRENT_SITE_NAME === "KG") {
-    getTorrentInfo3 = kg_default;
+    getTorrentInfo4 = kg_default;
   } else if (CURRENT_SITE_NAME === "UHDBits") {
-    getTorrentInfo3 = uhd_default;
+    getTorrentInfo4 = uhd_default;
   } else if (CURRENT_SITE_NAME === "PTP") {
-    getTorrentInfo3 = ptp_default2;
+    getTorrentInfo4 = ptp_default2;
   } else if (CURRENT_SITE_NAME === "BTN") {
-    getTorrentInfo3 = btn_default;
+    getTorrentInfo4 = btn_default;
   } else if (CURRENT_SITE_INFO.siteType === "AvistaZ") {
-    getTorrentInfo3 = avistaz_default;
+    getTorrentInfo4 = avistaz_default;
+  } else if (CURRENT_SITE_NAME === "TeamHD") {
+    getTorrentInfo4 = teamhd_default;
   }
-  var source_default = getTorrentInfo3;
+  var source_default = getTorrentInfo4;
 
   // src/site-dom/main.js
   var getSearchList = () => {
@@ -9724,19 +10030,20 @@ ${screenshotsBBCode.join("")}`;
     return searchList;
   };
   var getFunctionItems = () => {
-    const doubanSearchDom = CURRENT_SITE_INFO.needDoubanBookInfo || CURRENT_SITE_INFO.needDoubanInfo ? `<div class="function-list-item">
+    const {needDoubanBookInfo, needDoubanInfo} = CURRENT_SITE_INFO;
+    const doubanSearchDom = needDoubanBookInfo || needDoubanInfo ? `<div class="function-list-item">
   <div class="douban-book-section">
     <input type="text" placeholder="${$t("\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5")}" id="douban-link">
   </div>
   </div>` : "";
     const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") || "";
-    const doubanDom = CURRENT_SITE_INFO.needDoubanInfo || !TORRENT_INFO.doubanUrl ? `${doubanSearchDom}
+    const doubanDom = needDoubanInfo || !TORRENT_INFO.doubanUrl && !needDoubanBookInfo ? `${doubanSearchDom}
   <div class="function-list-item">
     <div class="douban-section">
       <button id="douban-info">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</button>
     </div>
   </div>` : "";
-    const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo ? `${doubanSearchDom}
+    const doubanBookDom = needDoubanBookInfo ? `${doubanSearchDom}
 <div class="function-list-item">
   <div class="douban-book-section">
     <button id="douban-book-info">${$t("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB")}</button>
@@ -9870,6 +10177,20 @@ ${screenshotsBBCode.join("")}`;
       const torrentId = getUrlParam("torrentid");
       $(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
       torrentInsertDom = $(`#torrent_${torrentId} >td blockquote:first`);
+    } else if (CURRENT_SITE_NAME === "TeamHD") {
+      const trDom = `
+    <div class="team-hd">
+      ${easySeedTitleDom}
+      <div class="easy-seed-td" style="flex-wrap: wrap;"></div>
+    </div>
+    <div class="team-hd">
+    ${functionDom}
+    </div>
+    <div class="team-hd">
+    ${searchListDom}
+    </div>`;
+      torrentInsertDom.after(trDom);
+      torrentInsertDom = $(".easy-seed-td");
     }
     createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
   };
@@ -10093,7 +10414,8 @@ ${screenshotsBBCode.join("")}`;
         let {description} = TORRENT_INFO;
         imgList.forEach((img, index) => {
           if (description.includes(img)) {
-            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]`, "ig"), thumbnailImgs[index] || "");
+            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]
+*`, "ig"), thumbnailImgs[index] || "");
           }
         });
         TORRENT_INFO.description = description;
@@ -10220,20 +10542,22 @@ ${screenshotsBBCode.join("")}`;
     $(selfDom).text($t("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...")).attr("disabled", true).addClass("is-disabled");
     saveScreenshotsToPtpimg(screenshots).then((data) => {
       showNotice({text: $t("\u6210\u529F")});
-      let {description} = TORRENT_INFO;
+      let {description, originalDescription} = TORRENT_INFO;
       TORRENT_INFO.screenshots = data;
       const screenBBCode = data.map((img) => {
         return `[img]${img}[/img]`;
       });
-      const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+      const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
       if (allImages && allImages.length > 0) {
         allImages.forEach((img) => {
           if (img.match(/\[url=.+?\]/)) {
             img += "[/url]";
           }
+          originalDescription = originalDescription.replace(img, "");
           description = description.replace(img, "");
         });
       }
+      TORRENT_INFO.originalDescription = originalDescription + "\n" + screenBBCode.join("");
       TORRENT_INFO.description = description + "\n" + screenBBCode.join("");
     }).catch((error) => {
       showNotice({title: $t("\u9519\u8BEF"), text: error.message});
@@ -10400,7 +10724,7 @@ ${screenshotsBBCode.join("")}`;
       let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = "";
       const {movieAkaName, movieName, title} = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书/)) {
+      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD/) && siteInfo.siteType !== "AvistaZ") {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
@@ -10665,10 +10989,12 @@ td.title-td h4{
   height: 20px;
   width: 20px;
   animation: 5s linear rotate infinite;
+
 }
 @keyframes rotate {
-  from {transform: rotate(0deg)}
-  to   {transform: rotate(360deg) }
+  100% {
+    transform: rotate(360deg);
+  };
 }
 .easy-seed-setting-panel{
   position: fixed;
@@ -10906,6 +11232,20 @@ td.title-td h4{
 }
 #upload form:not(.autofilled,.no-imdb-id) .collapse{
   display: block !important;
+}
+.team-hd{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.team-hd h4{
+  flex-shrink: 0;
+  margin: 0;
+  line-height: initial;
+  margin-right: 10px;
+}
+.team-hd .easy-seed-function-list{
+  flex: 1;
 }
 `);
 

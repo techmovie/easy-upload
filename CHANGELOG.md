@@ -1,3 +1,28 @@
+## [2.2.3](https://github.com/techmovie/easy-upload/compare/2.2.2...2.2.3) (2021-06-20)
+
+
+### Bug Fixes
+
+* avz quick search ([ce94e8e](https://github.com/techmovie/easy-upload/commit/ce94e8e8be2ae20bd1ce4a20261b0f2354c60674))
+* dvd size error ([7918c5c](https://github.com/techmovie/easy-upload/commit/7918c5c2e82253f6361ad70f447a7e437d042b97))
+* fail to replace image ([21610cb](https://github.com/techmovie/easy-upload/commit/21610cb4d0211a4c8967ca4e37b5a3d5ce2a7006))
+* filter mediainfos of ptp ([a84bec5](https://github.com/techmovie/easy-upload/commit/a84bec5d0fd2f8e66c0229305f8685ce3a6fa525))
+* GPW mediainfo autofill ([#120](https://github.com/techmovie/easy-upload/issues/120)) ([581eab7](https://github.com/techmovie/easy-upload/commit/581eab7a78dbf5edbf5366b008e88e9e5cec1283))
+* GPW mediainfos处理 ([#118](https://github.com/techmovie/easy-upload/issues/118)) ([5a380da](https://github.com/techmovie/easy-upload/commit/5a380da7f00c115647c7294af55433257e1f7a29))
+* GPW processing validation ([#121](https://github.com/techmovie/easy-upload/issues/121)) ([68a4310](https://github.com/techmovie/easy-upload/commit/68a431033149c154ccda8edd401c2387a59182ca))
+* replace extra wraps behind images ([38b8a8b](https://github.com/techmovie/easy-upload/commit/38b8a8be2a019d8be251e8d3f40058d168778dbe)), closes [#97](https://github.com/techmovie/easy-upload/issues/97)
+* ttg adds function ([402c825](https://github.com/techmovie/easy-upload/commit/402c825cfd8e0648ed9745be2fe5ff1177f6d5f7))
+* 自动激活GPW自带验证 ([#119](https://github.com/techmovie/easy-upload/issues/119)) ([62a7bb9](https://github.com/techmovie/easy-upload/commit/62a7bb93cbc456e29fea51918911e1722950e75d))
+* 豆瓣数据改为直接从豆瓣源站获取 ([81afe52](https://github.com/techmovie/easy-upload/commit/81afe52bc10829621af5bb4f2fc8074588273ab0))
+* 避免正则过长报错 ([2983936](https://github.com/techmovie/easy-upload/commit/298393660a2d349a65aacbe3500b4b4008dfdc80))
+
+
+### Features
+
+* support TeamHD(target) ([ec10307](https://github.com/techmovie/easy-upload/commit/ec10307a387bcf87ea58d447edad0132540a2b34)), closes [#71](https://github.com/techmovie/easy-upload/issues/71)
+
+
+
 ## [2.2.2](https://github.com/techmovie/easy-upload/compare/2.2.1...2.2.2) (2021-06-16)
 
 
