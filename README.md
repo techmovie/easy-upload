@@ -102,6 +102,7 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 |    SSD    |             ✅              |               ✅                |
 | SoulVoice |             ✅              |               ✅                |
 |   TCCF    |             ✅              |               ✅                |
+|  TeamHD   |             ✅              |               ❌                |
 |   TJUPT   |             ✅              |               ✅                |
 |    TLF    |             ✅              |               ✅                |
 |    TTG    |             ✅              |               ✅                |

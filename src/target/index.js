@@ -165,6 +165,9 @@ const fillTargetForm = (info) => {
       }
     });
   }
+  // 过滤空标签
+  description = filterEmptyTags(description);
+
   if (CURRENT_SITE_NAME === 'PTer') {
     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
@@ -173,8 +176,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_NAME === 'PTN') {
     description = info.imdbUrl + '\n\n' + description;
   }
-  // 过滤空标签
-  description = filterEmptyTags(description);
+
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed) {
     description = getThanksQuote(info) + description.trim();

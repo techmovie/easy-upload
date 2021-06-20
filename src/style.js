@@ -208,10 +208,12 @@ td.title-td h4{
   height: 20px;
   width: 20px;
   animation: 5s linear rotate infinite;
+
 }
 @keyframes rotate {
-  from {transform: rotate(0deg)}
-  to   {transform: rotate(360deg) }
+  100% {
+    transform: rotate(360deg);
+  };
 }
 .easy-seed-setting-panel{
   position: fixed;
@@ -449,5 +451,19 @@ td.title-td h4{
 }
 #upload form:not(.autofilled,.no-imdb-id) .collapse{
   display: block !important;
+}
+.team-hd{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.team-hd h4{
+  flex-shrink: 0;
+  margin: 0;
+  line-height: initial;
+  margin-right: 10px;
+}
+.team-hd .easy-seed-function-list{
+  flex: 1;
 }
 `);

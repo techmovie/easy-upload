@@ -11,6 +11,7 @@ import getKGInfo from './kg';
 import getUHDInfo from './uhd';
 import getBTNInfo from './btn';
 import getAvistaZInfo from './avistaz';
+import getTeamHDInfo from './teamhd';
 
 let getTorrentInfo;
 if (!CURRENT_SITE_INFO) {
@@ -37,6 +38,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getBTNInfo;
 } else if (CURRENT_SITE_INFO.siteType === 'AvistaZ') {
   getTorrentInfo = getAvistaZInfo;
+} else if (CURRENT_SITE_NAME === 'TeamHD') {
+  getTorrentInfo = getTeamHDInfo;
 }
-
 export default getTorrentInfo;

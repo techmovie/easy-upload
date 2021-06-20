@@ -22,7 +22,8 @@ const getSearchList = () => {
   return searchList;
 };
 const getFunctionItems = () => {
-  const doubanSearchDom = (CURRENT_SITE_INFO.needDoubanBookInfo || CURRENT_SITE_INFO.needDoubanInfo)
+  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
+  const doubanSearchDom = (needDoubanBookInfo || needDoubanInfo)
     ? `<div class="function-list-item">
   <div class="douban-book-section">
     <input type="text" placeholder="${$t('手动输入豆瓣链接')}" id="douban-link">
@@ -30,7 +31,7 @@ const getFunctionItems = () => {
   </div>`
     : '';
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
-  const doubanDom = CURRENT_SITE_INFO.needDoubanInfo || !TORRENT_INFO.doubanUrl
+  const doubanDom = needDoubanInfo || (!TORRENT_INFO.doubanUrl && !needDoubanBookInfo)
     ? `${doubanSearchDom}
   <div class="function-list-item">
     <div class="douban-section">
@@ -38,7 +39,7 @@ const getFunctionItems = () => {
     </div>
   </div>`
     : '';
-  const doubanBookDom = CURRENT_SITE_INFO.needDoubanBookInfo
+  const doubanBookDom = needDoubanBookInfo
     ? `${doubanSearchDom}
 <div class="function-list-item">
   <div class="douban-book-section">
@@ -192,6 +193,20 @@ const insertTorrentPage = () => {
     const torrentId = getUrlParam('torrentid');
     $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
     torrentInsertDom = $(`#torrent_${torrentId} >td blockquote:first`);
+  } else if (CURRENT_SITE_NAME === 'TeamHD') {
+    const trDom = `
+    <div class="team-hd">
+      ${easySeedTitleDom}
+      <div class="easy-seed-td" style="flex-wrap: wrap;"></div>
+    </div>
+    <div class="team-hd">
+    ${functionDom}
+    </div>
+    <div class="team-hd">
+    ${searchListDom}
+    </div>`;
+    torrentInsertDom.after(trDom);
+    torrentInsertDom = $('.easy-seed-td');
   }
   createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
 };
