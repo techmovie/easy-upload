@@ -197,8 +197,22 @@ function handleNoAutoCheck (info) {
   });
   if (subtitles.length > 0) {
     $('#mixed_subtitles').attr('checked', true);
+    $('input[name="subtitles[]"][type="checkbox"]').each(function () {
+      const language = $(this).attr('id').replace(/^\S|(_\S)/g, letter => letter.replace('_', ' ').toUpperCase());
+      if (subtitles.includes(language)) {
+        $(this).attr('checked', true);
+      }
+    });
     const event = new Event('change');
     document.querySelector('#mixed_subtitles').dispatchEvent(event);
+    const chineseLanguages = subtitles.filter(item => item.match(/Chinese|Traditional|Simplified/i));
+    // 第一个判断条件不严谨 只有一个Chinese的情况也有可能为繁体
+    if ((chineseLanguages.length === 1 && chineseLanguages[0] === 'Chinese')) {
+      const selector = chineseLanguages[0].match(/Traditional/i) ? '#chinese_traditional' : '#chinese_simplified';
+      $(selector).attr('checked', true);
+    } else if (chineseLanguages.length >= 2) {
+      $('#chinese_traditional,#chinese_simplified').attr('checked', true);
+    }
   }
 }
 const getFormat = (format, videoType) => {
