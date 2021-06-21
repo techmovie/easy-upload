@@ -78,7 +78,7 @@ const getDataFromDoubanPage = async (domString) => {
   const cast = jsonData.actor ? jsonData.actor : [];
   const poster = jsonData.image
     .replace(/s(_ratio_poster|pic)/g, 'l$1')
-    .replace('img3', 'img1');
+    .replace(/img\d/, 'img9');
 
   // rate
   const doubanLink = `https://movie.douban.com${jsonData.url}`;
