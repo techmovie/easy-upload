@@ -157,6 +157,15 @@ td.title-td h4{
     padding: 0 12px;
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
 }
+.function-list-item select{
+  border: 0;
+  font-family: inherit;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 3px;
+  text-transform: none;
+  background: #f7f7f7;
+}
 .function-list-item input::placeholder {
   color: #c0c4cc
 }

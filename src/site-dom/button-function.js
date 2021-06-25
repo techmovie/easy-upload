@@ -161,14 +161,30 @@ const updateTorrentInfo = (data) => {
   const category = TORRENT_INFO.category;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
 };
-const uploadScreenshotsToPtpimg = (selfDom) => {
+const uploadScreenshotsToAnother = async (selfDom) => {
   const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
   $(selfDom).text($t('上传中，请稍候...')).attr('disabled', true).addClass('is-disabled');
-  saveScreenshotsToPtpimg(screenshots).then(data => {
+  try {
+    const selectHost = $('#img-host-select').val();
+    let imgData = [];
+    if (selectHost === 'ptpimg') {
+      imgData = await saveScreenshotsToPtpimg(screenshots);
+    } else {
+      const gifyuHtml = await fetch('https://gifyu.com', {
+        responseType: 'text',
+      });
+      const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
+      for (let index = 0; index < screenshots.length; index++) {
+        const data = await transferImgs(screenshots[index], authToken, 'https://gifyu.com/json');
+        if (data) {
+          imgData.push(data.url);
+        }
+      }
+    }
     showNotice({ text: $t('成功') });
     let { description, originalDescription } = TORRENT_INFO;
-    TORRENT_INFO.screenshots = data;
-    const screenBBCode = data.map(img => {
+    TORRENT_INFO.screenshots = imgData;
+    const screenBBCode = imgData.map(img => {
       return `[img]${img}[/img]`;
     });
     const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
@@ -183,16 +199,16 @@ const uploadScreenshotsToPtpimg = (selfDom) => {
     }
     TORRENT_INFO.originalDescription = originalDescription + '\n' + screenBBCode.join('');
     TORRENT_INFO.description = description + '\n' + screenBBCode.join('');
-  }).catch(error => {
+  } catch (error) {
     showNotice({ title: $t('错误'), text: error.message });
-  }).finally(() => {
-    $(selfDom).text($t('转存截图到ptpimg'))
+  } finally {
+    $(selfDom).text($t('转存截图'))
       .removeAttr('disabled').removeClass('is-disabled');
-  });
+  }
 };
 export {
   getThumbnailImgs,
   getDoubanBookInfo,
-  uploadScreenshotsToPtpimg,
+  uploadScreenshotsToAnother,
   getDoubanData,
 };

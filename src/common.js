@@ -329,15 +329,23 @@ const getIMDBData = async (imdbUrl) => {
     handleError(error);
   }
 };
-const transferImgs = async (screenshot, authToken) => {
+const transferImgs = async (screenshot, authToken, imgHost = 'https://imgbb.com/json') => {
   try {
+    const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
     const formData = new FormData();
-    formData.append('type', 'url');
-    formData.append('source', screenshot);
+    if (isHdbHost) {
+      const promiseArray = [urlToFile(screenshot)];
+      const [fileData] = await Promise.all(promiseArray);
+      formData.append('type', 'file');
+      formData.append('source', fileData);
+    } else {
+      formData.append('type', 'url');
+      formData.append('source', screenshot);
+    }
     formData.append('action', 'upload');
     formData.append('timestamp', Date.now());
     formData.append('auth_token', authToken);
-    const res = await fetch('https://imgbb.com/json', {
+    const res = await fetch(imgHost, {
       method: 'POST',
       data: formData,
       timeout: 3e5,

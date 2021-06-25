@@ -62,7 +62,11 @@ const getFunctionItems = () => {
     : `
 <div class="function-list-item">
 <div class="upload-section">
-  <button id="upload-to-ptp">${$t('转存截图到ptpimg')}</button>
+  <button id="upload-to-another">${$t('转存截图')}</button>
+  <select id="img-host-select">
+    <option value="ptpimg" selected>ptpimg</option>
+    <option value="gifyu">gifyu</option>
+  </select>
 </div>
 </div>`;
   return (doubanDom || transferDom || doubanSearchDom)

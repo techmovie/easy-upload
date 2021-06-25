@@ -7,7 +7,7 @@ import {
   getThumbnailImgs,
   getDoubanBookInfo,
   getDoubanData,
-  uploadScreenshotsToPtpimg,
+  uploadScreenshotsToAnother,
 } from './button-function';
 const getPTPGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
@@ -64,9 +64,9 @@ export default () => {
       getDoubanBookInfo();
     });
   }
-  if (document.querySelector('#upload-to-ptp')) {
-    $('#upload-to-ptp').click(function () {
-      uploadScreenshotsToPtpimg(this);
+  if (document.querySelector('#upload-to-another')) {
+    $('#upload-to-another').click(function () {
+      uploadScreenshotsToAnother(this);
     });
   }
   handleSiteClickEvent();
