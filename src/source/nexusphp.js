@@ -146,7 +146,12 @@ export default async () => {
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? getSize(size) : '';
   TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
-  TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+  const pageTags = getTagsFromPage();
+  TORRENT_INFO.tags = {
+    ...tags,
+    ...pageTags,
+  };
   if (CURRENT_SITE_NAME.match(/beitai/i)) {
     // 从简略mediainfo中获取videoCodes
     if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
@@ -353,6 +358,32 @@ const getFormat = (data) => {
     return 'iso';
   }
   return 'other';
+};
+
+const getTagsFromPage = () => {
+  let tags = {};
+  if (CURRENT_SITE_NAME === 'PTer') {
+    const tagImgs = $("td.rowhead:contains('类别与标签')").next().find('img');
+    const links = Array.from(tagImgs.map(function () {
+      return $(this).attr('src').replace(/(lang\/chs\/)|(\.gif)/g, '');
+    }));
+    if (links.includes('pter-zz')) {
+      tags.chinese_subtitle = true;
+    }
+    if (links.includes('pter-gy')) {
+      tags.chinese_audio = true;
+    }
+    if (links.includes('pter-yy')) {
+      tags.cantonese_audio = true;
+    }
+    if (links.includes('pter-diy')) {
+      tags.diy = true;
+    }
+  } else {
+    const tagText = $("td.rowhead:contains('标签')").next().text();
+    tags = getTagsFromSubtitle(tagText);
+  }
+  return tags;
 }
 
 ;
