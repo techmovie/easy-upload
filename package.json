@@ -12,7 +12,8 @@
     "commit": "git-cz",
     "release": "node scripts/release.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "channel": "node scripts/tg-channel.js"
   },
   "config": {
     "commitizen": {
