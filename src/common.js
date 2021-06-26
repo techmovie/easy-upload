@@ -51,7 +51,7 @@ const getDataFromDoubanPage = async (domString) => {
   // title
   const chineseTitle = $('title', dom).text().replace('(豆瓣)', '').trim();
   const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, '').trim();
-  let aka, transTitle, thisTitle;
+  let aka = []; let transTitle; let thisTitle;
   const akaAnchor = $('#info span.pl:contains("又名")', dom);
   if (akaAnchor.length > 0) {
     aka = fetchAnchor(akaAnchor).split(' / ').sort(function (a, b) { // 首字(母)排序
