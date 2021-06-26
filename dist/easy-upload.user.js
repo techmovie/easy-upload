@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.3
+// @version      2.2.4
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -5796,7 +5796,7 @@
     \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the group transfer list first",
     "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
     \u63D0\u793A: "Hint",
-    \u8F6C\u5B58\u622A\u56FE\u5230ptpimg: "Upload screenshots to ptpimg",
+    \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
     \u65E0\u9700\u8F6C\u5B58: "No need to upload",
     "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading,be patient",
     \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not show acknowledgments"
@@ -5847,7 +5847,7 @@
     \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
     "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
     \u63D0\u793A: "\u63D0\u793A",
-    \u8F6C\u5B58\u622A\u56FE\u5230ptpimg: "\u8F6C\u5B58\u5230ptpimg",
+    \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
     \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
     "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
     \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9"
@@ -5898,7 +5898,9 @@
     };
     const chineseTitle = $("title", dom).text().replace("(\u8C46\u74E3)", "").trim();
     const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, "").trim();
-    let aka, transTitle, thisTitle;
+    let aka = [];
+    let transTitle;
+    let thisTitle;
     const akaAnchor = $('#info span.pl:contains("\u53C8\u540D")', dom);
     if (akaAnchor.length > 0) {
       aka = fetchAnchor(akaAnchor).split(" / ").sort(function(a, b) {
@@ -5921,7 +5923,7 @@
     const director = jsonData.director ? jsonData.director : [];
     const writer = jsonData.author ? jsonData.author : [];
     const cast = jsonData.actor ? jsonData.actor : [];
-    const poster = jsonData.image.replace(/s(_ratio_poster|pic)/g, "l$1").replace("img3", "img1");
+    const poster = jsonData.image.replace(/s(_ratio_poster|pic)/g, "l$1").replace(/img\d/, "img9");
     const doubanLink = `https://movie.douban.com${jsonData.url}`;
     let imdbId, imdbLink, imdbAverageRating, imdbVotes, imdbRating;
     const imdbLinkAnchor = $('#info span.pl:contains("IMDb")', dom);
@@ -6210,15 +6212,23 @@
       handleError(error);
     }
   };
-  var transferImgs = async (screenshot, authToken) => {
+  var transferImgs = async (screenshot, authToken, imgHost = "https://imgbb.com/json") => {
     try {
+      const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
       const formData = new FormData();
-      formData.append("type", "url");
-      formData.append("source", screenshot);
+      if (isHdbHost) {
+        const promiseArray = [urlToFile(screenshot)];
+        const [fileData] = await Promise.all(promiseArray);
+        formData.append("type", "file");
+        formData.append("source", fileData);
+      } else {
+        formData.append("type", "url");
+        formData.append("source", screenshot);
+      }
       formData.append("action", "upload");
       formData.append("timestamp", Date.now());
       formData.append("auth_token", authToken);
-      const res = await fetch("https://imgbb.com/json", {
+      const res = await fetch(imgHost, {
         method: "POST",
         data: formData,
         timeout: 3e5
@@ -7873,8 +7883,21 @@ ${imgs.join("\n")}
     });
     if (subtitles.length > 0) {
       $("#mixed_subtitles").attr("checked", true);
+      $('input[name="subtitles[]"][type="checkbox"]').each(function() {
+        const language = $(this).attr("id").replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase());
+        if (subtitles.includes(language)) {
+          $(this).attr("checked", true);
+        }
+      });
       const event = new Event("change");
       document.querySelector("#mixed_subtitles").dispatchEvent(event);
+      const chineseLanguages = subtitles.filter((item) => item.match(/Chinese|Traditional|Simplified/i));
+      if (chineseLanguages.length === 1 && chineseLanguages[0] === "Chinese") {
+        const selector = chineseLanguages[0].match(/Traditional/i) ? "#chinese_traditional" : "#chinese_simplified";
+        $(selector).attr("checked", true);
+      } else if (chineseLanguages.length >= 2) {
+        $("#chinese_traditional,#chinese_simplified").attr("checked", true);
+      }
     }
   }
   var getFormat2 = (format, videoType) => {
@@ -9203,7 +9226,9 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
     TORRENT_INFO.size = size ? getSize(size) : "";
     TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
-    TORRENT_INFO.tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+    const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+    const pageTags = getTagsFromPage();
+    TORRENT_INFO.tags = __assign(__assign({}, tags), pageTags);
     if (CURRENT_SITE_NAME.match(/beitai/i)) {
       if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
         const matchCodec = (_w = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)) == null ? void 0 : _w[2];
@@ -9395,6 +9420,31 @@ All thanks to the original uploader\uFF01`;
       return "iso";
     }
     return "other";
+  };
+  var getTagsFromPage = () => {
+    let tags = {};
+    if (CURRENT_SITE_NAME === "PTer") {
+      const tagImgs = $("td.rowhead:contains('\u7C7B\u522B\u4E0E\u6807\u7B7E')").next().find("img");
+      const links = Array.from(tagImgs.map(function() {
+        return $(this).attr("src").replace(/(lang\/chs\/)|(\.gif)/g, "");
+      }));
+      if (links.includes("pter-zz")) {
+        tags.chinese_subtitle = true;
+      }
+      if (links.includes("pter-gy")) {
+        tags.chinese_audio = true;
+      }
+      if (links.includes("pter-yy")) {
+        tags.cantonese_audio = true;
+      }
+      if (links.includes("pter-diy")) {
+        tags.diy = true;
+      }
+    } else {
+      const tagText = $("td.rowhead:contains('\u6807\u7B7E')").next().text();
+      tags = getTagsFromSubtitle(tagText);
+    }
+    return tags;
   };
 
   // src/source/hdt.js
@@ -10060,7 +10110,11 @@ ${screenshotsBBCode.join("")}`;
     const uploadImgDom = uploadImgClosed || CURRENT_SITE_NAME === "BTN" ? "" : `
 <div class="function-list-item">
 <div class="upload-section">
-  <button id="upload-to-ptp">${$t("\u8F6C\u5B58\u622A\u56FE\u5230ptpimg")}</button>
+  <button id="upload-to-another">${$t("\u8F6C\u5B58\u622A\u56FE")}</button>
+  <select id="img-host-select">
+    <option value="ptpimg" selected>ptpimg</option>
+    <option value="gifyu">gifyu</option>
+  </select>
 </div>
 </div>`;
     return doubanDom || transferDom || doubanSearchDom ? `<section class="easy-seed-function-list">
@@ -10537,14 +10591,31 @@ ${screenshotsBBCode.join("")}`;
     const category = TORRENT_INFO.category;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   };
-  var uploadScreenshotsToPtpimg = (selfDom) => {
+  var uploadScreenshotsToAnother = async (selfDom) => {
+    var _a;
     const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
     $(selfDom).text($t("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...")).attr("disabled", true).addClass("is-disabled");
-    saveScreenshotsToPtpimg(screenshots).then((data) => {
+    try {
+      const selectHost = $("#img-host-select").val();
+      let imgData = [];
+      if (selectHost === "ptpimg") {
+        imgData = await saveScreenshotsToPtpimg(screenshots);
+      } else {
+        const gifyuHtml = await fetch("https://gifyu.com", {
+          responseType: "text"
+        });
+        const authToken = (_a = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a[1];
+        for (let index = 0; index < screenshots.length; index++) {
+          const data = await transferImgs(screenshots[index], authToken, "https://gifyu.com/json");
+          if (data) {
+            imgData.push(data.url);
+          }
+        }
+      }
       showNotice({text: $t("\u6210\u529F")});
       let {description, originalDescription} = TORRENT_INFO;
-      TORRENT_INFO.screenshots = data;
-      const screenBBCode = data.map((img) => {
+      TORRENT_INFO.screenshots = imgData;
+      const screenBBCode = imgData.map((img) => {
         return `[img]${img}[/img]`;
       });
       const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
@@ -10559,18 +10630,18 @@ ${screenshotsBBCode.join("")}`;
       }
       TORRENT_INFO.originalDescription = originalDescription + "\n" + screenBBCode.join("");
       TORRENT_INFO.description = description + "\n" + screenBBCode.join("");
-    }).catch((error) => {
+    } catch (error) {
       showNotice({title: $t("\u9519\u8BEF"), text: error.message});
-    }).finally(() => {
-      $(selfDom).text($t("\u8F6C\u5B58\u622A\u56FE\u5230ptpimg")).removeAttr("disabled").removeClass("is-disabled");
-    });
+    } finally {
+      $(selfDom).text($t("\u8F6C\u5B58\u622A\u56FE")).removeAttr("disabled").removeClass("is-disabled");
+    }
   };
 
   // src/site-dom/click-event.js
   var getPTPGroupId = async (imdbUrl) => {
     const imdbId = getIMDBIdByUrl(imdbUrl);
     if (imdbId) {
-      const url = `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
+      const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
       const data = await fetch(url);
       if (data && data.Movies && data.Movies.length > 0) {
         return data.Movies[0].GroupId;
@@ -10584,7 +10655,7 @@ ${screenshotsBBCode.join("")}`;
   var getGPWGroupId = async (imdbUrl) => {
     const imdbId = getIMDBIdByUrl(imdbUrl);
     if (imdbId) {
-      const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
+      const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
       const data = await fetch(url);
       if (data && data.GroupID) {
         return data.GroupID;
@@ -10621,9 +10692,9 @@ ${screenshotsBBCode.join("")}`;
         getDoubanBookInfo();
       });
     }
-    if (document.querySelector("#upload-to-ptp")) {
-      $("#upload-to-ptp").click(function() {
-        uploadScreenshotsToPtpimg(this);
+    if (document.querySelector("#upload-to-another")) {
+      $("#upload-to-another").click(function() {
+        uploadScreenshotsToAnother(this);
       });
     }
     handleSiteClickEvent();
@@ -10688,11 +10759,11 @@ ${screenshotsBBCode.join("")}`;
         });
         TORRENT_INFO.formDom = formDom;
       }
-      if (url.match(/passthepopcorn/)) {
+      if (url.match(PT_SITE.PTP.host)) {
         const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
         url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
       }
-      if (url.match(/greatposterwall/)) {
+      if (url.match(PT_SITE.GPW.host)) {
         const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
         if (groupId) {
           url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
@@ -10937,6 +11008,15 @@ td.title-td h4{
     width: 200px;
     padding: 0 12px;
     transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
+.function-list-item select{
+  border: 0;
+  font-family: inherit;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 3px;
+  text-transform: none;
+  background: #f7f7f7;
 }
 .function-list-item input::placeholder {
   color: #c0c4cc
@@ -11229,9 +11309,6 @@ td.title-td h4{
 }
 #transfer-progress{
   display: none;
-}
-#upload form:not(.autofilled,.no-imdb-id) .collapse{
-  display: block !important;
 }
 .team-hd{
   display: flex;

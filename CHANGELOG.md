@@ -1,3 +1,22 @@
+## [2.2.4](https://github.com/techmovie/easy-upload/compare/2.2.3...2.2.4) (2021-06-26)
+
+
+### Bug Fixes
+
+* Remove GPW .collapse style ([#122](https://github.com/techmovie/easy-upload/issues/122)) ([5baa0c9](https://github.com/techmovie/easy-upload/commit/5baa0c9ef769d5b5aea06e94e7acb3b8c7f343fc))
+* use url variable from config ([#124](https://github.com/techmovie/easy-upload/issues/124)) ([abf1982](https://github.com/techmovie/easy-upload/commit/abf198272bc10e3198f2d108c12849cb80a4a194))
+* 缺失aka字段导致豆瓣数据获取失败 ([4bbe0b0](https://github.com/techmovie/easy-upload/commit/4bbe0b065f2cfb26dda2baf2fb74579be818d362))
+* 豆瓣海报图床替换为img9 ([bfebe56](https://github.com/techmovie/easy-upload/commit/bfebe5659eebfc3521498d91f693f97ef5403cd0))
+
+
+### Features
+
+* support selecting different imghost to re-upload(gifyu ptpimg) ([3099716](https://github.com/techmovie/easy-upload/commit/30997166636f26dcc589c1d4870aa76603c17e57)), closes [#123](https://github.com/techmovie/easy-upload/issues/123)
+* 增加从标签栏获取标签的功能 ([3bf64c8](https://github.com/techmovie/easy-upload/commit/3bf64c8788215cedc3c03931ac4d93f3a80e7aff)), closes [#80](https://github.com/techmovie/easy-upload/issues/80)
+* **gpw:** autofill失败时自动勾选字幕 ([af80851](https://github.com/techmovie/easy-upload/commit/af80851d9e34b118fdc7f9ba905f16685f5f402f))
+
+
+
 ## [2.2.3](https://github.com/techmovie/easy-upload/compare/2.2.2...2.2.3) (2021-06-20)
 
 
