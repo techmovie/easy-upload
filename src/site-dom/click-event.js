@@ -12,7 +12,7 @@ import {
 const getPTPGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
-    const url = `https://passthepopcorn.me/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
+    const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
     const data = await fetch(url);
     if (data && data.Movies && data.Movies.length > 0) {
       return data.Movies[0].GroupId;
@@ -26,7 +26,7 @@ const getPTPGroupId = async (imdbUrl) => {
 const getGPWGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
-    const url = `https://greatposterwall.com/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
+    const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
     const data = await fetch(url);
     if (data && data.GroupID) {
       return data.GroupID;
@@ -132,11 +132,11 @@ const handleSiteClickEvent = () => {
       });
       TORRENT_INFO.formDom = formDom;
     }
-    if (url.match(/passthepopcorn/)) {
+    if (url.match(PT_SITE.PTP.host)) {
       const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
       url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
     }
-    if (url.match(/greatposterwall/)) {
+    if (url.match(PT_SITE.GPW.host)) {
       const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
       if (groupId) {
         url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
