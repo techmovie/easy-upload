@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
-seedDomSelector: '#vue+.panel table>tbody>tr:last' 
+seedDomSelector: '#meta-info+.meta-general>.panel:first table tr:last' 
 search: 
   path: /torrents
   params:

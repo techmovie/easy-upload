@@ -101,6 +101,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |    SSD    |             ✅             |            ✅            |
 | SoulVoice |             ✅             |            ✅            |
 |   TCCF    |             ✅             |            ✅            |
+|  TeamHD   |             ✅             |            ❌            |
 |   TJUPT   |             ✅             |            ✅            |
 |    TLF    |             ✅             |            ✅            |
 |    TTG    |             ✅             |            ✅            |

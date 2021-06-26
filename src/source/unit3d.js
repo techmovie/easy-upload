@@ -10,7 +10,6 @@ export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const { Category, Name, Type, Size, Resolution } = getBasicInfo();
-
   TORRENT_INFO.size = getSize(Size);
   let title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
@@ -83,7 +82,11 @@ const getBasicInfo = () => {
     規格: 'Type',
     Resolution: 'Resolution',
   };
-  $('#vue+.panel table tr').each((index, element) => {
+  let lineSelector = $('#vue+.panel table tr');
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST/)) {
+    lineSelector = $('#meta-info+.meta-general>.panel:first table tr');
+  }
+  lineSelector.each((index, element) => {
     const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
     if (keyMap[key]) {
       const value = $(element).find('td:last').text();
