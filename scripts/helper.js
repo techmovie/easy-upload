@@ -81,6 +81,7 @@ exports.userScriptComment = `// ==UserScript==
 // @match        https://avistaz.to/torrent/*
 // @match        https://piratethenet.org/browse.php?*
 // @match        https://teamhd.org/details/id*
+// @run-at       document-end
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue

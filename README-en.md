@@ -58,6 +58,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 | Site name | Source(supports transfer) | Target(allows transfer) |
 | :-------: | :-----------------------: | :---------------------: |
 |   1PTBA   |             ✅             |            ✅            |
+|   3Wmg    |             ✅             |            ✅            |
 |   52pt    |             ✅             |            ✅            |
 |    ACM    |             ✅             |            ✅            |
 |  Aither   |             ✅             |            ✅            |
