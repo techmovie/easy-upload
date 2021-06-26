@@ -12,9 +12,9 @@ let bugContent = recentLog.match(/#{3}\s+Bug Fixes((.|\n)+?)\n{3}/) || '';
 bugContent = bugContent && bugContent[1] ? bugContent[1] : '';
 let perfContent = recentLog.match(/#{3}\s+Performance Improvements((.|\n)+?)\n{3}/) || '';
 perfContent = perfContent && perfContent[1] ? perfContent[1] : '';
-featureContent = featureContent.replace(/\*\s/, '🔨 ').replace(/\*{2}/g, '*');
-bugContent = bugContent.replace(/\*\s/g, '🐛 ').replace(/\*{2}/g, '*');
-perfContent = perfContent.replace(/\*\s/g, '🎉').replace(/\*{2}/g, '*');
+featureContent = featureContent.replace(/\n\*\s/g, '\n🔨 ').replace(/\*{2}/g, '*');
+bugContent = bugContent.replace(/\n\*\s/g, '\n🐛 ').replace(/\*{2}/g, '*');
+perfContent = perfContent.replace(/\n\*\s/g, '\n🎉 ').replace(/\*{2}/g, '*');
 
 let tgMsg = `
 📣 *更新至${newVersion}*
