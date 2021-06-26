@@ -79,6 +79,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |  HDChina  |             ✅             |            ✅            |
 |  HDDolby  |             ✅             |            ✅            |
 |  HDHome   |             ✅             |            ✅            |
+|  HDMaYi   |             ✅             |            ✅            |
 |  HDPOST   |             ✅             |            ✅            |
 |  HDRoute  |             ❌             |            ✅            |
 |   HDSky   |             ✅             |            ✅            |
