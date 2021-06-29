@@ -1,3 +1,22 @@
+## [2.2.5](https://github.com/techmovie/easy-upload/compare/2.2.4...2.2.5) (2021-06-29)
+
+
+### Bug Fixes
+
+* 修复tg脚本 ([7047722](https://github.com/techmovie/easy-upload/commit/70477221210b6ce1d1c797b1a839c615b9f22b94))
+* 适配Blutopia和HDPOST新版详情页 ([e1f9832](https://github.com/techmovie/easy-upload/commit/e1f9832e3a61b89d57545e1e78bed6d9036f991e))
+
+
+### Features
+
+* support HaresClub(大白兔) ([ca38f6b](https://github.com/techmovie/easy-upload/commit/ca38f6b54ab94ddb888792915b46de873bfd89c3))
+* 剧集副标题增加集数显示 ([d129845](https://github.com/techmovie/easy-upload/commit/d1298451c4c262028ff06587aa149c494b90a54d))
+* **new site:** support 3Wmg ([4a8f4de](https://github.com/techmovie/easy-upload/commit/4a8f4de381228334cb4200e6da365fac5469e5d1))
+* **new site:** support HDMaYi ([ab9c606](https://github.com/techmovie/easy-upload/commit/ab9c6062704c46e1de2924373bee7681be208f1a))
+* **new site:** support HDSpace ([d290316](https://github.com/techmovie/easy-upload/commit/d2903169c50f5c93de19cba48f897736d9a7e845)), closes [#116](https://github.com/techmovie/easy-upload/issues/116)
+
+
+
 ## [2.2.4](https://github.com/techmovie/easy-upload/compare/2.2.3...2.2.4) (2021-06-26)
 
 
