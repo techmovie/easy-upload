@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getUrlParam, getSize,
   getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
   getFilterBBCode, getBDInfoOrMediaInfo, fetch,
-  getTagsFromSubtitle, getPreciseCategory, $t,
+  getTagsFromSubtitle, getPreciseCategory,
 } from '../common';
 
 export default async () => {

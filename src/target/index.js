@@ -35,7 +35,7 @@ const fillTargetForm = (info) => {
   const isBluray = info.videoType.match(/bluray/i);
   const { screenshots = [] } = info;
   const imdbSelector = CURRENT_SITE_INFO.imdb?.selector;
-  if (CURRENT_SITE_NAME === 'HDRoute') {
+  if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
     $(imdbSelector).val(imdbId?.replace('tt', '') ?? '');
   } else {
     if (imdbSelector) {
@@ -234,7 +234,7 @@ const fillTargetForm = (info) => {
     setTimeout(() => {
       const event = new Event('change');
       document.querySelector(CURRENT_SITE_INFO.category.selector).dispatchEvent(event);
-    }, 500);
+    }, 1000);
   }
   // 匿名勾选
   if (CURRENT_SITE_INFO.anonymous) {

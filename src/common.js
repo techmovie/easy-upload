@@ -967,7 +967,7 @@ const htmlToBBCode = (node) => {
           pp('[center]', '[/center]'); break;
         }
         case 'TD': {
-          if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG)/) || CURRENT_SITE_NAME === 'HDT' ||
+          if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
            CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
           } else {
@@ -1004,7 +1004,13 @@ const htmlToBBCode = (node) => {
         case 'A': {
           const { href, textContent } = node;
           if (href && href.length > 0) {
-            if (href.match(/javascript:void/) || (textContent === 'show' && CURRENT_SITE_NAME === 'HDT')) {
+            if (CURRENT_SITE_NAME === 'HDSpace') {
+              const div = $(node).find('div');
+              if (div[0] && div.attr('id')) {
+                const imgUrl = div.find('img').attr('src');
+                return `[url=${href}][img]${imgUrl}[/img][/url]`;
+              }
+            } else if (href.match(/javascript:void/) || (textContent === 'show' && CURRENT_SITE_NAME === 'HDT')) {
               return '';
             } else {
               pp(`[url=${href}]`, '[/url]');

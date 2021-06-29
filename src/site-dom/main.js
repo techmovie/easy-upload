@@ -130,7 +130,7 @@ const insertTorrentPage = () => {
   const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
   <h4>${$t('快速检索')}</h4>
   </td>
-  <td class="rowfollow detailshash"> 
+  <td class="rowfollow detailshash lista"> 
   <ul class="search-list ">
     ${searchList.join('')}
   </ul>
@@ -140,7 +140,7 @@ const insertTorrentPage = () => {
     ? `<tr><td class="rowhead nowrap title-td detailsleft">
   <h4>${$t('快捷操作')}</h4>
   </td>
-  <td class="rowfollow detailshash"> 
+  <td class="rowfollow detailshash lista"> 
     ${functionItems}
   </td></tr>`
     : '';
@@ -211,6 +211,20 @@ const insertTorrentPage = () => {
     </div>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
+  } else if (CURRENT_SITE_NAME === 'HDSpace') {
+    const trDom = `<tr>
+    <td align="right" class="title-td">
+    ${easySeedTitleDom}
+    </td>
+    <td class="lista easy-seed-td" align="center"></td>
+    </tr>
+    ${functionDom}
+    <tr>
+    ${searchListDom}
+    </tr>`;
+    torrentInsertDom.after(trDom);
+    torrentInsertDom = $(document.querySelector('.easy-seed-td'));
+    $(document.querySelectorAll('.title-td')).addClass('header');
   }
   createSeedDom(torrentInsertDom, easySeedTitleDom, searchListDom);
 };

@@ -12,6 +12,7 @@ import getUHDInfo from './uhd';
 import getBTNInfo from './btn';
 import getAvistaZInfo from './avistaz';
 import getTeamHDInfo from './teamhd';
+import getHDSpaceInfo from './hdspace';
 
 let getTorrentInfo;
 if (!CURRENT_SITE_INFO) {
@@ -40,5 +41,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getAvistaZInfo;
 } else if (CURRENT_SITE_NAME === 'TeamHD') {
   getTorrentInfo = getTeamHDInfo;
+} else if (CURRENT_SITE_NAME === 'HDSpace') {
+  getTorrentInfo = getHDSpaceInfo;
 }
 export default getTorrentInfo;

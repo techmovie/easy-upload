@@ -1,0 +1,133 @@
+url: https://hd-space.org
+host: hd-space.org
+siteType: HDSpace
+icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">  <image id="image0" width="48" height="48" x="0" y="0"    href="data:image/png;base64,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" /></svg>'
+asSource: true
+asTarget: true
+seedDomSelector: '#mcol>table>tbody>tr:last table:first>tbody>tr:nth-child(2)'
+needDoubanInfo: true
+uploadPath: /index.php?page=upload
+search: 
+  path: /index.php
+  imdbOptionKey: '2'
+  nameOptionKey: '0'
+  replaceKey: ['tt','']
+  params:
+    search: '{imdb}'
+    page: torrents
+    options: '{optionKey}'
+    order: 4
+    by: 2
+name:
+  selector: '#filename'
+imdb: 
+  selector: 'input[name="imdb"]'
+description: 
+    selector: 'textarea[name="info"]'
+anonymous: 
+  selector: 'input[name="anonymous"][value="true"]'
+category:
+  selector: 'select[name="category"]'
+  map:
+    movie: 
+      - '15'
+      - '40'
+      - '16'
+      - '18'
+      - '19'
+      - '41'
+    tv: 
+      - '15'
+      - '40'
+      - '16'
+      - '21'
+      - '22'
+    tvPack:
+      - '15'
+      - '40'
+      - '16'
+      - '21'
+      - '22'
+    documentary: 
+      - '15'
+      - '40'
+      - '16'
+      - '24'
+      - '25'
+    cartoon: 
+      - '15'
+      - '40'
+      - '16'
+      - '27'
+      - '28'
+    concert: 
+      - '15'
+      - '40'
+      - '16'
+      - '31'
+videoType:
+  map:
+    uhdbluray: 
+      - '15'
+    bluray:
+     - '15' 
+    remux: 
+      - '40'
+    encode: 
+      - '18'
+      - '19'
+      - '41'
+      - '21'
+      - '22'
+      - '24'
+      - '25'
+      - '27'
+      - '28'
+      - '31'
+    web: 
+      - '18'
+      - '19'
+      - '41'
+      - '21'
+      - '22'
+      - '24'
+      - '25'
+      - '27'
+      - '28'
+      - '31'
+    hdtv: 
+      - '18'
+      - '19'
+      - '41'
+      - '21'
+      - '22'
+      - '24'
+      - '25'
+      - '27'
+      - '28'
+      - '31'
+resolution:
+  map:
+    2160p: 
+      - '15'
+      - '40'
+      - '16'
+      - '41'
+    1080p: 
+      - '19'
+      - '22'
+      - '25'
+      - '28'
+      - '31'
+    1080i: 
+      - '19'
+      - '22'
+      - '25'
+      - '28'
+      - '31'
+    720p: 
+      - '18'
+      - '21'
+      - '24'
+      - '24'
+      - '31'
