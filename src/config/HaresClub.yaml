@@ -1,0 +1,116 @@
+url: https://club.hares.top
+host: hares.top
+siteType: NexusPHP
+icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=" /></svg>'
+asSource: true
+asTarget: true
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)' 
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector:  'input[name="pt_gen[imdb][link]"]'
+douban:
+  selector:  'input[name="pt_gen[douban][link]"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+mediaInfo:
+  selector: 'textarea[name="technical_info"]'
+tags: 
+  chinese_audio: 'input[name="tags[]"][value="32"]'
+  cantonese_audio: 'input[name="tags[]"][value="64"]'
+  diy: 'input[name="tags[]"][value="1024"]'
+  hdr: 'input[name="tags[]"][value="4096"]'
+  hdr10_plus: 'input[name="tags[]"][value="8192"]'
+  dolby_vision: 'input[name="tags[]"][value="16384"]'
+  chinese_subtitle: 'input[name="tags[]"][value="256"]'
+category:
+  selector: 'select[name="type"]'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '404'
+    concert: '409'
+    sport: '407'
+    cartoon: '405'
+    variety: '403'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '6'
+    x264: '8'
+    x265: '7'
+    h265: '6'
+    mpeg2: '4'
+    mpeg4: '9'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '13'
+    dd: '13'
+    mp3: '4'
+    dd+: '13'
+    flac: '1'
+    dts: '3'
+    truehd: '9'
+    lpcm: '14'
+    dtshdma: '11'
+    atmos: '8'
+    dtsx: '10'
+    ape: '2'
+    ogg: '5'
+    wav: '15'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '2'
+    bluray: '2'
+    remux: '3'
+    encode: '4'
+    web: '5'
+    hdtv: '8'
+    dvd: '0'
+    dvdrip: '0'
+    other: '0'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    4320p: '5'
+    2160p: '6'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+area:
+  selector: 'select[name="processing_sel"]'
+  map:
+    chd: '4'
+    hds: '5'
+    wiki: '6'
+    cmct: '8'
+    beast: '9'
+    hdc: '10'
+    frds: '11'
+    pter: '12'
+    bhd: '13'
+    pth: '14'
+    other: '15'
