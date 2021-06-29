@@ -5,6 +5,7 @@ import {
   TMDB_API_URL, PT_GEN_API,
   DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
   NOTIFICATION_TEMPLATE,
+  TORRENT_INFO,
 } from './const';
 import i18nConfig from './i18n';
 const formatTorrentTitle = (title) => {
@@ -60,7 +61,7 @@ const getDataFromDoubanPage = async (domString) => {
     aka = aka.split('/');
   }
   if (foreignTitle) {
-    transTitle = chineseTitle + (aka ? ('/' + aka.join('/')) : '');
+    transTitle = chineseTitle + (aka.length > 0 ? ('/' + aka.join('/')) : '');
     thisTitle = foreignTitle;
   } else {
     transTitle = aka.join('/') || '';
@@ -517,7 +518,10 @@ const getSubTitle = (data) => {
     title += chineseTitle;
   }
   const moreTitle = originalTitle.concat(transTitle).filter(item => title !== item);
-  return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}`;
+  let seasonEpisode = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)?.[1] ?? '';
+  seasonEpisode = seasonEpisode.replace(/^0/i, '');
+  const episode = seasonEpisode ? ` 第${seasonEpisode}集` : '';
+  return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}${episode}`;
 };
 /*
 * 替换豆瓣演员中的英文名称
