@@ -13,6 +13,7 @@ import getBTNInfo from './btn';
 import getAvistaZInfo from './avistaz';
 import getTeamHDInfo from './teamhd';
 import getHDSpaceInfo from './hdspace';
+import getGPWInfo from './gpw';
 
 let getTorrentInfo;
 if (!CURRENT_SITE_INFO) {
@@ -43,5 +44,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getTeamHDInfo;
 } else if (CURRENT_SITE_NAME === 'HDSpace') {
   getTorrentInfo = getHDSpaceInfo;
+} else if (CURRENT_SITE_NAME === 'GPW') {
+  getTorrentInfo = getGPWInfo;
 }
 export default getTorrentInfo;

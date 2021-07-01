@@ -190,9 +190,13 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  } else if (['PTP', 'BTN'].includes(CURRENT_SITE_NAME)) {
+  } else if (['PTP', 'BTN', 'GPW'].includes(CURRENT_SITE_NAME)) {
     const torrentId = getUrlParam('torrentid');
-    torrentInsertDom = $(`#torrent_${torrentId} >td`);
+    if (CURRENT_SITE_NAME === 'GPW') {
+      torrentInsertDom = $(`#torrent_torrent_${torrentId} >td`);
+    } else {
+      torrentInsertDom = $(`#torrent_${torrentId} >td`);
+    }
   } else if (CURRENT_SITE_NAME === 'UHDBits') {
     const torrentId = getUrlParam('torrentid');
     $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));

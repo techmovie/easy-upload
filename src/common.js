@@ -374,7 +374,11 @@ const getPreciseCategory = (torrentInfo, category) => {
       category = 'documentary';
     }
   } else if (category?.match(/tv/)) {
-    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle?.match(/第[^\s]集/)) {
+    if (movieGenre.match(/动画/)) {
+      category = 'cartoon';
+    } else if (movieGenre.match(/纪录/)) {
+      category = 'documentary';
+    } else if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle?.match(/第[^\s]集/)) {
       category = 'tv';
     } else {
       category = 'tvPack';
@@ -535,7 +539,7 @@ const replaceEngName = (string) => {
 const getAreaCode = (area) => {
   const europeList = EUROPE_LIST;
   if (area) {
-    if (area.match(/USA|US|Canada|CA|美国|加拿大/i)) {
+    if (area.match(/USA|US|Canada|CA|美国|加拿大|United States/i)) {
       return 'US';
     } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/i)) {
       return 'EU';

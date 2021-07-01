@@ -2,7 +2,7 @@ url: https://greatposterwall.com
 host: greatposterwall.com
 siteType: gazelle
 icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="12px" viewBox="0 0 22 24" enable-background="new 0 0 22 24" xml:space="preserve">  <image id="image0" width="22" height="24" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAMAAADJYP15AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABVlBMVEUAAAAvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMH////T/m9bAAAAcHRSTlMAABScbxoq5/nNlouiawwn4/36fQENv7PZH3D85e83GcnmK5OtCcbdOWzyWjjfowdURS3wQ3PcxQ8bYuGdBChjj5rWqqu2ICRMCL0y29cCprcje/v30U/+znJJX/boSPQGEsM6CpX1hBGN4FCw6p41N9CYMAAAAAFiS0dEca8HXOIAAAAHdElNRQflBg8QJipZPSzlAAABIUlEQVQoz13R11bCQBAG4AyCYkGToKImWBAsCAQLKmLsLRbsohKw9zbvf+WWILv+V3u+zJmdnSgKCfga/AGgUcRAY1OwuaW1LdQuOXSoiKhperhTdOjqJhyJYE+vxNBnIJomRvvlLgODSDMUkxmGGccTMvtGqI6O/Sse14kmJ0C+MZWmxRmrrlYsOzlF58PpGaE2N2sk0wbluXmB8wsF5FmkncFesoE1Xg5yXmGcWE2xiyG/xnndZtUbm1vbO+Tg7HJW9yhDzthXD8iheOg1PzomG3dOTs/OL+j3sMely6vrctytZAOsefXGc9R0Mmrmlg0Kd/coxHzgKwAou3V1/bU/BI9PRk2fX5y/t8LrW5Rf+h5yhA2A9fH5VdIK3z9Frr/KLlYZgS4NmAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0xNVQxNjozODo0MiswMDowMN+dGPkAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMTVUMTY6Mzg6NDIrMDA6MDCuwKBFAAAAAElFTkSuQmCC" /></svg>'
-asSource: false
+asSource: true
 asTarget: true
 uploadPath: /upload.php
 search: 
@@ -15,6 +15,41 @@ search:
     action: basic
     searchsubmit: 1
 needDoubanInfo: true
+sourceInfo:
+  editionTags:
+    10-bit: 10_bit
+    2D/3D版: 2d_3d_edition
+    4K修复版: 4k_restoration
+    4K重制版: 4k_remaster
+    DIY: diy
+    DTS:X: dts_x
+    HDR10+: hdr10plus
+    HDR10: hdr10
+    Remux: remux
+    Rifftrax: rifftrax
+    Scene: null
+    半高3D: 3d_half_ou
+    半宽3D: 3d_half_sbs
+    标准收藏: the_criterion_collection
+    重制版: remaster
+    导演剪辑版: director_s_cut
+    电影大师: masters_of_cinema
+    杜比全景声: dolby_atmos
+    杜比视界: dolby_vision
+    额外内容: extras
+    二合一: 2_in_1
+    红蓝3D: 3d_anaglyph
+    华纳档案馆: warner_archive_collection
+    加长版: extended_edition
+    评论音轨: with_commentary
+    全宽3D: 3d_full_sbs
+    双碟套装: 2_disc_set
+    双音轨: dual_audio
+    未分级版: unrated
+    未删减版: uncut
+    英语配音: english_dub
+    影院版: theatrical_cut
+    中字: chinese_subtitle
 targetInfo:
   editionTags:
     10_bit: 10_bit
