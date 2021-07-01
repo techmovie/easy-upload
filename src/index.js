@@ -21,7 +21,7 @@ if (CURRENT_SITE_NAME) {
     fillTargetForm(torrentParams);
   }
   if (CURRENT_SITE_INFO.asSource &&
-  !location.pathname.match(/upload/ig) &&
+  (!location.href.match(/upload/ig)) &&
   !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam('imdb') || getUrlParam('name')))) {
     getTorrentInfo().then(() => {
       // 向当前所在站点添加按钮等内容
