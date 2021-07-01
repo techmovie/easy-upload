@@ -22,6 +22,10 @@ td.title-td h4{
   margin-right: 10px !important;
   display: flex;
   align-items: center;
+  font-weight: bold;
+}
+#torrents .ptp-seed-title h4{
+  display: block !important;
 }
 .seed-dom button{
   line-height: 1;
