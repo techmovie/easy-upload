@@ -154,8 +154,8 @@ const fillTargetForm = (info) => {
     }
   }
 
-  // BHD可以通过设置为显示缩略图
-  if (CURRENT_SITE_NAME === 'BeyondHD') {
+  // BHD Blutopia可以通过设置为显示缩略图
+  if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
     info.screenshots.forEach(img => {
       const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
       if (description.match(regStr)) {
