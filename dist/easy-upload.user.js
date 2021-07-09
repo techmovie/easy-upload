@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.5
+// @version      2.2.6
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -33,6 +33,9 @@
 // @match        https://avistaz.to/torrent/*
 // @match        https://piratethenet.org/browse.php?*
 // @match        https://teamhd.org/details/id*
+// @match        https://hd-space.org/index.php?page=upload
+// @match        https://hd-space.org/index.php?page=torrent-details&id=*
+// @match        https://greatposterwall.com/torrents.php?id=*
 // @run-at       document-end
 // @grant        GM_addStyle
 // @grant        GM_getValue
@@ -726,6 +729,36 @@
         }
       }
     },
+    BYR: {
+      url: "https://bt.byr.cn",
+      host: "byr.cn",
+      siteType: "NexusPHP",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">  <image id="image0" width="48" height="48" x="0" y="0"    href="data:image/png;base64,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" /></svg>',
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="dburl"]'
+      }
+    },
     Bdc: {
       url: "https://broadcity.in",
       host: "broadcity.in",
@@ -1353,7 +1386,7 @@
       host: "greatposterwall.com",
       siteType: "gazelle",
       icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="12px" viewBox="0 0 22 24" enable-background="new 0 0 22 24" xml:space="preserve">  <image id="image0" width="22" height="24" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAMAAADJYP15AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABVlBMVEUAAAAvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMEvnMH////T/m9bAAAAcHRSTlMAABScbxoq5/nNlouiawwn4/36fQENv7PZH3D85e83GcnmK5OtCcbdOWzyWjjfowdURS3wQ3PcxQ8bYuGdBChjj5rWqqu2ICRMCL0y29cCprcje/v30U/+znJJX/boSPQGEsM6CpX1hBGN4FCw6p41N9CYMAAAAAFiS0dEca8HXOIAAAAHdElNRQflBg8QJipZPSzlAAABIUlEQVQoz13R11bCQBAG4AyCYkGToKImWBAsCAQLKmLsLRbsohKw9zbvf+WWILv+V3u+zJmdnSgKCfga/AGgUcRAY1OwuaW1LdQuOXSoiKhperhTdOjqJhyJYE+vxNBnIJomRvvlLgODSDMUkxmGGccTMvtGqI6O/Sse14kmJ0C+MZWmxRmrrlYsOzlF58PpGaE2N2sk0wbluXmB8wsF5FmkncFesoE1Xg5yXmGcWE2xiyG/xnndZtUbm1vbO+Tg7HJW9yhDzthXD8iheOg1PzomG3dOTs/OL+j3sMely6vrctytZAOsefXGc9R0Mmrmlg0Kd/coxHzgKwAou3V1/bU/BI9PRk2fX5y/t8LrW5Rf+h5yhA2A9fH5VdIK3z9Frr/KLlYZgS4NmAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0xNVQxNjozODo0MiswMDowMN+dGPkAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMTVUMTY6Mzg6NDIrMDA6MDCuwKBFAAAAAElFTkSuQmCC" /></svg>',
-      asSource: false,
+      asSource: true,
       asTarget: true,
       uploadPath: "/upload.php",
       search: {
@@ -1368,6 +1401,43 @@
         }
       },
       needDoubanInfo: true,
+      sourceInfo: {
+        editionTags: {
+          "10-bit": "10_bit",
+          "2D/3D\u7248": "2d_3d_edition",
+          "4K\u4FEE\u590D\u7248": "4k_restoration",
+          "4K\u91CD\u5236\u7248": "4k_remaster",
+          DIY: "diy",
+          "DTS:X": "dts_x",
+          "HDR10+": "hdr10plus",
+          HDR10: "hdr10",
+          Remux: "remux",
+          Rifftrax: "rifftrax",
+          Scene: null,
+          \u534A\u9AD83D: "3d_half_ou",
+          \u534A\u5BBD3D: "3d_half_sbs",
+          \u6807\u51C6\u6536\u85CF: "the_criterion_collection",
+          \u91CD\u5236\u7248: "remaster",
+          \u5BFC\u6F14\u526A\u8F91\u7248: "director_s_cut",
+          \u7535\u5F71\u5927\u5E08: "masters_of_cinema",
+          \u675C\u6BD4\u5168\u666F\u58F0: "dolby_atmos",
+          \u675C\u6BD4\u89C6\u754C: "dolby_vision",
+          \u989D\u5916\u5185\u5BB9: "extras",
+          \u4E8C\u5408\u4E00: "2_in_1",
+          \u7EA2\u84DD3D: "3d_anaglyph",
+          \u534E\u7EB3\u6863\u6848\u9986: "warner_archive_collection",
+          \u52A0\u957F\u7248: "extended_edition",
+          \u8BC4\u8BBA\u97F3\u8F68: "with_commentary",
+          \u5168\u5BBD3D: "3d_full_sbs",
+          \u53CC\u789F\u5957\u88C5: "2_disc_set",
+          \u53CC\u97F3\u8F68: "dual_audio",
+          \u672A\u5206\u7EA7\u7248: "unrated",
+          \u672A\u5220\u51CF\u7248: "uncut",
+          \u82F1\u8BED\u914D\u97F3: "english_dub",
+          \u5F71\u9662\u7248: "theatrical_cut",
+          \u4E2D\u5B57: "chinese_subtitle"
+        }
+      },
       targetInfo: {
         editionTags: {
           "10_bit": "10_bit",
@@ -4347,6 +4417,121 @@
         }
       }
     },
+    NPUBits: {
+      url: "https://npupt.com",
+      host: "npupt.com",
+      siteType: "NexusPHP",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"    href="data:image/png;base64,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" /></svg>',
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          incldead: "0",
+          search: "{name}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: "#small_descr"
+      },
+      description: {
+        selector: "#descr"
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]',
+        value: "yes"
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403",
+          music: "414",
+          app: "408",
+          ebook: "411",
+          magazine: "411",
+          audioBook: "411"
+        }
+      },
+      area: {
+        selector: "#source_sel",
+        map: {
+          CN: "6",
+          US: "5",
+          EU: "5",
+          HK: "6",
+          TW: "6",
+          JP: "5",
+          KR: "5",
+          OT: "7"
+        }
+      },
+      videoCodec: {
+        selector: 4,
+        map: {
+          h264: "H264",
+          hevc: "x265",
+          x264: "x264",
+          x265: "x265",
+          h265: "x265",
+          mpeg2: "MPEG2",
+          mpeg4: "H264",
+          xvid: "Xvid",
+          dvd: "MPEG2"
+        }
+      },
+      videoType: {
+        selector: 2,
+        map: {
+          uhdbluray: "BluRay",
+          bluray: "BluRay",
+          remux: "Remux",
+          encode: "BluRay",
+          web: "WEB-DL",
+          hdtv: "HDTV",
+          dvd: "DVD",
+          dvdrip: "DVDRip",
+          other: ""
+        }
+      },
+      resolution: {
+        selector: 3,
+        map: {
+          "2160p": "2160p",
+          "1080p": "1080p",
+          "1080i": "1080i",
+          "720p": "720p",
+          "576p": "576p",
+          "480p": "480p"
+        }
+      },
+      team: {
+        selector: 5,
+        map: {
+          wiki: "WiKi",
+          cmct: "CMCT",
+          mteam: "MTeam",
+          epic: "EPiC",
+          hdchina: "HDChina",
+          hds: "HDS",
+          beast: "beAst",
+          ctrlhd: "CtrlHD",
+          chd: "CHD"
+        }
+      }
+    },
     NYPT: {
       url: "https://nanyangpt.com",
       host: "nanyangpt.com",
@@ -6737,7 +6922,11 @@
         category = "documentary";
       }
     } else if (category == null ? void 0 : category.match(/tv/)) {
-      if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || (subtitle == null ? void 0 : subtitle.match(/第[^\s]集/))) {
+      if (movieGenre.match(/动画/)) {
+        category = "cartoon";
+      } else if (movieGenre.match(/纪录/)) {
+        category = "documentary";
+      } else if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || (subtitle == null ? void 0 : subtitle.match(/第[^\s]集/))) {
         category = "tv";
       } else {
         category = "tvPack";
@@ -6829,21 +7018,24 @@
   };
   var getOriginalImgUrl = (imgArray) => {
     return imgArray.map((item) => {
-      var _a, _b, _c, _d;
+      var _a, _b, _c, _d, _e;
       let imgUrl = item;
       if (item.match(/\[url=http(s)*:.+/)) {
         imgUrl = (_a = item.match(/=(([^\]])+)/)) == null ? void 0 : _a[1];
         if (imgUrl.match(/img\.hdbits\.org/)) {
           const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)[1];
           imgUrl = `https://i.hdbits.org/${imgId}.png`;
-        } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
+        } else if (item.match(/https:\/\/imgbox\.com/)) {
           imgUrl = (_b = item.match(/img\](([^[])+)/)) == null ? void 0 : _b[1];
+          imgUrl = imgUrl.replace(/thumbs(\d)/, "images$1").replace(/_t(\.png)/, "_o.png");
+        } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
+          imgUrl = (_c = item.match(/img\](([^[])+)/)) == null ? void 0 : _c[1];
         } else if (item.match(/https:\/\/pixhost\.to/)) {
-          const hostNumber = (_c = item.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _c[1];
+          const hostNumber = (_d = item.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _d[1];
           imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
         }
       } else if (item.match(/\[img\]/)) {
-        imgUrl = (_d = item.match(/img\](([^[])+)/)) == null ? void 0 : _d[1];
+        imgUrl = (_e = item.match(/img\](([^[])+)/)) == null ? void 0 : _e[1];
       }
       return imgUrl;
     });
@@ -6882,7 +7074,7 @@
   var getAreaCode = (area) => {
     const europeList = EUROPE_LIST;
     if (area) {
-      if (area.match(/USA|US|Canada|CA|美国|加拿大/i)) {
+      if (area.match(/USA|US|Canada|CA|美国|加拿大|United States/i)) {
         return "US";
       } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/i)) {
         return "EU";
@@ -6963,7 +7155,7 @@
     if (!mediaInfo) {
       return false;
     }
-    const mediaArray = mediaInfo.split(/\n\s*\n/);
+    const mediaArray = mediaInfo.split(/\n\s*\n/).filter((item) => !!item.trim());
     const [generalPart, videoPart] = mediaArray;
     const secondVideoPart = mediaArray.filter((item) => item.startsWith("Video #2"));
     const [audioPart, ...otherAudioPart] = mediaArray.filter((item) => item.startsWith("Audio"));
@@ -6995,8 +7187,7 @@
       return "";
     }
     const keyRegStr = key.replace(/\s/, "\\s*").replace(/(\(|\))/g, "\\$1");
-    const reg = new RegExp(`${keyRegStr}\\s*:\\s([^
-]+)`, "i");
+    const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\\n]+)`, "i");
     return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : "";
   };
   var getResolution = (mediaInfo) => {
@@ -7286,8 +7477,9 @@
                 pp("");
                 break;
               } else {
-                pp("\n[quote]", "[/quote]");
-                break;
+                node.innerHTML = node.innerHTML.replace(/&nbsp;/g, " ");
+                return `
+[quote]${node.textContent}[/quote]`;
               }
             } else if (className === "hidden" && CURRENT_SITE_NAME === "HDT") {
               pp("\n[quote]", "[/quote]");
@@ -8428,6 +8620,166 @@ ${imgs.join("\n")}
     $(site.description.selector)[0].dispatchEvent(new Event("input"));
   }
 
+  // src/target/npubits.js
+  var npubits_default = (info) => {
+    var _a, _b;
+    const {title, year, movieName, category} = info;
+    ["subtitle", "description"].forEach((key) => {
+      $(CURRENT_SITE_INFO[key].selector).val(info[key]);
+    });
+    $("#torrent_name_checkbox").attr("checked", true);
+    $(CURRENT_SITE_INFO.name.selector).val(title);
+    $(CURRENT_SITE_INFO.category.selector).val(CURRENT_SITE_INFO.category.map[category]);
+    $(CURRENT_SITE_INFO.category.selector)[0].dispatchEvent(new Event("change"));
+    if (category.match(/tv/)) {
+      const districtMap = {
+        CN: "23",
+        HK: "24",
+        TW: "24",
+        JP: "26",
+        KR: "27",
+        US: "25",
+        EU: "65",
+        OT: "63"
+      };
+      $(CURRENT_SITE_INFO.area.selector).val(districtMap[info.area]);
+    } else if (category.match(/movie/)) {
+      $(CURRENT_SITE_INFO.area.selector).val(CURRENT_SITE_INFO.area.map[info.area]);
+    }
+    $(CURRENT_SITE_INFO.area.selector)[0].dispatchEvent(new Event("change"));
+    ["videoCodec", "videoType", "resolution", "team"].forEach((key) => {
+      fill_field(CURRENT_SITE_INFO[key].selector, CURRENT_SITE_INFO[key].map[info[key]]);
+    });
+    $("#torrent_name_field0").val(movieName);
+    if (category === "movie") {
+      $("#torrent_name_field1").val(year);
+    } else if (category.match(/tv/)) {
+      const episode = (_b = (_a = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a[0]) != null ? _b : "";
+      $("#torrent_name_field1").val(episode);
+    }
+    $('input[name="uplver"]').attr("checked", true);
+  };
+
+  // src/target/byr.js
+  var byr_default = (info) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+    const {title, description, doubanInfo, category, videoType, mediaInfo, subtitle, imdbUrl, doubanUrl} = info;
+    $(CURRENT_SITE_INFO.subtitle.selector).val(subtitle);
+    $(CURRENT_SITE_INFO.imdb.selector).val(imdbUrl);
+    $(CURRENT_SITE_INFO.douban.selector).val(doubanUrl);
+    CKEDITOR.on("instanceReady", () => {
+      CKEDITOR.instances.descr.setData(description.replace(/\n/g, "<br/>"));
+    });
+    $("#ename0day").val(title);
+    const fullDescription = description + doubanInfo;
+    let area = (_b = (_a = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2]) != null ? _b : "";
+    area = area.replace(/\[\/?.+?\]/g, "");
+    const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
+    const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    let movieType = (_j = (_i = fullDescription.match(/(类\s+别)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
+    const language = (_l = (_k = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _k[2]) != null ? _l : "";
+    let chineseName = originalName;
+    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+    }
+    if (category.match(/movie/)) {
+      let selector = "";
+      if (area.match(/华语|台|港/)) {
+        selector = "\u534E\u8BED";
+      } else if (area.match(/日本|韩国|泰国/)) {
+        selector = "\u4E9A\u6D32";
+      } else if (area.match(/美国|加拿大/)) {
+        selector = "\u5317\u7F8E";
+      } else if (area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
+        selector = "\u6B27\u6D32";
+      } else {
+        selector = "\u5176\u4ED6";
+      }
+      const typeMap = {
+        \u534E\u8BED: "11",
+        \u6B27\u6D32: "12",
+        \u5317\u7F8E: "13",
+        \u4E9A\u6D32: "14",
+        \u5176\u4ED6: "1"
+      };
+      $('select[name="second_type"]').val(typeMap[selector]);
+      $('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      movieType = movieType.split(/\s\//);
+      $("#movie_type").val(movieType.join("/"));
+      fillField(selector, category === "movie" ? "movie_country" : "show_country");
+      $("#movie_cname").val(chineseName);
+    } else if (category.match(/tv/)) {
+      let selector = "movie_country";
+      if (area.match(/大陆/)) {
+        selector = "\u5927\u9646";
+      } else if (area.match(/台|港/)) {
+        selector = "\u6E2F\u53F0";
+      } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
+        selector = "\u6B27\u7F8E";
+      } else if (area.match(/日本|韩国/)) {
+        selector = "\u65E5\u97E9";
+      } else {
+        selector = "\u5176\u4ED6";
+      }
+      const typeMap = {
+        \u5927\u9646: "15",
+        \u6E2F\u53F0: "16",
+        \u6B27\u7F8E: "17",
+        \u65E5\u97E9: "18",
+        \u5176\u4ED6: "2"
+      };
+      $('select[name="second_type"]').val(typeMap[selector]);
+      $('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      fillField(selector, "tv_type");
+      $("#tv_ename").val(title);
+      $("#cname").val(chineseName);
+      const episode = (_n = (_m = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _m[0]) != null ? _n : "";
+      $("#tv_season").val(episode);
+      const isBluray = videoType.match(/bluray/i);
+      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+      const {format} = getInfoFunc(mediaInfo);
+      fillField(format.toUpperCase() || "MKV", "tv_filetype");
+    } else if (category.match(/variety/)) {
+      let selector = "";
+      if (area.match(/大陆/)) {
+        selector = "\u5927\u9646";
+      } else if (area.match(/台|港/)) {
+        selector = "\u6E2F\u53F0";
+      } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
+        selector = "\u6B27\u7F8E";
+      } else if (area.match(/日本|韩国/)) {
+        selector = "\u65E5\u97E9";
+      } else {
+        selector = "\u5176\u4ED6";
+      }
+      const typeMap = {
+        \u5927\u9646: "27",
+        \u6E2F\u53F0: "29",
+        \u6B27\u7F8E: "30",
+        \u65E5\u97E9: "28",
+        \u5176\u4ED6: "5"
+      };
+      $('select[name="second_type"]').val(typeMap[selector]);
+      $('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      fillField(selector, "show_country");
+      $("#show_cname").val(chineseName);
+      $("#show_ename").val(title);
+      let languageVal = "";
+      if (language.match(/汉语/)) {
+        languageVal = "\u56FD\u8BED";
+      } else if (language.match(/粤/)) {
+        languageVal = "\u7CA4\u8BED";
+      } else if (language.match(/英语/)) {
+        languageVal = "\u82F1\u8BED";
+      } else if (language.match(/日语/)) {
+        languageVal = "\u65E5\u8BED";
+      } else if (language.match(/韩语/)) {
+        languageVal = "\u97E9\u8BED";
+      }
+      fillField(languageVal, "show_language");
+    }
+  };
+
   // src/target/index.js
   var fillTargetForm = (info) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
@@ -8442,6 +8794,14 @@ ${imgs.join("\n")}
     }
     if (CURRENT_SITE_NAME === "GPW") {
       gpw_default(info);
+      return false;
+    }
+    if (CURRENT_SITE_NAME === "NPUBits") {
+      npubits_default(info);
+      return false;
+    }
+    if (CURRENT_SITE_NAME === "BYR") {
+      byr_default(info);
       return false;
     }
     if (CURRENT_SITE_NAME === "PTSBAO" && localStorage.getItem("autosave")) {
@@ -8555,7 +8915,7 @@ ${imgs.join("\n")}
         }
       }
     }
-    if (CURRENT_SITE_NAME === "BeyondHD") {
+    if (CURRENT_SITE_NAME.match(/BeyondHD|Blutopia/)) {
       info.screenshots.forEach((img) => {
         const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
         if (description.match(regStr)) {
@@ -9381,7 +9741,6 @@ All thanks to the original uploader\uFF01`;
         }
       }
       TORRENT_INFO.screenshots = getImages3(bbCodes);
-      console.log(TORRENT_INFO);
     };
   };
   var getCategoryAndArea = (mediaInfo) => {
@@ -9472,7 +9831,7 @@ All thanks to the original uploader\uFF01`;
 
   // src/source/unit3d.js
   var unit3d_default = async () => {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e;
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const {Category, Name, Type, Size, Resolution} = getBasicInfo3();
@@ -9516,7 +9875,7 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.tags = __assign(__assign({}, tags), mediaTags);
-    TORRENT_INFO.screenshots = (_f = descriptionBBCode.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g)) != null ? _f : [];
+    TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
     TORRENT_INFO.title = title;
     TORRENT_INFO.year = IMDBYear;
     TORRENT_INFO.movieName = CURRENT_SITE_NAME === "HDPOST" ? "" : movieName;
@@ -10632,38 +10991,238 @@ ${screenshotsBBCode.join("")}`;
     return "";
   };
 
-  // src/source/index.js
-  var getTorrentInfo4;
-  if (!CURRENT_SITE_INFO) {
-    getTorrentInfo4 = null;
-  } else if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
-    getTorrentInfo4 = nexusphp_default;
-  } else if (CURRENT_SITE_NAME === "BeyondHD") {
-    getTorrentInfo4 = bhd_default;
-  } else if (CURRENT_SITE_NAME === "HDBits") {
-    getTorrentInfo4 = hdb_default;
-  } else if (CURRENT_SITE_NAME === "TTG") {
-    getTorrentInfo4 = ttg_default;
-  } else if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
-    getTorrentInfo4 = unit3d_default;
-  } else if (CURRENT_SITE_NAME === "HDT") {
-    getTorrentInfo4 = hdt_default;
-  } else if (CURRENT_SITE_NAME === "KG") {
-    getTorrentInfo4 = kg_default;
-  } else if (CURRENT_SITE_NAME === "UHDBits") {
-    getTorrentInfo4 = uhd_default;
-  } else if (CURRENT_SITE_NAME === "PTP") {
-    getTorrentInfo4 = ptp_default2;
-  } else if (CURRENT_SITE_NAME === "BTN") {
-    getTorrentInfo4 = btn_default;
-  } else if (CURRENT_SITE_INFO.siteType === "AvistaZ") {
-    getTorrentInfo4 = avistaz_default;
-  } else if (CURRENT_SITE_NAME === "TeamHD") {
-    getTorrentInfo4 = teamhd_default;
-  } else if (CURRENT_SITE_NAME === "HDSpace") {
-    getTorrentInfo4 = hdspace_default;
+  // src/source/gpw.js
+  var gpw_default2 = async () => {
+    const torrentId = getUrlParam("torrentid");
+    if (!torrentId) {
+      return false;
+    }
+    const data = await getTorrentInfo4(torrentId);
+    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
+    Object.assign(TORRENT_INFO, data);
+  };
+  var getTorrentInfo4 = async (torrentId) => {
+    const imdbUrl = $('.info_crumbs a[href*="www.imdb.com/title"]').attr("href");
+    const doubanUrl = $('.info_crumbs a[href*="https://movie.douban.com/subject/"]').attr("href");
+    const {response} = await fetch(`/ajax.php?action=torrent&id=0${torrentId}`);
+    const {torrent, group} = response;
+    const {name: movieName, year, wikiImage: poster, releaseType} = group;
+    let {description, fileList, filePath, size} = torrent;
+    fileList = fileList.replace(/\.\w+?{{{\d+}}}/, "");
+    const title = formatTorrentTitle(filePath || fileList);
+    const category = getCategory6(releaseType);
+    const country = $(".info_crumbs .fa-flag").next("span").text();
+    const area = getAreaCode(country);
+    const torrentHeaderDom = $(`#torrent${torrentId}`);
+    const infoArray = torrentHeaderDom.find(".td_info .specs").text().trim().split(" / ");
+    let [codes, source, resolution, container, ...otherInfo] = infoArray;
+    console.log(codes);
+    const isRemux = otherInfo.includes("Remux");
+    const videoType = source === "WEB" ? "web" : getVideoType13(container, isRemux, source, otherInfo);
+    source = getSource3(source, otherInfo.join(","), resolution);
+    const {knownTags, otherTags} = getTags2(otherInfo, ["\u53EF\u66FF\u4EE3", "\u7279\u8272"]);
+    const tags = __assign({}, knownTags);
+    const torrentDom = $(`#torrent_torrent_${torrentId}`).find("#subtitles_box").next("blockquote");
+    const screenshots = getScreenshots(torrentDom);
+    const mediaInfoArray = [];
+    const isBluray = videoType.match(/bluray/i);
+    torrentDom.find(".mediainfo-bbcode.hidden,.bdinfo-bbcode.hidden pre").each(function() {
+      const textContent = $(this).text();
+      if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
+        mediaInfoArray.push(textContent);
+      }
+    });
+    const mediaInfoOrBDInfo = mediaInfoArray.filter((media) => {
+      return videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
+    });
+    const mediaInfo = mediaInfoOrBDInfo.join("\n\n").trim();
+    const mediaInfos = mediaInfoOrBDInfo.map((v) => v.trim());
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const {videoCodec, audioCodec, mediaTags} = getInfoFunc(mediaInfoOrBDInfo.join("\n\n"));
+    const descriptionData = formatDescriptionData2(description, screenshots, mediaInfoArray);
+    return {
+      sourceSite: CURRENT_SITE_NAME,
+      sourceSiteType: CURRENT_SITE_INFO.siteType,
+      title,
+      imdbUrl,
+      doubanUrl,
+      movieName,
+      year,
+      size,
+      category,
+      poster,
+      videoType,
+      resolution,
+      area,
+      source,
+      videoCodec,
+      audioCodec,
+      screenshots,
+      mediaInfo,
+      mediaInfos,
+      description: descriptionData,
+      tags: __assign(__assign({}, tags), mediaTags),
+      otherTags
+    };
+  };
+  var getCategory6 = (releaseType) => {
+    const typeMap = {
+      1: "movie",
+      2: "movie",
+      4: "other",
+      3: "tvPack",
+      5: "concert",
+      6: "movie"
+    };
+    return typeMap[releaseType];
+  };
+  var getScreenshots = (torrentDom) => {
+    const imgList = [];
+    const imageDom = torrentDom.find(".scale_image");
+    for (let i = 0; i < imageDom.length; i++) {
+      const parent = imageDom[i].parentElement;
+      if (parent.tagName === "A" && parent.getAttribute("href").match(/\.png$/)) {
+        imgList.push(parent.getAttribute("href"));
+      } else {
+        imgList.push(imageDom[i].getAttribute("src"));
+      }
+    }
+    return imgList;
+  };
+  var getSource3 = (source, codes, resolution) => {
+    if (codes.match(/BD100|BD66/i)) {
+      return "uhdbluray";
+    }
+    if (source.match(/Blu-ray/i) && resolution.match(/2160P|4K/i)) {
+      return "uhdbluray";
+    }
+    return source.replace(/-/g, "").toLowerCase();
+  };
+  var getVideoType13 = (container, isRemux, source, otherInfo) => {
+    otherInfo = otherInfo.join(",");
+    let type = "";
+    if (isRemux) {
+      type = "remux";
+    } else if (otherInfo.match(/BD50|BD25|DIY/ig)) {
+      type = "bluray";
+    } else if (otherInfo.match(/BD66|BD100/ig) || source.match(/Blu-ray/i) && otherInfo.match(/DIY/i)) {
+      type = "uhdbluray";
+    } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
+      type = "dvdrip";
+    } else if (otherInfo.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
+      type = "dvd";
+    } else if (container.match(/MKV|MP4/i)) {
+      type = "encode";
+    }
+    return type;
+  };
+  var formatDescriptionData2 = (data, screenshots, mediaInfoArray) => {
+    const element = document.createElement("span");
+    element.innerHTML = data;
+    let descriptionData = element.textContent;
+    descriptionData = descriptionData.replace(/\r\n/g, "\n");
+    descriptionData = descriptionData.split("\n").map((line) => {
+      return line.trim();
+    }).join("\n");
+    TORRENT_INFO.originalDescription = descriptionData;
+    screenshots.forEach((screenshot) => {
+      const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, "i");
+      if (!descriptionData.match(regStr)) {
+        descriptionData = descriptionData.replace(new RegExp(screenshot, "g"), `[img]${screenshot}[/img]`);
+      }
+    });
+    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, function(match, p1, p2) {
+      const slash = p1 || "";
+      return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
+    });
+    descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
+    descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
+    const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n|\s)+?)\[\/comparison\]/ig) || [];
+    const comparisons = [];
+    comparisonArray.forEach((item) => {
+      descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
+      const reason = item.match(/(\n.*\n)?\[comparison=/i)[1] || "";
+      const title = item.match(/\[comparison=(.*?)\]/i)[1];
+      const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
+      const imgs = [];
+      [...new Set(comparisonImgArray)].forEach((item2) => {
+        const formatImg = item2.replace(/\s*/g, "");
+        if (item2.match(/^https?.+/)) {
+          imgs.push(formatImg);
+          descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item2}`, "gi"), `[img]${formatImg}[/img]`);
+        } else if (item2.match(/^\[img\]/i)) {
+          imgs.push(formatImg.replace(/\[\/?img\]/g, ""));
+        }
+      });
+      comparisons.push({
+        title,
+        imgs,
+        reason
+      });
+    });
+    TORRENT_INFO.comparisons = comparisons;
+    descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/ig, "");
+    mediaInfoArray.forEach((mediaInfo) => {
+      descriptionData += `[quote]${mediaInfo}[/quote]`;
+    });
+    if (TORRENT_INFO.category === "concert") {
+      descriptionData = $("#synopsis").text() + "\n" + descriptionData;
+    }
+    return descriptionData;
+  };
+  function getTags2(rawTags, exclude = []) {
+    const knownTags = {};
+    const otherTags = {};
+    for (const rawTag of rawTags) {
+      const tag = CURRENT_SITE_INFO.sourceInfo.editionTags[rawTag];
+      if (tag) {
+        knownTags[tag] = true;
+      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/(-\d+%)|免费|DVD|BD/i)) {
+      } else {
+        otherTags[rawTag] = true;
+      }
+    }
+    return {
+      knownTags,
+      otherTags
+    };
   }
-  var source_default = getTorrentInfo4;
+
+  // src/source/index.js
+  var getTorrentInfo5;
+  if (!CURRENT_SITE_INFO) {
+    getTorrentInfo5 = null;
+  } else if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
+    getTorrentInfo5 = nexusphp_default;
+  } else if (CURRENT_SITE_NAME === "BeyondHD") {
+    getTorrentInfo5 = bhd_default;
+  } else if (CURRENT_SITE_NAME === "HDBits") {
+    getTorrentInfo5 = hdb_default;
+  } else if (CURRENT_SITE_NAME === "TTG") {
+    getTorrentInfo5 = ttg_default;
+  } else if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
+    getTorrentInfo5 = unit3d_default;
+  } else if (CURRENT_SITE_NAME === "HDT") {
+    getTorrentInfo5 = hdt_default;
+  } else if (CURRENT_SITE_NAME === "KG") {
+    getTorrentInfo5 = kg_default;
+  } else if (CURRENT_SITE_NAME === "UHDBits") {
+    getTorrentInfo5 = uhd_default;
+  } else if (CURRENT_SITE_NAME === "PTP") {
+    getTorrentInfo5 = ptp_default2;
+  } else if (CURRENT_SITE_NAME === "BTN") {
+    getTorrentInfo5 = btn_default;
+  } else if (CURRENT_SITE_INFO.siteType === "AvistaZ") {
+    getTorrentInfo5 = avistaz_default;
+  } else if (CURRENT_SITE_NAME === "TeamHD") {
+    getTorrentInfo5 = teamhd_default;
+  } else if (CURRENT_SITE_NAME === "HDSpace") {
+    getTorrentInfo5 = hdspace_default;
+  } else if (CURRENT_SITE_NAME === "GPW") {
+    getTorrentInfo5 = gpw_default2;
+  }
+  var source_default = getTorrentInfo5;
 
   // src/site-dom/main.js
   var getSearchList = () => {
@@ -10827,9 +11386,13 @@ ${screenshotsBBCode.join("")}`;
     </tr>`;
       torrentInsertDom.after(trDom);
       torrentInsertDom = $(".easy-seed-td");
-    } else if (["PTP", "BTN"].includes(CURRENT_SITE_NAME)) {
+    } else if (["PTP", "BTN", "GPW"].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam("torrentid");
-      torrentInsertDom = $(`#torrent_${torrentId} >td`);
+      if (CURRENT_SITE_NAME === "GPW") {
+        torrentInsertDom = $(`#torrent_torrent_${torrentId} >td`);
+      } else {
+        torrentInsertDom = $(`#torrent_${torrentId} >td`);
+      }
     } else if (CURRENT_SITE_NAME === "UHDBits") {
       const torrentId = getUrlParam("torrentid");
       $(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
@@ -11376,6 +11939,19 @@ ${screenshotsBBCode.join("")}`;
         });
         TORRENT_INFO.formDom = formDom;
       }
+      if (url.match(PT_SITE.BYR.host)) {
+        const catMap = {
+          movie: "408",
+          tv: "401",
+          tvPack: "401",
+          documentary: "410",
+          concert: "402",
+          sport: "409",
+          cartoon: "404",
+          variety: "405"
+        };
+        url = url.replace("/upload.php", `/upload.php?type=${catMap[TORRENT_INFO.category]}`);
+      }
       if (url.match(PT_SITE.PTP.host)) {
         const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
         url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
@@ -11412,7 +11988,7 @@ ${screenshotsBBCode.join("")}`;
       let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = "";
       const {movieAkaName, movieName, title} = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD/) && siteInfo.siteType !== "AvistaZ") {
+      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
@@ -11491,6 +12067,10 @@ td.title-td h4{
   margin-right: 10px !important;
   display: flex;
   align-items: center;
+  font-weight: bold;
+}
+#torrents .ptp-seed-title h4{
+  display: block !important;
 }
 .seed-dom button{
   line-height: 1;
@@ -11952,7 +12532,7 @@ td.title-td h4{
       torrentParams = JSON.parse(decodeURIComponent(torrentParams));
       fillTargetForm(torrentParams);
     }
-    if (CURRENT_SITE_INFO.asSource && !location.pathname.match(/upload/ig) && !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
+    if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload/ig) && !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
       source_default().then(() => {
         console.log(TORRENT_INFO);
       });

@@ -1,3 +1,24 @@
+## [2.2.6](https://github.com/techmovie/easy-upload/compare/2.2.5...2.2.6) (2021-07-09)
+
+
+### Bug Fixes
+
+* exclude HDSpace upload page ([f30d335](https://github.com/techmovie/easy-upload/commit/f30d3359b7f92dc2808b81f656ce0ce43be67bdc))
+* gpw style ([7d25515](https://github.com/techmovie/easy-upload/commit/7d25515644a0130afd5ea034f18e5743f60cf8c6))
+* resolve Dependabot alerts ([7d7178b](https://github.com/techmovie/easy-upload/commit/7d7178b4d8dc1aff7ae6e973234ad26aeeb3d18f))
+* support getting original url of imgbox ([3ef78bc](https://github.com/techmovie/easy-upload/commit/3ef78bc774227948fc5e983da08c40fdde66c4ac))
+* 替换&nbsp;转义字符 ([7e358aa](https://github.com/techmovie/easy-upload/commit/7e358aa09eaa1d581aff13415875b09a81c460ab))
+
+
+### Features
+
+* **new site:** support BYR(target) ([9113b89](https://github.com/techmovie/easy-upload/commit/9113b894b36c1c536e9fc8d2c5c86eb5e436df0c)), closes [#129](https://github.com/techmovie/easy-upload/issues/129)
+* **new site:** support NPUBits(target) ([bae8cf4](https://github.com/techmovie/easy-upload/commit/bae8cf49438ae72f76aaea9f866b9cb0e0ab7ea9)), closes [#125](https://github.com/techmovie/easy-upload/issues/125)
+* blutopia requires bbcode to resize images ([ad35830](https://github.com/techmovie/easy-upload/commit/ad35830b3ed5bc35eb776ee0b4ac3b894feecd55)), closes [#128](https://github.com/techmovie/easy-upload/issues/128)
+* supoort GPW(source) ([fcc7460](https://github.com/techmovie/easy-upload/commit/fcc74600181c936fce26b0e16347cadd7d6d949b))
+
+
+
 ## [2.2.5](https://github.com/techmovie/easy-upload/compare/2.2.4...2.2.5) (2021-06-29)
 
 
