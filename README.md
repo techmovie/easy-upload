@@ -70,6 +70,7 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 |  BeiTai   |             ✅              |               ❌                |
 | BeyondHD  |             ✅              |               ✅                |
 | Blutopia  |             ✅              |               ✅                |
+|    BYR    |             ❌              |               ✅                |
 |  CHDBits  |             ✅              |               ✅                |
 |  DiscFan  |             ✅              |               ✅                |
 |    GPW    |             ✅              |               ✅                |

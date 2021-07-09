@@ -69,6 +69,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |  BeiTai   |             ✅             |            ❌            |
 | BeyondHD  |             ✅             |            ✅            |
 | Blutopia  |             ✅             |            ✅            |
+|    BYR    |             ❌             |            ✅            |
 |  CHDBits  |             ✅             |            ✅            |
 |  DiscFan  |             ✅             |            ✅            |
 |    GPW    |             ✅             |            ✅            |
