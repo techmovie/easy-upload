@@ -13,6 +13,7 @@ import handleBb from './bB';
 import handlePTP from './ptp';
 import handlePTN from './ptn';
 import handleGPW from './gpw';
+import handleNPU from './npubits';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -26,6 +27,10 @@ const fillTargetForm = (info) => {
   }
   if (CURRENT_SITE_NAME === 'GPW') {
     handleGPW(info);
+    return false;
+  }
+  if (CURRENT_SITE_NAME === 'NPUBits') {
+    handleNPU(info);
     return false;
   }
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {

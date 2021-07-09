@@ -94,6 +94,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |    KG     |             ✅             |            ❌            |
 |  LemonHD  |             ✅             |            ✅            |
 |   MTeam   |             ✅             |            ✅            |
+|  NPUBits  |             ❌             |            ✅            |
 |   NYPT    |             ✅             |            ✅            |
 |  OurBits  |             ✅             |            ✅            |
 | PrivateHD |             ✅             |            ❌            |
