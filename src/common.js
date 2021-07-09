@@ -632,7 +632,7 @@ const getInfoFromMediaInfo = (mediaInfo) => {
   if (!mediaInfo) {
     return false;
   }
-  const mediaArray = mediaInfo.split(/\n\s*\n/);
+  const mediaArray = mediaInfo.split(/\n\s*\n/).filter(item => !!item.trim());
   const [generalPart, videoPart] = mediaArray;
   const secondVideoPart = mediaArray.filter(item => item.startsWith('Video #2'));
   const [audioPart, ...otherAudioPart] = mediaArray.filter(item => item.startsWith('Audio'));
@@ -664,7 +664,7 @@ const getMediaValueByKey = (key, mediaInfo) => {
     return '';
   }
   const keyRegStr = key.replace(/\s/, '\\s*').replace(/(\(|\))/g, '\\$1');
-  const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\n]+)`, 'i');
+  const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\\n]+)`, 'i');
   return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
 };
 const getResolution = (mediaInfo) => {

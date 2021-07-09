@@ -132,6 +132,19 @@ const handleSiteClickEvent = () => {
       });
       TORRENT_INFO.formDom = formDom;
     }
+    if (url.match(PT_SITE.BYR.host)) {
+      const catMap = {
+        movie: '408',
+        tv: '401',
+        tvPack: '401',
+        documentary: '410',
+        concert: '402',
+        sport: '409',
+        cartoon: '404',
+        variety: '405',
+      };
+      url = url.replace('/upload.php', `/upload.php?type=${catMap[TORRENT_INFO.category]}`);
+    }
     if (url.match(PT_SITE.PTP.host)) {
       const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
       url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
