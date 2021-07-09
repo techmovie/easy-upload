@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.6
+// @version      2.2.7
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -7004,7 +7004,7 @@
         return img;
       });
       return allImages.filter((item) => {
-        return !item.match(/MoreScreens|PTer\.png|PTerREMUX\.png|PTerWEB\.png|CS\.png|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
+        return !item.match(/MoreScreens|PTer\.png|trans\.gif|PTerREMUX\.png|PTerWEB\.png|CS\.png|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
       });
     }
     return [];
@@ -8668,7 +8668,7 @@ ${imgs.join("\n")}
     $(CURRENT_SITE_INFO.imdb.selector).val(imdbUrl);
     $(CURRENT_SITE_INFO.douban.selector).val(doubanUrl);
     CKEDITOR.on("instanceReady", () => {
-      CKEDITOR.instances.descr.setData(description.replace(/\n/g, "<br/>"));
+      CKEDITOR.instances.descr.setData(bbcode2Html(description));
     });
     $("#ename0day").val(title);
     const fullDescription = description + doubanInfo;
@@ -8777,6 +8777,20 @@ ${imgs.join("\n")}
         languageVal = "\u97E9\u8BED";
       }
       fillField(languageVal, "show_language");
+    }
+    function bbcode2Html(bbcode) {
+      let html = bbcode.replace(/\[\*\]([^\n]+)/ig, "<li>$1</li>");
+      html = html.replace(/(\r\n)|\n/g, "<br>");
+      html = html.replace(/\[(quote|hide=.+?)\]/ig, "<fieldset><legend>\u5F15\u7528</legend>");
+      html = html.replace(/\[(\/)(quote|hide)\]/ig, "<$1fieldset>");
+      html = html.replace(/(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g, '<a href="$1"><img src="$2"/></a>');
+      html = html.replace(/\[img\](.+?)\[\/img]/g, '<img src="$1"/>');
+      html = html.replace(/\[(\/)?(left|right|center)\]/ig, "<$1$2>");
+      html = html.replace(/\[(\/)?b\]/ig, "<$1strong>");
+      html = html.replace(/\[color=(.+?)\]/ig, '<span style="color: $1">').replace(/\[\/color\]/g, "</span>");
+      html = html.replace(/\[size=(.+?)\]/ig, '<font size="$1">').replace(/\[\/size\]/g, "</font>");
+      html = html.replace(/\[url=(.+?)\](.+?)\[\/url\]/ig, '<a href="$1">$2</a>');
+      return html;
     }
   };
 

@@ -1,3 +1,12 @@
+## [2.2.7](https://github.com/techmovie/easy-upload/compare/2.2.6...2.2.7) (2021-07-09)
+
+
+### Bug Fixes
+
+* 北邮增加bbcode2Html方法 ([736a235](https://github.com/techmovie/easy-upload/commit/736a235e0e7d328a81b502a20924eb5238d537af))
+
+
+
 ## [2.2.6](https://github.com/techmovie/easy-upload/compare/2.2.5...2.2.6) (2021-07-09)
 
 
