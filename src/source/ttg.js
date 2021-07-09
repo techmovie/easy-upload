@@ -84,7 +84,6 @@ export default async () => {
       }
     }
     TORRENT_INFO.screenshots = getImages(bbCodes);
-    console.log(TORRENT_INFO);
   };
 };
 

@@ -483,6 +483,9 @@ const getOriginalImgUrl = (imgArray) => {
       if (imgUrl.match(/img\.hdbits\.org/)) {
         const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)[1];
         imgUrl = `https://i.hdbits.org/${imgId}.png`;
+      } else if (item.match(/https:\/\/imgbox\.com/)) {
+        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        imgUrl = imgUrl.replace(/thumbs(\d)/, 'images$1').replace(/_t(\.png)/, '_o.png');
       } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
       } else if (item.match(/https:\/\/pixhost\.to/)) {

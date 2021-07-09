@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getInfoFromMediaInfo,
   getInfoFromBDInfo, getSize, getSourceFromTitle,
   getFilterBBCode, getBDInfoOrMediaInfo,
-  getTagsFromSubtitle, getPreciseCategory,
+  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 
 export default async () => {
@@ -52,7 +52,7 @@ export default async () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.tags = { ...tags, ...mediaTags };
-  TORRENT_INFO.screenshots = descriptionBBCode.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
+  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.title = title;
   TORRENT_INFO.year = IMDBYear;
   TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;
