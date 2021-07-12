@@ -58,7 +58,7 @@ function buildDescription (info) {
 
 function fillEditionInfo (info) {
   const site = CURRENT_SITE_INFO;
-  const editionTags = Object.keys(info.tags).map(tag => site.targetInfo.editionTags[tag]).filter(Boolean);
+  const editionTags = Object.keys(info.tags).map(tag => info.tags[tag] && site.targetInfo.editionTags[tag]).filter(Boolean);
   let otherTag;
   if (Object.keys(info.otherTags).length > 0) {
     otherTag = Object.keys(info.otherTags).join(', ');
