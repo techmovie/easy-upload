@@ -19,7 +19,6 @@ const getTorrentInfo = async (torrentId) => {
   const imdbUrl = $('.info_crumbs a[href*="www.imdb.com/title"]').attr('href');
   const doubanUrl = $('.info_crumbs a[href*="https://movie.douban.com/subject/"]').attr('href');
   const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-  console.log(response);
   const { torrent, group } = response;
   const { name: movieName, year, wikiImage: poster, releaseType } = group;
   let { description, fileList, filePath, size } = torrent;

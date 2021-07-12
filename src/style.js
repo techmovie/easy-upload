@@ -476,4 +476,7 @@ td.title-td h4{
 .team-hd .easy-seed-function-list{
   flex: 1;
 }
+tr.pad[id*="torrent_"]{
+  font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
+}
 `);
