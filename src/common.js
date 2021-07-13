@@ -982,6 +982,8 @@ const htmlToBBCode = (node) => {
           if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
            CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
+          } else if (CURRENT_SITE_NAME === 'EMP') {
+            pp(''); break;
           } else {
             return '';
           }

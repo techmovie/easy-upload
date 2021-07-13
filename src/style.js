@@ -89,6 +89,13 @@ td.title-td h4{
   line-height: 24px;
   font-weight: 600;
 }
+#content .seed-dom li{
+  margin-right: 5px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding: 0px;
+}
 .seed-dom li:last-child span{
   display: none;
 }
@@ -168,7 +175,6 @@ td.title-td h4{
   font-size: 14px;
   border-radius: 3px;
   text-transform: none;
-  background: #f7f7f7;
 }
 .function-list-item input::placeholder {
   color: #c0c4cc

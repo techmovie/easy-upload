@@ -1,0 +1,6 @@
+url: https://www.empornium.is
+host: empornium.is
+siteType: gazelle
+asSource: true
+asTarget: false
+uploadPath: /upload.php

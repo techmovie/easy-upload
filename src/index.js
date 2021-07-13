@@ -22,7 +22,7 @@ if (CURRENT_SITE_NAME) {
   }
   if (CURRENT_SITE_INFO.asSource &&
   (!location.href.match(/upload/ig)) &&
-  !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam('imdb') || getUrlParam('name')))) {
+  !(CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam('imdb') || getUrlParam('name')))) {
     getTorrentInfo().then(() => {
       // 向当前所在站点添加按钮等内容
       console.log(TORRENT_INFO);

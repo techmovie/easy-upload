@@ -114,7 +114,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
       </li>
     </ul>
     ${CURRENT_SITE_INFO.siteType === 'gazelle'
-    ? `${getFunctionItems()}
+    ? `${CURRENT_SITE_NAME === 'EMP' ? '' : getFunctionItems()}
     <div class="ptp-search-list">
         ${gazelleSearchListDom}
     <div/> `
@@ -190,10 +190,13 @@ const insertTorrentPage = () => {
     </tr>`;
     torrentInsertDom.after(trDom);
     torrentInsertDom = $('.easy-seed-td');
-  } else if (['PTP', 'BTN', 'GPW'].includes(CURRENT_SITE_NAME)) {
+  } else if (['PTP', 'BTN', 'GPW', 'EMP'].includes(CURRENT_SITE_NAME)) {
     const torrentId = getUrlParam('torrentid');
     if (CURRENT_SITE_NAME === 'GPW') {
       torrentInsertDom = $(`#torrent_torrent_${torrentId} >td`);
+    } else if (CURRENT_SITE_NAME === 'EMP') {
+      const groupId = getUrlParam('id');
+      torrentInsertDom = $(`.groupid_${groupId}.torrentdetails>td`);
     } else {
       torrentInsertDom = $(`#torrent_${torrentId} >td`);
     }
