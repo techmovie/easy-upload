@@ -165,10 +165,14 @@ const uploadScreenshotsToAnother = async (selfDom) => {
   const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
   $(selfDom).text($t('上传中，请稍候...')).attr('disabled', true).addClass('is-disabled');
   try {
+    $('#copy-img').hide();
     const selectHost = $('#img-host-select').val();
     let imgData = [];
     if (selectHost === 'ptpimg') {
       imgData = await saveScreenshotsToPtpimg(screenshots);
+      if (!imgData) {
+        return;
+      }
     } else {
       const gifyuHtml = await fetch('https://gifyu.com', {
         responseType: 'text',
@@ -186,6 +190,10 @@ const uploadScreenshotsToAnother = async (selfDom) => {
     TORRENT_INFO.screenshots = imgData;
     const screenBBCode = imgData.map(img => {
       return `[img]${img}[/img]`;
+    });
+    $('#copy-img').show().click(function () {
+      GM_setClipboard(screenBBCode);
+      $(this).text($t('已复制')).attr('disabled', true).addClass('is-disabled');
     });
     const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
     if (allImages && allImages.length > 0) {

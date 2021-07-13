@@ -485,4 +485,8 @@ td.title-td h4{
 tr.pad[id*="torrent_"]{
   font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
 }
+#copy-img{
+  display: none;
+  margin-left: 5px;
+}
 `);

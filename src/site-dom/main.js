@@ -67,6 +67,7 @@ const getFunctionItems = () => {
     <option value="ptpimg" selected>ptpimg</option>
     <option value="gifyu">gifyu</option>
   </select>
+  <button id="copy-img">${$t('拷贝')}</button>
 </div>
 </div>`;
   return (doubanDom || transferDom || doubanSearchDom)

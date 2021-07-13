@@ -92,6 +92,7 @@ exports.userScriptComment = `// ==UserScript==
 // @grant        GM_setValue
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
+// @grant        GM_setClipboard
 // @license      MIT
 // ==/UserScript==`;
 
