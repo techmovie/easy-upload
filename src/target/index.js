@@ -15,6 +15,7 @@ import handlePTN from './ptn';
 import handleGPW from './gpw';
 import handleNPU from './npubits';
 import handleBYR from './byr';
+import handleSC from './sc';
 
 const fillTargetForm = (info) => {
   console.log(info);
@@ -36,6 +37,10 @@ const fillTargetForm = (info) => {
   }
   if (CURRENT_SITE_NAME === 'BYR') {
     handleBYR(info);
+    return false;
+  }
+  if (CURRENT_SITE_NAME === 'SC') {
+    handleSC(info);
     return false;
   }
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {
