@@ -1,3 +1,21 @@
+## [2.2.8](https://github.com/techmovie/easy-upload/compare/2.2.7...2.2.8) (2021-07-13)
+
+
+### Bug Fixes
+
+* btn style and url match ([516b70b](https://github.com/techmovie/easy-upload/commit/516b70bbec6cda77143f53ccdd82c006acac404d))
+* gpw target tags ([fa2c357](https://github.com/techmovie/easy-upload/commit/fa2c35736a338538eb176dcae64c538e311103d2))
+* remove anonym.to of UHDBits ([5acf89f](https://github.com/techmovie/easy-upload/commit/5acf89f2310055d2c8bb2254f52316b6726d1fc3))
+
+
+### Features
+
+* support copy rehosted images to clipboard ([f7089e8](https://github.com/techmovie/easy-upload/commit/f7089e84fe73e7559160b29f02d71dc85f891965))
+* **new site:** support EMP(source) ([672077c](https://github.com/techmovie/easy-upload/commit/672077cde3ec88c335ecc3b36ee7356c95698920)), closes [#126](https://github.com/techmovie/easy-upload/issues/126)
+* **new site:** support SC(target) ([5b953ec](https://github.com/techmovie/easy-upload/commit/5b953ec24618daaeb66f3ddc6b3236754460bee4)), closes [#82](https://github.com/techmovie/easy-upload/issues/82)
+
+
+
 ## [2.2.7](https://github.com/techmovie/easy-upload/compare/2.2.6...2.2.7) (2021-07-09)
 
 

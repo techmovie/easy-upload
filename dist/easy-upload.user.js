@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.7
+// @version      2.2.8
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
 // @match        https://passthepopcorn.me/torrents.php?id=*
 // @match        https://broadcasthe.net/torrents.php?id=*
+// @match        https://broadcasthe.net/torrents.php?torrentid=*
 // @match        https://uhdbits.org/torrents.php?id=*
 // @match        http://*/details.php?id=*
 // @match        https://*/details.php?id=*
@@ -36,12 +37,14 @@
 // @match        https://hd-space.org/index.php?page=upload
 // @match        https://hd-space.org/index.php?page=torrent-details&id=*
 // @match        https://greatposterwall.com/torrents.php?id=*
+// @match        https://www.empornium.is/torrents.php?id=*
 // @run-at       document-end
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
+// @grant        GM_setClipboard
 // @license      MIT
 // ==/UserScript==
 (() => {
@@ -1361,6 +1364,14 @@
           KR: "406"
         }
       }
+    },
+    EMP: {
+      url: "https://www.empornium.is",
+      host: "empornium.is",
+      siteType: "gazelle",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php"
     },
     FL: {
       url: "https://filelist.io",
@@ -5254,6 +5265,21 @@
         }
       }
     },
+    SC: {
+      url: "https://secret-cinema.pw",
+      host: "secret-cinema.pw",
+      siteType: "gazelle",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 30 32" enable-background="new 0 0 30 32" xml:space="preserve">  <image id="image0" width="30" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAgCAAAAAAgK5ejAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQflBw0KAxGGHdK7AAAAuklEQVQoz2MUY8AHmBhGpbEAFgYGBgaGjZwYEt/9EdIauHQzijEwMDBwMWJI/P+G0P2NgYGBgaFM6lkXg2w6z5Iz2JzW8qjgYgZDw4aCGBM0pzEwMDAwPLE4upPB/eYZhgKEGDM3nHnmf1ziZ8GPVzA9xsDAwMBgsnMnw9zpAQwMsgyPsei2SxHwur/JT082+cAnVI9BgKz1nTMMDCYqK9D9TSBQS9kwJH51I3TfxKJRnQjDB3Fioqk0ADLEKO5/ENcdAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA3LTEzVDEwOjAzOjE3KzAwOjAwgNGSrQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNy0xM1QxMDowMzoxNyswMDowMPGMKhEAAAAASUVORK5CYII=" /></svg>',
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          searchstr: "{name}"
+        }
+      }
+    },
     SSD: {
       url: "https://springsunday.net",
       host: "springsunday.net",
@@ -6465,7 +6491,9 @@
     \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
     \u65E0\u9700\u8F6C\u5B58: "No need to upload",
     "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading,be patient",
-    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not show acknowledgments"
+    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not show acknowledgments",
+    \u62F7\u8D1D: "Copy",
+    \u5DF2\u590D\u5236: "Copied"
   };
   var zh_CN = {
     \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
@@ -6516,7 +6544,9 @@
     \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
     \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
     "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
-    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9"
+    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
+    \u62F7\u8D1D: "\u62F7\u8D1D",
+    \u5DF2\u590D\u5236: "\u5DF2\u590D\u5236"
   };
   var i18n_default = {
     en_US,
@@ -7531,6 +7561,9 @@
             if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === "HDT" || CURRENT_SITE_INFO.siteType === "UNIT3D") {
               pp("[quote]", "[/quote]");
               break;
+            } else if (CURRENT_SITE_NAME === "EMP") {
+              pp("");
+              break;
             } else {
               return "";
             }
@@ -8442,7 +8475,7 @@ ${comparison.imgs.join("\n")}
   }
   function fillEditionInfo(info) {
     const site = CURRENT_SITE_INFO;
-    const editionTags = Object.keys(info.tags).map((tag) => site.targetInfo.editionTags[tag]).filter(Boolean);
+    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && site.targetInfo.editionTags[tag]).filter(Boolean);
     let otherTag;
     if (Object.keys(info.otherTags).length > 0) {
       otherTag = Object.keys(info.otherTags).join(", ");
@@ -8794,6 +8827,68 @@ ${imgs.join("\n")}
     }
   };
 
+  // src/target/sc.js
+  var sc_default = async (info) => {
+    const imdbId = getIMDBIdByUrl(info.imdbUrl);
+    $("#catalogue_number").val(imdbId);
+    $("#imdb_autofill").click();
+    fillMedia(info);
+    $(".wysibb-text-editor.wysibb-body").html(buildDescription2(info));
+    await fillIMDb(info);
+  };
+  function buildDescription2(info) {
+    const {screenshots, mediaInfo} = info;
+    let description = "";
+    if (screenshots.length > 0) {
+      description = screenshots.slice(0, 3).map((img) => {
+        return `<img src="${img}">`;
+      }).join("");
+    }
+    if (mediaInfo) {
+      description += `<br><br>[hide=MediaInfo]${mediaInfo.replace(/\n/g, "<br>")}[/hide]`;
+    }
+    return description;
+  }
+  function fillMedia(info) {
+    const {videoType, resolution} = info;
+    let value;
+    if (videoType.match(/bluray/i)) {
+      value = "BDMV";
+    } else if (videoType === "DVD") {
+      value = "DVD-R";
+    } else if (parseInt(resolution) < 720) {
+      value = "SD";
+    } else {
+      value = resolution;
+    }
+    $("#media").val(value);
+  }
+  async function fillIMDb(info) {
+    var _a, _b;
+    const {imdbUrl} = info;
+    if (imdbUrl) {
+      const imdbData = await getIMDBData(info.imdbUrl);
+      if (imdbData && ((_a = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a["Country of origin"])) {
+        $("#country").val(imdbData.details["Country of origin"]);
+      }
+      if (imdbData && imdbData.poster) {
+        let poster;
+        const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key");
+        if (ptpImgApiKey) {
+          poster = await uploadToPtpImg([imdbData.poster]);
+        } else {
+          const gifyuHtml = await fetch("https://gifyu.com", {
+            responseType: "text"
+          });
+          const authToken = (_b = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _b[1];
+          const data = await transferImgs(imdbData.poster, authToken, "https://gifyu.com/json");
+          poster = data.url;
+        }
+        $("#image").val(poster);
+      }
+    }
+  }
+
   // src/target/index.js
   var fillTargetForm = (info) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
@@ -8816,6 +8911,10 @@ ${imgs.join("\n")}
     }
     if (CURRENT_SITE_NAME === "BYR") {
       byr_default(info);
+      return false;
+    }
+    if (CURRENT_SITE_NAME === "SC") {
+      sc_default(info);
       return false;
     }
     if (CURRENT_SITE_NAME === "PTSBAO" && localStorage.getItem("autosave")) {
@@ -10559,6 +10658,7 @@ All thanks to the original uploader\uFF01`;
         TORRENT_INFO.mediaInfo = data;
         descriptionBBCode += `
 [quote]${data}[/quote]`;
+        descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, "");
         TORRENT_INFO.description = descriptionBBCode;
         TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
         TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
@@ -11019,7 +11119,7 @@ ${screenshotsBBCode.join("")}`;
   var getTorrentInfo4 = async (torrentId) => {
     const imdbUrl = $('.info_crumbs a[href*="www.imdb.com/title"]').attr("href");
     const doubanUrl = $('.info_crumbs a[href*="https://movie.douban.com/subject/"]').attr("href");
-    const {response} = await fetch(`/ajax.php?action=torrent&id=0${torrentId}`);
+    const {response} = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
     const {torrent, group} = response;
     const {name: movieName, year, wikiImage: poster, releaseType} = group;
     let {description, fileList, filePath, size} = torrent;
@@ -11203,6 +11303,20 @@ ${screenshotsBBCode.join("")}`;
     };
   }
 
+  // src/source/emp.js
+  var emp_default = async () => {
+    const torrentId = getUrlParam("id");
+    if (!torrentId) {
+      return false;
+    }
+    const title = $(".details h2").text().trim();
+    const descriptionBBCode = getFilterBBCode($(`#content${torrentId}`)[0]);
+    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
+    TORRENT_INFO.title = title;
+    TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, "[color=#000]");
+  };
+
   // src/source/index.js
   var getTorrentInfo5;
   if (!CURRENT_SITE_INFO) {
@@ -11235,6 +11349,8 @@ ${screenshotsBBCode.join("")}`;
     getTorrentInfo5 = hdspace_default;
   } else if (CURRENT_SITE_NAME === "GPW") {
     getTorrentInfo5 = gpw_default2;
+  } else if (CURRENT_SITE_NAME === "EMP") {
+    getTorrentInfo5 = emp_default;
   }
   var source_default = getTorrentInfo5;
 
@@ -11291,6 +11407,7 @@ ${screenshotsBBCode.join("")}`;
     <option value="ptpimg" selected>ptpimg</option>
     <option value="gifyu">gifyu</option>
   </select>
+  <button id="copy-img">${$t("\u62F7\u8D1D")}</button>
 </div>
 </div>`;
     return doubanDom || transferDom || doubanSearchDom ? `<section class="easy-seed-function-list">
@@ -11329,7 +11446,7 @@ ${screenshotsBBCode.join("")}`;
         <button id="batch-seed-btn">${$t("\u4E00\u952E\u7FA4\u8F6C")}</button>
       </li>
     </ul>
-    ${CURRENT_SITE_INFO.siteType === "gazelle" ? `${getFunctionItems()}
+    ${CURRENT_SITE_INFO.siteType === "gazelle" ? `${CURRENT_SITE_NAME === "EMP" ? "" : getFunctionItems()}
     <div class="ptp-search-list">
         ${gazelleSearchListDom}
     <div/> ` : ""}
@@ -11400,10 +11517,13 @@ ${screenshotsBBCode.join("")}`;
     </tr>`;
       torrentInsertDom.after(trDom);
       torrentInsertDom = $(".easy-seed-td");
-    } else if (["PTP", "BTN", "GPW"].includes(CURRENT_SITE_NAME)) {
+    } else if (["PTP", "BTN", "GPW", "EMP"].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam("torrentid");
       if (CURRENT_SITE_NAME === "GPW") {
         torrentInsertDom = $(`#torrent_torrent_${torrentId} >td`);
+      } else if (CURRENT_SITE_NAME === "EMP") {
+        const groupId = getUrlParam("id");
+        torrentInsertDom = $(`.groupid_${groupId}.torrentdetails>td`);
       } else {
         torrentInsertDom = $(`#torrent_${torrentId} >td`);
       }
@@ -11790,10 +11910,14 @@ ${screenshotsBBCode.join("")}`;
     const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
     $(selfDom).text($t("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...")).attr("disabled", true).addClass("is-disabled");
     try {
+      $("#copy-img").hide();
       const selectHost = $("#img-host-select").val();
       let imgData = [];
       if (selectHost === "ptpimg") {
         imgData = await saveScreenshotsToPtpimg(screenshots);
+        if (!imgData) {
+          return;
+        }
       } else {
         const gifyuHtml = await fetch("https://gifyu.com", {
           responseType: "text"
@@ -11811,6 +11935,10 @@ ${screenshotsBBCode.join("")}`;
       TORRENT_INFO.screenshots = imgData;
       const screenBBCode = imgData.map((img) => {
         return `[img]${img}[/img]`;
+      });
+      $("#copy-img").show().click(function() {
+        GM_setClipboard(screenBBCode);
+        $(this).text($t("\u5DF2\u590D\u5236")).attr("disabled", true).addClass("is-disabled");
       });
       const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
       if (allImages && allImages.length > 0) {
@@ -12002,7 +12130,7 @@ ${screenshotsBBCode.join("")}`;
       let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = "";
       const {movieAkaName, movieName, title} = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
+      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits|SC/) && siteInfo.siteType !== "AvistaZ") {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
@@ -12148,6 +12276,13 @@ td.title-td h4{
   line-height: 24px;
   font-weight: 600;
 }
+#content .seed-dom li{
+  margin-right: 5px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding: 0px;
+}
 .seed-dom li:last-child span{
   display: none;
 }
@@ -12227,7 +12362,6 @@ td.title-td h4{
   font-size: 14px;
   border-radius: 3px;
   text-transform: none;
-  background: #f7f7f7;
 }
 .function-list-item input::placeholder {
   color: #c0c4cc
@@ -12535,6 +12669,13 @@ td.title-td h4{
 .team-hd .easy-seed-function-list{
   flex: 1;
 }
+tr.pad[id*="torrent_"]{
+  font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
+}
+#copy-img{
+  display: none;
+  margin-left: 5px;
+}
 `);
 
   // src/index.js
@@ -12546,7 +12687,7 @@ td.title-td h4{
       torrentParams = JSON.parse(decodeURIComponent(torrentParams));
       fillTargetForm(torrentParams);
     }
-    if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload/ig) && !(location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
+    if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload/ig) && !(CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
       source_default().then(() => {
         console.log(TORRENT_INFO);
       });
