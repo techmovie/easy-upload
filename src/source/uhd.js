@@ -36,6 +36,7 @@ export default async () => {
     if (data) {
       TORRENT_INFO.mediaInfo = data;
       descriptionBBCode += `\n[quote]${data}[/quote]`;
+      descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, '');
       TORRENT_INFO.description = descriptionBBCode;
       TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
