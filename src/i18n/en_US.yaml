@@ -40,12 +40,12 @@ ptpimg上传失败: PtpImg upload failed
 错误: Error
 成功: Success
 保存本地站点设置失败: Failed to save local site settings
-请先设置群转列表: Please set up the group transfer list first
+请先设置群转列表: Please set up the batch transfer list first
 转种页面已打开，请前往对应页面操作: The transfer pages have been opened, please go to the corresponding page to operate
 提示: 'Hint'
 转存截图: 'Upload screenshots to another host'
 无需转存: No need to upload
-上传中，请稍候...: Uploading,be patient
-不显示致谢内容: Do not show acknowledgments
+上传中，请稍候...: Uploading, be patient
+不显示致谢内容: Do not include thanks
 拷贝: Copy
 已复制: Copied
