@@ -181,7 +181,7 @@ const handleSearchClickEvent = () => {
     let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
     let searchKeyWord = '';
     const { movieAkaName, movieName, title } = TORRENT_INFO;
-    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits|SC/) &&
+    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) &&
     siteInfo.siteType !== 'AvistaZ') {
       if (replaceKey) {
         searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);

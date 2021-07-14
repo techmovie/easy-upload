@@ -42,6 +42,9 @@ async function fillIMDb (info) {
     if (imdbData && imdbData?.details?.['Country of origin']) {
       $('#country').val(imdbData.details['Country of origin']);
     }
+    if (imdbData && imdbData?.details?.['Also known as']) {
+      $('#alternate_title').val(imdbData.details['Also known as']);
+    }
     if (imdbData && imdbData.poster) {
       let poster;
       const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key');

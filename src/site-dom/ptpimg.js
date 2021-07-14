@@ -15,7 +15,7 @@ if (location.host === 'ptpimg.me') {
       GM_setValue('easy-seed.ptp-img-api-key', apiKey);
       showNotice({
         title: 'Success!',
-        text: 'Saved to EasySeed.',
+        text: 'Saved to EasyUpload.',
       });
     });
   }
