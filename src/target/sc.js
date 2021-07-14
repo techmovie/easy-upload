@@ -1,4 +1,3 @@
-
 import { getIMDBData, getIMDBIdByUrl, transferImgs, uploadToPtpImg, fetch } from '../common';
 
 export default async (info) => {
@@ -20,7 +19,8 @@ function buildDescription (info) {
     description += `<br><br>[hide=MediaInfo]${mediaInfo.replace(/\n/g, '<br>')}[/hide]`;
   }
   return description;
-};
+}
+
 function fillMedia (info) {
   const { videoType, resolution } = info;
   let value;
@@ -35,6 +35,7 @@ function fillMedia (info) {
   }
   $('#media').val(value);
 }
+
 async function fillIMDb (info) {
   const { imdbUrl } = info;
   if (imdbUrl) {
