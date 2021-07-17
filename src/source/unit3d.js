@@ -83,7 +83,7 @@ const getBasicInfo = () => {
     Resolution: 'Resolution',
   };
   let lineSelector = $('#vue+.panel table tr');
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|Aither/)) {
     lineSelector = $('#meta-info+.meta-general>.panel:first table tr');
   }
   lineSelector.each((index, element) => {
