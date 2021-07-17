@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
-seedDomSelector: '#meta-info+.meta-general>.panel:first table tr:last' 
+seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last'
 search: 
   path: /torrents
   replaceKey: ['tt','']
