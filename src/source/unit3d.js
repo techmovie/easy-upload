@@ -84,7 +84,7 @@ const getBasicInfo = () => {
   };
   let lineSelector = $('#vue+.panel table tr');
   if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|Aither/)) {
-    lineSelector = $('#meta-info+.meta-general>.panel:first table tr');
+    lineSelector = $('#meta-info~.meta-general>.panel:first table tr');
   }
   lineSelector.each((index, element) => {
     const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
