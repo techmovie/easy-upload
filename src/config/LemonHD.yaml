@@ -9,7 +9,7 @@ uploadPath: /upload_movie.php
 search: 
   path: /torrents.php
   imdbOptionKey: 'imdb'
-  nameOptionKey: '0'
+  nameOptionKey: 'name'
   params:
     incldead: '0'
     search_area: '{optionKey}'
