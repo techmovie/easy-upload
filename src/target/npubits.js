@@ -1,10 +1,13 @@
 import { CURRENT_SITE_INFO } from '../const';
 
 export default (info) => {
-  const { title, year, movieName, category } = info;
-  ['subtitle', 'description'].forEach(key => {
-    $(CURRENT_SITE_INFO[key].selector).val(info[key]);
-  });
+  let { title, year, movieName, category, doubanInfo, description, subtitle } = info;
+  $(CURRENT_SITE_INFO.subtitle.selector).val(subtitle);
+
+  if (doubanInfo) {
+    description = doubanInfo + '\n' + description;
+  }
+  $(CURRENT_SITE_INFO.description.selector).val(description);
   $('#torrent_name_checkbox').attr('checked', true);
   $(CURRENT_SITE_INFO.name.selector).val(title);
   $(CURRENT_SITE_INFO.category.selector).val(CURRENT_SITE_INFO.category.map[category]);

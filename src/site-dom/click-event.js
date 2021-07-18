@@ -40,12 +40,12 @@ const getGPWGroupId = async (imdbUrl) => {
 
 export default () => {
   if ($('#easy-seed-setting')[0]) {
-    $('#easy-seed-setting').on('click', () => {
+    $('#easy-seed-setting').click(() => {
       openSettingPanel();
     });
   }
   if ($('#batch-seed-btn')[0]) {
-    $('#batch-seed-btn').on('click', () => {
+    $('#batch-seed-btn').click(() => {
       openBatchSeedTabs();
     });
   }
