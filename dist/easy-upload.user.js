@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.8
+// @version      2.2.9
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -497,7 +497,7 @@
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: "#vue+.panel table tr:last",
+      seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
       search: {
         path: "/torrents",
         params: {
@@ -1065,7 +1065,7 @@
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: "#meta-info+.meta-general>.panel:first table tr:last",
+      seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
       search: {
         path: "/torrents",
         replaceKey: [
@@ -3054,7 +3054,7 @@
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: "#meta-info+.meta-general>.panel:first table tr:last",
+      seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
       search: {
         path: "/torrents",
         params: {
@@ -4128,7 +4128,7 @@
       search: {
         path: "/torrents.php",
         imdbOptionKey: "imdb",
-        nameOptionKey: "0",
+        nameOptionKey: "name",
         params: {
           incldead: "0",
           search_area: "{optionKey}",
@@ -5269,14 +5269,21 @@
       url: "https://secret-cinema.pw",
       host: "secret-cinema.pw",
       siteType: "gazelle",
-      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 30 32" enable-background="new 0 0 30 32" xml:space="preserve">  <image id="image0" width="30" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAgCAAAAAAgK5ejAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQflBw0KAxGGHdK7AAAAuklEQVQoz2MUY8AHmBhGpbEAFgYGBgaGjZwYEt/9EdIauHQzijEwMDBwMWJI/P+G0P2NgYGBgaFM6lkXg2w6z5Iz2JzW8qjgYgZDw4aCGBM0pzEwMDAwPLE4upPB/eYZhgKEGDM3nHnmf1ziZ8GPVzA9xsDAwMBgsnMnw9zpAQwMsgyPsei2SxHwur/JT082+cAnVI9BgKz1nTMMDCYqK9D9TSBQS9kwJH51I3TfxKJRnQjDB3Fioqk0ADLEKO5/ENcdAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA3LTEzVDEwOjAzOjE3KzAwOjAwgNGSrQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNy0xM1QxMDowMzoxNyswMDowMPGMKhEAAAAASUVORK5CYII=" /></svg>',
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 30 32" enable-background="new 0 0 30 32" xml:space="preserve">  <image id="image0" width="30" height="32" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAgCAAAAAAgK5ejAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQflBw0KAxGGHdK7AAAAuklEQVQoz2MUY8AHmBhGpbEAFgYGBgaGjZwYEt/9EdIauHQzijEwMDBwMWJI/P+G0P2NgYGBgaFM6lkXg2w6z5Iz2JzW8qjgYgZDw4aCGBM0pzEwMDAwPLE4upPB/eYZhgKEGDM3nHnmf1ziZ8GPVzA9xsDAwMBgsnMnw9zpAQwMsgyPsei2SxHwur/JT082+cAnVI9BgKz1nTMMDCYqK9D9TSBQS9kwJH51I3TfxKJRnQjDB3Fioqk0ADLEKO5/ENcdAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA3LTEzVDEwOjAzOjE3KzAwOjAwgNGSrQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNy0xM1QxMDowMzoxNyswMDowMPGMKhEAAAAASUVORK5CYII=" /></svg>',
       asSource: false,
       asTarget: true,
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
         params: {
-          searchstr: "{name}"
+          action: "advanced",
+          searchsubmit: 1,
+          filter_cat: 1,
+          groupname: "{name}",
+          cataloguenumber: "{imdb}",
+          order_by: "size",
+          order_way: "desc",
+          tags_type: 0
         }
       }
     },
@@ -6485,13 +6492,13 @@
     \u9519\u8BEF: "Error",
     \u6210\u529F: "Success",
     \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
-    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the group transfer list first",
+    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
     "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
     \u63D0\u793A: "Hint",
     \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
     \u65E0\u9700\u8F6C\u5B58: "No need to upload",
-    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading,be patient",
-    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not show acknowledgments",
+    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
+    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
     \u62F7\u8D1D: "Copy",
     \u5DF2\u590D\u5236: "Copied"
   };
@@ -8656,10 +8663,12 @@ ${imgs.join("\n")}
   // src/target/npubits.js
   var npubits_default = (info) => {
     var _a, _b;
-    const {title, year, movieName, category} = info;
-    ["subtitle", "description"].forEach((key) => {
-      $(CURRENT_SITE_INFO[key].selector).val(info[key]);
-    });
+    let {title, year, movieName, category, doubanInfo, description, subtitle} = info;
+    $(CURRENT_SITE_INFO.subtitle.selector).val(subtitle);
+    if (doubanInfo) {
+      description = doubanInfo + "\n" + description;
+    }
+    $(CURRENT_SITE_INFO.description.selector).val(description);
     $("#torrent_name_checkbox").attr("checked", true);
     $(CURRENT_SITE_INFO.name.selector).val(title);
     $(CURRENT_SITE_INFO.category.selector).val(CURRENT_SITE_INFO.category.map[category]);
@@ -8864,12 +8873,15 @@ ${imgs.join("\n")}
     $("#media").val(value);
   }
   async function fillIMDb(info) {
-    var _a, _b;
+    var _a, _b, _c;
     const {imdbUrl} = info;
     if (imdbUrl) {
       const imdbData = await getIMDBData(info.imdbUrl);
       if (imdbData && ((_a = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a["Country of origin"])) {
         $("#country").val(imdbData.details["Country of origin"]);
+      }
+      if (imdbData && ((_b = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b["Also known as"])) {
+        $("#alternate_title").val(imdbData.details["Also known as"]);
       }
       if (imdbData && imdbData.poster) {
         let poster;
@@ -8880,7 +8892,7 @@ ${imgs.join("\n")}
           const gifyuHtml = await fetch("https://gifyu.com", {
             responseType: "text"
           });
-          const authToken = (_b = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _b[1];
+          const authToken = (_c = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _c[1];
           const data = await transferImgs(imdbData.poster, authToken, "https://gifyu.com/json");
           poster = data.url;
         }
@@ -10019,8 +10031,8 @@ All thanks to the original uploader\uFF01`;
       Resolution: "Resolution"
     };
     let lineSelector = $("#vue+.panel table tr");
-    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST/)) {
-      lineSelector = $("#meta-info+.meta-general>.panel:first table tr");
+    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|Aither/)) {
+      lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
     }
     lineSelector.each((index, element) => {
       const key = $(element).find("td:first").text().replace(/\s|\n/g, "");
@@ -11990,12 +12002,12 @@ ${screenshotsBBCode.join("")}`;
   };
   var click_event_default = () => {
     if ($("#easy-seed-setting")[0]) {
-      $("#easy-seed-setting").on("click", () => {
+      $("#easy-seed-setting").click(() => {
         openSettingPanel();
       });
     }
     if ($("#batch-seed-btn")[0]) {
-      $("#batch-seed-btn").on("click", () => {
+      $("#batch-seed-btn").click(() => {
         openBatchSeedTabs();
       });
     }
@@ -12130,7 +12142,7 @@ ${screenshotsBBCode.join("")}`;
       let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
       let searchKeyWord = "";
       const {movieAkaName, movieName, title} = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits|SC/) && siteInfo.siteType !== "AvistaZ") {
+      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
         if (replaceKey) {
           searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
         } else {
@@ -12178,7 +12190,7 @@ ${screenshotsBBCode.join("")}`;
         GM_setValue("easy-seed.ptp-img-api-key", apiKey);
         showNotice({
           title: "Success!",
-          text: "Saved to EasySeed."
+          text: "Saved to EasyUpload."
         });
       });
     }

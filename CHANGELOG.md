@@ -1,3 +1,19 @@
+## [2.2.9](https://github.com/techmovie/easy-upload/compare/2.2.8...2.2.9) (2021-07-19)
+
+
+### Bug Fixes
+
+* aither选择器 ([bdc5984](https://github.com/techmovie/easy-upload/commit/bdc5984cbb40fd6201bf8099f362b50fdd8a716e))
+* aither选择器修改 ([a1f71e8](https://github.com/techmovie/easy-upload/commit/a1f71e802831aa72e60caf81d95993eb0b64af44)), closes [#135](https://github.com/techmovie/easy-upload/issues/135)
+* English translation ([0976e60](https://github.com/techmovie/easy-upload/commit/0976e606967052cefd94ed9f577b098fdb3a7d79))
+* lemonHD name search ([ff38cd4](https://github.com/techmovie/easy-upload/commit/ff38cd4b26d61487c362f419576e04be6d54008e))
+* sc bugfix ([97e31e2](https://github.com/techmovie/easy-upload/commit/97e31e2f5fc071ad50d67778517a22493f76410b)), closes [#82](https://github.com/techmovie/easy-upload/issues/82)
+* unit3d 修改选择器 ([faa16d4](https://github.com/techmovie/easy-upload/commit/faa16d4675502c19fbd18990a4f59dd9b6d8ac24))
+* 修复蒲公英豆瓣简介缺失的问题 ([45a7616](https://github.com/techmovie/easy-upload/commit/45a76163a12506f4b8e8327058cbf15a1d712f69))
+* 适配Aither ([a89823d](https://github.com/techmovie/easy-upload/commit/a89823d2123d8b641d3e91853c0bb2edf6b38fb2)), closes [#135](https://github.com/techmovie/easy-upload/issues/135)
+
+
+
 ## [2.2.8](https://github.com/techmovie/easy-upload/compare/2.2.7...2.2.8) (2021-07-13)
 
 
