@@ -1,0 +1,22 @@
+comment: "This issue is closed because it does not meet our issue template. Please read it.\n 此问题已关闭，因为它没有按issue模版规范提交。"
+issueConfigs:
+  - content: 
+    - 浏览器名称
+    - 浏览器版本
+    - 所用用户脚本扩展名称
+    - easy-upload版本
+  - content: 
+    - Browser
+    - Browser Version
+    - Script manager extension
+    - easy-upload version
+  - content: 
+    - 站点地址
+    - 站点架构
+    - 邀请获取渠道
+  - content: 
+    - URL
+    - Site based on
+    - Where to get an invite
+  caseInsensitive: true
+  label: "closed by bot"

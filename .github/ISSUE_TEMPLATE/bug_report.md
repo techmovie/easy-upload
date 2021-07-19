@@ -11,7 +11,7 @@ assignees: ''
 
 * Browser：
 * Browser Version ：
-* Script managet extension[e.g. tampermonkey Violentmonkey]：
+* Script manager extension[e.g. tampermonkey Violentmonkey]：
 * easy-upload version：
 
 **Describe the bug**
