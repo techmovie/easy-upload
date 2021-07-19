@@ -18,5 +18,5 @@ issueConfigs:
     - URL
     - Site based on
     - Where to get an invite
-  caseInsensitive: true
-  label: "closed by bot"
+caseInsensitive: true
+label: "closed by bot"
