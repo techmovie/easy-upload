@@ -9,9 +9,11 @@ needDoubanInfo: true
 seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last'
 search: 
   path: /torrents
+  replaceKey: ['tt','']
   params:
     name: '{name}'
-    imdb: '{imdb}'
+    imdbId: '{imdb}'
+    sortField: size
 name:
   selector: '#title'
 description:
