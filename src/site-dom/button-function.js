@@ -192,7 +192,7 @@ const uploadScreenshotsToAnother = async (selfDom) => {
       return `[img]${img}[/img]`;
     });
     $('#copy-img').show().click(function () {
-      GM_setClipboard(screenBBCode);
+      GM_setClipboard(screenBBCode.join(''));
       $(this).text($t('已复制')).attr('disabled', true).addClass('is-disabled');
     });
     const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
