@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.2.9
+// @version      2.2.10
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -500,9 +500,14 @@
       seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
       search: {
         path: "/torrents",
+        replaceKey: [
+          "tt",
+          ""
+        ],
         params: {
           name: "{name}",
-          imdb: "{imdb}"
+          imdbId: "{imdb}",
+          sortField: "size"
         }
       },
       name: {
@@ -3938,7 +3943,7 @@
       icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">  <image id="image0" width="20" height="20" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=" /></svg>',
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
+      seedDomSelector: "#top~table:first+table:first>tbody>tr:nth-child(3)",
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
@@ -4588,6 +4593,16 @@
           cartoon: "403",
           variety: "404"
         }
+      }
+    },
+    OpenSub: {
+      url: "https://www.opensubtitles.org",
+      host: "opensubtitles.org",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">  <image id="image0" width="16" height="16" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAAAAAD/aE28AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QADzoyPqMAAAAHdElNRQflBxcLOzjtVivgAAAARElEQVQI12NggAH+D//BCMHAAjj/L2B6/w/IqGRYzuMgC2RcYpDldQBJPWSQY/l/GSw1g4PBF8jg+r+A5/1XbMbgtgsAjDUiHY8LnyYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDctMjNUMTE6NTk6NTUrMDA6MDB7fTP0AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA3LTIzVDExOjU5OjU1KzAwOjAwCiCLSAAAAABJRU5ErkJggg==" /></svg>',
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/en/search/sublanguageid-all/imdbid-{name}"
       }
     },
     OurBits: {
@@ -8993,7 +9008,11 @@ ${imgs.join("\n")}
       }
     }
     if (CURRENT_SITE_INFO.mediaInfo) {
-      if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits|Blutopia|HaresClub)/))) {
+      if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
+        const selector = isBluray ? 'textarea[name="bdinfo"]' : CURRENT_SITE_INFO.mediaInfo.selector;
+        $(selector).val(mediaInfo);
+        description = description.replace(mediaInfo.trim(), "");
+      } else if (!isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/)) {
         $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
         description = description.replace(mediaInfo.trim(), "");
       }
@@ -10241,6 +10260,9 @@ All thanks to the original uploader\uFF01`;
       TORRENT_INFO.format = getFormat3(videoType);
     } else {
       TORRENT_INFO.format = getFormat3($("#top").text() + subtitle);
+    }
+    if (CURRENT_SITE_NAME === "HaresClub") {
+      TORRENT_INFO.mediaInfo = $("#kfmedia").text();
     }
   };
   var getMetaInfo = (metaInfo) => {
@@ -11949,7 +11971,7 @@ ${screenshotsBBCode.join("")}`;
         return `[img]${img}[/img]`;
       });
       $("#copy-img").show().click(function() {
-        GM_setClipboard(screenBBCode);
+        GM_setClipboard(screenBBCode.join(""));
         $(this).text($t("\u5DF2\u590D\u5236")).attr("disabled", true).addClass("is-disabled");
       });
       const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
@@ -12166,7 +12188,7 @@ ${screenshotsBBCode.join("")}`;
         searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
       }
       let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
-      if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD/)) {
+      if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
         url = url.replace(/{name}/, searchKeyWord);
       }
       GM_openInTab(url);

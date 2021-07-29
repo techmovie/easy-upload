@@ -1,3 +1,19 @@
+## [2.2.10](https://github.com/techmovie/easy-upload/compare/2.2.9...2.2.10) (2021-07-29)
+
+
+### Bug Fixes
+
+* aither qucik search adaption ([36bc163](https://github.com/techmovie/easy-upload/commit/36bc163f69a023b33c956c2037856025421d22d5))
+* haresClub 修复 ([9ef4954](https://github.com/techmovie/easy-upload/commit/9ef49545f5797048631efde2abfb7667eb6a0121))
+
+
+### Features
+
+* blu Aither fill  BDInfo ([5ec237a](https://github.com/techmovie/easy-upload/commit/5ec237af07c4aaca1785485f267e027670ae41ae))
+* **quick search:** support OpenSub ([909bca4](https://github.com/techmovie/easy-upload/commit/909bca40b9fea0957097e1a0a2f8482e84b6d92f))
+
+
+
 ## [2.2.9](https://github.com/techmovie/easy-upload/compare/2.2.8...2.2.9) (2021-07-19)
 
 
