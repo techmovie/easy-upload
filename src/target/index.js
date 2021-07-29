@@ -115,9 +115,13 @@ const fillTargetForm = (info) => {
       }
     }
   }
-  // HDB Blu只填入mediainfo bdinfo放在简介里
+
   if (CURRENT_SITE_INFO.mediaInfo) {
-    if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits|Blutopia)/))) {
+    if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
+      const selector = isBluray ? 'textarea[name="bdinfo"]' : CURRENT_SITE_INFO.mediaInfo.selector;
+      $(selector).val(mediaInfo);
+      description = description.replace(mediaInfo.trim(), '');
+    } else if (!isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/)) { // HDB只填入mediainfo bdinfo放在简介里
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
     }
