@@ -188,6 +188,9 @@ export default async () => {
   } else {
     TORRENT_INFO.format = getFormat($('#top').text() + subtitle);
   }
+  if (CURRENT_SITE_NAME === 'HaresClub') {
+    TORRENT_INFO.mediaInfo = $('#kfmedia').text();
+  }
 };
 
 const getMetaInfo = (metaInfo) => {

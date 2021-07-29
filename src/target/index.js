@@ -117,7 +117,7 @@ const fillTargetForm = (info) => {
   }
   // HDB Blu只填入mediainfo bdinfo放在简介里
   if (CURRENT_SITE_INFO.mediaInfo) {
-    if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits|Blutopia|HaresClub)/))) {
+    if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits|Blutopia)/))) {
       $(CURRENT_SITE_INFO.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
     }
