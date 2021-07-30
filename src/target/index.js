@@ -73,7 +73,7 @@ const fillTargetForm = (info) => {
     let torrentTitle = title;
     if (CURRENT_SITE_NAME === 'TTG') {
       torrentTitle += `[${subtitle}]`;
-    } else if (CURRENT_SITE_NAME.match(/SSD|iTS/)) {
+    } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
       torrentTitle = title.replace(/\s/ig, '.');
     }
     $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
