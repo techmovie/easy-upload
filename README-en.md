@@ -82,6 +82,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 |  HDBits   |             ✅             |            ✅            |
 |  HDChina  |             ✅             |            ✅            |
 |  HDDolby  |             ✅             |            ✅            |
+|  HDFans   |             ✅             |            ✅            |
 |  HDHome   |             ✅             |            ✅            |
 |  HDMaYi   |             ✅             |            ✅            |
 |  HDPOST   |             ✅             |            ✅            |
@@ -152,3 +153,4 @@ You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmov
 | 韩老王 |      ¥30      | 2021/05/13 |
 |  **特  |    ¥30.01     | 2021/05/27 |
 |  J**e  | 0.00055484BTC | 2021/06/05 |
+|  西凉  |      ¥10      | 2021/07/22 |

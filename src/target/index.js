@@ -433,6 +433,23 @@ const fillTargetForm = (info) => {
       $(CURRENT_SITE_INFO.category.selector).val('424');
     }
   }
+  if (CURRENT_SITE_NAME === 'HDFans') {
+    const { videoType, resolution, tags } = info;
+    if (videoType === 'remux') {
+      $(CURRENT_SITE_INFO.videoType.selector).val(resolution === '2160p' ? '10' : '8');
+    } else if (videoType === 'encode') {
+      const map = {
+        '2160p': '9',
+        '1080p': '5',
+        '1080i': '5',
+        '720p': '11',
+      };
+      $(CURRENT_SITE_INFO.videoType.selector).val(map[resolution] || '16');
+    }
+    if (tags.diy) {
+      $(CURRENT_SITE_INFO.videoType.selector).val(resolution === '2160p' ? '2' : '4');
+    }
+  }
 };
 /*
 * 各个字段之间取交集填入表单

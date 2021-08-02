@@ -203,6 +203,9 @@ const getMetaInfo = (metaInfo) => {
   if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome/i)) {
     videoTypeKey = '媒介';
   }
+  if (CURRENT_SITE_NAME.match(/HDFans/)) {
+    videoTypeKey = '来源';
+  }
   const category = getMetaValue('类型|分类|類別', metaInfo);
   const videoType = getMetaValue(videoTypeKey, metaInfo);
   const videoCodec = getMetaValue('编码|編碼', metaInfo);
@@ -246,6 +249,9 @@ const getMetaValue = (key, metaInfo) => {
   if (CURRENT_SITE_NAME === 'TCCF' && key.match(/类型/)) {
     regStr = `(${key}):(.+?)\\s{2,}`;
   }
+  if (CURRENT_SITE_NAME === 'HDFans' && key.match(/来源/)) {
+    regStr = `(${key}):(.+?)\\s{2,}`;
+  }
   const reg = new RegExp(regStr);
   const matchValue = metaInfo.match(reg, 'i')?.[2];
   if (matchValue) {
@@ -264,7 +270,7 @@ const getVideoType = (videoType) => {
   }
 
   videoType = videoType.replace(/[.-]/g, '').toLowerCase();
-  if (videoType.match(/encode|x264|x265|bdrip|hdrip/ig)) {
+  if (videoType.match(/encode|x264|x265|bdrip|hdrip|压制/ig)) {
     return 'encode';
   } else if (videoType.match(/remux/ig)) {
     return 'remux';
