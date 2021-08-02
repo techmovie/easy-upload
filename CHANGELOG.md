@@ -1,3 +1,21 @@
+# [2.3.0](https://github.com/techmovie/easy-upload/compare/2.2.10...2.3.0) (2021-08-02)
+
+
+### Bug Fixes
+
+* mediaInfo autofill ([838eccd](https://github.com/techmovie/easy-upload/commit/838eccd752f27e0a6b7f1d398524d6234d0649e9))
+* **hdc:** replace blank space to dot ([c0b3235](https://github.com/techmovie/easy-upload/commit/c0b3235b7a6a5ce17dfd0073af80ea219dfb8b74))
+* tg-channel script version match ([b326fcc](https://github.com/techmovie/easy-upload/commit/b326fcc608a2f5defd9e4afb6ab7718f65d048e3))
+
+
+### Features
+
+* support hiding Douban button & link field ([67b0ec5](https://github.com/techmovie/easy-upload/commit/67b0ec5addf89420eef16a4327bacfffd4d214d3))
+* **new site:** support HDFans ([2a4fb9d](https://github.com/techmovie/easy-upload/commit/2a4fb9d59c8c9615c83970d8601220542b833896)), closes [#140](https://github.com/techmovie/easy-upload/issues/140)
+* get pterclub original images ([18e6ab1](https://github.com/techmovie/easy-upload/commit/18e6ab1c1318be994ab29294ff386b422b92fea7))
+
+
+
 ## [2.2.10](https://github.com/techmovie/easy-upload/compare/2.2.9...2.2.10) (2021-07-29)
 
 
