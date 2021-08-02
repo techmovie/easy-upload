@@ -22,8 +22,9 @@ const getSearchList = () => {
   return searchList;
 };
 const getFunctionItems = () => {
+  const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
   const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
-  const doubanSearchDom = (needDoubanBookInfo || needDoubanInfo)
+  const doubanSearchDom = (needDoubanBookInfo || needDoubanInfo) && !doubanClosed
     ? `<div class="function-list-item">
   <div class="douban-book-section">
     <input type="text" placeholder="${$t('手动输入豆瓣链接')}" id="douban-link">
@@ -31,7 +32,7 @@ const getFunctionItems = () => {
   </div>`
     : '';
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
-  const doubanDom = needDoubanInfo || (!TORRENT_INFO.doubanUrl && !needDoubanBookInfo)
+  const doubanDom = (needDoubanInfo || (!TORRENT_INFO.doubanUrl && !needDoubanBookInfo)) && !doubanClosed
     ? `${doubanSearchDom}
   <div class="function-list-item">
     <div class="douban-section">

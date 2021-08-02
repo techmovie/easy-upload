@@ -19,6 +19,7 @@ const openSettingPanel = () => {
   const siteFaviconClosed = GM_getValue('easy-seed.site-favicon-closed') || '';
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
+  const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
   const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
@@ -94,6 +95,9 @@ const openSettingPanel = () => {
         <section class="site-enable-setting transfer-img-closed">
         <label><input name="thanks-quote-closed" type="checkbox" ${thanksQuoteClosed}/>${$t('不显示致谢内容')}</label>
         </section>
+        <section class="site-enable-setting transfer-img-closed">
+        <label><input name="douban-closed" type="checkbox" ${doubanClosed}/>${$t('不显示豆瓣按钮和豆瓣链接')}</label>
+        </section>
       </div>
       <div class="confirm-btns">
         <button id="cancel-setting-btn">${$t('取消')}</button>
@@ -118,6 +122,7 @@ const saveSetting = () => {
   const uploadImgEnabled = $("input[name='upload-img-closed']").attr('checked') || '';
   const siteFaviconEnabled = $("input[name='site-favicon-closed']").attr('checked') || '';
   const thanksQuoteEnabled = $("input[name='thanks-quote-closed']").attr('checked') || '';
+  const doubanClosed = $("input[name='douban-closed']").attr('checked') || '';
   const ptpImgApiKey = $("input[name='ptp-img-api-key']").val();
   $("input[name='target-site-enabled']:checked").each(function () {
     targetSitesEnabled.push($(this).val());
@@ -138,6 +143,7 @@ const saveSetting = () => {
     GM_setValue('easy-seed.site-favicon-closed', siteFaviconEnabled);
     GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
     GM_setValue('easy-seed.thanks-quote-closed', thanksQuoteEnabled);
+    GM_setValue('easy-seed.douban-closed', doubanClosed);
     $('#easy-seed-setting-panel').remove();
     window.location.reload();
   } catch (error) {
