@@ -489,4 +489,9 @@ tr.pad[id*="torrent_"]{
   display: none;
   margin-left: 5px;
 }
+.quick-search{
+  cursor: pointer;
+  color: #409eff;
+  font-weight: 600;
+}
 `);

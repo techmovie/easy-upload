@@ -14,6 +14,11 @@ search:
     sort: '5'
     type: desc
     c: M
+  result: 
+    list: '#torrent_table>tbody>tr'
+    url: '.name_left a[href*="/t/"]'
+    name: '.name_left a[href*="/t/"] b'
+    size: 'td:nth-child(7)'
 name:
   selector: 'input[name="name"]'
 description:

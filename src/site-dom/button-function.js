@@ -1,10 +1,15 @@
 import {
+  CURRENT_SITE_NAME,
+  PT_SITE,
+  SORTED_SITE_KEYS,
   TORRENT_INFO,
 } from '../const';
+import { getQuickSearchUrl } from './common';
 import {
   getSubTitle, transferImgs, getDoubanInfo, $t, fetch,
   getDoubanIdByIMDB, getAreaCode, getPreciseCategory,
   showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
+  formatTorrentTitle, getSize,
 } from '../common';
 
 const getThumbnailImgs = async () => {
@@ -214,9 +219,56 @@ const uploadScreenshotsToAnother = async (selfDom) => {
       .removeAttr('disabled').removeClass('is-disabled');
   }
 };
+const checkQuickResult = () => {
+  const searchListSetting = GM_getValue('easy-seed.enabled-search-site-list');
+
+  let searchSitesEnabled = searchListSetting ? JSON.parse(searchListSetting) : [];
+  if (searchSitesEnabled.length === 0) {
+    searchSitesEnabled = SORTED_SITE_KEYS;
+  }
+
+  searchSitesEnabled.forEach(async site => {
+    const resultConfig = PT_SITE[site].search?.result;
+    const siteUrl = PT_SITE[site].url;
+    if (resultConfig) {
+      const { list, name, size, url: urlDom } = resultConfig;
+      const { title, size: searchSize } = TORRENT_INFO;
+      const url = getQuickSearchUrl(site);
+      const domString = await fetch(url, {
+        responseType: 'text',
+      });
+      const dom = new DOMParser().parseFromString(domString, 'text/html');
+      const torrentList = $(list, dom);
+      const sameTorrent = Array.prototype.find.call(torrentList, function (item) {
+        let torrentName;
+        if (site === 'TTG') {
+          torrentName = $(item).find(name).prop('firstChild')?.textContent?.trim() ?? '';
+        } else {
+          torrentName = $(item).find(name).attr('title') || $(item).find(name).text();
+        }
+        if (site === 'TJUPT') {
+          const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+          const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
+          torrentName = realTitle.replace(/\[|\]/g, '');
+        }
+        torrentName = torrentName?.replace(/\s|\./g, '');
+
+        const sizeBytes = getSize($(item).find(size).text());
+        return torrentName === title?.replace(/\s|\./g, '') && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1000;
+      });
+      if (sameTorrent) {
+        const url = `${siteUrl}/${$(sameTorrent).find(urlDom).attr('href')}`;
+        $(`.search-list li>a[data-site=${site}]`).attr('data-url', url).css('color', '#218380');
+      } else {
+        $(`.search-list li>a[data-site=${site}]`).css('color', '#D81159');
+      }
+    }
+  });
+};
 export {
   getThumbnailImgs,
   getDoubanBookInfo,
   uploadScreenshotsToAnother,
   getDoubanData,
+  checkQuickResult,
 };

@@ -12,6 +12,11 @@ search:
     search: '{name}'
     sort: '5'
     type: desc
+  result: 
+    list: '#torrents_table>tbody>tr'
+    url: '.torrentname td a[href*="details.php?id="]'
+    name: '.torrentname td a[href*="details.php?id="]'
+    size: 'td:nth-child(3)>center:first'
 name: 
    selector: '#name'
 subtitle:

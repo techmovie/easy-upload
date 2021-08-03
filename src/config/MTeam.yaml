@@ -16,6 +16,11 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
+  result: 
+    list: '.torrents>tbody>tr'
+    url: '.torrenttr .torrentname td a[href*="details.php?id="]'
+    name: '.torrenttr .torrentname td a[href*="details.php?id="]'
+    size: 'td:nth-child(5)'
 name:
   selector: '#name'
 subtitle:

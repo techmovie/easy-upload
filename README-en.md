@@ -27,6 +27,9 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 * Allow filling info on upload page by unified yaml config of the site, making it easier to add an unsupported site. If you want to add an unsupported site, please turn to [Site Configuration Rules](https://github.com/techmovie/easy-upload/wiki/How-to-Add-Unsupported-Sites)
 * Support quick search of current resource, and the site for searching is configurable.
 * Support batch uploading screenshots to ptpimg, which can solve the problem that screenshots of some sites cannot be displayed on other sites
+* By clicking the quick search button, you can check whether the target tracker has the current torrent(Only support site based on NexusPHP by now)
+
+![](https://ptpimg.me/4475d0.gif)
 
 ## Settings
 * Click the gear wheel icon to open settings panel.
@@ -55,67 +58,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 
 ## Supported Sites
 
-| Site name | Source(supports transfer) | Target(allows transfer) |
-| :-------: | :-----------------------: | :---------------------: |
-|   1PTBA   |             ✅             |            ✅            |
-|   3Wmg    |             ✅             |            ✅            |
-|   52pt    |             ✅             |            ✅            |
-|    ACM    |             ✅             |            ✅            |
-|  Aither   |             ✅             |            ✅            |
-|  AvistaZ  |             ✅             |            ❌            |
-|    bB     |             ❌             |            ✅            |
-|    BTN    |             ✅             |            ❌            |
-| BTSCHOOL  |             ✅             |            ✅            |
-|  BeiTai   |             ✅             |            ❌            |
-| BeyondHD  |             ✅             |            ✅            |
-| Blutopia  |             ✅             |            ✅            |
-|    BYR    |             ❌             |            ✅            |
-|  CHDBits  |             ✅             |            ✅            |
-|  DiscFan  |             ✅             |            ✅            |
-|    EMP    |             ✅             |            ❌            |
-|    GPW    |             ✅             |            ✅            |
-| HaresClub |             ✅             |            ✅            |
-|  HD4FANS  |             ✅             |            ✅            |
-|   HDAI    |             ✅             |            ✅            |
-|  HDArea   |             ✅             |            ✅            |
-|  HDAtmos  |             ❌             |            ✅            |
-|  HDBits   |             ✅             |            ✅            |
-|  HDChina  |             ✅             |            ✅            |
-|  HDDolby  |             ✅             |            ✅            |
-|  HDFans   |             ✅             |            ✅            |
-|  HDHome   |             ✅             |            ✅            |
-|  HDMaYi   |             ✅             |            ✅            |
-|  HDPOST   |             ✅             |            ✅            |
-|  HDRoute  |             ❌             |            ✅            |
-|   HDSky   |             ✅             |            ✅            |
-|  HDSpace  |             ✅             |            ✅            |
-|    HDT    |             ✅             |            ✅            |
-|  HDTime   |             ✅             |            ✅            |
-|    HDU    |             ✅             |            ✅            |
-|    iTS    |             ❌             |            ✅            |
-| KEEPFRDS  |             ✅             |            ❌            |
-|    KG     |             ✅             |            ❌            |
-|  LemonHD  |             ✅             |            ✅            |
-|   MTeam   |             ✅             |            ✅            |
-|  NPUBits  |             ❌             |            ✅            |
-|   NYPT    |             ✅             |            ✅            |
-|  OurBits  |             ✅             |            ✅            |
-| PrivateHD |             ✅             |            ❌            |
-|  PTHome   |             ✅             |            ✅            |
-|    PTN    |             ❌             |            ✅            |
-|    PTP    |             ✅             |            ✅            |
-|  PTSBAO   |             ✅             |            ✅            |
-|   PTer    |             ✅             |            ✅            |
-|    SC     |             ❌             |            ✅            |
-|    SSD    |             ✅             |            ✅            |
-| SoulVoice |             ✅             |            ✅            |
-|   TCCF    |             ✅             |            ✅            |
-|  TeamHD   |             ✅             |            ❌            |
-|   TJUPT   |             ✅             |            ✅            |
-|    TLF    |             ✅             |            ✅            |
-|    TTG    |             ✅             |            ✅            |
-|  UHDBits  |             ✅             |            ✅            |
-
+[SUPPORTED](SUPPORTED.md)
 
 ## Buy Me a Coffee
 

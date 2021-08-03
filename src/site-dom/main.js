@@ -105,7 +105,7 @@ const createSeedDom = (torrentDom, titleDom = '', searchListDom = '') => {
     return '';
   });
   const gazelleSearchListDom = searchListDom.match(/<ul(.|\n)+?<\/ul>/)?.[0]
-    ?.replace(/(<ul.+?>)/, `$1\n<div class="ptp-seed-title"><h4>${$t('快速检索')}</h4></div>`);
+    ?.replace(/(<ul.+?>)/, `$1\n<div class="ptp-seed-title"><h4 class="quick-search">${$t('快速检索')}</h4></div>`);
   const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
@@ -130,7 +130,7 @@ const insertTorrentPage = () => {
   let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
   const searchList = getSearchList();
   const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
-  <h4>${$t('快速检索')}</h4>
+  <h4 class="quick-search">${$t('快速检索')}</h4>
   </td>
   <td class="rowfollow detailshash lista"> 
   <ul class="search-list ">

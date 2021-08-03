@@ -30,6 +30,9 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 * 可以通过站点的yaml统一配置来进行上传页的内容填写，新增支持站点更容易。如果需要自行添加目前项目还不支持的站点，可以参考[站点配置规则](https://github.com/techmovie/easy-upload/wiki/%E5%A6%82%E4%BD%95%E5%A2%9E%E5%8A%A0%E7%9B%AE%E5%89%8D%E8%BF%98%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E7%AB%99%E7%82%B9%E9%85%8D%E7%BD%AE)
 * 支持对当前资源的快速检索，检索站点可配置
 * 支持批量将截图转存至ptpimg，可以解决部分站点截图无法在其他站点显示的问题
+* 通过点击快速检索按钮，可以检测是否目标站有当前种子(目前仅支持NexusPHP站点)
+
+![](https://ptpimg.me/4475d0.gif)
 
 ## 设置
 * 点击「齿轮」图标打开设置面板
@@ -56,67 +59,7 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 
 ## 支持站点
 
-|  站点名   | Source(支持转发到其他站点) | Target(支持其他站点转发到本站) |
-| :-------: | :------------------------: | :----------------------------: |
-|   1PTBA   |             ✅              |               ✅                |
-|   3Wmg    |             ✅              |               ✅                |
-|   52pt    |             ✅              |               ✅                |
-|    ACM    |             ✅              |               ✅                |
-|  Aither   |             ✅              |               ✅                |
-|  AvistaZ  |             ✅              |               ❌                |
-|    bB     |             ❌              |               ✅                |
-|    BTN    |             ✅              |               ❌                |
-| BTSCHOOL  |             ✅              |               ✅                |
-|  BeiTai   |             ✅              |               ❌                |
-| BeyondHD  |             ✅              |               ✅                |
-| Blutopia  |             ✅              |               ✅                |
-|    BYR    |             ❌              |               ✅                |
-|  CHDBits  |             ✅              |               ✅                |
-|  DiscFan  |             ✅              |               ✅                |
-|    EMP    |             ✅              |               ❌                |
-|    GPW    |             ✅              |               ✅                |
-| HaresClub |             ✅              |               ✅                |
-|  HD4FANS  |             ✅              |               ✅                |
-|   HDAI    |             ✅              |               ✅                |
-|  HDArea   |             ✅              |               ✅                |
-|  HDAtmos  |             ❌              |               ✅                |
-|  HDBits   |             ✅              |               ✅                |
-|  HDChina  |             ✅              |               ✅                |
-|  HDDolby  |             ✅              |               ✅                |
-|  HDFans   |             ✅              |               ✅                |
-|  HDHome   |             ✅              |               ✅                |
-|  HDMaYi   |             ✅              |               ✅                |
-|  HDPOST   |             ✅              |               ✅                |
-|  HDRoute  |             ❌              |               ✅                |
-|   HDSky   |             ✅              |               ✅                |
-|  HDSpace  |             ✅              |               ✅                |
-|    HDT    |             ✅              |               ✅                |
-|  HDTime   |             ✅              |               ✅                |
-|    HDU    |             ✅              |               ✅                |
-|    iTS    |             ❌              |               ✅                |
-| KEEPFRDS  |             ✅              |               ❌                |
-|    KG     |             ✅              |               ❌                |
-|  LemonHD  |             ✅              |               ✅                |
-|   MTeam   |             ✅              |               ✅                |
-|  NPUBits  |             ❌              |               ✅                |
-|   NYPT    |             ✅              |               ✅                |
-|  OurBits  |             ✅              |               ✅                |
-| PrivateHD |             ✅              |               ❌                |
-|  PTHome   |             ✅              |               ✅                |
-|    PTN    |             ❌              |               ✅                |
-|    PTP    |             ✅              |               ✅                |
-|  PTSBAO   |             ✅              |               ✅                |
-|   PTer    |             ✅              |               ✅                |
-|    SC     |             ❌              |               ✅                |
-|    SSD    |             ✅              |               ✅                |
-| SoulVoice |             ✅              |               ✅                |
-|   TCCF    |             ✅              |               ✅                |
-|  TeamHD   |             ✅              |               ❌                |
-|   TJUPT   |             ✅              |               ✅                |
-|    TLF    |             ✅              |               ✅                |
-|    TTG    |             ✅              |               ✅                |
-|  UHDBits  |             ✅              |               ✅                |
-
+[SUPPORTED](SUPPORTED.md)
 
 ## 捐赠
 
