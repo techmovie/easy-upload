@@ -1,3 +1,12 @@
+## [2.3.2](https://github.com/techmovie/easy-upload/compare/2.3.1...2.3.2) (2021-08-04)
+
+
+### Bug Fixes
+
+* gpw GroupID fetch ([07ad9ac](https://github.com/techmovie/easy-upload/commit/07ad9ac5759936de2988405c9f277648d157422f))
+
+
+
 ## [2.3.1](https://github.com/techmovie/easy-upload/compare/2.3.0...2.3.1) (2021-08-04)
 
 
