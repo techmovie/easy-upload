@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.0
+// @version      2.3.1
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -71,6 +71,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -194,6 +200,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -265,6 +277,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -628,6 +646,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -804,6 +828,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       }
     },
@@ -1155,6 +1185,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -1592,6 +1628,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -1853,6 +1895,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -2018,6 +2066,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -2222,6 +2276,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrent_list>tbody>tr",
+          url: '.tbname td a[href*="details.php?id="]',
+          name: '.tbname td a[href*="details.php?id="]',
+          size: ".t_size"
         }
       },
       name: {
@@ -2608,6 +2668,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -2785,6 +2851,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -3434,6 +3506,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -3912,6 +3990,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -4132,6 +4216,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -4317,6 +4407,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: 'td a[href*="details_"]:first',
+          name: 'td a[href*="details_"]:first b',
+          size: "td:nth-child(6)"
         }
       },
       name: {
@@ -4443,6 +4539,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrenttr .torrentname td a[href*="details.php?id="]',
+          name: '.torrenttr .torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -4625,6 +4727,12 @@
           search: "{name}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: "#torrents_table>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(3)>center:first"
         }
       },
       name: {
@@ -4801,6 +4909,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -4931,6 +5045,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -5215,6 +5335,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(7)"
         }
       },
       name: {
@@ -5369,6 +5495,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -5441,7 +5573,7 @@
       url: "https://privatehd.to",
       host: "privatehd.to",
       siteType: "AvistaZ",
-      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xml:space="preserve">  <image id="image0" width="22" height="22" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=" /></svg>',
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xml:space="preserve">  <image id="image0" width="22" height="22" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=" /></svg>',
       asSource: true,
       asTarget: false,
       uploadPath: "/upload.php",
@@ -5498,6 +5630,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(6)"
         }
       },
       name: {
@@ -5625,6 +5763,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -5720,6 +5864,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -5844,6 +5994,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       subtitle: {
@@ -5891,6 +6047,12 @@
           search: "{imdb}",
           sort: "5",
           type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
         }
       },
       name: {
@@ -6021,6 +6183,12 @@
           sort: "5",
           type: "desc",
           c: "M"
+        },
+        result: {
+          list: "#torrent_table>tbody>tr",
+          url: '.name_left a[href*="/t/"]',
+          name: '.name_left a[href*="/t/"] b',
+          size: "td:nth-child(7)"
         }
       },
       name: {
@@ -11676,7 +11844,7 @@ ${screenshotsBBCode.join("")}`;
       return "";
     });
     const gazelleSearchListDom = (_b = (_a = searchListDom.match(/<ul(.|\n)+?<\/ul>/)) == null ? void 0 : _a[0]) == null ? void 0 : _b.replace(/(<ul.+?>)/, `$1
-<div class="ptp-seed-title"><h4>${$t("\u5FEB\u901F\u68C0\u7D22")}</h4></div>`);
+<div class="ptp-seed-title"><h4 class="quick-search">${$t("\u5FEB\u901F\u68C0\u7D22")}</h4></div>`);
     const seedDom = `
   <div class="seed-dom movie-page__torrent__panel">
     <ul class="site-list">
@@ -11698,7 +11866,7 @@ ${screenshotsBBCode.join("")}`;
     let torrentInsertDom = $(CURRENT_SITE_INFO.seedDomSelector);
     const searchList = getSearchList();
     const searchListDom = `<td class="rowhead nowrap title-td detailsleft">
-  <h4>${$t("\u5FEB\u901F\u68C0\u7D22")}</h4>
+  <h4 class="quick-search">${$t("\u5FEB\u901F\u68C0\u7D22")}</h4>
   </td>
   <td class="rowfollow detailshash lista"> 
   <ul class="search-list ">
@@ -11836,6 +12004,44 @@ ${screenshotsBBCode.join("")}`;
         $("#moviename").val(nameParam);
       }
     }
+  };
+
+  // src/site-dom/common.js
+  var getQuickSearchUrl = (siteName) => {
+    const siteInfo = PT_SITE[siteName];
+    const searchConfig = siteInfo.search;
+    const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
+    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+    let searchKeyWord = "";
+    const {movieAkaName, movieName, title} = TORRENT_INFO;
+    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
+      if (replaceKey) {
+        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+      } else {
+        searchKeyWord = imdbId;
+      }
+    } else {
+      searchKeyWord = movieAkaName || movieName || title;
+      imdbId = "";
+    }
+    let searchParams = Object.keys(params).map((key) => {
+      return `${key}=${params[key]}`;
+    }).join("&");
+    if (imdbId) {
+      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+    } else {
+      if (searchParams.match(/{name}/)) {
+        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
+      } else {
+        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
+      }
+      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
+    }
+    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
+    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
+      url = url.replace(/{name}/, searchKeyWord);
+    }
+    return url;
   };
 
   // src/site-dom/setting-panel.js
@@ -12204,6 +12410,51 @@ ${screenshotsBBCode.join("")}`;
       $(selfDom).text($t("\u8F6C\u5B58\u622A\u56FE")).removeAttr("disabled").removeClass("is-disabled");
     }
   };
+  var checkQuickResult = () => {
+    const searchListSetting = GM_getValue("easy-seed.enabled-search-site-list");
+    let searchSitesEnabled = searchListSetting ? JSON.parse(searchListSetting) : [];
+    if (searchSitesEnabled.length === 0) {
+      searchSitesEnabled = SORTED_SITE_KEYS;
+    }
+    searchSitesEnabled.forEach(async (site) => {
+      var _a;
+      const resultConfig = (_a = PT_SITE[site].search) == null ? void 0 : _a.result;
+      const siteUrl = PT_SITE[site].url;
+      if (resultConfig) {
+        const {list, name, size, url: urlDom} = resultConfig;
+        const {title, size: searchSize} = TORRENT_INFO;
+        const url = getQuickSearchUrl(site);
+        const domString = await fetch(url, {
+          responseType: "text"
+        });
+        const dom = new DOMParser().parseFromString(domString, "text/html");
+        const torrentList = $(list, dom);
+        const sameTorrent = Array.prototype.find.call(torrentList, function(item) {
+          var _a2, _b, _c, _d, _e;
+          let torrentName;
+          if (site === "TTG") {
+            torrentName = (_c = (_b = (_a2 = $(item).find(name).prop("firstChild")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
+          } else {
+            torrentName = $(item).find(name).attr("title") || $(item).find(name).text();
+          }
+          if (site === "TJUPT") {
+            const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+            const realTitle = (_e = (_d = matchArray.filter((item2) => item2.match(/\.| /))) == null ? void 0 : _d[0]) != null ? _e : "";
+            torrentName = realTitle.replace(/\[|\]/g, "");
+          }
+          torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
+          const sizeBytes = getSize($(item).find(size).text());
+          return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
+        });
+        if (sameTorrent) {
+          const url2 = `${siteUrl}/${$(sameTorrent).find(urlDom).attr("href")}`;
+          $(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
+        } else {
+          $(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
+        }
+      }
+    });
+  };
 
   // src/site-dom/click-event.js
   var getPTPGroupId = async (imdbUrl) => {
@@ -12265,6 +12516,9 @@ ${screenshotsBBCode.join("")}`;
         uploadScreenshotsToAnother(this);
       });
     }
+    $("h4.quick-search").click(function() {
+      checkQuickResult();
+    });
     handleSiteClickEvent();
     handleSearchClickEvent();
   };
@@ -12321,7 +12575,7 @@ ${screenshotsBBCode.join("")}`;
           audioBook: "Audiobooks",
           comics: "Comics"
         };
-        const bBDomUrl = `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
+        const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
         const formDom = await fetch(bBDomUrl, {
           responseType: "text"
         });
@@ -12370,39 +12624,7 @@ ${screenshotsBBCode.join("")}`;
   var handleSearchClickEvent = () => {
     $(".search-list li>a").click(async function() {
       const siteName = $(this).data("site");
-      const siteInfo = PT_SITE[siteName];
-      const searchConfig = siteInfo.search;
-      const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
-      let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-      let searchKeyWord = "";
-      const {movieAkaName, movieName, title} = TORRENT_INFO;
-      if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
-        if (replaceKey) {
-          searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-        } else {
-          searchKeyWord = imdbId;
-        }
-      } else {
-        searchKeyWord = movieAkaName || movieName || title;
-        imdbId = "";
-      }
-      let searchParams = Object.keys(params).map((key) => {
-        return `${key}=${params[key]}`;
-      }).join("&");
-      if (imdbId) {
-        searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
-      } else {
-        if (searchParams.match(/{name}/)) {
-          searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
-        } else {
-          searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-        }
-        searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
-      }
-      let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
-      if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
-        url = url.replace(/{name}/, searchKeyWord);
-      }
+      const url = $(this).data("url") || getQuickSearchUrl(siteName);
       GM_openInTab(url);
     });
   };
@@ -12921,6 +13143,11 @@ tr.pad[id*="torrent_"]{
 #copy-img{
   display: none;
   margin-left: 5px;
+}
+.quick-search{
+  cursor: pointer;
+  color: #409eff;
+  font-weight: 600;
 }
 `);
 

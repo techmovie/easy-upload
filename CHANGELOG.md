@@ -1,3 +1,17 @@
+## [2.3.1](https://github.com/techmovie/easy-upload/compare/2.3.0...2.3.1) (2021-08-04)
+
+
+### Bug Fixes
+
+* import  PT_SITE variable ([ddf519d](https://github.com/techmovie/easy-upload/commit/ddf519d7d989eb6f23dc902c7f8c0ebd7f1febe0))
+
+
+### Features
+
+* 通过点击[快速检索]字样进行快速检测是否目标站有当前种子 ([116c385](https://github.com/techmovie/easy-upload/commit/116c385ffd088cc9f207b85da669d305ed8e0365))
+
+
+
 # [2.3.0](https://github.com/techmovie/easy-upload/compare/2.2.10...2.3.0) (2021-08-02)
 
 
