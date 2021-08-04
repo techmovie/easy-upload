@@ -30,8 +30,8 @@ const getGPWGroupId = async (imdbUrl) => {
   if (imdbId) {
     const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
     const data = await fetch(url);
-    if (data && data.GroupID) {
-      return data.GroupID;
+    if (data && data.response && data.response.GroupID) {
+      return data.response.GroupID;
     } else {
       return '';
     }
