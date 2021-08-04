@@ -1,5 +1,5 @@
 import {
-  CURRENT_SITE_NAME, TORRENT_INFO,
+  CURRENT_SITE_NAME, TORRENT_INFO, PT_SITE,
 } from '../const';
 import { getQuickSearchUrl } from './common';
 import { $t, showNotice, getIMDBIdByUrl, fetch } from '../common';
@@ -131,7 +131,7 @@ const handleSiteClickEvent = () => {
         audioBook: 'Audiobooks',
         comics: 'Comics',
       };
-      const bBDomUrl = `https://baconbits.org/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
+      const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
       const formDom = await fetch(bBDomUrl, {
         responseType: 'text',
       });
