@@ -1,3 +1,13 @@
+## [2.3.3](https://github.com/techmovie/easy-upload/compare/2.3.2...2.3.3) (2021-08-14)
+
+
+### Performance Improvements
+
+* make imdb rating number precise ([03dc37e](https://github.com/techmovie/easy-upload/commit/03dc37ec1eebe705164b4efdc49408e8d0a0c196))
+* **bhd blu:** change postion of screenshots in description ([3caa2b6](https://github.com/techmovie/easy-upload/commit/3caa2b6ef3583835905d2b2ec694efef95e50b06))
+
+
+
 ## [2.3.2](https://github.com/techmovie/easy-upload/compare/2.3.1...2.3.2) (2021-08-04)
 
 

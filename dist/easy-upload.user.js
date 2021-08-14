@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.2
+// @version      2.3.3
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -6957,6 +6957,7 @@
     }
   };
   var getDataFromDoubanPage = async (domString) => {
+    var _a, _b, _c, _d;
     const dom = new DOMParser().parseFromString(domString, "text/html");
     const fetchAnchor = function(anchor) {
       return anchor[0].nextSibling.nodeValue.trim();
@@ -6996,16 +6997,12 @@
     if (hasImdb) {
       imdbId = fetchAnchor(imdbLinkAnchor);
       imdbLink = `https://www.imdb.com/title/${imdbId}/`;
-      let imdbData = await fetch(`https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`, {
+      const imdbData = await fetch(`https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`, {
         responseType: "text"
       });
-      imdbData = imdbData.replace(/(imdb\.rating\.run\()|\)/g, "");
-      imdbData = JSON.parse(imdbData);
-      if (imdbData.resource) {
-        imdbAverageRating = imdbData.resource.rating || 0;
-        imdbVotes = imdbData.resource.ratingCount || 0;
-        imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
-      }
+      imdbAverageRating = (_b = (_a = imdbData.match(/rating":(\d\.\d)/)) == null ? void 0 : _a[1]) != null ? _b : 0;
+      imdbVotes = (_d = (_c = imdbData.match(/ratingCount":(\d+)/)) == null ? void 0 : _c[1]) != null ? _d : 0;
+      imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
     }
     const year = " " + $("#content > h1 > span.year", dom).text().substr(1, 4);
     const playdate = $('#info span[property="v:initialReleaseDate"]', dom).map(function() {
@@ -7041,7 +7038,7 @@
       imdb_id: imdbId,
       imdb_rating_average: imdbAverageRating,
       imdb_votes: imdbVotes,
-      imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
+      imdb_rating: imdbRating,
       chinese_title: chineseTitle,
       foreign_title: foreignTitle,
       aka,
@@ -7177,7 +7174,6 @@
       douban_link,
       episodes: showEpisodes,
       duration: movieDuration,
-      imdb_rating_average,
       director: directors,
       writer: writers,
       cast: actors,
@@ -7202,7 +7198,7 @@
 ` : "";
     descr += playdate ? `\u25CE\u4E0A\u6620\u65E5\u671F\u3000${playdate.join(" / ")}
 ` : "";
-    descr += imdb_rating ? `\u25CEIMDb\u8BC4\u5206  ${imdb_rating_average}
+    descr += imdb_rating ? `\u25CEIMDb\u8BC4\u5206  ${imdb_rating}
 ` : "";
     descr += imdb_link ? `\u25CEIMDb\u94FE\u63A5  ${imdb_link}
 ` : "";
@@ -7893,6 +7889,13 @@
                 return "";
               }
               break;
+            } else if (CURRENT_SITE_NAME === "BeyondHD") {
+              if (className === "spoilerChild") {
+                pp("\n[quote]", "[/quote]");
+              } else if (className === "spoilerHide") {
+                return "";
+              }
+              break;
             } else if (className === "spoiler-text" && CURRENT_SITE_INFO.siteType === "AvistaZ") {
               pp("\n[quote]", "[/quote]");
               break;
@@ -8029,7 +8032,7 @@
         break;
       }
       case 3: {
-        if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\])/)) {
+        if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
           return "";
         }
         return node.textContent;
@@ -9983,9 +9986,11 @@ All thanks to the original uploader\uFF01`;
     const mediaInfo = $("#stats-full code").text();
     TORRENT_INFO.mediaInfo = mediaInfo;
     TORRENT_INFO.mediaInfos = [mediaInfo];
-    TORRENT_INFO.originalDescription = descriptionBBCode;
-    TORRENT_INFO.description = `${descriptionBBCode}
-[quote]${mediaInfo}[/quote]`;
+    TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+    TORRENT_INFO.originalDescription = `${descriptionBBCode}`;
+    TORRENT_INFO.description = `
+[quote]${mediaInfo}[/quote]
+${descriptionBBCode}`;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const {videoCodec, audioCodec, resolution, mediaTags} = getInfoFunc(mediaInfo);
     TORRENT_INFO.videoCodec = videoCodec;
@@ -9994,7 +9999,6 @@ All thanks to the original uploader\uFF01`;
     TORRENT_INFO.tags = __assign(__assign(__assign({}, tags), mediaTags), editionTags.knownTags);
     TORRENT_INFO.otherTags = editionTags.otherTags;
     TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.screenshots = getImages();
     return TORRENT_INFO;
   };
   var getBasicInfo = () => {
@@ -10024,11 +10028,6 @@ All thanks to the original uploader\uFF01`;
       }
     });
     return movieDetail;
-  };
-  var getImages = () => {
-    var _a;
-    const screenshots = (_a = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g)) != null ? _a : [];
-    return screenshots;
   };
   var getSource2 = (source, resolution) => {
     if (resolution.match(/BD100|BD66/i)) {
@@ -10138,7 +10137,7 @@ All thanks to the original uploader\uFF01`;
       TORRENT_INFO.tags = __assign(__assign({}, tags), mediaTags);
     }
     TORRENT_INFO.size = size;
-    TORRENT_INFO.screenshots = getImages2();
+    TORRENT_INFO.screenshots = getImages();
   };
   var getBasicInfo2 = () => {
     const videoTypeMap = {
@@ -10168,7 +10167,7 @@ All thanks to the original uploader\uFF01`;
     const data = res.replace(/\r\n/g, "\n");
     return data || "";
   };
-  var getImages2 = () => {
+  var getImages = () => {
     var _a;
     const screenshots = (_a = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g)) != null ? _a : [];
     return screenshots;
@@ -10251,7 +10250,7 @@ All thanks to the original uploader\uFF01`;
           }
         }
       }
-      TORRENT_INFO.screenshots = getImages3(bbCodes);
+      TORRENT_INFO.screenshots = getImages2(bbCodes);
     };
   };
   var getCategoryAndArea = (mediaInfo) => {
@@ -10297,7 +10296,7 @@ All thanks to the original uploader\uFF01`;
       videoType
     };
   };
-  var getImages3 = (bbcode) => {
+  var getImages2 = (bbcode) => {
     var _a;
     if (bbcode.match(/More\.Screens/i)) {
       const moreScreen = (_a = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)) == null ? void 0 : _a[1];
@@ -10375,8 +10374,8 @@ All thanks to the original uploader\uFF01`;
     const mediaInfo = $(".decoda-code code").text();
     const {bdinfo} = getBDInfoOrMediaInfo(descriptionBBCode);
     if (mediaInfo) {
-      descriptionBBCode += `
-[quote]${mediaInfo}[/quote]`;
+      descriptionBBCode = `
+[quote]${mediaInfo}[/quote]${descriptionBBCode}`;
     }
     const isBluray = videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
