@@ -42,7 +42,7 @@ export default async () => {
   const mediaInfo = $('.decoda-code code').text();
   const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
   if (mediaInfo) {
-    descriptionBBCode += `\n[quote]${mediaInfo}[/quote]`;
+    descriptionBBCode = `\n[quote]${mediaInfo}[/quote]${descriptionBBCode}`;
   }
   const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;

@@ -1,5 +1,9 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo, getSize, getFilterBBCode, getTagsFromSubtitle, getPreciseCategory } from '../common';
+import {
+  formatTorrentTitle, getAreaCode, getInfoFromMediaInfo,
+  getInfoFromBDInfo, getSize, getFilterBBCode,
+  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+} from '../common';
 
 export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -33,8 +37,9 @@ export default async () => {
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfo = mediaInfo;
   TORRENT_INFO.mediaInfos = [mediaInfo];
-  TORRENT_INFO.originalDescription = descriptionBBCode;
-  TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${mediaInfo}[/quote]`;
+  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.originalDescription = `${descriptionBBCode}`;
+  TORRENT_INFO.description = `\n[quote]${mediaInfo}[/quote]\n${descriptionBBCode}`;
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
   TORRENT_INFO.videoCodec = videoCodec;
@@ -43,7 +48,6 @@ export default async () => {
   TORRENT_INFO.tags = { ...tags, ...mediaTags, ...editionTags.knownTags };
   TORRENT_INFO.otherTags = editionTags.otherTags;
   TORRENT_INFO.imdbUrl = imdbUrl;
-  TORRENT_INFO.screenshots = getImages();
   return TORRENT_INFO;
 };
 const getBasicInfo = () => {
@@ -73,11 +77,6 @@ const getMovieDetails = () => {
     }
   });
   return movieDetail;
-};
-// 获取截图
-const getImages = () => {
-  const screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
-  return screenshots;
 };
 const getSource = (source, resolution) => {
   if (resolution.match(/BD100|BD66/i)) {

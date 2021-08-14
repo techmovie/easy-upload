@@ -954,6 +954,13 @@ const htmlToBBCode = (node) => {
               return '';
             }
             break;
+          } else if (CURRENT_SITE_NAME === 'BeyondHD') {
+            if (className === 'spoilerChild') {
+              pp('\n[quote]', '[/quote]');
+            } else if (className === 'spoilerHide') {
+              return '';
+            }
+            break;
           } else if (className === 'spoiler-text' && CURRENT_SITE_INFO.siteType === 'AvistaZ') {
             pp('\n[quote]', '[/quote]'); break;
           } else if (className === 'spoiler-toggle' && CURRENT_SITE_INFO.siteType === 'AvistaZ') {
@@ -1057,7 +1064,7 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\])/)) {
+      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
         return '';
       }
       return node.textContent;
