@@ -89,19 +89,15 @@ const getDataFromDoubanPage = async (domString) => {
   if (hasImdb) {
     imdbId = fetchAnchor(imdbLinkAnchor);
     imdbLink = `https://www.imdb.com/title/${imdbId}/`;
-    let imdbData = await fetch(
+    const imdbData = await fetch(
       `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
       {
         responseType: 'text',
       },
     );
-    imdbData = imdbData.replace(/(imdb\.rating\.run\()|\)/g, '');
-    imdbData = JSON.parse(imdbData);
-    if (imdbData.resource) {
-      imdbAverageRating = imdbData.resource.rating || 0;
-      imdbVotes = imdbData.resource.ratingCount || 0;
-      imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
-    }
+    imdbAverageRating = imdbData.match(/rating":(\d\.\d)/)?.[1] ?? 0;
+    imdbVotes = imdbData.match(/ratingCount":(\d+)/)?.[1] ?? 0;
+    imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
   }
 
   const year = ' ' + $('#content > h1 > span.year', dom).text().substr(1, 4);
@@ -150,7 +146,7 @@ const getDataFromDoubanPage = async (domString) => {
     imdb_id: imdbId,
     imdb_rating_average: imdbAverageRating,
     imdb_votes: imdbVotes,
-    imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
+    imdb_rating: imdbRating,
     chinese_title: chineseTitle,
     foreign_title: foreignTitle,
     aka,
@@ -263,7 +259,7 @@ const getDoubanFormat = (data) => {
     poster, this_title, trans_title, genre,
     year: movieYear, region, language, playdate,
     imdb_rating, imdb_link, douban_rating, douban_link,
-    episodes: showEpisodes, duration: movieDuration, imdb_rating_average,
+    episodes: showEpisodes, duration: movieDuration,
     director: directors, writer: writers, cast: actors, introduction,
     awards, tags,
   } = data;
@@ -275,7 +271,7 @@ const getDoubanFormat = (data) => {
   descr += genre ? `◎类　　别　${genre.join(' / ')}\n` : '';
   descr += language ? `◎语　　言　${language}\n` : '';
   descr += playdate ? `◎上映日期　${playdate.join(' / ')}\n` : '';
-  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating_average}\n` : '';
+  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating}\n` : '';
   descr += imdb_link ? `◎IMDb链接  ${imdb_link}\n` : '';
   descr += douban_rating ? `◎豆瓣评分　${douban_rating}\n` : '';
   descr += douban_link ? `◎豆瓣链接　${douban_link}\n` : '';
