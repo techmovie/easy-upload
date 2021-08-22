@@ -1,3 +1,12 @@
+## [2.3.4](https://github.com/techmovie/easy-upload/compare/2.3.3...2.3.4) (2021-08-22)
+
+
+### Features
+
+* np站点上传页增加补充豆瓣信息按钮 ([79ea423](https://github.com/techmovie/easy-upload/commit/79ea4233007deb4cc8cd09a81871962dbd20dcaf))
+
+
+
 ## [2.3.3](https://github.com/techmovie/easy-upload/compare/2.3.2...2.3.3) (2021-08-14)
 
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.3
+// @version      2.3.4
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -6861,7 +6861,8 @@
     \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
     \u62F7\u8D1D: "Copy",
     \u5DF2\u590D\u5236: "Copied",
-    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field"
+    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
+    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link"
   };
   var zh_CN = {
     \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
@@ -6915,7 +6916,8 @@
     \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
     \u62F7\u8D1D: "\u62F7\u8D1D",
     \u5DF2\u590D\u5236: "\u5DF2\u590D\u5236",
-    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5"
+    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
+    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5"
   };
   var i18n_default = {
     en_US,
@@ -9269,9 +9271,392 @@ ${imgs.join("\n")}
     }
   }
 
+  // src/site-dom/common.js
+  var getQuickSearchUrl = (siteName) => {
+    const siteInfo = PT_SITE[siteName];
+    const searchConfig = siteInfo.search;
+    const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
+    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
+    let searchKeyWord = "";
+    const {movieAkaName, movieName, title} = TORRENT_INFO;
+    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
+      if (replaceKey) {
+        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+      } else {
+        searchKeyWord = imdbId;
+      }
+    } else {
+      searchKeyWord = movieAkaName || movieName || title;
+      imdbId = "";
+    }
+    let searchParams = Object.keys(params).map((key) => {
+      return `${key}=${params[key]}`;
+    }).join("&");
+    if (imdbId) {
+      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
+    } else {
+      if (searchParams.match(/{name}/)) {
+        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
+      } else {
+        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
+      }
+      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
+    }
+    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
+    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
+      url = url.replace(/{name}/, searchKeyWord);
+    }
+    return url;
+  };
+
+  // src/site-dom/button-function.js
+  var getThumbnailImgs = async () => {
+    var _a;
+    try {
+      const allImgs = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map((v) => v.imgs));
+      const imgList = [...new Set(allImgs)];
+      if (imgList.length < 1) {
+        throw new Error($t("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25"));
+      }
+      $("#img-transfer").text($t("\u8F6C\u6362\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+      $("#transfer-progress").show().text(`0 / ${imgList.length}`);
+      const imgbbHtml = await fetch("https://imgbb.com", {
+        responseType: "text"
+      });
+      const authToken = (_a = imgbbHtml.match(/PF\.obj\.config\.auth_token="(.+)?"/)) == null ? void 0 : _a[1];
+      const uploadedImgs = [];
+      for (let index = 0; index < imgList.length; index++) {
+        const data = await transferImgs(imgList[index], authToken);
+        if (data) {
+          uploadedImgs.push(data);
+          $("#transfer-progress").text(`${uploadedImgs.length} / ${imgList.length}`);
+        }
+      }
+      if (uploadedImgs.length) {
+        const thumbnailImgs = uploadedImgs.map((imgData) => {
+          return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+        });
+        TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
+        let {description} = TORRENT_INFO;
+        imgList.forEach((img, index) => {
+          if (description.includes(img)) {
+            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]
+*`, "ig"), thumbnailImgs[index] || "");
+          }
+        });
+        TORRENT_INFO.description = description;
+        showNotice({
+          title: $t("\u6210\u529F"),
+          text: $t("\u8F6C\u6362\u6210\u529F\uFF01")
+        });
+      }
+    } catch (error) {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: error.message
+      });
+    } finally {
+      $("#img-transfer").text($t("\u8F6C\u7F29\u7565\u56FE")).removeAttr("disabled").removeClass("is-disabled");
+    }
+  };
+  var getDoubanData = async (selfDom) => {
+    try {
+      $(selfDom).text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+      let doubanUrl;
+      const scriptDoubanLink = $(".douban-dom").attr("douban-link");
+      const doubanLink = $(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || $("#douban-link").val();
+      if (doubanLink && doubanLink.match("movie.douban.com")) {
+        doubanUrl = doubanLink;
+      } else {
+        const {imdbUrl, movieName} = TORRENT_INFO;
+        const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+        let {id, season = ""} = doubanData;
+        if (season) {
+          const tvData = await getTvSeasonData(doubanData);
+          id = tvData.id;
+        }
+        doubanUrl = `https://movie.douban.com/subject/${id}`;
+      }
+      if (doubanUrl) {
+        TORRENT_INFO.doubanUrl = doubanUrl;
+        $("#douban-link").val(doubanUrl);
+        if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
+          const movieData = await getDoubanInfo(doubanUrl);
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+          updateTorrentInfo(movieData);
+        } else {
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+        }
+      }
+    } catch (error) {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: error.message
+      });
+    } finally {
+      $("#douban-info").text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
+    }
+  };
+  var getTvSeasonData = async (data) => {
+    var _a, _b;
+    const {title: torrentTitle} = TORRENT_INFO;
+    const {season = "", title} = data;
+    if (season) {
+      const seasonNumber = (_b = (_a = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : 1;
+      if (parseInt(seasonNumber) === 1) {
+        return data;
+      } else {
+        const query = title.replace(/第.+?季/, `\u7B2C${seasonNumber}\u5B63`);
+        const response = await getDoubanIdByIMDB(query);
+        return response;
+      }
+    }
+  };
+  var getDoubanBookInfo = () => {
+    let {doubanUrl} = TORRENT_INFO;
+    if (!doubanUrl) {
+      doubanUrl = $("#douban-link").val();
+    } else {
+      $("#douban-link").val(doubanUrl);
+    }
+    if (doubanUrl) {
+      $("#douban-book-info").text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
+      getDoubanInfo(doubanUrl).then((data) => {
+        TORRENT_INFO.title = data.chinese_title || data.origin_title;
+        TORRENT_INFO.image = data.poster;
+        TORRENT_INFO.description = data.book_intro;
+        TORRENT_INFO.doubanBookInfo = data;
+        showNotice({
+          title: $t("\u6210\u529F"),
+          text: $t("\u83B7\u53D6\u6210\u529F")
+        });
+      }).catch((error) => {
+        showNotice({
+          title: $t("\u9519\u8BEF"),
+          text: error.message
+        });
+      }).finally(() => {
+        $("#douban-book-info").text($t("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
+      });
+    } else {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: $t("\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5")
+      });
+    }
+  };
+  var updateTorrentInfo = (data) => {
+    var _a;
+    const desc = data.format;
+    TORRENT_INFO.doubanInfo = data.format;
+    TORRENT_INFO.subtitle = getSubTitle(data);
+    const areaMatch = (_a = desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2];
+    if (areaMatch) {
+      TORRENT_INFO.area = getAreaCode(areaMatch);
+    }
+    const category = TORRENT_INFO.category;
+    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
+  };
+  var uploadScreenshotsToAnother = async (selfDom) => {
+    var _a;
+    const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
+    $(selfDom).text($t("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...")).attr("disabled", true).addClass("is-disabled");
+    try {
+      $("#copy-img").hide();
+      const selectHost = $("#img-host-select").val();
+      let imgData = [];
+      if (selectHost === "ptpimg") {
+        imgData = await saveScreenshotsToPtpimg(screenshots);
+        if (!imgData) {
+          return;
+        }
+      } else {
+        const gifyuHtml = await fetch("https://gifyu.com", {
+          responseType: "text"
+        });
+        const authToken = (_a = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a[1];
+        for (let index = 0; index < screenshots.length; index++) {
+          const data = await transferImgs(screenshots[index], authToken, "https://gifyu.com/json");
+          if (data) {
+            imgData.push(data.url);
+          }
+        }
+      }
+      showNotice({text: $t("\u6210\u529F")});
+      let {description, originalDescription} = TORRENT_INFO;
+      TORRENT_INFO.screenshots = imgData;
+      const screenBBCode = imgData.map((img) => {
+        return `[img]${img}[/img]`;
+      });
+      $("#copy-img").show().click(function() {
+        GM_setClipboard(screenBBCode.join(""));
+        $(this).text($t("\u5DF2\u590D\u5236")).attr("disabled", true).addClass("is-disabled");
+      });
+      const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
+      if (allImages && allImages.length > 0) {
+        allImages.forEach((img) => {
+          if (img.match(/\[url=.+?\]/)) {
+            img += "[/url]";
+          }
+          originalDescription = originalDescription.replace(img, "");
+          description = description.replace(img, "");
+        });
+      }
+      TORRENT_INFO.originalDescription = originalDescription + "\n" + screenBBCode.join("");
+      TORRENT_INFO.description = description + "\n" + screenBBCode.join("");
+    } catch (error) {
+      showNotice({title: $t("\u9519\u8BEF"), text: error.message});
+    } finally {
+      $(selfDom).text($t("\u8F6C\u5B58\u622A\u56FE")).removeAttr("disabled").removeClass("is-disabled");
+    }
+  };
+  var checkQuickResult = () => {
+    const searchListSetting = GM_getValue("easy-seed.enabled-search-site-list");
+    let searchSitesEnabled = searchListSetting ? JSON.parse(searchListSetting) : [];
+    if (searchSitesEnabled.length === 0) {
+      searchSitesEnabled = SORTED_SITE_KEYS;
+    }
+    searchSitesEnabled.forEach(async (site) => {
+      var _a;
+      const resultConfig = (_a = PT_SITE[site].search) == null ? void 0 : _a.result;
+      const siteUrl = PT_SITE[site].url;
+      if (resultConfig) {
+        const {list, name, size, url: urlDom} = resultConfig;
+        const {title, size: searchSize} = TORRENT_INFO;
+        const url = getQuickSearchUrl(site);
+        const domString = await fetch(url, {
+          responseType: "text"
+        });
+        const dom = new DOMParser().parseFromString(domString, "text/html");
+        const torrentList = $(list, dom);
+        const sameTorrent = Array.prototype.find.call(torrentList, function(item) {
+          var _a2, _b, _c, _d, _e;
+          let torrentName;
+          if (site === "TTG") {
+            torrentName = (_c = (_b = (_a2 = $(item).find(name).prop("firstChild")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
+          } else {
+            torrentName = $(item).find(name).attr("title") || $(item).find(name).text();
+          }
+          if (site === "TJUPT") {
+            const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+            const realTitle = (_e = (_d = matchArray.filter((item2) => item2.match(/\.| /))) == null ? void 0 : _d[0]) != null ? _e : "";
+            torrentName = realTitle.replace(/\[|\]/g, "");
+          }
+          torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
+          const sizeBytes = getSize($(item).find(size).text());
+          return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
+        });
+        if (sameTorrent) {
+          const url2 = `${siteUrl}/${$(sameTorrent).find(urlDom).attr("href")}`;
+          $(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
+        } else {
+          $(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
+        }
+      }
+    });
+  };
+  async function autoFillDoubanInfo(selfDom, info) {
+    try {
+      $(selfDom).text($t("\u83B7\u53D6\u4E2D..."));
+      const {imdbUrl, movieName, doubanUrl, description: descriptionData, title: torrentTitle} = info;
+      if (!imdbUrl && !doubanUrl) {
+        throw new Error($t("\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5"));
+      }
+      let doubanLink;
+      if (doubanUrl && doubanUrl.match("movie.douban.com")) {
+        doubanLink = doubanUrl;
+      } else {
+        const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+        let {id, season = ""} = doubanData;
+        if (season) {
+          const tvData = await getTvSeasonData(doubanData);
+          id = tvData.id;
+        }
+        doubanLink = `https://movie.douban.com/subject/${id}`;
+      }
+      if (doubanLink) {
+        const {douban, imdb, subtitle, description, name} = CURRENT_SITE_INFO;
+        if (CURRENT_SITE_NAME === "SSD") {
+          $(imdb.selector).val(doubanLink);
+        } else {
+          $(douban == null ? void 0 : douban.selector).val(doubanLink);
+        }
+        if (!(descriptionData == null ? void 0 : descriptionData.match(/(片|译)\s*名/))) {
+          const movieData = await getDoubanInfo(doubanLink);
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+          const imdbLink = movieData.imdb_link;
+          if (!$(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
+            $(imdb.selector).val(imdbLink);
+          }
+          const torrentSubtitle = getSubTitle(movieData);
+          if (CURRENT_SITE_NAME === "TTG") {
+            $(name.selector).val(`${torrentTitle || ""}[${torrentSubtitle}]`);
+          } else {
+            $(subtitle.selector).val(torrentSubtitle);
+          }
+          if (CURRENT_SITE_NAME !== "SSD") {
+            $(description.selector).val(`${movieData.format}
+${$(description.selector).val()}`);
+          }
+        } else {
+          showNotice({
+            title: $t("\u6210\u529F"),
+            text: $t("\u83B7\u53D6\u6210\u529F")
+          });
+        }
+      }
+    } catch (error) {
+      showNotice({
+        title: $t("\u9519\u8BEF"),
+        text: error.message
+      });
+    } finally {
+      $(selfDom).text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB"));
+    }
+  }
+
+  // src/target/autofill.js
+  var autofill_default = (info = {}) => {
+    if (info.doubanInfo) {
+      return;
+    }
+    if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
+      const {imdb, douban} = CURRENT_SITE_INFO;
+      let selector;
+      if ((douban == null ? void 0 : douban.selector) && $(douban.selector) && $(douban.selector).val()) {
+        selector = $(douban.selector);
+      } else {
+        selector = $(imdb.selector);
+      }
+      selector.after(`<span id="auto-fill-douban">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</span>`);
+      $("#auto-fill-douban").click(function(e) {
+        const url = selector.val();
+        if (url.match(/subject\/(\d+)/)) {
+          info.doubanUrl = url;
+        } else if (url.match(/imdb\.com\/title\/tt\d+/)) {
+          info.imdbUrl = url;
+        }
+        autoFillDoubanInfo(this, info);
+      });
+    }
+  };
+
   // src/target/index.js
   var fillTargetForm = (info) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+    autofill_default(info || {});
+    if (!info) {
+      return;
+    }
     console.log(info);
     if (CURRENT_SITE_NAME === "bB") {
       bB_default(info);
@@ -9323,7 +9708,7 @@ ${imgs.join("\n")}
     if (CURRENT_SITE_INFO.name) {
       const {title, subtitle} = info;
       let torrentTitle = title;
-      if (CURRENT_SITE_NAME === "TTG") {
+      if (CURRENT_SITE_NAME === "TTG" && subtitle) {
         torrentTitle += `[${subtitle}]`;
       } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
         torrentTitle = title.replace(/\s/ig, ".");
@@ -12005,44 +12390,6 @@ ${screenshotsBBCode.join("")}`;
     }
   };
 
-  // src/site-dom/common.js
-  var getQuickSearchUrl = (siteName) => {
-    const siteInfo = PT_SITE[siteName];
-    const searchConfig = siteInfo.search;
-    const {params = {}, imdbOptionKey, nameOptionKey, path, replaceKey} = searchConfig;
-    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-    let searchKeyWord = "";
-    const {movieAkaName, movieName, title} = TORRENT_INFO;
-    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
-      if (replaceKey) {
-        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-      } else {
-        searchKeyWord = imdbId;
-      }
-    } else {
-      searchKeyWord = movieAkaName || movieName || title;
-      imdbId = "";
-    }
-    let searchParams = Object.keys(params).map((key) => {
-      return `${key}=${params[key]}`;
-    }).join("&");
-    if (imdbId) {
-      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
-    } else {
-      if (searchParams.match(/{name}/)) {
-        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
-      } else {
-        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-      }
-      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
-    }
-    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ""}`;
-    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
-      url = url.replace(/{name}/, searchKeyWord);
-    }
-    return url;
-  };
-
   // src/site-dom/setting-panel.js
   var openSettingPanel = () => {
     const targetSitesEnabled = GM_getValue("easy-seed.enabled-target-sites") === void 0 ? [] : JSON.parse(GM_getValue("easy-seed.enabled-target-sites"));
@@ -12200,259 +12547,6 @@ ${screenshotsBBCode.join("")}`;
       }
     });
     showNotice({title: $t("\u6210\u529F"), text: $t("\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C")});
-  };
-
-  // src/site-dom/button-function.js
-  var getThumbnailImgs = async () => {
-    var _a;
-    try {
-      const allImgs = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map((v) => v.imgs));
-      const imgList = [...new Set(allImgs)];
-      if (imgList.length < 1) {
-        throw new Error($t("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25"));
-      }
-      $("#img-transfer").text($t("\u8F6C\u6362\u4E2D...")).attr("disabled", true).addClass("is-disabled");
-      $("#transfer-progress").show().text(`0 / ${imgList.length}`);
-      const imgbbHtml = await fetch("https://imgbb.com", {
-        responseType: "text"
-      });
-      const authToken = (_a = imgbbHtml.match(/PF\.obj\.config\.auth_token="(.+)?"/)) == null ? void 0 : _a[1];
-      const uploadedImgs = [];
-      for (let index = 0; index < imgList.length; index++) {
-        const data = await transferImgs(imgList[index], authToken);
-        if (data) {
-          uploadedImgs.push(data);
-          $("#transfer-progress").text(`${uploadedImgs.length} / ${imgList.length}`);
-        }
-      }
-      if (uploadedImgs.length) {
-        const thumbnailImgs = uploadedImgs.map((imgData) => {
-          return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
-        });
-        TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
-        let {description} = TORRENT_INFO;
-        imgList.forEach((img, index) => {
-          if (description.includes(img)) {
-            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]
-*`, "ig"), thumbnailImgs[index] || "");
-          }
-        });
-        TORRENT_INFO.description = description;
-        showNotice({
-          title: $t("\u6210\u529F"),
-          text: $t("\u8F6C\u6362\u6210\u529F\uFF01")
-        });
-      }
-    } catch (error) {
-      showNotice({
-        title: $t("\u9519\u8BEF"),
-        text: error.message
-      });
-    } finally {
-      $("#img-transfer").text($t("\u8F6C\u7F29\u7565\u56FE")).removeAttr("disabled").removeClass("is-disabled");
-    }
-  };
-  var getDoubanData = async (selfDom) => {
-    try {
-      $(selfDom).text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
-      let doubanUrl;
-      const scriptDoubanLink = $(".douban-dom").attr("douban-link");
-      const doubanLink = $(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || $("#douban-link").val();
-      if (doubanLink && doubanLink.match("movie.douban.com")) {
-        doubanUrl = doubanLink;
-      } else {
-        const {imdbUrl, movieName} = TORRENT_INFO;
-        const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
-        let {id, season = ""} = doubanData;
-        if (season) {
-          const tvData = await getTvSeasonData(doubanData);
-          id = tvData.id;
-        }
-        doubanUrl = `https://movie.douban.com/subject/${id}`;
-      }
-      if (doubanUrl) {
-        TORRENT_INFO.doubanUrl = doubanUrl;
-        $("#douban-link").val(doubanUrl);
-        if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
-          const movieData = await getDoubanInfo(doubanUrl);
-          showNotice({
-            title: $t("\u6210\u529F"),
-            text: $t("\u83B7\u53D6\u6210\u529F")
-          });
-          updateTorrentInfo(movieData);
-        } else {
-          showNotice({
-            title: $t("\u6210\u529F"),
-            text: $t("\u83B7\u53D6\u6210\u529F")
-          });
-        }
-      }
-    } catch (error) {
-      showNotice({
-        title: $t("\u9519\u8BEF"),
-        text: error.message
-      });
-    } finally {
-      $("#douban-info").text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
-    }
-  };
-  var getTvSeasonData = async (data) => {
-    var _a, _b;
-    const {title: torrentTitle} = TORRENT_INFO;
-    const {season = "", title} = data;
-    if (season) {
-      const seasonNumber = (_b = (_a = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : 1;
-      if (parseInt(seasonNumber) === 1) {
-        return data;
-      } else {
-        const query = title.replace(/第.+?季/, `\u7B2C${seasonNumber}\u5B63`);
-        const response = await getDoubanIdByIMDB(query);
-        return response;
-      }
-    }
-  };
-  var getDoubanBookInfo = () => {
-    let {doubanUrl} = TORRENT_INFO;
-    if (!doubanUrl) {
-      doubanUrl = $("#douban-link").val();
-    } else {
-      $("#douban-link").val(doubanUrl);
-    }
-    if (doubanUrl) {
-      $("#douban-book-info").text($t("\u83B7\u53D6\u4E2D...")).attr("disabled", true).addClass("is-disabled");
-      getDoubanInfo(doubanUrl).then((data) => {
-        TORRENT_INFO.title = data.chinese_title || data.origin_title;
-        TORRENT_INFO.image = data.poster;
-        TORRENT_INFO.description = data.book_intro;
-        TORRENT_INFO.doubanBookInfo = data;
-        showNotice({
-          title: $t("\u6210\u529F"),
-          text: $t("\u83B7\u53D6\u6210\u529F")
-        });
-      }).catch((error) => {
-        showNotice({
-          title: $t("\u9519\u8BEF"),
-          text: error.message
-        });
-      }).finally(() => {
-        $("#douban-book-info").text($t("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB")).removeAttr("disabled").removeClass("is-disabled");
-      });
-    } else {
-      showNotice({
-        title: $t("\u9519\u8BEF"),
-        text: $t("\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5")
-      });
-    }
-  };
-  var updateTorrentInfo = (data) => {
-    var _a;
-    const desc = data.format;
-    TORRENT_INFO.doubanInfo = data.format;
-    TORRENT_INFO.subtitle = getSubTitle(data);
-    const areaMatch = (_a = desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2];
-    if (areaMatch) {
-      TORRENT_INFO.area = getAreaCode(areaMatch);
-    }
-    const category = TORRENT_INFO.category;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  };
-  var uploadScreenshotsToAnother = async (selfDom) => {
-    var _a;
-    const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
-    $(selfDom).text($t("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...")).attr("disabled", true).addClass("is-disabled");
-    try {
-      $("#copy-img").hide();
-      const selectHost = $("#img-host-select").val();
-      let imgData = [];
-      if (selectHost === "ptpimg") {
-        imgData = await saveScreenshotsToPtpimg(screenshots);
-        if (!imgData) {
-          return;
-        }
-      } else {
-        const gifyuHtml = await fetch("https://gifyu.com", {
-          responseType: "text"
-        });
-        const authToken = (_a = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a[1];
-        for (let index = 0; index < screenshots.length; index++) {
-          const data = await transferImgs(screenshots[index], authToken, "https://gifyu.com/json");
-          if (data) {
-            imgData.push(data.url);
-          }
-        }
-      }
-      showNotice({text: $t("\u6210\u529F")});
-      let {description, originalDescription} = TORRENT_INFO;
-      TORRENT_INFO.screenshots = imgData;
-      const screenBBCode = imgData.map((img) => {
-        return `[img]${img}[/img]`;
-      });
-      $("#copy-img").show().click(function() {
-        GM_setClipboard(screenBBCode.join(""));
-        $(this).text($t("\u5DF2\u590D\u5236")).attr("disabled", true).addClass("is-disabled");
-      });
-      const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
-      if (allImages && allImages.length > 0) {
-        allImages.forEach((img) => {
-          if (img.match(/\[url=.+?\]/)) {
-            img += "[/url]";
-          }
-          originalDescription = originalDescription.replace(img, "");
-          description = description.replace(img, "");
-        });
-      }
-      TORRENT_INFO.originalDescription = originalDescription + "\n" + screenBBCode.join("");
-      TORRENT_INFO.description = description + "\n" + screenBBCode.join("");
-    } catch (error) {
-      showNotice({title: $t("\u9519\u8BEF"), text: error.message});
-    } finally {
-      $(selfDom).text($t("\u8F6C\u5B58\u622A\u56FE")).removeAttr("disabled").removeClass("is-disabled");
-    }
-  };
-  var checkQuickResult = () => {
-    const searchListSetting = GM_getValue("easy-seed.enabled-search-site-list");
-    let searchSitesEnabled = searchListSetting ? JSON.parse(searchListSetting) : [];
-    if (searchSitesEnabled.length === 0) {
-      searchSitesEnabled = SORTED_SITE_KEYS;
-    }
-    searchSitesEnabled.forEach(async (site) => {
-      var _a;
-      const resultConfig = (_a = PT_SITE[site].search) == null ? void 0 : _a.result;
-      const siteUrl = PT_SITE[site].url;
-      if (resultConfig) {
-        const {list, name, size, url: urlDom} = resultConfig;
-        const {title, size: searchSize} = TORRENT_INFO;
-        const url = getQuickSearchUrl(site);
-        const domString = await fetch(url, {
-          responseType: "text"
-        });
-        const dom = new DOMParser().parseFromString(domString, "text/html");
-        const torrentList = $(list, dom);
-        const sameTorrent = Array.prototype.find.call(torrentList, function(item) {
-          var _a2, _b, _c, _d, _e;
-          let torrentName;
-          if (site === "TTG") {
-            torrentName = (_c = (_b = (_a2 = $(item).find(name).prop("firstChild")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
-          } else {
-            torrentName = $(item).find(name).attr("title") || $(item).find(name).text();
-          }
-          if (site === "TJUPT") {
-            const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-            const realTitle = (_e = (_d = matchArray.filter((item2) => item2.match(/\.| /))) == null ? void 0 : _d[0]) != null ? _e : "";
-            torrentName = realTitle.replace(/\[|\]/g, "");
-          }
-          torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
-          const sizeBytes = getSize($(item).find(size).text());
-          return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
-        });
-        if (sameTorrent) {
-          const url2 = `${siteUrl}/${$(sameTorrent).find(urlDom).attr("href")}`;
-          $(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
-        } else {
-          $(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
-        }
-      }
-    });
   };
 
   // src/site-dom/click-event.js
@@ -12898,22 +12992,27 @@ td.title-td h4{
   background: rgba(0,0,0,0.5);
   color: #000;
 }
-#batch-seed-btn{
+#batch-seed-btn,#auto-fill-douban{
   border-color: transparent;
   color: #409eff;
   background: transparent;
   padding-left: 0;
   padding-right: 0;
   font-weight: 600;
+  cursor: pointer;
 }
-#batch-seed-btn:hover {
+#batch-seed-btn:hover,#auto-fill-douban:hover {
   color: #66b1ff;
   border-color: transparent;
   background-color: transparent
 }
-#batch-seed-btn:active {
+#batch-seed-btn:active,#auto-fill-douban:active {
   color: #3a8ee6;
   background-color: transparent
+}
+#auto-fill-douban{
+  font-size: 14px;
+  display:inline-block;
 }
 .easy-seed-setting-panel *{
   padding: 0;
@@ -13155,8 +13254,10 @@ tr.pad[id*="torrent_"]{
   var torrentParams = paramsMatchArray && paramsMatchArray.length > 0 ? paramsMatchArray[2] : null;
   if (CURRENT_SITE_NAME) {
     fillSearchImdb();
-    if (torrentParams && CURRENT_SITE_INFO.asTarget) {
-      torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+    if (CURRENT_SITE_INFO.asTarget) {
+      if (torrentParams) {
+        torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+      }
       fillTargetForm(torrentParams);
     }
     if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload/ig) && !(CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
