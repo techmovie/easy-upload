@@ -244,22 +244,27 @@ td.title-td h4{
   background: rgba(0,0,0,0.5);
   color: #000;
 }
-#batch-seed-btn{
+#batch-seed-btn,#auto-fill-douban{
   border-color: transparent;
   color: #409eff;
   background: transparent;
   padding-left: 0;
   padding-right: 0;
   font-weight: 600;
+  cursor: pointer;
 }
-#batch-seed-btn:hover {
+#batch-seed-btn:hover,#auto-fill-douban:hover {
   color: #66b1ff;
   border-color: transparent;
   background-color: transparent
 }
-#batch-seed-btn:active {
+#batch-seed-btn:active,#auto-fill-douban:active {
   color: #3a8ee6;
   background-color: transparent
+}
+#auto-fill-douban{
+  font-size: 14px;
+  display:inline-block;
 }
 .easy-seed-setting-panel *{
   padding: 0;

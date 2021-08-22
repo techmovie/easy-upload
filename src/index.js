@@ -16,8 +16,10 @@ const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=
 let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
-  if (torrentParams && CURRENT_SITE_INFO.asTarget) {
-    torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+  if (CURRENT_SITE_INFO.asTarget) {
+    if (torrentParams) {
+      torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+    }
     fillTargetForm(torrentParams);
   }
   if (CURRENT_SITE_INFO.asSource &&

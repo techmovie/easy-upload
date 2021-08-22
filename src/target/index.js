@@ -16,8 +16,13 @@ import handleGPW from './gpw';
 import handleNPU from './npubits';
 import handleBYR from './byr';
 import handleSC from './sc';
+import autoFill from './autofill';
 
 const fillTargetForm = (info) => {
+  autoFill(info || {});
+  if (!info) {
+    return;
+  }
   console.log(info);
   if (CURRENT_SITE_NAME === 'bB') {
     handleBb(info);
@@ -71,7 +76,7 @@ const fillTargetForm = (info) => {
   if (CURRENT_SITE_INFO.name) {
     const { title, subtitle } = info;
     let torrentTitle = title;
-    if (CURRENT_SITE_NAME === 'TTG') {
+    if (CURRENT_SITE_NAME === 'TTG' && subtitle) {
       torrentTitle += `[${subtitle}]`;
     } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
       torrentTitle = title.replace(/\s/ig, '.');

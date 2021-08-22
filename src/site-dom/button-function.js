@@ -1,4 +1,5 @@
 import {
+  CURRENT_SITE_INFO,
   CURRENT_SITE_NAME,
   PT_SITE,
   SORTED_SITE_KEYS,
@@ -9,7 +10,7 @@ import {
   getSubTitle, transferImgs, getDoubanInfo, $t, fetch,
   getDoubanIdByIMDB, getAreaCode, getPreciseCategory,
   showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
-  formatTorrentTitle, getSize,
+  getSize,
 } from '../common';
 
 const getThumbnailImgs = async () => {
@@ -265,10 +266,72 @@ const checkQuickResult = () => {
     }
   });
 };
+async function autoFillDoubanInfo (selfDom, info) {
+  try {
+    $(selfDom).text($t('获取中...'));
+    const { imdbUrl, movieName, doubanUrl, description: descriptionData, title: torrentTitle } = info;
+    if (!imdbUrl && !doubanUrl) {
+      throw new Error($t('请填写正确链接'));
+    }
+    let doubanLink;
+    if (doubanUrl && doubanUrl.match('movie.douban.com')) {
+      doubanLink = doubanUrl;
+    } else {
+      const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+      let { id, season = '' } = doubanData;
+      if (season) {
+        const tvData = await getTvSeasonData(doubanData);
+        id = tvData.id;
+      }
+      doubanLink = `https://movie.douban.com/subject/${id}`;
+    }
+    if (doubanLink) {
+      const { douban, imdb, subtitle, description, name } = CURRENT_SITE_INFO;
+      if (CURRENT_SITE_NAME === 'SSD') {
+        $(imdb.selector).val(doubanLink);
+      } else {
+        $(douban?.selector).val(doubanLink);
+      }
+      if (!descriptionData?.match(/(片|译)\s*名/)) {
+        const movieData = await getDoubanInfo(doubanLink);
+        showNotice({
+          title: $t('成功'),
+          text: $t('获取成功'),
+        });
+        const imdbLink = movieData.imdb_link;
+        if (!$(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== 'SSD') {
+          $(imdb.selector).val(imdbLink);
+        }
+        const torrentSubtitle = getSubTitle(movieData);
+        if (CURRENT_SITE_NAME === 'TTG') {
+          $(name.selector).val(`${torrentTitle || ''}[${torrentSubtitle}]`);
+        } else {
+          $(subtitle.selector).val(torrentSubtitle);
+        }
+        if (CURRENT_SITE_NAME !== 'SSD') {
+          $(description.selector).val(`${movieData.format}\n${$(description.selector).val()}`);
+        }
+      } else {
+        showNotice({
+          title: $t('成功'),
+          text: $t('获取成功'),
+        });
+      }
+    }
+  } catch (error) {
+    showNotice({
+      title: $t('错误'),
+      text: error.message,
+    });
+  } finally {
+    $(selfDom).text($t('获取豆瓣简介'));
+  }
+}
 export {
   getThumbnailImgs,
   getDoubanBookInfo,
   uploadScreenshotsToAnother,
   getDoubanData,
   checkQuickResult,
+  autoFillDoubanInfo,
 };
