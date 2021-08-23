@@ -82,10 +82,7 @@ const getBasicInfo = () => {
     規格: 'Type',
     Resolution: 'Resolution',
   };
-  let lineSelector = $('#vue+.panel table tr');
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|Aither/)) {
-    lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
-  }
+  const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
   lineSelector.each((index, element) => {
     const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
     if (keyMap[key]) {
@@ -121,6 +118,8 @@ const getVideoType = (type, resolution) => {
     return 'web';
   } else if (type.match(/HDTV/i)) {
     return 'hdtv';
+  } else if (type.match(/DVD/i)) {
+    return 'dvd';
   }
   return type;
 };
