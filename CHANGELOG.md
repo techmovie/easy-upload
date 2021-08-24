@@ -1,3 +1,12 @@
+## [2.3.5](https://github.com/techmovie/easy-upload/compare/2.3.4...2.3.5) (2021-08-24)
+
+
+### Bug Fixes
+
+* **acm:** adapt new site version ([5a4f76d](https://github.com/techmovie/easy-upload/commit/5a4f76d1ec266aa89818cd5577dc6c002c9b912e))
+
+
+
 ## [2.3.4](https://github.com/techmovie/easy-upload/compare/2.3.3...2.3.4) (2021-08-22)
 
 

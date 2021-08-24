@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.4
+// @version      2.3.5
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -401,7 +401,7 @@
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: "#vue+.panel table>tbody>tr:last",
+      seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
       search: {
         path: "/torrents",
         params: {
@@ -10800,10 +10800,7 @@ ${descriptionBBCode}`;
       \u898F\u683C: "Type",
       Resolution: "Resolution"
     };
-    let lineSelector = $("#vue+.panel table tr");
-    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|Aither/)) {
-      lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
-    }
+    const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
     lineSelector.each((index, element) => {
       const key = $(element).find("td:first").text().replace(/\s|\n/g, "");
       if (keyMap[key]) {
@@ -10839,6 +10836,8 @@ ${descriptionBBCode}`;
       return "web";
     } else if (type.match(/HDTV/i)) {
       return "hdtv";
+    } else if (type.match(/DVD/i)) {
+      return "dvd";
     }
     return type;
   };
