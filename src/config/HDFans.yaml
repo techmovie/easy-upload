@@ -5,7 +5,7 @@ icon: '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
+seedDomSelector: '#top~b font table:first>tbody>tr:nth-child(5)' 
 search: 
   path: /torrents.php
   imdbOptionKey: '4'
