@@ -1,3 +1,12 @@
+## [2.3.6](https://github.com/techmovie/easy-upload/compare/2.3.5...2.3.6) (2021-09-03)
+
+
+### Bug Fixes
+
+* **hdf:** search & source page dom  selector ([44ef54c](https://github.com/techmovie/easy-upload/commit/44ef54c4b9feeda26d38629df5775acefc488578))
+
+
+
 ## [2.3.5](https://github.com/techmovie/easy-upload/compare/2.3.4...2.3.5) (2021-08-24)
 
 

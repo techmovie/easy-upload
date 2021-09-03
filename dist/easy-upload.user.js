@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.5
+// @version      2.3.6
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -2657,7 +2657,7 @@
       asSource: true,
       asTarget: true,
       uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      seedDomSelector: "#top~b font table:first>tbody>tr:nth-child(5)",
       search: {
         path: "/torrents.php",
         imdbOptionKey: "4",
@@ -9279,7 +9279,7 @@ ${imgs.join("\n")}
     let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
     let searchKeyWord = "";
     const {movieAkaName, movieName, title} = TORRENT_INFO;
-    if (imdbId && !siteName.match(/nzb|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits/) && siteInfo.siteType !== "AvistaZ") {
+    if (imdbId && !siteName.match(/(nzbs.in|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits)$/) && siteInfo.siteType !== "AvistaZ") {
       if (replaceKey) {
         searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
       } else {
