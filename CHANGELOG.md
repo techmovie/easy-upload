@@ -1,3 +1,12 @@
+## [2.3.7](https://github.com/techmovie/easy-upload/compare/2.3.6...2.3.7) (2021-09-10)
+
+
+### Bug Fixes
+
+* **byr:** update url ([05715b2](https://github.com/techmovie/easy-upload/commit/05715b2e65e197574e628e40799d18325de6115e))
+
+
+
 ## [2.3.6](https://github.com/techmovie/easy-upload/compare/2.3.5...2.3.6) (2021-09-03)
 
 
