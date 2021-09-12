@@ -1,3 +1,12 @@
+## [2.3.8](https://github.com/techmovie/easy-upload/compare/2.3.7...2.3.8) (2021-09-12)
+
+
+### Bug Fixes
+
+* **douban:** 兼容部分信息不全的电影 ([eac330a](https://github.com/techmovie/easy-upload/commit/eac330ae689f7aed265862cadb7a2e4498a49e7d))
+
+
+
 ## [2.3.7](https://github.com/techmovie/easy-upload/compare/2.3.6...2.3.7) (2021-09-10)
 
 

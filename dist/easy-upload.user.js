@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.7
+// @version      2.3.8
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -6962,7 +6962,8 @@
     var _a, _b, _c, _d;
     const dom = new DOMParser().parseFromString(domString, "text/html");
     const fetchAnchor = function(anchor) {
-      return anchor[0].nextSibling.nodeValue.trim();
+      var _a2, _b2, _c2, _d2;
+      return (_d2 = (_c2 = (_b2 = (_a2 = anchor[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b2.nodeValue) == null ? void 0 : _c2.trim()) != null ? _d2 : "";
     };
     const chineseTitle = $("title", dom).text().replace("(\u8C46\u74E3)", "").trim();
     const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, "").trim();
