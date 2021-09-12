@@ -46,7 +46,7 @@ const getDoubanInfo = async (doubanUrl) => {
 const getDataFromDoubanPage = async (domString) => {
   const dom = new DOMParser().parseFromString(domString, 'text/html');
   const fetchAnchor = function (anchor) {
-    return anchor[0].nextSibling.nodeValue.trim();
+    return anchor[0]?.nextSibling?.nodeValue?.trim() ?? '';
   };
 
   // title
