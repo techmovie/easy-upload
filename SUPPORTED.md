@@ -49,6 +49,7 @@
 |    PTP    |             ✅             |            ✅            |
 |  PTSBAO   |             ✅             |            ✅            |
 |   PTer    |             ✅             |            ✅            |
+|   PuTao   |             ✅             |            ✅            |
 |    SC     |             ❌             |            ✅            |
 |    SSD    |             ✅             |            ✅            |
 | SoulVoice |             ✅             |            ✅            |

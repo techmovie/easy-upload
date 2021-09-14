@@ -26,6 +26,9 @@ export default async () => {
   if (CURRENT_SITE_NAME === 'HDArea') {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
+  if (CURRENT_SITE_NAME === 'PuTao') {
+    title = formatTorrentTitle($('h1').text().replace(/\[.+?\]/g, '')?.trim());
+  }
   if (CURRENT_SITE_NAME === 'TJUPT') {
     const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
     const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
@@ -237,7 +240,7 @@ const getMetaValue = (key, metaInfo) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice|PuTao/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {

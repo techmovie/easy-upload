@@ -1,0 +1,122 @@
+url: https://pt.sjtu.edu.cn
+host: sjtu.edu.cn
+siteType: NexusPHP
+icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 28 29" enable-background="new 0 0 28 29" xml:space="preserve">  <image id="image0" width="28" height="29" x="0" y="0"    href="data:image/png;base64,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" /></svg>'
+asSource: true
+asTarget: true
+seedDomSelector: 'h1~table:first>tbody>tr:nth-child(3)'
+uploadPath: /upload.php
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban: 
+  selector: 'input[name="douban_url"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+category:
+  selector: '#browsecat'
+  map:
+    movie: 
+      - '401'
+      - '402'
+      - '403'
+    tv: 
+      - '407'
+      - '408'
+      - '409'
+      - '410'
+    tvPack: 
+      - '407'
+      - '408'
+      - '409'
+      - '410'
+    documentary: '406'
+    concert: '427'
+    cartoon: '431'
+    app: '434'
+    sport: '432'
+    variety: 
+      - '411'
+      - '412'
+      - '413'
+      - '414'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    hevc: '10'
+    x264: '1'
+    x265: '10'
+    h265: '10'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '3'
+    dvd: '4'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '9'
+    bluray: '1'
+    remux: '3'
+    encode: '7'
+    web: '11'
+    hdtv: '5'
+    dvd: '6'
+    dvdrip: '7'
+    hddvd: '2'
+    other: '4'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    2160p: '6'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+area:
+  map:
+    CN: 
+      - '401'
+      - '409'
+      - '411'
+    US: 
+      - '402'
+      - '410'
+      - '413'
+    EU: 
+      - '402'
+      - '410'
+      - '413'
+    HK: 
+      - '403'
+      - '407'
+      - '412'
+    TW: 
+      - '403'
+      - '407'
+      - '412'
+    JP: 
+      - '403'
+      - '408'
+      - '414'
+    KR: 
+      - '403'
+      - '408'
+      - '414'

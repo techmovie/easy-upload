@@ -80,6 +80,8 @@ const fillTargetForm = (info) => {
       torrentTitle += `[${subtitle}]`;
     } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
       torrentTitle = title.replace(/\s/ig, '.');
+    } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
+      torrentTitle = `[${getChineseName(info)}]${title}`;
     }
     $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
   }
@@ -551,6 +553,16 @@ const filterEmptyTags = (description) => {
     return description;
   }
 };
+function getChineseName (info) {
+  const { description } = info;
+  const originalName = description.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
+  const translateName = description.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
+  let chineseName = originalName;
+  if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+    chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : '';
+  }
+  return chineseName.trim();
+}
 export {
   fillTargetForm,
 }

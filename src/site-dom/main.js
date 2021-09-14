@@ -32,6 +32,7 @@ const getFunctionItems = () => {
   </div>`
     : '';
   const transferImgClosed = GM_getValue('easy-seed.transfer-img-closed') || '';
+  console.log(TORRENT_INFO.doubanUrl);
   const doubanDom = (needDoubanInfo || (!TORRENT_INFO.doubanUrl && !needDoubanBookInfo)) && !doubanClosed
     ? `${doubanSearchDom}
   <div class="function-list-item">
