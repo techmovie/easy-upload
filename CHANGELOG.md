@@ -1,3 +1,12 @@
+## [2.3.9](https://github.com/techmovie/easy-upload/compare/2.3.8...2.3.9) (2021-09-16)
+
+
+### Features
+
+* **new site:** add PuTao support ([671df2c](https://github.com/techmovie/easy-upload/commit/671df2c1ea53d351af42d6cb371c6e0b9d12ca17))
+
+
+
 ## [2.3.8](https://github.com/techmovie/easy-upload/compare/2.3.7...2.3.8) (2021-09-12)
 
 

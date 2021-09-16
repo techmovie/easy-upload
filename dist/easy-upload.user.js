@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.8
+// @version      2.3.9
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -5589,6 +5589,159 @@
         }
       }
     },
+    PuTao: {
+      url: "https://pt.sjtu.edu.cn",
+      host: "sjtu.edu.cn",
+      siteType: "NexusPHP",
+      icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="11px" height="11px" viewBox="0 0 28 29" enable-background="new 0 0 28 29" xml:space="preserve">  <image id="image0" width="28" height="29" x="0" y="0"    href="data:image/png;base64,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" /></svg>',
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "h1~table:first>tbody>tr:nth-child(3)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_url"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: [
+            "401",
+            "402",
+            "403"
+          ],
+          tv: [
+            "407",
+            "408",
+            "409",
+            "410"
+          ],
+          tvPack: [
+            "407",
+            "408",
+            "409",
+            "410"
+          ],
+          documentary: "406",
+          concert: "427",
+          cartoon: "431",
+          app: "434",
+          sport: "432",
+          variety: [
+            "411",
+            "412",
+            "413",
+            "414"
+          ]
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "10",
+          x264: "1",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "9",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "11",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "7",
+          hddvd: "2",
+          other: "4"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "6",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      area: {
+        map: {
+          CN: [
+            "401",
+            "409",
+            "411"
+          ],
+          US: [
+            "402",
+            "410",
+            "413"
+          ],
+          EU: [
+            "402",
+            "410",
+            "413"
+          ],
+          HK: [
+            "403",
+            "407",
+            "412"
+          ],
+          TW: [
+            "403",
+            "407",
+            "412"
+          ],
+          JP: [
+            "403",
+            "408",
+            "414"
+          ],
+          KR: [
+            "403",
+            "408",
+            "414"
+          ]
+        }
+      }
+    },
     SC: {
       url: "https://secret-cinema.pw",
       host: "secret-cinema.pw",
@@ -9713,6 +9866,8 @@ ${$(description.selector).val()}`);
         torrentTitle += `[${subtitle}]`;
       } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
         torrentTitle = title.replace(/\s/ig, ".");
+      } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
+        torrentTitle = `[${getChineseName(info)}]${title}`;
       }
       $(CURRENT_SITE_INFO.name.selector).val(torrentTitle);
     }
@@ -10133,6 +10288,17 @@ All thanks to the original uploader\uFF01`;
       return description;
     }
   };
+  function getChineseName(info) {
+    var _a, _b, _c, _d, _e, _f;
+    const {description} = info;
+    const originalName = (_b = (_a = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a[2]) != null ? _b : "";
+    const translateName = (_f = (_e = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
+    let chineseName = originalName;
+    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+    }
+    return chineseName.trim();
+  }
 
   // src/source/ptp.js
   var ptp_default2 = async () => {
@@ -10845,7 +11011,7 @@ ${descriptionBBCode}`;
 
   // src/source/nexusphp.js
   var nexusphp_default = async () => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
     let title = formatTorrentTitle((_b = (_a = $("#top").text().split(/\s{3,}/)) == null ? void 0 : _a[0]) == null ? void 0 : _b.trim());
     let metaInfo = $("td.rowhead:contains('\u57FA\u672C\u4FE1\u606F'), td.rowhead:contains('\u57FA\u672C\u8CC7\u8A0A')").next().text().replace(/：/g, ":");
     let subtitle = $("td.rowhead:contains('\u526F\u6807\u9898'), td.rowhead:contains('\u526F\u6A19\u984C')").next().text();
@@ -10857,14 +11023,17 @@ ${descriptionBBCode}`;
     if (CURRENT_SITE_NAME === "HDArea") {
       title = (_d = (_c = $("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d.trim();
     }
+    if (CURRENT_SITE_NAME === "PuTao") {
+      title = formatTorrentTitle((_e = $("h1").text().replace(/\[.+?\]/g, "")) == null ? void 0 : _e.trim());
+    }
     if (CURRENT_SITE_NAME === "TJUPT") {
       const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-      const realTitle = (_f = (_e = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _e[0]) != null ? _f : "";
+      const realTitle = (_g = (_f = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _f[0]) != null ? _g : "";
       title = realTitle.replace(/\[|\]/g, "");
     }
     if (CURRENT_SITE_NAME === "PTer") {
       if ($("#descrcopyandpaster")[0]) {
-        descriptionBBCode = (_g = $("#descrcopyandpaster").val()) == null ? void 0 : _g.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, "quote]");
+        descriptionBBCode = (_h = $("#descrcopyandpaster").val()) == null ? void 0 : _h.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, "quote]");
       } else {
         descriptionBBCode = getFilterBBCode($("#kdescr")[0]);
       }
@@ -10884,7 +11053,7 @@ ${descriptionBBCode}`;
       siteImdbUrl = $(".imdbnew2 a:first").attr("href");
       TORRENT_INFO.doubanUrl = $("#doubaninfo .doubannew a").attr("href");
       if (TORRENT_INFO.doubanUrl) {
-        const doubanInfo = getFilterBBCode((_h = $(".doubannew2 .doubaninfo")) == null ? void 0 : _h[0]);
+        const doubanInfo = getFilterBBCode((_i = $(".doubannew2 .doubaninfo")) == null ? void 0 : _i[0]);
         const doubanPoster = `[img]${$("#doubaninfo .doubannew a img").attr("src")}[/img]
 `;
         TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
@@ -10900,13 +11069,13 @@ ${descriptionBBCode}`;
     }
     if (CURRENT_SITE_NAME === "SSD") {
       TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
-      const doubanInfo = getFilterBBCode((_i = $(".douban-info artical")) == null ? void 0 : _i[0]);
-      const postUrl = (_k = (_j = $("#kposter").find("img")) == null ? void 0 : _j.attr("src")) != null ? _k : "";
+      const doubanInfo = getFilterBBCode((_j = $(".douban-info artical")) == null ? void 0 : _j[0]);
+      const postUrl = (_l = (_k = $("#kposter").find("img")) == null ? void 0 : _k.attr("src")) != null ? _l : "";
       const doubanPoster = postUrl ? `[img]${postUrl} [/img]
 ` : "";
       TORRENT_INFO.doubanInfo = doubanPoster + (doubanInfo == null ? void 0 : doubanInfo.replace(/\n{2,}/g, "\n"));
       if (descriptionBBCode === "" || descriptionBBCode === void 0) {
-        let extraTextInfo = getFilterBBCode((_l = $(".torrent-extra-text-container .extra-text")) == null ? void 0 : _l[0]);
+        let extraTextInfo = getFilterBBCode((_m = $(".torrent-extra-text-container .extra-text")) == null ? void 0 : _m[0]);
         extraTextInfo = extraTextInfo ? `
 [quote]${extraTextInfo}[/quote]
 ` : "";
@@ -10937,11 +11106,11 @@ ${descriptionBBCode}`;
     const {category, videoType, videoCodec, audioCodec, resolution, processing, size} = getMetaInfo(metaInfo);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const doubanUrl = (_m = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban.com\/subject\/\d+/)) == null ? void 0 : _m[0];
+    const doubanUrl = (_n = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban.com\/subject\/\d+/)) == null ? void 0 : _n[0];
     if (doubanUrl) {
       TORRENT_INFO.doubanUrl = doubanUrl;
     }
-    const imdbUrl = (_n = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/tt\d+/)) == null ? void 0 : _n[0];
+    const imdbUrl = (_o = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/tt\d+/)) == null ? void 0 : _o[0];
     if (imdbUrl) {
       TORRENT_INFO.imdbUrl = imdbUrl;
     } else if (siteImdbUrl) {
@@ -10951,18 +11120,18 @@ ${descriptionBBCode}`;
     TORRENT_INFO.title = title;
     TORRENT_INFO.subtitle = subtitle;
     TORRENT_INFO.description = descriptionBBCode;
-    const originalName = (_p = (_o = descriptionBBCode.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _o[2]) != null ? _p : "";
-    const translateName = (_r = (_q = descriptionBBCode.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _q[2]) != null ? _r : "";
+    const originalName = (_q = (_p = descriptionBBCode.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _p[2]) != null ? _q : "";
+    const translateName = (_s = (_r = descriptionBBCode.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _r[2]) != null ? _s : "";
     if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
       TORRENT_INFO.movieName = originalName;
     } else {
-      TORRENT_INFO.movieName = (_u = (_t = (_s = translateName.match(/(\w|\s){2,}/)) == null ? void 0 : _s[0]) == null ? void 0 : _t.trim()) != null ? _u : "";
+      TORRENT_INFO.movieName = (_v = (_u = (_t = translateName.match(/(\w|\s){2,}/)) == null ? void 0 : _t[0]) == null ? void 0 : _u.trim()) != null ? _v : "";
     }
     const fullInformation = $("#top").text() + subtitle + descriptionBBCode;
     const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
     TORRENT_INFO.isForbidden = !!isForbidden;
     if (!processing || processing.match(/raw|encode/)) {
-      const areaMatch = (_v = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)) == null ? void 0 : _v[2];
+      const areaMatch = (_w = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)) == null ? void 0 : _w[2];
       if (areaMatch) {
         TORRENT_INFO.area = getAreaCode(areaMatch);
       }
@@ -10980,7 +11149,7 @@ ${descriptionBBCode}`;
     TORRENT_INFO.tags = __assign(__assign({}, tags), pageTags);
     if (CURRENT_SITE_NAME.match(/beitai/i)) {
       if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
-        const matchCodec = (_w = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)) == null ? void 0 : _w[2];
+        const matchCodec = (_x = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)) == null ? void 0 : _x[2];
         if (matchCodec) {
           let videoCodec2 = matchCodec.replace(/\.|-/g, "").toLowerCase();
           videoCodec2 = videoCodec2.match(/hevc/i) ? "x265" : videoCodec2;
@@ -11061,7 +11230,7 @@ ${descriptionBBCode}`;
     if (key.match(/大小/)) {
       regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
     }
-    if (CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice/) && key.match(/类型/)) {
+    if (CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice|PuTao/) && key.match(/类型/)) {
       regStr = `(${key}):\\s?([^\\s]+)?`;
     }
     if (CURRENT_SITE_NAME === "PTer" && key.match(/类型|地区/)) {
@@ -12171,6 +12340,7 @@ ${screenshotsBBCode.join("")}`;
   </div>
   </div>` : "";
     const transferImgClosed = GM_getValue("easy-seed.transfer-img-closed") || "";
+    console.log(TORRENT_INFO.doubanUrl);
     const doubanDom = (needDoubanInfo || !TORRENT_INFO.doubanUrl && !needDoubanBookInfo) && !doubanClosed ? `${doubanSearchDom}
   <div class="function-list-item">
     <div class="douban-section">
