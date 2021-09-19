@@ -27,7 +27,7 @@ export default async () => {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
   if (CURRENT_SITE_NAME === 'PuTao') {
-    title = formatTorrentTitle($('h1').text().replace(/\[.+?\]/g, '')?.trim());
+    title = formatTorrentTitle($('h1').text().replace(/\[.+?\]|\(.+?\)/g, '')?.trim());
   }
   if (CURRENT_SITE_NAME === 'TJUPT') {
     const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
