@@ -92,13 +92,22 @@ const handleSiteClickEvent = () => {
       const path = catMap[TORRENT_INFO.category] || 'movie';
       url = url.replace('upload_movie', `upload_${path}`);
     }
-    if (url.match(/hdpost|blutopia|asiancinema|aither/)) {
+    if (url.match(/hdpost|blutopia|asiancinema/)) {
       const catMap = {
         movie: '1',
         tv: '2',
         tvPack: '2',
         documentary: '1',
-        // 以下为aither的配置
+      };
+      const path = catMap[TORRENT_INFO.category] || '1';
+      url = url.replace('1', path);
+    }
+    if (url.match(/aither/)) {
+      const catMap = {
+        movie: '1',
+        tv: '2',
+        tvPack: '2',
+        documentary: '1',
         concert: '3',
         sport: '9',
         cartoon: '405',
