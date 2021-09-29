@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.3.9
+// @version      2.4.0
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -1100,7 +1100,7 @@
       asTarget: true,
       uploadPath: "/upload/1",
       needDoubanInfo: true,
-      seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last',
+      seedDomSelector: "#meta-info+.meta-general>.panel:first",
       search: {
         path: "/torrents",
         replaceKey: [
@@ -7462,6 +7462,37 @@
       handleError(error);
     }
   };
+  var uploadToPixhost = async (screenshots) => {
+    try {
+      const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
+      const res = await fetch("https://pixhost.to/remote/", {
+        method: "POST",
+        data: params,
+        timeout: 3e5,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+        },
+        responseType: "text"
+      });
+      const data = res.match(/(upload_results = )({.*})(;)/);
+      if (!data) {
+        throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+      }
+      let imgResultList = [];
+      if (data && data.length) {
+        imgResultList = JSON.parse(data[2]).images;
+        if (imgResultList.length < 1) {
+          throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+        }
+        return imgResultList;
+      } else {
+        throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
   var getPreciseCategory = (torrentInfo, category) => {
     var _a, _b;
     const {description, title, subtitle, doubanInfo} = torrentInfo;
@@ -9474,13 +9505,28 @@ ${imgs.join("\n")}
       }
       $("#img-transfer").text($t("\u8F6C\u6362\u4E2D...")).attr("disabled", true).addClass("is-disabled");
       $("#transfer-progress").show().text(`0 / ${imgList.length}`);
-      const imgbbHtml = await fetch("https://imgbb.com", {
-        responseType: "text"
-      });
-      const authToken = (_a = imgbbHtml.match(/PF\.obj\.config\.auth_token="(.+)?"/)) == null ? void 0 : _a[1];
+      const hostMap = {
+        imgbb: "https://imgbb.com/json",
+        gifyu: "https://gifyu.com/json",
+        pixhost: "https://pixhost.to"
+      };
+      const hostName = $("#img-transfer-select").val();
+      const selectHost = hostMap[hostName];
       const uploadedImgs = [];
+      let authToken;
+      if (hostName !== "pixhost") {
+        const rawHtml = await fetch(selectHost.replace("/json", ""), {
+          responseType: "text"
+        });
+        authToken = (_a = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)) == null ? void 0 : _a[1];
+      }
       for (let index = 0; index < imgList.length; index++) {
-        const data = await transferImgs(imgList[index], authToken);
+        let data;
+        if (hostName !== "pixhost") {
+          data = await transferImgs(imgList[index], authToken, selectHost);
+        } else {
+          [data] = await uploadToPixhost([imgList[index]]);
+        }
         if (data) {
           uploadedImgs.push(data);
           $("#transfer-progress").text(`${uploadedImgs.length} / ${imgList.length}`);
@@ -9488,7 +9534,11 @@ ${imgs.join("\n")}
       }
       if (uploadedImgs.length) {
         const thumbnailImgs = uploadedImgs.map((imgData) => {
-          return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+          if (hostName !== "pixhost") {
+            return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+          } else {
+            return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
+          }
         });
         TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
         let {description} = TORRENT_INFO;
@@ -10959,22 +11009,38 @@ ${descriptionBBCode}`;
       Size: "Size",
       \u4F53\u79EF: "Size",
       \u9AD4\u7A4D: "Size",
+      3: "Size",
       Category: "Category",
       \u7C7B\u522B: "Category",
       \u985E\u5225: "Category",
+      0: "Category",
       Type: "Type",
       \u89C4\u683C: "Type",
       \u898F\u683C: "Type",
-      Resolution: "Resolution"
+      2: "Type",
+      Resolution: "Resolution",
+      1: "Resolution"
     };
-    const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
-    lineSelector.each((index, element) => {
-      const key = $(element).find("td:first").text().replace(/\s|\n/g, "");
-      if (keyMap[key]) {
-        const value = $(element).find("td:last").text();
-        basicInfo[keyMap[key]] = value.replace(/\n/g, "").trim();
-      }
-    });
+    if (CURRENT_SITE_NAME !== "Blutopia") {
+      const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
+      lineSelector.each((index, element) => {
+        const key = $(element).find("td:first").text().replace(/\s|\n/g, "");
+        if (keyMap[key]) {
+          let value = $(element).find("td:last").text();
+          if (keyMap[key] === "Name") {
+            value = $(element).find("td:last")[0].firstChild.textContent;
+          }
+          basicInfo[keyMap[key]] = value.replace(/\n/g, "").trim();
+        }
+      });
+    } else {
+      const formats = $(".torrent-format .text-info");
+      formats.each((index, item) => {
+        basicInfo[keyMap[index]] = $(item).text().trim();
+      });
+      const title = $("h1.text-center").text();
+      basicInfo.Name = title;
+    }
     return basicInfo;
   };
   var getCategory = (key) => {
@@ -11024,7 +11090,7 @@ ${descriptionBBCode}`;
       title = (_d = (_c = $("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d.trim();
     }
     if (CURRENT_SITE_NAME === "PuTao") {
-      title = formatTorrentTitle((_e = $("h1").text().replace(/\[.+?\]/g, "")) == null ? void 0 : _e.trim());
+      title = formatTorrentTitle((_e = $("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _e.trim());
     }
     if (CURRENT_SITE_NAME === "TJUPT") {
       const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
@@ -12357,6 +12423,11 @@ ${screenshotsBBCode.join("")}`;
       <div class="function-list-item">
       <div class="upload-section">
         <button id="img-transfer">${$t("\u8F6C\u7F29\u7565\u56FE")}</button>
+        <select id="img-transfer-select">
+          <option value="imgbb" selected>imgbb</option>
+          <option value="gifyu">gifyu</option>
+          <option value="pixhost">pixhost</option>
+        </select>
         <div id="transfer-progress"></div>
       </div>
     </div>`;
@@ -12800,7 +12871,17 @@ ${screenshotsBBCode.join("")}`;
         const path = catMap[TORRENT_INFO.category] || "movie";
         url = url.replace("upload_movie", `upload_${path}`);
       }
-      if (url.match(/hdpost|blutopia|asiancinema|aither/)) {
+      if (url.match(/hdpost|blutopia|asiancinema/)) {
+        const catMap = {
+          movie: "1",
+          tv: "2",
+          tvPack: "2",
+          documentary: "1"
+        };
+        const path = catMap[TORRENT_INFO.category] || "1";
+        url = url.replace("1", path);
+      }
+      if (url.match(/aither/)) {
         const catMap = {
           movie: "1",
           tv: "2",

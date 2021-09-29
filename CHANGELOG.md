@@ -1,3 +1,20 @@
+# [2.4.0](https://github.com/techmovie/easy-upload/compare/2.3.9...2.4.0) (2021-09-29)
+
+
+### Bug Fixes
+
+* **unit3d:** remove extra text from title ([2aed5a0](https://github.com/techmovie/easy-upload/commit/2aed5a0f8aea41c853b1242c924ceda6d183afa1))
+* adapt new version of UNIT3D ([11df663](https://github.com/techmovie/easy-upload/commit/11df663c402a3f53d6c130b4402b1b5feb4eb1e4))
+* **putao:** remove extra title text ([90e58a6](https://github.com/techmovie/easy-upload/commit/90e58a6a9c59805e97d43fbee593a16d74adc219))
+* unit3d upload url ([554a810](https://github.com/techmovie/easy-upload/commit/554a810b556a35ed8c0a3cc4c31ab21b557c049f))
+
+
+### Features
+
+* add pixost and gifyu for thumbnail host ([6510141](https://github.com/techmovie/easy-upload/commit/651014125a1534e979659f14ca6e303279393883))
+
+
+
 ## [2.3.9](https://github.com/techmovie/easy-upload/compare/2.3.8...2.3.9) (2021-09-16)
 
 
