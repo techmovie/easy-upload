@@ -10,7 +10,7 @@ import {
   getSubTitle, transferImgs, getDoubanInfo, $t, fetch,
   getDoubanIdByIMDB, getAreaCode, getPreciseCategory,
   showNotice, getOriginalImgUrl, saveScreenshotsToPtpimg,
-  getSize,
+  getSize, uploadToPixhost,
 } from '../common';
 
 const getThumbnailImgs = async () => {
@@ -22,13 +22,29 @@ const getThumbnailImgs = async () => {
     }
     $('#img-transfer').text($t('转换中...')).attr('disabled', true).addClass('is-disabled');
     $('#transfer-progress').show().text(`0 / ${imgList.length}`);
-    const imgbbHtml = await fetch('https://imgbb.com', {
-      responseType: 'text',
-    });
-    const authToken = imgbbHtml.match(/PF\.obj\.config\.auth_token="(.+)?"/)?.[1];
+    const hostMap = {
+      imgbb: 'https://imgbb.com/json',
+      gifyu: 'https://gifyu.com/json',
+      pixhost: 'https://pixhost.to',
+    };
+    const hostName = $('#img-transfer-select').val();
+    const selectHost = hostMap[hostName];
     const uploadedImgs = [];
+    let authToken;
+    if (hostName !== 'pixhost') {
+      const rawHtml = await fetch(selectHost.replace('/json', ''), {
+        responseType: 'text',
+      });
+      authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1];
+    }
+
     for (let index = 0; index < imgList.length; index++) {
-      const data = await transferImgs(imgList[index], authToken);
+      let data;
+      if (hostName !== 'pixhost') {
+        data = await transferImgs(imgList[index], authToken, selectHost);
+      } else {
+        [data] = await uploadToPixhost([imgList[index]]);
+      }
       if (data) {
         uploadedImgs.push(data);
         $('#transfer-progress').text(`${uploadedImgs.length} / ${imgList.length}`);
@@ -36,7 +52,11 @@ const getThumbnailImgs = async () => {
     }
     if (uploadedImgs.length) {
       const thumbnailImgs = uploadedImgs.map(imgData => {
-        return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+        if (hostName !== 'pixhost') {
+          return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+        } else {
+          return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
+        }
       });
       TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
       let { description } = TORRENT_INFO;

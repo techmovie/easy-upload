@@ -55,6 +55,11 @@ const getFunctionItems = () => {
       <div class="function-list-item">
       <div class="upload-section">
         <button id="img-transfer">${$t('转缩略图')}</button>
+        <select id="img-transfer-select">
+          <option value="imgbb" selected>imgbb</option>
+          <option value="gifyu">gifyu</option>
+          <option value="pixhost">pixhost</option>
+        </select>
         <div id="transfer-progress"></div>
       </div>
     </div>`;

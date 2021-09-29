@@ -359,6 +359,37 @@ const transferImgs = async (screenshot, authToken, imgHost = 'https://imgbb.com/
     handleError(error);
   }
 };
+const uploadToPixhost = async (screenshots) => {
+  try {
+    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
+    const res = await fetch('https://pixhost.to/remote/', {
+      method: 'POST',
+      data: params,
+      timeout: 3e5,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+      responseType: 'text',
+    });
+    const data = res.match(/(upload_results = )({.*})(;)/);
+    if (!data) {
+      throw $t('上传失败，请重试');
+    }
+    let imgResultList = [];
+    if (data && data.length) {
+      imgResultList = JSON.parse(data[2]).images;
+      if (imgResultList.length < 1) {
+        throw new Error($t('上传失败，请重试'));
+      }
+      return imgResultList;
+    } else {
+      throw new Error($t('上传失败，请重试'));
+    }
+  } catch (error) {
+    handleError(error);
+  }
+};
 // 获取更加准确的分类
 const getPreciseCategory = (torrentInfo, category) => {
   const { description, title, subtitle, doubanInfo } = torrentInfo;
@@ -1374,5 +1405,6 @@ export {
   getOriginalImgUrl,
   saveScreenshotsToPtpimg,
   fetch,
+  uploadToPixhost,
 }
 ;
