@@ -91,7 +91,10 @@ const getBasicInfo = () => {
     lineSelector.each((index, element) => {
       const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
       if (keyMap[key]) {
-        const value = $(element).find('td:last').text();
+        let value = $(element).find('td:last').text();
+        if (keyMap[key] === 'Name') {
+          value = $(element).find('td:last')[0].firstChild.textContent;
+        }
         basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
       }
     });
@@ -103,7 +106,6 @@ const getBasicInfo = () => {
     const title = $('h1.text-center').text();
     basicInfo.Name = title;
   }
-
   return basicInfo;
 };
 const getCategory = (key) => {
