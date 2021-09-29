@@ -74,22 +74,36 @@ const getBasicInfo = () => {
     Size: 'Size',
     体积: 'Size',
     體積: 'Size',
+    3: 'Size',
     Category: 'Category',
     类别: 'Category',
     類別: 'Category',
+    0: 'Category',
     Type: 'Type',
     规格: 'Type',
     規格: 'Type',
+    2: 'Type',
     Resolution: 'Resolution',
+    1: 'Resolution',
   };
-  const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
-  lineSelector.each((index, element) => {
-    const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
-    if (keyMap[key]) {
-      const value = $(element).find('td:last').text();
-      basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
-    }
-  });
+  if (CURRENT_SITE_NAME !== 'Blutopia') {
+    const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
+    lineSelector.each((index, element) => {
+      const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
+      if (keyMap[key]) {
+        const value = $(element).find('td:last').text();
+        basicInfo[keyMap[key]] = value.replace(/\n/g, '').trim();
+      }
+    });
+  } else {
+    const formats = $('.torrent-format .text-info');
+    formats.each((index, item) => {
+      basicInfo[keyMap[index]] = $(item).text().trim();
+    });
+    const title = $('h1.text-center').text();
+    basicInfo.Name = title;
+  }
+
   return basicInfo;
 };
 const getCategory = (key) => {
