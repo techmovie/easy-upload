@@ -12,10 +12,12 @@ export default (info = {}) => {
     let selector;
     if ((douban?.selector && $(douban.selector)) && $(douban.selector).val()) {
       selector = $(douban.selector);
-    } else {
+    } else if (imdb) {
       selector = $(imdb.selector);
     }
-    selector.after(`<span id="auto-fill-douban">${$t('获取豆瓣简介')}</span>`);
+    if (selector) {
+      selector.after(`<span id="auto-fill-douban">${$t('获取豆瓣简介')}</span>`);
+    }
     $('#auto-fill-douban').click(function (e) {
       const url = selector.val();
       if (url.match(/subject\/(\d+)/)) {
