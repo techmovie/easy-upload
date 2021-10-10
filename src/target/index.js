@@ -204,7 +204,7 @@ const fillTargetForm = (info) => {
   }
 
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
-  if (!thanksQuoteClosed) {
+  if (!thanksQuoteClosed && info.sourceSite !== undefined) {
     description = getThanksQuote(info) + description.trim();
   }
   $(CURRENT_SITE_INFO.description.selector).val(description);
