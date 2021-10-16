@@ -1,3 +1,12 @@
+## [2.4.1](https://github.com/techmovie/easy-upload/compare/2.4.0...2.4.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **hdmayi:** auofill fix ([724135e](https://github.com/techmovie/easy-upload/commit/724135e59f8aa9d368a458ab3da4437860e63d1c)), closes [#143](https://github.com/techmovie/easy-upload/issues/143)
+
+
+
 # [2.4.0](https://github.com/techmovie/easy-upload/compare/2.3.9...2.4.0) (2021-09-29)
 
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.4.0
+// @version      2.4.1
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -9838,10 +9838,12 @@ ${$(description.selector).val()}`);
       let selector;
       if ((douban == null ? void 0 : douban.selector) && $(douban.selector) && $(douban.selector).val()) {
         selector = $(douban.selector);
-      } else {
+      } else if (imdb) {
         selector = $(imdb.selector);
       }
-      selector.after(`<span id="auto-fill-douban">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</span>`);
+      if (selector) {
+        selector.after(`<span id="auto-fill-douban">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</span>`);
+      }
       $("#auto-fill-douban").click(function(e) {
         const url = selector.val();
         if (url.match(/subject\/(\d+)/)) {
