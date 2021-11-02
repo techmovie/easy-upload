@@ -496,7 +496,7 @@ const getScreenshotsFromBBCode = (bbcode) => {
   if (allImages && allImages.length > 0) {
     return getOriginalImgUrl(allImages);
   }
-  return '';
+  return [];
 };
 /*
 * 过滤真实原始截图地址
