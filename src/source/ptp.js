@@ -72,6 +72,8 @@ export default async () => {
     country = matchArray?.[1].replace(/(,)\s+/g, '$1').split(',');
   }
   TORRENT_INFO.area = getAreaCode(country?.[0]);
+  const trumpReason = $(`#trumpable_${torrentId} span`).text() || '';
+  TORRENT_INFO.hardcodedSub = trumpReason.includes('Hardcoded Subtitles');
   return TORRENT_INFO;
 };
 const getPTPType = () => {
