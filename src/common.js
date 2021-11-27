@@ -513,7 +513,7 @@ const getOriginalImgUrl = (imgArray) => {
       } else if (item.match(/img\.pterclub\.com/)) {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
         imgUrl = imgUrl.replace(/\.th/g, '');
-      } else if (item.match(/https:\/\/imgbox\.com/)) {
+      } else if (item.match(/https?:\/\/imgbox\.com/)) {
         imgUrl = item.match(/img\](([^[])+)/)?.[1];
         imgUrl = imgUrl.replace(/thumbs(\d)/, 'images$1').replace(/_t(\.png)/, '_o.png');
       } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
@@ -558,7 +558,8 @@ const getSubTitle = (data) => {
   let seasonEpisode = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)?.[1] ?? '';
   seasonEpisode = seasonEpisode.replace(/^0/i, '');
   const episode = seasonEpisode ? ` 第${seasonEpisode}集` : '';
-  return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}${episode}`;
+  const hardcodedSub = TORRENT_INFO.hardcodedSub ? '| 硬字幕' : '';
+  return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}${episode} ${hardcodedSub}`;
 };
 /*
 * 替换豆瓣演员中的英文名称
