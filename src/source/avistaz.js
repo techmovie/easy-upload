@@ -14,10 +14,10 @@ const getTorrentInfo = () => {
   const movieTitle = $('.block-titled h3 a').text();
   const movieName = movieTitle.split('(')[0].trim();
   const year = movieTitle.match(/\((\d+)\)/)?.[1];
-  let { Type, 'File Size': size, Filename, 'Video Quality': resolution, 'Rip Type': videoType } = getBasicInfo();
+  let { Type, 'File Size': size, Title, 'Video Quality': resolution, 'Rip Type': videoType } = getBasicInfo();
   size = getSize(size);
   const category = Type.toLowerCase().replace('-', '');
-  const title = formatTorrentTitle(Filename);
+  const title = formatTorrentTitle(Title);
   videoType = getVideoType(videoType, resolution);
   const country = $('.fa-flag~.badge-extra:first a').text();
   const area = getAreaCode(country);
