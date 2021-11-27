@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.4.1
+// @version      2.4.2
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -7596,7 +7596,7 @@
     if (allImages && allImages.length > 0) {
       return getOriginalImgUrl(allImages);
     }
-    return "";
+    return [];
   };
   var getOriginalImgUrl = (imgArray) => {
     return imgArray.map((item) => {
@@ -7610,7 +7610,7 @@
         } else if (item.match(/img\.pterclub\.com/)) {
           imgUrl = (_b = item.match(/img\](([^[])+)/)) == null ? void 0 : _b[1];
           imgUrl = imgUrl.replace(/\.th/g, "");
-        } else if (item.match(/https:\/\/imgbox\.com/)) {
+        } else if (item.match(/https?:\/\/imgbox\.com/)) {
           imgUrl = (_c = item.match(/img\](([^[])+)/)) == null ? void 0 : _c[1];
           imgUrl = imgUrl.replace(/thumbs(\d)/, "images$1").replace(/_t(\.png)/, "_o.png");
         } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
@@ -7654,7 +7654,8 @@
     let seasonEpisode = (_b = (_a = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : "";
     seasonEpisode = seasonEpisode.replace(/^0/i, "");
     const episode = seasonEpisode ? ` \u7B2C${seasonEpisode}\u96C6` : "";
-    return `${title}${moreTitle.length > 0 ? "/" : ""}${moreTitle.join("/")}${episode}`;
+    const hardcodedSub = TORRENT_INFO.hardcodedSub ? "| \u786C\u5B57\u5E55" : "";
+    return `${title}${moreTitle.length > 0 ? "/" : ""}${moreTitle.join("/")}${episode} ${hardcodedSub}`;
   };
   var getAreaCode = (area) => {
     const europeList = EUROPE_LIST;
@@ -10025,7 +10026,7 @@ ${$(description.selector).val()}`);
       description = info.imdbUrl + "\n\n" + description;
     }
     const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
-    if (!thanksQuoteClosed) {
+    if (!thanksQuoteClosed && info.sourceSite !== void 0) {
       description = getThanksQuote(info) + description.trim();
     }
     $(CURRENT_SITE_INFO.description.selector).val(description);
@@ -10415,6 +10416,8 @@ All thanks to the original uploader\uFF01`;
       country = matchArray == null ? void 0 : matchArray[1].replace(/(,)\s+/g, "$1").split(",");
     }
     TORRENT_INFO.area = getAreaCode(country == null ? void 0 : country[0]);
+    const trumpReason = $(`#trumpable_${torrentId} span`).text() || "";
+    TORRENT_INFO.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
     return TORRENT_INFO;
   };
   var getPTPType = () => {

@@ -1,8 +1,24 @@
+## [2.4.2](https://github.com/techmovie/easy-upload/compare/2.4.1...2.4.2) (2021-11-27)
+
+
+### Bug Fixes
+
+* imgbox reg match ([51c474e](https://github.com/techmovie/easy-upload/commit/51c474ed023eb5e9563f0c200bf483e42100d629))
+* 兼容截图获取失败 ([1f6155e](https://github.com/techmovie/easy-upload/commit/1f6155ea5a473adb2375a91bce26db9914bf166c))
+
+
+### Features
+
+* add Hardcoded Subtitles des in subTitle ([f940add](https://github.com/techmovie/easy-upload/commit/f940add6c1b86e1b269a04eafb3687f565d9cde8))
+
+
+
 ## [2.4.1](https://github.com/techmovie/easy-upload/compare/2.4.0...2.4.1) (2021-10-16)
 
 
 ### Bug Fixes
 
+* only show thanks quote when source site is available ([#145](https://github.com/techmovie/easy-upload/issues/145)) ([5a908cc](https://github.com/techmovie/easy-upload/commit/5a908cce9dfddac1acf231b05f49fad828033961))
 * **hdmayi:** auofill fix ([724135e](https://github.com/techmovie/easy-upload/commit/724135e59f8aa9d368a458ab3da4437860e63d1c)), closes [#143](https://github.com/techmovie/easy-upload/issues/143)
 
 
