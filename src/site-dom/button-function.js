@@ -193,11 +193,13 @@ const uploadScreenshotsToAnother = async (selfDom) => {
   try {
     $('#copy-img').hide();
     const selectHost = $('#img-host-select').val();
-    let imgData = [];
+    const imgData = [];
     if (selectHost === 'ptpimg') {
-      imgData = await saveScreenshotsToPtpimg(screenshots);
-      if (!imgData) {
-        return;
+      for (let index = 0; index < screenshots.length; index++) {
+        const data = await saveScreenshotsToPtpimg([screenshots[index]]);
+        if (data) {
+          imgData.push(data);
+        }
       }
     } else {
       const gifyuHtml = await fetch('https://gifyu.com', {
