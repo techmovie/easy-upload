@@ -1,3 +1,13 @@
+## [2.4.3](https://github.com/techmovie/easy-upload/compare/2.4.2...2.4.3) (2021-11-28)
+
+
+### Bug Fixes
+
+* **phd:** title fetcher ([48c3371](https://github.com/techmovie/easy-upload/commit/48c3371a14fe8893362208fbcec4d5b4105b5cb2)), closes [#147](https://github.com/techmovie/easy-upload/issues/147)
+* **ptpimg:** 改为单张依次上传 忽略上传失败的图片 ([a747e1e](https://github.com/techmovie/easy-upload/commit/a747e1e530a4a7e44618d4a862e6b4fd5e2d18a8))
+
+
+
 ## [2.4.2](https://github.com/techmovie/easy-upload/compare/2.4.1...2.4.2) (2021-11-27)
 
 

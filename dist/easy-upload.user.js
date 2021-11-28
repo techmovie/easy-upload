@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      2.4.2
+// @version      2.4.3
 // @description  easy uploading torrents to other trackers
 // @author       birdplane
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
@@ -9675,11 +9675,13 @@ ${imgs.join("\n")}
     try {
       $("#copy-img").hide();
       const selectHost = $("#img-host-select").val();
-      let imgData = [];
+      const imgData = [];
       if (selectHost === "ptpimg") {
-        imgData = await saveScreenshotsToPtpimg(screenshots);
-        if (!imgData) {
-          return;
+        for (let index = 0; index < screenshots.length; index++) {
+          const data = await saveScreenshotsToPtpimg([screenshots[index]]);
+          if (data) {
+            imgData.push(data);
+          }
         }
       } else {
         const gifyuHtml = await fetch("https://gifyu.com", {
@@ -11857,10 +11859,10 @@ ${descriptionBBCode}`;
     const movieTitle = $(".block-titled h3 a").text();
     const movieName = movieTitle.split("(")[0].trim();
     const year = (_d = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _d[1];
-    let {Type, "File Size": size, Filename, "Video Quality": resolution, "Rip Type": videoType} = getBasicInfo6();
+    let {Type, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType} = getBasicInfo6();
     size = getSize(size);
     const category = Type.toLowerCase().replace("-", "");
-    const title = formatTorrentTitle(Filename);
+    const title = formatTorrentTitle(Title);
     videoType = getVideoType10(videoType, resolution);
     const country = $(".fa-flag~.badge-extra:first a").text();
     const area = getAreaCode(country);
