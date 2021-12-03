@@ -20,7 +20,7 @@ const openSettingPanel = () => {
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
-  const targetSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
+  const targetSiteList = SORTED_SITE_KEYS.map((siteName) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (targetSitesEnabled.includes(siteName)) ? 'checked' : '';
       return `<li>
@@ -29,7 +29,7 @@ const openSettingPanel = () => {
     }
     return '';
   });
-  const batchSeedSiteList = SORTED_SITE_KEYS.map((siteName, index) => {
+  const batchSeedSiteList = SORTED_SITE_KEYS.map((siteName) => {
     if (PT_SITE[siteName].asTarget) {
       const checked = (batchSeedSiteEnabled.includes(siteName)) ? 'checked' : '';
       return `<li>
@@ -160,7 +160,7 @@ const openBatchSeedTabs = () => {
     return false;
   }
   const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-  SORTED_SITE_KEYS.forEach((siteName, index) => {
+  SORTED_SITE_KEYS.forEach((siteName) => {
     const { url, uploadPath } = PT_SITE[siteName];
     if (PT_SITE[siteName].asTarget) {
       if (batchSeedSiteEnabled.includes(siteName)) {

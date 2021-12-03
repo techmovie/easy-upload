@@ -70,6 +70,14 @@ td.title-td h4{
   align-items: center;
   flex-wrap: wrap;
 }
+.site-list .site-item{
+  display: inline-flex;
+  align-items: center;
+}
+.site-list .site-icon{
+  width: 12px;
+  margin-right: 5px;
+}
 .ptp-search-list{
   display: flex;
   align-items: center;

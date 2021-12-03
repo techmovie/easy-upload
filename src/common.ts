@@ -7,34 +7,42 @@ import {
   NOTIFICATION_TEMPLATE,
   TORRENT_INFO,
 } from './const';
-import i18nConfig from './i18n';
+import { render } from 'preact';
+import i18nConfig from './i18n.json';
+interface RequestOptions {
+  method?: 'GET' | 'POST'
+  responseType?: 'json' | 'blob' | 'arraybuffer' | undefined
+  headers?: Tampermonkey.RequestHeaders
+  data?: any
+  timeout?: number
+}
 const formatTorrentTitle = (title) => {
   // 保留5.1 H.264中间的点
-  return title.replace(/\.(?!(\d+))/ig, ' ').replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
+  return title.replace(/\.(?!(\d+))/ig, ' ')
+    .replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
 const handleError = (error) => {
   showNotice({
-    text: error.message || error,
+    text: error.message,
   });
 };
-const getDoubanInfo = async (doubanUrl) => {
+const getDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
   try {
     if (doubanUrl) {
       const data = await fetch(doubanUrl, {
-        responseType: 'text',
+        responseType: undefined,
       });
       if (data) {
         const doubanData = await getDataFromDoubanPage(data);
         doubanData.format = getDoubanFormat(doubanData);
         return doubanData;
+      }
+      // 豆瓣读书无需二次获取数据
+      if (doubanUrl.match(/\/book/)) {
+        throw data.error;
       } else {
-        // 豆瓣读书无需二次获取数据
-        if (doubanUrl.match(/\/book/)) {
-          throw data.error;
-        } else {
-          const doubanInfo = await getAnotherDoubanInfo(doubanUrl);
-          return doubanInfo;
-        }
+        const doubanInfo = await getAnotherDoubanInfo(doubanUrl);
+        return doubanInfo;
       }
     } else {
       throw $t('豆瓣链接获取失败');
@@ -43,7 +51,7 @@ const getDoubanInfo = async (doubanUrl) => {
     handleError(error);
   }
 };
-const getDataFromDoubanPage = async (domString) => {
+const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
   const dom = new DOMParser().parseFromString(domString, 'text/html');
   const fetchAnchor = function (anchor) {
     return anchor[0]?.nextSibling?.nodeValue?.trim() ?? '';
@@ -52,23 +60,21 @@ const getDataFromDoubanPage = async (domString) => {
   // title
   const chineseTitle = $('title', dom).text().replace('(豆瓣)', '').trim();
   const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, '').trim();
-  let aka = []; let transTitle; let thisTitle;
+  let aka = []; let transTitle: string; let thisTitle: string;
   const akaAnchor = $('#info span.pl:contains("又名")', dom);
   if (akaAnchor.length > 0) {
-    aka = fetchAnchor(akaAnchor).split(' / ').sort(function (a, b) { // 首字(母)排序
+    const data = fetchAnchor(akaAnchor).split(' / ').sort((a, b) => { // 首字(母)排序
       return a.localeCompare(b);
     }).join('/');
-    aka = aka.split('/');
+    aka = data.split('/');
   }
   if (foreignTitle) {
-    transTitle = chineseTitle + (aka.length > 0 ? ('/' + aka.join('/')) : '');
+    transTitle = chineseTitle + (aka.length > 0 ? (`/${aka.join('/')}`) : '');
     thisTitle = foreignTitle;
   } else {
     transTitle = aka.join('/') || '';
     thisTitle = chineseTitle;
   }
-  transTitle = transTitle.split('/');
-  thisTitle = thisTitle.split('/');
 
   // json
   const jsonData = JSON.parse($('head > script[type="application/ld+json"]', dom).html().replace(/(\r\n|\n|\r|\t)/gm, ''));
@@ -92,7 +98,7 @@ const getDataFromDoubanPage = async (domString) => {
     const imdbData = await fetch(
       `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
       {
-        responseType: 'text',
+        responseType: undefined,
       },
     );
     imdbAverageRating = imdbData.match(/rating":(\d\.\d)/)?.[1] ?? 0;
@@ -100,11 +106,11 @@ const getDataFromDoubanPage = async (domString) => {
     imdbRating = `${imdbAverageRating}/10 from ${imdbVotes} users`;
   }
 
-  const year = ' ' + $('#content > h1 > span.year', dom).text().substr(1, 4);
-  const playdate = $('#info span[property="v:initialReleaseDate"]', dom).map(function () { // 上映日期
+  const year = ` ${$('#content > h1 > span.year', dom).text().substr(1, 4)}`;
+  const playDate = $('#info span[property="v:initialReleaseDate"]', dom).map(function () { // 上映日期
     return $(this).text().trim();
-  }).toArray().sort(function (a, b) { // 按上映日期升序排列
-    return new Date(a) - new Date(b);
+  }).toArray().sort((a, b) => { // 按上映日期升序排列
+    return new Date(a).getTime() - new Date(b).getTime();
   });
   const introductionDom = $('#link-report > span.all.hidden, #link-report > [property="v:summary"]', dom);
   const summary = (
@@ -119,7 +125,7 @@ const getDataFromDoubanPage = async (domString) => {
   const runtime = runtimeAnchor[0] ? fetchAnchor(runtimeAnchor) : $('#info span[property="v:runtime"]', dom).text().trim();
   const episodesAnchor = $('#info span.pl:contains("集数")'); // 集数
   const episodes = episodesAnchor[0] ? fetchAnchor(episodesAnchor) : '';
-  let tags;
+  let tags: string[];
   const tag_another = $('div.tags-body > a[href^="/tag"]', dom);
   if (tag_another.length > 0) {
     tags = tag_another.map(function () {
@@ -129,7 +135,7 @@ const getDataFromDoubanPage = async (domString) => {
 
   // awards
   const awardsPage = await fetch(`${doubanLink}/awards`, {
-    responseType: 'text',
+    responseType: undefined,
   });
   const awardsDoc = new DOMParser().parseFromString(awardsPage, 'text/html');
   const awards = $('#content > div > div.article', awardsDoc).html()
@@ -142,29 +148,29 @@ const getDataFromDoubanPage = async (domString) => {
     .replace(/ +\n/g, '\n')
     .trim();
   return {
-    imdb_link: imdbLink,
-    imdb_id: imdbId,
-    imdb_rating_average: imdbAverageRating,
-    imdb_votes: imdbVotes,
-    imdb_rating: imdbRating,
-    chinese_title: chineseTitle,
-    foreign_title: foreignTitle,
+    imdbLink,
+    imdbId,
+    imdbAverageRating,
+    imdbVotes,
+    imdbRating,
+    chineseTitle,
+    foreignTitle,
     aka,
-    trans_title: transTitle,
-    this_title: thisTitle,
+    transTitle: transTitle.split('/'),
+    thisTitle: thisTitle.split('/'),
     year,
-    playdate,
+    playDate,
     region,
     genre,
     language,
     episodes,
     duration: runtime,
     introduction: summary,
-    douban_link: doubanLink,
-    douban_rating_average: rating || 0,
-    douban_votes: votes,
-    douban_rating: `${rating}/10 from ${votes} users`,
-    poster: poster,
+    doubanLink,
+    doubanRatingAverage: rating || 0,
+    doubanVotes: votes,
+    doubanRating: `${rating}/10 from ${votes} users`,
+    poster,
     director,
     cast,
     writer,
@@ -172,7 +178,7 @@ const getDataFromDoubanPage = async (domString) => {
     tags,
   };
 };
-const getAnotherDoubanInfo = async (doubanUrl) => {
+const getAnotherDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
   try {
     if (doubanUrl) {
       const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
@@ -182,9 +188,8 @@ const getAnotherDoubanInfo = async (doubanUrl) => {
       const data = await fetch(`https://movie.querydata.org/api?id=${doubanId}`);
       if (data && data.id) {
         return formatDoubanInfo(data);
-      } else {
-        throw data.message || $t('获取豆瓣信息失败');
       }
+      throw data.message || $t('获取豆瓣信息失败');
     } else {
       throw $t('豆瓣链接获取失败');
     }
@@ -222,67 +227,66 @@ const formatDoubanInfo = (data) => {
   if (chineseTitle !== originalName && !alias.includes(chineseTitle)) {
     transTitle = [chineseTitle].concat(transTitle);
   }
-  const formatData = {
-    imdb_link: `https://www.imdb.com/title/${imdbId}`,
-    imdb_id: imdbId,
-    imdb_rating_average: imdbRating,
-    imdb_votes: imdbVotes,
-    imdb_rating: `${imdbRating}/10 from ${imdbVotes} users`,
-    chinese_title: chineseTitle,
-    foreign_title: foreignTitle,
+  const formatData: Douban.DoubanData = {
+    imdbLink: `https://www.imdb.com/title/${imdbId}`,
+    imdbId,
+    imdbAverageRating: imdbRating,
+    imdbVotes,
+    imdbRating: `${imdbRating}/10 from ${imdbVotes} users`,
+    chineseTitle,
+    foreignTitle,
     aka: alias.split('/'),
-    trans_title: transTitle,
-    this_title: [originalName],
+    transTitle,
+    thisTitle: [originalName],
     year,
-    playdate: [dateReleased?.match(/\d+-\d+-\d+/)[0]] ?? [],
+    playDate: [dateReleased?.match(/\d+-\d+-\d+/)[0]] ?? [],
     region: info[0].country,
     genre: chineseInfo.genre.split('/'),
     language: chineseInfo.language,
     episodes,
     duration: `${duration / 60}分钟`,
     introduction: chineseInfo.description,
-    douban_link: `https://movie.douban.com/subject/${doubanId}`,
-    douban_rating_average: doubanRating || 0,
-    douban_votes: doubanVotes,
-    douban_rating: `${doubanRating}/10 from ${doubanVotes} users`,
+    doubanLink: `https://movie.douban.com/subject/${doubanId}`,
+    doubanRatingAverage: doubanRating || 0,
+    doubanVotes,
+    doubanRating: `${doubanRating}/10 from ${doubanVotes} users`,
     poster: chineseInfo.poster,
     director: directorArray,
     cast: actorArray,
     writer: writerArray,
   };
-
   formatData.format = getDoubanFormat(formatData);
   return formatData;
 };
-const getDoubanFormat = (data) => {
+const getDoubanFormat = (data: Douban.DoubanData) => {
   const {
-    poster, this_title, trans_title, genre,
-    year: movieYear, region, language, playdate,
-    imdb_rating, imdb_link, douban_rating, douban_link,
+    poster, thisTitle, transTitle, genre,
+    year: movieYear, region, language, playDate,
+    imdbRating, imdbLink, doubanRating, doubanLink,
     episodes: showEpisodes, duration: movieDuration,
     director: directors, writer: writers, cast: actors, introduction,
     awards, tags,
   } = data;
   let descr = poster ? `[img]${poster}[/img]\n\n` : '';
-  descr += trans_title ? `◎译　　名　${trans_title.join('/')}\n` : '';
-  descr += this_title ? `◎片　　名　${this_title.join('/')}\n` : '';
+  descr += transTitle ? `◎译　　名　${transTitle.join('/')}\n` : '';
+  descr += thisTitle ? `◎片　　名　${thisTitle.join('/')}\n` : '';
   descr += movieYear ? `◎年　　代　${movieYear.trim()}\n` : '';
   descr += region ? `◎产　　地　${region}\n` : '';
   descr += genre ? `◎类　　别　${genre.join(' / ')}\n` : '';
   descr += language ? `◎语　　言　${language}\n` : '';
-  descr += playdate ? `◎上映日期　${playdate.join(' / ')}\n` : '';
-  descr += imdb_rating ? `◎IMDb评分  ${imdb_rating}\n` : '';
-  descr += imdb_link ? `◎IMDb链接  ${imdb_link}\n` : '';
-  descr += douban_rating ? `◎豆瓣评分　${douban_rating}\n` : '';
-  descr += douban_link ? `◎豆瓣链接　${douban_link}\n` : '';
+  descr += playDate ? `◎上映日期　${playDate.join(' / ')}\n` : '';
+  descr += imdbRating ? `◎IMDb评分  ${imdbRating}\n` : '';
+  descr += imdbLink ? `◎IMDb链接  ${imdbLink}\n` : '';
+  descr += doubanRating ? `◎豆瓣评分　${doubanRating}\n` : '';
+  descr += doubanLink ? `◎豆瓣链接　${doubanLink}\n` : '';
   descr += showEpisodes ? `◎集　　数　${showEpisodes}\n` : '';
   descr += movieDuration ? `◎片　　长　${movieDuration}\n` : '';
   descr += directors && directors.length > 0 ? `◎导　　演　${directors.map(x => x.name).join(' / ')}\n` : '';
-  descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')}\n` : '';
-  descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join('\n' + '　'.repeat(4) + '  　').trim()}\n` : '';
-  descr += tags && tags.length > 0 ? `\n◎标　　签　${tags.join(' | ')}\n` : '';
-  descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, '\n' + '　'.repeat(2))}\n` : '';
-  descr += awards ? `\n◎获奖情况\n\n　　${awards.replace(/\n/g, '\n' + '　'.repeat(2))}\n` : '';
+  descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')} \n` : '';
+  descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join(`\n${'　'.repeat(4)}  　`).trim()} \n` : '';
+  descr += tags && tags.length > 0 ? `\n◎标　　签　${tags.join(' | ')} \n` : '';
+  descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, `\n${'　'.repeat(2)}`)} \n` : '';
+  descr += awards ? `\n◎获奖情况\n\n　　${awards.replace(/\n/g, `\n${'　'.repeat(2)}`)} \n` : '';
   return descr.trim();
 };
 const getDoubanIdByIMDB = async (query) => {
@@ -291,10 +295,10 @@ const getDoubanIdByIMDB = async (query) => {
     const params = imdbId || query;
     const url = DOUBAN_SUGGEST_API.replace('{query}', params);
     const data = await fetch(url, {
-      responseType: 'text',
+      responseType: undefined,
     });
     const doc = new DOMParser().parseFromString(data, 'text/html');
-    const linkDom = doc.querySelector('.result-list .result h3 a');
+    const linkDom: HTMLLinkElement = doc.querySelector('.result-list .result h3 a');
     if (!linkDom) {
       throw $t('豆瓣ID获取失败');
     } else {
@@ -311,22 +315,21 @@ const getDoubanIdByIMDB = async (query) => {
     handleError(error);
   }
 };
-const getIMDBData = async (imdbUrl) => {
+const getIMDBData = async (imdbUrl: string) => {
   try {
     if (!imdbUrl) {
       throw new Error('$t(缺少IMDB信息)');
     }
-    const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
+    const data = await fetch(`${PT_GEN_API}?url = ${imdbUrl} `);
     if (data && data.success) {
       return data;
-    } else {
-      throw data.error || $t('请求失败');
     }
+    throw data.error || $t('请求失败');
   } catch (error) {
     handleError(error);
   }
 };
-const transferImgs = async (screenshot, authToken, imgHost = 'https://imgbb.com/json') => {
+const transferImgs = async (screenshot: string, authToken: string, imgHost = 'https://imgbb.com/json') => {
   try {
     const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
     const formData = new FormData();
@@ -340,7 +343,7 @@ const transferImgs = async (screenshot, authToken, imgHost = 'https://imgbb.com/
       formData.append('source', screenshot);
     }
     formData.append('action', 'upload');
-    formData.append('timestamp', Date.now());
+    formData.append('timestamp', `${Date.now()}`);
     formData.append('auth_token', authToken);
     const res = await fetch(imgHost, {
       method: 'POST',
@@ -352,16 +355,15 @@ const transferImgs = async (screenshot, authToken, imgHost = 'https://imgbb.com/
     }
     if (res.image) {
       return res.image;
-    } else {
-      throw $t('上传失败，请重试');
     }
+    throw $t('上传失败，请重试');
   } catch (error) {
     handleError(error);
   }
 };
-const uploadToPixhost = async (screenshots) => {
+const uploadToPixhost = async (screenshots: string[]) => {
   try {
-    const params = encodeURI(`imgs=${screenshots}&content_type=1&max_th_size=300`);
+    const params = encodeURI(`imgs = ${screenshots}& content_type=1 & max_th_size=300`);
     const res = await fetch('https://pixhost.to/remote/', {
       method: 'POST',
       data: params,
@@ -370,7 +372,7 @@ const uploadToPixhost = async (screenshots) => {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
-      responseType: 'text',
+      responseType: undefined,
     });
     const data = res.match(/(upload_results = )({.*})(;)/);
     if (!data) {
@@ -383,15 +385,14 @@ const uploadToPixhost = async (screenshots) => {
         throw new Error($t('上传失败，请重试'));
       }
       return imgResultList;
-    } else {
-      throw new Error($t('上传失败，请重试'));
     }
+    throw new Error($t('上传失败，请重试'));
   } catch (error) {
     handleError(error);
   }
 };
 // 获取更加准确的分类
-const getPreciseCategory = (torrentInfo, category) => {
+const getPreciseCategory = (torrentInfo: TorrentInfo.Info, category: string) => {
   const { description, title, subtitle, doubanInfo } = torrentInfo;
   const movieGenre = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)?.[2] ?? '';
   if (category === 'movie') {
@@ -414,7 +415,7 @@ const getPreciseCategory = (torrentInfo, category) => {
   return category;
 };
 const getUrlParam = (key) => {
-  const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)');
+  const reg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
   const regArray = location.search.substr(1).match(reg);
   if (regArray) {
     return unescape(regArray[2]);
@@ -472,7 +473,7 @@ const getVideoCodecFromTitle = (title, videoType = '') => {
   return '';
 };
 
-const getFilterImages = (bbcode) => {
+const getFilterImages = (bbcode): string[] => {
   if (!bbcode) {
     return [];
   }
@@ -480,7 +481,7 @@ const getFilterImages = (bbcode) => {
   if (allImages && allImages.length > 0) {
     allImages = allImages.map(img => {
       if (img.match(/\[url=.+?\]/)) {
-        return img + '[/url]';
+        return `${img}[/url]`;
       }
       return img;
     });
@@ -491,7 +492,7 @@ const getFilterImages = (bbcode) => {
   }
   return [];
 };
-const getScreenshotsFromBBCode = (bbcode) => {
+const getScreenshotsFromBBCode = (bbcode: string): string[] => {
   const allImages = getFilterImages(bbcode);
   if (allImages && allImages.length > 0) {
     return getOriginalImgUrl(allImages);
@@ -502,7 +503,7 @@ const getScreenshotsFromBBCode = (bbcode) => {
 * 过滤真实原始截图地址
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
-const getOriginalImgUrl = (imgArray) => {
+const getOriginalImgUrl = (imgArray: string[]) => {
   return imgArray.map(item => {
     let imgUrl = item;
     if (item.match(/\[url=http(s)*:.+/)) {
@@ -529,7 +530,7 @@ const getOriginalImgUrl = (imgArray) => {
   });
 };
 // 从标题获取source
-const getSourceFromTitle = (title) => {
+const getSourceFromTitle = (title: string) => {
   if (title.match(/(uhd|2160|4k).*(blu(-)?ray|remux)/i)) {
     return 'uhdbluray';
   } else if (title.match(/blu(-)?ray|remux/i)) {
@@ -548,8 +549,8 @@ const getSourceFromTitle = (title) => {
   return 'other';
 };
 // 获取副标题
-const getSubTitle = (data) => {
-  const { chinese_title: chineseTitle, this_title: originalTitle, trans_title: transTitle } = data;
+const getSubTitle = (data: Douban.DoubanData) => {
+  const { chineseTitle, thisTitle: originalTitle, transTitle } = data;
   let title = '';
   if (chineseTitle.match(/[\u4e00-\u9fa5]+/)) {
     title += chineseTitle;
@@ -597,7 +598,7 @@ const getAreaCode = (area) => {
 * @param {size}文件大小单位Bytes
 * @return
 * */
-const getBDType = (size) => {
+const getBDType = (size: number) => {
   const GBSize = size / 1e9;
   if (GBSize < 5) {
     return 'DVD5';
@@ -614,7 +615,7 @@ const getBDType = (size) => {
   }
 };
 
-const getTMDBIdByIMDBId = async (imdbid) => {
+const getTMDBIdByIMDBId = async (imdbid: string) => {
   try {
     const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
     const data = await fetch(url);
@@ -630,12 +631,12 @@ const getTMDBIdByIMDBId = async (imdbid) => {
   }
 };
 
-const getTMDBVideos = async (tmdbId) => {
+const getTMDBVideos = async (tmdbId: string) => {
   const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
   const data = await fetch(url);
   return data.results || [];
 };
-const getIMDBIdByUrl = (imdbLink) => {
+const getIMDBIdByUrl = (imdbLink: string) => {
   const imdbIdArray = /tt\d+/.exec(imdbLink);
   if (imdbIdArray && imdbIdArray[0]) {
     return imdbIdArray[0];
@@ -643,7 +644,7 @@ const getIMDBIdByUrl = (imdbLink) => {
   return '';
 };
 
-const getSize = (size) => {
+const getSize = (size: string) => {
   if (!size) {
     return '';
   }
@@ -716,14 +717,13 @@ const getResolution = (mediaInfo) => {
     return '480p';
   } else if (width && height) {
     return `${width}x${height}`;
-  } else {
-    return '';
   }
+  return '';
 };
-const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {
+const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV): TorrentInfo.MediaTags => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
-  const mediaTags = {};
+  const mediaTags: TorrentInfo.MediaTags = {};
   if (hasChineseAudio) {
     mediaTags.chinese_audio = true;
   }
@@ -903,7 +903,7 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     languageArray,
   };
 };
-const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
+const wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
   const isPre = typeof pre !== 'undefined' && pre !== null;
   const isPost = typeof post !== 'undefined' && post !== null;
   if (isPre) {
@@ -917,7 +917,7 @@ const wrappingBBCodeTag = ({ pre, post, tracker }, preTag, poTag) => {
 const getFilterBBCode = (content) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
-    return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, function (match, p1) {
+    return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
       if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|商业用途|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/))) {
         return '';
       }
@@ -928,10 +928,9 @@ const getFilterBBCode = (content) => {
 const rgb2hex = (rgb) => {
   rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
   return (rgb && rgb.length === 4)
-    ? '#' +
-    ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) +
-    ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2) +
-    ('0' + parseInt(rgb[3], 10).toString(16)).slice(-2)
+    ? `#${(`0${parseInt(rgb[1], 10).toString(16)}`).slice(-2)
+    }${(`0${parseInt(rgb[2], 10).toString(16)}`).slice(-2)
+    }${(`0${parseInt(rgb[3], 10).toString(16)}`).slice(-2)}`
     : '';
 };
 
@@ -955,9 +954,8 @@ const htmlToBBCode = (node) => {
           const { className } = node;
           if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && className) {
             return `[quote]${node.textContent.trim()}[/quote]`;
-          } else {
-            pp('[*]', '\n'); break;
           }
+          pp('[*]', '\n'); break;
         }
         case 'B': { pp('[b]', '[/b]'); break; }
         case 'U': { pp('[u]', '[/u]'); break; }
@@ -1000,7 +998,7 @@ const htmlToBBCode = (node) => {
         case 'P': { pp('\n'); break; }
         case 'BR': {
           if ((CURRENT_SITE_INFO.siteType === 'NexusPHP' && CURRENT_SITE_NAME !== 'OurBits') ||
-           CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/)) {
+            CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/)) {
             pp('');
           } else {
             pp('\n');
@@ -1018,7 +1016,7 @@ const htmlToBBCode = (node) => {
         }
         case 'TD': {
           if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
-           CURRENT_SITE_INFO.siteType === 'UNIT3D') {
+            CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
           } else if (CURRENT_SITE_NAME === 'EMP') {
             pp(''); break;
@@ -1035,7 +1033,7 @@ const htmlToBBCode = (node) => {
             return ':m:';
           }
           if (dataSrc) {
-            imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : location.origin + '/' + dataSrc;
+            imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
           } else if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
             imgUrl = src;
           } else {
@@ -1108,7 +1106,7 @@ const htmlToBBCode = (node) => {
   return pre.concat(bbCodes).concat(post).join('');
 };
 const getTagsFromSubtitle = (title) => {
-  const tags = {};
+  const tags: TorrentInfo.MediaTags = {};
   if (title.match(/diy/i)) {
     tags.diy = true;
   }
@@ -1181,9 +1179,8 @@ const getRtIdFromTitle = async (title, tv, year) => {
       if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
         // Prefer closest year to the given one
         return Math.abs(a.year - year) - Math.abs(b.year - year);
-      } else {
-        return b.year - a.year; // In a tie, later year should come first
       }
+      return b.year - a.year; // In a tie, later year should come first
     });
   }
   // Search for matches with exact title in order of proximity by year
@@ -1204,9 +1201,9 @@ const getRtIdFromTitle = async (title, tv, year) => {
   }
   // Fall back on closest year match if within 2 years, or whatever the first result was.
   // RT years are often one year later than imdb, or even two
-  function yearComp (imdb, rt) {
+  const yearComp = (imdb: number, rt: number) => {
     return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
-  }
+  };
   if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
     if (closeMatch && yearComp(year, closeMatch.year)) {
       bestMatch = closeMatch;
@@ -1223,15 +1220,14 @@ const getRtIdFromTitle = async (title, tv, year) => {
       id,
       score,
     };
-  } else {
-    console.log('no match found on rt');
-    return {};
   }
+  console.log('no match found on rt');
+  return {};
 };
 
 const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
   const id = new Date().getTime();
-  const lastId = $('.easy-notification:last').attr('id');
+  const lastId = Number($('.easy-notification:last').attr('id'));
   if (lastId && id - lastId < 800) {
     return;
   }
@@ -1242,20 +1238,20 @@ const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
     .replace('#id#', id)
     .replace('#top#', 16)
     .replace('#zIndex#', zIndex + 1);
-  $('body').append(notificationDom);
+  render(notificationDom, document.body);
   const offsetHeight = $('.easy-notification:last')[0].offsetHeight;
   $('.easy-notification:last').prevAll('.easy-notification').each(function () {
     const top = parseInt($(this).css('top'));
-    $(this).css('top', offsetHeight + top + 16 + 'px');
+    $(this).css('top', `${offsetHeight + top + 16}px`);
   });
   $('.easy-notification:last').addClass('easy-notification-enter');
-  $(`#${id}`).find('.notification-close-btn').click(function () {
+  $(`#${id}`).find('.notification-close-btn').click(() => {
     const offsetHeight = $(`#${id}`)[0].offsetHeight;
     const nextDom = $(`#${id}`).prevAll('.easy-notification');
     $(`#${id}`).remove();
     nextDom.each(function () {
       const top = parseInt($(this).css('top'));
-      $(this).css('top', top - offsetHeight + 'px');
+      $(this).css('top', `${top - offsetHeight}px`);
     });
     clearTimeout(removeTimer);
   });
@@ -1264,7 +1260,8 @@ const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
     clearTimeout(removeTimer);
   }, 4000);
 };
-const uploadToPtpImg = async (imgArray, isFiles = false) => {
+
+const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean = false) => {
   try {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
     if (!apiKey) {
@@ -1275,7 +1272,7 @@ const uploadToPtpImg = async (imgArray, isFiles = false) => {
       return;
     }
     let formData;
-    const options = {
+    const options: RequestOptions = {
       method: 'POST',
       responseType: 'json',
     };
@@ -1302,27 +1299,26 @@ const uploadToPtpImg = async (imgArray, isFiles = false) => {
         return `https://ptpimg.me/${img.code}.${img.ext}`;
       });
       return imgResultList;
-    } else {
-      throw $t('上传失败，请重试');
     }
+    throw $t('上传失败，请重试');
   } catch (error) {
     handleError(error);
   }
 };
-const $t = (key) => {
+const $t = (key: string) => {
   const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
   return i18nConfig[languageKey]?.[key] ?? key;
 };
 
-const urlToFile = async (url) => {
+const urlToFile = async (url: string): Promise<File> => {
   const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
-  const data = await fetch(url, {
+  const data: Blob = await fetch(url, {
     responseType: 'blob',
   });
   const file = new File([data], filename, { type: data.type });
   return file;
 };
-const saveScreenshotsToPtpimg = async (imgArray) => {
+const saveScreenshotsToPtpimg = async (imgArray: Array<string>) => {
   try {
     const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
     const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
@@ -1343,8 +1339,14 @@ const saveScreenshotsToPtpimg = async (imgArray) => {
     handleError(error);
   }
 };
-
-function fetch (url, options = {}) {
+const getValue = (key: string, needParse = true) => {
+  const data = <string>GM_getValue('easy-seed.enabled-search-site-list');
+  if (data && needParse) {
+    return JSON.parse(data);
+  }
+  return data;
+};
+const fetch = (url: string, options?: RequestOptions): Promise<any> => {
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest({
       method: 'GET',
@@ -1354,7 +1356,7 @@ function fetch (url, options = {}) {
       onload: (res) => {
         const { statusText, status, response } = res;
         if (status !== 200) {
-          reject(new Error(statusText || status));
+          reject(new Error(statusText || `${status}`));
         } else {
           resolve(response);
         }
@@ -1365,9 +1367,10 @@ function fetch (url, options = {}) {
       onerror: (error) => {
         reject(error);
       },
+
     });
   });
-}
+};
 
 export {
   getUrlParam,
@@ -1407,5 +1410,5 @@ export {
   saveScreenshotsToPtpimg,
   fetch,
   uploadToPixhost,
-}
-;
+  getValue,
+};

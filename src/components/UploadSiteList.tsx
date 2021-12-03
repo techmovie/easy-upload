@@ -1,16 +1,10 @@
+
 import {
-  CURRENT_SITE_NAME, TORRENT_INFO, PT_SITE,
+  TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME,
 } from '../const';
-import { getQuickSearchUrl } from './common';
-import { $t, showNotice, getIMDBIdByUrl, fetch } from '../common';
-import { openSettingPanel, openBatchSeedTabs } from './setting-panel';
 import {
-  getThumbnailImgs,
-  getDoubanBookInfo,
-  getDoubanData,
-  uploadScreenshotsToAnother,
-  checkQuickResult,
-} from './button-function';
+  $t, showNotice, fetch, getIMDBIdByUrl, getValue,
+} from '../common';
 const getPTPGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
@@ -18,11 +12,31 @@ const getPTPGroupId = async (imdbUrl) => {
     const data = await fetch(url);
     if (data && data.Movies && data.Movies.length > 0) {
       return data.Movies[0].GroupId;
-    } else {
-      return '';
     }
-  } else {
     return '';
+  }
+  return '';
+};
+const openBatchSeedTabs = () => {
+  const batchSeedSetting = GM_getValue('easy-seed.enabled-batch-seed-sites');
+  if (typeof batchSeedSetting === 'string') {
+    const batchSeedSiteEnabled = batchSeedSetting
+      ? JSON.parse(batchSeedSetting)
+      : [];
+    if (batchSeedSiteEnabled.length === 0) {
+      showNotice({ title: $t('错误'), text: $t('请先设置群转列表') });
+      return false;
+    }
+    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+    SORTED_SITE_KEYS.forEach((siteName) => {
+      const { url, uploadPath } = PT_SITE[siteName];
+      if (PT_SITE[siteName].asTarget) {
+        if (batchSeedSiteEnabled.includes(siteName)) {
+          GM_openInTab(`${url + uploadPath}#torrentInfo=${torrentInfo}`);
+        }
+      }
+    });
+    showNotice({ title: $t('成功'), text: $t('转种页面已打开，请前往对应页面操作') });
   }
 };
 const getGPWGroupId = async (imdbUrl) => {
@@ -32,54 +46,13 @@ const getGPWGroupId = async (imdbUrl) => {
     const data = await fetch(url);
     if (data && data.response && data.response.GroupID) {
       return data.response.GroupID;
-    } else {
-      return '';
     }
-  } else {
     return '';
   }
+  return '';
 };
-
-export default () => {
-  if ($('#easy-seed-setting')[0]) {
-    $('#easy-seed-setting').click(() => {
-      openSettingPanel();
-    });
-  }
-  if ($('#batch-seed-btn')[0]) {
-    $('#batch-seed-btn').click(() => {
-      openBatchSeedTabs();
-    });
-  }
-  if ($('#img-transfer')[0]) {
-    $('#img-transfer').click(() => {
-      getThumbnailImgs();
-    });
-  }
-  if ($('#douban-info')[0]) {
-    $('#douban-info').click(function () {
-      getDoubanData(this);
-    });
-  }
-  if ($('#douban-book-info')[0]) {
-    $('#douban-book-info').click(() => {
-      getDoubanBookInfo();
-    });
-  }
-  if (document.querySelector('#upload-to-another')) {
-    $('#upload-to-another').click(function () {
-      uploadScreenshotsToAnother(this);
-    });
-  }
-  $('h4.quick-search').click(function () {
-    checkQuickResult();
-  });
-  handleSiteClickEvent();
-  handleSearchClickEvent();
-};
-const handleSiteClickEvent = () => {
-  $('.site-list li>a').click(async function () {
-    let url = $(this).data('link');
+const UploadSiteList = () => {
+  const handleSiteClickEvent = async (url) => {
     if (url.match(/lemonhd/)) {
       const catMap = {
         movie: 'movie',
@@ -142,7 +115,7 @@ const handleSiteClickEvent = () => {
       };
       const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
       const formDom = await fetch(bBDomUrl, {
-        responseType: 'text',
+        responseType: undefined,
       });
       TORRENT_INFO.formDom = formDom;
     }
@@ -182,14 +155,39 @@ const handleSiteClickEvent = () => {
       return;
     }
     const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-    url = url.replace(/(#torrentInfo=)(.+)/, `$1${torrentInfo}`);
+    url = `${url}#torrentInfo=${torrentInfo}`;
     GM_openInTab(url);
-  });
+  };
+  const targetSitesEnabled = getValue('easy-seed.enabled-target-sites') || [];
+  const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false) || '';
+  return <div className="seed-dom">
+    <ul className="site-list">
+      {SORTED_SITE_KEYS.map((siteName) => {
+        const { url, uploadPath } = PT_SITE[siteName];
+        const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon)
+          ? PT_SITE[siteName].icon
+          : '';
+
+        if (PT_SITE[siteName].asTarget) {
+          if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
+            return <li>
+              <a
+                href="javascript:void(0);"
+                className="site-item"
+                onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
+                <img src={favIcon} alt={siteName} className="site-icon" />
+                {siteName}
+              </a>
+              <span>|</span>
+            </li>;
+          }
+        }
+        return '';
+      })}
+      <li>
+        <button id="batch-seed-btn" onClick={openBatchSeedTabs}>{$t('一键群转')}</button>
+      </li>
+    </ul>
+  </div>;
 };
-const handleSearchClickEvent = () => {
-  $('.search-list li>a').click(async function () {
-    const siteName = $(this).data('site');
-    const url = $(this).data('url') || getQuickSearchUrl(siteName);
-    GM_openInTab(url);
-  });
-};
+export default UploadSiteList;
