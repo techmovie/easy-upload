@@ -14,6 +14,7 @@
 | Blutopia  |             ✅             |            ✅            |
 |    BYR    |             ❌             |            ✅            |
 |  CHDBits  |             ✅             |            ✅            |
+|  CinemaZ  |             ✅             |            ❌            |
 |  DiscFan  |             ✅             |            ✅            |
 |    EMP    |             ✅             |            ❌            |
 |    GPW    |             ✅             |            ✅            |

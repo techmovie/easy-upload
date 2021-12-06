@@ -1,0 +1,16 @@
+url: https://cinemaz.to
+host: cinemaz.to
+siteType: AvistaZ
+icon: '<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 12 12" enable-background="new 0 0 12 12" xml:space="preserve">  <image id="image0" width="12" height="12" x="0" y="0"    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAP+Hj8y/AAAAB3RJTUUH5QwGCikNXab0zAAAAL1JREFUGNNlyi1IA3EAxuFnHzoE3WSw4hBsBpOIzWTUZBaFlctL64LdImJfH1ZBZ7YLNneMQ8OF3dzcQNC/QZGh7y8+bwFbTkVKEg0ndsRScjZdSiR2DS26ta7iSMyFKws4lNnDsjtN8mpeTNGX6SOTqlJQciyzpGlD1bN9B87FzGsZGBvpmhhJReZUoK4nCD4FwYNtZ9qw6kn4bagnuC/6u7IyPvL/4N0bct8wy7HIjdcixrrWhJ/Lo45rK18qoT8Iilms5wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0xMi0wNlQxMDo0MToxMyswMDowMGagtagAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMTItMDZUMTA6NDE6MTMrMDA6MDAX/Q0UAAAAAElFTkSuQmCC" /></svg>'
+asSource: true
+asTarget: false
+uploadPath: /upload.php
+seedDomSelector: '#content-area .block:last table:first>tbody>tr:nth-child(3)'
+needDoubanInfo: true
+search: 
+  path: /torrents
+  params:
+    search: '{imdb}'
+    in: '1'
+    order: size
+    sort: desc
