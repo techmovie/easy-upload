@@ -5,12 +5,14 @@ import {
 import {
   $t, getDoubanIdByIMDB, getDoubanInfo, getSubTitle, getAreaCode, getPreciseCategory,
 } from '../common';
+import Notification from './Notification';
+
 const getTvSeasonData = async (data) => {
   const { title: torrentTitle } = TORRENT_INFO;
   const { season = '', title } = data;
   if (season) {
     const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
-    if (parseInt(seasonNumber) === 1) {
+    if (parseInt(seasonNumber, 10) === 1) {
       return data;
     }
     const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
@@ -65,16 +67,16 @@ const Douban = () => {
         setSearchValue(doubanUrl);
         if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
           const movieData = await getDoubanInfo(doubanUrl);
-          // showNotice({
-          //   title: $t('成功'),
-          //   text: $t('获取成功'),
-          // });
+          Notification.open({
+            message: $t('成功'),
+            description: $t('获取成功'),
+          });
           updateTorrentInfo(movieData);
         } else {
-          // showNotice({
-          //   title: $t('成功'),
-          //   text: $t('获取成功'),
-          // });
+          Notification.open({
+            message: $t('成功'),
+            description: $t('获取成功'),
+          });
         }
       }
     } catch (error) {
@@ -99,53 +101,54 @@ const Douban = () => {
         TORRENT_INFO.poster = data.poster;
         TORRENT_INFO.description = data.bookIntro;
         TORRENT_INFO.doubanBookInfo = data;
-        // showNotice({
-        //   title: $t('成功'),
-        //   text: $t('获取成功'),
-        // });
+        Notification.open({
+          message: $t('成功'),
+          description: $t('获取成功'),
+        });
       }).catch(error => {
         console.log(error);
-
-        // showNotice({
-        //   title: $t('错误'),
-        //   text: error.message,
-        // });
+        Notification.open({
+          message: $t('错误'),
+          description: error.message,
+        });
       }).finally(() => {
         setBookBtnText('获取豆瓣读书简介');
         setBtnDisable(false);
       });
     } else {
-      // showNotice({
-      //   title: $t('错误'),
-      //   text: $t('缺少豆瓣链接'),
-      // });
+      Notification.open({
+        message: $t('错误'),
+        description: $t('缺少豆瓣链接'),
+      });
     }
   };
-  return showSearch && <>
-    <div className="function-list-item">
-      <div className="douban-section">
-        <input type="text"
-          placeholder={$t('手动输入豆瓣链接')}
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)} />
+  return showSearch
+    ? <>
+      <div className="function-list-item">
+        <div className="douban-section">
+          <input type="text"
+            placeholder={$t('手动输入豆瓣链接')}
+            value={searchValue}
+            onChange={(e) => setSearchValue((e.target as HTMLInputElement).value)} />
+        </div>
       </div>
-    </div>
-    <div className="function-list-item" >
-      <div className="douban-section">
-        {
-          needDoubanInfo && <button
-            id="douban-info"
-            disabled={btnDisable}
-            onClick={getDoubanData}>{$t(btnText)}</button>
-        }
-        {
-          needDoubanBookInfo && <button
-            disabled={btnDisable}
-            id="douban-book-info"
-            onClick={getDoubanBookInfo}>{$t(bookBtnText)}</button>
-        }
-      </div>
-    </div >
-  </>;
+      <div className="function-list-item" >
+        <div className="douban-section">
+          {
+            needDoubanInfo && <button
+              id="douban-info"
+              disabled={btnDisable}
+              onClick={getDoubanData}>{$t(btnText)}</button>
+          }
+          {
+            needDoubanBookInfo && <button
+              disabled={btnDisable}
+              id="douban-book-info"
+              onClick={getDoubanBookInfo}>{$t(bookBtnText)}</button>
+          }
+        </div>
+      </div >
+    </>
+    : null;
 };
 export default Douban;

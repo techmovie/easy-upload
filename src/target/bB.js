@@ -1,8 +1,9 @@
 import { CURRENT_SITE_INFO } from '../const';
 import {
-  getIMDBData, getInfoFromMediaInfo, showNotice, uploadToPtpImg,
+  getIMDBData, getInfoFromMediaInfo, uploadToPtpImg,
   getInfoFromBDInfo, $t,
 } from '../common';
+import Notification from '../components/Notification';
 export default (info) => {
   const {
     title, category, imdbUrl, formDom, tags,
@@ -59,7 +60,10 @@ export default (info) => {
       uploadToPtpImg([poster]).then(img => {
         $(CURRENT_SITE_INFO.poster.selector).val(img[0]);
       }).catch(error => {
-        showNotice({ text: error.message || $t('封面上传失败') });
+        Notification.open({
+          message: $t('失败'),
+          description: error.message || $t('封面上传失败'),
+        });
       });
     }).catch(error => {
       console.log(error);

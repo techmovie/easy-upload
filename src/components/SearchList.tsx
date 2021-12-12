@@ -45,23 +45,24 @@ const SearchList = () => {
     return url;
   };
   const handleSearchClickEvent = (siteName) => {
-    const url = $(this).data('url') || getQuickSearchUrl(siteName);
+    const url = getQuickSearchUrl(siteName);
     GM_openInTab(url);
   };
   const searchListSetting = getValue('easy-seed.enabled-search-site-list');
   const searchSitesEnabled = searchListSetting || [];
   const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false);
   return <>
-    <ul className="search-list ">
+    <ul className="search-list">
       {
         SORTED_SITE_KEYS.map(siteName => {
           const siteInfo = PT_SITE[siteName];
           if (siteInfo.search) {
             if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
               const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
-              return <li>
-                <a href="javascript:void(0);" onClick={() => handleSearchClickEvent(siteName)}>
-                  {favIcon} {siteName}
+              return <li key={siteName}>
+                <a href="#" onClick={() => handleSearchClickEvent(siteName)}>
+                  {!!favIcon && <img src={favIcon} className="site-icon" />}
+                  {siteName}
                 </a>
                 <span>|</span>
               </li>;

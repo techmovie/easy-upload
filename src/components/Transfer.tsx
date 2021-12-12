@@ -4,8 +4,9 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, showNotice, fetch, transferImgs, uploadToPixhost, getValue,
+  $t, fetch, transferImgs, uploadToPixhost, getValue,
 } from '../common';
+import Notification from './Notification';
 
 const Transfer = () => {
   const [imgHost, setImgHost] = useState('imgbb');
@@ -66,15 +67,15 @@ const Transfer = () => {
           }
         });
         TORRENT_INFO.description = description;
-        showNotice({
-          title: $t('成功'),
-          text: $t('转换成功！'),
+        Notification.open({
+          message: $t('成功'),
+          description: $t('转换成功！'),
         });
       }
     } catch (error) {
-      showNotice({
-        title: $t('错误'),
-        text: error.message,
+      Notification.open({
+        message: $t('错误'),
+        description: error.message,
       });
     } finally {
       setBtnText('转缩略图');
@@ -85,11 +86,11 @@ const Transfer = () => {
   return !(transferImgClosed || CURRENT_SITE_NAME === 'BTN') &&
     <div className="function-list-item">
       <div className="upload-section">
-        <button id="img-transfer" onClick={getThumbnailImgs} disabled={btnDisable}>{$t(btnText)}</button>
+        <button onClick={getThumbnailImgs} disabled={btnDisable}>{$t(btnText)}</button>
         <select
-          id="img-transfer-select" value={imgHost}
-          onChange={(e) => setImgHost(e.target.value)}>
-          <option value="imgbb" selected>imgbb</option>
+          value={imgHost}
+          onChange={(e) => setImgHost((e.target as HTMLSelectElement).value)}>
+          <option value="imgbb">imgbb</option>
           <option value="gifyu">gifyu</option>
           <option value="pixhost">pixhost</option>
         </select>

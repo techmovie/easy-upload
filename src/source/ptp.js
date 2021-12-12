@@ -156,7 +156,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     }
   });
   descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, '[$1quote]');
-  descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, function (match, p1, p2) {
+  descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
     const slash = p1 || '';
     return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
   });
@@ -194,7 +194,7 @@ const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     }
   });
   if (TORRENT_INFO.category === 'concert') {
-    descriptionData = $('#synopsis').text() + '\n' + descriptionData;
+    descriptionData = `${$('#synopsis').text()}\n${descriptionData}`;
   }
   return descriptionData;
 };
@@ -216,7 +216,7 @@ function getTags (rawTags, exclude = []) {
     knownTags,
     otherTags,
   };
-};
+}
 
 function getReleaseGroup (releasename) {
   return releasename.match(/-(\w+?)$/)?.[1];

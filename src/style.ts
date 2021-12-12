@@ -78,6 +78,10 @@ td.title-td h4{
   width: 12px;
   margin-right: 5px;
 }
+.search-list .site-icon{
+  width: 12px;
+  margin-right: 5px;
+}
 .ptp-search-list{
   display: flex;
   align-items: center;
@@ -226,16 +230,15 @@ td.title-td h4{
   max-width: 100%;
 }
 .easy-seed-setting-btn{
-  cursor: pointer;
   display: inline-flex;
   align-items: center;
   margin-left: 3px;
 }
-.easy-seed-setting-btn svg{
+svg.setting-svg{
   height: 20px;
   width: 20px;
   animation: 5s linear rotate infinite;
-
+  cursor: pointer;
 }
 @keyframes rotate {
   100% {
@@ -350,12 +353,10 @@ td.title-td h4{
   margin-right: 3px;
   padding:0;
 }
-.transfer-img-closed label {
-  justify-content: center;
-}
-.easy-seed-setting-panel .site-enable-setting{
-  padding-top: 5px;
-  margin-bottom: 8px;
+.panel-content p{
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
 }
 .easy-seed-setting-panel button{
   line-height: 1;
@@ -388,6 +389,9 @@ td.title-td h4{
 .easy-seed-setting-panel .confirm-btns {
   padding-top: 15px;
 }
+.easy-seed-setting-panel .img-upload-setting{
+  margin-bottom: 10px;
+}
 .easy-seed-setting-panel .img-upload-setting label{
   justify-content: center;
 }
@@ -402,12 +406,24 @@ td.title-td h4{
 .easy-seed-setting-panel .img-upload-setting label a:hover{
   color: #f7d584;
 }
-#save-setting-btn{
+.feature-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+.feature-list .site-enable-setting{
+  width: 250px;
+  padding-top: 5px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.easy-seed-setting-panel .save-setting-btn{
   background-color: #007bff;
   border-color: #007bff;
   color:#fff;
 }
-#save-setting-btn:hover{
+.easy-seed-setting-panel .save-setting-btn:hover{
   background: #66b1ff;
   border-color: #66b1ff;
   color: #fff
@@ -416,66 +432,70 @@ td.title-td h4{
   text-align: center;
 }
 .easy-notification{
-  display: flex;
-  width: 330px;
-  padding: 14px 26px 14px 13px;
-  border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid #ebeef5;
   position: fixed;
-  background-color: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   transition: opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;
   overflow: hidden;
   right:0;
-  transform: translateX(100%);
+  margin: 0 24px 0 0;
+  color: #000000d9;
+  font-size: 14px;
+  line-height: 1.5715;
+  z-index: 2010;
 }
 .easy-notification-enter{
   right: 16px;
   transform: translateX(0);
 }
-.notification-wrapper {
-  margin-left: 13px;
-  margin-right: 8px
+.easy-notification-notice{
+    position: relative;
+    width: 300px;
+    max-width: calc(100vw - 48px);
+    margin-bottom: 16px;
+    margin-left: auto;
+    padding: 16px 24px;
+    overflow: hidden;
+    line-height: 1.5715;
+    word-wrap: break-word;
+    background: #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 }
-
-.notification-title {
-  font-weight: 700;
+.notification-message {
+  margin-bottom: 8px;
+  color: #000000d9;
   font-size: 16px;
-  color: #303133;
-  margin: 0;
-  background: transparent;
-  box-shadow: none;
-  border: none;
+  line-height: 24px;
 }
 
-.notification-content {
+.notification-description{
   font-size: 14px;
   line-height: 21px;
   margin: 6px 0 0;
-  color: #606266;
-  text-align: justify
+  text-align: justify;
+  padding-right: 10px;
 }
 
-.notification-content p {
+.notification-description p {
   margin: 0
 }
 
-.notification-close-btn svg {
-  height: 22px;
-  width: 22px;
-  font-size: 22px
+.easy-notification-notice-close svg {
+  height: 14px;
+  width: 14px;
+  font-size: 14px
 }
-.notification-close-btn {
+.easy-notification-notice-close {
   position: absolute;
-  top: 18px;
+  top: 13px;
   right: 15px;
   cursor: pointer;
   color: #909399;
   font-size: 16px
 }
 
-.notification-close-btn:hover {
+.easy-notification-notice-close:hover {
   color: #606266
 }
 #transfer-progress{
@@ -498,8 +518,7 @@ td.title-td h4{
 tr.pad[id*="torrent_"]{
   font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
 }
-#copy-img{
-  display: none;
+.copy-img{
   margin-left: 5px;
 }
 .quick-search{

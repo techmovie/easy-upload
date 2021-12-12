@@ -1,10 +1,11 @@
-
 import {
   TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, showNotice, fetch, getIMDBIdByUrl, getValue,
+  $t, fetch, getIMDBIdByUrl, getValue,
 } from '../common';
+import Notification from './Notification';
+
 const getPTPGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
@@ -18,26 +19,27 @@ const getPTPGroupId = async (imdbUrl) => {
   return '';
 };
 const openBatchSeedTabs = () => {
-  const batchSeedSetting = GM_getValue('easy-seed.enabled-batch-seed-sites');
-  if (typeof batchSeedSetting === 'string') {
-    const batchSeedSiteEnabled = batchSeedSetting
-      ? JSON.parse(batchSeedSetting)
-      : [];
-    if (batchSeedSiteEnabled.length === 0) {
-      showNotice({ title: $t('错误'), text: $t('请先设置群转列表') });
-      return false;
-    }
-    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-    SORTED_SITE_KEYS.forEach((siteName) => {
-      const { url, uploadPath } = PT_SITE[siteName];
-      if (PT_SITE[siteName].asTarget) {
-        if (batchSeedSiteEnabled.includes(siteName)) {
-          GM_openInTab(`${url + uploadPath}#torrentInfo=${torrentInfo}`);
-        }
-      }
+  const batchSeedSetting = getValue('easy-seed.enabled-batch-seed-sites') || [];
+  if (batchSeedSetting.length === 0) {
+    Notification.open({
+      message: $t('错误'),
+      description: $t('请先设置群转列表'),
     });
-    showNotice({ title: $t('成功'), text: $t('转种页面已打开，请前往对应页面操作') });
+    return false;
   }
+  const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
+  SORTED_SITE_KEYS.forEach((siteName) => {
+    const { url, uploadPath } = PT_SITE[siteName];
+    if (PT_SITE[siteName].asTarget) {
+      if (batchSeedSetting.includes(siteName)) {
+        GM_openInTab(`${url + uploadPath}#torrentInfo=${torrentInfo}`);
+      }
+    }
+  });
+  Notification.open({
+    message: $t('成功'),
+    description: $t('转种页面已打开，请前往对应页面操作'),
+  });
 };
 const getGPWGroupId = async (imdbUrl) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
@@ -149,8 +151,8 @@ const UploadSiteList = () => {
       }
     }
     if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
-      showNotice({
-        text: $t('请等待页面加载完成'),
+      Notification.open({
+        description: $t('请等待页面加载完成'),
       });
       return;
     }
@@ -170,12 +172,14 @@ const UploadSiteList = () => {
 
         if (PT_SITE[siteName].asTarget) {
           if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
-            return <li>
+            return <li key={siteName}>
               <a
-                href="javascript:void(0);"
+                href="#"
                 className="site-item"
                 onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
-                <img src={favIcon} alt={siteName} className="site-icon" />
+                {
+                  !!favIcon && <img src={favIcon} className="site-icon" />
+                }
                 {siteName}
               </a>
               <span>|</span>

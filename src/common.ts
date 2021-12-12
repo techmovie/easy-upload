@@ -4,11 +4,10 @@ import {
   CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY,
   TMDB_API_URL, PT_GEN_API,
   DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
-  NOTIFICATION_TEMPLATE,
   TORRENT_INFO,
 } from './const';
-import { render } from 'preact';
 import i18nConfig from './i18n.json';
+import Notification from './components/Notification';
 interface RequestOptions {
   method?: 'GET' | 'POST'
   responseType?: 'json' | 'blob' | 'arraybuffer' | undefined
@@ -22,8 +21,10 @@ const formatTorrentTitle = (title) => {
     .replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
 const handleError = (error) => {
-  showNotice({
-    text: error.message,
+  console.log(error, 'handleError');
+
+  Notification.open({
+    description: error,
   });
 };
 const getDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
@@ -268,25 +269,25 @@ const getDoubanFormat = (data: Douban.DoubanData) => {
     awards, tags,
   } = data;
   let descr = poster ? `[img]${poster}[/img]\n\n` : '';
-  descr += transTitle ? `◎译　　名　${transTitle.join('/')}\n` : '';
-  descr += thisTitle ? `◎片　　名　${thisTitle.join('/')}\n` : '';
-  descr += movieYear ? `◎年　　代　${movieYear.trim()}\n` : '';
-  descr += region ? `◎产　　地　${region}\n` : '';
-  descr += genre ? `◎类　　别　${genre.join(' / ')}\n` : '';
-  descr += language ? `◎语　　言　${language}\n` : '';
-  descr += playDate ? `◎上映日期　${playDate.join(' / ')}\n` : '';
+  descr += transTitle ? `◎译  名 ${transTitle.join('/')}\n` : '';
+  descr += thisTitle ? `◎片  名 ${thisTitle.join('/')}\n` : '';
+  descr += movieYear ? `◎年  代 ${movieYear.trim()}\n` : '';
+  descr += region ? `◎产  地 ${region}\n` : '';
+  descr += genre ? `◎类  别 ${genre.join(' / ')}\n` : '';
+  descr += language ? `◎语  言 ${language}\n` : '';
+  descr += playDate ? `◎上映日期 ${playDate.join(' / ')}\n` : '';
   descr += imdbRating ? `◎IMDb评分  ${imdbRating}\n` : '';
   descr += imdbLink ? `◎IMDb链接  ${imdbLink}\n` : '';
-  descr += doubanRating ? `◎豆瓣评分　${doubanRating}\n` : '';
-  descr += doubanLink ? `◎豆瓣链接　${doubanLink}\n` : '';
-  descr += showEpisodes ? `◎集　　数　${showEpisodes}\n` : '';
-  descr += movieDuration ? `◎片　　长　${movieDuration}\n` : '';
-  descr += directors && directors.length > 0 ? `◎导　　演　${directors.map(x => x.name).join(' / ')}\n` : '';
-  descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')} \n` : '';
-  descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join(`\n${'　'.repeat(4)}  　`).trim()} \n` : '';
-  descr += tags && tags.length > 0 ? `\n◎标　　签　${tags.join(' | ')} \n` : '';
-  descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, `\n${'　'.repeat(2)}`)} \n` : '';
-  descr += awards ? `\n◎获奖情况\n\n　　${awards.replace(/\n/g, `\n${'　'.repeat(2)}`)} \n` : '';
+  descr += doubanRating ? `◎豆瓣评分 ${doubanRating}\n` : '';
+  descr += doubanLink ? `◎豆瓣链接 ${doubanLink}\n` : '';
+  descr += showEpisodes ? `◎集  数 ${showEpisodes}\n` : '';
+  descr += movieDuration ? `◎片  长 ${movieDuration}\n` : '';
+  descr += directors && directors.length > 0 ? `◎导  演 ${directors.map(x => x.name).join(' / ')}\n` : '';
+  descr += writers && writers.length > 0 ? `◎编  剧 ${writers.map(x => x.name).join(' / ')} \n` : '';
+  descr += actors && actors.length > 0 ? `◎主  演 ${actors.map(x => x.name).join(`\n${' '.repeat(4)}   `).trim()} \n` : '';
+  descr += tags && tags.length > 0 ? `\n◎标  签 ${tags.join(' | ')} \n` : '';
+  descr += introduction ? `\n◎简  介\n\n  ${introduction.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
+  descr += awards ? `\n◎获奖情况\n\n  ${awards.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
   return descr.trim();
 };
 const getDoubanIdByIMDB = async (query) => {
@@ -700,8 +701,8 @@ const getMediaValueByKey = (key, mediaInfo) => {
   return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
 };
 const getResolution = (mediaInfo) => {
-  const height = parseInt(getMediaValueByKey('Height', mediaInfo).replace(/\s/g, ''));
-  const width = parseInt(getMediaValueByKey('Width', mediaInfo).replace(/\s/g, ''));
+  const height = parseInt(getMediaValueByKey('Height', mediaInfo).replace(/\s/g, ''), 10);
+  const width = parseInt(getMediaValueByKey('Width', mediaInfo).replace(/\s/g, ''), 10);
   const ScanType = getMediaValueByKey('Scan type', mediaInfo);
   if (height > 1080) {
     return '2160p';
@@ -793,7 +794,7 @@ const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
   });
   let channelName = '';
   let audioCodec = '';
-  const channelNumber = parseInt(audioChannels);
+  const channelNumber = parseInt(audioChannels, 10);
   if (channelNumber && channelNumber >= 6) {
     channelName = `${channelNumber - 1}.1`;
   } else {
@@ -878,8 +879,8 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     return {};
   }
   const sortArray = audioPart.sort((a, b) => {
-    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
-    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1]);
+    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1], 10);
+    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1], 10);
     return lastBitrate - firstBitrate;
   });
   const [mainAudio, secondAudio] = sortArray;
@@ -1097,7 +1098,7 @@ const htmlToBBCode = (node) => {
     } // textNode
     default: return null;
   }
-  node.childNodes.forEach((node, i) => {
+  node.childNodes.forEach((node) => {
     const code = htmlToBBCode(node);
     if (code) {
       bbCodes.push(code);
@@ -1165,7 +1166,7 @@ const getRtIdFromTitle = async (title, tv, year) => {
   console.log(title, year);
   const MAX_YEAR_DIFF = 2;
   tv = tv || false;
-  year = parseInt(year) || 1800;
+  year = parseInt(year, 10) || 1800;
   const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
   const data = await fetch(url);
   const movies = tv ? data.tvSeries : data.movies;
@@ -1225,49 +1226,13 @@ const getRtIdFromTitle = async (title, tv, year) => {
   return {};
 };
 
-const showNotice = ({ title = `${$t('提示')}`, text = '' }) => {
-  const id = new Date().getTime();
-  const lastId = Number($('.easy-notification:last').attr('id'));
-  if (lastId && id - lastId < 800) {
-    return;
-  }
-  const zIndex = parseInt($('.easy-notification:last').css('zIndex')) || 2000;
-  let removeTimer = null;
-  const notificationDom = NOTIFICATION_TEMPLATE.replace('#title#', title)
-    .replace('#message#', text)
-    .replace('#id#', id)
-    .replace('#top#', 16)
-    .replace('#zIndex#', zIndex + 1);
-  render(notificationDom, document.body);
-  const offsetHeight = $('.easy-notification:last')[0].offsetHeight;
-  $('.easy-notification:last').prevAll('.easy-notification').each(function () {
-    const top = parseInt($(this).css('top'));
-    $(this).css('top', `${offsetHeight + top + 16}px`);
-  });
-  $('.easy-notification:last').addClass('easy-notification-enter');
-  $(`#${id}`).find('.notification-close-btn').click(() => {
-    const offsetHeight = $(`#${id}`)[0].offsetHeight;
-    const nextDom = $(`#${id}`).prevAll('.easy-notification');
-    $(`#${id}`).remove();
-    nextDom.each(function () {
-      const top = parseInt($(this).css('top'));
-      $(this).css('top', `${top - offsetHeight}px`);
-    });
-    clearTimeout(removeTimer);
-  });
-  removeTimer = setTimeout(() => {
-    $(`#${id}`).remove();
-    clearTimeout(removeTimer);
-  }, 4000);
-};
-
 const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean = false) => {
   try {
     const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
     if (!apiKey) {
-      showNotice({
-        title: $t('ptpimg上传失败'),
-        text: $t('请到配置面板中填入ptpimg的api_key'),
+      Notification.open({
+        message: $t('ptpimg上传失败'),
+        description: $t('请到配置面板中填入ptpimg的api_key'),
       });
       return;
     }
@@ -1340,7 +1305,7 @@ const saveScreenshotsToPtpimg = async (imgArray: Array<string>) => {
   }
 };
 const getValue = (key: string, needParse = true) => {
-  const data = <string>GM_getValue('easy-seed.enabled-search-site-list');
+  const data = <string>GM_getValue(key);
   if (data && needParse) {
     return JSON.parse(data);
   }
@@ -1396,7 +1361,6 @@ export {
   getDoubanInfo,
   getDoubanIdByIMDB,
   getPreciseCategory,
-  showNotice,
   getAnotherDoubanInfo,
   replaceRegSymbols,
   getIMDBData,

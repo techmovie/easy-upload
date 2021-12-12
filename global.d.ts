@@ -130,3 +130,5 @@ declare namespace Douban {
     bookIntro?: string
   }
 }
+
+declare module '*.svg';

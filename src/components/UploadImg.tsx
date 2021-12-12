@@ -3,8 +3,10 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, getOriginalImgUrl, saveScreenshotsToPtpimg, transferImgs, showNotice,
+  $t, fetch, getOriginalImgUrl, saveScreenshotsToPtpimg, transferImgs,
 } from '../common';
+import Notification from './Notification';
+
 const UploadImg = () => {
   const [selectHost, setSelectHost] = useState('ptpimg');
   const [btnDisable, setBtnDisable] = useState(false);
@@ -25,6 +27,8 @@ const UploadImg = () => {
           const data = await saveScreenshotsToPtpimg([screenshots[index]]);
           if (data) {
             imgData.push(data);
+          } else {
+            return;
           }
         }
       } else {
@@ -39,7 +43,10 @@ const UploadImg = () => {
           }
         }
       }
-      showNotice({ text: $t('成功') });
+      Notification.open({
+        message: $t('成功'),
+        description: '',
+      });
       let { description, originalDescription } = TORRENT_INFO;
       TORRENT_INFO.screenshots = imgData;
 
@@ -60,7 +67,10 @@ const UploadImg = () => {
       TORRENT_INFO.originalDescription = `${originalDescription}\n${screenBBCode.join('')}`;
       TORRENT_INFO.description = `${description}\n${screenBBCode.join('')}`;
     } catch (error) {
-      showNotice({ title: $t('错误'), text: error.message });
+      Notification.open({
+        message: $t('错误'),
+        description: error.message,
+      });
     } finally {
       setBtnText('转存截图');
       setBtnDisable(false);
@@ -71,18 +81,17 @@ const UploadImg = () => {
     <div className="function-list-item">
       <div className="upload-section">
         <button
-          id="upload-to-another"
           disabled={btnDisable}
           onClick={uploadScreenshotsToAnother}>{$t(btnText)}</button>
-        <select value={selectHost} onChange={(e) => setSelectHost(e.target.value)}>
-          <option value="ptpimg" selected>ptpimg</option>
+        <select value={selectHost} onChange={(e) => setSelectHost((e.target as HTMLSelectElement).value)}>
+          <option value="ptpimg">ptpimg</option>
           <option value="gifyu">gifyu</option>
         </select>
-        <button id="copy-img" hidden={!canCopy} onClick={() => {
+        <button className="copy-img" hidden={!canCopy} onClick={() => {
           GM_setClipboard(screenBBCode.join(''));
           setCopyText('已复制');
-        }}>${$t(copyText)}</button>
+        }}>{$t(copyText)}</button>
       </div>
-    </div>;
+    </div >;
 };
 export default UploadImg;

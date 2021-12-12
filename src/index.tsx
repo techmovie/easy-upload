@@ -1,5 +1,5 @@
 // 入口文件
-import { render, h } from 'preact';
+import { render } from 'preact';
 import {
   CURRENT_SITE_NAME, CURRENT_SITE_INFO,
   TORRENT_INFO,
@@ -8,9 +8,7 @@ import {
 import { getUrlParam } from './common';
 import { fillTargetForm } from './target';
 import getTorrentInfo from './source';
-// import { insertTorrentPage } from './site-dom/main';
 import { fillSearchImdb } from './site-dom/quick-search';
-import handleClickEvent from './site-dom/click-event';
 import './site-dom/ptpimg';
 import './style';
 import App from './components/Container';
@@ -34,12 +32,14 @@ if (CURRENT_SITE_NAME) {
       // 向当前所在站点添加按钮等内容
       console.log(TORRENT_INFO);
     });
-    const div = document.createElement('div');
-    render(<App />, div);
+
     const target = $(CURRENT_SITE_INFO.seedDomSelector)[0];
-    Array.from(div.childNodes).forEach(node => {
+
+    const element = target.parentNode.cloneNode();
+    render(<App />, element);
+
+    Array.from(element.childNodes).forEach(node => {
       target.parentNode.insertBefore(node, target);
     });
-    handleClickEvent();
   }
 }

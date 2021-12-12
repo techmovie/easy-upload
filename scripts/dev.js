@@ -6,17 +6,10 @@ import { yamlToJSON } from './helper.js';
 const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
 const isProd = cmd === 'build';
-const notifyError = (error) => {
-  if (error) {
-    const { location, text } = error.errors[0];
-    const { file, line, column } = location;
-    notify('Build failed', `${file}:${line}:${column} error:${text}`);
-  }
-};
 
 esbuild.build({
   entryPoints: ['src/index.tsx'],
-  outfile: '.cache/easy-upload.user.js',
+  outfile: './.cache/easy-upload.user.js',
   bundle: true,
   target: 'es2016',
   define: {
@@ -29,20 +22,20 @@ esbuild.build({
   jsxFragment: 'Fragment',
   inject: ['./scripts/preact-shim.ts'],
   incremental: true,
-  watch: {
-    onRebuild (error) {
-      if (error) {
-        notifyError(error);
-      }
-    },
-  },
+  watch: isDev,
   plugins: [
     svgr({
       svgoConfig: {
-        plugins: {
-          prefixIds: false,
-          removeViewBox: false,
-        },
+        plugins: [
+          {
+            name: 'preset-default',
+            params: {
+              overrides: {
+                prefixIds: false,
+              },
+            },
+          }
+        ],
       },
       plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
     }),
