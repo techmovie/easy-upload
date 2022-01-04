@@ -3,11 +3,12 @@ import {
   CURRENT_SITE_INFO, TORRENT_INFO,
 } from '../const';
 import {
-  $t, getDoubanIdByIMDB, getDoubanInfo, getSubTitle, getAreaCode, getPreciseCategory,
+  $t, getDoubanIdByIMDB, getDoubanInfo, getDoubanBookInfo,
+  getSubTitle, getAreaCode, getPreciseCategory,
 } from '../common';
 import Notification from './Notification';
 
-const getTvSeasonData = async (data) => {
+const getTvSeasonData = async (data:Douban.Season) => {
   const { title: torrentTitle } = TORRENT_INFO;
   const { season = '', title } = data;
   if (season) {
@@ -24,7 +25,7 @@ const updateTorrentInfo = (data: Douban.DoubanData) => {
   const desc = data.format;
   TORRENT_INFO.doubanInfo = data.format;
   TORRENT_INFO.subtitle = getSubTitle(data);
-  const areaMatch = desc.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2];
+  const areaMatch = desc?.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
   if (areaMatch) {
     TORRENT_INFO.area = getAreaCode(areaMatch);
   }
@@ -37,7 +38,7 @@ const Douban = () => {
   const [btnDisable, setBtnDisable] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
-  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
+  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO as Site.SiteInfo;
   const showSearch = (needDoubanBookInfo || needDoubanInfo) && !doubanClosed;
 
   const getDoubanData = async () => {
@@ -49,18 +50,22 @@ const Douban = () => {
       const doubanLink = $('.page__title>a').attr('href') ||
         scriptDoubanLink ||
         TORRENT_INFO.doubanUrl || searchValue;
-      let doubanUrl: string;
+      let doubanUrl: string = '';
       if (doubanLink && doubanLink.match('movie.douban.com')) {
         doubanUrl = doubanLink;
       } else {
         const { imdbUrl, movieName } = TORRENT_INFO;
         const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
-        let { id, season = '' } = doubanData;
-        if (season) {
-          const tvData = await getTvSeasonData(doubanData);
-          id = tvData.id;
+        if (doubanData) {
+          let { id, season = '' } = doubanData;
+          if (season) {
+            const tvData = await getTvSeasonData(doubanData);
+            if (tvData) {
+              id = tvData.id;
+            }
+          }
+          doubanUrl = `https://movie.douban.com/subject/${id}`;
         }
-        doubanUrl = `https://movie.douban.com/subject/${id}`;
       }
       if (doubanUrl) {
         TORRENT_INFO.doubanUrl = doubanUrl;
@@ -71,7 +76,9 @@ const Douban = () => {
             message: $t('成功'),
             description: $t('获取成功'),
           });
-          updateTorrentInfo(movieData);
+          if (movieData) {
+            updateTorrentInfo(movieData);
+          }
         } else {
           Notification.open({
             message: $t('成功'),
@@ -86,7 +93,7 @@ const Douban = () => {
       setBtnDisable(false);
     }
   };
-  const getDoubanBookInfo = () => {
+  const getBookData = () => {
     let { doubanUrl } = TORRENT_INFO;
     if (!doubanUrl) {
       doubanUrl = searchValue;
@@ -96,11 +103,13 @@ const Douban = () => {
     if (doubanUrl) {
       setBookBtnText('获取中...');
       setBtnDisable(true);
-      getDoubanInfo(doubanUrl).then(data => {
-        TORRENT_INFO.title = data.chineseTitle || data.foreignTitle;
-        TORRENT_INFO.poster = data.poster;
-        TORRENT_INFO.description = data.bookIntro;
-        TORRENT_INFO.doubanBookInfo = data;
+      getDoubanBookInfo(doubanUrl).then(data => {
+        if (data) {
+          TORRENT_INFO.title = data.chineseTitle || data.foreignTitle;
+          TORRENT_INFO.poster = data.poster;
+          TORRENT_INFO.description = data.book_intro || '';
+          TORRENT_INFO.doubanBookInfo = data || null;
+        }
         Notification.open({
           message: $t('成功'),
           description: $t('获取成功'),
@@ -138,13 +147,15 @@ const Douban = () => {
             needDoubanInfo && <button
               id="douban-info"
               disabled={btnDisable}
+              className={btnDisable ? 'is-disabled' : ''}
               onClick={getDoubanData}>{$t(btnText)}</button>
           }
           {
             needDoubanBookInfo && <button
               disabled={btnDisable}
+              className={btnDisable ? 'is-disabled' : ''}
               id="douban-book-info"
-              onClick={getDoubanBookInfo}>{$t(bookBtnText)}</button>
+              onClick={getBookData}>{$t(bookBtnText)}</button>
           }
         </div>
       </div >

@@ -1,52 +1,21 @@
 import {
-  PT_SITE, SORTED_SITE_KEYS, TORRENT_INFO,
+  PT_SITE, SORTED_SITE_KEYS,
 } from '../const';
 import {
-  getIMDBIdByUrl, getValue,
+  getValue,
 } from '../common';
-const SearchList = () => {
-  const getQuickSearchUrl = (siteName) => {
-    const siteInfo: Site.SiteInfo = PT_SITE[siteName];
-    const searchConfig = siteInfo.search;
-    const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-    let searchKeyWord = '';
-    const { movieAkaName, movieName, title } = TORRENT_INFO;
-    if (imdbId && !siteName.match(/(nzbs.in|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
-      siteInfo.siteType !== 'AvistaZ') {
-      if (replaceKey) {
-        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-      } else {
-        searchKeyWord = imdbId;
-      }
-    } else {
-      searchKeyWord = movieAkaName || movieName || title;
-      imdbId = '';
-    }
-    let searchParams = Object.keys(params).map(key => {
-      return `${key}=${params[key]}`;
-    }).join('&');
-    if (imdbId) {
-      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
-        .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey);
-    } else {
-      if (searchParams.match(/{name}/)) {
-        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
-      } else {
-        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-      }
-      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey);
-    }
+import { getQuickSearchUrl } from './common';
 
-    let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
-    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
-      url = url.replace(/{name}/, searchKeyWord);
+const SearchList = () => {
+  const handleSearchClickEvent = (siteName:keyof typeof PT_SITE) => {
+    let openUrl = '';
+    const attrUrl = $('.search-list li>a').data('url');
+    if (attrUrl) {
+      openUrl = attrUrl;
+    } else {
+      openUrl = getQuickSearchUrl(siteName);
     }
-    return url;
-  };
-  const handleSearchClickEvent = (siteName) => {
-    const url = getQuickSearchUrl(siteName);
-    GM_openInTab(url);
+    GM_openInTab(openUrl);
   };
   const searchListSetting = getValue('easy-seed.enabled-search-site-list');
   const searchSitesEnabled = searchListSetting || [];
@@ -54,13 +23,15 @@ const SearchList = () => {
   return <>
     <ul className="search-list">
       {
-        SORTED_SITE_KEYS.map(siteName => {
-          const siteInfo = PT_SITE[siteName];
+        SORTED_SITE_KEYS.map((siteName, index) => {
+          const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
           if (siteInfo.search) {
             if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-              const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon) ? PT_SITE[siteName].icon : '';
-              return <li key={siteName}>
-                <a href="#" onClick={() => handleSearchClickEvent(siteName)}>
+              const favIcon = (!siteFaviconClosed && siteInfo.icon) ? siteInfo.icon : '';
+              return <li key={siteName} >
+                <a
+                data-site={siteName}
+                onClick={() => handleSearchClickEvent(siteName as keyof typeof PT_SITE)}>
                   {!!favIcon && <img src={favIcon} className="site-icon" />}
                   {siteName}
                 </a>

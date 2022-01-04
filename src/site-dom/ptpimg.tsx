@@ -18,6 +18,6 @@ if (location.host === 'ptpimg.me') {
         <span>Save ApiKey</span>
       </button>
     </div>, div);
-    document.querySelector('#form_file_upload').appendChild(div);
+    document.querySelector('#form_file_upload')?.appendChild(div);
   }
 }

@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import { JSX } from 'preact';
 import { $t, getValue } from '../common';
 import {
   PT_SITE,
@@ -6,12 +7,14 @@ import {
 } from '../const';
 import { FeatureSwitchList, SiteListConfig } from './conf';
 import Notification from './Notification';
-
-const SettingPanel = (props) => {
+interface Props {
+  closePanel: JSX.MouseEventHandler<HTMLButtonElement>
+}
+const SettingPanel = (props:Props) => {
   const getSiteSetList = () => {
-    const targetSitesEnabled = getValue('easy-seed.enabled-target-sites') || [];
-    const batchSeedSiteEnabled = getValue('easy-seed.enabled-batch-seed-sites') || [];
-    const searchSitesEnabled = getValue('easy-seed.enabled-search-site-list') || [];
+    const targetSitesEnabled:string[] = getValue('easy-seed.enabled-target-sites') || [];
+    const batchSeedSiteEnabled:string[] = getValue('easy-seed.enabled-batch-seed-sites') || [];
+    const searchSitesEnabled:string[] = getValue('easy-seed.enabled-search-site-list') || [];
 
     return SORTED_SITE_KEYS.map(site => {
       const targetEnabled = targetSitesEnabled.includes(site);
@@ -43,9 +46,9 @@ const SettingPanel = (props) => {
   const [ptpImgApiKey, setPtpImgApiKey] = useState(getValue('easy-seed.ptp-img-api-key', false) || '');
 
   const saveSetting = () => {
-    const targetSitesEnabled = [];
-    const searchSitesEnabled = [];
-    const batchSeedSiteEnabled = [];
+    const targetSitesEnabled:string[] = [];
+    const searchSitesEnabled:string[] = [];
+    const batchSeedSiteEnabled:string[] = [];
     siteList.forEach(({ site, targetEnabled, batchEnabled, searchEnabled }) => {
       if (batchEnabled) {
         batchSeedSiteEnabled.push(site);
@@ -72,7 +75,12 @@ const SettingPanel = (props) => {
       });
     }
   };
-  const handleCheckChange = (key: string, index: number) => {
+  interface InfoKey {
+    targetEnabled: boolean
+    batchEnabled: boolean
+    searchEnabled: boolean
+  }
+  const handleCheckChange = (key: keyof InfoKey, index: number) => {
     const siteInfo = siteList[index];
     siteInfo[key] = !siteInfo[key];
     siteList[index] = siteInfo;
@@ -80,7 +88,7 @@ const SettingPanel = (props) => {
   const handleFeatureChange = (index: number) => {
     const featureInfo = featureList[index];
     featureInfo.checked = !featureInfo.checked;
-    featureInfo[index] = featureInfo;
+    featureList[index] = featureInfo;
   };
   return <div className="easy-seed-setting-panel">
     <div className="panel-content-wrap">
@@ -96,14 +104,14 @@ const SettingPanel = (props) => {
                 <ul className={config.class} >
                   {
                     siteList.map((siteInfo, index) => {
-                      if (PT_SITE[siteInfo.site].asTarget) {
+                      if (PT_SITE[siteInfo.site as keyof typeof PT_SITE].asTarget) {
                         return <li key={siteInfo.site}>
                           <label>
                             <input
-                              onChange={() => handleCheckChange(config.key, index)}
+                              onChange={() => handleCheckChange(config.key as keyof InfoKey, index)}
                               name="target-site-enabled"
                               type="checkbox"
-                              checked={siteInfo[config.key]}
+                              checked={siteInfo[config.key as keyof InfoKey]}
                             />{siteInfo.site}
                           </label>
                         </li>;

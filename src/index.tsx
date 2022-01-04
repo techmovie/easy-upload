@@ -13,33 +13,46 @@ import './site-dom/ptpimg';
 import './style';
 import App from './components/Container';
 
+const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
-let torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
+const torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
+console.log(CURRENT_SITE_NAME);
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
-  if (CURRENT_SITE_INFO.asTarget) {
+  if (currentSiteInfo.asTarget) {
     if (torrentParams) {
-      torrentParams = JSON.parse(decodeURIComponent(torrentParams));
+      const info: TorrentInfo.Info = JSON.parse(decodeURIComponent(torrentParams));
+      fillTargetForm(info);
     }
-    fillTargetForm(torrentParams);
   }
-  if (CURRENT_SITE_INFO.asSource &&
+  if (currentSiteInfo.asSource &&
     (!location.href.match(/upload/ig)) &&
-    !(CURRENT_SITE_INFO.search &&
-      location.pathname.match(CURRENT_SITE_INFO.search.path) &&
+    !(currentSiteInfo.search &&
+      location.pathname.match(currentSiteInfo.search.path) &&
       (getUrlParam('imdb') || getUrlParam('name')))) {
     getTorrentInfo().then(() => {
       // 向当前所在站点添加按钮等内容
       console.log(TORRENT_INFO);
     });
 
-    const target = $(CURRENT_SITE_INFO.seedDomSelector)[0];
-
-    const element = target.parentNode.cloneNode();
+    let target = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
+    const element = document.createElement('div');
     render(<App />, element);
-
-    Array.from(element.childNodes).forEach(node => {
-      target.parentNode.insertBefore(node, target);
-    });
+    if (['PTP', 'BTN', 'GPW', 'EMP'].includes(CURRENT_SITE_NAME)) {
+      const torrentId = getUrlParam('torrentid');
+      if (CURRENT_SITE_NAME === 'GPW') {
+        target = document.querySelector(`#torrent_torrent_${torrentId} >td`);
+      } else if (CURRENT_SITE_NAME === 'EMP') {
+        const groupId = getUrlParam('id');
+        target = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
+      } else {
+        target = document.querySelector(`#torrent_${torrentId} >td`);
+      }
+      target?.prepend(element);
+    } else {
+      Array.from(element.childNodes).forEach(node => {
+        target?.parentNode?.insertBefore(node, target);
+      });
+    }
   }
 }

@@ -15,19 +15,17 @@ interface RequestOptions {
   data?: any
   timeout?: number
 }
-const formatTorrentTitle = (title) => {
+const formatTorrentTitle = (title:string) => {
   // 保留5.1 H.264中间的点
   return title.replace(/\.(?!(\d+))/ig, ' ')
     .replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
-const handleError = (error) => {
-  console.log(error, 'handleError');
-
+const handleError = (error:any) => {
   Notification.open({
-    description: error,
+    description: error.message,
   });
 };
-const getDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
+const getDoubanInfo = async (doubanUrl:string) => {
   try {
     if (doubanUrl) {
       const data = await fetch(doubanUrl, {
@@ -52,19 +50,36 @@ const getDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
     handleError(error);
   }
 };
-const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
+const getDoubanBookInfo = async (doubanUrl:string):Promise<Douban.BookData|undefined> => {
+  const reqUrl = `${PT_GEN_API}?url=${doubanUrl}`;
+  const data = await fetch(reqUrl, {
+    responseType: 'json',
+  });
+  const { chinese_title, origin_title } = data;
+  let foreignTitle = '';
+  if (chinese_title !== origin_title) {
+    foreignTitle = origin_title;
+  }
+  if (data) {
+    return {
+      ...data,
+      chineseTitle: chinese_title,
+      foreignTitle,
+    };
+  }
+};
+const getDataFromDoubanPage = async (domString:string): Promise<Douban.DoubanData> => {
   const dom = new DOMParser().parseFromString(domString, 'text/html');
-  const fetchAnchor = function (anchor) {
+  const fetchAnchor = function (anchor:JQuery) {
     return anchor[0]?.nextSibling?.nodeValue?.trim() ?? '';
   };
-
   // title
   const chineseTitle = $('title', dom).text().replace('(豆瓣)', '').trim();
   const foreignTitle = $('span[property="v:itemreviewed"]', dom).text().replace(chineseTitle, '').trim();
-  let aka = []; let transTitle: string; let thisTitle: string;
+  let aka:string[] = []; let transTitle: string; let thisTitle: string;
   const akaAnchor = $('#info span.pl:contains("又名")', dom);
   if (akaAnchor.length > 0) {
-    const data = fetchAnchor(akaAnchor).split(' / ').sort((a, b) => { // 首字(母)排序
+    const data = fetchAnchor(akaAnchor).split(' / ').sort((a:string, b:string) => { // 首字(母)排序
       return a.localeCompare(b);
     }).join('/');
     aka = data.split('/');
@@ -90,7 +105,7 @@ const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
 
   // rate
   const doubanLink = `https://movie.douban.com${jsonData.url}`;
-  let imdbId, imdbLink, imdbAverageRating, imdbVotes, imdbRating;
+  let imdbId = ''; let imdbLink = ''; let imdbAverageRating; let imdbVotes; let imdbRating = '';
   const imdbLinkAnchor = $('#info span.pl:contains("IMDb")', dom);
   const hasImdb = imdbLinkAnchor.length > 0;
   if (hasImdb) {
@@ -126,7 +141,7 @@ const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
   const runtime = runtimeAnchor[0] ? fetchAnchor(runtimeAnchor) : $('#info span[property="v:runtime"]', dom).text().trim();
   const episodesAnchor = $('#info span.pl:contains("集数")'); // 集数
   const episodes = episodesAnchor[0] ? fetchAnchor(episodesAnchor) : '';
-  let tags: string[];
+  let tags;
   const tag_another = $('div.tags-body > a[href^="/tag"]', dom);
   if (tag_another.length > 0) {
     tags = tag_another.map(function () {
@@ -163,7 +178,7 @@ const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
     playDate,
     region,
     genre,
-    language,
+    language: language.split(','),
     episodes,
     duration: runtime,
     introduction: summary,
@@ -179,14 +194,14 @@ const getDataFromDoubanPage = async (domString): Promise<Douban.DoubanData> => {
     tags,
   };
 };
-const getAnotherDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
+const getAnotherDoubanInfo = async (doubanUrl:string): Promise<Douban.DoubanData|void> => {
   try {
     if (doubanUrl) {
       const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
       if (!doubanId) {
         throw $t('豆瓣ID获取失败');
       }
-      const data = await fetch(`https://movie.querydata.org/api?id=${doubanId}`);
+      const data = await fetch(`https://api.wmdb.tv/movie/api?id=${doubanId}`);
       if (data && data.id) {
         return formatDoubanInfo(data);
       }
@@ -198,7 +213,7 @@ const getAnotherDoubanInfo = async (doubanUrl): Promise<Douban.DoubanData> => {
     handleError(error);
   }
 };
-const formatDoubanInfo = (data) => {
+const formatDoubanInfo = (data:Douban.DoubanQueryData) => {
   const {
     doubanId, imdbId, imdbRating,
     imdbVotes, dateReleased, alias,
@@ -240,12 +255,12 @@ const formatDoubanInfo = (data) => {
     transTitle,
     thisTitle: [originalName],
     year,
-    playDate: [dateReleased?.match(/\d+-\d+-\d+/)[0]] ?? [],
+    playDate: [dateReleased?.match(/\d+-\d+-\d+/)?.[0] ?? ''] ?? [],
     region: info[0].country,
     genre: chineseInfo.genre.split('/'),
-    language: chineseInfo.language,
+    language: chineseInfo.language.split('/'),
     episodes,
-    duration: `${duration / 60}分钟`,
+    duration: `${duration} / 60分钟`,
     introduction: chineseInfo.description,
     doubanLink: `https://movie.douban.com/subject/${doubanId}`,
     doubanRatingAverage: doubanRating || 0,
@@ -269,28 +284,28 @@ const getDoubanFormat = (data: Douban.DoubanData) => {
     awards, tags,
   } = data;
   let descr = poster ? `[img]${poster}[/img]\n\n` : '';
-  descr += transTitle ? `◎译  名 ${transTitle.join('/')}\n` : '';
-  descr += thisTitle ? `◎片  名 ${thisTitle.join('/')}\n` : '';
-  descr += movieYear ? `◎年  代 ${movieYear.trim()}\n` : '';
-  descr += region ? `◎产  地 ${region}\n` : '';
-  descr += genre ? `◎类  别 ${genre.join(' / ')}\n` : '';
-  descr += language ? `◎语  言 ${language}\n` : '';
+  descr += transTitle ? `◎译    名 ${transTitle.join('/')}\n` : '';
+  descr += thisTitle ? `◎片    名 ${thisTitle.join('/')}\n` : '';
+  descr += movieYear ? `◎年    代 ${movieYear.trim()}\n` : '';
+  descr += region ? `◎产    地 ${region}\n` : '';
+  descr += genre ? `◎类    别 ${genre.join(' / ')}\n` : '';
+  descr += language ? `◎语    言 ${language}\n` : '';
   descr += playDate ? `◎上映日期 ${playDate.join(' / ')}\n` : '';
   descr += imdbRating ? `◎IMDb评分  ${imdbRating}\n` : '';
   descr += imdbLink ? `◎IMDb链接  ${imdbLink}\n` : '';
   descr += doubanRating ? `◎豆瓣评分 ${doubanRating}\n` : '';
   descr += doubanLink ? `◎豆瓣链接 ${doubanLink}\n` : '';
-  descr += showEpisodes ? `◎集  数 ${showEpisodes}\n` : '';
-  descr += movieDuration ? `◎片  长 ${movieDuration}\n` : '';
-  descr += directors && directors.length > 0 ? `◎导  演 ${directors.map(x => x.name).join(' / ')}\n` : '';
-  descr += writers && writers.length > 0 ? `◎编  剧 ${writers.map(x => x.name).join(' / ')} \n` : '';
-  descr += actors && actors.length > 0 ? `◎主  演 ${actors.map(x => x.name).join(`\n${' '.repeat(4)}   `).trim()} \n` : '';
-  descr += tags && tags.length > 0 ? `\n◎标  签 ${tags.join(' | ')} \n` : '';
-  descr += introduction ? `\n◎简  介\n\n  ${introduction.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
+  descr += showEpisodes ? `◎集    数 ${showEpisodes}\n` : '';
+  descr += movieDuration ? `◎片    长 ${movieDuration}\n` : '';
+  descr += directors && directors.length > 0 ? `◎导    演 ${directors.map(x => x.name).join(' / ')}\n` : '';
+  descr += writers && writers.length > 0 ? `◎编    剧 ${writers.map(x => x.name).join(' / ')} \n` : '';
+  descr += actors && actors.length > 0 ? `◎主    演 ${actors.map(x => x.name).join(`\n${' '.repeat(4)}   `).trim()} \n` : '';
+  descr += tags && tags.length > 0 ? `\n◎标    签 ${tags.join(' | ')} \n` : '';
+  descr += introduction ? `\n◎简    介\n\n  ${introduction.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
   descr += awards ? `\n◎获奖情况\n\n  ${awards.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
   return descr.trim();
 };
-const getDoubanIdByIMDB = async (query) => {
+const getDoubanIdByIMDB = async (query:string):(Promise<Douban.Season|undefined>) => {
   try {
     const imdbId = getIMDBIdByUrl(query);
     const params = imdbId || query;
@@ -299,24 +314,24 @@ const getDoubanIdByIMDB = async (query) => {
       responseType: undefined,
     });
     const doc = new DOMParser().parseFromString(data, 'text/html');
-    const linkDom: HTMLLinkElement = doc.querySelector('.result-list .result h3 a');
+    const linkDom: HTMLLinkElement|null = doc.querySelector('.result-list .result h3 a');
     if (!linkDom) {
       throw $t('豆瓣ID获取失败');
     } else {
       const { href, textContent } = linkDom;
-      const season = textContent.match(/第(.+?)季/)?.[1] ?? '';
-      const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1];
+      const season = textContent?.match(/第(.+?)季/)?.[1] ?? '';
+      const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1] ?? '';
       return ({
         id: doubanId,
         season,
-        title: textContent,
+        title: textContent || '',
       });
     }
   } catch (error) {
     handleError(error);
   }
 };
-const getIMDBData = async (imdbUrl: string) => {
+const getIMDBData = async (imdbUrl: string):Promise<IMDB.ImdbData|undefined> => {
   try {
     if (!imdbUrl) {
       throw new Error('$t(缺少IMDB信息)');
@@ -334,7 +349,7 @@ const transferImgs = async (screenshot: string, authToken: string, imgHost = 'ht
   try {
     const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
     const formData = new FormData();
-    if (isHdbHost) {
+    if (isHdbHost || imgHost.includes('gifyu')) {
       const promiseArray = [urlToFile(screenshot)];
       const [fileData] = await Promise.all(promiseArray);
       formData.append('type', 'file');
@@ -359,6 +374,7 @@ const transferImgs = async (screenshot: string, authToken: string, imgHost = 'ht
     }
     throw $t('上传失败，请重试');
   } catch (error) {
+    console.log('err:', error);
     handleError(error);
   }
 };
@@ -415,16 +431,16 @@ const getPreciseCategory = (torrentInfo: TorrentInfo.Info, category: string) => 
   }
   return category;
 };
-const getUrlParam = (key) => {
+const getUrlParam = (key:string) => {
   const reg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
-  const regArray = location.search.substr(1).match(reg);
+  const regArray = location.search.substring(1).match(reg);
   if (regArray) {
-    return unescape(regArray[2]);
+    return decodeURIComponent(regArray[2]);
   }
   return '';
 };
 // 获取音频编码
-const getAudioCodecFromTitle = (title) => {
+const getAudioCodecFromTitle = (title:string) => {
   if (!title) {
     return '';
   }
@@ -454,7 +470,7 @@ const getAudioCodecFromTitle = (title) => {
   }
   return '';
 };
-const getVideoCodecFromTitle = (title, videoType = '') => {
+const getVideoCodecFromTitle = (title:string, videoType = '') => {
   title = title.replace(/\.|-/g, '');
   if (title.match(/x264/i) || (title.match(/h264|avc/i) && videoType === 'encode')) {
     return 'x264';
@@ -474,7 +490,7 @@ const getVideoCodecFromTitle = (title, videoType = '') => {
   return '';
 };
 
-const getFilterImages = (bbcode): string[] => {
+const getFilterImages = (bbcode:string): string[] => {
   if (!bbcode) {
     return [];
   }
@@ -508,24 +524,24 @@ const getOriginalImgUrl = (imgArray: string[]) => {
   return imgArray.map(item => {
     let imgUrl = item;
     if (item.match(/\[url=http(s)*:.+/)) {
-      imgUrl = item.match(/=(([^\]])+)/)?.[1];
+      imgUrl = item.match(/=(([^\]])+)/)?.[1] ?? '';
       if (imgUrl.match(/img\.hdbits\.org/)) {
-        const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)[1];
+        const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)?.[1] ?? '';
         imgUrl = `https://i.hdbits.org/${imgId}.png`;
       } else if (item.match(/img\.pterclub\.com/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
         imgUrl = imgUrl.replace(/\.th/g, '');
       } else if (item.match(/https?:\/\/imgbox\.com/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
         imgUrl = imgUrl.replace(/thumbs(\d)/, 'images$1').replace(/_t(\.png)/, '_o.png');
       } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1];
+        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
       } else if (item.match(/https:\/\/pixhost\.to/)) {
         const hostNumber = item.match(/img\]https:\/\/t(\d+)\./)?.[1];
         imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
       }
     } else if (item.match(/\[img\]/)) {
-      imgUrl = item.match(/img\](([^[])+)/)?.[1];
+      imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
     }
     return imgUrl;
   });
@@ -568,11 +584,11 @@ const getSubTitle = (data: Douban.DoubanData) => {
 * @param {any}
 * @return
 * */
-const replaceEngName = (string) => {
+const replaceEngName = (string:string) => {
   return string.replace(/\s+[A-Za-z\s]+/, '');
 };
 
-const getAreaCode = (area) => {
+const getAreaCode = (area:string) => {
   const europeList = EUROPE_LIST;
   if (area) {
     if (area.match(/USA|US|Canada|CA|美国|加拿大|United States/i)) {
@@ -647,7 +663,7 @@ const getIMDBIdByUrl = (imdbLink: string) => {
 
 const getSize = (size: string) => {
   if (!size) {
-    return '';
+    return 0;
   }
   if (size.match(/T/i)) {
     return (parseFloat(size) * 1024 * 1024 * 1024 * 1024) || 0;
@@ -658,12 +674,12 @@ const getSize = (size: string) => {
   } else if (size.match(/K/i)) {
     return (parseFloat(size) * 1024) || 0;
   }
-  return '';
+  return 0;
 };
 
-const getInfoFromMediaInfo = (mediaInfo) => {
+const getInfoFromMediaInfo = (mediaInfo:string) => {
   if (!mediaInfo) {
-    return false;
+    return {};
   }
   const mediaArray = mediaInfo.split(/\n\s*\n/).filter(item => !!item.trim());
   const [generalPart, videoPart] = mediaArray;
@@ -692,15 +708,15 @@ const getInfoFromMediaInfo = (mediaInfo) => {
     mediaTags,
   };
 };
-const getMediaValueByKey = (key, mediaInfo) => {
+const getMediaValueByKey = (key:string, mediaInfo:string) => {
   if (!mediaInfo) {
     return '';
   }
   const keyRegStr = key.replace(/\s/, '\\s*').replace(/(\(|\))/g, '\\$1');
   const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\\n]+)`, 'i');
-  return mediaInfo.match(reg) ? mediaInfo.match(reg)[1] : '';
+  return mediaInfo.match(reg)?.[1] ?? '';
 };
-const getResolution = (mediaInfo) => {
+const getResolution = (mediaInfo:string) => {
   const height = parseInt(getMediaValueByKey('Height', mediaInfo).replace(/\s/g, ''), 10);
   const width = parseInt(getMediaValueByKey('Width', mediaInfo).replace(/\s/g, ''), 10);
   const ScanType = getMediaValueByKey('Scan type', mediaInfo);
@@ -721,7 +737,12 @@ const getResolution = (mediaInfo) => {
   }
   return '';
 };
-const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV): TorrentInfo.MediaTags => {
+const getMediaTags = (
+  audioCodec:string,
+  channelName:string,
+  languageArray:string[],
+  subtitleLanguageArray:string[],
+  hdrFormat:string, isDV:boolean): TorrentInfo.MediaTags => {
   const hasChineseAudio = languageArray.includes('Chinese');
   const hasChineseSubtitle = subtitleLanguageArray.includes('Chinese');
   const mediaTags: TorrentInfo.MediaTags = {};
@@ -751,13 +772,14 @@ const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageAr
   }
   return mediaTags;
 };
-const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+const getVideoCodecByMediaInfo = (mainVideo:string, generalPart:string, secondVideo:string[]) => {
   const generalFormat = getMediaValueByKey('Format', generalPart);
   const videoFormat = getMediaValueByKey('Format', mainVideo);
   const videoFormatVersion = getMediaValueByKey('Format version', mainVideo);
   const videoCodeId = getMediaValueByKey('Codec ID', mainVideo);
   const hdrFormat = getMediaValueByKey('HDR format', mainVideo);
-  const isDV = hdrFormat.match(/Dolby\s*Vision/i) || (secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).match(/Dolby\s*Vision/i));
+  const isDV = hdrFormat.match(/Dolby\s*Vision/i) ||
+   (secondVideo.length > 0 && getMediaValueByKey('HDR format', secondVideo[0]).match(/Dolby\s*Vision/i));
   const isEncoded = !!getMediaValueByKey('Encoding settings', mainVideo);
   let videoCodec = '';
   if (generalFormat === 'DVD Video') {
@@ -782,10 +804,10 @@ const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
   return {
     videoCodec,
     hdrFormat,
-    isDV,
+    isDV: !!isDV,
   };
 };
-const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
+const getAudioCodecByMediaInfo = (mainAudio:string, otherAudio:string[]) => {
   const audioFormat = getMediaValueByKey('Format', mainAudio);
   const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
   const commercialName = getMediaValueByKey('Commercial name', mainAudio);
@@ -829,9 +851,9 @@ const getAudioCodecByMediaInfo = (mainAudio, otherAudio = []) => {
     languageArray,
   };
 };
-const getInfoFromBDInfo = (bdInfo) => {
+const getInfoFromBDInfo = (bdInfo:string) => {
   if (!bdInfo) {
-    return '';
+    return {};
   }
   const splitArray = bdInfo.split('Disc Title');
   // 如果有多个bdinfo只取第一个
@@ -849,15 +871,15 @@ const getInfoFromBDInfo = (bdInfo) => {
   const videoPart = splitBDMediaInfo(videoMatch, 2);
   const [mainVideo = '', otherVideo = ''] = videoPart;
   const videoCodec = mainVideo.match(/2160/) ? 'hevc' : 'h264';
-  const hdrFormat = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)?.[0];
+  const hdrFormat = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)?.[0] ?? '';
   const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
   const audioPart = splitBDMediaInfo(audioMatch, 2);
   const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
   const resolution = mainVideo.match(/\d{3,4}(p|i)/)?.[0];
   const { audioCodec = '', channelName = '', languageArray = [] } = getBDAudioInfo(audioPart, quickSummaryStyle);
   const subtitleLanguageArray = subtitlePart.map(item => {
-    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
-    const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1];
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1] ?? '';
+    const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1] ?? '';
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
   });
@@ -869,18 +891,19 @@ const getInfoFromBDInfo = (bdInfo) => {
     audioCodec,
     resolution,
     mediaTags,
+    format: 'm2ts',
   };
 };
-const splitBDMediaInfo = (matchArray, matchIndex) => {
+const splitBDMediaInfo = (matchArray:string[]|null, matchIndex:number) => {
   return matchArray?.[matchIndex]?.split('\n').filter(item => !!item) ?? [];
 };
-const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+const getBDAudioInfo = (audioPart:string[], quickSummaryStyle:boolean) => {
   if (audioPart.length < 1) {
     return {};
   }
   const sortArray = audioPart.sort((a, b) => {
-    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1], 10);
-    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1], 10);
+    const firstBitrate = parseInt(a.match(/\/\s*(\d+)\s*kbps/i)?.[1] ?? '', 10);
+    const lastBitrate = parseInt(b.match(/\/\s*(\d+)\s*kbps/i)?.[1] ?? '', 10);
     return lastBitrate - firstBitrate;
   });
   const [mainAudio, secondAudio] = sortArray;
@@ -893,8 +916,8 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     channelName = mainAudio.match(/\d\.\d/)?.[0];
   }
   const languageArray = sortArray.map(item => {
-    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1];
-    const normalMatch = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)?.[1];
+    const quickStyleMatch = item.match(/(\w+)\s*\//)?.[1] ?? '';
+    const normalMatch = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)?.[1] ?? '';
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
   });
@@ -904,7 +927,11 @@ const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
     languageArray,
   };
 };
-const wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
+interface TagParam {
+  pre: (string|null)[]
+  post: (string|null|undefined)[]
+}
+const wrappingBBCodeTag = ({ pre, post }:TagParam, preTag:string|null, poTag?:string|null) => {
   const isPre = typeof pre !== 'undefined' && pre !== null;
   const isPost = typeof post !== 'undefined' && post !== null;
   if (isPre) {
@@ -915,36 +942,38 @@ const wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
   }
 };
 // 过滤掉一些声明或者无意义文字
-const getFilterBBCode = (content) => {
+const getFilterBBCode = (content:Element) => {
   if (content) {
     const bbCodes = htmlToBBCode(content);
-    return bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
+    return bbCodes?.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
       if ((p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|商业用途|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/))) {
         return '';
       }
       return match;
-    });
+    }) ?? '';
   }
+  return '';
 };
-const rgb2hex = (rgb) => {
-  rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-  return (rgb && rgb.length === 4)
+const rgb2hex = (rgb:string) => {
+  const result = rgb?.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i) ?? [];
+  return (result.length === 4)
     ? `#${(`0${parseInt(rgb[1], 10).toString(16)}`).slice(-2)
     }${(`0${parseInt(rgb[2], 10).toString(16)}`).slice(-2)
     }${(`0${parseInt(rgb[3], 10).toString(16)}`).slice(-2)}`
     : '';
 };
 
-const ensureProperColor = (color) => {
+const ensureProperColor = (color:string) => {
   if (/rgba?/.test(color)) return rgb2hex(color);
   return color;
 };
 // html转BBCode代码
-const htmlToBBCode = (node) => {
-  const bbCodes = [];
-  const pre = [];
-  const post = [];
+const htmlToBBCode = (node:Element) => {
+  const bbCodes :string[] = [];
+  const pre:string[] = [];
+  const post:string[] = [];
   const pp = wrappingBBCodeTag.bind(null, { pre, post });
+
   switch (node.nodeType) {
     case 1: { // tag
       switch (node.tagName.toUpperCase()) {
@@ -954,7 +983,7 @@ const htmlToBBCode = (node) => {
         case 'LI': {
           const { className } = node;
           if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && className) {
-            return `[quote]${node.textContent.trim()}[/quote]`;
+            return `[quote]${node?.textContent?.trim()}[/quote]`;
           }
           pp('[*]', '\n'); break;
         }
@@ -965,7 +994,7 @@ const htmlToBBCode = (node) => {
           const { className } = node;
           if (className === 'codemain') {
             // 兼容朋友
-            if (node.firstChild && node.firstChild.tagName === 'PRE') {
+            if (node.children[0] && node.children[0].tagName === 'PRE') {
               pp('');
               break;
             } else {
@@ -999,7 +1028,7 @@ const htmlToBBCode = (node) => {
         case 'P': { pp('\n'); break; }
         case 'BR': {
           if ((CURRENT_SITE_INFO.siteType === 'NexusPHP' && CURRENT_SITE_NAME !== 'OurBits') ||
-            CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/)) {
+            CURRENT_SITE_NAME?.match(/^(UHDBits|HDBits|BTN)/)) {
             pp('');
           } else {
             pp('\n');
@@ -1016,7 +1045,7 @@ const htmlToBBCode = (node) => {
           pp('[center]', '[/center]'); break;
         }
         case 'TD': {
-          if (CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
+          if (CURRENT_SITE_NAME?.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
             CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
           } else if (CURRENT_SITE_NAME === 'EMP') {
@@ -1027,7 +1056,7 @@ const htmlToBBCode = (node) => {
         }
         case 'IMG': {
           let imgUrl = '';
-          const { src, title } = node;
+          const { src, title } = node as HTMLImageElement;
           const dataSrc = node.getAttribute('data-src') || node.getAttribute('data-echo');
           // blu等unit3d站点会把:m:转成icon图片
           if (title === ':m:') {
@@ -1043,7 +1072,7 @@ const htmlToBBCode = (node) => {
           return `[img]${imgUrl}[/img]`;
         }
         case 'FONT': {
-          const { color, size } = node;
+          const { color, size } = node as HTMLFontElement;
           if (color) {
             pp(`[color=${ensureProperColor(color)}]`, '[/color]');
           }
@@ -1053,7 +1082,7 @@ const htmlToBBCode = (node) => {
           break;
         }
         case 'A': {
-          const { href, textContent } = node;
+          const { href, textContent } = node as HTMLLinkElement;
           if (href && href.length > 0) {
             if (CURRENT_SITE_NAME === 'HDSpace') {
               const div = $(node).find('div');
@@ -1074,7 +1103,7 @@ const htmlToBBCode = (node) => {
         case 'H3': { pp('[b][size="5"]', '[/size][/b]\n'); break; }
         case 'H4': { pp('[b][size="4"]', '[/size][/b]\n'); break; }
       }
-      const { textAlign, fontWeight, fontStyle, textDecoration, color } = node.style;
+      const { textAlign, fontWeight, fontStyle, textDecoration, color } = (node as HTMLElement).style;
       if (textAlign) {
         switch (textAlign.toUpperCase()) {
           case 'LEFT': { pp('[left]', '[/left]'); break; }
@@ -1091,22 +1120,24 @@ const htmlToBBCode = (node) => {
       break;
     }
     case 3: {
-      if (node.textContent.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
+      if (node?.textContent?.trim()?.match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
         return '';
       }
+
       return node.textContent;
     } // textNode
     default: return null;
   }
   node.childNodes.forEach((node) => {
-    const code = htmlToBBCode(node);
+    const code = htmlToBBCode(node as Element);
     if (code) {
       bbCodes.push(code);
     }
   });
   return pre.concat(bbCodes).concat(post).join('');
 };
-const getTagsFromSubtitle = (title) => {
+htmlToBBCode(document.createElement('ul'));
+const getTagsFromSubtitle = (title:string) => {
   const tags: TorrentInfo.MediaTags = {};
   if (title.match(/diy/i)) {
     tags.diy = true;
@@ -1138,7 +1169,7 @@ const getTagsFromSubtitle = (title) => {
   }
   return tags;
 };
-const getBDInfoOrMediaInfo = (bbcode) => {
+const getBDInfoOrMediaInfo = (bbcode:string) => {
   const quoteList = bbcode?.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
   let bdinfo = ''; let mediaInfo = '';
   quoteList.forEach(quote => {
@@ -1158,15 +1189,15 @@ const getBDInfoOrMediaInfo = (bbcode) => {
     mediaInfo,
   };
 };
-const replaceRegSymbols = (string) => {
+const replaceRegSymbols = (string:string) => {
   return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
 };
 // https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
-const getRtIdFromTitle = async (title, tv, year) => {
+const getRtIdFromTitle = async (title:string, tv:boolean, year:string) => {
   console.log(title, year);
   const MAX_YEAR_DIFF = 2;
   tv = tv || false;
-  year = parseInt(year, 10) || 1800;
+  const yearVal = parseInt(year, 10) || 1800;
   const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
   const data = await fetch(url);
   const movies = tv ? data.tvSeries : data.movies;
@@ -1177,9 +1208,9 @@ const getRtIdFromTitle = async (title, tv, year) => {
   const sorted = movies.concat();
   if (year && sorted) {
     sorted.sort((a, b) => {
-      if (Math.abs(a.year - year) !== Math.abs(b.year - year)) {
+      if (Math.abs(a.year - yearVal) !== Math.abs(b.year - yearVal)) {
         // Prefer closest year to the given one
-        return Math.abs(a.year - year) - Math.abs(b.year - year);
+        return Math.abs(a.year - yearVal) - Math.abs(b.year - yearVal);
       }
       return b.year - a.year; // In a tie, later year should come first
     });
@@ -1205,10 +1236,10 @@ const getRtIdFromTitle = async (title, tv, year) => {
   const yearComp = (imdb: number, rt: number) => {
     return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
   };
-  if (year && (!bestMatch || !yearComp(year, bestMatch.year))) {
-    if (closeMatch && yearComp(year, closeMatch.year)) {
+  if (yearVal && (!bestMatch || !yearComp(yearVal, bestMatch.year))) {
+    if (closeMatch && yearComp(yearVal, closeMatch.year)) {
       bestMatch = closeMatch;
-    } else if (yearComp(year, sorted[0].year)) {
+    } else if (yearComp(yearVal, sorted[0].year)) {
       bestMatch = sorted[0];
     }
   }
@@ -1228,7 +1259,7 @@ const getRtIdFromTitle = async (title, tv, year) => {
 
 const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean = false) => {
   try {
-    const apiKey = GM_getValue('easy-seed.ptp-img-api-key');
+    const apiKey = getValue('easy-seed.ptp-img-api-key', false);
     if (!apiKey) {
       Notification.open({
         message: $t('ptpimg上传失败'),
@@ -1236,25 +1267,30 @@ const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean =
       });
       return;
     }
-    let formData;
+
     const options: RequestOptions = {
       method: 'POST',
       responseType: 'json',
     };
     if (isFiles) {
-      formData = new FormData();
+      const formData = new FormData();
       imgArray.forEach((img, index) => {
         formData.append(`file-upload[${index}]`, img);
       });
       formData.append('api_key', apiKey);
+      options.data = formData;
     } else {
-      formData = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
+      const data = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
       options.headers = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       };
+      options.data = data;
     }
-    options.data = formData;
-    const data = await fetch('https://ptpimg.me/upload.php', options);
+    interface PTPImg{
+      code:string
+      ext:string
+    }
+    const data:PTPImg[] = await fetch('https://ptpimg.me/upload.php', options);
     if (!data) {
       throw $t('上传失败，请重试');
     }
@@ -1270,9 +1306,10 @@ const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean =
     handleError(error);
   }
 };
-const $t = (key: string) => {
+
+const $t = (key:string) => {
   const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
-  return i18nConfig[languageKey]?.[key] ?? key;
+  return i18nConfig[languageKey][key as keyof typeof i18nConfig.zh_CN] || key;
 };
 
 const urlToFile = async (url: string): Promise<File> => {
@@ -1337,6 +1374,20 @@ const fetch = (url: string, options?: RequestOptions): Promise<any> => {
   });
 };
 
+const getTvSeasonData = async (data:Douban.Season) => {
+  const { title: torrentTitle } = TORRENT_INFO;
+  const { season = '', title } = data;
+  if (season) {
+    const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
+    if (parseInt(seasonNumber, 10) === 1) {
+      return data;
+    }
+    const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
+    const response = await getDoubanIdByIMDB(query);
+    return response;
+  }
+};
+
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1375,4 +1426,6 @@ export {
   fetch,
   uploadToPixhost,
   getValue,
+  getTvSeasonData,
+  getDoubanBookInfo,
 };

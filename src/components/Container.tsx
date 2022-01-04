@@ -1,20 +1,21 @@
 import { useState } from 'preact/hooks';
 import {
-  CURRENT_SITE_NAME, CURRENT_SITE_INFO,
+  CURRENT_SITE_NAME, CURRENT_SITE_INFO, SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO,
 } from '../const';
 import {
-  $t,
+  $t, getValue, getSize, fetch,
 } from '../common';
 import FunctionList from '../components/FunctionList';
 import SearchList from '../components/SearchList';
 import UploadSiteList from '../components/UploadSiteList';
 import SettingPanel from './SettingPanel';
 import ConfigSvg from '../assets/setting.svg';
+import { getQuickSearchUrl } from './common';
 
 const Container = () => {
   const [settingPanelOpen, setSettingPanelOpen] = useState(false);
   const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) ||
-    CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/);
+    CURRENT_SITE_NAME?.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/);
   const isHDB = CURRENT_SITE_NAME === 'HDBits';
   const baseTitleClass = ['title-td'];
   const baseContentClass = ['easy-seed-td'];
@@ -37,6 +38,53 @@ const Container = () => {
   const closePanel = () => {
     setSettingPanelOpen(false);
   };
+  const checkQuickResult = () => {
+    let searchListSetting:string[] = getValue('easy-seed.enabled-search-site-list');
+    if (searchListSetting.length === 0) {
+      searchListSetting = SORTED_SITE_KEYS;
+    }
+    searchListSetting.forEach(async (site) => {
+      const siteInfo = (PT_SITE[site as keyof typeof PT_SITE] as Site.SiteInfo);
+      const resultConfig = siteInfo.search?.result;
+      const siteUrl = siteInfo.url;
+      if (resultConfig) {
+        const { list, name, size, url: urlDom } = resultConfig;
+        const { title, size: searchSize } = TORRENT_INFO;
+        const url = getQuickSearchUrl(site);
+        const domString = await fetch(url, {
+          responseType: undefined,
+        });
+
+        const dom = new DOMParser().parseFromString(domString, 'text/html');
+        const torrentList = $(list, dom);
+        const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
+          let torrentName;
+          if (site === 'TTG') {
+            torrentName = $(item).find(name).prop('firstChild')?.textContent?.trim() ?? '';
+          } else {
+            torrentName = $(item).find(name).attr('title') || $(item).find(name).text();
+          }
+          if (site === 'TJUPT') {
+            const matchArray:string[] = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+            const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
+            torrentName = realTitle.replace(/\[|\]/g, '');
+          }
+          torrentName = torrentName?.replace(/\s|\./g, '');
+
+          const sizeBytes = getSize($(item).find(size).text());
+          return torrentName === title?.replace(/\s|\./g, '') && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1000;
+        });
+        console.log(sameTorrent);
+
+        if (sameTorrent) {
+          const url = `${siteUrl}/${$(sameTorrent).find(urlDom).attr('href')}`;
+          $(`.search-list li>a[data-site=${site}]`).attr('data-url', url).css('color', '#218380');
+        } else {
+          $(`.search-list li>a[data-site=${site}]`).css('color', '#D81159');
+        }
+      }
+    });
+  };
   const Title = () => {
     return <h4>
       {$t('一键转种')}
@@ -46,14 +94,16 @@ const Container = () => {
   };
   return <>
     {
-      (isNexusPHP || isHDB || CURRENT_SITE_NAME.match(/(HDSpace|HDT)$/)) &&
+      (isNexusPHP || isHDB || CURRENT_SITE_NAME?.match(/(HDSpace|HDT)$/)) &&
       <>
         <tr className={isHDB ? 'hdb-tr' : ''}>
           <td className={baseTitleClass.join(' ')}>
             <Title />
           </td>
           <td className={baseContentClass.join(' ')}>
-            <UploadSiteList />
+            <div className='seed-dom'>
+              <UploadSiteList />
+            </div>
           </td>
         </tr>
         <tr className={isHDB ? 'hdb-tr' : ''}>
@@ -66,7 +116,7 @@ const Container = () => {
         </tr>
         <tr className={isHDB ? 'hdb-tr' : ''}>
           <td className={baseTitleClass.join(' ')}>
-            <h4 className="quick-search">{$t('快速检索')}</h4>
+            <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
           </td>
           <td className={baseContentClass.join(' ')}>
             <SearchList />
@@ -80,7 +130,9 @@ const Container = () => {
         <div className="team-hd">
           <Title />
           <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-            <UploadSiteList />
+            <div className='seed-dom'>
+              <UploadSiteList />
+            </div>
           </div>
         </div>
         <div className="team-hd">
@@ -88,10 +140,28 @@ const Container = () => {
           <FunctionList />
         </div>
         <div className="team-hd">
-          <h4>{$t('快速检索')}</h4>
+          <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
           <SearchList />
         </div>
       </>
+    }
+    {
+      CURRENT_SITE_INFO.siteType === 'gazelle' &&
+      <div class="seed-dom movie-page__torrent__panel">
+        <div className="ptp-title-wrapper">
+          <Title />
+          <UploadSiteList />
+        </div>
+
+        {CURRENT_SITE_NAME !== 'EMP' && <FunctionList />}
+        <div class="ptp-search-list">
+          <div class="ptp-title-wrapper">
+            <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
+            <SearchList />
+          </div>
+        </div>
+      </div>
+
     }
     {
       <div style={{ display: settingPanelOpen ? 'block' : 'none' }}>

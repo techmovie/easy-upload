@@ -11,12 +11,13 @@ import Notification from './Notification';
 const Transfer = () => {
   const [imgHost, setImgHost] = useState('imgbb');
   const [btnDisable, setBtnDisable] = useState(false);
-  const [btnText, setBtnText] = useState('获取豆瓣简介');
+  const [btnText, setBtnText] = useState('转缩略图');
   const [progress, setProgress] = useState(-1);
-  const [imgList, setImgList] = useState([]);
+  const [imgList, setImgList] = useState([] as string[]);
   const getThumbnailImgs = async () => {
     try {
-      const allImgs: string[] = TORRENT_INFO.screenshots.concat(...TORRENT_INFO.comparisons.map(v => v.imgs));
+      const comparisons = TORRENT_INFO.comparisons || [];
+      const allImgs: string[] = TORRENT_INFO.screenshots.concat(...comparisons.map(v => v.imgs));
       const imgList: string[] = [...new Set(allImgs)];
       setImgList(imgList);
       if (imgList.length < 1) {
@@ -30,13 +31,15 @@ const Transfer = () => {
         gifyu: 'https://gifyu.com/json',
         pixhost: 'https://pixhost.to',
       };
-      const selectHost = hostMap[imgHost];
+      const selectHost = hostMap[imgHost as keyof typeof hostMap];
       const uploadedImgs = [];
       let authToken;
       if (imgHost !== 'pixhost') {
         const rawHtml = await fetch(selectHost.replace('/json', ''), {
           responseType: undefined,
         });
+        console.log(rawHtml);
+
         authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1];
       }
 
@@ -75,18 +78,21 @@ const Transfer = () => {
     } catch (error) {
       Notification.open({
         message: $t('错误'),
-        description: error.message,
+        description: (error as Error).message,
       });
     } finally {
       setBtnText('转缩略图');
-      setBtnDisable(true);
+      setBtnDisable(false);
     }
   };
   const transferImgClosed = getValue('easy-seed.transfer-img-closed', false) || '';
-  return !(transferImgClosed || CURRENT_SITE_NAME === 'BTN') &&
-    <div className="function-list-item">
+  return !(transferImgClosed || CURRENT_SITE_NAME === 'BTN')
+    ? <div className="function-list-item">
       <div className="upload-section">
-        <button onClick={getThumbnailImgs} disabled={btnDisable}>{$t(btnText)}</button>
+        <button
+          className={btnDisable ? 'is-disabled' : ''}
+          onClick={getThumbnailImgs}
+          disabled={btnDisable}>{$t(btnText)}</button>
         <select
           value={imgHost}
           onChange={(e) => setImgHost((e.target as HTMLSelectElement).value)}>
@@ -98,6 +104,7 @@ const Transfer = () => {
           id="transfer-progress"
           hidden={progress < 0}>{`${progress} / ${imgList.length}`}</div>
       </div>
-    </div>;
+    </div>
+    : null;
 };
 export default Transfer;

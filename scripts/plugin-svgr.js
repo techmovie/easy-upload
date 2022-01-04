@@ -12,7 +12,7 @@ export default (options = {}) => ({
         { filePath: args.path },
       );
       return {
-        contents: contents,
+        contents: contents.replace(/import.*"react";/, ''),
         loader: 'jsx',
       };
     });

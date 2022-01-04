@@ -6,7 +6,10 @@ import {
 } from '../common';
 import Notification from './Notification';
 
-const getPTPGroupId = async (imdbUrl) => {
+const getPTPGroupId = async (imdbUrl:string|undefined) => {
+  if (!imdbUrl) {
+    return '';
+  }
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
@@ -29,8 +32,9 @@ const openBatchSeedTabs = () => {
   }
   const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
   SORTED_SITE_KEYS.forEach((siteName) => {
-    const { url, uploadPath } = PT_SITE[siteName];
-    if (PT_SITE[siteName].asTarget) {
+    const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
+    const { url, uploadPath = '' } = siteInfo;
+    if (siteInfo.asTarget) {
       if (batchSeedSetting.includes(siteName)) {
         GM_openInTab(`${url + uploadPath}#torrentInfo=${torrentInfo}`);
       }
@@ -41,7 +45,10 @@ const openBatchSeedTabs = () => {
     description: $t('转种页面已打开，请前往对应页面操作'),
   });
 };
-const getGPWGroupId = async (imdbUrl) => {
+const getGPWGroupId = async (imdbUrl:string|undefined) => {
+  if (!imdbUrl) {
+    return '';
+  }
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
@@ -54,7 +61,7 @@ const getGPWGroupId = async (imdbUrl) => {
   return '';
 };
 const UploadSiteList = () => {
-  const handleSiteClickEvent = async (url) => {
+  const handleSiteClickEvent = async (url:string) => {
     if (url.match(/lemonhd/)) {
       const catMap = {
         movie: 'movie',
@@ -64,7 +71,7 @@ const UploadSiteList = () => {
         documentary: 'doc',
         concert: 'mv',
       };
-      const path = catMap[TORRENT_INFO.category] || 'movie';
+      const path = catMap[TORRENT_INFO.category as keyof typeof catMap] || 'movie';
       url = url.replace('upload_movie', `upload_${path}`);
     }
     if (url.match(/hdpost|blutopia|asiancinema/)) {
@@ -74,7 +81,7 @@ const UploadSiteList = () => {
         tvPack: '2',
         documentary: '1',
       };
-      const path = catMap[TORRENT_INFO.category] || '1';
+      const path = catMap[TORRENT_INFO.category as keyof typeof catMap] || '1';
       url = url.replace('1', path);
     }
     if (url.match(/aither/)) {
@@ -91,7 +98,7 @@ const UploadSiteList = () => {
         magazine: '11',
         audioBook: '14',
       };
-      const path = catMap[TORRENT_INFO.category] || '1';
+      const path = catMap[TORRENT_INFO.category as keyof typeof catMap] || '1';
       url = url.replace('1', path);
     }
     if (url.match(/bibliotik/)) {
@@ -100,7 +107,7 @@ const UploadSiteList = () => {
         magazine: 'magazines',
         audioBook: 'audiobooks',
       };
-      url = url.replace('/upload', `/upload/${catMap[TORRENT_INFO.category] || 'ebooks'}`);
+      url = url.replace('/upload', `/upload/${catMap[TORRENT_INFO.category as keyof typeof catMap] || 'ebooks'}`);
     }
     if (url.match(/baconbits/)) {
       const catMap = {
@@ -115,7 +122,7 @@ const UploadSiteList = () => {
         audioBook: 'Audiobooks',
         comics: 'Comics',
       };
-      const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category]}`;
+      const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category as keyof typeof catMap]}`;
       const formDom = await fetch(bBDomUrl, {
         responseType: undefined,
       });
@@ -132,7 +139,7 @@ const UploadSiteList = () => {
         cartoon: '404',
         variety: '405',
       };
-      url = url.replace('/upload.php', `/upload.php?type=${catMap[TORRENT_INFO.category]}`);
+      url = url.replace('/upload.php', `/upload.php?type=${catMap[TORRENT_INFO.category as keyof typeof catMap]}`);
     }
     if (url.match(PT_SITE.PTP.host)) {
       const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
@@ -162,36 +169,35 @@ const UploadSiteList = () => {
   };
   const targetSitesEnabled = getValue('easy-seed.enabled-target-sites') || [];
   const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false) || '';
-  return <div className="seed-dom">
-    <ul className="site-list">
-      {SORTED_SITE_KEYS.map((siteName) => {
-        const { url, uploadPath } = PT_SITE[siteName];
-        const favIcon = (siteFaviconClosed === '' && PT_SITE[siteName].icon)
-          ? PT_SITE[siteName].icon
-          : '';
+  return <ul className="site-list">
+    {SORTED_SITE_KEYS.map((siteName) => {
+      const siteInfo: any = PT_SITE[siteName as keyof typeof PT_SITE];
+      const { url, uploadPath } = siteInfo;
+      const favIcon = (siteFaviconClosed === '' && siteInfo.icon)
+        ? siteInfo.icon
+        : '';
 
-        if (PT_SITE[siteName].asTarget) {
-          if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
-            return <li key={siteName}>
-              <a
-                href="#"
-                className="site-item"
-                onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
-                {
-                  !!favIcon && <img src={favIcon} className="site-icon" />
-                }
-                {siteName}
-              </a>
-              <span>|</span>
-            </li>;
-          }
+      if (siteInfo.asTarget) {
+        if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
+          return <li key={siteName}>
+            <a
+              href="#"
+              className="site-item"
+              onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
+              {
+                !!favIcon && <img src={favIcon} className="site-icon" />
+              }
+               {siteName}
+            </a>
+            <span>|</span>
+          </li>;
         }
-        return '';
-      })}
-      <li>
-        <button id="batch-seed-btn" onClick={openBatchSeedTabs}>{$t('一键群转')}</button>
-      </li>
-    </ul>
-  </div>;
+      }
+      return '';
+    })}
+    <li>
+      <button id="batch-seed-btn" onClick={openBatchSeedTabs}>{$t('一键群转')}</button>
+    </li>
+  </ul>;
 };
 export default UploadSiteList;

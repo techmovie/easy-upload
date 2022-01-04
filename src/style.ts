@@ -13,20 +13,6 @@ td.title-td h4{
   align-items: center;
   justify-content: flex-end;
 }
-.ptp-seed-title {
-  display: flex;
-  align-items: center;
-}
-.ptp-seed-title h4{
-  margin: 0 !important;
-  margin-right: 10px !important;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-}
-#torrents .ptp-seed-title h4{
-  display: block !important;
-}
 .seed-dom button{
   line-height: 1;
   white-space: nowrap;
@@ -70,10 +56,11 @@ td.title-td h4{
   align-items: center;
   flex-wrap: wrap;
 }
-.site-list .site-item{
-  display: inline-flex;
-  align-items: center;
-}
+// .site-list .site-item{
+//   display: flex;
+//   align-items: center;
+//   font-weight: 600;
+// }
 .site-list .site-icon{
   width: 12px;
   margin-right: 5px;
@@ -94,28 +81,22 @@ td.title-td h4{
   margin-right: 15px;
 }
 .seed-dom li,.search-list li {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 5px;
-  line-height: 24px;
   font-weight: 600;
-}
-#content .seed-dom li{
+  line-height: 24px;
   margin-right: 5px;
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 0;
   padding: 0px;
 }
-.seed-dom li:last-child span{
-  display: none;
+.seed-dom li a,.search-list li a {
+  padding-right: 3px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
 }
 .search-list li:last-child span{
   display: none;
-}
-.seed-dom li a{
-  font-weight: 600;
 }
 .easy-seed-function-list{
   display: flex;
@@ -518,12 +499,30 @@ svg.setting-svg{
 tr.pad[id*="torrent_"]{
   font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
 }
-.copy-img{
+.easy-seed-function-list .copy-img{
   margin-left: 5px;
 }
 .quick-search{
   cursor: pointer;
   color: #409eff;
   font-weight: 600;
+}
+.ptp-title-wrapper{
+  position: relative;
+}
+.ptp-title-wrapper h4{
+  position: absolute;
+  left:0;
+  top: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  line-height: 24px;
+}
+.ptp-title-wrapper .site-list li:first-child{
+  padding-left: 80px;
+}
+.ptp-title-wrapper .search-list li:first-child{
+  padding-left: 65px;
 }
 `);
