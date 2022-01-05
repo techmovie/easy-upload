@@ -380,7 +380,7 @@ const transferImgs = async (screenshot: string, authToken: string, imgHost = 'ht
 };
 const uploadToPixhost = async (screenshots: string[]) => {
   try {
-    const params = encodeURI(`imgs = ${screenshots}& content_type=1 & max_th_size=300`);
+    const params = encodeURI(`imgs=${screenshots.join('\n')}&content_type=1&max_th_size=300`);
     const res = await fetch('https://pixhost.to/remote/', {
       method: 'POST',
       data: params,
