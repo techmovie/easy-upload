@@ -193,7 +193,7 @@ declare namespace Douban {
     episodes: string
     doubanVotes: string
     year: string
-    duration: string
+    duration: number
     director: QueryPerson[],
     data: DataInfo[]
     actor: QueryPerson[]

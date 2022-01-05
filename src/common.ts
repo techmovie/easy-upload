@@ -185,7 +185,7 @@ const getDataFromDoubanPage = async (domString:string): Promise<Douban.DoubanDat
     doubanLink,
     doubanRatingAverage: rating || 0,
     doubanVotes: votes,
-    doubanRating: `${rating}/10 from ${votes} users`,
+    doubanRating: `${rating || 0}/10 from ${votes} users`,
     poster,
     director,
     cast,
@@ -260,7 +260,7 @@ const formatDoubanInfo = (data:Douban.DoubanQueryData) => {
     genre: chineseInfo.genre.split('/'),
     language: chineseInfo.language.split('/'),
     episodes,
-    duration: `${duration} / 60分钟`,
+    duration: `${duration / 60} 分钟`,
     introduction: chineseInfo.description,
     doubanLink: `https://movie.douban.com/subject/${doubanId}`,
     doubanRatingAverage: doubanRating || 0,
@@ -284,25 +284,25 @@ const getDoubanFormat = (data: Douban.DoubanData) => {
     awards, tags,
   } = data;
   let descr = poster ? `[img]${poster}[/img]\n\n` : '';
-  descr += transTitle ? `◎译    名 ${transTitle.join('/')}\n` : '';
-  descr += thisTitle ? `◎片    名 ${thisTitle.join('/')}\n` : '';
-  descr += movieYear ? `◎年    代 ${movieYear.trim()}\n` : '';
-  descr += region ? `◎产    地 ${region}\n` : '';
-  descr += genre ? `◎类    别 ${genre.join(' / ')}\n` : '';
-  descr += language ? `◎语    言 ${language}\n` : '';
-  descr += playDate ? `◎上映日期 ${playDate.join(' / ')}\n` : '';
+  descr += transTitle ? `◎译　　名　${transTitle.join('/')}\n` : '';
+  descr += thisTitle ? `◎片　　名　${thisTitle.join('/')}\n` : '';
+  descr += movieYear ? `◎年　　代　${movieYear.trim()}\n` : '';
+  descr += region ? `◎产　　地　${region}\n` : '';
+  descr += genre ? `◎类　　别　${genre.join(' / ')}\n` : '';
+  descr += language ? `◎语　　言　${language}\n` : '';
+  descr += playDate ? `◎上映日期　${playDate.join(' / ')}\n` : '';
   descr += imdbRating ? `◎IMDb评分  ${imdbRating}\n` : '';
   descr += imdbLink ? `◎IMDb链接  ${imdbLink}\n` : '';
-  descr += doubanRating ? `◎豆瓣评分 ${doubanRating}\n` : '';
-  descr += doubanLink ? `◎豆瓣链接 ${doubanLink}\n` : '';
-  descr += showEpisodes ? `◎集    数 ${showEpisodes}\n` : '';
-  descr += movieDuration ? `◎片    长 ${movieDuration}\n` : '';
-  descr += directors && directors.length > 0 ? `◎导    演 ${directors.map(x => x.name).join(' / ')}\n` : '';
-  descr += writers && writers.length > 0 ? `◎编    剧 ${writers.map(x => x.name).join(' / ')} \n` : '';
-  descr += actors && actors.length > 0 ? `◎主    演 ${actors.map(x => x.name).join(`\n${' '.repeat(4)}   `).trim()} \n` : '';
-  descr += tags && tags.length > 0 ? `\n◎标    签 ${tags.join(' | ')} \n` : '';
-  descr += introduction ? `\n◎简    介\n\n  ${introduction.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
-  descr += awards ? `\n◎获奖情况\n\n  ${awards.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
+  descr += doubanRating ? `◎豆瓣评分　${doubanRating}\n` : '';
+  descr += doubanLink ? `◎豆瓣链接　${doubanLink}\n` : '';
+  descr += showEpisodes ? `◎集　　数　${showEpisodes}\n` : '';
+  descr += movieDuration ? `◎片　　长　${movieDuration}\n` : '';
+  descr += directors && directors.length > 0 ? `◎导　　演　${directors.map(x => x.name).join(' / ')}\n` : '';
+  descr += writers && writers.length > 0 ? `◎编　　剧　${writers.map(x => x.name).join(' / ')} \n` : '';
+  descr += actors && actors.length > 0 ? `◎主　　演　${actors.map(x => x.name).join(`\n${' '.repeat(14)}  　`).trim()} \n` : '';
+  descr += tags && tags.length > 0 ? `\n◎标　　签　${tags.join(' | ')} \n` : '';
+  descr += introduction ? `\n◎简　　介\n\n　　${introduction.replace(/\n/g, `\n${' '.repeat(2)}`)} \n` : '';
+  descr += awards ? `\n◎获奖情况\n\n　　${awards.replace(/\n/g, `\n${' '.repeat(6)}`)} \n` : '';
   return descr.trim();
 };
 const getDoubanIdByIMDB = async (query:string):(Promise<Douban.Season|undefined>) => {

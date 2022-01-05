@@ -171,7 +171,7 @@ const UploadSiteList = () => {
   const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false) || '';
   return <ul className="site-list">
     {SORTED_SITE_KEYS.map((siteName) => {
-      const siteInfo: any = PT_SITE[siteName as keyof typeof PT_SITE];
+      const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
       const { url, uploadPath } = siteInfo;
       const favIcon = (siteFaviconClosed === '' && siteInfo.icon)
         ? siteInfo.icon
@@ -181,7 +181,6 @@ const UploadSiteList = () => {
         if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
           return <li key={siteName}>
             <a
-              href="#"
               className="site-item"
               onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
               {
