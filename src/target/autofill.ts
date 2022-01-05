@@ -1,4 +1,4 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, PT_SITE } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
 import {
   $t, getDoubanIdByIMDB, getTvSeasonData,
   getDoubanInfo, getSubTitle,
@@ -34,7 +34,7 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
       const {
         douban, imdb, subtitle,
         description, name,
-      } = CURRENT_SITE_INFO as typeof PT_SITE.PTer;
+      } = CURRENT_SITE_INFO as Site.SiteInfo;
       if (CURRENT_SITE_NAME === 'SSD') {
         $(imdb.selector).val(doubanLink);
       } else {
@@ -82,7 +82,7 @@ export default (info: TorrentInfo.Info) => {
     return;
   }
   if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
-    const { imdb, douban } = CURRENT_SITE_INFO as typeof PT_SITE.PTer;
+    const { imdb, douban } = CURRENT_SITE_INFO as Site.SiteInfo;
     let selector: JQuery = $('');
     if ((douban.selector && $(douban.selector)) && $(douban.selector).val()) {
       selector = $(douban.selector);

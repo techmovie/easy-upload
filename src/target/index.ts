@@ -1,4 +1,4 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM, PT_SITE } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
 import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
   getFilterImages, getBDInfoOrMediaInfo,
@@ -509,7 +509,7 @@ const fillTeamName = (info:TorrentInfo.Info) => {
 };
 
 const disableTorrentChange = () => {
-  const nameSelector = (CURRENT_SITE_INFO as typeof PT_SITE.PTer).name?.selector ?? '';
+  const nameSelector = (CURRENT_SITE_INFO as Site.SiteInfo).name?.selector ?? '';
   if (nameSelector.match(/^#\w+/)) {
     const nameDom = $(nameSelector).clone().attr('name', '').hide();
     $(nameSelector).attr('id', '').after(nameDom);

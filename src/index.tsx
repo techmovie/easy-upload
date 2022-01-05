@@ -17,13 +17,14 @@ const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 const torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 console.log(CURRENT_SITE_NAME);
+let torrentInfo = null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
   if (currentSiteInfo.asTarget) {
     if (torrentParams) {
-      const info: TorrentInfo.Info = JSON.parse(decodeURIComponent(torrentParams));
-      fillTargetForm(info);
+      torrentInfo = JSON.parse(decodeURIComponent(torrentParams));
     }
+    fillTargetForm(torrentInfo);
   }
   if (currentSiteInfo.asSource &&
     (!location.href.match(/upload/ig)) &&
