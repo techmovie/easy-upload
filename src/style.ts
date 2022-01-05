@@ -56,11 +56,6 @@ td.title-td h4{
   align-items: center;
   flex-wrap: wrap;
 }
-// .site-list .site-item{
-//   display: flex;
-//   align-items: center;
-//   font-weight: 600;
-// }
 .site-list .site-icon{
   width: 12px;
   margin-right: 5px;

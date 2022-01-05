@@ -7,7 +7,7 @@ const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
 const isProd = cmd === 'build';
 const outFile = isDev ? './.cache/easy-upload.user.js' : 'dist/easy-upload.user.js';
-
+yamlToJSON();
 esbuild.build({
   entryPoints: ['src/index.tsx'],
   outfile: outFile,

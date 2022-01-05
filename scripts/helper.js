@@ -35,7 +35,6 @@ const yamlToJSON = () => {
     });
     i18nFiles.forEach(file => {
       const fileName = file.replace('.yaml', '');
-      console.log(fileName);
       const i18nSource = fs.readFileSync(`${i18nDir}/${file}`, 'UTF-8');
       I18N_DATA[fileName] = YAML.parse(i18nSource);
     });

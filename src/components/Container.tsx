@@ -74,8 +74,6 @@ const Container = () => {
           const sizeBytes = getSize($(item).find(size).text());
           return torrentName === title?.replace(/\s|\./g, '') && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1000;
         });
-        console.log(sameTorrent);
-
         if (sameTorrent) {
           const url = `${siteUrl}/${$(sameTorrent).find(urlDom).attr('href')}`;
           $(`.search-list li>a[data-site=${site}]`).attr('data-url', url).css('color', '#218380');

@@ -38,8 +38,6 @@ const Transfer = () => {
         const rawHtml = await fetch(selectHost.replace('/json', ''), {
           responseType: undefined,
         });
-        console.log(rawHtml);
-
         authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1];
       }
 
