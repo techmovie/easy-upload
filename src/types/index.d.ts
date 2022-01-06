@@ -246,4 +246,6 @@ declare function AutoFill(): void;
 declare function fill_field(selector: number, value: string): void;
 declare function add_screenshot(): void;
 declare function fillField(selector:string, value: string): void;
+declare function getcheckboxvalue(selector:string): void;
+declare function getradiovalue(selector:string): void;
 declare let CKEDITOR: any;

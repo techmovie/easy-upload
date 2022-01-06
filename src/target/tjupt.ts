@@ -103,9 +103,3 @@ export default (info:TorrentInfo.Info) => {
     }
   }, 2000);
 };
-function getcheckboxvalue (arg0: string) {
-  throw new Error('Function not implemented.');
-}
-function getradiovalue (arg0: string) {
-  throw new Error('Function not implemented.');
-}

@@ -336,7 +336,7 @@ const getIMDBData = async (imdbUrl: string):Promise<IMDB.ImdbData|undefined> => 
     if (!imdbUrl) {
       throw new Error('$t(缺少IMDB信息)');
     }
-    const data = await fetch(`${PT_GEN_API}?url = ${imdbUrl} `);
+    const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
     if (data && data.success) {
       return data;
     }
@@ -957,9 +957,10 @@ const getFilterBBCode = (content:Element) => {
 const rgb2hex = (rgb:string) => {
   const result = rgb?.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i) ?? [];
   return (result.length === 4)
-    ? `#${(`0${parseInt(rgb[1], 10).toString(16)}`).slice(-2)
-    }${(`0${parseInt(rgb[2], 10).toString(16)}`).slice(-2)
-    }${(`0${parseInt(rgb[3], 10).toString(16)}`).slice(-2)}`
+    ? `#${
+  (`0${parseInt(result[1], 10).toString(16)}`).slice(-2)
+  }${(`0${parseInt(result[2], 10).toString(16)}`).slice(-2)
+  }${(`0${parseInt(result[3], 10).toString(16)}`).slice(-2)}`
     : '';
 };
 

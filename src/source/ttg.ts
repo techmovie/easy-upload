@@ -31,9 +31,14 @@ export default async () => {
   window.onload = () => {
     const descriptionDom = $('#kt_d');
     let bbCodes = getFilterBBCode(descriptionDom[0]);
+    // 删除优惠信息
     const discountMatch = bbCodes.match(/\[color=\w+\]本种子.+?\[\/color\]/)?.[0] ?? '';
     if (discountMatch) {
       bbCodes = bbCodes.replace(discountMatch, '');
+    }
+    const noneSenseNumberMatch = bbCodes.match(/@\d+?\(\d+?\)/)?.[0] ?? '';
+    if (noneSenseNumberMatch) {
+      bbCodes = bbCodes.replace(noneSenseNumberMatch, '');
     }
     TORRENT_INFO.description = bbCodes;
     const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];

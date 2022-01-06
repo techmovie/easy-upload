@@ -84,7 +84,7 @@ export default (info: TorrentInfo.Info) => {
   if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
     const { imdb, douban } = CURRENT_SITE_INFO as Site.SiteInfo;
     let selector: JQuery = $('');
-    if ((douban.selector && $(douban.selector)) && $(douban.selector).val()) {
+    if (douban && (douban.selector && $(douban.selector)) && $(douban.selector).val()) {
       selector = $(douban.selector);
     } else if (imdb) {
       selector = $(imdb.selector);
