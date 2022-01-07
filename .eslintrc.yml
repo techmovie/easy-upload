@@ -1,0 +1,22 @@
+env:
+  browser: true
+  es2021: true
+  jquery: true
+  greasemonkey: true
+extends:
+  - "preact"
+  - standard
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2020
+plugins:
+  - react
+  - '@typescript-eslint'
+rules: {
+    no-use-before-define: 0,
+    semi: ['error', 'always'],
+    no-undef: off,
+    comma-dangle: ['error', 'always-multiline'],
+}

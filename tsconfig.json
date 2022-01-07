@@ -1,0 +1,19 @@
+{
+  "compilerOptions": { 
+    "allowUnreachableCode": false,
+    "allowSyntheticDefaultImports": true,
+    "strict":true,
+    "noUnusedLocals": true,
+    "target": "ES6",
+    "module": "esnext",
+    "lib": ["ESNext","ES2021"],
+    "moduleResolution": "node",
+    "resolveJsonModule":true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+  }
+}

@@ -1,11 +1,14 @@
-const notifier = require('node-notifier');
-const fs = require('fs');
-const path = require('path');
-const YAML = require('yaml');
+import fs from 'fs';
+import path from 'path';
+import YAML from 'yaml';
+import { fileURLToPath } from 'node:url';
+import notifier from 'node-notifier';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcFolder = path.join(__dirname, '..', 'src');
 const yamlDir = path.join(srcFolder, 'config');
 const i18nDir = path.join(srcFolder, 'i18n');
+
 const notify = (title, message) => {
   notifier.notify(
     {
@@ -16,7 +19,7 @@ const notify = (title, message) => {
     },
   );
 };
-exports.yamlToJSON = () => {
+const yamlToJSON = () => {
   const yamlFiles = fs.readdirSync(yamlDir);
   const i18nFiles = fs.readdirSync(i18nDir);
   const JSON_DATA = {
@@ -27,12 +30,12 @@ exports.yamlToJSON = () => {
   try {
     yamlFiles.forEach(file => {
       const fileName = file.replace('.yaml', '');
-      const source = fs.readFileSync(yamlDir + '/' + file, 'UTF-8');
+      const source = fs.readFileSync(`${yamlDir}/${file}`, 'UTF-8');
       JSON_DATA.PT_SITE[fileName] = YAML.parse(source);
     });
     i18nFiles.forEach(file => {
       const fileName = file.replace('.yaml', '');
-      const i18nSource = fs.readFileSync(i18nDir + '/' + file, 'UTF-8');
+      const i18nSource = fs.readFileSync(`${i18nDir}/${file}`, 'UTF-8');
       I18N_DATA[fileName] = YAML.parse(i18nSource);
     });
     fs.writeFileSync(`${srcFolder}/config.json`, JSON.stringify(JSON_DATA, null, 2));
@@ -43,10 +46,10 @@ exports.yamlToJSON = () => {
   }
 };
 
-const { version, author, description = '' } = require('../package.json');
+const { version, author, description = '' } = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`));
 
 // 油猴前置注释
-exports.userScriptComment = `// ==UserScript==
+const userScriptComment = `// ==UserScript==
 // @name         EasyUpload PT一键转种
 // @namespace    https://github.com/techmovie/easy-upload
 // @version      ${version}
@@ -96,4 +99,8 @@ exports.userScriptComment = `// ==UserScript==
 // @license      MIT
 // ==/UserScript==`;
 
-exports.notify = notify;
+export {
+  userScriptComment,
+  yamlToJSON,
+  notify,
+};
