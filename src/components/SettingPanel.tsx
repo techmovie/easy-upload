@@ -104,7 +104,9 @@ const SettingPanel = (props:Props) => {
                 <ul className={config.class} >
                   {
                     siteList.map((siteInfo, index) => {
-                      if (PT_SITE[siteInfo.site as keyof typeof PT_SITE].asTarget) {
+                      const siteData = PT_SITE[siteInfo.site as keyof typeof PT_SITE] as Site.SiteInfo;
+                      if ((siteData.asTarget && config.key !== 'searchEnabled') ||
+                      (config.key === 'searchEnabled' && siteData.search)) {
                         return <li key={siteInfo.site}>
                           <label>
                             <input
