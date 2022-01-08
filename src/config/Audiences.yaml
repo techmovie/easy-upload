@@ -1,0 +1,115 @@
+url: https://audiences.me
+host: audiences.me
+siteType: NexusPHP
+icon: data:image/png;base64,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
+asSource: true
+asTarget: true
+uploadPath: /upload.php
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)' 
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+  result: 
+    list: '.torrents>tbody>tr'
+    url: '.torrentname td a[href*="details.php?id="]'
+    name: '.torrentname td a[href*="details.php?id="]'
+    size: 'td:nth-child(5)'
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: 'input[name="douban_id"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+tags: 
+  chinese_audio: '#tag_gy'
+  diy: '#tag_diy'
+  cantonese_audio: '#tag_yy'
+  chinese_subtitle: '#tag_zz'
+  hdr: '#tag_hdr10'
+  hdr10_plus: '#tag_hdrm'
+  dolby_vision: '#tag_db'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '401'
+    concert: '408'
+    sport: '407'
+    cartoon: '401'
+    variety: '403'
+    app: '411'
+    ebook: '405'
+    magazine: '412'
+    audioBook: '404'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '1'
+    x264: '1'
+    hevc: '6'
+    x265: '6'
+    h265: '6'
+    mpeg2: '4'
+    mpeg4: '1'
+    vc1: '2'
+    xvid: '5'
+    dvd: '4'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '18'
+    dd: '18'
+    dd+: '18'
+    flac: '1'
+    dts: '3'
+    truehd: '20'
+    lpcm: '21'
+    dtshdma: '19'
+    atmos: '26'
+    dtsx: '25'
+    ape: '2'
+    wav: '22'
+    mp3: '23'
+    m4a: '24'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '12'
+    bluray: '1'
+    remux: '3'
+    encode: '15'
+    web: '10'
+    hdtv: '5'
+    dvd: '2'
+    dvdrip: '15'
+    other: '11'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    4320p: '10'
+    2160p: '5'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    other: '5'

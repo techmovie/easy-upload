@@ -284,10 +284,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   // 填入制作组
   fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
-  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA|52pt/i)) {
+  if (CURRENT_SITE_NAME.match(/PTHome|HDSky|LemonHD|1PTBA|52pt|Audiences/i)) {
     if (info.tags.diy) {
       let categoryValue = '';
-      if (CURRENT_SITE_NAME === 'PTHome') {
+      if (CURRENT_SITE_NAME.match(/Audiences|PTHome/)) {
         categoryValue = info.videoType === 'bluray' ? '14' : '13';
       } else if (CURRENT_SITE_NAME === 'HDSky') {
         categoryValue = info.videoType === 'bluray' ? '12' : '14';

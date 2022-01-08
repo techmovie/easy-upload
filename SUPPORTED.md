@@ -5,6 +5,7 @@
 |   52pt    |             ✅             |            ✅            |
 |    ACM    |             ✅             |            ✅            |
 |  Aither   |             ✅             |            ✅            |
+| Audiences |             ✅             |            ✅            |
 |  AvistaZ  |             ✅             |            ❌            |
 |    bB     |             ❌             |            ✅            |
 |    BTN    |             ✅             |            ❌            |
