@@ -219,16 +219,15 @@ declare namespace IMDB {
 
   interface Detail {
     'Release date': string
-    'Countries of origin': string
     'Languages': string
     'Also known as': string
-    'Country of origin': string
+    'country': string
   }
 
   interface ImdbData {
     name:string
     year:string
-    genre:string
+    genre:string[]
     directors:People[]
     actors:People[]
     description:string

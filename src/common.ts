@@ -706,7 +706,7 @@ const getInfoFromMediaInfo = (mediaInfo:string) => {
   const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
   const subtitleLanguageArray = textPart.map(item => {
     return getMediaValueByKey('Language', item);
-  });
+  }).filter(sub => !!sub);
   const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
   const resolution = getResolution(videoPart);
   return {
@@ -894,7 +894,7 @@ const getInfoFromBDInfo = (bdInfo:string) => {
     const normalMatch = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)?.[1] ?? '';
     const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
     return language;
-  });
+  }).filter(sub => !!sub);
   const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
   return {
     fileSize,
@@ -1370,6 +1370,7 @@ const fetch = (url: string, options?: RequestOptions): Promise<any> => {
       ...options,
       onload: (res) => {
         const { statusText, status, response } = res;
+        console.log(res);
         if (status !== 200) {
           reject(new Error(statusText || `${status}`));
         } else {

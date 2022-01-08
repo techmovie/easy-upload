@@ -16,6 +16,7 @@ import handleGPW from './gpw';
 import handleNPU from './npubits';
 import handleBYR from './byr';
 import handleSC from './sc';
+import handleKG from './kg';
 import autoFill from './autofill';
 
 type SelectKey = 'videoCodec'|'videoType'|'resolution'|'source'|'area'
@@ -48,6 +49,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME === 'SC') {
     handleSC(info);
     return false;
+  }
+  if (CURRENT_SITE_NAME === 'KG') {
+    handleKG(info);
+    return;
   }
 
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {

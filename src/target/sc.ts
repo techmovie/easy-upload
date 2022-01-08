@@ -42,8 +42,8 @@ function fillMedia (info:TorrentInfo.Info) {
 async function fillIMDb (imdbUrl:string) {
   if (imdbUrl) {
     const imdbData = await getIMDBData(imdbUrl);
-    if (imdbData && imdbData?.details?.['Country of origin']) {
-      $('#country').val(imdbData.details['Country of origin']);
+    if (imdbData && imdbData?.details?.country) {
+      $('#country').val(imdbData.details.country);
     }
     if (imdbData && imdbData?.details?.['Also known as']) {
       $('#alternate_title').val(imdbData.details['Also known as']);

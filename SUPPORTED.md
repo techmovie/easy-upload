@@ -39,7 +39,7 @@
 |    HDU    |             ✅             |            ✅            |
 |    iTS    |             ❌             |            ✅            |
 | KEEPFRDS  |             ✅             |            ❌            |
-|    KG     |             ✅             |            ❌            |
+|    KG     |             ✅             |            ✅            |
 |  LemonHD  |             ✅             |            ✅            |
 |   MTeam   |             ✅             |            ✅            |
 |  NPUBits  |             ❌             |            ✅            |
