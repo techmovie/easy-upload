@@ -14,11 +14,11 @@ interface BasicInfo {
 }
 
 export default async () => {
-  const torrentInfo = getTorrentInfo();
+  const torrentInfo = await getTorrentInfo();
   torrentInfo.category = getPreciseCategory(torrentInfo, torrentInfo.category);
   Object.assign(TORRENT_INFO, torrentInfo);
 };
-const getTorrentInfo = () => {
+const getTorrentInfo = async () => {
   const imdbUrl = $('.badge-extra a[href*="www.imdb.com/title"]').attr('href')?.split('?')?.[1] ?? '';
   const movieTitle = $('.block-titled h3 a').text();
   const movieName = movieTitle.split('(')[0].trim();
@@ -35,7 +35,7 @@ const getTorrentInfo = () => {
   const screenshotsBBCode = $('#collapseScreens a').map(function () {
     return `[url=${$(this).attr('href')}][img]${$(this).find('img').attr('src')}[/img][/url]`;
   }).get();
-  const screenshots = getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
+  const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
   const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);

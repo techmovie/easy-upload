@@ -58,7 +58,7 @@ export default async () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.tags = { ...tags, ...mediaTags };
-  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.title = title;
   TORRENT_INFO.year = IMDBYear;
   TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;

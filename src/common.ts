@@ -509,10 +509,15 @@ const getFilterImages = (bbcode:string): string[] => {
   }
   return [];
 };
-const getScreenshotsFromBBCode = (bbcode: string): string[] => {
+const getScreenshotsFromBBCode = async (bbcode: string) => {
   const allImages = getFilterImages(bbcode);
   if (allImages && allImages.length > 0) {
-    return getOriginalImgUrl(allImages);
+    const result = [];
+    for (const img of allImages) {
+      const originalUrl = await getOriginalImgUrl(img);
+      result.push(originalUrl);
+    }
+    return result;
   }
   return [];
 };
@@ -520,31 +525,38 @@ const getScreenshotsFromBBCode = (bbcode: string): string[] => {
 * 过滤真实原始截图地址
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
-const getOriginalImgUrl = (imgArray: string[]) => {
-  return imgArray.map(item => {
-    let imgUrl = item;
-    if (item.match(/\[url=http(s)*:.+/)) {
-      imgUrl = item.match(/=(([^\]])+)/)?.[1] ?? '';
-      if (imgUrl.match(/img\.hdbits\.org/)) {
-        const imgId = item.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)?.[1] ?? '';
-        imgUrl = `https://i.hdbits.org/${imgId}.png`;
-      } else if (item.match(/img\.pterclub\.com/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
-        imgUrl = imgUrl.replace(/\.th/g, '');
-      } else if (item.match(/https?:\/\/imgbox\.com/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
-        imgUrl = imgUrl.replace(/thumbs(\d)/, 'images$1').replace(/_t(\.png)/, '_o.png');
-      } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
-        imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
-      } else if (item.match(/https:\/\/pixhost\.to/)) {
-        const hostNumber = item.match(/img\]https:\/\/t(\d+)\./)?.[1];
-        imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
-      }
-    } else if (item.match(/\[img\]/)) {
-      imgUrl = item.match(/img\](([^[])+)/)?.[1] ?? '';
+const getOriginalImgUrl = async (urlBBcode:string) => {
+  let imgUrl:string = '';
+  if (urlBBcode.match(/\[url=http(s)*:.+/)) {
+    imgUrl = urlBBcode.match(/=(([^\]])+)/)?.[1] ?? '';
+    if (imgUrl.match(/img\.hdbits\.org/)) {
+      const imgId = urlBBcode.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)?.[1] ?? '';
+      imgUrl = `https://i.hdbits.org/${imgId}.png`;
+    } else if (urlBBcode.match(/img\.pterclub\.com/)) {
+      imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
+      imgUrl = imgUrl.replace(/\.th/g, '');
+    } else if (urlBBcode.match(/https?:\/\/imgbox\.com/)) {
+      imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
+      imgUrl = imgUrl.replace(/thumbs(\d)/, 'images$1').replace(/_t(\.png)/, '_o.png');
+    } else if (imgUrl.match(/imagebam\.com/)) {
+      const originalPage = await fetch(imgUrl, {
+        responseType: undefined,
+      });
+      const doc = new DOMParser().parseFromString(originalPage, 'text/html');
+      imgUrl = $('.main-image', doc).attr('src') as string;
+    } else if (imgUrl.match(/beyondhd\.co/)) {
+      imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
+      imgUrl = imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, '.$2');
+    } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
+      imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
+    } else if (urlBBcode.match(/https:\/\/pixhost\.to/)) {
+      const hostNumber = urlBBcode.match(/img\]https:\/\/t(\d+)\./)?.[1];
+      imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
     }
-    return imgUrl;
-  });
+  } else if (urlBBcode.match(/\[img\]/)) {
+    imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
+  }
+  return imgUrl;
 };
 // 从标题获取source
 const getSourceFromTitle = (title: string) => {

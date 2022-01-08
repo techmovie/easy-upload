@@ -6,7 +6,7 @@ import {
   getTagsFromSubtitle, getScreenshotsFromBBCode,
 } from '../common';
 export default async () => {
-  const torrentInfo = getTorrentInfo();
+  const torrentInfo = await getTorrentInfo();
   torrentInfo.category = getPreciseCategory(torrentInfo, torrentInfo.category);
   try {
     let { movieName = '', year } = torrentInfo;
@@ -21,7 +21,7 @@ export default async () => {
   }
   Object.assign(TORRENT_INFO, torrentInfo);
 };
-const getTorrentInfo = () => {
+const getTorrentInfo = async () => {
   const basicInfoText = $('.download').text().replace(/.+?\//g, '').trim();
   const year = basicInfoText.match(/\((\d{4})\)/)?.[1] ?? '';
   const movieName = basicInfoText.match(/(.+)\(\d{4}\)/)?.[1].trim() ?? '';
@@ -44,7 +44,7 @@ const getTorrentInfo = () => {
     const url = $(this).attr('href')?.replace(/.+?url=/g, '');
     return `[url=${url}][img]${$(this).find('img').attr('src')}[/img][/url]`;
   }).get();
-  const screenshots = getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
+  const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
 
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);

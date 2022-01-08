@@ -28,7 +28,7 @@ export default async () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   TORRENT_INFO.isForbidden = !!$('#kt_d').text().match(/禁转/);
-  window.onload = () => {
+  window.onload = async () => {
     const descriptionDom = $('#kt_d');
     let bbCodes = getFilterBBCode(descriptionDom[0]);
     // 删除优惠信息
@@ -88,7 +88,7 @@ export default async () => {
         }
       }
     }
-    TORRENT_INFO.screenshots = getImages(bbCodes);
+    TORRENT_INFO.screenshots = await getImages(bbCodes);
   };
 };
 

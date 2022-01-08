@@ -89,7 +89,7 @@ export default async () => {
   TORRENT_INFO.area = getAreaCode(country);
   TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
 };
 const getBasicInfo = () => {
   const basicInfo:BasicInfo = {

@@ -16,7 +16,6 @@ import App from './components/Container';
 const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
 const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 const torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
-console.log(CURRENT_SITE_NAME);
 let torrentInfo = null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();

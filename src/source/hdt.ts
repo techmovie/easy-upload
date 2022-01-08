@@ -61,7 +61,7 @@ export default async () => {
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
 };
 interface BasicInfo {
   Category: string,

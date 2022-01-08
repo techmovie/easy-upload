@@ -1,8 +1,8 @@
 import { PT_SITE } from '../const';
 import {
-  getUrlParam, getBDType, getScreenshotsFromBBCode,
+  getUrlParam, getBDType,
 } from '../common';
-export default (info:TorrentInfo.Info) => {
+export default async (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.PTP;
   const {
     title, imdbUrl, tags, size,
@@ -84,12 +84,11 @@ const getResolution = (resolution:string, videoType:string, title:string) => {
   return resolution;
 };
 const getDescription = (info: TorrentInfo.Info) => {
-  const { description, mediaInfo } = info;
+  const { mediaInfo } = info;
   let filterDescription = '';
   if (mediaInfo) {
     filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]`;
   }
-  let screenshots = getScreenshotsFromBBCode(description);
-  screenshots = screenshots.map(item => `[img]${item}[/img]`);
+  const screenshots = info.screenshots.map(item => `[img]${item}[/img]`);
   return `${filterDescription}\n${screenshots.join('\n')}`;
 };
