@@ -1,7 +1,7 @@
 import svgr from './plugin-svgr.js';
 import esbuild from 'esbuild';
 import chokidar from 'chokidar';
-import { yamlToJSON } from './helper.js';
+import { yamlToJSON, userScriptComment } from './helper.js';
 
 const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
@@ -17,6 +17,11 @@ esbuild.build({
   define: {
     $: 'jQuery',
   },
+  ...isProd
+    ? {
+        banner: { js: userScriptComment },
+      }
+    : [],
   minify: isProd,
   sourcemap: isDev && 'inline',
   jsxFactory: 'h',

@@ -1370,7 +1370,6 @@ const fetch = (url: string, options?: RequestOptions): Promise<any> => {
       ...options,
       onload: (res) => {
         const { statusText, status, response } = res;
-        console.log(res);
         if (status !== 200) {
           reject(new Error(statusText || `${status}`));
         } else {
