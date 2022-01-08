@@ -1,7 +1,8 @@
-const chalk = require('chalk');
-const bump = require('@jsdevtools/version-bump-prompt');
-const execa = require('execa');
-const ora = require('ora');
+import chalk from 'chalk';
+import bump from '@jsdevtools/version-bump-prompt';
+import execa from 'execa';
+import ora from 'ora';
+
 const CURRENT_BRANCH = 'main';
 const log = console.log;
 const showCurrentBranch = () => {
