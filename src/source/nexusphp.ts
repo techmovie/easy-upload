@@ -40,6 +40,7 @@ export default async () => {
     } else {
       descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
     }
+    descriptionBBCode = descriptionBBCode.replace(/\[img\d\]/g, '[img]');
   }
   if (CURRENT_SITE_NAME === 'LemonHD') {
     descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
