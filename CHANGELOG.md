@@ -1,3 +1,15 @@
+## [3.0.1](https://github.com/techmovie/easy-upload/compare/3.0.0...3.0.1) (2022-01-09)
+
+
+### Bug Fixes
+
+* cinemaz favicon ([8c838f3](https://github.com/techmovie/easy-upload/commit/8c838f349ef61ec80c6593a343d1c12c79d43ab8))
+* uploadimgclosed config ([a3158f0](https://github.com/techmovie/easy-upload/commit/a3158f01c1501a957b5781185d252d84f2c8d61e))
+* 兼容pter的图片bbcode ([0deab2a](https://github.com/techmovie/easy-upload/commit/0deab2ab44bfb68fe322b2abaa42e1c10c7b280a))
+* 站点搜索配置列表展示不全 ([439e4ae](https://github.com/techmovie/easy-upload/commit/439e4aebf3acbb95dddf4684de94395bd6414f6e))
+
+
+
 # [3.0.0](https://github.com/techmovie/easy-upload/compare/2.4.3...3.0.0) (2022-01-08)
 
 
