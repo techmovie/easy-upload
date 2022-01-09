@@ -3,7 +3,7 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, getOriginalImgUrl, saveScreenshotsToPtpimg, transferImgs,
+  $t, fetch, saveScreenshotsToPtpimg, transferImgs,
 } from '../common';
 import Notification from './Notification';
 
@@ -15,7 +15,7 @@ const UploadImg = () => {
   const [screenBBCode, setScreenBBCode] = useState([] as string[]);
   const [copyText, setCopyText] = useState('复制');
   const uploadScreenshotsToAnother = async () => {
-    const screenshots = getOriginalImgUrl(TORRENT_INFO.screenshots);
+    const screenshots = TORRENT_INFO.screenshots;
     setBtnText('上传中，请稍候...');
     setBtnDisable(true);
     try {
