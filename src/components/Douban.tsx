@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import {
-  CURRENT_SITE_INFO, TORRENT_INFO,
+  CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO,
 } from '../const';
 import {
   $t, getDoubanIdByIMDB, getDoubanInfo, getDoubanBookInfo,
@@ -39,7 +39,8 @@ const Douban = () => {
   const [searchValue, setSearchValue] = useState('');
   const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
   const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO as Site.SiteInfo;
-  const showSearch = (needDoubanBookInfo || needDoubanInfo) && !doubanClosed;
+  const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) &&
+   !doubanClosed;
 
   const getDoubanData = async () => {
     try {
@@ -144,14 +145,14 @@ const Douban = () => {
       <div className="function-list-item" >
         <div className="douban-section">
           {
-            needDoubanInfo && <button
+            (showSearch && CURRENT_SITE_NAME !== 'SoulVoice') && <button
               id="douban-info"
               disabled={btnDisable}
               className={btnDisable ? 'is-disabled' : ''}
               onClick={getDoubanData}>{$t(btnText)}</button>
           }
           {
-            needDoubanBookInfo && <button
+            (showSearch && CURRENT_SITE_NAME === 'SoulVoice') && <button
               disabled={btnDisable}
               className={btnDisable ? 'is-disabled' : ''}
               id="douban-book-info"

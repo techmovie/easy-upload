@@ -22,7 +22,7 @@ const formatTorrentTitle = (title:string) => {
 };
 const handleError = (error:any) => {
   Notification.open({
-    description: error.message,
+    description: error.message || error,
   });
 };
 const getDoubanInfo = async (doubanUrl:string) => {
