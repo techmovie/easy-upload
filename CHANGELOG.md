@@ -1,3 +1,18 @@
+## [3.0.2](https://github.com/techmovie/easy-upload/compare/3.0.1...3.0.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* 修改豆瓣按钮显示判断 ([8c9044f](https://github.com/techmovie/easy-upload/commit/8c9044f7487780fc11985734c998b4f668d2ab3a))
+* 兼容部分浏览器的navigator.language ([96a131a](https://github.com/techmovie/easy-upload/commit/96a131a07b694adea655184f1ce1e0966a31a3b0))
+
+
+### Features
+
+* **bhd:** bhd target 逻辑重写 ([83f17f1](https://github.com/techmovie/easy-upload/commit/83f17f19569fc888ff7b67f62a2dac649573e16d))
+
+
+
 ## [3.0.1](https://github.com/techmovie/easy-upload/compare/3.0.0...3.0.1) (2022-01-09)
 
 
