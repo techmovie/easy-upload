@@ -54,6 +54,29 @@ sourceInfo:
     Unrated: unrated
     Warner Archive Collection: warner_archive_collection
     Commentary: with_commentary
+targetInfo:
+  editionTags:
+    2d_3d_edition: 2D3D
+    2_in_1: 2in1
+    3d: 3D
+    3d_anaglyph: 3D
+    3d_full_sbs: 3D
+    3d_half_ou: 3D
+    3d_half_sbs: 3D
+    4k_remaster: 4kRemaster
+    director_s_cut: Director
+    dual_audio: DualAudio
+    english_dub: EnglishDub
+    extended_edition: Extended
+    extras: Extras
+    hybrid: Hybrid
+    scene: Scene
+    theatrical_cut: Theatrical
+    uncut: Uncut
+    unrated: Unrated
+    webdl: WEBDL
+    webrip: WEBRip
+    with_commentary: Commentary
 name:
   selector: '#title'
 description:

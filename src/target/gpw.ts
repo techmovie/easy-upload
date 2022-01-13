@@ -3,6 +3,8 @@ import {
   getBDType, getInfoFromBDInfo,
   getUrlParam, getInfoFromMediaInfo,
 } from '../common';
+import { buildPTPDescription } from './common';
+
 const currentSiteInfo = PT_SITE.GPW;
 export default async (info:TorrentInfo.Info) => {
   const isUploadSuccess = !$('#mediainfo')[0]; // 上传成功页面
@@ -38,7 +40,6 @@ export default async (info:TorrentInfo.Info) => {
   fillProcessing(info);
 
   fillDescription(info);
-
   $('#description-container .bbcode-preview-button').trigger('click');
 };
 
@@ -75,60 +76,6 @@ function fillEditionInfo (info:TorrentInfo.Info) {
     $('#other-button').trigger('click');
     $('[name=remaster_custom_title]').val(otherTag);
   }
-}
-
-function buildPTPDescription (info:TorrentInfo.Info) {
-  let text = info.originalDescription || '';
-
-  // http://ptpimg
-  text = text.replaceAll('http://ptpimg.me', 'https://ptpimg.me');
-
-  // mediainfo
-  for (const mediainfo of info.mediaInfos as string[]) {
-    text = text.replace(mediainfo, '');
-  }
-  text = text.replaceAll(/\[(mediainfo|bdinfo)\][\s\S]*?\[\/(mediainfo|bdinfo)\]/gi, '');
-
-  // imgUrl without [img]
-  text = text.replaceAll(/^(?!\[img\])https:\/\/ptpimg.me.*?png(?!\[\/img\])$/gim, (imgUrl) => {
-    return `[img]${imgUrl}[/img]`;
-  });
-  // fix [comparison] [img], url同行
-  text = text.replaceAll(/\[comparison.*\][\s\S]*\[\/comparison\]/gi, (comparisonText) => {
-    return comparisonText.replaceAll('[img]', '').replaceAll('[/img]', '')
-      .split('https://ptpimg.me').join('\nhttps://ptpimg.me').replaceAll(/\s*\n\s*/g, '\n');
-  });
-
-  // old school comparison or more screenshots
-  // [hide], [hide=]
-  text = text.replaceAll(/\[hide(.*)?\]\s*\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\[\/hide\]/gi, (imgText) => {
-    const imgs = [];
-    for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
-      imgs.push(urlMatch[1]);
-    }
-    const rawTitle = imgText.match(/^\[hide=(.*?)\]/)?.[1] || '';
-    const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map(v => v.trim());
-    if (comparisonTitles.length >= 2) {
-      return `[comparison=${comparisonTitles.join(', ')}]\n${imgs.join('\n')}\n[/comparison]\n`;
-    }
-    const hideTitle = rawTitle ? `=${rawTitle}` : '';
-    return `[hide${hideTitle}]\n[img]${imgs.join('[/img]\n[img]')}[/img]\n[/hide]\n`;
-  });
-
-  // [url][img] \n\n
-  text = `${text}\n\n`;
-  text = text.replaceAll(/\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\n\n/gi, (imgText) => {
-    const imgs = [];
-    for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
-      imgs.push(urlMatch[1]);
-    }
-    return `[hide]\n[img]${imgs.join('[/img]\n[img]')}[/img]\n[/hide]\n`;
-  });
-
-  // 多换行
-  text = text.replaceAll(/\n\s*\n/g, '\n\n');
-
-  return text.trim();
 }
 
 function fillMediaInfo (info:TorrentInfo.Info) {

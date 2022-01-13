@@ -1,0 +1,115 @@
+import { PT_SITE, CURRENT_SITE_NAME } from '../const';
+import {
+  getBDType,
+  getIMDBIdByUrl, getTMDBIdByIMDBId,
+} from '../common';
+
+import {
+  matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription,
+} from './common';
+
+const currentSiteInfo = PT_SITE.BeyondHD;
+
+export default (info:TorrentInfo.Info) => {
+  $(currentSiteInfo.name.selector).val(info.title);
+  fillSpecs(info);
+  fillTMDBId(info);
+  fillMediaInfo(info);
+  selectTag(info);
+  fillDescription(info);
+  $(currentSiteInfo.anonymous.selector).attr('checked', 'true');
+  if (info.videoType === 'tvPack') {
+    $('input[name="pack"]').attr('checked', 'true');
+  }
+};
+function fillTMDBId (info:TorrentInfo.Info) {
+  const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
+  $(currentSiteInfo.imdb.selector).val(imdbId);
+  getTMDBIdByIMDBId(imdbId).then(data => {
+    $(currentSiteInfo.tmdb.selector).val(data.id);
+  });
+}
+function fillMediaInfo (info:TorrentInfo.Info) {
+  $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
+}
+function fillSpecs (info:TorrentInfo.Info) {
+  const { category, videoType } = info;
+  const isBluray = videoType.match(/bluray/i);
+  // videoType和category交换
+  info.category = videoType;
+  info.videoType = category;
+  // BHD需要细分蓝光类型
+  if (isBluray) {
+    let bdType = getBDType(info.size);
+    if (videoType === 'uhdbluray' && bdType === 'BD50') {
+      bdType = 'uhd50';
+    }
+    info.category = bdType || '';
+  }
+  const categoryMap = currentSiteInfo.category.map;
+  const categoryValueArr = categoryMap[info.category as keyof typeof categoryMap];
+  const keyArray = ['videoType', 'resolution', 'source', 'category'];
+  let finalSelectArray:string[] = [];
+  type SelectKey = 'videoType'|'resolution'|'source'
+  if (Array.isArray(categoryValueArr)) {
+    finalSelectArray = [...categoryValueArr];
+    keyArray.forEach(key => {
+      finalSelectArray = matchSelectForm(currentSiteInfo as unknown as Site.SiteInfo, info, key as SelectKey, finalSelectArray);
+      if (finalSelectArray.length === 1) {
+        $(currentSiteInfo.category.selector).val(finalSelectArray[0]);
+      }
+    });
+  } else {
+    [...keyArray, 'category'].forEach(key => {
+      matchSelectForm(currentSiteInfo as unknown as Site.SiteInfo, info, key as SelectKey, finalSelectArray);
+    });
+  }
+}
+function selectTag (info:TorrentInfo.Info) {
+  type Tag = keyof typeof currentSiteInfo.targetInfo.editionTags
+  const editionTags = Object.keys(info.tags).map(tag =>
+    info.tags[tag] && currentSiteInfo.targetInfo.editionTags[tag as Tag]).filter(Boolean);
+    // Edition Select
+  const editionOption = Array.from($('select[name="edition"] option')).map(opt => $(opt).attr('value'));
+  if (editionTags.length > 0) {
+    for (const tag of editionTags) {
+      setTimeout(() => {
+        document.querySelector(`.bhd-tag #${tag}`)?.dispatchEvent(new Event('click'));
+      }, 0);
+      if (editionOption.includes(tag)) {
+        $('select[name="edition"]').val(tag);
+      }
+    }
+  }
+}
+
+function fillDescription (info:TorrentInfo.Info) {
+  let description = '';
+  if (info.sourceSite === 'PTP') {
+    description = buildPTPDescription(info);
+  } else if (info.sourceSite === 'BeyondHD') {
+    description = info.originalDescription || '';
+  } else {
+    description = buildDescription(info);
+  }
+  if (info.screenshots.length > 0) {
+    info.screenshots.forEach(img => {
+      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
+      if (description.match(regStr)) {
+        description = description.replace(regStr, (p1, p2) => {
+          return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
+        });
+      }
+    });
+  }
+  $(currentSiteInfo.description.selector).val(description);
+  $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
+}
+function buildDescription (info:TorrentInfo.Info) {
+  let description = '';
+  const { sourceSiteType } = info;
+  if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== 'Bib') {
+    description = filterNexusDescription(info);
+  }
+  return description.trim();
+}
