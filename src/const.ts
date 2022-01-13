@@ -46,7 +46,7 @@ const DOUBAN_SUGGEST_API = 'https://www.douban.com/search?cat=1002&q={query}';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
-const USE_CHINESE = /zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
+const USE_CHINESE = /zh|zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
 
 const getSiteName = (host:string) => {
   let siteName = '';
