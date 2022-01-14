@@ -39,7 +39,7 @@ export default (info:TorrentInfo.Info) => {
         });
         return;
       }
-      let { name, year, genre, directors = [], actors = [], description, poster, details, aka } = imdbData;
+      const { name, year, genre, directors = [], actors = [], description, poster, details, aka } = imdbData;
       let movieTitle = name;
       const akaName = details['Also known as'];
       const originalTitle = aka.filter(item => {
@@ -58,13 +58,10 @@ export default (info:TorrentInfo.Info) => {
       }
       $(currentSiteInfo.name.selector).val(movieTitle);
       $(currentSiteInfo.year.selector).val(year);
-      if (Array.isArray(genre)) {
-        genre = genre.join(',');
-      }
       const castTag = [...directors, ...actors].map(item => {
         return item.name.replace(/\s/g, '.').toLowerCase();
       });
-      $('#tags').val(`${genre},${castTag.join(',')}`);
+      $('#tags').val(`${genre.join(',')},${castTag.join(',')}`);
       $('#desc').val(`${imdbUrl}\n\n${description}`);
       uploadToPtpImg([poster]).then(img => {
         if (img) {
