@@ -6,7 +6,8 @@ export default async (info:TorrentInfo.Info) => {
   $('#catalogue_number').val(imdbId);
   $('#imdb_autofill').trigger('click');
   fillMedia(info);
-  $('.wysibb-text-editor.wysibb-body').html(buildDescription(info));
+  $('.modesw').trigger('click');
+  $('#release_desc').val(buildDescription(info));
   await fillIMDb(imdbUrl);
 };
 
@@ -15,11 +16,11 @@ function buildDescription (info:TorrentInfo.Info) {
   let description = '';
   if (screenshots.length > 0) {
     description = screenshots.slice(0, 3)
-      .map(img => { return `<img src="${img}">`; })
+      .map(img => { return `[img]${img}[/img]`; })
       .join('');
   }
   if (mediaInfo) {
-    description += `<br><br>[hide=MediaInfo]${mediaInfo.replace(/\n/g, '<br>')}[/hide]`;
+    description += `\n\n[hide=MediaInfo]${mediaInfo}[/hide]`;
   }
   return description;
 }
