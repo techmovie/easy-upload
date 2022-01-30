@@ -1,3 +1,14 @@
+## [3.0.3](https://github.com/techmovie/easy-upload/compare/3.0.2...3.0.3) (2022-01-30)
+
+
+### Bug Fixes
+
+* bB genre ([ed0c715](https://github.com/techmovie/easy-upload/commit/ed0c715741a9a8747001db34ff2994aec270844f))
+* **emp:** multiple domains ([656d1c0](https://github.com/techmovie/easy-upload/commit/656d1c0e504921665e1d8dec7712499c980b77c1)), closes [#151](https://github.com/techmovie/easy-upload/issues/151)
+* **sc:** change sc upload methods ([c6c1380](https://github.com/techmovie/easy-upload/commit/c6c138007e7ee35f5199cbafb47bf471e87521e1))
+
+
+
 ## [3.0.2](https://github.com/techmovie/easy-upload/compare/3.0.1...3.0.2) (2022-01-13)
 
 
