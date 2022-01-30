@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import {
-  CURRENT_SITE_NAME, CURRENT_SITE_INFO, SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO,
+  CURRENT_SITE_NAME, CURRENT_SITE_INFO,
+  SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO, USE_CHINESE,
 } from '../const';
 import {
   $t, getValue, getSize, fetch,
@@ -99,7 +100,7 @@ const Container = () => {
             <Title />
           </td>
           <td className={baseContentClass.join(' ')}>
-            <div id='seed-dom'>
+            <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
               <UploadSiteList />
             </div>
           </td>
@@ -128,7 +129,7 @@ const Container = () => {
         <div className="team-hd">
           <Title />
           <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-            <div id='seed-dom'>
+            <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
               <UploadSiteList />
             </div>
           </div>
@@ -145,7 +146,7 @@ const Container = () => {
     }
     {
       CURRENT_SITE_INFO.siteType === 'gazelle' &&
-      <div id="seed-dom" className='movie-page__torrent__panel'>
+      <div id="seed-dom" className={['movie-page__torrent__panel', !USE_CHINESE ? 'use-eng' : ''].join(' ')}>
         <div className="ptp-title-wrapper">
           <Title />
           <UploadSiteList />
