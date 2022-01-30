@@ -32,8 +32,10 @@ export default (info:TorrentInfo.Info) => {
     $(currentSiteInfo.area.selector).val(currentSiteInfo.area.map[info.area as Area]);
   }
   $(currentSiteInfo.area.selector)[0].dispatchEvent(new Event('change'));
-  type Key = 'videoCodec'|'videoType'|'resolution'
-  ['videoCodec', 'videoType', 'resolution'].forEach(key => {
+
+  const keyArray = ['videoCodec', 'videoType', 'resolution'] as const;
+  type Key = typeof keyArray[number]
+  keyArray.forEach(key => {
     const { selector, map } = currentSiteInfo[key as Key];
     type MapKey = keyof typeof map;
     // eslint-disable-next-line no-undef

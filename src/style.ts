@@ -13,7 +13,7 @@ td.title-td h4{
   align-items: center;
   justify-content: flex-end;
 }
-.seed-dom button{
+#seed-dom button{
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -35,12 +35,12 @@ td.title-td h4{
   margin:0;
   margin-right: 5px;
 }
-.seed-dom button:hover {
+#seed-dom button:hover {
   background: #fff;
   border-color: #409eff;
   color: #409eff
 }
-.seed-dom button.is-disabled, .seed-dom button.is-disabled:hover {
+#seed-dom button.is-disabled, #seed-dom button.is-disabled:hover {
   color: #c0c4cc;
   cursor: not-allowed;
   background-image: none;
@@ -75,7 +75,7 @@ td.title-td h4{
   min-width: 60px;
   margin-right: 15px;
 }
-.seed-dom li,.search-list li {
+#seed-dom li,.search-list li {
   font-weight: 600;
   line-height: 24px;
   margin-right: 5px;
@@ -84,7 +84,7 @@ td.title-td h4{
   margin-left: 0;
   padding: 0px;
 }
-.seed-dom li a,.search-list li a {
+#seed-dom li a,.search-list li a {
   padding-right: 3px;
   display: inline-flex;
   align-items: center;
@@ -514,10 +514,11 @@ tr.pad[id*="torrent_"]{
   align-items: center;
   line-height: 24px;
 }
-.ptp-title-wrapper .site-list li:first-child{
+#seed-dom .ptp-title-wrapper .site-list li:first-child{
+  padding: 0;
   padding-left: 80px;
 }
-.ptp-title-wrapper .search-list li:first-child{
+#seed-dom .ptp-title-wrapper .search-list li:first-child{
   padding-left: 65px;
 }
 `);

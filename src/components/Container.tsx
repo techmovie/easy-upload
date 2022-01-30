@@ -99,7 +99,7 @@ const Container = () => {
             <Title />
           </td>
           <td className={baseContentClass.join(' ')}>
-            <div className='seed-dom'>
+            <div id='seed-dom'>
               <UploadSiteList />
             </div>
           </td>
@@ -128,7 +128,7 @@ const Container = () => {
         <div className="team-hd">
           <Title />
           <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-            <div className='seed-dom'>
+            <div id='seed-dom'>
               <UploadSiteList />
             </div>
           </div>
@@ -145,7 +145,7 @@ const Container = () => {
     }
     {
       CURRENT_SITE_INFO.siteType === 'gazelle' &&
-      <div class="seed-dom movie-page__torrent__panel">
+      <div id="seed-dom" className='movie-page__torrent__panel'>
         <div className="ptp-title-wrapper">
           <Title />
           <UploadSiteList />

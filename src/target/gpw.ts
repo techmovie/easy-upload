@@ -130,8 +130,9 @@ function handleNoAutoCheck (info:TorrentInfo.Info) {
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
   info.format = getFormat(format, videoType);
-  type Key = 'source'|'videoCodec'|'format'|'resolution';
-  ['source', 'videoCodec', 'format', 'resolution'].forEach(key => {
+  const keyArray = ['source', 'videoCodec', 'format', 'resolution'] as const;
+  type Key = typeof keyArray[number]
+  keyArray.forEach(key => {
     const { selector = '', map } = currentSiteInfo[key as Key];
     type MapKey = keyof typeof map
     if (map) {

@@ -20,8 +20,9 @@ export default (info:TorrentInfo.Info) => {
   info.source = getSource(source, title);
   info.format = getFormat(format, videoType);
   const tvTitleArray:string[] = [];
-  type Key = 'source'|'videoCodec'|'audioCodec'|'format'|'resolution';
-  ['source', 'videoCodec', 'audioCodec', 'format', 'resolution'].forEach(key => {
+  const keyArray = ['source', 'videoCodec', 'audioCodec', 'format', 'resolution'] as const;
+  type Key = typeof keyArray[number]
+  keyArray.forEach(key => {
     const { selector = '', map } = currentSiteInfo[key as Key];
     if (map) {
       const mapValue = map[info[key as Key] as keyof typeof map];

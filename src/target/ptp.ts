@@ -17,8 +17,10 @@ export default async (info:TorrentInfo.Info) => {
   }
   info.resolution = getResolution(resolution, videoType, title);
   info.videoCodec = getVideoCodec(videoCodec, videoType, size);
-  type Key = 'category'|'source'|'videoCodec'|'resolution';
-  ['category', 'source', 'videoCodec', 'resolution'].forEach(key => {
+
+  const keyArray = ['category', 'source', 'videoCodec', 'resolution'] as const;
+  type Key = typeof keyArray[number]
+  keyArray.forEach(key => {
     const { selector = '', map } = currentSiteInfo[key as Key];
     type MapKey = keyof typeof map
     if (map) {
