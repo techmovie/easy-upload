@@ -18,5 +18,8 @@ issueConfigs:
     - URL
     - Site based on
     - Where to get an invite
+  - content: 
+    - Is your feature request related to a problem
+    - Describe the solution you'd like
 caseInsensitive: true
 label: "closed by bot"
