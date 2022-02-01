@@ -47,6 +47,7 @@
 |  OurBits  |             ✅             |            ✅            |
 | PrivateHD |             ✅             |            ❌            |
 |  PTHome   |             ✅             |            ✅            |
+|   PTMSG   |             ✅             |            ✅            |
 |    PTN    |             ❌             |            ✅            |
 |    PTP    |             ✅             |            ✅            |
 |  PTSBAO   |             ✅             |            ✅            |

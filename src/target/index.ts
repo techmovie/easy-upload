@@ -68,7 +68,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
   const isBluray = info.videoType.match(/bluray/i);
   const { screenshots = [] } = info;
-  const imdbSelector = currentSiteInfo?.imdb.selector;
+  const imdbSelector = currentSiteInfo?.imdb?.selector;
   if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
     $(imdbSelector).val(imdbId?.replace('tt', '') ?? '');
   } else if (imdbSelector) {
