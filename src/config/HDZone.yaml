@@ -1,11 +1,11 @@
-url: 'https://hdhome.org'
-host: hdhome.org
+url: http://hdzone.me
+host: hdzone.me
 siteType: NexusPHP
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)' 
 search: 
   path: /torrents.php
   imdbOptionKey: '4'
@@ -29,18 +29,8 @@ description:
   selector: '#descr'
 imdb:
   selector: 'input[name="url"][type="text"]'
-douban:
-  selector: 'input[name="douban_id"]'
 anonymous: 
   selector: 'input[name="uplver"]'
-tags: 
-  chinese_audio: '#tag_gy'
-  diy: '#tag_diy'
-  cantonese_audio: '#tag_yy'
-  chinese_subtitle: '#tag_zz'
-  hdr: '#tag_hdr10'
-  hdr10_plus: '#tag_hdrm'
-  dolby_vision: '#tag_db'
 category:
   selector: '#browsecat'
   map:
@@ -71,7 +61,6 @@ category:
       - '436'
       - '437'
       - '438'
-      - '502'
     documentary:
       - '417'
       - '418'
@@ -129,8 +118,8 @@ audioCodec:
     truehd: '13'
     lpcm: '14'
     dtshdma: '11'
-    atmos: '12'
-    dtsx: '17'
+    atmos: '11'
+    dtsx: '3'
 videoType:
   selector: 'select[name="medium_sel"]'
   map:
@@ -303,16 +292,9 @@ resolution:
 team: 
   selector: 'select[name="team_sel"]'
   map:
-    hdhome: '1'
-    hdh: '2'
-    hdhtv: '3'
-    hdhpad: '4'
-    hdhweb: '12'
-    3201: '20'
-    shma: '17'
-    tvman: '21'
-    arin: '19'
+    hdzone: '1'
+    hdz: '2'
+    hdztv: '3'
     ttg: '6'
     mteam: '7'
     other: '11'
-    969154968: '22'

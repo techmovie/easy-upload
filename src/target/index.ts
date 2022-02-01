@@ -269,7 +269,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     $(currentSiteInfo.image.selector).val(info.image || '');
   }
 
-  if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+  if (CURRENT_SITE_NAME.match(/HDHome|HDZone|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
     setTimeout(() => {
       const event = new Event('change');
       document.querySelector(currentSiteInfo.category.selector)?.dispatchEvent(event);
@@ -396,7 +396,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     }
   }
   // 处理HDH iPad
-  if (CURRENT_SITE_NAME === 'HDHome') {
+  if (CURRENT_SITE_NAME.match(/HDHome|HDZone/)) {
     if (info.title.match(/iPad/i)) {
       const categoryMap = {
         movie: '412',
