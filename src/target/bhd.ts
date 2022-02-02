@@ -39,10 +39,10 @@ function fillSpecs (info:TorrentInfo.Info) {
   info.category = videoType;
   info.videoType = category;
   // BHD需要细分蓝光类型
-  if (isBluray) {
+  if (isBluray || videoType === 'dvd') {
     let bdType = getBDType(info.size);
     if (videoType === 'uhdbluray' && bdType === 'BD50') {
-      bdType = 'uhd50';
+      bdType = 'UHD50';
     }
     info.category = bdType || '';
   }

@@ -103,6 +103,8 @@ category:
     UHD50: 'UHD 50'
     BD50: 'BD 50'
     BD25: 'BD 25'
+    DVD5: 'DVD 5'
+    DVD9: 'DVD 9'
     remux:
       - 'UHD Remux'
       - 'BD Remux'
