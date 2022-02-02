@@ -15,6 +15,7 @@ import getTeamHDInfo from './teamhd';
 import getHDSpaceInfo from './hdspace';
 import getGPWInfo from './gpw';
 import getEMPInfo from './emp';
+import getBdcInfo from './bdc';
 
 let getTorrentInfo = ():any => {
   return Promise.resolve();
@@ -51,5 +52,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getGPWInfo;
 } else if (CURRENT_SITE_NAME === 'EMP') {
   getTorrentInfo = getEMPInfo;
+} else if (CURRENT_SITE_NAME === 'Bdc') {
+  getTorrentInfo = getBdcInfo;
 }
 export default getTorrentInfo;

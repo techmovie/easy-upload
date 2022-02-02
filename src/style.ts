@@ -477,19 +477,22 @@ svg.setting-svg{
 #transfer-progress{
   display: none;
 }
-.team-hd{
+.custom-site{
   display: flex;
   align-items: center;
   width: 100%;
 }
-.team-hd h4{
+.custom-site h4{
   flex-shrink: 0;
   margin: 0;
   line-height: initial;
   margin-right: 10px;
 }
-.team-hd .easy-seed-function-list{
+.custom-site .easy-seed-function-list{
   flex: 1;
+}
+.custom-site img{
+  border-radius: 0px;
 }
 tr.pad[id*="torrent_"]{
   font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;

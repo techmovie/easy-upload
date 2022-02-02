@@ -1034,6 +1034,8 @@ const htmlToBBCode = (node:Element) => {
             pp('\n[quote]', '[/quote]'); break;
           } else if (className === 'spoiler-toggle' && CURRENT_SITE_INFO.siteType === 'AvistaZ') {
             return '';
+          } else if (className.match(/codetop|highlight/) && CURRENT_SITE_INFO.siteType === 'Bdc') {
+            return '';
           } else {
             pp('\n', '\n'); break;
           }
@@ -1061,7 +1063,7 @@ const htmlToBBCode = (node:Element) => {
           if (CURRENT_SITE_NAME?.match(/^(TTG|HDBits|KG|HDSpace)/) || CURRENT_SITE_NAME === 'HDT' ||
             CURRENT_SITE_INFO.siteType === 'UNIT3D') {
             pp('[quote]', '[/quote]'); break;
-          } else if (CURRENT_SITE_NAME === 'EMP') {
+          } else if (CURRENT_SITE_NAME.match(/EMP|Bdc/)) {
             pp(''); break;
           } else {
             return '';
@@ -1077,6 +1079,8 @@ const htmlToBBCode = (node:Element) => {
           }
           if (dataSrc) {
             imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
+          } else if (src && src.match(/broadcity\.eu\/images\/44846549843542759058\.png/)) {
+            return '';
           } else if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
             imgUrl = src;
           } else {
