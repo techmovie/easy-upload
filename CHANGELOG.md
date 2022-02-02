@@ -1,3 +1,21 @@
+# [3.1.0](https://github.com/techmovie/easy-upload/compare/3.0.3...3.1.0) (2022-02-02)
+
+
+### Bug Fixes
+
+* **bhd:** dvd5 match ([0a98e8e](https://github.com/techmovie/easy-upload/commit/0a98e8ebf88973265b733ee79fc4027083942715)), closes [#155](https://github.com/techmovie/easy-upload/issues/155)
+* close-issue bot setting ([ff5e9c5](https://github.com/techmovie/easy-upload/commit/ff5e9c5bc31873ecc66fe6e796ac852c9a2465d7))
+* fix  padding style ([7a9ac9c](https://github.com/techmovie/easy-upload/commit/7a9ac9c67970a9a877593f561c64ef67e5fad6e3)), closes [#152](https://github.com/techmovie/easy-upload/issues/152)
+
+
+### Features
+
+* **new site:** support bdc source ([d1fb544](https://github.com/techmovie/easy-upload/commit/d1fb544b865e095dbec8b83e0d25a38fe97ab343))
+* **new site:** support hdzone ([7f82cdc](https://github.com/techmovie/easy-upload/commit/7f82cdc6e814ee1b61be4c8a05f9c71d2ec4eb81)), closes [#142](https://github.com/techmovie/easy-upload/issues/142)
+* **new site:** support ptmsg ([02a0463](https://github.com/techmovie/easy-upload/commit/02a0463d3149fca1aade6053eb5cac644fb3850a)), closes [#144](https://github.com/techmovie/easy-upload/issues/144)
+
+
+
 ## [3.0.3](https://github.com/techmovie/easy-upload/compare/3.0.2...3.0.3) (2022-01-30)
 
 
