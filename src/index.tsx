@@ -41,7 +41,7 @@ if (CURRENT_SITE_NAME) {
     if (['PTP', 'BTN', 'GPW', 'EMP'].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
-        target = document.querySelector(`#torrent_torrent_${torrentId} >td`);
+        target = document.querySelector(`#torrent_detail_${torrentId} >td`);
       } else if (CURRENT_SITE_NAME === 'EMP') {
         const groupId = getUrlParam('id');
         target = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
