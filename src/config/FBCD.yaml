@@ -1,0 +1,120 @@
+url: https://fbcd.tk
+host: fbcd.tk
+siteType: NexusPHP
+icon: data:image/png;base64,1
+asSource: true
+asTarget: true
+uploadPath: /upload.php
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)' 
+search: 
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+  result: 
+    list: '.torrents>tbody>tr'
+    url: '.torrentname td a[href*="details.php?id="]'
+    name: '.torrentname td a[href*="details.php?id="]'
+    size: 'td:nth-child(5)'
+name:
+  selector: '#name'
+subtitle:
+  selector: 'input[name="small_descr"]'
+description:
+  selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
+douban:
+  selector: 'input[name="douban_id"]'
+mediaInfo:
+  selector: 'textarea[name="technical_info"]'
+anonymous: 
+  selector: 'input[name="uplver"]'
+tags: 
+  chinese_audio: 'input[value=16]'
+  chinese_subtitle: 'input[value=32]'
+  hdr: '#tag_hdr10'
+  hdr10_plus: '#tag_hdrm'
+  dolby_vision: '#tag_db'
+category:
+  selector: '#browsecat'
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '404'
+    concert: '408'
+    sport: '407'
+    cartoon: '405'
+    variety: '403'
+source:
+  selector: 'select[name="source_sel"]'
+  map:
+    uhdbluray: '7'
+    bluray: '1'
+    hdtv: '4'
+    dvd: '3'
+    web: '11'
+    vhs: '8'
+    hddvd: '8'
+videoCodec:
+  selector: 'select[name="codec_sel"]'
+  map:
+    h264: '15'
+    hevc: '14'
+    mpeg2: '17'
+    mpeg4: '1'
+    vc1: '16'
+    xvid: '5'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '18'
+    dd: '18'
+    dd+: '18'
+    flac: '1'
+    dts: '3'
+    truehd: '20'
+    lpcm: '21'
+    dtshdma: '19'
+    atmos: '19'
+    dtsx: '3'
+videoType:
+  selector: 'select[name="medium_sel"]'
+  map:
+    uhdbluray: '12'
+    bluray: '1'
+    remux: '3'
+    encode: '15'
+    web: '10'
+    hdtv: '5'
+    dvd: '2'
+    dvdrip: '15'
+    other: '11'
+resolution:
+  selector: 'select[name="standard_sel"]'
+  map:
+    4320p: '10'
+    2160p: '5'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    576p: '4'
+    480p: '4'
+team: 
+  selector: 'select[name="team_sel"]'
+  map:
+    pthome: '19'
+    pth: '21'
+    pthweb: '20'
+    pthtv: '22'
+    pthaudio: '23'
+    pthebook: '24'
+    pthmusic: '25'
+    other: '5'
