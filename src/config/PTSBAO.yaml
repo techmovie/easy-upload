@@ -37,14 +37,7 @@ tags:
 category:
   selector: '#browsecat'
   map:
-    movie: '401'
-    tv: '402'
-    tvPack: '402'
-    documentary: '404'
-    concert: '414'
-    sport: '409'
-    cartoon: '405'
-    variety: '403'
+    movie: '0'
 source:
   selector: '#medium_sel'
   map:
