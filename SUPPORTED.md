@@ -19,6 +19,7 @@
 |  CinemaZ  |             ✅             |            ❌            |
 |  DiscFan  |             ✅             |            ✅            |
 |    EMP    |             ✅             |            ❌            |
+|    FBCD   |             ❌             |            ✅            |
 |    GPW    |             ✅             |            ✅            |
 | HaresClub |             ✅             |            ✅            |
 |  HD4FANS  |             ✅             |            ✅            |
