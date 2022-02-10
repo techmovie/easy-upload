@@ -9,7 +9,7 @@ import { getQuickSearchUrl } from './common';
 const SearchList = () => {
   const handleSearchClickEvent = (siteName:keyof typeof PT_SITE) => {
     let openUrl = '';
-    const attrUrl = $(`.search-list li>a[data-site=${siteName}]`).data('url');
+    const attrUrl = $(`.search-list li>a[data-site="${siteName}"]`).data('url');
     if (attrUrl) {
       openUrl = attrUrl;
     } else {
