@@ -72,6 +72,20 @@ videoType:
     dvd: '8'
     dvdrip: '8'
     other: '0'
+audioCodec:
+  selector: 'select[name="audiocodec_sel"]'
+  map:
+    aac: '6'
+    ac3: '5'
+    dd: '5'
+    dd+: '14'
+    flac: '7'
+    dts: '4'
+    truehd: '2'
+    lpcm: '3'
+    dtshdma: '1'
+    atmos: '2'
+    dtsx: '1'
 resolution:
   selector: 'select[name="standard_sel"]'
   map:
