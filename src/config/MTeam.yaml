@@ -80,7 +80,8 @@ videoType:
     bluray:
       - '421'
       - '438'
-    remux: '439'
+    remux: 
+      - '439'
     encode:
       - '401'
       - '419'
