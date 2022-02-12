@@ -101,6 +101,8 @@ BTC:
   <tr>
     <td align="center"><a href="https://github.com/scatking"><img src="https://avatars.githubusercontent.com/u/34273647?v=4?s=75" width="75px;" alt=""/><br /><sub><b>scatking</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=scatking" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/kidgokugoku"><img src="https://avatars.githubusercontent.com/u/82298915?v=4?s=75" width="75px;" alt=""/><br /><sub><b>kidgokugoku</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=kidgokugoku" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/LeiShi1313"><img src="https://avatars.githubusercontent.com/u/3712421?v=4?s=75" width="75px;" alt=""/><br /><sub><b>Lei Shi</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=LeiShi1313" title="Code">💻</a></td>
+    <td align="center"><a href="https://ted423.bitcron.com/"><img src="https://avatars.githubusercontent.com/u/7042766?v=4?s=75" width="75px;" alt=""/><br /><sub><b>ted423</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=ted423" title="Code">💻</a></td>
   </tr>
 </table>
 

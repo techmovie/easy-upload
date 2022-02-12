@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: false
 uploadPath: /upload.php
+needDoubanInfo: true
 search: 
   path: /browse.php
   imdbOptionKey: 't_genre'
