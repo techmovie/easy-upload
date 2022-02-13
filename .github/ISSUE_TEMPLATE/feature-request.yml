@@ -14,21 +14,18 @@ body:
   attributes:
     label: Is your feature request related to a problem? Please describe
     description: A clear and concise description of what the problem is.
-    render: markdown
   validations:
     required: true
 - type: textarea
   attributes:
     label: Describe the solution you'd like
     description: A clear and concise description of what you want to happen.
-    render: markdown
   validations:
     required: true
 - type: textarea
   attributes:
     label: Describe alternatives you've considered
     description: A clear and concise description of any alternative solutions or features you've considered.
-    render: markdown
   validations:
     required: true
 - type: textarea
@@ -36,6 +33,5 @@ body:
     label: Anything else?
     description: |
       Links? References? Mockups? Anything that will give us more context about the feature you are encountering!
-    render: markdown
   validations:
     required: true

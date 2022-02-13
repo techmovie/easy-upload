@@ -39,6 +39,5 @@ body:
 - type: textarea
   attributes:
     label: Anything else?
-    render: markdown
   validations:
     required: false
