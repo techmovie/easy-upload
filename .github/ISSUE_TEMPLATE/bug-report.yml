@@ -1,6 +1,6 @@
 name: Bug Report
 description: 'Report a new bug, if you are not 100% certain this is a bug please go to our Telegram group first'
-labels: ['bug']
+labels: bug
 title: "[BUG]"
 body:
 - type: checkboxes
