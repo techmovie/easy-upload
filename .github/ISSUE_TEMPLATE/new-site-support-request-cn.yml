@@ -4,15 +4,15 @@ title: "[新站点]"
 labels: ["new site"]
 body:
 - type: textarea
+  id: url
   attributes:
-    id: url
     label: 站点地址
   validations:
     required: true
 - type: dropdown
+  id: based
   attributes:
     label: 站点架构
-    id: based
     options: 
       - NexusPHP
       - UNIT3D
@@ -21,30 +21,31 @@ body:
   validations:
     required: true
 - type: dropdown
+  id: permission
   attributes:
     label: 站点是否限制发布权限
-    id: permission
     options: 
       - 是
       - 否
   validations:
     required: true
 - type: textarea
+  id: user-class
   attributes:
     label: 站点发布种子所需的用户等级
-    id: user-class
   validations:
     required: true
 - type: textarea
+  id: invite-way
   attributes:
     label: 邀请获取渠道
-    id: invite-way
+    
   validations:
     required: true
 - type: textarea
+  id: other
   attributes:
     label: 其他
     render: markdown
-    id: other
   validations:
     required: false
