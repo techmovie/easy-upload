@@ -1,0 +1,44 @@
+name: New site support request
+description: Request support for a site that is not currently supported by the script
+title: "[New Site]"
+labels: new site
+body:
+- type: textarea
+  attributes:
+    label: URL
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: Site based on
+    options: 
+      - NexusPHP
+      - UNIT3D
+      - Gazelle
+      - Other
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: Whether the site restricts publishing rights
+    options: 
+      - 'Yes'
+      - 'No'
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: The user level required for the site to publish new torrent
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Where to get an invite
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Anything else?
+    render: markdown
+  validations:
+    required: false
