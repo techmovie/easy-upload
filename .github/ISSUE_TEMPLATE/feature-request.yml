@@ -9,7 +9,7 @@ body:
     description: Please search to see if an issue already exists for the feature you are requesting.
     options:
     - label: I have searched the existing issues
-    required: true
+      required: true
 - type: textarea
   attributes:
     label: Is your feature request related to a problem? Please describe
