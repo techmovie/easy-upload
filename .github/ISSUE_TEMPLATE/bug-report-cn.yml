@@ -1,9 +1,10 @@
-name: 反馈BUG
+name: Bug Report(反馈BUG)
 description: '反馈一个脚本存在的问题'
 labels: bug
 title: "[BUG]"
 body:
 - type: checkboxes
+  id: search-issue
   attributes:
     label: 是否有重复的issue
     description: 请搜索以查看您遇到的问题是否已有重复issue。
@@ -11,6 +12,7 @@ body:
     - label: 我已经检索过相关issue
       required: true
 - type: textarea
+  id: problem
   attributes:
     label: 问题描述
     description: 简明扼要地描述您遇到的问题
@@ -18,6 +20,7 @@ body:
   validations:
     required: true
 - type: textarea
+  id: expect
   attributes:
     label: 期待表现
     description: 简明扼要地描述您期待的正常表现
@@ -25,6 +28,7 @@ body:
   validations:
     required: true
 - type: textarea
+  id: reproduce
   attributes:
     label: 复现步骤
     description: 
@@ -37,6 +41,7 @@ body:
   validations:
     required: false
 - type: textarea
+  id: environment
   attributes:
     label: 运行环境
     description: |
