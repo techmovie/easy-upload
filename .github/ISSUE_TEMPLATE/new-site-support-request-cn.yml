@@ -1,16 +1,18 @@
 name: 站点支持请求
 description: 发布一个脚本目前还没进行支持的站点
 title: "[新站点]"
-labels: new site
+labels: ["new site"]
 body:
 - type: textarea
   attributes:
+    id: url
     label: 站点地址
   validations:
     required: true
 - type: dropdown
   attributes:
     label: 站点架构
+    id: based
     options: 
       - NexusPHP
       - UNIT3D
@@ -21,6 +23,7 @@ body:
 - type: dropdown
   attributes:
     label: 站点是否限制发布权限
+    id: permission
     options: 
       - 是
       - 否
@@ -29,16 +32,19 @@ body:
 - type: textarea
   attributes:
     label: 站点发布种子所需的用户等级
+    id: user-class
   validations:
     required: true
 - type: textarea
   attributes:
     label: 邀请获取渠道
+    id: invite-way
   validations:
     required: true
 - type: textarea
   attributes:
     label: 其他
     render: markdown
+    id: other
   validations:
     required: false
