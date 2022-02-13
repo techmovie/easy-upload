@@ -46,8 +46,11 @@ async function fillIMDb (imdbUrl:string) {
     if (imdbData && imdbData?.details?.country) {
       $('#country').val(imdbData.details.country);
     }
-    if (imdbData && imdbData?.details?.['Also known as']) {
+    const akaName = imdbData && imdbData?.details?.['Also known as'];
+    const originalName = imdbData?.name ?? '';
+    if (akaName && akaName !== originalName) {
       $('#alternate_title').val(imdbData.details['Also known as']);
+      $('#title').val(originalName);
     }
     if (imdbData && imdbData.poster) {
       let poster;
