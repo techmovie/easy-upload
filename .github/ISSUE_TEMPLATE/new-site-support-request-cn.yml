@@ -1,0 +1,45 @@
+name: 站点支持请求
+description: 发布一个脚本目前还没进行支持的站点
+labels: enhancement
+title: "[新站点]"
+labels: 新站点
+body:
+  - type: textarea
+    attributes:
+      label: 站点地址
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 站点架构
+      options: 
+        - NexusPHP
+        - UNIT3D
+        - Gazelle
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 站点是否限制发布权限
+      options: 
+        - 是
+        - 否
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 站点发布种子所需的用户等级
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 邀请获取渠道
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 其他
+      render: markdown
+    validations:
+      required: false

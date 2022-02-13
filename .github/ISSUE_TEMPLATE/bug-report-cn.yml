@@ -1,0 +1,55 @@
+name: 反馈BUG
+description: '反馈一个脚本存在的问题'
+labels: bug
+title: "[BUG]"
+body:
+- type: checkboxes
+  attributes:
+    label: 是否有重复的issue
+    description: 请搜索以查看您遇到的问题是否已有重复issue。
+    options:
+    - label: 我已经检索过相关issue
+      required: true
+- type: textarea
+  attributes:
+    label: 问题描述
+    description: 简明扼要地描述您遇到的问题
+    render: markdown
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: 期待表现
+    description: 简明扼要地描述您期待的正常表现
+    render: markdown
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: 复现步骤
+    description: 
+    placeholder: |
+      1. ...
+      2. ...
+      3. ...
+      4. ...
+    render: markdown
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: 运行环境
+    description: |
+      examples:
+      - **浏览器名称**：Google Chrome
+      - **浏览器版本**： 93.0.4577.82
+      - **Script manager extension**：tampermonkey
+      - **easy-upload version**：3.1.1
+    value: |
+       - 浏览器名称：
+       - 浏览器版本：
+       - 所用用户脚本扩展名称：
+       - easy-upload版本：
+    render: markdown
+  validations:
+    required: true
