@@ -56,10 +56,9 @@ const userScriptComment = `// ==UserScript==
 // @description  ${description}
 // @author       ${author}
 // @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
-// @match        https://passthepopcorn.me/torrents.php?id=*
-// @match        https://broadcasthe.net/torrents.php?id=*
+// @match        https://*/torrents.php?id=*
+// @match        http://*/torrents.php?id=*
 // @match        https://broadcasthe.net/torrents.php?torrentid=*
-// @match        https://uhdbits.org/torrents.php?id=*
 // @match        http://*/details.php?id=*
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
@@ -87,10 +86,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://teamhd.org/details/id*
 // @match        https://hd-space.org/index.php?page=upload
 // @match        https://hd-space.org/index.php?page=torrent-details&id=*
-// @match        https://greatposterwall.com/torrents.php?id=*
-// @match        https://www.empornium.is/torrents.php?id=*
-// @match        https://www.empornium.sx/torrents.php?id=*
-// @match        https://www.empornium.me/torrents.php?id=*
+
 // @run-at       document-end
 // @grant        GM_addStyle
 // @grant        GM_getValue
@@ -98,6 +94,8 @@ const userScriptComment = `// ==UserScript==
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
+// @downloadURL  https://github.com/techmovie/easy-upload/raw/main/dist/easy-upload.user.js
+// @updateURL    https://github.com/techmovie/easy-upload/raw/main/dist/easy-upload.user.js
 // @license      MIT
 // ==/UserScript==`;
 

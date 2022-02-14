@@ -11,7 +11,7 @@ import {
 export default async () => {
   let title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
 
-  let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),li.left").next().text().replace(/：/g, ':');
+  let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
