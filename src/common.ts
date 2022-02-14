@@ -412,22 +412,18 @@ const uploadToPixhost = async (screenshots: string[]) => {
 const getPreciseCategory = (torrentInfo: TorrentInfo.Info, category: string) => {
   const { description, title, subtitle, doubanInfo } = torrentInfo;
   const movieGenre = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)?.[2] ?? '';
-  if (category === 'movie') {
-    if (movieGenre.match(/动画/)) {
-      category = 'cartoon';
-    } else if (movieGenre.match(/纪录/)) {
-      category = 'documentary';
+  if (movieGenre.match(/动画/)) {
+    return 'cartoon';
+  } else if (movieGenre.match(/纪录/)) {
+    return 'documentary';
+  } else if (subtitle?.match(/全.+?集/) || title.match(/s0?\d{1,2}[^(e|.e)]/i)) {
+    return 'tvPack';
+  }
+  if (category?.match(/tv/)) {
+    if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle?.match(/第[^\s]集/)) {
+      return 'tv';
     }
-  } else if (category?.match(/tv/)) {
-    if (movieGenre.match(/动画/)) {
-      category = 'cartoon';
-    } else if (movieGenre.match(/纪录/)) {
-      category = 'documentary';
-    } else if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || subtitle?.match(/第[^\s]集/)) {
-      category = 'tv';
-    } else {
-      category = 'tvPack';
-    }
+    return 'tvPack';
   }
   return category;
 };
