@@ -5,9 +5,9 @@ import {
   getValue,
 } from '../common';
 import { getQuickSearchUrl } from './common';
-
+type SiteName = keyof typeof PT_SITE
 const SearchList = () => {
-  const handleSearchClickEvent = (siteName:keyof typeof PT_SITE) => {
+  const handleSearchClickEvent = (siteName:SiteName) => {
     let openUrl = '';
     const attrUrl = $(`.search-list li>a[data-site="${siteName}"]`).data('url');
     if (attrUrl) {
@@ -20,29 +20,53 @@ const SearchList = () => {
   const searchListSetting = getValue('easy-seed.enabled-search-site-list');
   const searchSitesEnabled = searchListSetting || [];
   const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false);
-  return <>
-    <ul className="search-list">
-      {
-        SORTED_SITE_KEYS.map((siteName, index) => {
-          const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
-          if (siteInfo.search) {
-            if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-              const favIcon = (!siteFaviconClosed && siteInfo.icon) ? siteInfo.icon : '';
-              return <li key={siteName} >
-                <a
-                data-site={siteName}
-                onClick={() => handleSearchClickEvent(siteName as keyof typeof PT_SITE)}>
-                  {!!favIcon && <img src={favIcon} className="site-icon" />}
-                  {siteName}
-                </a>
-                <span>|</span>
-              </li>;
-            }
+
+  const getSearchSites = () => {
+    const commonSites:SiteName[] = [];
+    const subtitlesSites:SiteName[] = [];
+    (SORTED_SITE_KEYS as SiteName[]).forEach((siteName) => {
+      const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
+      if (siteInfo.search) {
+        if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
+          if (siteInfo.siteType === 'subtitles') {
+            subtitlesSites.push(siteName);
+          } else {
+            commonSites.push(siteName);
           }
-          return '';
-        })
+        }
       }
-    </ul>
+    });
+    return {
+      commonSites,
+      subtitlesSites,
+    };
+  };
+  return <>
+    {
+      ['commonSites', 'subtitlesSites'].map((key) => {
+        const siteList = getSearchSites()[key as 'commonSites' | 'subtitlesSites'];
+        return siteList.length > 0
+          ? <ul className="search-list">
+              {
+                siteList.map((siteName) => {
+                  const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
+                  const favIcon = (!siteFaviconClosed && siteInfo.icon) ? siteInfo.icon : '';
+                  return <li key={siteName} >
+                        <a
+                        data-site={siteName}
+                        onClick={() => handleSearchClickEvent(siteName)}>
+                          {!!favIcon && <img src={favIcon} className="site-icon" />}
+                          {siteName}
+                        </a>
+                        <span>|</span>
+                      </li>;
+                })
+              }
+            </ul>
+          : '';
+      })
+    }
+
   </>;
 };
 export default SearchList;
