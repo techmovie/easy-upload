@@ -1,3 +1,18 @@
+## [3.1.2](https://github.com/techmovie/easy-upload/compare/3.1.1...3.1.2) (2022-02-16)
+
+
+### Bug Fixes
+
+* **bhd:** build title for DVD ([b4f7c58](https://github.com/techmovie/easy-upload/commit/b4f7c584331fe86ff1525a9467c08549b9a06dae)), closes [#158](https://github.com/techmovie/easy-upload/issues/158) [#159](https://github.com/techmovie/easy-upload/issues/159)
+* **hdc:** modify category regexp ([8bbd547](https://github.com/techmovie/easy-upload/commit/8bbd547eaf51d3362f0a8a94eaeed43a585f361f)), closes [#168](https://github.com/techmovie/easy-upload/issues/168)
+
+
+### Features
+
+* **quick search:** split sites for subtitles to single line ([075f3f0](https://github.com/techmovie/easy-upload/commit/075f3f0ff0d5a530d6367358ad2ad868e23386b4)), closes [#170](https://github.com/techmovie/easy-upload/issues/170)
+
+
+
 ## [3.1.1](https://github.com/techmovie/easy-upload/compare/3.1.0...3.1.1) (2022-02-13)
 
 
