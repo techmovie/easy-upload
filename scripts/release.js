@@ -3,7 +3,7 @@ import bump from '@jsdevtools/version-bump-prompt';
 import execa from 'execa';
 import ora from 'ora';
 
-const CURRENT_BRANCH = 'main';
+const CURRENT_BRANCH = 'master';
 const log = console.log;
 const showCurrentBranch = () => {
   return execa.sync('git', ['branch', '--show-current']).stdout;

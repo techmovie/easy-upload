@@ -67,7 +67,6 @@
     "preact": "^10.6.4",
     "rc-notification": "4.4.0",
     "react": "npm:@preact/compat",
-    "react-dom": "npm:@preact/compat",
-    "serve": "^13.0.2"
+    "react-dom": "npm:@preact/compat"
   }
 }

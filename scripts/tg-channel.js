@@ -22,7 +22,7 @@ let tgMsg = `
 📣 *更新至${newVersion}*
 
 👉 [安装地址](https://greasyfork.org/zh-CN/scripts/423199)
-👉 [CHANGELOG](https://github.com/techmovie/easy-upload/blob/main/CHANGELOG.md)
+👉 [CHANGELOG](https://github.com/techmovie/easy-upload/blob/master/CHANGELOG.md)
 👉 [使用教程](https://github.com/techmovie/easy-upload/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
 `;
 tgMsg += bugContent

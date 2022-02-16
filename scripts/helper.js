@@ -94,8 +94,8 @@ const userScriptComment = `// ==UserScript==
 // @grant        GM_openInTab
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
-// @downloadURL  https://github.com/techmovie/easy-upload/raw/main/dist/easy-upload.user.js
-// @updateURL    https://github.com/techmovie/easy-upload/raw/main/dist/easy-upload.user.js
+// @downloadURL  https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
+// @updateURL    https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
 // @license      MIT
 // ==/UserScript==`;
 
