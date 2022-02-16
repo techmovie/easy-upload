@@ -11,7 +11,11 @@ import {
 const currentSiteInfo = PT_SITE.BeyondHD;
 
 export default (info:TorrentInfo.Info) => {
-  $(currentSiteInfo.name.selector).val(info.title);
+  let title = info.title;
+  if (info.videoType === 'dvd') {
+    title = buildDVDTitle(info);
+  }
+  $(currentSiteInfo.name.selector).val(title);
   fillSpecs(info);
   fillTMDBId(info);
   fillMediaInfo(info);
@@ -112,4 +116,14 @@ function buildDescription (info:TorrentInfo.Info) {
     description = filterNexusDescription(info);
   }
   return description.trim();
+}
+function buildDVDTitle (info:TorrentInfo.Info) {
+  const { movieName, movieAkaName, year, mediaInfo, size, audioCodec } = info;
+  const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
+  const dvdType = getBDType(size);
+  const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';
+  const audio = audioCodec === 'ac3' ? 'dd' : audioCodec;
+  const audioName = `${audio?.toUpperCase()}${audioChannelNumber === '6' ? '5.1' : `${audioChannelNumber}.0`}`;
+  const akaName = movieAkaName ? ` AKA ${movieAkaName} ` : ' ';
+  return `${movieName}${akaName}${year} ${scanType} ${dvdType} ${audioName}`;
 }
