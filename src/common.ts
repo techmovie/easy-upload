@@ -1207,7 +1207,7 @@ const replaceRegSymbols = (string:string) => {
 };
 // https://greasyfork.org/zh-CN/scripts/389810-rottentomatoes-utility-library-custom-api
 const getRtIdFromTitle = async (title:string, tv:boolean, year:string) => {
-  console.log(title, year);
+  console.log('%s', title, year);
   const MAX_YEAR_DIFF = 2;
   tv = tv || false;
   const yearVal = parseInt(year, 10) || 1800;

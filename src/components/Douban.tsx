@@ -52,7 +52,7 @@ const Douban = () => {
         scriptDoubanLink ||
         TORRENT_INFO.doubanUrl || searchValue;
       let doubanUrl: string = '';
-      if (doubanLink && doubanLink.match('movie.douban.com')) {
+      if (doubanLink && doubanLink.match(/movie\.douban\.com/)) {
         doubanUrl = doubanLink;
       } else {
         const { imdbUrl, movieName } = TORRENT_INFO;

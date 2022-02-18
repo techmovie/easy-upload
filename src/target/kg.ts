@@ -39,7 +39,7 @@ export default async (info:TorrentInfo.Info) => {
         }
       }
       $('select[name="country_id"]').val(countryMap[countryValue as keyof typeof countryMap]);
-      $('#bbcodetextarea').html(`\nSynopsis:\n[quote]${description}[/quote]\n\n${screenshots.map(img => `[img]${img}[/img]`).join('')}`);
+      $('#bbcodetextarea').html(`\nSynopsis:\n[quote]${description}[/quote]\n\n${screenshots.map(img => `[img]${encodeURI(img)}[/img]`).join('')}`);
       const [mainGenre, otherGenre = ''] = genre;
       $('select[name="genre_main_id"]').val(genreMap[mainGenre as keyof typeof genreMap]);
       $('select[name="subgenre"]').val(genreMap[otherGenre as keyof typeof genreMap]);

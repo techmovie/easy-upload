@@ -111,15 +111,15 @@ export default async () => {
   const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-  const doubanUrl = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban.com\/subject\/\d+/)?.[0];
+  const doubanUrl = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/)?.[0];
   if (doubanUrl) {
     TORRENT_INFO.doubanUrl = doubanUrl;
   }
-  const imdbUrl = descriptionBBCode.match(/http(s)?:\/\/www.imdb.com\/title\/tt\d+/)?.[0];
+  const imdbUrl = descriptionBBCode.match(/http(s)?:\/\/www\.imdb\.com\/title\/tt\d+/)?.[0];
   if (imdbUrl) {
     TORRENT_INFO.imdbUrl = imdbUrl;
   } else if (siteImdbUrl) {
-    TORRENT_INFO.imdbUrl = (siteImdbUrl.match(/www.imdb.com\/title/)) ? siteImdbUrl : '';
+    TORRENT_INFO.imdbUrl = (siteImdbUrl.match(/www\.imdb\.com\/title/)) ? siteImdbUrl : '';
   }
   TORRENT_INFO.year = year.length > 0 ? year.pop() as string : '';
   TORRENT_INFO.title = title;

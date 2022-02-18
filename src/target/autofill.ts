@@ -17,7 +17,7 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
       throw new Error($t('请填写正确链接'));
     }
     let doubanLink: string = '';
-    if (doubanUrl && doubanUrl.match('movie.douban.com')) {
+    if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
       doubanLink = doubanUrl;
     } else {
       const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
