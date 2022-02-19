@@ -1,3 +1,18 @@
+## [3.1.3](https://github.com/techmovie/easy-upload/compare/3.1.2...3.1.3) (2022-02-19)
+
+
+### Bug Fixes
+
+* codeql alert fix ([caa0cca](https://github.com/techmovie/easy-upload/commit/caa0ccaa22eed752f5f78c57847c61fc30e86953))
+* **haresclub:** adapt to the new ui ([478d49a](https://github.com/techmovie/easy-upload/commit/478d49a18dd36659728e2f8f2632777a484666d4))
+
+
+### Features
+
+* **quick search:** add Batch search button ([395a5c9](https://github.com/techmovie/easy-upload/commit/395a5c9330334415f67794ac004800dc30ee7305)), closes [#154](https://github.com/techmovie/easy-upload/issues/154)
+
+
+
 ## [3.1.2](https://github.com/techmovie/easy-upload/compare/3.1.1...3.1.2) (2022-02-16)
 
 
