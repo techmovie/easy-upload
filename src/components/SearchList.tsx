@@ -2,7 +2,7 @@ import {
   PT_SITE, SORTED_SITE_KEYS,
 } from '../const';
 import {
-  getValue,
+  getValue, $t,
 } from '../common';
 import { getQuickSearchUrl } from './common';
 type SiteName = keyof typeof PT_SITE
@@ -41,9 +41,15 @@ const SearchList = () => {
       subtitlesSites,
     };
   };
+  const batchSearchClick = () => {
+    const { commonSites, subtitlesSites } = getSearchSites();
+    [...commonSites, ...subtitlesSites].forEach(site => {
+      handleSearchClickEvent(site);
+    });
+  };
   return <>
     {
-      ['commonSites', 'subtitlesSites'].map((key) => {
+      ['commonSites', 'subtitlesSites'].map((key, index) => {
         const siteList = getSearchSites()[key as 'commonSites' | 'subtitlesSites'];
         return siteList.length > 0
           ? <ul className="search-list">
@@ -61,6 +67,11 @@ const SearchList = () => {
                         <span>|</span>
                       </li>;
                 })
+              }
+              {
+                index === 0 && <li id="batch-search-btn" onClick={batchSearchClick} title={$t('同时打开多个搜索标签页')}>
+                  {$t('批量检索')}
+                </li>
               }
             </ul>
           : '';

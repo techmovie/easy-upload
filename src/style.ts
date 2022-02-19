@@ -531,4 +531,11 @@ tr.pad[id*="torrent_"]{
 #seed-dom.use-eng  .ptp-title-wrapper .search-list li:first-child{
   padding-left: 85px;
 }
+#batch-search-btn{
+  color: #409eff;
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
 `);
