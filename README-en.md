@@ -1,10 +1,6 @@
 # easy-upload
 
-[Installation address 1](https://greasyfork.org/en/scripts/423199)
-
-[Installation address 2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
-
-[Join Telegram group](https://t.me/easyupload)
+[Installation address 1](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D) | [Installation address 2](https://greasyfork.org/en/scripts/423199) | [Join Telegram group](https://t.me/easyupload)
 
 ## About
 
@@ -38,6 +34,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 * Enable site search: config quick search list to define searching scope.
   
 ## Cautions
+* **PLEASE CHECK OVER YOUR TORRENT UPLOAD FOR ANY ERRORS, EASY UPLOAD IS NOT ALWAYS PERFECT FOR EVERY SITE**
 * For now, transfer of music, MV and anime is not supported. The type info may not be automatically filled.
 * Upload page in LemonHD only supports reproduction of movie, episode, documentary and MV types.
 * Irrelevant pictures to screenshots may still be retained when reproduced from Chinese sites to international ones, though filtering work has been done. They need to be deleted manually.

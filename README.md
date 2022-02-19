@@ -3,11 +3,9 @@
 [English Version](README-en.md)
 
 
-[安装地址1](https://greasyfork.org/zh-CN/scripts/423199)
+[安装地址1](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D) | [安装地址2](https://greasyfork.org/zh-CN/scripts/423199) | [加入Telegram群组](https://t.me/easyupload)
 
-[安装地址2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
 
-[加入Telegram群组](https://t.me/easyupload)
 
 ## 关于
 
@@ -46,6 +44,7 @@ Greasemonkey 4 与以上两种脚本管理器的API严重不一致且只能在Fi
 * 站点搜索启用: 定义需要在页面显示的快速搜索列表。
   
 ## 注意事项
+* **任何情况下都不要完全依赖脚本，脚本不可能做到对每个站点都完美适配，发布前需要自己认真检查是否有填写错误或者不符合站点规则的地方**
 * 目前对音乐、MV、动漫的种子转载不支持(分类可能不会自动填写)
 * 柠檬的上传页只支持电影、剧集、纪录片和MV类别的转载
 * 内站的简介中会有一些跟视频截图无关的图片，虽然做了一些过滤，转载到外站后这些无关的图片可能仍会保留下来，需要手动删除。
