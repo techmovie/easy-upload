@@ -248,3 +248,4 @@ declare function fillField(selector:string, value: string): void;
 declare function getcheckboxvalue(selector:string): void;
 declare function getradiovalue(selector:string): void;
 declare let CKEDITOR: any;
+declare let layui: any;

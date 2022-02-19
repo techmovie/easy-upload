@@ -1069,11 +1069,14 @@ const htmlToBBCode = (node:Element) => {
           let imgUrl = '';
           const { src, title } = node as HTMLImageElement;
           const dataSrc = node.getAttribute('data-src') || node.getAttribute('data-echo');
+          const layerSrc = node.getAttribute('layer-src');// HaresClub
           // blu等unit3d站点会把:m:转成icon图片
           if (title === ':m:') {
             return ':m:';
           }
-          if (dataSrc) {
+          if (layerSrc) {
+            imgUrl = layerSrc;
+          } else if (dataSrc) {
             imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
           } else if (src && src.match(/broadcity\.eu\/images\/44846549843542759058\.png/)) {
             return '';

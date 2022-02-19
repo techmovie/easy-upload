@@ -47,16 +47,16 @@ const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
 const USE_CHINESE = /zh|zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
-
+type SiteName = keyof typeof PT_SITE;
 const getSiteName = (host:string) => {
-  let siteName = '';
+  let siteName = '' as SiteName|'';
   try {
     Object.keys(PT_SITE).forEach(key => {
-      const siteKey = key as keyof typeof PT_SITE;
+      const siteKey = key as SiteName;
       const hostName = PT_SITE[siteKey].host;
       const matchReg = new RegExp(hostName, 'i');
       if (hostName && host.match(matchReg)) {
-        siteName = key;
+        siteName = siteKey;
       }
     });
     return siteName;

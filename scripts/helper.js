@@ -77,8 +77,8 @@ const userScriptComment = `// ==UserScript==
 // @match        https://ptpimg.me/*
 // @match        https://*/upload*
 // @match        http://*/upload*
-// @match        http://www.hd.ai/Torrents.upload
-// @match        http://www.hd.ai/Torrents.index?*
+// @match        https://www.hd.ai/Torrents.upload
+// @match        https://www.hd.ai/Torrents.index?*
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*

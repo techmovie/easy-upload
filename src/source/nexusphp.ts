@@ -11,7 +11,7 @@ import {
 export default async () => {
   let title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
 
-  let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊')").next().text().replace(/：/g, ':');
+  let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
@@ -105,6 +105,14 @@ export default async () => {
       metaInfo = metaInfo.replace('分辨率', '分辨率:');
     }
   }
+
+  if (CURRENT_SITE_NAME === 'HaresClub') {
+    subtitle = $('h3.layui-font-16:first').text();
+    descriptionBBCode = getFilterBBCode($('.layui-colla-content:first')[0]);
+    TORRENT_INFO.doubanUrl = $('i[title="豆瓣链接"]').next().attr('href');
+    siteImdbUrl = $('i[title="IMDB链接"]').next().attr('href');
+  }
+
   // 站点自定义数据覆盖 结束
 
   const year = title?.match(/(19|20)\d{2}/g) ?? [];

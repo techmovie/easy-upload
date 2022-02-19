@@ -101,10 +101,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   disableTorrentChange();
 
   // 填写四个常见的信息
-  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'];
-  type Key = 'subtitle' | 'douban' | 'area' | 'audioCodec';
+  const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'] as const;
   commonInfoKeys.forEach(key => {
-    const siteInfo = currentSiteInfo[key as Key];
+    const siteInfo = currentSiteInfo[key];
     if (siteInfo && siteInfo.selector) {
       let value = info[key as 'subtitle' | 'area' | 'audioCodec'];
       if (key === 'douban') {
@@ -203,6 +202,17 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
         });
       }
     });
+  }
+
+  if (CURRENT_SITE_NAME === 'HaresClub') {
+    $('.modesw').trigger('click');
+    $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
+    if (layui) {
+      setTimeout(() => {
+        layui.form.render('select');
+        layui.form.render('checkbox');
+      }, 1000);
+    }
   }
   // 过滤空标签
   description = filterEmptyTags(description);
@@ -426,7 +436,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     }
     $('#imdb_button').trigger('click');
   }
-  if (CURRENT_SITE_NAME === '52PT') {
+  if (CURRENT_SITE_NAME === '52pt') {
     const { tags, videoType, resolution } = info;
     let videoTypeValue = videoType;
     if (videoType.match(/bluray/)) {
