@@ -23,7 +23,7 @@ esbuild.build({
       }
     : [],
   minify: isProd,
-  sourcemap: isDev && 'inline',
+  sourcemap: false,
   jsxFactory: 'h',
   jsxFragment: 'Fragment',
   inject: ['./scripts/preact-shim.ts'],

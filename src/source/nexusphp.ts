@@ -108,8 +108,19 @@ export default async () => {
 
   if (CURRENT_SITE_NAME === 'HaresClub') {
     subtitle = $('h3.layui-font-16:first').text();
+    const extraScreenshotDom = $('#layer-photos-demo').find('img');
+    const imgs:string[] = [];
+    if (extraScreenshotDom) {
+      extraScreenshotDom.each((index, item) => {
+        imgs.push(`[img]${$(item).attr('src')?.trim() ?? ''}[/img]`);
+      });
+    }
+    const extraScreenshot = imgs.join('');
     descriptionBBCode = getFilterBBCode($('.layui-colla-content:first')[0]);
+    const extraMediaInfo = $('#kfmedia').html()?.replace(/<br>/g, '\n') ?? '';
+    descriptionBBCode = `${descriptionBBCode}\n[quote]${extraMediaInfo}[/quote]\n${extraScreenshot}`;
     TORRENT_INFO.doubanUrl = $('i[title="豆瓣链接"]').next().attr('href');
+    TORRENT_INFO.mediaInfo = extraMediaInfo;
     siteImdbUrl = $('i[title="IMDB链接"]').next().attr('href');
   }
 
@@ -181,27 +192,21 @@ export default async () => {
   TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
 
-  const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-  const mediaInfoOrBDInfo = isBluray ? bdinfo : (TORRENT_INFO.mediaInfo || mediaInfo);
-  if (mediaInfoOrBDInfo) {
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
-      TORRENT_INFO.videoCodec = videoCodec;
-      TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.resolution = resolution || '';
-      TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
+  const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
+  if (TORRENT_INFO.mediaInfo) {
+    getSpecsFromMediainfo(isBluray);
+  } else {
+    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
+    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
+    if (mediaInfoOrBDInfo) {
+      TORRENT_INFO.mediaInfo = CURRENT_SITE_NAME === 'HaresClub' ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
+      getSpecsFromMediainfo(isBluray);
     }
   }
   if (CURRENT_SITE_NAME === 'TCCF') {
     TORRENT_INFO.format = getFormat(videoType);
   } else {
     TORRENT_INFO.format = getFormat($('#top').text() + subtitle);
-  }
-  if (CURRENT_SITE_NAME === 'HaresClub') {
-    TORRENT_INFO.mediaInfo = $('#kfmedia').text();
   }
 };
 
@@ -409,6 +414,14 @@ const getTagsFromPage = () => {
     tags = getTagsFromSubtitle(tagText);
   }
   return tags;
+};
+function getSpecsFromMediainfo (isBluray:boolean) {
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+  if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
+    TORRENT_INFO.resolution = resolution || '';
+    TORRENT_INFO.tags = { ...TORRENT_INFO.tags, ...mediaTags };
+  }
 }
-
-;

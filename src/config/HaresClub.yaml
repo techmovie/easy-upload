@@ -15,7 +15,7 @@ search:
     search_area: '{optionKey}'
     search: '{imdb}'
     sort: '5'
-    type: desc
+    search_mode: '0'
   result: 
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
