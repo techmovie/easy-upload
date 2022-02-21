@@ -49,6 +49,10 @@ if (CURRENT_SITE_NAME) {
         target = document.querySelector(`#torrent_${torrentId} >td`);
       }
       target?.prepend(element);
+    } else if (CURRENT_SITE_NAME === 'UHDBits') {
+      const torrentId = getUrlParam('torrentid');
+      $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
+      $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(element);
     } else {
       Array.from(element.childNodes).forEach(node => {
         target?.parentNode?.insertBefore(node, target);

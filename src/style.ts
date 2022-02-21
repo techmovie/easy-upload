@@ -512,7 +512,7 @@ tr.pad[id*="torrent_"]{
   position: absolute;
   left:0;
   top: 0;
-  margin: 0;
+  margin: 0 !important;
   display: flex;
   align-items: center;
   line-height: 24px;
