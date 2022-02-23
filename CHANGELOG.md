@@ -1,3 +1,13 @@
+## [3.1.4](https://github.com/techmovie/easy-upload/compare/3.1.3...3.1.4) (2022-02-23)
+
+
+### Bug Fixes
+
+* **haresclud:** get extra screenshots and add quick search param ([6fd6533](https://github.com/techmovie/easy-upload/commit/6fd6533171a934d692a0da4aac94e26ad4e3ebdb))
+* **uhd aither:** script can't show  on these two ([6b2f0c3](https://github.com/techmovie/easy-upload/commit/6b2f0c37204761678ba259b7f67fcd6ae598eace))
+
+
+
 ## [3.1.3](https://github.com/techmovie/easy-upload/compare/3.1.2...3.1.3) (2022-02-19)
 
 
