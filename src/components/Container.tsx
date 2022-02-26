@@ -140,7 +140,9 @@ const Container = () => {
         </div>
         <div className="custom-site">
           <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-          <SearchList />
+          <div>
+            <SearchList />
+          </div>
         </div>
       </>
     }
@@ -162,7 +164,9 @@ const Container = () => {
           </div>
           <div className='custom-site'>
             <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-            <SearchList />
+            <div>
+              <SearchList />
+            </div>
           </div>
         </td>
       </tr>

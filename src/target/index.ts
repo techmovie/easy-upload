@@ -19,6 +19,7 @@ import handleBYR from './byr';
 import handleSC from './sc';
 import handleKG from './kg';
 import handleBHD from './bhd';
+import handleBdc from './bdc';
 import autoFill from './autofill';
 
 type SelectKey = 'videoCodec'|'videoType'|'resolution'|'source'|'area'
@@ -58,6 +59,11 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   if (CURRENT_SITE_NAME === 'BeyondHD') {
     handleBHD(info);
+    return;
+  }
+
+  if (CURRENT_SITE_NAME === 'Bdc') {
+    handleBdc(info);
     return;
   }
 
