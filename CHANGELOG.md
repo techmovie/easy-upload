@@ -1,3 +1,13 @@
+## [3.1.5](https://github.com/techmovie/easy-upload/compare/3.1.4...3.1.5) (2022-02-27)
+
+
+### Features
+
+* **bdc:** support Bdc target ([09fd3a4](https://github.com/techmovie/easy-upload/commit/09fd3a48c8b5f8805680f787b18118760fcc28c3))
+* support filling in pter for Bdc ([1571201](https://github.com/techmovie/easy-upload/commit/1571201ea8be2e500ca3a8b10508a53a87817c7c))
+
+
+
 ## [3.1.4](https://github.com/techmovie/easy-upload/compare/3.1.3...3.1.4) (2022-02-23)
 
 
