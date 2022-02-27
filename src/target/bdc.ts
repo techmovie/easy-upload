@@ -4,7 +4,7 @@ import {
   $t,
 } from '../common';
 import { PT_SITE } from '../const';
-import { getScreenshotsBBCode } from './common';
+import { getScreenshotsBBCode, getTeamName } from './common';
 const currentSiteInfo = PT_SITE.Bdc;
 
 export default async (info:TorrentInfo.Info) => {
@@ -16,8 +16,11 @@ export default async (info:TorrentInfo.Info) => {
 };
 function fillCategory (info:TorrentInfo.Info) {
   const { resolution, videoType, category } = info;
+  const teamName = getTeamName(info);
   let categoryValue = '';
-  if (videoType.match(/bluray/)) {
+  if (teamName === 'PTer') {
+    categoryValue = '40';
+  } else if (videoType.match(/bluray/)) {
     categoryValue = '31';
   } else if (category.match(/tv/)) {
     categoryValue = '19';
