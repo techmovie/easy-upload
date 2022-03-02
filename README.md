@@ -1,5 +1,7 @@
 # easy-upload
 
+![](src/assets/STANDWITHUKRAINE.png)
+
 [English Version](README-en.md)
 
 
