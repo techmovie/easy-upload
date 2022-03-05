@@ -1,3 +1,14 @@
+## [3.1.6](https://github.com/techmovie/easy-upload/compare/3.1.5...3.1.6) (2022-03-05)
+
+
+### Features
+
+* **douban:** change to douban mobile api ([c658807](https://github.com/techmovie/easy-upload/commit/c658807205402767aa105f706d6b17c5981cb9f9))
+* **quick search:** add BLUEBIRD ([87a1a1a](https://github.com/techmovie/easy-upload/commit/87a1a1a725d9ac15d245bc811150d417b80c94da))
+* **scripts:** add icoFetcher ([6fea7ed](https://github.com/techmovie/easy-upload/commit/6fea7eda3d7bc12c4ce3f73558344c10a0fe2485))
+
+
+
 ## [3.1.5](https://github.com/techmovie/easy-upload/compare/3.1.4...3.1.5) (2022-02-27)
 
 
