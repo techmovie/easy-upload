@@ -538,4 +538,14 @@ tr.pad[id*="torrent_"]{
   font-weight: 600;
   cursor: pointer;
 }
+.douban-config {
+  display: flex;
+  justify-content: center;
+}
+.douban-config textarea{
+  resize: none;
+  width: 300px;
+  height: 100px;
+  margin-left: 6px;
+}
 `);

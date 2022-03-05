@@ -44,6 +44,7 @@ const SettingPanel = (props:Props) => {
   const { closePanel } = props;
 
   const [ptpImgApiKey, setPtpImgApiKey] = useState(getValue('easy-seed.ptp-img-api-key', false) || '');
+  const [doubanCookie, setDoubanCookie] = useState(getValue('easy-seed.douban-cookie', false) || '');
 
   const saveSetting = () => {
     const targetSitesEnabled:string[] = [];
@@ -65,6 +66,7 @@ const SettingPanel = (props:Props) => {
       GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
       GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
       GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
+      GM_setValue('easy-seed.douban-cookie', doubanCookie);
       featureList.forEach(feature => {
         GM_setValue(`easy-seed.${feature.name}`, feature.checked ? 'checked' : '');
       });
@@ -162,7 +164,16 @@ const SettingPanel = (props:Props) => {
             })
           }
         </div>
-
+        <h3>{$t('豆瓣配置')}</h3>
+        <div className='douban-config'>
+          <label>
+            {$t('豆瓣Cookie')}
+            <textarea
+              value={doubanCookie}
+              onChange={(e) => setDoubanCookie((e.target as HTMLTextAreaElement).value)}
+            />
+          </label>
+        </div>
       </div>
       <div className="confirm-btns">
         <button onClick={closePanel}>{$t('取消')}</button>

@@ -151,6 +151,7 @@ declare namespace Douban {
     awards?: string
     tags?: string[],
     format?: string,
+    credits?: MobileCredits[]
   }
 
   interface BookData {
@@ -174,30 +175,57 @@ declare namespace Douban {
     country: string,
     shareImage: string
   }
-  interface QueryPerson {
-    data: [{
-      name: string
-    }, {
-      name: string
-    }]
+  interface MobilePerson {
+    name: string
   }
-  interface DoubanQueryData {
-    doubanId: string
-    imdbId: string
-    imdbRating: string
-    imdbVotes: string
-    dateReleased: string
-    alias: string
-    originalName: string
-    doubanRating: string
-    episodes: string
-    doubanVotes: string
+
+  interface MobilePic {
+    large: string
+    normal: string
+  }
+
+  interface Celebrity {
+    latin_name: string,
+    name: string
+    cover_url: string
+    abstract: string
+    url: string
+  }
+  interface MobileCredits {
+    title: string
+    celebrities: Celebrity[]
+  }
+  interface Rating {
+    count: number
+    max: number
+    start_count: number
+    value: 8.7
+  }
+  interface DoubanMobileData {
+    rating: Rating
+    pubdate: string[]
+    pic: MobilePic
+    is_tv: boolean
     year: string
-    duration: number
-    director: QueryPerson[],
-    data: DataInfo[]
-    actor: QueryPerson[]
-    writer: QueryPerson[]
+    card_subtitle: string
+    id: string
+    languages: string[]
+    genres: string[]
+    title: string
+    intro: string
+    actors: MobilePerson[]
+    durations: string[]
+    cover_url: string
+    countries: string[]
+    type: 'movie'|'tv'
+    url: string
+    original_title: string
+    directors: MobilePerson[]
+    aka: string[]
+    episodes_info: string
+    episodes_count: number
+    credits: MobileCredits[]
+    awards: string
   }
   interface Season {
     season:string

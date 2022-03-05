@@ -53,27 +53,27 @@ const SearchList = () => {
         const siteList = getSearchSites()[key as 'commonSites' | 'subtitlesSites'];
         return siteList.length > 0
           ? <ul className="search-list">
-              {
-                siteList.map((siteName) => {
-                  const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
-                  const favIcon = (!siteFaviconClosed && siteInfo.icon) ? siteInfo.icon : '';
-                  return <li key={siteName} >
-                        <a
-                        data-site={siteName}
-                        onClick={() => handleSearchClickEvent(siteName)}>
-                          {!!favIcon && <img src={favIcon} className="site-icon" />}
-                          {siteName}
-                        </a>
-                        <span>|</span>
-                      </li>;
-                })
-              }
-              {
-                index === 0 && <li id="batch-search-btn" onClick={batchSearchClick} title={$t('同时打开多个搜索标签页')}>
-                  {$t('批量检索')}
-                </li>
-              }
-            </ul>
+            {
+              siteList.map((siteName) => {
+                const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
+                const favIcon = (!siteFaviconClosed && siteInfo.icon) ? siteInfo.icon : '';
+                return <li key={siteName} >
+                  <a
+                    data-site={siteName}
+                    onClick={() => handleSearchClickEvent(siteName)}>
+                    {!!favIcon && <img src={favIcon} className="site-icon" />}
+                    {siteName}
+                  </a>
+                  <span>|</span>
+                </li>;
+              })
+            }
+            {
+              index === 0 && <li id="batch-search-btn" onClick={batchSearchClick} title={$t('同时打开多个搜索标签页')}>
+                {$t('批量检索')}
+              </li>
+            }
+          </ul>
           : '';
       })
     }

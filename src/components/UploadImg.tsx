@@ -91,12 +91,12 @@ const UploadImg = () => {
           <option value="gifyu">gifyu</option>
         </select>
         <button
-        className="copy-img"
-        hidden={!canCopy}
-        onClick={() => {
-          GM_setClipboard(screenBBCode.join(''));
-          setCopyText('已复制');
-        }}>{$t(copyText)}</button>
+          className="copy-img"
+          hidden={!canCopy}
+          onClick={() => {
+            GM_setClipboard(screenBBCode.join(''));
+            setCopyText('已复制');
+          }}>{$t(copyText)}</button>
       </div>
     </div >
     : null;

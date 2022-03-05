@@ -186,7 +186,7 @@ const UploadSiteList = () => {
               {
                 !!favIcon && <img src={favIcon} className="site-icon" />
               }
-               {siteName}
+              {siteName}
             </a>
             <span>|</span>
           </li>;

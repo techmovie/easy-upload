@@ -148,28 +148,28 @@ const Container = () => {
     }
     {
       CURRENT_SITE_NAME === 'Bdc' && <>
-      <tr>
-        <td colSpan={4}>
-          <div className='custom-site'>
-            <Title />
-            <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-              <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
-                <UploadSiteList />
+        <tr>
+          <td colSpan={4}>
+            <div className='custom-site'>
+              <Title />
+              <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
+                <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
+                  <UploadSiteList />
+                </div>
               </div>
             </div>
-          </div>
-          <div className='custom-site'>
-            <h4>{$t('快捷操作')}</h4>
-            <FunctionList />
-          </div>
-          <div className='custom-site'>
-            <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-            <div>
-              <SearchList />
+            <div className='custom-site'>
+              <h4>{$t('快捷操作')}</h4>
+              <FunctionList />
             </div>
-          </div>
-        </td>
-      </tr>
+            <div className='custom-site'>
+              <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+              <div>
+                <SearchList />
+              </div>
+            </div>
+          </td>
+        </tr>
 
       </>
     }

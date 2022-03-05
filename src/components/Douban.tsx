@@ -73,11 +73,11 @@ const Douban = () => {
         setSearchValue(doubanUrl);
         if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
           const movieData = await getDoubanInfo(doubanUrl);
-          Notification.open({
-            message: $t('成功'),
-            description: $t('获取成功'),
-          });
           if (movieData) {
+            Notification.open({
+              message: $t('成功'),
+              description: $t('获取成功'),
+            });
             updateTorrentInfo(movieData);
           }
         } else {

@@ -43,6 +43,7 @@ const TORRENT_INFO: TorrentInfo.Info = {
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
 const DOUBAN_SUGGEST_API = 'https://www.douban.com/search?cat=1002&q={query}';
+const DOUBAN_MOBILE_API = 'https://m.douban.com/rexxar/api/v2';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
@@ -89,6 +90,7 @@ const HDB_TEAM = ['Chotab', 'CRiSC', 'CtrlHD', 'DON', 'EA', 'EbP', 'Geek', 'LolH
 export {
   TORRENT_INFO,
   DOUBAN_SEARCH_API,
+  DOUBAN_MOBILE_API,
   PT_GEN_API,
   CODES_ARRAY,
   CURRENT_SITE_NAME,
