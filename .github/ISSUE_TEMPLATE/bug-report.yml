@@ -1,52 +1,52 @@
 name: Bug Report
-description: 'Report a new bug, if you are not 100% certain this is a bug please go to our Telegram group first'
+description: "Report a new bug, if you are not 100% certain this is a bug please go to our Telegram group first"
 labels: bug
 title: "[BUG]"
 body:
-- type: checkboxes
-  attributes:
-    label: Is there an existing issue for this?
-    description: Please search to see if an issue already exists for the bug you encountered.
-    options:
-    - label: I have searched the existing issues
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    attributes:
+      label: Current Behavior
+      description: A concise description of what you're experiencing.
+    validations:
       required: true
-- type: textarea
-  attributes:
-    label: Current Behavior
-    description: A concise description of what you're experiencing.
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Expected Behavior
-    description: A concise description of what you expected to happen.
-  validations:
-    required: true
-- type: textarea
-  attributes:
-    label: Steps To Reproduce
-    description: Steps to reproduce the behavior.
-    placeholder: |
-      1. In this environment...
-      2. With this config...
-      3. Run '...'
-      4. See error...
-  validations:
-    required: false
-- type: textarea
-  attributes:
-    label: Environment
-    description: |
-      examples:
-      - **Browser**：Google Chrome
-      - **Browser Version**： 93.0.4577.82
-      - **Script manager extension**：tampermonkey
-      - **easy-upload version**：3.1.1
-    value: |
-       - Browser：
-       - Browser Version：
-       - Script manager extension：
-       - easy-upload version：
-    render: markdown
-  validations:
-    required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. In this environment...
+        2. With this config...
+        3. Run '...'
+        4. See error...
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Environment
+      description: |
+        examples:
+        - **Browser**：Google Chrome
+        - **Browser Version**： 93.0.4577.82
+        - **Script manager extension**：tampermonkey
+        - **easy-upload version**：3.1.1
+      value: |
+        - Browser：
+        - Browser Version：
+        - Script manager extension：
+        - easy-upload version：
+      render: markdown
+    validations:
+      required: true
