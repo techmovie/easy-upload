@@ -16,41 +16,31 @@ export default async () => {
   Object.assign(TORRENT_INFO, data);
 };
 const getTorrentInfo = async (torrentId:string) => {
-  const imdbUrl = $('.info_crumbs a[href*="www.imdb.com/title"]').attr('href');
-  const doubanUrl = $('.info_crumbs a[href*="https://movie.douban.com/subject/"]').attr('href');
   const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
   const { torrent, group } = response;
-  const { name: movieName, year, wikiImage: poster, releaseType } = group;
-  let { description, fileList, filePath, size } = torrent;
+  const { name: movieName, year, conver: poster, releaseType, region, imdbId, doubanId } = group;
+  const imdbUrl = `https://www.imdb.com/title${imdbId}`;
+  const doubanUrl = `https://movie.douban.com/subject/${doubanId}`;
+  const area = getAreaCode(region);
 
-  fileList = fileList.replace(/\.\w+?{{{\d+}}}/, '');
-  const title = formatTorrentTitle(filePath || fileList);
+  let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos } = torrent;
+
+  fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, '');
+  const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, '') || fileList);
   const category = getCategory(releaseType);
-  const country = $('.info_crumbs .fa-flag').next('span').text();
-  const area = getAreaCode(country);
 
   const torrentHeaderDom = $(`#torrent${torrentId}`);
-  const infoArray = torrentHeaderDom.find('.td_info .specs').text().trim().split(' / ');
-
-  let [codes, source, resolution, container, ...otherInfo] = infoArray;
-  console.log(codes);
-  const isRemux = otherInfo.includes('Remux');
-  const videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, source, otherInfo);
-  source = getSource(source, otherInfo.join(','), resolution);
-
-  const { knownTags, otherTags } = getTags(otherInfo, ['可替代', '特色']);
+  const infoArray = torrentHeaderDom.find('.specs').text().trim().split(' / ').slice(4);
+  const isRemux = processing.includes('Remux');
+  const videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, source, resolution, processing);
+  source = getSource(source, processing, resolution);
+  const { knownTags, otherTags } = getTags(infoArray, ['可替代', '特色']);
   const tags = { ...knownTags };
 
-  const torrentDom = $(`#torrent_torrent_${torrentId}`).find('#subtitles_box').next('blockquote');
+  const torrentDom = $(`#torrent_detail_${torrentId}`).find('#subtitles_box').next('blockquote');
   const screenshots = getScreenshots(torrentDom);
-  const mediaInfoArray:string[] = [];
+  const mediaInfoArray:string[] = (mediainfos as string[]).map(info => info.replace(/\r\n/g, '\n'));
   const isBluray = videoType.match(/bluray/i);
-  torrentDom.find('.mediainfo-bbcode.hidden,.bdinfo-bbcode.hidden pre').each(function () {
-    const textContent = $(this).text();
-    if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
-      mediaInfoArray.push(textContent);
-    }
-  });
   // mediainfo
   const mediaInfoOrBDInfo = mediaInfoArray.filter(media => {
     return videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
@@ -88,14 +78,14 @@ const getTorrentInfo = async (torrentId:string) => {
     otherTags,
   };
 };
-const getCategory = (releaseType:number) => {
+const getCategory = (releaseType:string) => {
   const typeMap = {
-    1: 'movie',
-    2: 'movie',
-    4: 'other',
-    3: 'tvPack',
-    5: 'concert',
-    6: 'movie',
+    长片: 'movie',
+    短片: 'movie',
+    单口喜剧: 'other',
+    迷你剧: 'tvPack',
+    现场演出: 'concert',
+    电影集: 'movie',
   };
   return typeMap[releaseType as keyof typeof typeMap];
 };
@@ -123,18 +113,19 @@ const getSource = (source:string, codes:string, resolution:string) => {
   }
   return source.replace(/-/g, '').toLowerCase();
 };
-const getVideoType = (container:string, isRemux:boolean, source:string, otherInfo:string[]) => {
-  const info = otherInfo.join(',');
+const getVideoType = (container:string, isRemux:boolean, source:string, resolution:string, processing:string) => {
   let type = '';
   if (isRemux) {
     type = 'remux';
-  } else if (info.match(/BD50|BD25|DIY/ig)) {
+  } else if (processing.match(/DIY/ig)) {
+    type = resolution === '2160p' ? 'uhdbluray' : 'bluray';
+  } else if (processing.match(/BD50|BD25/ig)) {
     type = 'bluray';
-  } else if (info.match(/BD66|BD100/ig) || (source.match(/Blu-ray/i) && info.match(/DIY/i))) {
+  } else if (processing.match(/BD66|BD100/ig) || (source.match(/Blu-ray/i) && processing.match(/DIY/i))) {
     type = 'uhdbluray';
   } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
     type = 'dvdrip';
-  } else if (info.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
+  } else if (processing.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
     type = 'dvd';
   } else if (container.match(/MKV|MP4/i)) {
     type = 'encode';

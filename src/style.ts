@@ -508,12 +508,12 @@ tr.pad[id*="torrent_"]{
 .ptp-title-wrapper{
   position: relative;
 }
-.ptp-title-wrapper h4{
+#seed-dom .ptp-title-wrapper h4{
   position: absolute;
   left:0;
   top: 0;
   margin: 0 !important;
-  display: flex;
+  display: flex !important;
   align-items: center;
   line-height: 24px;
 }

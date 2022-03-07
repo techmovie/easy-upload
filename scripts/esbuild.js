@@ -19,8 +19,8 @@ esbuild.build({
   },
   ...isProd
     ? {
-        banner: { js: userScriptComment },
-      }
+      banner: { js: userScriptComment },
+    }
     : [],
   minify: isProd,
   sourcemap: false,
