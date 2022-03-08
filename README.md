@@ -1,7 +1,5 @@
 # easy-upload
 
-![](src/assets/STANDWITHUKRAINE.png)
-
 [English Version](README-en.md)
 
 [安装地址 1](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D) | [安装地址 2](https://sleazyfork.org/zh-CN/scripts/423199) | [加入 Telegram 群组](https://t.me/easyupload)
@@ -37,7 +35,7 @@ Greasemonkey 4 与以上两种脚本管理器的 API 严重不一致且只能在
 - NexusPHP 站点上传页增加获取豆瓣简介按钮，可以一键填写副标题和简介，可用于自己发种和外站转种
 - 通过点击快速检索按钮，可以检测是否目标站有当前种子(目前仅支持 NexusPHP 站点)
 
-![](https://ptpimg.me/4475d0.gif)
+  ![](https://ptpimg.me/4475d0.gif)
 
 ## 设置
 

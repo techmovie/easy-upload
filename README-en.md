@@ -1,7 +1,5 @@
 # easy-upload
 
-![](src/assets/STANDWITHUKRAINE.png)
-
 [Installation address 1](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D) | [Installation address 2](https://sleazyfork.org/en/scripts/423199) | [Join Telegram group](https://t.me/easyupload)
 
 ## About
@@ -30,7 +28,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 - Support batch uploading screenshots to ptpimg, which can solve the problem that screenshots of some sites cannot be displayed on other sites
 - By clicking the quick search button, you can check whether the target tracker has the current torrent(Only support site based on NexusPHP by now)
 
-![](https://ptpimg.me/4475d0.gif)
+  ![](https://ptpimg.me/4475d0.gif)
 
 ## Settings
 
