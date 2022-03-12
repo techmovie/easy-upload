@@ -1,3 +1,12 @@
+## [3.1.7](https://github.com/techmovie/easy-upload/compare/3.1.6...3.1.7) (2022-03-12)
+
+
+### Bug Fixes
+
+* **gpw:** adapt to gpw's new page selectors ([fd5032f](https://github.com/techmovie/easy-upload/commit/fd5032f8be7b6461b8d5ab9b21a72e21cb121f9f))
+
+
+
 ## [3.1.6](https://github.com/techmovie/easy-upload/compare/3.1.5...3.1.6) (2022-03-05)
 
 
