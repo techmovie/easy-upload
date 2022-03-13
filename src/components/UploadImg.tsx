@@ -3,7 +3,7 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, saveScreenshotsToPtpimg, transferImgs,
+  $t, fetch, getOriginalImgUrl, saveScreenshotsToPtpimg, transferImgs,
 } from '../common';
 import Notification from './Notification';
 
@@ -24,7 +24,8 @@ const UploadImg = () => {
       const imgData:string[] = [];
       if (selectHost === 'ptpimg') {
         for (let index = 0; index < screenshots.length; index++) {
-          const data = await saveScreenshotsToPtpimg([screenshots[index]]);
+          const originalImg = await getOriginalImgUrl(screenshots[index]);
+          const data = await saveScreenshotsToPtpimg([originalImg]);
           if (data) {
             imgData.push(data[0]);
           } else {
@@ -37,7 +38,8 @@ const UploadImg = () => {
         });
         const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
         for (let index = 0; index < screenshots.length; index++) {
-          const data = await transferImgs(screenshots[index], authToken, 'https://gifyu.com/json');
+          const originalImg = await getOriginalImgUrl(screenshots[index]);
+          const data = await transferImgs(originalImg, authToken, 'https://gifyu.com/json');
           if (data) {
             imgData.push(data.url);
           }
