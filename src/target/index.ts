@@ -354,9 +354,6 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     if (videoTypeValue) {
       $(currentSiteInfo.videoType.selector).val(videoTypeValue);
     }
-    if (videoType.match(/bluray/)) {
-      $(currentSiteInfo.category.selector).val('424');
-    }
   }
   // 单独处理北洋
   if (CURRENT_SITE_NAME === 'TJUPT') {

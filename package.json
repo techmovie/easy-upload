@@ -27,10 +27,7 @@
     "IE 10"
   ],
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "eslint --max-warnings 0",
-    "*.{md,yaml,yml}": [
-      "prettier --write"
-    ]
+    "src/**/*.{ts,tsx}": "eslint --max-warnings 0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",

@@ -22,6 +22,8 @@ subtitle:
   selector: 'input[name="small_descr"]'
 description:
   selector: '#descr'
+imdb:
+  selector: 'input[name="url"][type="text"]'
 anonymous: 
   selector: 'input[name="uplver"]'
 category:
