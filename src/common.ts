@@ -773,7 +773,7 @@ const getResolution = (mediaInfo:string) => {
   const ScanType = getMediaValueByKey('Scan type', mediaInfo);
   if (height > 1080) {
     return '2160p';
-  } else if (height > 720 && ScanType === 'Progressive') {
+  } else if (height > 720 && (ScanType === 'Progressive' || !ScanType)) {
     return '1080p';
   } else if (height > 720 && ScanType !== 'Progressive') {
     return '1080i';
