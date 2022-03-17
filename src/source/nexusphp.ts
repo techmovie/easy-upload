@@ -119,9 +119,9 @@ export default async () => {
     descriptionBBCode = getFilterBBCode($('.layui-colla-content:first')[0]);
     const extraMediaInfo = $('#kfmedia').html()?.replace(/<br>/g, '\n') ?? '';
     descriptionBBCode = `${descriptionBBCode}\n[quote]${extraMediaInfo}[/quote]\n${extraScreenshot}`;
-    TORRENT_INFO.doubanUrl = $('i[title="豆瓣链接"]').next().attr('href');
+    TORRENT_INFO.doubanUrl = $('.layui-interval a[href*="douban.com/subject"]').attr('href');
     TORRENT_INFO.mediaInfo = extraMediaInfo;
-    siteImdbUrl = $('i[title="IMDB链接"]').next().attr('href');
+    siteImdbUrl = $('.layui-interval a[href*="imdb.com/title"]').attr('href');
   }
 
   // 站点自定义数据覆盖 结束
