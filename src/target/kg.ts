@@ -1,6 +1,7 @@
 import {
   getIMDBData, fetch,
   getInfoFromBDInfo, getInfoFromMediaInfo,
+  getBDType,
 } from '../common';
 import { PT_SITE } from '../const';
 
@@ -63,6 +64,29 @@ export default async (info:TorrentInfo.Info) => {
     if (videoType === 'dvd') {
       $('input[name="dvdr"]').attr('checked', 'true');
     }
-    $('#ripspecs').val(mediaInfo);
+    const specs = videoType === 'dvd' ? buildDvdSpecs(info) : mediaInfo;
+    $('#ripspecs').val(specs);
   }
 };
+function buildDvdSpecs (info:TorrentInfo.Info) {
+  const { mediaInfo, size, audioCodec } = info;
+  const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
+  const dvdType = getBDType(size);
+  const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';
+  const audioName = `${audioCodec?.toUpperCase()} ${audioChannelNumber === '6' ? '5.1' : `${audioChannelNumber}.0`}`;
+  const IFOMediaInfo = info.mediaInfos?.find(info => info.includes('.IFO')) || info.mediaInfo;
+  const runtime = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)?.[1]?.replace(/\s/g, '') ?? '';
+  const hour = runtime.match(/(\d)+h/)?.[1] ?? '00';
+  const minute = runtime.match(/(\d+)(mn|min)/)?.[1] ?? '';
+
+  return `DVD Label:
+DVD Format: ${dvdType} ${scanType}
+DVD Audio: ${audioName}
+Program(s): Unknown
+Menus: Untouched
+Video: Untouched
+Audio: Untouched
+DVD extras: Untouched
+Extras contain: 
+DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
+}
