@@ -91,7 +91,7 @@ function fillDescription (info:TorrentInfo.Info) {
   let description = '';
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
-  } else if (info.sourceSite === 'BeyondHD') {
+  } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
   } else {
     description = buildDescription(info);

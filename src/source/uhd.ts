@@ -31,13 +31,13 @@ export default async () => {
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
   const descriptionDom = $(`#torrent_${torrentId} #description`);
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+  descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, '');
+  TORRENT_INFO.originalDescription = descriptionBBCode;
 
   getMediaInfo(torrentId).then(async data => {
     if (data) {
       TORRENT_INFO.mediaInfo = data;
-      descriptionBBCode += `\n[quote]${data}[/quote]`;
-      descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, '');
-      TORRENT_INFO.description = descriptionBBCode;
+      TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${data}[/quote]`;
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
       const isBluray = videoType.match(/bluray/i);
