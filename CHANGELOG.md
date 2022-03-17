@@ -1,3 +1,20 @@
+## [3.1.8](https://github.com/techmovie/easy-upload/compare/3.1.7...3.1.8) (2022-03-17)
+
+
+### Bug Fixes
+
+* fail to get original img's  url of hdb ([1e504e5](https://github.com/techmovie/easy-upload/commit/1e504e5c4847a8ef0ec8f0f1b0edf26a1b34102b))
+* **haresclub:** get link of imdb and douban ([e55683b](https://github.com/techmovie/easy-upload/commit/e55683b969ec6d8da43df6381e472c7ea8c59ec9))
+* **hdu:** fix category selection ([19d4e7b](https://github.com/techmovie/easy-upload/commit/19d4e7b22bca7504e41cc80f9f0e2cfda07b112c)), closes [#174](https://github.com/techmovie/easy-upload/issues/174)
+* **kg:** fill dvd specs template ([df93eb7](https://github.com/techmovie/easy-upload/commit/df93eb7c54278b653f1ccec713a6378b87874571)), closes [#173](https://github.com/techmovie/easy-upload/issues/173)
+
+
+### Features
+
+* **kg:** add poster to decription ([8417b89](https://github.com/techmovie/easy-upload/commit/8417b89fb9eae9e91c498102337531839cd4590f))
+
+
+
 ## [3.1.7](https://github.com/techmovie/easy-upload/compare/3.1.6...3.1.7) (2022-03-12)
 
 
