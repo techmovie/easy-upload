@@ -26,7 +26,7 @@ export default async (info:TorrentInfo.Info) => {
     if (imdbData) {
       const { country, Languages: languages } = imdbData.details;
       $('input[name="lang"]').val(languages);
-      const { description, genre } = imdbData;
+      const { description, genre, poster } = imdbData;
       const genreMap = siteInfo.genres.map;
       const countryMap = siteInfo.country.map;
       let countryValue = '';
@@ -39,7 +39,10 @@ export default async (info:TorrentInfo.Info) => {
         }
       }
       $('select[name="country_id"]').val(countryMap[countryValue as keyof typeof countryMap]);
-      $('#bbcodetextarea').html(`\nSynopsis:\n[quote]${description}[/quote]\n\n${screenshots.map(img => `[img]${encodeURI(img)}[/img]`).join('')}`);
+      const descriptionBBCode = `[img]${poster}[/img]
+      \nSynopsis:\n[quote]${description}[/quote]
+      \n\n${screenshots.map(img => `[img]${encodeURI(img)}[/img]`).join('')}`;
+      $('#bbcodetextarea').html(descriptionBBCode);
       const [mainGenre, otherGenre = ''] = genre;
       $('select[name="genre_main_id"]').val(genreMap[mainGenre as keyof typeof genreMap]);
       $('select[name="subgenre"]').val(genreMap[otherGenre as keyof typeof genreMap]);
