@@ -1,17 +1,37 @@
+## [3.1.9](https://github.com/techmovie/easy-upload/compare/3.1.8...3.1.9) (2022-03-19)
+
+
+### Bug Fixes
+
+* fail to get imdb ([43a5572](https://github.com/techmovie/easy-upload/commit/43a557217e3d8aefd8350bc7303401310191c6e4))
+* fbcd域名到期 ([#177](https://github.com/techmovie/easy-upload/issues/177)) ([d6821dc](https://github.com/techmovie/easy-upload/commit/d6821dccc4589061cb206a1bac03fe4f79b68d1f))
+* **screenshots:** fail to get screentshots and original imgs ([2361632](https://github.com/techmovie/easy-upload/commit/2361632b5d0dc94e6297e76ffe39052c5a3deee4))
+* support thumbnails transfer from thumbnails screentshots ([1bc0001](https://github.com/techmovie/easy-upload/commit/1bc00011cb0ebb5e12ab957e22cf0e2a167654d7))
+
+
+### Features
+
+* frds支持转入 ([#178](https://github.com/techmovie/easy-upload/issues/178)) ([4678dba](https://github.com/techmovie/easy-upload/commit/4678dba9a3e48b8d0c00854988f0b86c4fd23f07))
+* **ttg:** change douban description position ([dba8f31](https://github.com/techmovie/easy-upload/commit/dba8f318984bd9544c8f0a701132bd5bdb4ce361)), closes [#180](https://github.com/techmovie/easy-upload/issues/180)
+
+
+
 ## [3.1.8](https://github.com/techmovie/easy-upload/compare/3.1.7...3.1.8) (2022-03-17)
 
 
 ### Bug Fixes
 
 * fail to get original img's  url of hdb ([1e504e5](https://github.com/techmovie/easy-upload/commit/1e504e5c4847a8ef0ec8f0f1b0edf26a1b34102b))
-* **haresclub:** get link of imdb and douban ([e55683b](https://github.com/techmovie/easy-upload/commit/e55683b969ec6d8da43df6381e472c7ea8c59ec9))
+* get wrong x265 resolution ([8053335](https://github.com/techmovie/easy-upload/commit/8053335808a3bd2ac108587bad6ebfd1bf1d1694)), closes [#176](https://github.com/techmovie/easy-upload/issues/176)
+* **haresclub:** get link of imdb and douban ([9c312d4](https://github.com/techmovie/easy-upload/commit/9c312d4cb9a8cff0a4c6032525d4f2ecbc313832))
 * **hdu:** fix category selection ([19d4e7b](https://github.com/techmovie/easy-upload/commit/19d4e7b22bca7504e41cc80f9f0e2cfda07b112c)), closes [#174](https://github.com/techmovie/easy-upload/issues/174)
-* **kg:** fill dvd specs template ([df93eb7](https://github.com/techmovie/easy-upload/commit/df93eb7c54278b653f1ccec713a6378b87874571)), closes [#173](https://github.com/techmovie/easy-upload/issues/173)
+* **kg:** fill dvd specs template ([65b19df](https://github.com/techmovie/easy-upload/commit/65b19df631fe82778e5fc9dd651f283ca5dcb9a5)), closes [#173](https://github.com/techmovie/easy-upload/issues/173)
+* **uhd:** fill complete description ([69dad5c](https://github.com/techmovie/easy-upload/commit/69dad5c0ee21c82b3b69bc891d1403fb96977947))
 
 
 ### Features
 
-* **kg:** add poster to decription ([8417b89](https://github.com/techmovie/easy-upload/commit/8417b89fb9eae9e91c498102337531839cd4590f))
+* **kg:** add poster to decription ([9bbdf18](https://github.com/techmovie/easy-upload/commit/9bbdf18954b8cb2628a85802b833769cb0bae692))
 
 
 
