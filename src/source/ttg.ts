@@ -30,17 +30,8 @@ export default async () => {
   TORRENT_INFO.isForbidden = !!$('#kt_d').text().match(/禁转/);
   window.onload = async () => {
     const descriptionDom = $('#kt_d');
-    let bbCodes = getFilterBBCode(descriptionDom[0]);
-    // 删除优惠信息
-    const discountMatch = bbCodes.match(/\[color=\w+\]本种子.+?\[\/color\]/)?.[0] ?? '';
-    if (discountMatch) {
-      bbCodes = bbCodes.replace(discountMatch, '');
-    }
-    const noneSenseNumberMatch = bbCodes.match(/@\d+?\(\d+?\)/)?.[0] ?? '';
-    if (noneSenseNumberMatch) {
-      bbCodes = bbCodes.replace(noneSenseNumberMatch, '');
-    }
-    TORRENT_INFO.description = bbCodes;
+    const bbCodes = getFilterBBCode(descriptionDom[0]);
+    TORRENT_INFO.description = getDescription(bbCodes, title);
     const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
     if (doubanUrl) {
       TORRENT_INFO.doubanUrl = doubanUrl;
@@ -174,5 +165,21 @@ const getCategoryFromDesc = (desc:string) => {
     category = 'documentary';
   }
   return category;
+};
+function getDescription (bbcode:string, title:string) {
+  // 删除优惠信息
+  const discountMatch = bbcode.match(/\[color=\w+\]本种子.+?\[\/color\]/)?.[0] ?? '';
+  if (discountMatch) {
+    bbcode = bbcode.replace(discountMatch, '');
+  }
+  const noneSenseNumberMatch = bbcode.match(/@\d+?\(\d+?\)/)?.[0] ?? '';
+  if (noneSenseNumberMatch) {
+    bbcode = bbcode.replace(noneSenseNumberMatch, '');
+  }
+  if (title.match(/-WiKi$/)) {
+    const doubanPart = bbcode.match(/◎译\s+名(.|\n)+/)?.[0] ?? '';
+    bbcode = bbcode.replace(doubanPart, '');
+    bbcode = bbcode.replace(/(\[img\].+?\[\/img\])/, `$1\n\n${doubanPart}`);
+  }
+  return bbcode;
 }
-;
