@@ -136,7 +136,6 @@ const getDataFromDoubanPage = async (domString:string): Promise<Douban.DoubanDat
       return $(this).text();
     }).get();
   }
-
   // awards
   const awardsPage = await fetch(`${doubanLink}/awards`, {
     responseType: undefined,
@@ -198,7 +197,15 @@ const getDoubanAwards = async (doubanId:string) => {
     .replace(/ +\n/g, '\n')
     .trim();
 };
-const getMobileDoubanInfo = async (doubanUrl:string): Promise<Douban.DoubanData|void> => {
+const getIMDBFromDouban = async (doubanLink:string) => {
+  const doubanPage = await fetch(doubanLink, {
+    responseType: undefined,
+  });
+  const dom = new DOMParser().parseFromString(doubanPage, 'text/html');
+  const imdbId = $('#info span.pl:contains("IMDb")', dom)[0]?.nextSibling?.nodeValue?.trim() ?? '';
+  return imdbId;
+};
+const getMobileDoubanInfo = async (doubanUrl:string, imdbLink?:string): Promise<Douban.DoubanData|void> => {
   try {
     if (doubanUrl) {
       const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
@@ -258,7 +265,13 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
     actors, durations, cover_url, countries, url, original_title,
     directors, aka, episodes_count, credits, awards,
   } = data;
-  const imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl || '');
+  const { imdbUrl } = TORRENT_INFO;
+  let imdbId = '';
+  if (!imdbUrl) {
+    imdbId = await getIMDBFromDouban(url);
+  } else {
+    imdbId = getIMDBIdByUrl(imdbUrl);
+  }
   const imdbRate = await getIMDBRating(imdbId);
   let foreignTitle = '';
   if (title !== original_title) {
