@@ -64,7 +64,12 @@ const Transfer = () => {
         let { description } = TORRENT_INFO;
         imgList.forEach((img, index) => {
           if (description.includes(img)) {
-            description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), thumbnailImgs[index] || '');
+            const urlReg = new RegExp(`\\[url=${img}\\].+?\\[\\/url\\]\n*`, 'ig');
+            if (description.match(urlReg)) {
+              description = description.replace(urlReg, thumbnailImgs[index] || '');
+            } else {
+              description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), thumbnailImgs[index] || '');
+            }
           }
         });
         TORRENT_INFO.description = description;
