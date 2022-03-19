@@ -54,9 +54,10 @@ const UploadImg = () => {
       let { description, originalDescription } = TORRENT_INFO;
       TORRENT_INFO.screenshots = imgData;
 
-      setScreenBBCode(imgData.map(img => {
+      const screenBBcodeArray = imgData.map(img => {
         return `[img]${img}[/img]`;
-      }));
+      });
+      setScreenBBCode(screenBBcodeArray);
       setCanCopy(true);
       const allImages = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig);
       if (allImages && allImages.length > 0) {
@@ -68,8 +69,8 @@ const UploadImg = () => {
           description = description.replace(img, '');
         });
       }
-      TORRENT_INFO.originalDescription = `${originalDescription}\n${screenBBCode.join('')}`;
-      TORRENT_INFO.description = `${description}\n${screenBBCode.join('')}`;
+      TORRENT_INFO.originalDescription = `${originalDescription}\n${screenBBcodeArray.join('')}`;
+      TORRENT_INFO.description = `${description}\n${screenBBcodeArray.join('')}`;
     } catch (error) {
       Notification.open({
         message: $t('错误'),

@@ -578,7 +578,7 @@ const getScreenshotsFromBBCode = async (bbcode: string) => {
 * 如果原图地址没有文件名后缀，截图地址则为缩略图地址
 * */
 const getOriginalImgUrl = async (urlBBcode:string) => {
-  let imgUrl:string = '';
+  let imgUrl = urlBBcode;
   if (urlBBcode.match(/\[url=http(s)*:.+/)) {
     imgUrl = urlBBcode.match(/=(([^\]])+)/)?.[1] ?? '';
     if (imgUrl.match(/img\.hdbits\.org/)) {
