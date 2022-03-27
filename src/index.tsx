@@ -38,7 +38,7 @@ if (CURRENT_SITE_NAME) {
     let target = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
     const element = document.createElement('div');
     render(<App />, element);
-    if (['PTP', 'BTN', 'GPW', 'EMP'].includes(CURRENT_SITE_NAME)) {
+    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic'].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
         target = document.querySelector(`#torrent_detail_${torrentId} >td`);

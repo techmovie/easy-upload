@@ -17,6 +17,7 @@
 |    BYR    |            ❌             |           ✅            |
 |  CHDBits  |            ✅             |           ✅            |
 |  CinemaZ  |            ✅             |           ❌            |
+| DicMusic  |            ✅             |           ❌            |
 |  DiscFan  |            ✅             |           ✅            |
 |    EMP    |            ✅             |           ❌            |
 |   FBCD    |            ❌             |           ✅            |
@@ -41,7 +42,7 @@
 |    HDU    |            ✅             |           ✅            |
 |  HDZone   |            ✅             |           ✅            |
 |    iTS    |            ❌             |           ✅            |
-| KEEPFRDS  |            ✅             |           ❌            |
+| KEEPFRDS  |            ✅             |           ✅            |
 |    KG     |            ✅             |           ✅            |
 |  LemonHD  |            ✅             |           ✅            |
 |   MTeam   |            ✅             |           ✅            |
@@ -56,6 +57,7 @@
 |  PTSBAO   |            ✅             |           ✅            |
 |   PTer    |            ✅             |           ✅            |
 |   PuTao   |            ✅             |           ✅            |
+|    RED    |            ✅             |           ❌            |
 |    SC     |            ❌             |           ✅            |
 |    SSD    |            ✅             |           ✅            |
 | SoulVoice |            ✅             |           ✅            |

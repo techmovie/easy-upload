@@ -5,8 +5,8 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
-search: 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '#torrenttable>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -31,9 +31,9 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="douban"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
-tags: 
+tags:
   chinese_audio: '#guoyu'
   diy: '#diy'
   cantonese_audio: '#yueyu'
@@ -49,6 +49,7 @@ category:
     sport: '407'
     cartoon: '403'
     variety: '405'
+    music: '406'
 videoType:
   selector: 'select[name="source_sel"]'
   map:

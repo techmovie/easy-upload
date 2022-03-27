@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 seedDomSelector: 'h1~table:first>tbody>tr:nth-child(3)'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -24,23 +24,23 @@ description:
   selector: '#descr'
 imdb:
   selector: 'input[name="url"][type="text"]'
-douban: 
+douban:
   selector: 'input[name="douban_url"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
   map:
-    movie: 
+    movie:
       - '401'
       - '402'
       - '403'
-    tv: 
+    tv:
       - '407'
       - '408'
       - '409'
       - '410'
-    tvPack: 
+    tvPack:
       - '407'
       - '408'
       - '409'
@@ -50,7 +50,11 @@ category:
     cartoon: '431'
     app: '434'
     sport: '432'
-    variety: 
+    music:
+      - '420'
+      - '421'
+      - '422'
+    variety:
       - '411'
       - '412'
       - '413'
@@ -92,31 +96,38 @@ resolution:
     480p: '4'
 area:
   map:
-    CN: 
+    CN:
       - '401'
       - '409'
       - '411'
-    US: 
+      - '420'
+    US:
       - '402'
       - '410'
       - '413'
-    EU: 
+      - '422'
+    EU:
       - '402'
       - '410'
       - '413'
-    HK: 
+      - '422'
+    HK:
       - '403'
       - '407'
       - '412'
-    TW: 
+      - '420'
+    TW:
       - '403'
       - '407'
       - '412'
-    JP: 
+      - '420'
+    JP:
       - '403'
       - '408'
       - '414'
-    KR: 
+      - '421'
+    KR:
       - '403'
       - '408'
       - '414'
+      - '421'

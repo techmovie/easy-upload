@@ -16,6 +16,7 @@ import getHDSpaceInfo from './hdspace';
 import getGPWInfo from './gpw';
 import getEMPInfo from './emp';
 import getBdcInfo from './bdc';
+import getRedInfo from './red';
 
 let getTorrentInfo = ():any => {
   return Promise.resolve();
@@ -54,5 +55,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getEMPInfo;
 } else if (CURRENT_SITE_NAME === 'Bdc') {
   getTorrentInfo = getBdcInfo;
+} else if (CURRENT_SITE_NAME === 'RED' || CURRENT_SITE_NAME === 'DicMusic') {
+  getTorrentInfo = getRedInfo;
 }
 export default getTorrentInfo;

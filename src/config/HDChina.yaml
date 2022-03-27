@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 seedDomSelector: '.table_details>tbody>tr:nth-child(1)'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrent_list>tbody>tr'
     url: '.tbname td a[href*="details.php?id="]'
     name: '.tbname td a[href*="details.php?id="]'
@@ -32,7 +32,7 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="douban_id"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
@@ -64,6 +64,9 @@ category:
     sport: '15'
     cartoon: '14'
     variety: '401'
+    music: '408'
+    ebook: '404'
+    other: '409'
 videoCodec:
   selector: 'select[name="codec_sel"]'
   map:
@@ -73,7 +76,7 @@ videoCodec:
     x265: '10'
     h265: '10'
     mpeg2: '4'
-    mpeg4: 
+    mpeg4:
       - '1'
       - '27'
     vc1: '2'
@@ -100,7 +103,7 @@ videoType:
       - '11'
       - '20'
       - '410'
-    bluray: 
+    bluray:
       - '11'
       - '20'
     remux: '6'
@@ -113,7 +116,7 @@ videoType:
 resolution:
   selector: 'select[name="standard_sel"]'
   map:
-    2160p: 
+    2160p:
       - '17'
       - '13'
       - '25'
@@ -123,7 +126,7 @@ resolution:
       - '22'
       - '23'
       - '410'
-    1080p: 
+    1080p:
       - '11'
       - '17'
       - '13'
@@ -133,7 +136,7 @@ resolution:
       - '21'
       - '22'
       - '23'
-    1080i: 
+    1080i:
       - '12'
       - '16'
       - '13'
@@ -143,7 +146,7 @@ resolution:
       - '21'
       - '22'
       - '23'
-    720p: 
+    720p:
       - '13'
       - '9'
       - '13'
@@ -157,7 +160,7 @@ resolution:
     480p: '15'
 area:
   map:
-    CN: 
+    CN:
       - '25'
       - '22'
     US:
@@ -166,7 +169,7 @@ area:
     EU:
       - '13'
       - '21'
-    HK: 
+    HK:
       - '25'
       - '22'
     TW:
@@ -175,10 +178,10 @@ area:
     JP:
       - '24'
       - '23'
-    KR: 
+    KR:
       - '26'
       - '23'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     hdchina: '15'

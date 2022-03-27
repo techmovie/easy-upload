@@ -7,7 +7,7 @@ asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
 needDoubanBookInfo: true
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -17,7 +17,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -30,7 +30,7 @@ description:
   selector: '#descr'
 imdb:
   selector: 'input[name="url"][type="text"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
@@ -43,6 +43,7 @@ category:
     sport: '407'
     concert: '406'
     variety: '403'
+    music: '408'
 videoCodec:
   selector: 'select[name="codec_sel"]'
   map:
@@ -64,7 +65,7 @@ resolution:
     720p: '4'
     576p: '4'
     480p: '4'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     hds: '1'

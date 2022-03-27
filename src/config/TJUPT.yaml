@@ -5,8 +5,8 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
-search: 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -40,3 +40,4 @@ category:
     sport: '407'
     cartoon: '405'
     variety: '403'
+    music: '406'

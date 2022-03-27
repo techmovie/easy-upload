@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /Torrents.upload
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
-search: 
+search:
   path: /Torrents.index
   imdbOptionKey: '9'
   nameOptionKey: '1'
@@ -27,7 +27,7 @@ mediaInfo:
   selector: 'textarea[name="nfo"]'
 screenshots:
   selector: 'textarea[name="screenshot"]'
-tags: 
+tags:
   chinese_audio: 'input[type="checkbox"][name="tag[cn]"]'
   chinese_subtitle: 'input[type="checkbox"][name="tag[zz]"]'
 category:
@@ -80,6 +80,7 @@ videoType:
     dvd: '7'
     dvdrip: '10'
     other: '0'
+    cd: '8'
 resolution:
   selector: 'select[name="standard_sel"]'
   map:
@@ -101,7 +102,7 @@ area:
     JP: '4'
     KR: '5'
     OT: '6'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     other: '1'

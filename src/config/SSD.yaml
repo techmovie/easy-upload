@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -30,7 +30,7 @@ description:
 poster: '#url_poster'
 imdb:
   selector: '#url'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 mediaInfo:
   selector: '#Media_BDInfo'
@@ -47,6 +47,7 @@ category:
     sport: '506'
     cartoon: '504'
     variety: '505'
+    music: '508'
 videoCodec:
   selector: 'select[name="codec_sel"]'
   map:
@@ -55,7 +56,7 @@ videoCodec:
     x264: '2'
     x265: '1'
     h265: '1'
-    mpeg2: '4'  
+    mpeg2: '4'
     mpeg4: '2'
     vc1: '3'
     xvid: ''
@@ -68,7 +69,7 @@ audioCodec:
     dd: '4'
     dd+: '4'
     flac: '7'
-    dts: '3'  
+    dts: '3'
     truehd: '2'
     lpcm: '6'
     dtshdma: '1'

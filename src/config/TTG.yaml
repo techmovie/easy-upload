@@ -4,17 +4,17 @@ siteType: TTG
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBi4O+FI+rAAAA/RJREFUOMttlNtuE1cUhr/Z24nH8dg5QYmT0JQUkEgq2psGaNWb9PQSqHd9m74EfYCWqtdFanNRpIa21CGKCAHJiR3jJNgex+OZ2adejOMAYktLMyPNrFnr/9a/vLt37/7w4bWry37Bn0qTxFlrcdbhrMVaSxwndLtd4jjGGIO1FmMMWuvR9eweILd6c3Xly/Wvrlbm5ma01hYHAM45hBA0m00ePvyTw0YTpRXWWpRSaK1RSo3i7Ge58mQwOT83N7uwsDjDO04ulyMolfBECyEEHh5WGqwV2bPn4Xne+fuDKBoM4sikKkF4AilzACiVopSi3T6h0+kQhl200jjnUFpjrXmjSq11VmGn3fFevNjDWcP09CyzsxcBaHdecdio8/z5c/qnPYQQSCnQxgJuqJ1CK41WeiRHrvMq5O9H/9J6ecyNG6vDhI4kiemEIXiSldVVjNZY57DWcdRqUd3a4uQkQqXpCIy1lpxSmiiKiaIBSqkhDI8LF95johCgtUYIOVTIIaVk99kzavv7NOqHpGk6JD9MaK3FOYdzGdnsMygUJpgoFN/FiaOjY1Sa0u120VrhcFhjkVKSe32WzhLioBt2SZOEfN6nXC4D0Ol06PVC9vdrFAoFrl+/hsh5xIOY1ssjTk5Osgpfp5SNgGNnZ5t6vc7iwvusra3hnGNr6z82H/1Fmipu37nN5cuLTEwUOTpu8eC3B/xy/1dyZ+iNMcPWs2g2W+zu7iHFWFa5cxyfHFMsBqytfcTHNz9hbHwM4QkqlQq12j5Siqxl5xxhGLK3t0c+n8day+7uM8JuONLNebCyuoLnPCqVeYrFTN8kSehHfU5PTxkM4iwhQK/XY3t7m1qthtaaWq1GuVxGyoyw53l8sHQF4QnGxsZJkpgn20+oVqu0jo7Y2dkhjpOsZWMMxhh6YY84iUnTlH6/z/j4OJDZSniC/LgPgLWGZrPJz/d/4rBxSDEIKAUBt259mlWYpinCEzjc0BES59zI8G+fJEk4qO/z+J/HfPPt16yvr+P7BcKwew5FCDGifRZxHBNFfdI0QUqJEBIpJVLmKJVKVOYvcXlxgYX5BYKgjDEWuby8/J3v+5estcUkSUaG11qTpintdpunT5+ysbGBMZqpqSmCICCfzzMzM82Fi7NMTk5RLJaywdZae1rr4YY533POOU5PT9na2qJarRJFfQ7qB+T9PJ9/9gXl8iS31u4QxxG+XzhfX9ZaqbX2gDfaNUajVEocJ0RRRBRF/PH7BtPT0wTFIktLVwiCEkFQQmtNq/WSg8YBcmlp6Xvf9y865wpva2iMHblHSkm706HRaBANBiwsViiVJpE5wWAwYPPRJvd+vMf//rPQ9LLrwoAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDY6NDY6MTQrMDA6MDBQvTwGAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA2OjQ2OjE0KzAwOjAwIeCEugAAAABJRU5ErkJggg==
 asSource: true
 asTarget: true
-seedDomSelector: '#main_table h1~table:first>tbody>tr:nth-child(2)' 
+seedDomSelector: '#main_table h1~table:first>tbody>tr:nth-child(2)'
 uploadPath: /upload.php
-search: 
+search:
   path: /browse.php
-  replaceKey: ['tt','imdb']
+  replaceKey: ['tt', 'imdb']
   params:
     search_field: '{imdb}'
     sort: '5'
     type: desc
     c: M
-  result: 
+  result:
     list: '#torrent_table>tbody>tr'
     url: '.name_left a[href*="/t/"]'
     name: '.name_left a[href*="/t/"] b'
@@ -25,7 +25,7 @@ description:
   selector: 'textarea[name="descr"]'
 imdb:
   selector: 'input[name="imdb_c"]'
-anonymous: 
+anonymous:
   selector: 'select[name="anonymity"]'
   value: 'yes'
 category:
@@ -45,7 +45,7 @@ category:
       - '74'
       - '75'
       - '76'
-    tvPack: 
+    tvPack:
       - '87'
       - '88'
       - '99'
@@ -57,6 +57,7 @@ category:
     concert: '59'
     sport: '57'
     cartoon: '58'
+    music: '83'
     variety:
       - '103'
       - '60'
