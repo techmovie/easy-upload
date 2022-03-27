@@ -1,3 +1,12 @@
+## [3.1.10](https://github.com/techmovie/easy-upload/compare/3.1.9...3.1.10) (2022-03-27)
+
+
+### Features
+
+* **new site:** support RED DicMusic for source ([8555720](https://github.com/techmovie/easy-upload/commit/8555720ddf74cf7687766cf1d16fbc867c1c0a31)), closes [#127](https://github.com/techmovie/easy-upload/issues/127)
+
+
+
 ## [3.1.9](https://github.com/techmovie/easy-upload/compare/3.1.8...3.1.9) (2022-03-19)
 
 
