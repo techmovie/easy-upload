@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo,
   getInfoFromBDInfo, getSize, getSourceFromTitle,
-  getFilterBBCode, getBDInfoOrMediaInfo,
+  getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 interface BasicInfo {
@@ -45,14 +45,12 @@ export default async () => {
     .siblings('.table-responsive').find('.panel-body').clone();
   descriptionDom.find('#collection_waypoint').remove();
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-  const mediaInfo = $('.decoda-code code').text();
-  const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-  if (mediaInfo) {
-    descriptionBBCode = `\n[quote]${mediaInfo}[/quote]${descriptionBBCode}`;
+  const mediaInfoOrBDInfo = $('.decoda-code code').text();
+  if (mediaInfoOrBDInfo) {
+    descriptionBBCode = `\n[quote]${mediaInfoOrBDInfo}[/quote]${descriptionBBCode}`;
   }
   const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
   TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
   TORRENT_INFO.videoCodec = videoCodec;
@@ -136,7 +134,7 @@ const getCategory = (key:string) => {
 };
 const getVideoType = (type:string, resolution:string) => {
   type = type.replace(/\s/g, '');
-  if (type.match(/FullDisc/)) {
+  if (type.match(/FullDisc|BD/g)) {
     if (resolution.match(/2160p/i)) {
       return 'uhdbluray';
     } else if (resolution.match(/1080/)) {
