@@ -1,3 +1,12 @@
+## [3.1.11](https://github.com/techmovie/easy-upload/compare/3.1.10...3.1.11) (2022-04-03)
+
+
+### Bug Fixes
+
+* **acm:** get wrong videoType ([eca79a3](https://github.com/techmovie/easy-upload/commit/eca79a3c0bef229d39b949289903ef0397ce26f4))
+
+
+
 ## [3.1.10](https://github.com/techmovie/easy-upload/compare/3.1.9...3.1.10) (2022-03-27)
 
 
