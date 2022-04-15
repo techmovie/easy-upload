@@ -84,6 +84,13 @@ const userScriptComment = `// ==UserScript==
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*
+// @exclude      https://privatehd.to/torrent/peers*
+// @exclude      https://avistaz.to/torrent/peers*
+// @exclude      https://privatehd.to/torrent/history*
+// @exclude      https://avistaz.to/torrent/history*
+// @match        https://cinemaz.to/torrent/*
+// @exclude      https://cinemaz.to/torrent/peers*
+// @exclude      https://cinemaz.to/torrent/history*
 // @match        https://piratethenet.org/browse.php?*
 // @match        https://teamhd.org/details/id*
 // @match        https://hd-space.org/index.php?page=upload
