@@ -77,7 +77,7 @@ export default async () => {
     TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr('href');
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
-    const doubanPoster = postUrl ? `[img]${postUrl} [/img]\n` : '';
+    const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
     TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') ?? '';
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
