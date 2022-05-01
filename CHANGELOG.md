@@ -1,3 +1,12 @@
+## [3.1.13](https://github.com/techmovie/easy-upload/compare/3.1.12...3.1.13) (2022-05-01)
+
+
+### Features
+
+* **new site:** support MTV ([731c020](https://github.com/techmovie/easy-upload/commit/731c020c779434130c3a6d92262a352466fab121)), closes [#182](https://github.com/techmovie/easy-upload/issues/182)
+
+
+
 ## [3.1.12](https://github.com/techmovie/easy-upload/compare/3.1.11...3.1.12) (2022-04-15)
 
 
@@ -767,40 +776,24 @@
 
 
 
-## [1.2.1](https://github.com/techmovie/easy-upload/compare/1.2.0...1.2.1) (2021-04-12)
+## [1.2.1](https://github.com/techmovie/easy-upload/compare/1.1.4...1.2.1) (2021-04-12)
 
 
 ### Bug Fixes
 
 * 更改NP站点种子页面选择器 [#46](https://github.com/techmovie/easy-upload/issues/46) ([f104ec8](https://github.com/techmovie/easy-upload/commit/f104ec8d3d0d172ac83ffa5112baf8bf7a3b281f))
-* 修复电影类别识别不准确的问题 ([294e9b7](https://github.com/techmovie/easy-upload/commit/294e9b7306b056b363a07e2b7db699e70a965bb3))
-* 修复完善ptp简介获取方法 ([2d770cf](https://github.com/techmovie/easy-upload/commit/2d770cf0450006ec87322cc0b18baeeb63d77694))
-
-
-### Features
-
-*  支持bB/HDF/iTS快速检索 ([f88da0f](https://github.com/techmovie/easy-upload/commit/f88da0f26dc150b32b0aa44a144f4e01f6d66a32))
-* 支持hdt(source) ([3814959](https://github.com/techmovie/easy-upload/commit/38149596564e07f78d45cbc8f3c162df43c03f14))
-* 支持hdt(source) [#39](https://github.com/techmovie/easy-upload/issues/39) ([1436b32](https://github.com/techmovie/easy-upload/commit/1436b32bba59c783bc55d1bd6d2ef8ddf3cb2a31))
-* 支持KG 转出（Source） ([a0ae883](https://github.com/techmovie/easy-upload/commit/a0ae883b50ca2af7fe2e058e85e173cc67adbfea)), closes [#40](https://github.com/techmovie/easy-upload/issues/40)
-* **new version:** 1.2.1 ([3aa8383](https://github.com/techmovie/easy-upload/commit/3aa83833320de42b7284ccfd51ceeafad52d2784))
-
-
-
-# [1.2.0](https://github.com/techmovie/easy-upload/compare/1.1.4...1.2.0) (2021-04-10)
-
-
-### Bug Fixes
-
 * 过滤script标签 [#44](https://github.com/techmovie/easy-upload/issues/44) ([7b1cb0d](https://github.com/techmovie/easy-upload/commit/7b1cb0d6419694dc497e43b30098b35cba3d596c))
 * 朋友简介完善 & 朋友增加豆瓣简介获取按钮 ([e4ad511](https://github.com/techmovie/easy-upload/commit/e4ad51136567fd6b180a307b398fc50a3abb669c))
+* 修复电影类别识别不准确的问题 ([294e9b7](https://github.com/techmovie/easy-upload/commit/294e9b7306b056b363a07e2b7db699e70a965bb3))
 * 修复朋友mediainfo BBcode ([063b616](https://github.com/techmovie/easy-upload/commit/063b61673a199b1ef3e40836b1805815944dbd45))
+* 修复完善ptp简介获取方法 ([2d770cf](https://github.com/techmovie/easy-upload/commit/2d770cf0450006ec87322cc0b18baeeb63d77694))
 * HDT IMDB地址处理 [#39](https://github.com/techmovie/easy-upload/issues/39) ([bc1c212](https://github.com/techmovie/easy-upload/commit/bc1c2123c4b3c4ea0f1a941c42a6ee8235e04725))
 * pter非英语资源地区选择处理 [#45](https://github.com/techmovie/easy-upload/issues/45) ([cabfcd0](https://github.com/techmovie/easy-upload/commit/cabfcd0aa5c654f63681f2fc5e1b765ae8648191))
 
 
 ### Features
 
+*  支持bB/HDF/iTS快速检索 ([f88da0f](https://github.com/techmovie/easy-upload/commit/f88da0f26dc150b32b0aa44a144f4e01f6d66a32))
 * [#38](https://github.com/techmovie/easy-upload/issues/38) 修改BHD的图片bbcode ([63c8b44](https://github.com/techmovie/easy-upload/commit/63c8b44fd7d6b69de5776e409fe09bf190b675b0))
 * 拆分站点配置 ([7dd8b0a](https://github.com/techmovie/easy-upload/commit/7dd8b0a9849a186cd3e974299d871d351f997d5b))
 * 拆分站点配置 ([1643bf3](https://github.com/techmovie/easy-upload/commit/1643bf38a1a64ae5d5fc7a2ba83290f28edef9bc))
@@ -809,10 +802,14 @@
 * 设置面板样式调整 ([6c490b3](https://github.com/techmovie/easy-upload/commit/6c490b37be54a64f46129c8e88070c9e67577b86))
 * 修改控制面板样式 ([eb0070c](https://github.com/techmovie/easy-upload/commit/eb0070cc077d80ce1876fd4abb5a69566fffc087))
 * 增加朋友imdb链接地址获取方式 ([a665e22](https://github.com/techmovie/easy-upload/commit/a665e22aae260ffb2816621b122c20f917f762d8))
+* 支持hdt(source) ([3814959](https://github.com/techmovie/easy-upload/commit/38149596564e07f78d45cbc8f3c162df43c03f14))
+* 支持hdt(source) [#39](https://github.com/techmovie/easy-upload/issues/39) ([1436b32](https://github.com/techmovie/easy-upload/commit/1436b32bba59c783bc55d1bd6d2ef8ddf3cb2a31))
+* 支持KG 转出（Source） ([a0ae883](https://github.com/techmovie/easy-upload/commit/a0ae883b50ca2af7fe2e058e85e173cc67adbfea)), closes [#40](https://github.com/techmovie/easy-upload/issues/40)
 * add license ([8881307](https://github.com/techmovie/easy-upload/commit/888130762ae293b651ef93b6d22132c3609cef9d))
 * build config ([dec25f1](https://github.com/techmovie/easy-upload/commit/dec25f10f82c4f0cf7ff9c30834d86c28da5853b))
 * **new site:** 1PTBA ([6d74d61](https://github.com/techmovie/easy-upload/commit/6d74d61a5d86f91af58d8c4268aeab2a09e40625))
 * **new version:** 1.2.0 ([cd8c949](https://github.com/techmovie/easy-upload/commit/cd8c949072666748f6ac63d67ec58c38acca56e9))
+* **new version:** 1.2.1 ([3aa8383](https://github.com/techmovie/easy-upload/commit/3aa83833320de42b7284ccfd51ceeafad52d2784))
 * ptp简介从官方接口中获取 对比图样式更加规范 ([a2956dd](https://github.com/techmovie/easy-upload/commit/a2956dd81f150ac76295f43dfe50735b4638c4b3))
 * ptp修改简介获取方式 ([d761573](https://github.com/techmovie/easy-upload/commit/d761573b52197798c8a898f2251c47bc6c24a5a3))
 * update readme ([e282621](https://github.com/techmovie/easy-upload/commit/e282621b47d43eee7423c7a3f74a67846546440d))
