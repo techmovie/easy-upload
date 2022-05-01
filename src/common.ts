@@ -618,7 +618,7 @@ const getSourceFromTitle = (title: string) => {
     return 'bluray';
   } else if (title.match(/hdtv/i)) {
     return 'hdtv';
-  } else if (title.match(/web(-(rip|dl))+/i)) {
+  } else if (title.match(/web(-?(rip|dl))+/i)) {
     return 'web';
   } else if (title.match(/hddvd/i)) {
     return 'hddvd';

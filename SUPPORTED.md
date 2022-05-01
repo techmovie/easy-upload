@@ -46,6 +46,7 @@
 |    KG     |            ✅             |           ✅            |
 |  LemonHD  |            ✅             |           ✅            |
 |   MTeam   |            ✅             |           ✅            |
+|    MTV    |            ✅             |           ❌            |
 |  NPUBits  |            ❌             |           ✅            |
 |   NYPT    |            ✅             |           ✅            |
 |  OurBits  |            ✅             |           ✅            |

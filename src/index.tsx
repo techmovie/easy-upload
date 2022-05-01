@@ -38,13 +38,15 @@ if (CURRENT_SITE_NAME) {
     let target = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
     const element = document.createElement('div');
     render(<App />, element);
-    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic'].includes(CURRENT_SITE_NAME)) {
+    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV'].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
         target = document.querySelector(`#torrent_detail_${torrentId} >td`);
       } else if (CURRENT_SITE_NAME === 'EMP') {
         const groupId = getUrlParam('id');
         target = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
+      } else if (CURRENT_SITE_NAME === 'MTV') {
+        target = document.querySelector(`#torrentinfo${torrentId}>td`);
       } else {
         target = document.querySelector(`#torrent_${torrentId} >td`);
       }
