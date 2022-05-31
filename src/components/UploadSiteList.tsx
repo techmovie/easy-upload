@@ -152,7 +152,7 @@ const UploadSiteList = () => {
       }
     }
     if (TORRENT_INFO.isForbidden) {
-      const result = window.confirm($t('本种子禁止转载，确定要继续转载么？'));
+      const result = window.confirm($t('本种子可能禁止转载，确定要继续转载么？'));
       if (!result) {
         return;
       }

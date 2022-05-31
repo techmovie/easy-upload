@@ -152,7 +152,7 @@ export default async () => {
     TORRENT_INFO.movieName = translateName.match(/(\w|\s){2,}/)?.[0]?.trim() ?? '';
   }
   const fullInformation = $('#top').text() + subtitle + descriptionBBCode;
-  const isForbidden = fullInformation.match(/独占|禁转|严禁转载|谢绝转载|exclusive/);
+  const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|exclusive/);
   TORRENT_INFO.isForbidden = !!isForbidden;
   // 兼容家园
   if (!processing || processing.match(/raw|encode/)) {
