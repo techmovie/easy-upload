@@ -30,13 +30,14 @@ const openBatchSeedTabs = () => {
     });
     return false;
   }
-  const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
   SORTED_SITE_KEYS.forEach((siteName) => {
     const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
     const { url, uploadPath = '' } = siteInfo;
     if (siteInfo.asTarget) {
       if (batchSeedSetting.includes(siteName)) {
-        GM_openInTab(`${url + uploadPath}#torrentInfo=${torrentInfo}`);
+        const timestamp = `${Date.now()}`;
+        GM_setValue('uploadInfo', TORRENT_INFO);
+        GM_openInTab(`${url + uploadPath}#timestamp=${timestamp}`);
       }
     }
   });
@@ -163,8 +164,9 @@ const UploadSiteList = () => {
       });
       return;
     }
-    const torrentInfo = encodeURIComponent(JSON.stringify(TORRENT_INFO));
-    url = `${url}#torrentInfo=${torrentInfo}`;
+    const timestamp = `${Date.now()}`;
+    GM_setValue('uploadInfo', TORRENT_INFO);
+    url = `${url}#timestamp=${timestamp}`;
     GM_openInTab(url);
   };
   const targetSitesEnabled = getValue('easy-seed.enabled-target-sites') || [];

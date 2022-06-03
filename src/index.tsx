@@ -14,16 +14,16 @@ import './style';
 import App from './components/Container';
 
 const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
-const paramsMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
+const paramsMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
 const torrentParams = (paramsMatchArray && paramsMatchArray.length > 0) ? paramsMatchArray[2] : null;
 let torrentInfo = null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
   if (currentSiteInfo.asTarget) {
     if (torrentParams) {
-      torrentInfo = JSON.parse(decodeURIComponent(torrentParams));
+      torrentInfo = GM_getValue('uploadInfo');
     }
-    fillTargetForm(torrentInfo);
+    fillTargetForm(torrentInfo as TorrentInfo.Info);
   }
   if (currentSiteInfo.asSource &&
     (!location.href.match(/upload/ig)) &&
