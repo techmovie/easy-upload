@@ -1,3 +1,18 @@
+## [3.1.14](https://github.com/techmovie/easy-upload/compare/3.1.13...3.1.14) (2022-06-03)
+
+
+### Bug Fixes
+
+* **nexusphp:** change exclusive conditions ([b945630](https://github.com/techmovie/easy-upload/commit/b945630ce15671829e9438c7872de3626e08bc76)), closes [#183](https://github.com/techmovie/easy-upload/issues/183)
+* **ttg:** fix imdb fetcher ([a4ccebf](https://github.com/techmovie/easy-upload/commit/a4ccebf944119ae9770d73146586f6eaa2aab627))
+
+
+### Features
+
+* **new site:** gainBound ([63352b8](https://github.com/techmovie/easy-upload/commit/63352b8a60175474b3f0aa3c9c3efbb6daf14f04))
+
+
+
 ## [3.1.13](https://github.com/techmovie/easy-upload/compare/3.1.12...3.1.13) (2022-05-01)
 
 
