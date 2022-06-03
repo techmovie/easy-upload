@@ -1,3 +1,12 @@
+# [3.2.0](https://github.com/techmovie/easy-upload/compare/3.1.14...3.2.0) (2022-06-03)
+
+
+### Bug Fixes
+
+* update the way of passing url params ([444d775](https://github.com/techmovie/easy-upload/commit/444d775ce4939cc0844b49885aa97a0982e5fe39))
+
+
+
 ## [3.1.14](https://github.com/techmovie/easy-upload/compare/3.1.13...3.1.14) (2022-06-03)
 
 
