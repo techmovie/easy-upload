@@ -406,6 +406,8 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     if (imdbId) {
       $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
     }
+    debugger;
+    $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
   }
   // 处理Pter
   if (CURRENT_SITE_NAME === 'PTer') {

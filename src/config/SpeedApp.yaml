@@ -8,7 +8,7 @@ seedDomSelector: 'div.cover-overlay-bottom.align-items-center.d-none.d-sm-block'
 uploadPath: /upload
 needDoubanInfo: false
 search: 
-  path: /browse?search=
+  path: /browse
   imdbOptionKey: '4'
   nameOptionKey: '0'
   params:
@@ -20,7 +20,7 @@ description:
   selector: '#torrentDescription_releaseInfo'
 imdb:
   selector: '#url'
-category:
-  selector: '#category'
 mediaInfo:
   selector: '#torrentDescription_mediaInfo'
+screenshots:
+  selector: '#torrentDescription_screenshots'
