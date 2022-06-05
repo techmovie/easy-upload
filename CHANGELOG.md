@@ -1,3 +1,13 @@
+## [3.2.1](https://github.com/techmovie/easy-upload/compare/3.2.0...3.2.1) (2022-06-05)
+
+
+### Features
+
+* **new site:** support SpeedApp ([#184](https://github.com/techmovie/easy-upload/issues/184)) ([6f548b9](https://github.com/techmovie/easy-upload/commit/6f548b9708df3cde47208fda0c65862275b43174))
+* update SUPPORTED.md ([4d3bce3](https://github.com/techmovie/easy-upload/commit/4d3bce35e45171790feed2c897edba37eaa4bb54))
+
+
+
 # [3.2.0](https://github.com/techmovie/easy-upload/compare/3.1.14...3.2.0) (2022-06-03)
 
 
