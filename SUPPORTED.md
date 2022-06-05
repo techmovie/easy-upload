@@ -60,6 +60,7 @@
 |   PuTao   |            ✅             |           ✅            |
 |    RED    |            ✅             |           ❌            |
 |    SC     |            ❌             |           ✅            |
+| SPEEDAPP  |            ❌             |           ✅            |
 |    SSD    |            ✅             |           ✅            |
 | SoulVoice |            ✅             |           ✅            |
 |   TCCF    |            ✅             |           ✅            |
