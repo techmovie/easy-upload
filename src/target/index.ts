@@ -401,6 +401,13 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
     }
   }
+  if (CURRENT_SITE_NAME === 'SpeedApp') {
+    // IMDB地址需要完整url
+    if (imdbId) {
+      $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
+    }
+    $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
+  }
   // 处理Pter
   if (CURRENT_SITE_NAME === 'PTer') {
     const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
