@@ -40,7 +40,7 @@ export default async (info:TorrentInfo.Info) => {
   fillProcessing(info);
 
   fillDescription(info);
-  $('#description-container .bbcode-preview-button').trigger('click');
+  $('.u-bbcodePreview-button').trigger('click');
 };
 
 function buildDescription (info:TorrentInfo.Info) {
