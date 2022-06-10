@@ -25,9 +25,10 @@ export default async () => {
   const category = title.match(/Season\s+\d+/) ? 'tv' : 'movie';
   const size = getSize($(`#torrent${torrentId} td`).eq(1).text());
   const infoArray = $(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, '').split('/');
-  let [resolution, videoCodec, videoType] = infoArray;
+  let [resolution, ...specArray] = infoArray;
+  let videoType = specArray.join('|');
   videoType = getVideoType(videoType, resolution);
-  TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title) || videoCodec.replace(/\./g, '').toLowerCase();
+  TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
   const descriptionDom = $(`#torrent_${torrentId} #description`);
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
@@ -40,7 +41,7 @@ export default async () => {
       TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${data}[/quote]`;
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-      const isBluray = videoType.match(/bluray/i);
+      const isBluray = data.match(/iso|m2ts|mpls/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       const { videoCodec, audioCodec, mediaTags, resolution: mediaResolution } = getInfoFunc(data);
       if (resolution === 'mHD' && mediaResolution) {
@@ -68,7 +69,7 @@ export default async () => {
 };
 
 const getMediaInfo = async (torrentId:string) => {
-  const url = `https://uhdbits.org/torrents.php?action=mediainfo&id=${torrentId}`;
+  const url = `/torrents.php?action=mediainfo&id=${torrentId}`;
   const data = await fetch(url, {
     responseType: undefined,
   });
@@ -80,6 +81,7 @@ const getVideoType = (videoType:string, resolution:string) => {
     if (resolution === '2160p') {
       return 'uhdbluray';
     }
+    return 'bluray';
   } else if (videoType.match(/web/)) {
     return 'web';
   } else if (videoType.match(/x264|x265/)) {
