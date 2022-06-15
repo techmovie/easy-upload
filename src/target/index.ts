@@ -416,8 +416,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-	description = info.originalDescription.replace(/^(\s+)/g, '');
-	description = filterEmptyTags(description);
+    if (sourceSite === "PTP'){
+	  description = info.originalDescription.replace(/^(\s+)/g, '');
+	  description = filterEmptyTags(description);
+    }
     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
   }
