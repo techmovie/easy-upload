@@ -416,7 +416,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    if (sourceSite === "PTP'){
+    if (sourceSite === 'PTP') {
 	  description = info.originalDescription.replace(/^(\s+)/g, '');
 	  description = filterEmptyTags(description);
     }
