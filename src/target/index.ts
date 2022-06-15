@@ -415,6 +415,12 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       $(currentSiteInfo.area.selector).val('8');
     }
   }
+  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
+	description = info.originalDescription.replace(/^(\s+)/g, '');
+	description = filterEmptyTags(description);
+    const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+    description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+  }
   // 处理HDH iPad
   if (CURRENT_SITE_NAME.match(/HDHome|HDZone/)) {
     if (info.title.match(/iPad/i)) {
