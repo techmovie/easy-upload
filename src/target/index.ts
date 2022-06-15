@@ -126,7 +126,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (info.description) {
     // 去简介前的空格和换行
     description = info.description.replace(/^(\s+)/g, '');
-    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD' && CURRENT_SITE_NAME !== 'KEEPFRDS') {
+    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD') {
       // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
       if (doubanInfo) {
