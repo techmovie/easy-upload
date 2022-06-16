@@ -72,10 +72,10 @@ export default async () => {
     $(element).html($('#outer td').has('#kdescr').html());
     descriptionBBCode = getFilterBBCode(element);
     const mediainfo = $("div.codemain > pre:contains('Unique ID')");
-    if(mediainfo[0]) {
-      TORRENT_INFO.mediaInfo = mediainfo.text()
+    if (mediainfo[0]) {
+      TORRENT_INFO.mediaInfo = mediainfo.text();
     }
-    descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^\[]*\[\/quote\]/, '');
+    descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, '');
   }
 
   if (CURRENT_SITE_NAME === 'SSD') {

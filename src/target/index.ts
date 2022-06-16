@@ -230,12 +230,12 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     if (info.sourceSite === 'PTP') {
-	  description = info.description.replace(/^(\s+)/g, '');
-	  description = filterEmptyTags(description);
+      description = info.description.replace(/^(\s+)/g, '');
+      description = filterEmptyTags(description);
     }
-    const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+    const { mediaInfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
-    console.log(description)
+    console.log(description);
   }
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
