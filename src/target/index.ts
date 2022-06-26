@@ -146,6 +146,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo.mediaInfo.selector;
       $(selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
+    } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
+      $(currentSiteInfo.bdinfo.selector).val(mediaInfo);
+      info.mediaInfo = "";
     } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) { // HDB只填入mediainfo bdinfo放在简介里
       $(currentSiteInfo.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');

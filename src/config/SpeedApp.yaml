@@ -22,5 +22,7 @@ imdb:
   selector: '#url'
 mediaInfo:
   selector: '#torrentDescription_mediaInfo'
+bdinfo:
+  selector: '#torrentDescription_bdInfo'
 screenshots:
   selector: '#torrentDescription_screenshots'
