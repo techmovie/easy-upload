@@ -237,6 +237,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
     console.log(description);
   }
+  if (CURRENT_SITE_NAME === 'SpeedApp') {
+    description =  description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+  }
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
   }
@@ -415,7 +418,6 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     if (imdbId) {
       $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
     }
-    $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
   }
   // 处理Pter
   if (CURRENT_SITE_NAME === 'PTer') {
