@@ -140,7 +140,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       }
     }
   }
-
+  if (CURRENT_SITE_NAME === 'Concertos') {
+    $('#add').click();
+    $('.sceditor-button.sceditor-button-source.has-icon').click();
+  }
   if (currentSiteInfo.mediaInfo) {
     if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
       const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo.mediaInfo.selector;
@@ -237,6 +240,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
     console.log(description);
   }
+
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
   }
@@ -247,7 +251,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   $(currentSiteInfo.description.selector).val(description);
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos/)) {
     const fillIMDBId = currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(currentSiteInfo.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(data => {
