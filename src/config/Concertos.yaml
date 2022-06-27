@@ -12,8 +12,8 @@ search:
   replaceKey: ['tt','']
   params:
     name: '{name}'
-    imdbId: '{imdb}'
-    sortField: size
+    imdb: '{imdb}'
+    order_by: size
 name:
   selector: '#title'
 description:
