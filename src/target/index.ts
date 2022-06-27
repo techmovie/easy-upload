@@ -142,7 +142,8 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   if (CURRENT_SITE_NAME === 'Concertos') {
     $('#add').click();
-    $('.sceditor-button.sceditor-button-source.has-icon').click();
+    $('.sceditor-button.sceditor-button-source.has-icon')[0].click();
+    description = description.replace(mediaInfo.trim(), '');
   }
   if (currentSiteInfo.mediaInfo) {
     if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {

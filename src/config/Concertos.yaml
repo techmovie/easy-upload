@@ -17,7 +17,7 @@ search:
 name:
   selector: '#title'
 description:
-  selector: 'iframe'
+  selector: 'div.sceditor-container textarea'
 imdb:
   selector: 'input[name="imdb"]'
 tmdb:
