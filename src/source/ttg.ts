@@ -21,7 +21,7 @@ export default async () => {
   TORRENT_INFO.videoType = getVideoType(title, videoType);
   const year = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g) ?? [];
   TORRENT_INFO.year = year ? year.pop() as string : '';
-  TORRENT_INFO.imdbUrl = getTorrentValueDom('IMDb').find('a').attr('href');
+  const imdbUrl = getTorrentValueDom('IMDb').find('a').attr('href');
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1] ?? '';
   TORRENT_INFO.size = parseInt(sizeStr.replace(/,/g, ''), 10);
@@ -31,6 +31,11 @@ export default async () => {
   window.onload = async () => {
     const descriptionDom = $('#kt_d');
     const bbCodes = getFilterBBCode(descriptionDom[0]);
+    if (!imdbUrl) {
+      TORRENT_INFO.imdbUrl = bbCodes.match(/https:\/\/www.imdb.com\/title\/tt\d+/)?.[0];
+    } else {
+      TORRENT_INFO.imdbUrl = imdbUrl;
+    }
     TORRENT_INFO.description = getDescription(bbCodes, title);
     const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
     if (doubanUrl) {
