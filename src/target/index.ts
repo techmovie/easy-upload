@@ -241,7 +241,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     console.log(description);
   }
   if (CURRENT_SITE_NAME === 'SpeedApp') {
-    description =  description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+    description =  description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   }
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
