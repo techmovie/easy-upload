@@ -222,6 +222,9 @@ const getMetaInfo = (metaInfo:string) => {
     resolutionKey = '分辨率|解析度';
     videoTypeKey = '格式';
   }
+  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
+    videoTypeKey = "encode";
+  }
   if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome|HDZone/i)) {
     videoTypeKey = '媒介';
   }
