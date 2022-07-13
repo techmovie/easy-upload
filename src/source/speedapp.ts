@@ -39,7 +39,8 @@ export default async () => {
   TORRENT_INFO.mediaInfo = "";
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.description = descriptionBBCode.replaceAll(/\n\n*/g, '\n').replaceAll(' ','').trim().replaceAll('original.webp]\n[img]','original.png][img]').replaceAll('original.webp[/img]\n[/url]','mobile.webp[/img][/url]').replaceAll(/\[\/url\]\n*/g,'[/url]');
+  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(TORRENT_INFO.description);
   TORRENT_INFO.title = torrentName;
   //TORRENT_INFO.year = MovieName[1];
   TORRENT_INFO.movieName = MovieName;
@@ -49,7 +50,7 @@ export default async () => {
   //TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   //TORRENT_INFO.source = getSourceFromTitle(title);
   TORRENT_INFO.videoType = videoType.toLowerCase();
-  TORRENT_INFO.description = descriptionBBCode.replaceAll(/\n\n*/g, '\n').replaceAll(' ','').trim();
+  
 };
 
 const getVideoType = ({ torrentName = '', source = '', isBluray = false }) => {
