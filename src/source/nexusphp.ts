@@ -75,6 +75,13 @@ export default async () => {
     if (mediainfo[0]) {
       TORRENT_INFO.mediaInfo = mediainfo.text();
     }
+    if (!descriptionBBCode.match('豆瓣评分')){
+      const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ','');
+      const doubanInfo = $('#kdouban .imdbwp__content').text().replaceAll(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replaceAll('\n', '\n◎').replace(/\n◎$/,'\n').replace('◎Rating:','◎IMDb链接:' + siteImdbUrl + '\n◎IMDb评分: ' + imdbRate + '\n◎豆瓣链接: ' + TORRENT_INFO.doubanUrl + '\n◎豆瓣评分:');
+      const postUrl = $('#kimdb img.imdbwp__img')?.attr('src') ?? '';
+      const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
+      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo ?? '';
+    }
     descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, '');
   }
 
