@@ -7,7 +7,7 @@ asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
 seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last'
-search: 
+search:
   path: /torrents
   params:
     name: '{name}'
@@ -15,15 +15,15 @@ search:
 name:
   selector: '#title'
 description:
-  selector: '#upload-form-description'
+  selector: '#bbcode-description'
 imdb:
   selector: '#autoimdb'
 tmdb:
   selector: '#autotmdb'
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
-anonymous: 
-  selector: '.radio-inline:first input[name="anonymous"]'
+anonymous:
+  selector: '.form__group input[type="checkbox"][name="anonymous"]'
 category:
   selector: '#browsecat'
   map:

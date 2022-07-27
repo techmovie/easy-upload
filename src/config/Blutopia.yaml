@@ -7,9 +7,9 @@ asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
 seedDomSelector: '#meta-info+.meta-general>.panel:first'
-search: 
+search:
   path: /torrents
-  replaceKey: ['tt','']
+  replaceKey: ['tt', '']
   params:
     name: '{name}'
     imdbId: '{imdb}'
@@ -17,15 +17,15 @@ search:
 name:
   selector: '#title'
 description:
-  selector: '#upload-form-description'
+  selector: '#bbcode-description'
 imdb:
   selector: '#autoimdb'
 tmdb:
   selector: '#autotmdb'
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
-anonymous: 
-  selector: '.radio-inline:first input[name="anonymous"]'
+anonymous:
+  selector: '.form__group input[type="checkbox"][name="anonymous"]'
 category:
   selector: '#browsecat'
   map:
