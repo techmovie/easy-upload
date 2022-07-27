@@ -1,3 +1,20 @@
+## [3.2.4](https://github.com/techmovie/easy-upload/compare/3.2.3...3.2.4) (2022-07-27)
+
+
+### Bug Fixes
+
+* change selector ([1a4ba03](https://github.com/techmovie/easy-upload/commit/1a4ba037d579da2af1827a5620b9f4f147a482a9))
+* **frds:** use originalDescription that can keep comparison ([#190](https://github.com/techmovie/easy-upload/issues/190)) ([8f87123](https://github.com/techmovie/easy-upload/commit/8f87123c06669f7a11f12ed67f4d9f74ccfea18b))
+* **frds:** videotype misidentification ([#193](https://github.com/techmovie/easy-upload/issues/193)) ([f6cf5ae](https://github.com/techmovie/easy-upload/commit/f6cf5aed3e81d8026e64f00984a29da8cb41648e))
+* imdbUrl for ttg and name selector for Discfan ([eb25560](https://github.com/techmovie/easy-upload/commit/eb25560a26470b7b96de9a14d780fd0609f8bbfc))
+
+
+### Features
+
+* **frds:** support get doubaninfo ([#194](https://github.com/techmovie/easy-upload/issues/194)) ([5844f8d](https://github.com/techmovie/easy-upload/commit/5844f8d422256502080fe3cebba5f8ee8a2635de))
+
+
+
 ## [3.2.3](https://github.com/techmovie/easy-upload/compare/3.2.2...3.2.3) (2022-06-16)
 
 
