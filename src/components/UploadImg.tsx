@@ -13,14 +13,14 @@ const UploadImg = () => {
   const [btnText, setBtnText] = useState('转存截图');
   const [canCopy, setCanCopy] = useState(false);
   const [screenBBCode, setScreenBBCode] = useState([] as string[]);
-  const [copyText, setCopyText] = useState('复制');
+  const [copyText, setCopyText] = useState('拷贝');
   const uploadScreenshotsToAnother = async () => {
     const screenshots = TORRENT_INFO.screenshots;
     setBtnText('上传中，请稍候...');
     setBtnDisable(true);
     try {
       setCanCopy(false);
-      setCopyText('复制');
+      setCopyText('拷贝');
       const imgData:string[] = [];
       if (selectHost === 'ptpimg') {
         for (let index = 0; index < screenshots.length; index++) {
@@ -98,7 +98,7 @@ const UploadImg = () => {
           hidden={!canCopy}
           onClick={() => {
             GM_setClipboard(screenBBCode.join(''));
-            setCopyText('已复制');
+            setCopyText('已拷贝');
           }}>{$t(copyText)}</button>
       </div>
     </div >
