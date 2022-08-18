@@ -1,3 +1,19 @@
+## [3.2.5](https://github.com/techmovie/easy-upload/compare/3.2.4...3.2.5) (2022-08-18)
+
+
+### Bug Fixes
+
+* **aither:** change selector ([7158dcb](https://github.com/techmovie/easy-upload/commit/7158dcb2247be72eb9299b63ebd0eb4d6f04ae75))
+* change copy word ([a147968](https://github.com/techmovie/easy-upload/commit/a147968fbb50442399254553ee1ff55c3a85e21b))
+* specify Jest version in config ([3193076](https://github.com/techmovie/easy-upload/commit/31930764fc694e032ae5f56a42c5eaace641e1c9))
+
+
+### Features
+
+* **new site:** add azusa ([8ad03ae](https://github.com/techmovie/easy-upload/commit/8ad03ae593bfa0c4ca60064743e8e4d5eae77543))
+
+
+
 ## [3.2.4](https://github.com/techmovie/easy-upload/compare/3.2.3...3.2.4) (2022-07-27)
 
 
