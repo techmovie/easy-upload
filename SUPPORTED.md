@@ -7,6 +7,7 @@
 |  Aither   |            ✅             |           ✅            |
 | Audiences |            ✅             |           ✅            |
 |  AvistaZ  |            ✅             |           ❌            |
+|   azusa   |            ❌             |           ✅            |
 |    bB     |            ❌             |           ✅            |
 |    Bdc    |            ✅             |           ✅            |
 |    BTN    |            ✅             |           ❌            |
