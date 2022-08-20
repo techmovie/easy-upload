@@ -36,7 +36,6 @@
 |  HDMaYi   |            ✅             |           ✅            |
 |  HDPOST   |            ✅             |           ✅            |
 |  HDRoute  |            ❌             |           ✅            |
-|   HDSky   |            ✅             |           ✅            |
 |  HDSpace  |            ✅             |           ✅            |
 |    HDT    |            ✅             |           ✅            |
 |  HDTime   |            ✅             |           ✅            |

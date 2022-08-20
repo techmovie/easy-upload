@@ -75,9 +75,9 @@ export default async () => {
     if (mediainfo[0]) {
       TORRENT_INFO.mediaInfo = mediainfo.text();
     }
-    if (!descriptionBBCode.match('豆瓣评分')){
-      const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ','');
-      const doubanInfo = $('#kdouban .imdbwp__content').text().replaceAll(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replaceAll('\n', '\n◎').replace(/\n◎$/,'\n').replace('◎Rating:','◎IMDb链接:' + siteImdbUrl + '\n◎IMDb评分: ' + imdbRate + '\n◎豆瓣链接: ' + TORRENT_INFO.doubanUrl + '\n◎豆瓣评分:');
+    if (!descriptionBBCode.match('豆瓣评分')) {
+      const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ', '');
+      const doubanInfo = $('#kdouban .imdbwp__content').text().replaceAll(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replaceAll('\n', '\n◎').replace(/\n◎$/, '\n').replace('◎Rating:', `◎IMDb链接:${siteImdbUrl}\n◎IMDb评分: ${imdbRate}\n◎豆瓣链接: ${TORRENT_INFO.doubanUrl}\n◎豆瓣评分:`);
       const postUrl = $('#kimdb img.imdbwp__img')?.attr('src') ?? '';
       const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
       TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo ?? '';
@@ -230,7 +230,7 @@ const getMetaInfo = (metaInfo:string) => {
     videoTypeKey = '格式';
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    videoTypeKey = "encode";
+    videoTypeKey = 'encode';
   }
   if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome|HDZone/i)) {
     videoTypeKey = '媒介';
@@ -274,9 +274,6 @@ const getMetaValue = (key:string, metaInfo:string) => {
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
-  }
-  if (CURRENT_SITE_NAME === 'HDSky' && key.match(/类型/)) {
-    regStr = `(${key}):\\s?.+?/([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'TCCF' && key.match(/类型/)) {
     regStr = `(${key}):(.+?)\\s{2,}`;
