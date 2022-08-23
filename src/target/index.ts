@@ -227,10 +227,19 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
     description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
+    if (info.comparisons?.length) {
+      for (const comparison of info.comparisons) {
+        const { title, imgs } = comparison;
+        const titleCount = title?.split(',').length ?? '';
+        imgs.forEach(img => {
+          description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
+        });
+      }
+    }
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     if (info.sourceSite === 'PTP') {
-      description = info.originalDescription.replace(/^(\s+)/g, '');
+      description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
       description = filterEmptyTags(description);
     }
     const { mediaInfo } = getBDInfoOrMediaInfo(description);
