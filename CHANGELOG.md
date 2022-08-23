@@ -1,3 +1,13 @@
+## [3.2.6](https://github.com/techmovie/easy-upload/compare/3.2.5...3.2.6) (2022-08-23)
+
+
+### Features
+
+* **pter:** support [imgn][/img] comparison bbcode ([2339b5d](https://github.com/techmovie/easy-upload/commit/2339b5da258ebfb4560dac6f07484ca58c3489bf))
+* remove useless site ([4b70b3a](https://github.com/techmovie/easy-upload/commit/4b70b3a5021e037baddd5955e83aa41ec4cc0004))
+
+
+
 ## [3.2.5](https://github.com/techmovie/easy-upload/compare/3.2.4...3.2.5) (2022-08-18)
 
 
