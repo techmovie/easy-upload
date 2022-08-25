@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 
-export default (core) => {
+export default function getReleaseLog (core) {
   try {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const changeLogPath = path.join(__dirname, '..', 'CHANGELOG.md');
@@ -14,4 +14,4 @@ export default (core) => {
   } catch (error) {
     core.setFailed(error.message);
   }
-};
+}

@@ -12,8 +12,8 @@ jobs:
           github-token: '${{ secrets.ACTION_TOKEN }}'
           script: |
             try {
-              const script = await import('${{ github.workspace }}/scripts/new-release.js');
-              await script(core);
+              const getReleaseLog = await import('${{ github.workspace }}/scripts/new-release.js');
+              await getReleaseLog(core);
               await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: true,
