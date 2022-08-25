@@ -2,7 +2,7 @@ name: create new release
 on:
   push:
     paths: 'dist/easy-upload.user.js'
-    branches: [new-release-action]
+    branches: [master]
 jobs:
   release:
     runs-on: ubuntu-latest
