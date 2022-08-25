@@ -1,3 +1,17 @@
+## [3.2.7](https://github.com/techmovie/easy-upload/compare/3.2.6...3.2.7) (2022-08-25)
+
+
+### Bug Fixes
+
+* **pter:** add videoType matcher for  BD  Discs ([2e59092](https://github.com/techmovie/easy-upload/commit/2e59092a4cd80ef7c3a26d7fdbc615d8502e28ec))
+
+
+### Features
+
+* support imgbox ([000325f](https://github.com/techmovie/easy-upload/commit/000325f3997712312a225ec82141af3846b354a0))
+
+
+
 ## [3.2.6](https://github.com/techmovie/easy-upload/compare/3.2.5...3.2.6) (2022-08-23)
 
 
