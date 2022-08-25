@@ -4,12 +4,12 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, transferImgs, uploadToPixhost, getValue,
+  $t, fetch, transferImgs, uploadToPixhost, getValue, uploadToImgbox,
 } from '../common';
 import Notification from './Notification';
 
 const Transfer = () => {
-  const [imgHost, setImgHost] = useState('imgbb');
+  const [imgHost, setImgHost] = useState('imgbox');
   const [btnDisable, setBtnDisable] = useState(false);
   const [btnText, setBtnText] = useState('转缩略图');
   const [progress, setProgress] = useState(-1);
@@ -30,23 +30,38 @@ const Transfer = () => {
         imgbb: 'https://imgbb.com/json',
         gifyu: 'https://gifyu.com/json',
         pixhost: 'https://pixhost.to',
+        imgbox: 'https://imgbox.com',
       };
       const selectHost = hostMap[imgHost as keyof typeof hostMap];
       const uploadedImgs = [];
-      let authToken;
-      if (imgHost !== 'pixhost') {
+      let authToken, tokenSecret;
+      if (imgHost.match(/imgbb|gifyu/)) {
         const rawHtml = await fetch(selectHost.replace('/json', ''), {
           responseType: undefined,
         });
         authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1];
+      } else if (imgHost === 'imgbox') {
+        const rawHtml = await fetch('https://imgbox.com', {
+          responseType: undefined,
+        });
+        authToken = rawHtml.match(/content="(.+)" name="csrf-token"/)?.[1];
+        tokenSecret = await fetch('https://imgbox.com/ajax/token/generate', {
+          responseType: 'json',
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': authToken,
+          },
+        });
       }
 
       for (let index = 0; index < imgList.length; index++) {
         let data;
-        if (imgHost !== 'pixhost') {
+        if (imgHost.match(/imgbb|gifyu/)) {
           data = await transferImgs(imgList[index], authToken, selectHost);
-        } else {
+        } else if (imgHost === 'pixhost') {
           [data] = await uploadToPixhost([imgList[index]]);
+        } else if (imgHost === 'imgbox') {
+          data = await uploadToImgbox(imgList[index], authToken, tokenSecret);
         }
         if (data) {
           uploadedImgs.push(data);
@@ -55,8 +70,10 @@ const Transfer = () => {
       }
       if (uploadedImgs.length) {
         const thumbnailImgs = uploadedImgs.map(imgData => {
-          if (imgHost !== 'pixhost') {
+          if (imgHost.match(/imgbb|gifyu/)) {
             return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
+          } else if (imgHost === 'imgbox') {
+            return `[url=${imgData.original_url}][img]${imgData.thumbnail_url}[/img][/url]`;
           }
           return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
         });
@@ -99,6 +116,7 @@ const Transfer = () => {
         <select
           value={imgHost}
           onChange={(e) => setImgHost((e.target as HTMLSelectElement).value)}>
+          <option value="imgbox">imgbox</option>
           <option value="imgbb">imgbb</option>
           <option value="gifyu">gifyu</option>
           <option value="pixhost">pixhost</option>

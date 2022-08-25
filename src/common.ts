@@ -464,6 +464,34 @@ const uploadToPixhost = async (screenshots: string[]) => {
     handleError(error);
   }
 };
+interface TokenSecret {
+  token_id: string
+  token_secret: string
+}
+const uploadToImgbox = async (screenshot: string, authToken:string, tokenSecret:TokenSecret) => {
+  const file = await urlToFile(screenshot);
+  const { token_id, token_secret } = tokenSecret;
+  const options: RequestOptions = {
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': authToken,
+    },
+  };
+  const formData = new FormData();
+  formData.append('token_id', token_id);
+  formData.append('token_secret', token_secret);
+  formData.append('content_type', '1');
+  formData.append('thumbnail_size', '350r');
+  formData.append('gallery_id', 'null');
+  formData.append('gallery_secret', 'null');
+  formData.append('comments_enabled', '0');
+  formData.append('files[]', file);
+  options.data = formData;
+  const data = await fetch('https://imgbox.com/upload/process', options);
+  if (data && data.files && data.files.length) {
+    return data.files[0];
+  }
+};
 // 获取更加准确的分类
 const getPreciseCategory = (torrentInfo: TorrentInfo.Info, category: string) => {
   const { description, title, subtitle, doubanInfo } = torrentInfo;
@@ -1499,4 +1527,5 @@ export {
   getValue,
   getTvSeasonData,
   getDoubanBookInfo,
+  uploadToImgbox,
 };
