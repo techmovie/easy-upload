@@ -7,13 +7,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/github-script@v6
         with:
           github-token: '${{ secrets.ACTION_TOKEN }}'
           script: |
             try {
               const getReleaseLog = require('./scripts/new-release.js');
-              console.log(getReleaseLog)
               await getReleaseLog(core);
               await github.rest.repos.createRelease({
                 draft: false,
