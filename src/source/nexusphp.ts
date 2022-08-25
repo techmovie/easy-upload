@@ -309,7 +309,7 @@ const getVideoType = (videoType:string) => {
     return 'remux';
   } else if (videoType.match(/uhd|ultra/ig)) {
     return 'uhdbluray';
-  } else if (videoType.match(/blu/ig)) {
+  } else if (videoType.match(/blu|discs/ig)) {
     return 'bluray';
   } else if (videoType.match(/webdl/ig)) {
     return 'web';
