@@ -1,4 +1,4 @@
-## [3.2.7-beta.9](https://github.com/techmovie/easy-upload/compare/3.2.6...3.2.7-beta.9) (2022-08-25)
+## [3.2.7-beta.10](https://github.com/techmovie/easy-upload/compare/3.2.6...3.2.7-beta.10) (2022-08-25)
 
 
 
