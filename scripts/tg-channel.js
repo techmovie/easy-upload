@@ -21,8 +21,8 @@ perfContent = perfContent.replace(/\n\*\s/g, '\n🎉 ').replace(/\*{2}/g, '*');
 let tgMsg = `
 📣 *更新至${newVersion}*
 
-👉 [安装地址1](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
-👉 [安装地址2](https://sleazyfork.org/zh-CN/scripts/423199)
+👉 [安装地址1](https://greasyfork.org/zh-CN/scripts/423199)
+👉 [安装地址2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
 👉 [CHANGELOG](https://github.com/techmovie/easy-upload/blob/master/CHANGELOG.md)
 👉 [使用教程](https://github.com/techmovie/easy-upload/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
 `;
