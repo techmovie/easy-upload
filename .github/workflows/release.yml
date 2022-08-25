@@ -7,23 +7,24 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/github-script@v6
         with:
           github-token: '${{ secrets.ACTION_TOKEN }}'
           script: |
             try {
-                const script = await import('${{ github.workspace }}/scripts/new-release.js')
-                await script(core)
-                await github.rest.repos.createRelease({
-                  draft: false,
-                  generate_release_notes: true,
-                  name: ${version},
-                  body: ${body}
-                  owner: context.repo.owner,
-                  prerelease: false,
-                  repo: context.repo.repo,
-                  tag_name: ${version},
-                });
-            } catch(error){
+              const { default: getReleaseLog } = await import('${{ github.workspace }}/scripts/new-release.js');
+              await getReleaseLog(core);
+              await github.rest.repos.createRelease({
+                draft: false,
+                generate_release_notes: true,
+                name:  process.env.version,
+                body: '',
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                tag_name: process.env.version,
+              });
+            } catch (error) {
               core.setFailed(error.message);
             }
