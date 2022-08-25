@@ -15,6 +15,7 @@ jobs:
             try {
               const { default: getReleaseLog } = await import('${{ github.workspace }}/scripts/new-release.js');
               await getReleaseLog(core);
+              console.log(process.env.version)
               await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: true,

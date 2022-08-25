@@ -11,6 +11,7 @@ export default function getReleaseLog (core) {
     const newVersion = recentLog.match(/\[\d\.\d\.\d{1,}\]/)[0];
     core.exportVariable('body', recentLog);
     core.exportVariable('version', newVersion);
+    console.log(newVersion);
   } catch (error) {
     core.setFailed(error.message);
   }
