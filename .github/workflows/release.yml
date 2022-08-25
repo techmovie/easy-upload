@@ -17,12 +17,12 @@ jobs:
               await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: true,
-                name: '${{version}}',
-                body: '${{body}}',
+                name:  process.env.version,
+                body: process.env.body,
                 owner: context.repo.owner,
                 prerelease: false,
                 repo: context.repo.repo,
-                tag_name: '${{version}}',
+                tag_name: process.env.version,
               });
             } catch (error) {
               core.setFailed(error.message);
