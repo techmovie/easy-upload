@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'node:url';
+const fs = require('fs');
+const path = require('path');
+const { fileURLToPath } = require('node:url');
 
-export default function getReleaseLog (core) {
+module.exports = (core) => {
   try {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const changeLogPath = path.join(__dirname, '..', 'CHANGELOG.md');
@@ -14,4 +14,4 @@ export default function getReleaseLog (core) {
   } catch (error) {
     core.setFailed(error.message);
   }
-}
+};
