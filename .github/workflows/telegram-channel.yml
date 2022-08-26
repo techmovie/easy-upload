@@ -1,0 +1,22 @@
+name: send telegram channel message
+on:
+  push:
+    paths: 'dist/easy-upload.user.js'
+    branches: [tg-msg-action]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              const { default: createTgChannelMsg } = await import('${{ github.workspace }}/scripts/tg-channel.js');
+              await createTgChannelMsg(core)
+              const execa = require('execa')
+              const { stdout } = await execa('curl','-X','POST','https://api.telegram.org/bot${{secrets.TG_BOT_TOKEN}}/sendMessage','--data','{"chat_id": "-1001522609970",text: process.env.tgMsg,parse_mode: "HTML"}')
+              core.info(stdout)
+            }catch(error){
+              core.setFailed(error.message);
+            }

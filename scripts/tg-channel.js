@@ -2,38 +2,42 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const changeLogPath = path.join(__dirname, '..', 'CHANGELOG.md');
-const changeLogData = fs.readFileSync(changeLogPath, 'UTF-8');
-const recentLog = changeLogData.match(/(#{1,}\s\[\d\.\d\.\d{1,}\](.|\n)+?)##\s\[\d\.\d\.\d{1,}\]/)[1];
-const newVersion = recentLog.match(/\[\d\.\d\.\d{1,}\]/)[0];
+function formatChangelog (content) {
+  return content.replace(/\*{2}(.+)?\*{2}/, '<b>$1</b>').replace(/\[(.+?)\]\((.+?)\)/, '<a href="$2">$1</a>');
+}
 
-let featureContent = recentLog.match(/#{3}\s+Features((.|\n)+?)\n{3}/) || '';
-featureContent = featureContent && featureContent[1] ? featureContent[1] : '';
-let bugContent = recentLog.match(/#{3}\s+Bug Fixes((.|\n)+?)\n{3}/) || '';
-bugContent = bugContent && bugContent[1] ? bugContent[1] : '';
-let perfContent = recentLog.match(/#{3}\s+Performance Improvements((.|\n)+?)\n{3}/) || '';
-perfContent = perfContent && perfContent[1] ? perfContent[1] : '';
-featureContent = featureContent.replace(/\n\*\s/g, '\n🔨 ').replace(/\*{2}/g, '*');
-bugContent = bugContent.replace(/\n\*\s/g, '\n🐛 ').replace(/\*{2}/g, '*');
-perfContent = perfContent.replace(/\n\*\s/g, '\n🎉 ').replace(/\*{2}/g, '*');
+export default function createTgChannelMsg (core) {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const changeLogPath = path.join(__dirname, '..', 'CHANGELOG.md');
+  const changeLogData = fs.readFileSync(changeLogPath, 'UTF-8');
+  const recentLog = changeLogData.match(/(#{1,}\s\[\d\.\d\.\d{1,}\](.|\n)+?)##\s\[\d\.\d\.\d{1,}\]/)[1];
+  const newVersion = recentLog.match(/\[\d\.\d\.\d{1,}\]/)[0];
 
-let tgMsg = `
-📣 *更新至${newVersion}*
+  let featureContent = recentLog.match(/#{3}\s+Features((.|\n)+?)\n{3}/) || '';
+  featureContent = featureContent && featureContent[1] ? featureContent[1] : '';
+  let bugContent = recentLog.match(/#{3}\s+Bug Fixes((.|\n)+?)\n{3}/) || '';
+  bugContent = bugContent && bugContent[1] ? bugContent[1] : '';
+  let perfContent = recentLog.match(/#{3}\s+Performance Improvements((.|\n)+?)\n{3}/) || '';
+  perfContent = perfContent && perfContent[1] ? perfContent[1] : '';
+  featureContent = formatChangelog(featureContent.replace(/\n\*\s/g, '\n🔨 '));
+  bugContent = formatChangelog(bugContent.replace(/\n\*\s/g, '\n🐛 '));
+  perfContent = formatChangelog(perfContent.replace(/\n\*\s/g, '\n🎉 '));
+  let tgMsg = `
+📣 <b>更新至${newVersion}</b>
 
-👉 [安装地址1](https://greasyfork.org/zh-CN/scripts/423199)
-👉 [安装地址2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D)
-👉 [CHANGELOG](https://github.com/techmovie/easy-upload/blob/master/CHANGELOG.md)
-👉 [使用教程](https://github.com/techmovie/easy-upload/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
+👉 <a href="https://greasyfork.org/zh-CN/scripts/423199">安装地址1</a>
+👉 <a href="https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D">安装地址2</a>
+👉 <a href="https://github.com/techmovie/easy-upload/blob/master/CHANGELOG.md">CHANGELOG</a>
+👉 <a href="https://github.com/techmovie/easy-upload/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B">使用教程</a>
 `;
-tgMsg += bugContent
-  ? `\n*修复*\n${bugContent}\n`
-  : '';
-tgMsg += featureContent
-  ? `\n*功能*\n${featureContent}\n`
-  : '';
-tgMsg += perfContent
-  ? `\n*优化*\n${perfContent}`
-  : '';
-
-fs.writeFileSync('tg-channel.txt', tgMsg);
+  tgMsg += bugContent
+    ? `\n<b>修复</b>\n${bugContent}\n`
+    : '';
+  tgMsg += featureContent
+    ? `\n<b>功能</b>\n${featureContent}\n`
+    : '';
+  tgMsg += perfContent
+    ? `\n<b>优化</b>\n${perfContent}`
+    : '';
+  core.exportVariable('tgMsg', tgMsg);
+}
