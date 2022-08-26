@@ -2,7 +2,7 @@ name: send telegram channel message
 on:
   push:
     paths: 'dist/easy-upload.user.js'
-    branches: [tg-msg-action]
+    branches: [master]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -11,16 +11,20 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm install execa
+      - run: npm install axios
       - uses: actions/github-script@v6
         with:
           script: |
             try {
               const { default: createTgChannelMsg } = await import('${{ github.workspace }}/scripts/tg-channel.js');
               await createTgChannelMsg(core)
-              const execa = require('execa')
-              const { stdout } = await execa('curl','-X','POST','https://api.telegram.org/bot${{secrets.TG_BOT_TOKEN}}/sendMessage','--data','{"chat_id": "-1001522609970",text: process.env.tgMsg,parse_mode: "HTML"}')
-              core.info(stdout)
+              const axios = require('axios')
+              const text = process.env.tgMsg
+              const response = await axios.post('https://api.telegram.org/bot${{secrets.TG_BOT_TOKEN}}/sendMessage', {
+                "chat_id": "-1001343736144",
+                text,
+                "parse_mode": "HTML"
+              })
             }catch(error){
               core.setFailed(error.message);
             }
