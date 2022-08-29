@@ -1,3 +1,12 @@
+## [3.2.9](https://github.com/techmovie/easy-upload/compare/3.2.8...3.2.9) (2022-08-29)
+
+
+### Features
+
+* support img host of hdb ([1a18896](https://github.com/techmovie/easy-upload/commit/1a18896ea2408adb0632b9b24d106e0ca58c0e2f))
+
+
+
 ## [3.2.8](https://github.com/techmovie/easy-upload/compare/3.2.7...3.2.8) (2022-08-29)
 
 
