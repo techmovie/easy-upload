@@ -1084,7 +1084,7 @@ const htmlToBBCode = (node:Element) => {
         case 'U': { pp('[u]', '[/u]'); break; }
         case 'I': { pp('[i]', '[/i]'); break; }
         case 'DIV': {
-          const { className } = node;
+          const { className, id } = node;
           if (className === 'codemain') {
             // 兼容朋友
             if (node.children[0] && node.children[0].tagName === 'PRE') {
@@ -1106,6 +1106,8 @@ const htmlToBBCode = (node:Element) => {
           } else if (CURRENT_SITE_NAME === 'BeyondHD') {
             if (className === 'spoilerChild') {
               pp('\n[quote]', '[/quote]');
+            } else if (id === 'screenMain') {
+              return '\n';
             } else if (className === 'spoilerHide') {
               return '';
             }

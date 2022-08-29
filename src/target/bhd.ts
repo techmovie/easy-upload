@@ -114,7 +114,7 @@ function buildDescription (info:TorrentInfo.Info) {
   const { comparisons, screenshots } = info;
   if (comparisons && comparisons.length > 0) {
     for (const comparison of comparisons) {
-      description += `${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
+      description += `\n${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
     }
   }
   if (screenshots.length > 0) {

@@ -93,7 +93,7 @@ const getDescription = (info: TorrentInfo.Info) => {
   }
   if (comparisons && comparisons.length > 0) {
     for (const comparison of comparisons) {
-      filterDescription += `${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
+      filterDescription += `\n${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
     }
   }
   return `${filterDescription}\n${screenshots.map(item => `[img]${item}[/img]`).join('\n')}`;

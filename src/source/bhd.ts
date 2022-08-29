@@ -25,6 +25,7 @@ export default async () => {
 
   const descriptionDom = $('.panel-heading:contains(Description)').next('.panel-body').find('.forced-nfo');
   const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+  TORRENT_INFO.comparisons = getComparisonImgs();
   const { category: movieCat, countries, imdbUrl } = getMovieDetails();
   TORRENT_INFO.movieName = movieName;
   let category = Category.toLowerCase().replace(/s/, '');
@@ -162,3 +163,15 @@ const getEditionTags = (basicInfo:BasicInfo) => {
     otherTags,
   };
 };
+
+function getComparisonImgs () {
+  const title = $('#screenMain .screenParent').text()?.replace(/\[Show\]|Comparison/g, '')?.trim();
+  const imgs = Array.from($('.screenComparison img')).map(img => $(img)?.attr('src') ?? '');
+  return [
+    {
+      title,
+      imgs,
+      reason: '',
+    },
+  ];
+}
