@@ -4,7 +4,7 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, transferImgs, uploadToPixhost, getValue, uploadToImgbox,
+  $t, fetch, transferImgs, uploadToPixhost, getValue, uploadToImgbox, uploadToHDB,
 } from '../common';
 import Notification from './Notification';
 
@@ -31,6 +31,7 @@ const Transfer = () => {
         gifyu: 'https://gifyu.com/json',
         pixhost: 'https://pixhost.to',
         imgbox: 'https://imgbox.com',
+        HDB: 'https://img.hdbits.org',
       };
       const selectHost = hostMap[imgHost as keyof typeof hostMap];
       const uploadedImgs = [];
@@ -62,6 +63,8 @@ const Transfer = () => {
           [data] = await uploadToPixhost([imgList[index]]);
         } else if (imgHost === 'imgbox') {
           data = await uploadToImgbox(imgList[index], authToken, tokenSecret);
+        } else if (imgHost === 'HDB') {
+          data = await uploadToHDB(imgList[index]);
         }
         if (data) {
           uploadedImgs.push(data);
@@ -74,6 +77,8 @@ const Transfer = () => {
             return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
           } else if (imgHost === 'imgbox') {
             return `[url=${imgData.original_url}][img]${imgData.thumbnail_url}[/img][/url]`;
+          } else if (imgHost === 'HDB') {
+            return imgData;
           }
           return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
         });
@@ -120,6 +125,7 @@ const Transfer = () => {
           <option value="imgbb">imgbb</option>
           <option value="gifyu">gifyu</option>
           <option value="pixhost">pixhost</option>
+          <option value="HDB">HDB</option>
         </select>
         <div
           id="transfer-progress"
