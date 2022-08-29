@@ -86,11 +86,15 @@ const getResolution = (resolution:string, videoType:string, title:string) => {
   return resolution;
 };
 const getDescription = (info: TorrentInfo.Info) => {
-  const { mediaInfo } = info;
+  const { mediaInfo, comparisons, screenshots } = info;
   let filterDescription = '';
   if (mediaInfo) {
     filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]`;
   }
-  const screenshots = info.screenshots.map(item => `[img]${item}[/img]`);
-  return `${filterDescription}\n${screenshots.join('\n')}`;
+  if (comparisons && comparisons.length > 0) {
+    for (const comparison of comparisons) {
+      filterDescription += `${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
+    }
+  }
+  return `${filterDescription}\n${screenshots.map(item => `[img]${item}[/img]`).join('\n')}`;
 };

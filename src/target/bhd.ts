@@ -1,11 +1,11 @@
-import { PT_SITE, CURRENT_SITE_NAME } from '../const';
+import { PT_SITE } from '../const';
 import {
   getBDType,
   getIMDBIdByUrl, getTMDBIdByIMDBId,
 } from '../common';
 
 import {
-  matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription,
+  matchSelectForm, buildPTPDescription,
 } from './common';
 
 const currentSiteInfo = PT_SITE.BeyondHD;
@@ -111,9 +111,14 @@ function fillDescription (info:TorrentInfo.Info) {
 }
 function buildDescription (info:TorrentInfo.Info) {
   let description = '';
-  const { sourceSiteType } = info;
-  if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== 'Bib') {
-    description = filterNexusDescription(info);
+  const { comparisons, screenshots } = info;
+  if (comparisons && comparisons.length > 0) {
+    for (const comparison of comparisons) {
+      description += `${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
+    }
+  }
+  if (screenshots.length > 0) {
+    description += `${screenshots.map(v => `[img]${v}[/img]`).join('\n')}\n\n`;
   }
   return description.trim();
 }

@@ -11,8 +11,8 @@ export default async () => {
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
 
   const headTitle = $('#main_table h1').eq(0).text();
-  const title = headTitle.match(/[^[]+/)?.[0] ?? '';
-  TORRENT_INFO.title = formatTorrentTitle(title);
+  const title = formatTorrentTitle(headTitle.match(/[^[]+/)?.[0] ?? '');
+  TORRENT_INFO.title = title;
   TORRENT_INFO.subtitle = headTitle.replace(title, '').replace(/\[|\]/g, '');
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
   const mediaTecInfo = getTorrentValueDom('类型').text();
@@ -36,7 +36,10 @@ export default async () => {
     } else {
       TORRENT_INFO.imdbUrl = imdbUrl;
     }
-    TORRENT_INFO.description = getDescription(bbCodes, title);
+    const description = getDescription(bbCodes, title);
+    TORRENT_INFO.description = description;
+    const comparisons = getComparisonImgs(description);
+    TORRENT_INFO.comparisons = comparisons;
     const doubanUrl = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)?.[0];
     if (doubanUrl) {
       TORRENT_INFO.doubanUrl = doubanUrl;
@@ -84,7 +87,11 @@ export default async () => {
         }
       }
     }
-    TORRENT_INFO.screenshots = await getImages(bbCodes);
+    let screenshots = await getImages(bbCodes);
+    comparisons.forEach(comparison => {
+      screenshots = screenshots.filter(img => !comparison.imgs.includes(img));
+    });
+    TORRENT_INFO.screenshots = screenshots;
   };
 };
 
@@ -187,4 +194,28 @@ function getDescription (bbcode:string, title:string) {
     bbcode = bbcode.replace(/(\[img\].+?\[\/img\])/, `$1\n\n${doubanPart}`);
   }
   return bbcode;
+}
+function getComparisonImgs (description:string) {
+  const comparisonPart = description.match(/\.Comparisons(.|\n)+\[\/img\]\[\/url\]/)?.[0];
+  if (!comparisonPart) {
+    return [];
+  }
+  const title = comparisonPart.match(/(\[color=.+?\])(.+?)\[\/color\]/g)?.map(item => {
+    return item.match(/\[color=.+?\](.+?)\[\/color\]/)?.[1] ?? '';
+  }) ?? [];
+  const comparisonImgArray:string[] = [];
+  const allImages = comparisonPart?.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+  if (allImages && allImages.length > 0) {
+    allImages.forEach(img => {
+      const matchUrl = img.match(/\[url=(.+?)\]/)?.[1];
+      if (matchUrl) {
+        comparisonImgArray.push(matchUrl);
+      }
+    });
+  }
+  return [{
+    imgs: comparisonImgArray,
+    title: title.join(','),
+    reason: '',
+  }];
 }
