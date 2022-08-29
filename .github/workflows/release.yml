@@ -19,7 +19,7 @@ jobs:
                 draft: false,
                 generate_release_notes: true,
                 name:  process.env.version,
-                body: '',
+                body: process.env.body,
                 owner: context.repo.owner,
                 prerelease: false,
                 repo: context.repo.repo,
