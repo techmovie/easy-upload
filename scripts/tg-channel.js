@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'node:url';
 
 function formatChangelog (content) {
-  return content.replace(/\*{2}(.+)?\*{2}/, '<b>$1</b>').replace(/\[(.+?)\]\((.+?)\)/, '<a href="$2">$1</a>');
+  return content.replace(/\*{2}(.+)?\*{2}/g, '<b>$1</b>').replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>');
 }
 
 export default function createTgChannelMsg (core) {
