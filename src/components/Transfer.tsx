@@ -34,7 +34,7 @@ const Transfer = () => {
         HDB: 'https://img.hdbits.org',
       };
       const selectHost = hostMap[imgHost as keyof typeof hostMap];
-      const uploadedImgs = [];
+      let uploadedImgs:string[] = [];
       let authToken, tokenSecret;
       if (imgHost.match(/imgbb|gifyu/)) {
         const rawHtml = await fetch(selectHost.replace('/json', ''), {
@@ -54,43 +54,39 @@ const Transfer = () => {
           },
         });
       }
-
-      for (let index = 0; index < imgList.length; index++) {
-        let data;
-        if (imgHost.match(/imgbb|gifyu/)) {
-          data = await transferImgs(imgList[index], authToken, selectHost);
-        } else if (imgHost === 'pixhost') {
-          [data] = await uploadToPixhost([imgList[index]]);
-        } else if (imgHost === 'imgbox') {
-          data = await uploadToImgbox(imgList[index], authToken, tokenSecret);
-        } else if (imgHost === 'HDB') {
-          data = await uploadToHDB(imgList[index]);
-        }
-        if (data) {
-          uploadedImgs.push(data);
-          setProgress(uploadedImgs.length);
+      if (imgHost === 'HDB') {
+        const imgContent = await uploadToHDB(imgList, TORRENT_INFO.title);
+        uploadedImgs = imgContent?.split('\n') ?? [];
+      } else {
+        for (let index = 0; index < imgList.length; index++) {
+          let data;
+          if (imgHost.match(/imgbb|gifyu/)) {
+            const transferData = await transferImgs(imgList[index], authToken, selectHost);
+            data = `[url=${transferData.url}][img]${transferData.thumb.url}[/img][/url]`;
+          } else if (imgHost === 'pixhost') {
+            const [transferData] = await uploadToPixhost([imgList[index]]);
+            data = `[url=${transferData.show_url}][img]${transferData.th_url}[/img][/url]`;
+          } else if (imgHost === 'imgbox') {
+            const transferData = await uploadToImgbox(imgList[index], authToken, tokenSecret);
+            data = `[url=${transferData.original_url}][img]${transferData.thumbnail_url}[/img][/url]`;
+          }
+          if (data) {
+            uploadedImgs.push(data);
+            setProgress(uploadedImgs.length);
+          }
         }
       }
+
       if (uploadedImgs.length) {
-        const thumbnailImgs = uploadedImgs.map(imgData => {
-          if (imgHost.match(/imgbb|gifyu/)) {
-            return `[url=${imgData.url}][img]${imgData.thumb.url}[/img][/url]`;
-          } else if (imgHost === 'imgbox') {
-            return `[url=${imgData.original_url}][img]${imgData.thumbnail_url}[/img][/url]`;
-          } else if (imgHost === 'HDB') {
-            return imgData;
-          }
-          return `[url=${imgData.show_url}][img]${imgData.th_url}[/img][/url]`;
-        });
-        TORRENT_INFO.screenshots = thumbnailImgs.slice(0, TORRENT_INFO.screenshots.length);
+        TORRENT_INFO.screenshots = uploadedImgs.slice(0, TORRENT_INFO.screenshots.length);
         let { description } = TORRENT_INFO;
         imgList.forEach((img, index) => {
           if (description.includes(img)) {
             const urlReg = new RegExp(`\\[url=${img}\\].+?\\[\\/url\\]\n*`, 'ig');
             if (description.match(urlReg)) {
-              description = description.replace(urlReg, thumbnailImgs[index] || '');
+              description = description.replace(urlReg, uploadedImgs[index] || '');
             } else {
-              description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), thumbnailImgs[index] || '');
+              description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), uploadedImgs[index] || '');
             }
           }
         });

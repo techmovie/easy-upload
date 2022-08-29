@@ -492,16 +492,30 @@ const uploadToImgbox = async (screenshot: string, authToken:string, tokenSecret:
     return data.files[0];
   }
 };
-const uploadToHDB = async (screenshot: string) => {
-  const file = await urlToFile(screenshot);
-  const formData = new FormData();
-  formData.append('images_files[]', file);
-  const data = await fetch('https://img.hdbits.org/upload_api.php', {
-    data: formData,
-    method: 'POST',
-    responseType: undefined,
-  });
-  return data;
+const uploadToHDB = async (screenshots: string[], galleryName:string) => {
+  try {
+    const promiseArray = screenshots.map(item => {
+      return urlToFile(item);
+    });
+    const fileArray = await Promise.all(promiseArray);
+    const formData = new FormData();
+    formData.append('galleryoption', '1');
+    formData.append('galleryname', galleryName);
+    fileArray.forEach(file => {
+      formData.append('images_files[]', file);
+    });
+    const data = await fetch('https://img.hdbits.org/upload_api.php', {
+      data: formData,
+      method: 'POST',
+      responseType: undefined,
+    });
+    if (data.includes('error')) {
+      throw data;
+    }
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
 };
 // 获取更加准确的分类
 const getPreciseCategory = (torrentInfo: TorrentInfo.Info, category: string) => {
