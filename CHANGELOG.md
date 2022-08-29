@@ -1,3 +1,14 @@
+## [3.2.8](https://github.com/techmovie/easy-upload/compare/3.2.7...3.2.8) (2022-08-29)
+
+
+### Features
+
+* add quote mark before center mark ([dcf70ae](https://github.com/techmovie/easy-upload/commit/dcf70aed78fa2050f4880de30d0741e991ef08cc))
+* **bhd:** add comparison imgs support ([3423d5a](https://github.com/techmovie/easy-upload/commit/3423d5a845c787173f138345e4c89575bc9bd25d))
+* **ttg:** add comparison imgs support ([cbce406](https://github.com/techmovie/easy-upload/commit/cbce40699fb1b76fad5cec3b48a2304f309800a6))
+
+
+
 ## [3.2.7](https://github.com/techmovie/easy-upload/compare/3.2.6...3.2.7) (2022-08-25)
 
 
