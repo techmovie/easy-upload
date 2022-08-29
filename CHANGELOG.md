@@ -1,3 +1,12 @@
+## [3.2.10](https://github.com/techmovie/easy-upload/compare/3.2.9...3.2.10) (2022-08-29)
+
+
+### Features
+
+* support gallery name of hdb img host ([5f92fcb](https://github.com/techmovie/easy-upload/commit/5f92fcbb1b80b98f5094d4d22fd4fef1d1134b76))
+
+
+
 ## [3.2.9](https://github.com/techmovie/easy-upload/compare/3.2.8...3.2.9) (2022-08-29)
 
 
