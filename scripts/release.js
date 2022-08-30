@@ -34,7 +34,6 @@ bump({
   }).start();
   execa.sync('yarn', ['changelog']);
   execa.sync('yarn', ['build']);
-  execa.sync('yarn', ['channel']);
   spinner.text = '🔨 提交代码...';
   spinner.color = 'green';
   execa.sync('git', ['add', '.']);
