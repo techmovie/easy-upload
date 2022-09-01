@@ -91,6 +91,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "we11adam",
+      "name": "Adam Lau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/319494?v=4",
+      "profile": "http://about.me/ljy",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 5
