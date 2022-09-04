@@ -151,9 +151,15 @@ const formatDescriptionData = (data:string, screenshots:string[], mediaInfoArray
   }).join('\n');
   TORRENT_INFO.originalDescription = descriptionData;
   screenshots.forEach(screenshot => {
-    const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, 'i');
+    const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, 'i');
     if (!descriptionData.match(regStr)) {
-      descriptionData = descriptionData.replace(new RegExp(screenshot, 'g'), `[img]${screenshot}[/img]`);
+      // torrents.php?id=78613&torrentid=590102 [img=https://ptpimg.me/yvm3e5.png]
+      const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, 'i');
+      if (descriptionData.match(regOldFormat)) {
+        descriptionData = descriptionData.replace(regOldFormat, `[img]${screenshot}[/img]`);
+      } else {
+        descriptionData = descriptionData.replace(new RegExp(screenshot, 'g'), `[img]${screenshot}[/img]`);
+      }
     }
   });
   descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, '[$1quote]');
