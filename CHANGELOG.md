@@ -1,3 +1,19 @@
+## [3.2.11](https://github.com/techmovie/easy-upload/compare/3.2.10...3.2.11) (2022-09-04)
+
+
+### Bug Fixes
+
+* **hdt:** add extra blankspace for imgs ([ef410c9](https://github.com/techmovie/easy-upload/commit/ef410c93d768c3dfd2e2f535f2d5cde483b49d50)), closes [#200](https://github.com/techmovie/easy-upload/issues/200)
+* **ptp:** add reg for old img bbcode ([9c17858](https://github.com/techmovie/easy-upload/commit/9c178585d05bb78624960472cb0113a450129243))
+* **ptp:** replace http ptpimg link ([6a81098](https://github.com/techmovie/easy-upload/commit/6a810983ff8a2a1f155f19511b658925c34798f7))
+
+
+### Features
+
+* remove unicode space characters ([#198](https://github.com/techmovie/easy-upload/issues/198)) ([4b701bf](https://github.com/techmovie/easy-upload/commit/4b701bf2f1d5151e84b8e90a7aa4f23068a1718b))
+
+
+
 ## [3.2.10](https://github.com/techmovie/easy-upload/compare/3.2.9...3.2.10) (2022-08-29)
 
 
