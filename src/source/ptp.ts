@@ -148,7 +148,7 @@ const formatDescriptionData = (data:string, screenshots:string[], mediaInfoArray
   // 将每行前后的空格删除 避免bdinfo匹配失败
   descriptionData = descriptionData.split('\n').map(line => {
     return line.trim();
-  }).join('\n');
+  }).join('\n').replace(/http:\/\/ptpimg.me/g, 'https://ptpimg.me'); // torrents.php?action=get_description&id=284503
   TORRENT_INFO.originalDescription = descriptionData;
   screenshots.forEach(screenshot => {
     const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, 'i');
