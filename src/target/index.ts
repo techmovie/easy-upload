@@ -249,6 +249,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     description = `${info.imdbUrl}\n\n${description}`;
   }
 
+  if (CURRENT_SITE_NAME === 'HDT') {
+    description = description.replace(/(\[\/img\])(\[img\])/g, '$1 $2').replace(/(\[\/url\])(\[url)/g, '$1 $2');
+  }
+
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
     description = getThanksQuote(info) + description.trim();
