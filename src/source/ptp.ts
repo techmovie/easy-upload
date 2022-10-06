@@ -158,7 +158,7 @@ const formatDescriptionData = (data:string, screenshots:string[], mediaInfoArray
       if (descriptionData.match(regOldFormat)) {
         descriptionData = descriptionData.replace(regOldFormat, `[img]${screenshot}[/img]`);
       } else {
-        descriptionData = descriptionData.replace(new RegExp(screenshot, 'g'), `[img]${screenshot}[/img]`);
+        descriptionData = descriptionData.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, 'g'), `[img]${screenshot}[/img]`);
       }
     }
   });
