@@ -98,7 +98,7 @@ function fillDescription (info:TorrentInfo.Info) {
   }
   if (info.screenshots.length > 0) {
     info.screenshots.forEach(img => {
-      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
+      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](\n*)?`);
       if (description.match(regStr)) {
         description = description.replace(regStr, (p1, p2) => {
           return `[url=${p2}][img=350x350]${p2}[/img][/url]`;

@@ -250,7 +250,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
           if (description.match(regOldFormat)) {
             description = description.replace(regOldFormat, `[img]${screenshot}[/img]`);
           } else {
-            description = description.replace(new RegExp(screenshot, 'g'), `[img]${screenshot}[/img]`);
+            description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, 'g'), `[img]${screenshot}[/img]`);
           }
         }
       });
