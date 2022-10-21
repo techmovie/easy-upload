@@ -1287,7 +1287,7 @@ const getTagsFromSubtitle = (title:string) => {
   if (title.match(/粤/i)) {
     tags.cantonese_audio = true;
   }
-  if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i)) {
+  if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i) && !title.match(/无中(字|文)/)) {
     tags.chinese_subtitle = true;
   }
   if (title.match(/Criterion|CC标准/i)) {
