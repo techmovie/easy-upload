@@ -21,6 +21,8 @@ search:
     size: 'td:nth-child(7)'
 name:
   selector: 'input[name="name"]'
+subtitle:
+  selector: 'input[name="subtitle"]'
 description:
   selector: 'textarea[name="descr"]'
 imdb:

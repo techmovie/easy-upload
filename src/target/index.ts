@@ -92,11 +92,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   // 北洋站没有配置name
   if (currentSiteInfo.name) {
-    const { title, subtitle } = info;
+    const { title } = info;
     let torrentTitle = title;
-    if (CURRENT_SITE_NAME === 'TTG' && subtitle) {
-      torrentTitle += `[${subtitle}]`;
-    } else if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
+    if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
       torrentTitle = title.replace(/\s/ig, '.');
     } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
       torrentTitle = `[${getChineseName(info)}]${title}`;
@@ -241,7 +239,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     if (info.sourceSite === 'PTP') {
       description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
       description = filterEmptyTags(description);
-      description = description.replaceAll("http://ptpimg","https://ptpimg");
+      description = description.replaceAll('http://ptpimg', 'https://ptpimg');
       screenshots.forEach(screenshot => {
         const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, 'i');
         if (!description.match(regStr)) {
