@@ -1,19 +1,18 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  getUrlParam, formatTorrentTitle,
+  formatTorrentTitle,
   getInfoFromMediaInfo, getInfoFromBDInfo,
   getSize, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
 
 export default async () => {
-
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const imdbUrl = $('a[href*="imdb.com/title"]').attr('href');
   const torrentContainer = $('div.container > div.row div.cover-overlay div.cover-overlay-bottom.d-none div.row');
   const MovieName = $('div.container > div.row div.cover-body h1.text-emphasis').text().trim();
-  const torrentName = $('a[href*="/torrents/*.torrent"] span').text();
+  const torrentName = $('h5.text-emphasis').text().trim();
   const size = torrentContainer.find('div.text-right.d-flex.justify-content-end div:contains("B")').text().trim();
 
   const source = getSourceFromTitle(torrentName);
