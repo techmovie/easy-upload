@@ -92,6 +92,7 @@ const getMovieDetails = () => {
     countries: '',
     imdbUrl: '',
   };
+  movieDetail.imdbUrl = $('span.badge-meta[title*="IMDb"] > a').attr('href');
   infoList.each((index, element) => {
     const urlParams = $(element).attr('href')?.replace(/.+\//g, '').split('=') ?? '';
     if (urlParams.length > 1) {
@@ -101,8 +102,6 @@ const getMovieDetails = () => {
         key = 'category';
       }
       movieDetail[key as keyof typeof movieDetail] = value;
-    } else if (urlParams?.[0].match(/tt\d+/)) {
-      movieDetail.imdbUrl = urlParams[0];
     }
   });
   return movieDetail;
