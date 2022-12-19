@@ -16,7 +16,7 @@ import { getQuickSearchUrl } from './common';
 const Container = () => {
   const [settingPanelOpen, setSettingPanelOpen] = useState(false);
   const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) ||
-    CURRENT_SITE_NAME?.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|SpeedApp/);
+    CURRENT_SITE_NAME?.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS/);
   const isHDB = CURRENT_SITE_NAME === 'HDBits';
   const baseTitleClass = ['title-td'];
   const baseContentClass = ['easy-seed-td'];
@@ -145,7 +145,30 @@ const Container = () => {
           </div>
         </div>
       </>
-    }
+      }
+      {
+          CURRENT_SITE_NAME === 'SpeedApp' &&
+          <>
+              <div className="custom-site">
+                  <Title />
+                  <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
+                      <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
+                          <UploadSiteList />
+                      </div>
+                  </div>
+              </div>
+              <div className="custom-site">
+                  <h4>{$t('快捷操作')}</h4>
+                  <FunctionList />
+              </div>
+              <div className="custom-site">
+                  <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+                  <div>
+                      <SearchList />
+                  </div>
+              </div>
+          </>
+      }
     {
       CURRENT_SITE_NAME === 'Bdc' && <>
         <tr>
