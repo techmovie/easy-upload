@@ -18,11 +18,11 @@ export default async () => {
   const source = getSourceFromTitle(torrentName);
   const descriptionContainer = $('div.description.description-modern');
   const descriptionBBCode = getFilterBBCode(descriptionContainer[0]);
-  const extraScreenshotDom = $('div.screenshot-viewer.container-fluid').find('img');
+  const extraScreenshotDom = $(descriptionContainer[0]).find('img');
   const imgs:string[] = [];
   if (extraScreenshotDom) {
-    extraScreenshotDom.each((index, item) => {
-      imgs.push(`[img]${$(item).attr('src')?.trim() ?? ''}[/img]`);
+      extraScreenshotDom.each((index, item) => {
+          if (!/\.svg/.test($(item).attr('src'))) imgs.push(`[img]${$(item).attr('src')?.trim() ?? ''}[/img]`);
     });
   }
   const extraScreenshot = imgs.join('');
@@ -39,7 +39,7 @@ export default async () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.description = descriptionBBCode.replaceAll(/\n\n*/g, '\n').replaceAll(' ', '').trim().replace('[img]https://speedapp.io/img/descr/screens.svg[/img]', '').replaceAll('original.webp]\n[img]','original.webp][img]').replaceAll('original.webp[/img]\n[/url]','mobile.webp[/img][/url]').replaceAll(/\[\/url\]\n*/g,'[/url]');
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(TORRENT_INFO.description);
+  TORRENT_INFO.screenshots = screenshots
   TORRENT_INFO.title = torrentName;
   //TORRENT_INFO.year = MovieName[1];
   TORRENT_INFO.movieName = MovieName;
