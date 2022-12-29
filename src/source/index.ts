@@ -18,6 +18,7 @@ import getEMPInfo from './emp';
 import getBdcInfo from './bdc';
 import getRedInfo from './red';
 import getMTVInfo from './mtv';
+import getSpeedAppInfo from './speedapp';
 
 let getTorrentInfo = ():any => {
   return Promise.resolve();
@@ -60,5 +61,7 @@ if (!CURRENT_SITE_INFO) {
   getTorrentInfo = getRedInfo;
 } else if (CURRENT_SITE_NAME === 'MTV') {
   getTorrentInfo = getMTVInfo;
+} else if (CURRENT_SITE_NAME === 'SpeedApp') {
+  getTorrentInfo = getSpeedAppInfo;
 }
 export default getTorrentInfo;

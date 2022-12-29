@@ -55,6 +55,12 @@ if (CURRENT_SITE_NAME) {
       const torrentId = getUrlParam('torrentid');
       $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
       $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(element);
+    } else if (CURRENT_SITE_NAME === 'SpeedApp') {
+      const div = document.createElement('div');
+      div.setAttribute('class', 'row col-md-12 mt-5');
+      element.setAttribute('class', 'card-body card');
+      div.appendChild(element);
+      target?.parentNode?.insertBefore(div, target);
     } else {
       Array.from(element.childNodes).forEach(node => {
         target?.parentNode?.insertBefore(node, target);

@@ -95,6 +95,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://teamhd.org/details/id*
 // @match        https://hd-space.org/index.php?page=upload
 // @match        https://hd-space.org/index.php?page=torrent-details&id=*
+// @match        https://speedapp.io/browse/*
 
 // @run-at       document-end
 // @grant        GM_addStyle

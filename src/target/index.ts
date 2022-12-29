@@ -144,6 +144,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo.mediaInfo.selector;
       $(selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
+    } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
+      $(currentSiteInfo.bdinfo.selector).val(mediaInfo);
+      info.mediaInfo = "";
     } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) { // HDB只填入mediainfo bdinfo放在简介里
       $(currentSiteInfo.mediaInfo.selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
@@ -255,6 +258,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     }
     const { mediaInfo } = getBDInfoOrMediaInfo(description);
     description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+  }
+  if (CURRENT_SITE_NAME === 'SpeedApp') {
+    description =  description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   }
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
@@ -436,7 +442,6 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     if (imdbId) {
       $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
     }
-    $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
   }
   // 处理Pter
   if (CURRENT_SITE_NAME === 'PTer') {
