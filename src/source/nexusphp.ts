@@ -71,6 +71,7 @@ export default async () => {
     const element = document.createElement('div');
     $(element).html($('#outer td').has('#kdescr').html());
     descriptionBBCode = getFilterBBCode(element);
+    descriptionBBCode = descriptionBBCode.replace("  [url=","\n  [url=").replaceAll("[/img][/url]\n","[/img][/url]")
     const mediainfo = $("div.codemain > pre:contains('Unique ID')");
     if (mediainfo[0]) {
       TORRENT_INFO.mediaInfo = mediainfo.text();
