@@ -282,6 +282,14 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     getTMDBIdByIMDBId(imdbId).then(data => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
+    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+      $("#torrent").bind('change', function () {
+        $(currentSiteInfo.imdb.selector).val(fillIMDBId);
+        getTMDBIdByIMDBId(imdbId).then(data => {
+          $(currentSiteInfo.tmdb.selector).val(data.id);
+        });
+    })
+  }
     if (CURRENT_SITE_NAME.match(/ACM/i)) {
       const { category, videoType } = info;
       // videoType和category交换
