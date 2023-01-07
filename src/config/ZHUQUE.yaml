@@ -6,7 +6,7 @@ asSource: false
 asTarget: true
 seedDomSelector: 'div.layout-container > div > form'
 uploadPath: /torrent/upload
-needDoubanInfo: true
+needDoubanInfo: false
 search: 
   path: /torrent/search
   imdbOptionKey: '4'
@@ -20,19 +20,21 @@ subtitle:
   selector: '#form_item_subtitle'
 description:
   selector: '#form_item_note'
+anonymous: 
+  selector: '#form_item_anonymous'
 imdb:
   selector: ''
 douban:
   selector: 'input#form_item_doubanid'
 screenshots:
-  selector: textarea[name="screenshots"]
+  selector: 'textarea[name="screenshots"]'
 mediaInfo:
   selector: '#form_item_mediainfo'
 tags:
-  chinese_audio: 'label.ant-checkbox-wrapper:contains("国语") > span.ant-checkbox > input'
-  chinese_subtitle: 'label.ant-checkbox-wrapper:contains(中字) > span.ant-checkbox > input'
-  hdr: 'label.ant-checkbox-wrapper:contains("HDR") > span.ant-checkbox > input'
-  dolby_vision: 'label.ant-checkbox-wrapper:contains("DoVi") > span.ant-checkbox > input'
+  chinese_audio: 'input.ant-checkbox-input[value="603"]'
+  chinese_subtitle: 'input.ant-checkbox-input[value="604"]'
+  hdr: 'input.ant-checkbox-input[value="612"]'
+  dolby_vision: 'input.ant-checkbox-input[value="611"]'
 category:
   selector: 'span.ant-select-selection-search:has(#form_item_category) + span'
 videoType:
