@@ -25,9 +25,9 @@ anonymous:
 imdb:
   selector: ''
 douban:
-  selector: 'input#form_item_doubanid'
+  selector: '#form_item_doubanid'
 screenshots:
-  selector: 'textarea[name="screenshots"]'
+  selector: '#form_item_screenshot'
 mediaInfo:
   selector: '#form_item_mediainfo'
 tags:
