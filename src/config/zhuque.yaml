@@ -15,9 +15,11 @@ search:
     search_area: '{optionKey}'
     search: '{imdb}'
 name:
-  selector: '#name'
+  selector: '#form_item_title'
+subtitle:
+  selector: '#form_item_subtitle'
 description:
-  selector: '#torrentDescription_releaseInfo'
+  selector: '#form_item_note'
 imdb:
   selector: ''
 douban:
@@ -26,3 +28,16 @@ screenshots:
   selector: textarea[name="screenshots"]
 mediaInfo:
   selector: '#form_item_mediainfo'
+tags:
+  chinese_audio: 'label.ant-checkbox-wrapper:contains("国语") > span.ant-checkbox > input'
+  chinese_subtitle: 'label.ant-checkbox-wrapper:contains(中字) > span.ant-checkbox > input'
+  hdr: 'label.ant-checkbox-wrapper:contains("HDR") > span.ant-checkbox > input'
+  dolby_vision: 'label.ant-checkbox-wrapper:contains("DoVi") > span.ant-checkbox > input'
+category:
+  selector: 'span.ant-select-selection-search:has(#form_item_category) + span'
+videoType:
+  selector: 'span.ant-select-selection-search:has(#rc_select_9) + span'
+videoCodec:
+  selector: 'span.ant-select-selection-search:has(#rc_select_10) + span'
+resolution:
+  selector: 'span.ant-select-selection-search:has(#rc_select_12) + span'
