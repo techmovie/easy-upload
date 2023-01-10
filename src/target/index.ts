@@ -203,16 +203,14 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
     info.screenshots.forEach(img => {
       const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
-      if (description.match(regStr)) {
-        if(!/\[url\=/.test(description)){
+      if (!/\[url=/.test(description)) {
+        if (description.match(regStr)) {
           description = description.replace(regStr, (p1, p2) => {
             return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
           });
-        } else {
-          description = description.replace(regStr, (p1, p2) => {
-            return `[img=350x350]${p2}[/img]`;
-          });
         }
+      } else {
+        description = description.replaceAll('[img]', '[img=350x350]');
       }
     });
   }
