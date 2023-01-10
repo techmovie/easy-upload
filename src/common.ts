@@ -754,7 +754,7 @@ const getTMDBIdByIMDBId = async (imdbid: string) => {
     const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
     const data = await fetch(url);
     const isMovie = data.movie_results && data.movie_results.length > 0;
-    const isTV = !data.tv_results && data.tv_results.length > 0;
+    const isTV = data.tv_results && data.tv_results.length > 0;
     if (!isMovie && !isTV) {
       throw $t('请求失败');
     }
