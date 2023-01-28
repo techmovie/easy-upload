@@ -13,6 +13,7 @@ export default (info:TorrentInfo.Info) => {
   $(currentSiteInfo.name.selector).val(info.title);
   $(currentSiteInfo.name.selector)[0].dispatchEvent(i_evt);
   $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)[1]);
+  $(currentSiteInfo.douban.selector)[0].dispatchEvent(i_evt);
   let screenshotStr = '';
   if (info.screenshots.length > 0) {
     info.screenshots.forEach(img => {
@@ -21,6 +22,7 @@ export default (info:TorrentInfo.Info) => {
   }
 
   $(currentSiteInfo.screenshots.selector).val(screenshotStr);
+  $(currentSiteInfo.screenshots.selector)[0].dispatchEvent(i_evt);
   fillMediaInfo(info);
   fillDescription(info);
   if (info.videoType === 'tvPack') {
@@ -29,6 +31,7 @@ export default (info:TorrentInfo.Info) => {
 };
 function fillMediaInfo (info:TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
+  $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(i_evt);
 }
 
 function fillDescription (info:TorrentInfo.Info) {
