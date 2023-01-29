@@ -3,7 +3,7 @@ import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getBDInfoOrMediaInfo,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker,
+  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker,buildPTPDescription,
 } from './common';
 
 import handleIts from './its';
@@ -205,18 +205,19 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
 
   // Blutopia可以通过设置为显示缩略图
   if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
-    info.screenshots.forEach(img => {
-      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
-      if (!/\[url=/.test(description)) {
+    if (info.sourceSite === 'PTP') {
+      description = buildPTPDescription(info);
+    } 
+    if (info.screenshots.length > 0) {
+      info.screenshots.forEach(img => {
+        const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](\n*)?`);
         if (description.match(regStr)) {
           description = description.replace(regStr, (p1, p2) => {
             return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
           });
         }
-      } else {
-        description = description.replaceAll('[img]', '[img=350x350]');
-      }
-    });
+      });
+    }
   }
 
   if (CURRENT_SITE_NAME === 'HaresClub') {

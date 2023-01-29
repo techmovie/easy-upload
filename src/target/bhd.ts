@@ -114,7 +114,7 @@ function selectTag (info:TorrentInfo.Info) {
 }
 
 function fillDescription (info:TorrentInfo.Info) {
-  let description = '';
+  let description = info.description;
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
