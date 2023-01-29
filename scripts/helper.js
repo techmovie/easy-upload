@@ -98,7 +98,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://speedapp.io/browse/*
 // @match        https://zhuque.in/torrent/upload
 
-// @run-at       document-end
+// @run-at       document-idle
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
