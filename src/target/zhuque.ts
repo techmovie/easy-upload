@@ -6,12 +6,12 @@ import {
 
 const currentSiteInfo = PT_SITE.ZHUQUE;
 
-export default (info:TorrentInfo.Info) => {
+export default (info: TorrentInfo.Info) => {
   const i_evt = new Event('input');
-  $('#form_item_subtitle').val(info.subtitle)
-  $('#form_item_subtitle')[0].dispatchEvent(i_evt);
   $(currentSiteInfo.name.selector).val(info.title);
   $(currentSiteInfo.name.selector)[0].dispatchEvent(i_evt);
+  $(currentSiteInfo.subtitle.selector).val(info.subtitle)
+  $(currentSiteInfo.subtitle.selector)[0].dispatchEvent(i_evt);
   $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)[1]);
   $(currentSiteInfo.douban.selector)[0].dispatchEvent(i_evt);
   let screenshotStr = '';
@@ -20,21 +20,15 @@ export default (info:TorrentInfo.Info) => {
       screenshotStr += `${img}\n`;
     });
   }
-
   $(currentSiteInfo.screenshots.selector).val(screenshotStr);
-  $(currentSiteInfo.screenshots.selector)[0].dispatchEvent(i_evt);
   fillMediaInfo(info);
   fillDescription(info);
-  if (info.videoType === 'tvPack') {
-    $('input[name="pack"]').attr('checked', 'true');
-  }
 };
-function fillMediaInfo (info:TorrentInfo.Info) {
+function fillMediaInfo(info: TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
-  $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(i_evt);
 }
 
-function fillDescription (info:TorrentInfo.Info) {
+function fillDescription(info: TorrentInfo.Info) {
   let description = '';
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
@@ -47,7 +41,7 @@ function fillDescription (info:TorrentInfo.Info) {
   $(currentSiteInfo.description.selector).val(description);
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
 }
-function buildDescription (info:TorrentInfo.Info) {
+function buildDescription(info: TorrentInfo.Info) {
   let description = '';
   const { comparisons, screenshots } = info;
   if (comparisons && comparisons.length > 0) {

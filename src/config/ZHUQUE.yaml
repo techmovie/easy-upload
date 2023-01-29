@@ -37,6 +37,12 @@ tags:
   dolby_vision: 'input.ant-checkbox-input[value="611"]'
 category:
   selector: 'span.ant-select-selection-search:has(#form_item_category) + span'
+  map:
+    movie: '0'
+    tv: '1'
+    anime: '2'
+    show: '3'
+    other: '4'
 videoType:
   selector: 'span.ant-select-selection-search:has(#rc_select_9) + span'
 videoCodec:
