@@ -200,7 +200,7 @@ const formatDescriptionData = (data:string, screenshots:string[], mediaInfoArray
   TORRENT_INFO.comparisons = comparisons;
   descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, '\n[b]$1 Comparison:[/b]\n').replace(/\[\/comparison\]/ig, '');
   mediaInfoArray.forEach(mediaInfo => {
-    const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo).replace('\"','\\"').slice(0, 10000)}`, 'i');
+    const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo).replaceAll(/"/g,'\\"').slice(0, 10000)}`, 'i');
     if (!descriptionData.match(regStr)) {
       descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
     }
