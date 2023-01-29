@@ -291,6 +291,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
     if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+      $("#automal").val(0);
       $("#torrent").bind('change', function () {
         $(currentSiteInfo.imdb.selector).val(fillIMDBId);
         getTMDBIdByIMDBId(imdbId).then(data => {
