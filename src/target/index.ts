@@ -300,7 +300,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
         });
     })
   }
-    if (CURRENT_SITE_NAME.match(/ACM/i)) {
+    if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
       const { category, videoType } = info;
       // videoType和category交换
       info.category = videoType;

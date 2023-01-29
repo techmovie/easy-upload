@@ -26,4 +26,26 @@ mediaInfo:
   selector: '#mediainfo'
 anonymous: 
   selector: 'input[name="anonymous"]'
-
+category: 
+  selector: 'select[name="type_id"]'
+  map:
+    BD100: '1'
+    BD66: '2'
+    UHD50: '3'
+    BD50: '4'
+    BD25: '5'
+    remux:
+      - '12'
+      - '7'
+    encode:
+      - '8'
+      - '10'
+      - '11'
+      - '13'
+    web: '9'
+    hdtv: '17'
+    dvd:
+      - '14'
+      - '16'
+    dvdrip: '13'
+    other: '' 
