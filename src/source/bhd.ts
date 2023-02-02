@@ -92,7 +92,7 @@ const getMovieDetails = () => {
     countries: '',
     imdbUrl: '',
   };
-  movieDetail.imdbUrl = $('span.badge-meta[title*="IMDb"] > a').attr('href');
+  movieDetail.imdbUrl = $('span.badge-meta[title*="IMDb"] > a').attr('href') || '';
   infoList.each((index, element) => {
     const urlParams = $(element).attr('href')?.replace(/.+\//g, '').split('=') ?? '';
     if (urlParams.length > 1) {

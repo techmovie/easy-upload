@@ -145,30 +145,30 @@ const Container = () => {
           </div>
         </div>
       </>
-      }
-      {
-          CURRENT_SITE_NAME === 'SpeedApp' &&
+    }
+    {
+      CURRENT_SITE_NAME === 'SpeedApp' &&
           <>
-              <div className="custom-site">
-                  <Title />
-                  <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-                      <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
-                          <UploadSiteList />
-                      </div>
-                  </div>
+            <div className="custom-site">
+              <Title />
+              <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
+                <div id='seed-dom' className={!USE_CHINESE ? 'use-eng' : ''}>
+                  <UploadSiteList />
+                </div>
               </div>
-              <div className="custom-site">
-                  <h4>{$t('快捷操作')}</h4>
-                  <FunctionList />
+            </div>
+            <div className="custom-site">
+              <h4>{$t('快捷操作')}</h4>
+              <FunctionList />
+            </div>
+            <div className="custom-site">
+              <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+              <div>
+                <SearchList />
               </div>
-              <div className="custom-site">
-                  <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-                  <div>
-                      <SearchList />
-                  </div>
-              </div>
+            </div>
           </>
-      }
+    }
     {
       CURRENT_SITE_NAME === 'Bdc' && <>
         <tr>
