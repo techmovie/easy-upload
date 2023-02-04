@@ -14,6 +14,10 @@ export default (info: TorrentInfo.Info) => {
   $(currentSiteInfo.subtitle.selector)[0].dispatchEvent(i_evt);
   $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)[1]);
   $(currentSiteInfo.douban.selector)[0].dispatchEvent(i_evt);
+  /* $("div.ant-select-item-option-content:contains('Movie')").click();// 默认先填Movie
+  if (info.videoType === 'encode') {
+    $("div.ant-select-item-option-content:contains('Encode')").click();
+  } */
   let screenshotStr = '';
   if (info.screenshots.length > 0) {
     info.screenshots.forEach(img => {
@@ -21,36 +25,23 @@ export default (info: TorrentInfo.Info) => {
     });
   }
   $(currentSiteInfo.screenshots.selector).val(screenshotStr);
+  $(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event('input'));
   fillMediaInfo(info);
   fillDescription(info);
 };
-function fillMediaInfo(info: TorrentInfo.Info) {
+function fillMediaInfo (info: TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
+  $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event('input'));
 }
 
-function fillDescription(info: TorrentInfo.Info) {
-  let description = '';
+function fillDescription (info: TorrentInfo.Info) {
+  let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '');
+  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
-  } else {
-    // description = buildDescription(info);
   }
-
   $(currentSiteInfo.description.selector).val(description);
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
-}
-function buildDescription(info: TorrentInfo.Info) {
-  let description = '';
-  const { comparisons, screenshots } = info;
-  if (comparisons && comparisons.length > 0) {
-    for (const comparison of comparisons) {
-      description += `\n${comparison.reason}[comparison=${comparison.title}]\n${comparison.imgs.join('\n')}\n[/comparison]\n\n`;
-    }
-  }
-  if (screenshots.length > 0) {
-    description += `${screenshots.map(v => `[img]${v}[/img]`).join('\n')}\n\n`;
-  }
-  return description.trim();
 }

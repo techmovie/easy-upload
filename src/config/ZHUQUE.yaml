@@ -36,16 +36,17 @@ tags:
   hdr: 'input.ant-checkbox-input[value="612"]'
   dolby_vision: 'input.ant-checkbox-input[value="611"]'
 category:
-  selector: 'span.ant-select-selection-search:has(#form_item_category) + span'
+  selector: '#form_item_category'
   map:
-    movie: '0'
-    tv: '1'
-    anime: '2'
-    show: '3'
-    other: '4'
+    movie: 'Movie'
+    tv: 'Series'
+    cartoon: 'Anime'
+    concert: 'Show'
+    documentary: 'Other'
+    variety: 'Other'
 videoType:
-  selector: 'span.ant-select-selection-search:has(#rc_select_9) + span'
+  selector: '#rc_select_9'
 videoCodec:
-  selector: 'span.ant-select-selection-search:has(#rc_select_10) + span'
+  selector: '#rc_select_10'
 resolution:
-  selector: 'span.ant-select-selection-search:has(#rc_select_12) + span'
+  selector: '#rc_select_12'
