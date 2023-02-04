@@ -18,6 +18,15 @@ export default (info: TorrentInfo.Info) => {
   if (info.videoType === 'encode') {
     $("div.ant-select-item-option-content:contains('Encode')").click();
   } */
+
+  if (currentSiteInfo.tags) { // 加载顺序导致问题
+    Object.keys(info.tags).forEach(key => {
+      if (info.tags[key] && currentSiteInfo.tags[key]) {
+        $(currentSiteInfo.tags[key]).parent().parent().click();
+      }
+    });
+  }
+
   let screenshotStr = '';
   if (info.screenshots.length > 0) {
     info.screenshots.forEach(img => {
@@ -29,12 +38,12 @@ export default (info: TorrentInfo.Info) => {
   fillMediaInfo(info);
   fillDescription(info);
 };
-function fillMediaInfo (info: TorrentInfo.Info) {
+function fillMediaInfo(info: TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
   $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event('input'));
 }
 
-function fillDescription (info: TorrentInfo.Info) {
+function fillDescription(info: TorrentInfo.Info) {
   let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '');
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   if (info.sourceSite === 'PTP') {
