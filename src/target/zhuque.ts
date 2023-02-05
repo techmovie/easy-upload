@@ -40,14 +40,23 @@ export default (info: TorrentInfo.Info) => {
     const selectNodeParent = document.querySelector('form');
     const select = new MutationObserver(mutationRecords => {
       console.log(mutationRecords);
-      $("div.ant-select-item-option-content:contains('Movie')").click();// 默认先填Movie
-      const videoType = info.videoType.charAt(0).toUpperCase() + info.videoType.slice(1);
-      $(`div.ant-select-item-option-content:contains(${videoType})`).click();
-      $(`div.ant-select-item-option-content:contains(${info.videoCodec})`).click();
-      if (info.audioCodec) {
-        const audioCodec = info.audioCodec.toUpperCase();
-        $(`div.ant-select-item-option-content:contains(${audioCodec})`).click();
-      }
+      const { category: categoryConfig } = currentSiteInfo;
+      $(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category as keyof typeof categoryConfig.map]})`).click();// 默认先填Movie
+      const keyArray = ['videoType', 'videoCodec', 'audioCodec'] as const;
+      keyArray.forEach(key => {
+        const { map } = currentSiteInfo[key as Key];
+        if (map) {
+          const mapValue = map[info[key as Key] as keyof typeof map];
+          $(`div.ant-select-item-option-content:contains(${mapValue})`).click();
+        }
+      });
+      // const videoType = info.videoType.charAt(0).toUpperCase() + info.videoType.slice(1);
+      // $(`div.ant-select-item-option-content:contains(${videoType})`).click();
+      // $(`div.ant-select-item-option-content:contains(${info.videoCodec})`).click();
+      // if (info.audioCodec) {
+        //const audioCodec = info.audioCodec.toUpperCase();
+        //$(`div.ant-select-item-option-content:contains(${audioCodec})`).click();
+      //}
       $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
       select.disconnect();
     });

@@ -40,13 +40,47 @@ category:
   map:
     movie: 'Movie'
     tv: 'Series'
+    tvPack: 'Series'
     cartoon: 'Anime'
     concert: 'Show'
     documentary: 'Other'
     variety: 'Other'
 videoType:
   selector: '#rc_select_9'
+  map:
+    uhdbluray: 'UHD Blu-ray'
+    bluray: 'Blu-ray'
+    hdtv: 'HDTV'
+    web: 'WEB-DL'
+    webrip: 'Encode'
+    encode: 'Encode'
 videoCodec:
   selector: '#rc_select_10'
+  map:
+    h264: 'H.264'
+    hevc: 'H.265'
+    x264: 'x264'
+    x265: 'x265'
+    h265: 'H.265'
+    mpeg2: 'Other'
+    mpeg4: 'H.264'
+    vc1: 'Other'
+    xvid: 'Other'
+    dvd: 'Other'
+audioCodec:
+  selector: '#rc_select_3'
+  map:
+    aac: 'AAC'
+    ac3: 'AC-3'
+    dd: 'AC-3'
+    dd+: 'DDP'
+    dts: 'DTS'
+    truehd: 'True-HD'
+    lpcm: 'PCM'
+    flac: 'FLAC'
+    dtshdma: 'DTS-HD'
+    atmos: 'Dolby Atmos'
+    dtsx: 'DTS:X'
+    mp3: 'Other'
 resolution:
   selector: '#rc_select_12'
