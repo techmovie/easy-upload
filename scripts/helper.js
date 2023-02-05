@@ -70,6 +70,9 @@ const userScriptComment = `// ==UserScript==
 // @match        https://blutopia.xyz/torrents/*
 // @match        https://blutopia.xyz/torrents?*
 // @match        https://blutopia.xyz/upload/*
+// @match        https://blutopia.cc/torrents/*
+// @match        https://blutopia.cc/torrents?*
+// @match        https://blutopia.cc/upload/*
 // @match        https://pt.hdpost.top/torrents?*
 // @match        https://pt.hdpost.top/torrents/*
 // @match        https://asiancinema.me/torrents/*

@@ -109,7 +109,7 @@ const getBasicInfo = () => {
       }
     });
   } else {
-    const formats = $('.torrent-format .text-info');
+    const formats = $('.torrent-format span.torrent-category.text-info,.torrent-format span.torrent-resolution.text-info,.torrent-format span.torrent-type.text-info,.torrent-format span.torrent-size.text-info');
     formats.each((index, item) => {
       type keyIndex = Pick<typeof keyMap, 0|1|2|3>
       basicInfo[keyMap[index as keyof keyIndex] as keyof BasicInfo] = $(item).text().trim();

@@ -3,7 +3,7 @@ import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getBDInfoOrMediaInfo,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker,
+  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker,buildPTPDescription,
 } from './common';
 
 import handleIts from './its';
@@ -138,7 +138,11 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       }
     }
   }
-
+  if (CURRENT_SITE_NAME === 'Concertos') {
+    $('#add').click();
+    $('.sceditor-button.sceditor-button-source.has-icon')[0].click();
+    description = description.replace(mediaInfo.trim(), '');
+  }
   if (currentSiteInfo.mediaInfo) {
     if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
       const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo.mediaInfo.selector;
@@ -200,15 +204,20 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
 
   // Blutopia可以通过设置为显示缩略图
-  if (CURRENT_SITE_NAME.match(/Blutopia/)) {
-    info.screenshots.forEach(img => {
-      const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\]`);
-      if (description.match(regStr)) {
-        description = description.replace(regStr, (p1, p2) => {
-          return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
-        });
-      }
-    });
+  if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+    if (info.sourceSite === 'PTP') {
+      description = buildPTPDescription(info);
+    } 
+    if (info.screenshots.length > 0) {
+      info.screenshots.forEach(img => {
+        const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](\n*)?`);
+        if (description.match(regStr)) {
+          description = description.replace(regStr, (p1, p2) => {
+            return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
+          });
+        }
+      });
+    }
   }
 
   if (CURRENT_SITE_NAME === 'HaresClub') {
@@ -276,13 +285,22 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
   $(currentSiteInfo.description.selector).val(description);
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos/)) {
     const fillIMDBId = currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(currentSiteInfo.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(data => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
-    if (CURRENT_SITE_NAME.match(/ACM/i)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+      $("#torrent").bind('change', function () {
+        $(currentSiteInfo.imdb.selector).val(fillIMDBId);
+        getTMDBIdByIMDBId(imdbId).then(data => {
+          $(currentSiteInfo.tmdb.selector).val(data.id);
+          $("#automal").val(0);
+        });
+    })
+  }
+    if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
       const { category, videoType } = info;
       // videoType和category交换
       info.category = videoType;

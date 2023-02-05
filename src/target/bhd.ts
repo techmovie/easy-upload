@@ -25,6 +25,32 @@ export default (info:TorrentInfo.Info) => {
   if (info.videoType === 'tvPack') {
     $('input[name="pack"]').attr('checked', 'true');
   }
+  $("#torrent").bind('change', function () {
+      let title = info.title;
+      if (info.videoType === 'dvd') {
+          title = buildDVDTitle(info);
+      }
+      $(currentSiteInfo.name.selector).val(title);
+ 
+      const categoryMap = currentSiteInfo.category.map;
+      const categoryValueArr = categoryMap[info.category as keyof typeof categoryMap];
+      const keyArray = ['resolution'];
+      let finalSelectArray: string[] = [];
+      type SelectKey = 'resolution'
+      if (Array.isArray(categoryValueArr)) {
+          finalSelectArray = [...categoryValueArr];
+          keyArray.forEach(key => {
+              finalSelectArray = matchSelectForm(currentSiteInfo as unknown as Site.SiteInfo, info, key as SelectKey, finalSelectArray);
+              if (finalSelectArray.length === 1) {
+                  $(currentSiteInfo.category.selector).val(finalSelectArray[0]);
+              }
+          });
+      } else {
+          [...keyArray, 'category'].forEach(key => {
+              matchSelectForm(currentSiteInfo as unknown as Site.SiteInfo, info, key as SelectKey, finalSelectArray);
+          });
+      }
+  });
 };
 function fillTMDBId (info:TorrentInfo.Info) {
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
@@ -88,7 +114,7 @@ function selectTag (info:TorrentInfo.Info) {
 }
 
 function fillDescription (info:TorrentInfo.Info) {
-  let description = '';
+  let description = info.description;
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {

@@ -652,7 +652,7 @@ const getOriginalImgUrl = async (urlBBcode:string) => {
     } else if (imgUrl.match(/beyondhd\.co/)) {
       imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
       imgUrl = imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, '.$2');
-    } else if (!imgUrl.match(/\.(jpg|png|gif|bmp)$/)) {
+    } else if (!imgUrl.match(/\.(jpg|png|gif|bmp|webp)$/)) {
       imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
     } else if (urlBBcode.match(/https:\/\/pixhost\.to/)) {
       const hostNumber = urlBBcode.match(/img\]https:\/\/t(\d+)\./)?.[1];
