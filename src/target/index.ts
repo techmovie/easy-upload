@@ -20,6 +20,7 @@ import handleSC from './sc';
 import handleKG from './kg';
 import handleBHD from './bhd';
 import handleBdc from './bdc';
+import handleZQ from './zhuque';
 import autoFill from './autofill';
 
 type SelectKey = 'videoCodec'|'videoType'|'resolution'|'source'|'area'
@@ -61,9 +62,12 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
     handleBHD(info);
     return;
   }
-
   if (CURRENT_SITE_NAME === 'Bdc') {
     handleBdc(info);
+    return;
+  }
+  if (CURRENT_SITE_NAME === 'ZHUQUE') {
+    handleZQ(info);
     return;
   }
 
@@ -124,7 +128,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (info.description) {
     // 去简介前的空格和换行
     description = info.description.replace(/^(\s+)/g, '');
-    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD') {
+    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD' && CURRENT_SITE_NAME !== 'ZHUQUE') {
       // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
       if (doubanInfo) {

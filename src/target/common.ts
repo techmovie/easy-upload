@@ -109,7 +109,7 @@ function buildPTPDescription (info:TorrentInfo.Info) {
 }
 // 是否为国内站点
 const isChineseTacker = (siteType:string) => {
-  return siteType.match(/NexusPHP|TTG/);
+  return siteType.match(/NexusPHP|TTG|TNode/);
 };
 const filterNexusDescription = (info:TorrentInfo.Info) => {
   const { description } = info;
