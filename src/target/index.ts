@@ -3,7 +3,7 @@ import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl, getBDInfoOrMediaInfo,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker,buildPTPDescription,
+  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription,
 } from './common';
 
 import handleIts from './its';
@@ -207,7 +207,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
     if (info.sourceSite === 'PTP') {
       description = buildPTPDescription(info);
-    } 
+    }
     if (info.screenshots.length > 0) {
       info.screenshots.forEach(img => {
         const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](\n*)?`);
@@ -292,14 +292,14 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
     if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
-      $("#torrent").bind('change', function () {
+      $('#torrent').on('change', () => {
         $(currentSiteInfo.imdb.selector).val(fillIMDBId);
         getTMDBIdByIMDBId(imdbId).then(data => {
           $(currentSiteInfo.tmdb.selector).val(data.id);
-          $("#automal").val(0);
+          $('#automal').val(0);
         });
-    })
-  }
+      });
+    }
     if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
       const { category, videoType } = info;
       // videoType和category交换
