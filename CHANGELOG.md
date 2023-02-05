@@ -1,3 +1,21 @@
+## [3.2.14](https://github.com/techmovie/easy-upload/compare/3.2.13...3.2.14) (2023-02-05)
+
+
+### Bug Fixes
+
+* **bhd:** get imdb url ([#210](https://github.com/techmovie/easy-upload/issues/210)) ([38178b7](https://github.com/techmovie/easy-upload/commit/38178b75a33b79904a3742450d7895f8eff9d543))
+* format files ([fcfa177](https://github.com/techmovie/easy-upload/commit/fcfa177c2526594e3e08e4c3e4da7e12cea55a6f))
+* **frds:** comparisonto np ([#213](https://github.com/techmovie/easy-upload/issues/213)) ([1db6d2c](https://github.com/techmovie/easy-upload/commit/1db6d2c934001d80c2962a7030d8d7337b92c235))
+* **unit3d:** get tmdb id by imdbid ([19f89f1](https://github.com/techmovie/easy-upload/commit/19f89f15035b379f575963cac399b7c62f2e6102)), closes [#216](https://github.com/techmovie/easy-upload/issues/216)
+
+
+### Features
+
+* **speedapp:** support ([#191](https://github.com/techmovie/easy-upload/issues/191)) ([954b1c5](https://github.com/techmovie/easy-upload/commit/954b1c595fe55f886eb5f8be3410fbfd6dfbf063))
+* update u3d ([419d5b6](https://github.com/techmovie/easy-upload/commit/419d5b6c048abaa5b2ff441b612ec9c9fd724e73))
+
+
+
 ## [3.2.13](https://github.com/techmovie/easy-upload/compare/3.2.12...3.2.13) (2022-11-21)
 
 
