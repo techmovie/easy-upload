@@ -20,11 +20,6 @@ export default (info: TorrentInfo.Info) => {
       $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)[1]);
       $(currentSiteInfo.douban.selector)[0].dispatchEvent(new Event('input'));
     }
-
-    $("div.ant-select-item-option-content:contains('Movie')").click();// 默认先填Movie
-    if (info.videoType === 'encode') {
-      $("div.ant-select-item-option-content:contains('Encode')").click();
-    }
     let screenshotStr = '';
     if (info.screenshots.length > 0) {
       info.screenshots.forEach(img => {
@@ -43,18 +38,29 @@ export default (info: TorrentInfo.Info) => {
       });
     }
     const selectNodeParent = document.querySelector('form');
-    const select = new MutationObserver(mutationRecords => { console.log(mutationRecords); });
+    const select = new MutationObserver(mutationRecords => {
+      console.log(mutationRecords);
+      $("div.ant-select-item-option-content:contains('Movie')").click();// 默认先填Movie
+      const videoType = info.videoType.charAt(0).toUpperCase() + info.videoType.slice(1);
+      $(`div.ant-select-item-option-content:contains(${videoType})`).click();
+      $(`div.ant-select-item-option-content:contains(${info.videoCodec})`).click();
+      if (info.audioCodec) {
+        const audioCodec = info.audioCodec.toUpperCase();
+        $(`div.ant-select-item-option-content:contains(${audioCodec})`).click();
+      }
+      $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
+      select.disconnect();
+    });
     select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false });
     insert.disconnect();
   });
   insert.observe(targetNode, { attributes: false, childList: false, subtree: true, characterDataOldValue: false });
-
 };
-function fillMediaInfo (info: TorrentInfo.Info) {
+function fillMediaInfo(info: TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
   $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event('input'));
 }
-function fillDescription (info: TorrentInfo.Info) {
+function fillDescription(info: TorrentInfo.Info) {
   let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '');
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   if (info.sourceSite === 'PTP') {
