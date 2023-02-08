@@ -64,7 +64,8 @@ function fillMediaInfo(info: TorrentInfo.Info) {
 }
 function fillDescription(info: TorrentInfo.Info) {
   let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '');
-  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+  description = description.replaceAll(/\[\/?quote\]/g,'\n```\n');// Markdown显示，由于BBcode转Markdown比较复杂，所以先让用户自己调整显示效果。或者弄个html2markdown会比较好，目前找到的bbcode2markdown也是先render再转，试了个在线转换结果很烂
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
@@ -72,7 +73,7 @@ function fillDescription(info: TorrentInfo.Info) {
   }
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
-    description = `转自 ${info.sourceSite} ，感谢原发布者！\n\n` + description.trim();
+    description = `\`\`\`\n转自 ${info.sourceSite} ，感谢原发布者！\n\`\`\`\n` + description.trim();
   }
   $(currentSiteInfo.description.selector).val(description);
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
