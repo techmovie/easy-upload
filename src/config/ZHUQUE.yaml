@@ -50,6 +50,7 @@ videoType:
   map:
     uhdbluray: 'UHD Blu-ray'
     bluray: 'Blu-ray'
+    remux: 'Remux'
     hdtv: 'HDTV'
     web: 'WEB-DL'
     webrip: 'Encode'
