@@ -70,6 +70,11 @@ function fillDescription(info: TorrentInfo.Info) {
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
   }
+  const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
+  if (!thanksQuoteClosed && info.sourceSite !== undefined) {
+    description = `转自 ${info.sourceSite} ，感谢原发布者！\n\n` + description.trim();
+  }
   $(currentSiteInfo.description.selector).val(description);
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
 }
+
