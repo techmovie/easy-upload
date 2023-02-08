@@ -47,16 +47,9 @@ export default (info: TorrentInfo.Info) => {
         const { map } = currentSiteInfo[key as Key];
         if (map) {
           const mapValue = map[info[key as Key] as keyof typeof map];
-          $(`div.ant-select-item-option-content:contains(${mapValue})`).click();
+          $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
         }
       });
-      // const videoType = info.videoType.charAt(0).toUpperCase() + info.videoType.slice(1);
-      // $(`div.ant-select-item-option-content:contains(${videoType})`).click();
-      // $(`div.ant-select-item-option-content:contains(${info.videoCodec})`).click();
-      // if (info.audioCodec) {
-        //const audioCodec = info.audioCodec.toUpperCase();
-        //$(`div.ant-select-item-option-content:contains(${audioCodec})`).click();
-      //}
       $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
       select.disconnect();
     });
