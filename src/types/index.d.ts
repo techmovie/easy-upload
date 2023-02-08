@@ -80,6 +80,7 @@ declare namespace Site {
     douban: Selector
     area: SelectorMap
     mediaInfo: Selector
+    bdinfo: Selector
     screenshots: Selector
     tmdb: Selector
     poster: string
