@@ -228,6 +228,10 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
         }
       });
     }
+    // 对于一些即便是缩略图也比较大的图床,可以通过‘||’增加匹配
+    if (description.match(/mobile\.webp\[\/img/gi)){
+      description = description.replaceAll('[img]','[img=350x350]')
+    }
   }
 
   if (CURRENT_SITE_NAME === 'HaresClub') {
