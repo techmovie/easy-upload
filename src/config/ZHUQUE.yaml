@@ -33,7 +33,7 @@ mediaInfo:
 tags:
   chinese_audio: 'input.ant-checkbox-input[value="603"]'
   chinese_subtitle: 'input.ant-checkbox-input[value="604"]'
-  hdr: 'input.ant-checkbox-input[value="612"]'
+  hdr: 'input.ant-checkbox-input[value="613"]'
   dolby_vision: 'input.ant-checkbox-input[value="611"]'
 category:
   selector: '#form_item_category'
