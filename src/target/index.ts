@@ -229,8 +229,8 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
       });
     }
     // 对于一些即便是缩略图也比较大的图床,可以通过‘||’增加匹配
-    if (description.match(/mobile\.webp\[\/img/gi)){
-      description = description.replaceAll('[img]','[img=350x350]')
+    if (description.match(/mobile\.webp\[\/img/gi)) {
+      description = description.replaceAll('[img]', '[img=350x350]');
     }
   }
 
@@ -614,7 +614,7 @@ const filterEmptyTags = (description: string): string => {
   }
   return description;
 };
-function getChineseName(info: TorrentInfo.Info) {
+function getChineseName (info: TorrentInfo.Info) {
   const { description } = info;
   const originalName = description.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
   const translateName = description.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
