@@ -1130,7 +1130,8 @@ const htmlToBBCode = (node:Element) => {
             break;
           } else if (CURRENT_SITE_NAME === 'BeyondHD') {
             if (className === 'spoilerChild') {
-              pp('\n[quote]', '[/quote]');
+              if (node.children[0].tagName.toUpperCase() === 'BLOCKQUOTE' || node.children[0].tagName.toUpperCase() === 'PRE')pp('\n', '');
+              else pp('\n[quote]', '[/quote]');
             } else if (id === 'screenMain') {
               return '\n';
             } else if (className === 'spoilerHide') {
