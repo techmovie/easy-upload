@@ -91,7 +91,7 @@ const UploadSiteList = () => {
         tv: '2',
         tvPack: '2',
         documentary: '1',
-        concert: '3',
+        concert: '1',
         sport: '9',
         cartoon: '405',
         app: '10',
