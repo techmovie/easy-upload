@@ -71,10 +71,11 @@ function fillDescription (info: TorrentInfo.Info) {
     description = description.replace(/Screenshots:\n/gi, '').trim(); // BHDinternal组会写
   }
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
-  description = `\`\`\`\n${description.trim()}\n\`\`\``; // quote everything
+  description = description.trim();
+  if (description !== '') description = `\`\`\`\n${description}\n\`\`\``; // quote everything
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
-    description = `\`\`\`\n转自 ${info.sourceSite} ，感谢原发布者！\n\`\`\`\n${description.trim()}`;
+    description = `\`\`\`\n转自 ${info.sourceSite} ，感谢原发布者！\n\`\`\`\n${description}`;
   }
   $(currentSiteInfo.description.selector).val(description);
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
