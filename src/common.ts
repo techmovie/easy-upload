@@ -1116,8 +1116,7 @@ const htmlToBBCode = (node:Element) => {
               pp('');
               break;
             } else {
-              node.innerHTML = node.innerHTML.replace(/&nbsp;/g, ' ');
-              return `\n[quote]${node.textContent}[/quote]`;
+              return '';
             }
           } else if (className === 'hidden' && CURRENT_SITE_NAME === 'HDT') {
             pp('\n[quote]', '[/quote]'); break;
