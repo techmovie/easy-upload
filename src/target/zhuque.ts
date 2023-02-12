@@ -73,7 +73,7 @@ function fillDescription (info: TorrentInfo.Info) {
     description = info.originalDescription || '';
     description = description.replace(/Screenshots:\n/gi, '').trim(); // BHDinternal组会写
   }
-  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)\=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   description = description.trim();
   if (description !== '') description = `\`\`\`\n${description}\n\`\`\``; // quote everything
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
