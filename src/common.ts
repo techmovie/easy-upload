@@ -620,7 +620,7 @@ const getScreenshotsFromBBCode = async (bbcode: string) => {
     const result = [];
     for (const img of allImages) {
       const originalUrl = await getOriginalImgUrl(img);
-      result.push(originalUrl);
+      if (originalUrl !== undefined) { result.push(originalUrl); }
     }
     return result;
   }
