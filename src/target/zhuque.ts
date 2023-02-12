@@ -32,7 +32,6 @@ export default (info: TorrentInfo.Info) => {
     fillDescription(info);
     const selectNodeParent = document.querySelector('form');
     const select = new MutationObserver(async mutationRecords => {
-      console.log(mutationRecords);
       const { category: categoryConfig } = currentSiteInfo;
       $(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category as keyof typeof categoryConfig.map]})`).click();
       const keyArray = ['videoType', 'videoCodec', 'audioCodec'] as const;
@@ -41,7 +40,11 @@ export default (info: TorrentInfo.Info) => {
         const { map } = currentSiteInfo[key as Key];
         if (map) {
           const mapValue = map[info[key as Key] as keyof typeof map];
-          $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+          if (key !== 'videoType') {
+            $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+          } else if (mapValue === 'Blu-ray') {
+            $(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
+          }
         }
       });
       $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
