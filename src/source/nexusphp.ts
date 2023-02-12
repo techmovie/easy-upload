@@ -181,7 +181,10 @@ export default async () => {
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? getSize(size) : 0;
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
+    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]\s截图对比[^\n]*\n[^\n]*/gi, ''));
+  } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const pageTags = getTagsFromPage();
   TORRENT_INFO.tags = {
