@@ -44,7 +44,7 @@ export default (info: TorrentInfo.Info) => {
             $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
           } else if (mapValue === 'Blu-ray') {
             $(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
-          }
+          } else $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
         }
       });
       $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
