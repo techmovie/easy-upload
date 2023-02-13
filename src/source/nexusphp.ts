@@ -75,6 +75,9 @@ export default async () => {
     const mediainfo = $("div.codemain > pre:contains('Unique ID')");
     if (mediainfo[0]) {
       TORRENT_INFO.mediaInfo = mediainfo.text();
+      mediainfo.each(function () {
+        TORRENT_INFO.mediaInfos?.push($(this).text());
+      });
     }
     if (!descriptionBBCode.match('豆瓣评分')) {
       const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ', '');
