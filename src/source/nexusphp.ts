@@ -79,6 +79,7 @@ export default async () => {
         TORRENT_INFO.mediaInfos?.push($(this).text());
       });
     }
+    descriptionBBCode = descriptionBBCode.replace(' 截图对比(点击空白处展开)', '截图对比');
     if (!descriptionBBCode.match('豆瓣评分')) {
       const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ', '');
       const doubanInfo = $('#kdouban .imdbwp__content').text().replaceAll(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replaceAll('\n', '\n◎').replace(/\n◎$/, '\n').replace('◎Rating:', `◎IMDb链接:${siteImdbUrl}\n◎IMDb评分: ${imdbRate}\n◎豆瓣链接: ${TORRENT_INFO.doubanUrl}\n◎豆瓣评分:`);
@@ -185,7 +186,7 @@ export default async () => {
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? getSize(size) : 0;
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]\s截图对比[^\n]*\n[^\n]*/gi, ''));
+    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
   } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
 
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
