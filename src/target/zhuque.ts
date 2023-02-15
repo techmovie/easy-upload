@@ -36,6 +36,14 @@ export default (info: TorrentInfo.Info) => {
       $(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category as keyof typeof categoryConfig.map]})`).click();
       const keyArray = ['videoType', 'videoCodec', 'audioCodec'] as const;
       type Key = typeof keyArray[number]
+
+      select.disconnect();
+      const sleep = (ms: number) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      };
+      for (const tag in info.tags) {
+        if (currentSiteInfo.tags[tag]) { await sleep(100).then((v) => $(currentSiteInfo.tags[tag])[0].click()); }
+      }
       keyArray.forEach(key => {
         const { map } = currentSiteInfo[key as Key];
         if (map) {
@@ -50,13 +58,6 @@ export default (info: TorrentInfo.Info) => {
         }
       });
       $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
-      select.disconnect();
-      const sleep = (ms: number) => {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      };
-      for (const tag in info.tags) {
-        if (currentSiteInfo.tags[tag]) { await sleep(100).then((v) => $(currentSiteInfo.tags[tag])[0].click()); }
-      }
     });
     if (selectNodeParent) { select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false }); }
     insert.disconnect();
@@ -78,7 +79,7 @@ function fillDescription (info: TorrentInfo.Info) {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
-    description = description.replace(/Screenshots:\n/gi, '').trim(); // BHDinternal组会写
+    description = description.replace(/Screen(shot)?s:\n/gi, '').trim(); // BHDinternal组会写
   }
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   description = description.trim();
