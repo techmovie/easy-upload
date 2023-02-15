@@ -48,16 +48,18 @@ export default (info: TorrentInfo.Info) => {
         const { map } = currentSiteInfo[key as Key];
         if (map) {
           const mapValue = map[info[key as Key] as keyof typeof map];
-          if (key !== 'videoType' && $(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-            $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
-          } else if (mapValue === 'Blu-ray') {
-            $(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
-          } else if ($(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-            $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+          if (mapValue) {
+            if (key !== 'videoType' && $(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+              $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+            } else if (mapValue === 'Blu-ray') {
+              $(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
+            } else if ($(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+              $(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+            }
           }
         }
       });
-      $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
+      if (info.resolution !== '')$(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]?.click();
     });
     if (selectNodeParent) { select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false }); }
     insert.disconnect();
