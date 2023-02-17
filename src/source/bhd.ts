@@ -167,11 +167,13 @@ const getEditionTags = (basicInfo:BasicInfo) => {
 function getComparisonImgs () {
   const title = $('#screenMain .screenParent').text()?.replace(/\[Show\]|Comparison/g, '')?.trim();
   const imgs = Array.from($('.screenComparison img')).map(img => $(img)?.attr('src') ?? '');
-  return [
-    {
-      title,
-      imgs,
-      reason: '',
-    },
-  ];
+  if (title !== '') {
+    return [
+      {
+        title,
+        imgs,
+        reason: '',
+      },
+    ];
+  }
 }
