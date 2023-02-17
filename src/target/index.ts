@@ -74,6 +74,11 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {
     localStorage.removeItem('autosave');
   }
+  info.title = info.title.replace('H 265', 'H.265').replace('H 264', 'H.264'); // 常见问题的修正
+  if (CURRENT_SITE_NAME === 'PTer' || CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
+    info.title = info.title.replace(' DV ', ' DoVi ').replace(' DDP ', ' DD+ ');
+    if (info.source.match(/web/gi)) info.title = info.title.replace(' HEVC', ' H.265');
+  }
   const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
   const isBluray = info.videoType.match(/bluray/i);
@@ -288,11 +293,9 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
   }
-
   if (CURRENT_SITE_NAME === 'HDT') {
     description = description.replace(/(\[\/img\])(\[img\])/g, '$1 $2').replace(/(\[\/url\])(\[url)/g, '$1 $2');
   }
-
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
     description = getThanksQuote(info) + description.trim();
