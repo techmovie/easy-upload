@@ -81,10 +81,9 @@ function fillDescription (info: TorrentInfo.Info) {
     description = buildPTPDescription(info);
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
-    description = description.replace(/Screen(shot)?s:\n/gi, '').trim(); // BHDinternal组会写
   }
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
-  description = description.trim();
+  description = description.replace(/Screen(shot)?s:(\s*)\n?/gi, '').trim();
   if (info.sourceSite === 'KEEPFRDS') {
     description = description.replaceAll(/截图对比:[^\n]*\n?/gi, '');
   }
