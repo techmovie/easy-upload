@@ -86,7 +86,7 @@ function fillDescription (info: TorrentInfo.Info) {
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   description = description.trim();
   if (info.sourceSite === 'KEEPFRDS') {
-    description = description.replaceAll(/截图对比:[^\n]*\n/gi, '');
+    description = description.replaceAll(/截图对比:[^\n]*\n?/gi, '');
   }
   if (description !== '') description = `\`\`\`\n${description}\n\`\`\``; // quote everything
   if (info.comparisons && info.comparisons[0]) {
