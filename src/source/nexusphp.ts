@@ -79,9 +79,9 @@ export default async () => {
         TORRENT_INFO.mediaInfos?.push($(this).text());
       });
     }
-    descriptionBBCode = descriptionBBCode.replace(' 截图对比(点击空白处展开)', '截图对比');
+    descriptionBBCode = descriptionBBCode.replaceAll(' 截图对比(点击空白处展开)', '截图对比');
     interface ComparisonObj{
-      comparisonstitle: string
+      title: string
       imgs: string[]
       reason: string
     }
@@ -92,10 +92,10 @@ export default async () => {
       $(item).find('a').toArray().forEach(img => {
         if (img.href) imgs.push(img.href);
       });
-      const comparisonstitle = $(item).find('legend').text().replace(' 截图对比(点击空白处展开):', '').trim();
+      const title = $(item).find('legend').text().replace(' 截图对比(点击空白处展开):', '').trim();
       const reason: string = '';
       comparisons.push({
-        comparisonstitle,
+        title,
         imgs,
         reason,
       });
@@ -207,7 +207,7 @@ export default async () => {
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? getSize(size) : 0;
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
+    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replaceAll(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
   } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
 
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
