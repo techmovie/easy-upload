@@ -33,7 +33,7 @@ mediaInfo:
 tags:
   chinese_audio: 'input.ant-checkbox-input[value="603"]'
   chinese_subtitle: 'input.ant-checkbox-input[value="604"]'
-  hdr: 'input.ant-checkbox-input[value="612"]'
+  hdr: 'input.ant-checkbox-input[value="613"]'
   dolby_vision: 'input.ant-checkbox-input[value="611"]'
 category:
   selector: '#form_item_category'
@@ -50,6 +50,7 @@ videoType:
   map:
     uhdbluray: 'UHD Blu-ray'
     bluray: 'Blu-ray'
+    remux: 'Remux'
     hdtv: 'HDTV'
     web: 'WEB-DL'
     webrip: 'Encode'
@@ -71,16 +72,16 @@ audioCodec:
   selector: '#rc_select_3'
   map:
     aac: 'AAC'
-    ac3: 'AC-3'
-    dd: 'AC-3'
+    ac3: 'AC3'
+    dd: 'AC3'
     dd+: 'DDP'
     dts: 'DTS'
-    truehd: 'True-HD'
-    lpcm: 'PCM'
+    truehd: 'TrueHD'
+    lpcm: 'LPCM'
     flac: 'FLAC'
-    dtshdma: 'DTS-HD'
-    atmos: 'Dolby Atmos'
-    dtsx: 'DTS:X'
+    dtshdma: 'DTS-HD MA'
+    atmos: 'TrueHD Atmos'
+    dtsx: 'DTS-X'
     mp3: 'Other'
 resolution:
   selector: '#rc_select_12'

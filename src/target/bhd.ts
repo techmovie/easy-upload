@@ -5,7 +5,7 @@ import {
 } from '../common';
 
 import {
-  matchSelectForm, buildPTPDescription,
+  matchSelectForm, buildPTPDescription, isChineseTacker, filterNexusDescription
 } from './common';
 
 const currentSiteInfo = PT_SITE.BeyondHD;
@@ -137,7 +137,12 @@ function fillDescription (info:TorrentInfo.Info) {
   $(currentSiteInfo.description.selector)[0].dispatchEvent(new Event('input'));
 }
 function buildDescription (info:TorrentInfo.Info) {
-  let description = '';
+  let description = info.description;
+  const { sourceSiteType } = info;
+  if (isChineseTacker(sourceSiteType)) {
+    description = filterNexusDescription(info);
+  }
+  description = description.replace(`[quote]${info.mediaInfo}[/quote]`, '').replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '');;
   const { comparisons, screenshots } = info;
   if (comparisons && comparisons.length > 0) {
     for (const comparison of comparisons) {

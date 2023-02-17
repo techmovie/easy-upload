@@ -21,7 +21,7 @@ description:
 imdb:
   selector: 'input[name="imdb"]'
 tmdb:
-  selector: 'nput[name="tmdb"]'
+  selector: 'input[name="tmdb"]'
 mediaInfo:
   selector: '#mediainfo'
 anonymous: 

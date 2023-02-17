@@ -33,7 +33,7 @@ export default async () => {
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSource(Source, Type);
   TORRENT_INFO.area = getAreaCode(countries);
-  TORRENT_INFO.videoType = getVideoType(Type);
+  TORRENT_INFO.videoType = getVideoType(Source, Type);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfo = mediaInfo;
@@ -118,7 +118,7 @@ const getSource = (source:string, resolution:string) => {
   }
   return source.replace(/-/g, '').toLowerCase();
 };
-const getVideoType = (type:string) => {
+const getVideoType = (source:string, type:string) => {
   type = type.replace(/\s/g, '');
   if (type.match(/Remux/i)) {
     return 'remux';
@@ -128,12 +128,13 @@ const getVideoType = (type:string) => {
     return 'uhdbluray';
   } else if (type.match(/DVD5|DVD9/i)) {
     return 'dvd';
+  } else if (source.match(/WEB|WEB-DL/i)) {
+    return 'web';
   } else if (type.match(/\d{3,4}p/i)) {
     return 'encode';
   }
   return type;
 };
-
 const getEditionTags = (basicInfo:BasicInfo) => {
   const editionTags = PT_SITE.BeyondHD.sourceInfo.editionTags;
   const knownTags:TorrentInfo.MediaTags = {
@@ -166,11 +167,13 @@ const getEditionTags = (basicInfo:BasicInfo) => {
 function getComparisonImgs () {
   const title = $('#screenMain .screenParent').text()?.replace(/\[Show\]|Comparison/g, '')?.trim();
   const imgs = Array.from($('.screenComparison img')).map(img => $(img)?.attr('src') ?? '');
-  return [
-    {
-      title,
-      imgs,
-      reason: '',
-    },
-  ];
+  if (title !== '') {
+    return [
+      {
+        title,
+        imgs,
+        reason: '',
+      },
+    ];
+  }
 }

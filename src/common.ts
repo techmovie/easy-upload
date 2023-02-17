@@ -620,7 +620,7 @@ const getScreenshotsFromBBCode = async (bbcode: string) => {
     const result = [];
     for (const img of allImages) {
       const originalUrl = await getOriginalImgUrl(img);
-      result.push(originalUrl);
+      if (originalUrl !== undefined) { result.push(originalUrl); }
     }
     return result;
   }
@@ -1116,8 +1116,7 @@ const htmlToBBCode = (node:Element) => {
               pp('');
               break;
             } else {
-              node.innerHTML = node.innerHTML.replace(/&nbsp;/g, ' ');
-              return `\n[quote]${node.textContent}[/quote]`;
+              return '';
             }
           } else if (className === 'hidden' && CURRENT_SITE_NAME === 'HDT') {
             pp('\n[quote]', '[/quote]'); break;
@@ -1130,7 +1129,8 @@ const htmlToBBCode = (node:Element) => {
             break;
           } else if (CURRENT_SITE_NAME === 'BeyondHD') {
             if (className === 'spoilerChild') {
-              pp('\n[quote]', '[/quote]');
+              if (node.children[0].tagName.toUpperCase() === 'BLOCKQUOTE' || node.children[0].tagName.toUpperCase() === 'PRE')pp('\n', '');
+              else pp('\n[quote]', '[/quote]');
             } else if (id === 'screenMain') {
               return '\n';
             } else if (className === 'spoilerHide') {

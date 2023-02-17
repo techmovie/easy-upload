@@ -26,7 +26,7 @@ name:
 subtitle:
   selector: '#small_descr'
 description:
-  selector: 'textarea[name="descr"]'
+  selector: 'textarea[tabindex]'
 imdb:
   selector: 'input[name="imdburl"][type="text"]'
 anonymous: 
@@ -76,20 +76,17 @@ audioCodec:
     dtsx: '13'
     flac: '1'
 videoType:
-  selector: '#source_sel'
+  selector: '#processing_sel'
   map:
-    uhdbluray: '92'
-    bluray: '55'
-    remux: '88'
-    encode: 
-      - '3'
-      - '91'
-      - '92'
-    web: '4'
-    hdtv: '94'
-    dvd: '89'
-    dvdrip: '89'
-    other: ''
+    uhdbluray: '5'
+    bluray: '5'
+    remux: '1'
+    encode: '2'
+    web: '2'
+    hdtv: '3'
+    dvd: '3'
+    dvdrip: '3'
+    other: '3'
 resolution:
   selector: 'select[name="standard_sel"]'
   map:

@@ -23,8 +23,8 @@ import handleBdc from './bdc';
 import handleZQ from './zhuque';
 import autoFill from './autofill';
 
-type SelectKey = 'videoCodec'|'videoType'|'resolution'|'source'|'area'
-const fillTargetForm = (info:TorrentInfo.Info) => {
+type SelectKey = 'videoCodec' | 'videoType' | 'resolution' | 'source' | 'area'
+const fillTargetForm = (info: TorrentInfo.Info) => {
   autoFill(info || {});
   if (!info) {
     return;
@@ -73,6 +73,11 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
 
   if (CURRENT_SITE_NAME === 'PTSBAO' && localStorage.getItem('autosave')) {
     localStorage.removeItem('autosave');
+  }
+  info.title = info.title.replace('H 265', 'H.265').replace('H 264', 'H.264'); // 常见问题的修正
+  if (CURRENT_SITE_NAME === 'PTer' || CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
+    info.title = info.title.replace(' DoVi ', ' DV ').replace(' DDP ', ' DD+ ');
+    if (info.source.match(/web/gi)) info.title = info.title.replace(' HEVC', ' H.265');
   }
   const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
@@ -128,7 +133,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (info.description) {
     // 去简介前的空格和换行
     description = info.description.replace(/^(\s+)/g, '');
-    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD' && CURRENT_SITE_NAME !== 'ZHUQUE') {
+    if (isChineseTacker(currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD') {
       // 需要拼接豆瓣信息的内站
       const { doubanInfo } = info;
       if (doubanInfo) {
@@ -187,6 +192,12 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
       $('input[type="checkbox"][name="tag[o]"]').attr('checked', 'true');
     }
   }
+  if (CURRENT_SITE_NAME === 'PTSBAO') {
+    $('#torrent').on('change', () => {
+      $('a[data-sceditor-command="source"]')[0].click();
+      $(currentSiteInfo.description.selector).val(description);
+    });
+  }
   // 海报填写
   if (currentSiteInfo.poster) {
     let poster = info.poster;
@@ -221,6 +232,10 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
           });
         }
       });
+    }
+    // 对于一些即便是缩略图也比较大的图床,可以通过‘||’增加匹配
+    if (description.match(/mobile\.webp\[\/img/gi)) {
+      description = description.replaceAll('[img]', '[img=350x350]');
     }
   }
 
@@ -278,11 +293,9 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;
   }
-
   if (CURRENT_SITE_NAME === 'HDT') {
     description = description.replace(/(\[\/img\])(\[img\])/g, '$1 $2').replace(/(\[\/url\])(\[url)/g, '$1 $2');
   }
-
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
     description = getThanksQuote(info) + description.trim();
@@ -322,7 +335,7 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   if (currentSiteInfo.category) {
     const category = currentSiteInfo.category.map[info.category];
     const keyArray = ['videoCodec', 'videoType', 'resolution', 'source', 'area'];
-    let finalSelectArray:string[] = [];
+    let finalSelectArray: string[] = [];
     if (Array.isArray(category)) {
       finalSelectArray = [...category];
       keyArray.forEach(key => {
@@ -549,11 +562,11 @@ const fillTargetForm = (info:TorrentInfo.Info) => {
   }
 };
 
-const fillTeamName = (info:TorrentInfo.Info) => {
+const fillTeamName = (info: TorrentInfo.Info) => {
   const teamConfig = (CURRENT_SITE_INFO as Site.SiteInfo).team;
   const teamName = getTeamName(info);
   interface Team {
-    [key:string]:string
+    [key: string]: string
   }
   if (teamName && teamConfig) {
     const formateTeamName = teamConfig.map[teamName.toLowerCase() as keyof Team];
@@ -580,7 +593,7 @@ const disableTorrentChange = () => {
   }
 };
 
-const getThanksQuote = (info:TorrentInfo.Info) => {
+const getThanksQuote = (info: TorrentInfo.Info) => {
   const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
   let thanksQuote = `转自[b]${info.sourceSite}[/b]，感谢原发布者！`;
   if (!isChineseSite) {
@@ -590,7 +603,7 @@ const getThanksQuote = (info:TorrentInfo.Info) => {
 };
 
 // 过滤空标签
-const filterEmptyTags = (description:string):string => {
+const filterEmptyTags = (description: string): string => {
   // eslint-disable-next-line prefer-regex-literals
   const reg = new RegExp('\\[(\\w+)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
   if (description.match(reg)) {
@@ -604,7 +617,7 @@ const filterEmptyTags = (description:string):string => {
   }
   return description;
 };
-function getChineseName (info:TorrentInfo.Info) {
+function getChineseName (info: TorrentInfo.Info) {
   const { description } = info;
   const originalName = description.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
   const translateName = description.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
@@ -616,5 +629,4 @@ function getChineseName (info:TorrentInfo.Info) {
 }
 export {
   fillTargetForm,
-}
-;
+};
