@@ -59,7 +59,7 @@ export default (info: TorrentInfo.Info) => {
           }
         }
       });
-      if (info.resolution !== '')$(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]?.click();
+      if (info.resolution !== '') $(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]?.click();
     });
     if (selectNodeParent) { select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false }); }
     insert.disconnect();
@@ -85,7 +85,18 @@ function fillDescription (info: TorrentInfo.Info) {
   }
   description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   description = description.trim();
+  if (info.sourceSite === 'KEEPFRDS') {
+    description = description.replaceAll(/截图对比:[^\n]*\n/gi, '');
+  }
   if (description !== '') description = `\`\`\`\n${description}\n\`\`\``; // quote everything
+  if (info.comparisons && info.comparisons[0]) {
+    for (const comparison in info.comparisons) {
+      description += `\n对比图 ${info.comparisons[comparison].title}\n\n`;
+      for (const img in info.comparisons[comparison].imgs) {
+        description += `${info.comparisons[comparison].imgs[img]}\n\n`;
+      }
+    }
+  }
   const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
   if (!thanksQuoteClosed && info.sourceSite !== undefined) {
     description = `\`\`\`\n转自 ${info.sourceSite} ，感谢原发布者！\n\`\`\`\n${description}`;
