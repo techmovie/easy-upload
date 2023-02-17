@@ -79,6 +79,7 @@ function fillDescription (info: TorrentInfo.Info) {
   }
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
+    description = description.replaceAll(/\[comparison[^[]*\[\/comparison\]/gi, '');
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
   }
