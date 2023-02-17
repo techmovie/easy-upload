@@ -928,6 +928,7 @@ const getAudioCodecByMediaInfo = (mainAudio:string, otherAudio:string[]) => {
   const audioFormat = getMediaValueByKey('Format', mainAudio);
   const audioChannels = getMediaValueByKey('Channel(s)', mainAudio);
   const commercialName = getMediaValueByKey('Commercial name', mainAudio);
+  const formateProfile = getMediaValueByKey('Format profile', mainAudio);
   const languageArray = [mainAudio, ...otherAudio].map(item => {
     return getMediaValueByKey('Language', item);
   });
@@ -952,6 +953,8 @@ const getAudioCodecByMediaInfo = (mainAudio:string, otherAudio:string[]) => {
   } else if (audioFormat.match(/DTS XLL X/i)) {
     audioCodec = 'dtsx';
   } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
+    audioCodec = 'dtshdma';
+  } else if (audioFormat.match(/DTS/i) && formateProfile.match(/MA \/ Core/i)) {
     audioCodec = 'dtshdma';
   } else if (audioFormat.match(/DTS/i)) {
     audioCodec = 'dts';
