@@ -76,7 +76,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   }
   info.title = info.title.replace('H 265', 'H.265').replace('H 264', 'H.264'); // 常见问题的修正
   if (CURRENT_SITE_NAME === 'PTer' || CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
-    info.title = info.title.replace(' DV ', ' DoVi ').replace(' DDP ', ' DD+ ');
+    info.title = info.title.replace(' DoVi ', ' DV ').replace(' DDP ', ' DD+ ');
     if (info.source.match(/web/gi)) info.title = info.title.replace(' HEVC', ' H.265');
   }
   const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
