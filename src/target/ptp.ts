@@ -1,6 +1,6 @@
 import { PT_SITE } from '../const';
 import {
-  getUrlParam, getBDType,
+  getUrlParam, getBDType, getInfoFromMediaInfo,
 } from '../common';
 export default async (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.PTP;
@@ -40,6 +40,14 @@ export default async (info:TorrentInfo.Info) => {
     editionInfo.forEach(edition => {
       const event = new Event('click');
       $(`#remaster_tags a:contains("${edition}")`)[0].dispatchEvent(event);
+    });
+  }
+  const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfo);
+  if (infoFromMediaInfoinfo.subtitles && infoFromMediaInfoinfo.subtitles[0]) {
+    infoFromMediaInfoinfo.subtitles.forEach(subtitle => {
+      if (subtitle !== 'English' && $(`.languageselector li:contains(${subtitle})`)[0]) {
+        $(`.languageselector li:contains(${subtitle}) input`).attr('checked', 'true');
+      }
     });
   }
 };
