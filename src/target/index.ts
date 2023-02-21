@@ -279,13 +279,12 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
           if (description.match(regOldFormat)) {
             description = description.replace(regOldFormat, `[img]${screenshot}[/img]`);
           } else {
-            description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, 'g'), `[img]${screenshot}[/img]`);
+            description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, 'gi'), `[img]${screenshot}[/img]`);
           }
         }
       });
     }
-    const { mediaInfo } = getBDInfoOrMediaInfo(description);
-    description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+    info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
   }
   if (CURRENT_SITE_NAME === 'SpeedApp') {
     description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
