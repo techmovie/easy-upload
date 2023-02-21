@@ -53,6 +53,15 @@ export default async () => {
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.join('\n\n').trim();
     TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map(v => v.trim());
+    const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfo);
+    if (infoFromMediaInfoinfo.subtitles) {
+      for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
+        if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
+          TORRENT_INFO.tags.chinese_subtitle = true;
+          break;
+        }
+      }
+    }
     const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo.join('\n\n'));
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;

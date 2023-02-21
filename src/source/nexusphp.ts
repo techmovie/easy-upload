@@ -216,6 +216,15 @@ export default async () => {
     ...tags,
     ...pageTags,
   };
+  const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfo);
+  if (infoFromMediaInfoinfo.subtitles) {
+    for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
+      if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
+        TORRENT_INFO.tags.chinese_subtitle = true;
+        break;
+      }
+    }
+  }
   if (CURRENT_SITE_NAME.match(/beitai/i)) {
     // 从简略mediainfo中获取videoCodes
     if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
