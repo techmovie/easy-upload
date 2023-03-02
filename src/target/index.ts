@@ -624,6 +624,9 @@ function getChineseName (info: TorrentInfo.Info) {
   if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
     chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : '';
   }
+  if (chineseName === '' && info.subtitle !== '' && info.subtitle !== undefined) {
+    chineseName = info.subtitle.replaceAll(/【|】.*/g, '').split('/')?.[0];
+  }
   return chineseName.trim();
 }
 export {
