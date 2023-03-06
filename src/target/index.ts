@@ -267,6 +267,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
+    description = description.replaceAll(/\[\/?(center|code)\]/g, '');
     if (info.sourceSite === 'PTP') {
       description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
       description = filterEmptyTags(description);
