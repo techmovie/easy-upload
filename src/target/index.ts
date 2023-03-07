@@ -267,6 +267,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
+    description = description.replaceAll(/\[\/?(center|code)\]/g, '');
     if (info.sourceSite === 'PTP') {
       description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
       description = filterEmptyTags(description);
@@ -623,6 +624,9 @@ function getChineseName (info: TorrentInfo.Info) {
   let chineseName = originalName;
   if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
     chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : '';
+  }
+  if (chineseName === '' && info.subtitle !== '' && info.subtitle !== undefined) {
+    chineseName = info.subtitle.replaceAll(/【|】.*/g, '').split('/')?.[0];
   }
   return chineseName.trim();
 }
