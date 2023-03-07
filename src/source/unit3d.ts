@@ -38,7 +38,7 @@ export default async () => {
   } else {
     IMDBYear = IMDBYear.replace(/\(|\)|\s/g, '');
   }
-  const imdbUrl = $('.movie-details a:contains(IMDB)').attr('href') as string;
+  const imdbUrl = $('.movie-details a[href*="imdb.com"]').attr('href') as string;
   const resolution = Resolution.match(/\d+(i|p)/i)?.[0] ?? '';
 
   const descriptionDom = $('.fa-sticky-note').parents('.panel-heading')

@@ -100,6 +100,9 @@ const userScriptComment = `// ==UserScript==
 // @match        https://hd-space.org/index.php?page=torrent-details&id=*
 // @match        https://speedapp.io/browse/*
 // @match        https://zhuque.in/torrent/upload
+// @match        https://monikadesign.uk/torrents/*
+// @match        https://monikadesign.uk/torrents?*
+// @match        https://monikadesign.uk/upload/*
 
 // @run-at       document-end
 // @grant        GM_addStyle
