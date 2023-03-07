@@ -153,7 +153,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     description = description.replace(mediaInfo.trim(), '');
   }
   if (currentSiteInfo.mediaInfo) {
-    if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
+    if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither|MDU)/)) {
       const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo.mediaInfo.selector;
       $(selector).val(mediaInfo);
       description = description.replace(mediaInfo.trim(), '');
@@ -219,7 +219,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   }
 
   // Blutopia可以通过设置为显示缩略图
-  if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
     if (info.sourceSite === 'PTP') {
       description = buildPTPDescription(info);
     }
@@ -301,13 +301,13 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   }
   $(currentSiteInfo.description.selector).val(description);
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU/)) {
     const fillIMDBId = currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(currentSiteInfo.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(data => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
       $('#torrent').on('change', () => {
         $(currentSiteInfo.imdb.selector).val(fillIMDBId);
         getTMDBIdByIMDBId(imdbId).then(data => {

@@ -75,7 +75,7 @@ const UploadSiteList = () => {
       const path = catMap[TORRENT_INFO.category as keyof typeof catMap] || 'movie';
       url = url.replace('upload_movie', `upload_${path}`);
     }
-    if (url.match(/hdpost|blutopia|asiancinema/)) {
+    if (url.match(/hdpost|blutopia|asiancinema|monikadesign/)) {
       const catMap = {
         movie: '1',
         tv: '2',
