@@ -41,7 +41,7 @@ export default async () => {
       TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${data}[/quote]`;
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-      const isBluray = data.match(/iso|m2ts|mpls/i);
+      const isBluray = data.match(/\.(iso|m2ts|mpls)/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       const { videoCodec, audioCodec, mediaTags, resolution: mediaResolution } = getInfoFunc(data);
       if (resolution === 'mHD' && mediaResolution) {

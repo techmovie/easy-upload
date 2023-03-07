@@ -33,7 +33,7 @@ async function getTorrentInfo (torrentId:string) {
   descriptionContainer.find('>div').remove();
   const description = getFilterBBCode(descriptionContainer[0]);
   const screenshots = await getScreenshotsFromBBCode(description);
-  const isBluray = !!$(`#files_${torrentId}`).text().match(/iso|m2ts/i);
+  const isBluray = !!$(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
   const videoType = getVideoType({ torrentName, source, isBluray });
 
   const mediaInfo = $('div.mediainfo').text();
