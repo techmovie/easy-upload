@@ -599,7 +599,7 @@ const getFilterImages = (bbcode:string): string[] => {
   if (!bbcode) {
     return [];
   }
-  let allImages = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
+  let allImages = Array.from(bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g) ?? []);
   if (allImages && allImages.length > 0) {
     allImages = allImages.map(img => {
       if (img.match(/\[url=.+?\]/)) {

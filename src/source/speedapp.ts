@@ -37,7 +37,14 @@ export default async () => {
   TORRENT_INFO.mediaInfo = '';
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
-  TORRENT_INFO.description = descriptionBBCode.replaceAll(/\n\n*/g, '\n').replaceAll(' ', '').trim().replace('[img]https://speedapp.io/img/descr/screens.svg[/img]', '').replace('[img]https://speedapp.io/img/descr/release_info.svg[/img]', '').replaceAll('original.png]\n[img]', 'original.webp][img]').replaceAll('original.webp]\n[img]', 'original.webp][img]').replaceAll('original.webp[/img]\n[/url]', 'mobile.webp[/img][/url]').replaceAll('original.png[/img]\n[/url]', 'mobile.webp[/img][/url]').replaceAll(/\[\/url\]\n*/g, '[/url]');
+  TORRENT_INFO.description =
+  descriptionBBCode.replace(/\n\n*/g, '\n')
+    .replace(/\s+/g, '').trim()
+    .replace(/\[img\]https:\/\/speedapp\.io\/img\/descr\/(screens|release_info)\.svg\[\/img\]/g, '')
+    .replace('[img]https://speedapp.io/img/descr/release_info.svg[/img]', '')
+    .replace(/original\.(png|webp)\]\n\[img\]/g, 'original.webp][img]')
+    .replace(/original\.(png|webp)\[\/img\]\n\[\/url\]/g, 'mobile.webp[/img][/url]')
+    .replace(/\[\/url\]\n*/g, '[/url]');
   TORRENT_INFO.screenshots = screenshots;
   TORRENT_INFO.title = torrentName;
   // TORRENT_INFO.year = MovieName[1];

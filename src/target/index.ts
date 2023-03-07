@@ -235,7 +235,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     }
     // 对于一些即便是缩略图也比较大的图床,可以通过‘||’增加匹配
     if (description.match(/mobile\.webp\[\/img/gi)) {
-      description = description.replaceAll('[img]', '[img=350x350]');
+      description = description.replace(/\[img\]/g, '[img=350x350]');
     }
   }
 
@@ -271,7 +271,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     if (info.sourceSite === 'PTP') {
       description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
       description = filterEmptyTags(description);
-      description = description.replaceAll('http://ptpimg', 'https://ptpimg');
+      description = description.replace(/http:\/\/ptpimg/g, 'https://ptpimg');
       screenshots.forEach(screenshot => {
         const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, 'i');
         if (!description.match(regStr)) {
@@ -288,7 +288,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
   }
   if (CURRENT_SITE_NAME === 'SpeedApp') {
-    description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+    description = description.replace(/\[url.*\[\/url\]/g, '').replace(/\[img.*\[\/img\]/g, '').replace(/\[\/?(i|b|center|quote|size|color)\]/g, '').replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replace(/\n\n*/g, '\n');
   }
   if (CURRENT_SITE_NAME === 'PTN') {
     description = `${info.imdbUrl}\n\n${description}`;

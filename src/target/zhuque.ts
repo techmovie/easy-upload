@@ -17,7 +17,7 @@ export default (info: TorrentInfo.Info) => {
       $(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event('input'));
     }
     if (info.doubanUrl) {
-      $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)[1]);
+      $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '');
       $(currentSiteInfo.douban.selector)[0].dispatchEvent(new Event('input'));
     }
     let screenshotStr = '';
@@ -79,14 +79,14 @@ function fillDescription (info: TorrentInfo.Info) {
   }
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
-    description = description.replaceAll(/\[comparison[^[]*\[\/comparison\]/gi, '');
+    description = description.replace(/\[comparison[^[]*\[\/comparison\]/gi, '');
   } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
     description = info.originalDescription || '';
   }
-  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
+  description = description.replace(/\[url.*\[\/url\]/g, '').replace(/\[img.*\[\/img\]/g, '').replace(/\[\/?(i|b|center|quote|size|color)\]/g, '').replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replace(/\n\n*/g, '\n');
   description = description.replace(/Screen(shot)?s:(\s*)\n?/gi, '').trim();
   if (info.sourceSite === 'KEEPFRDS') {
-    description = description.replaceAll(/截图对比:[^\n]*\n?/gi, '');
+    description = description.replace(/截图对比:[^\n]*\n?/gi, '');
   }
   if (description !== '') description = `\`\`\`\n${description}\n\`\`\``; // quote everything
   if (info.comparisons && info.comparisons[0]) {
