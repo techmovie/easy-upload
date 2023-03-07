@@ -604,7 +604,7 @@ const getThanksQuote = (info: TorrentInfo.Info) => {
 // 过滤空标签
 const filterEmptyTags = (description: string): string => {
   // eslint-disable-next-line prefer-regex-literals
-  const reg = new RegExp('\\[(\\w+)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
+  const reg = new RegExp('\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
   if (description.match(reg)) {
     description = description.replace(reg, (_match, p1, p2) => {
       if (p1 === p2) {
