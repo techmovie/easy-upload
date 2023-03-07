@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getUrlParam, getSize,
   getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
   getFilterBBCode, getBDInfoOrMediaInfo, fetch,
-  getTagsFromSubtitle, getPreciseCategory,
+  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 
 export default async () => {
@@ -61,7 +61,7 @@ export default async () => {
     TORRENT_INFO.tags = { ...tags, ...mediaTags };
   }
   TORRENT_INFO.size = size;
-  TORRENT_INFO.screenshots = getImages();
+  TORRENT_INFO.screenshots = await getImages(descriptionBBCode);
 };
 const getBasicInfo = () => {
   const videoTypeMap = {
@@ -92,7 +92,7 @@ const getMediaInfo = async (torrentId:string) => {
   return data || '';
 };
 // 获取截图
-const getImages = () => {
-  const screenshots = TORRENT_INFO.description.match(/\[url=.+?\]\[img\].+?\[\/img\]\[\/url]/g) ?? [];
+const getImages = async (description:string) => {
+  const screenshots = await getScreenshotsFromBBCode(description);
   return screenshots;
 };
