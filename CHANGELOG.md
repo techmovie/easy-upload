@@ -1,3 +1,24 @@
+## [3.2.15](https://github.com/techmovie/easy-upload/compare/3.2.14...3.2.15) (2023-03-07)
+
+
+### Bug Fixes
+
+* add condition judgment for dtshdma ([f75b886](https://github.com/techmovie/easy-upload/commit/f75b886eb766e57b47279c24da6bbcc1c5d0f521)), closes [#224](https://github.com/techmovie/easy-upload/issues/224)
+* **aither:** cartoon issue ([#226](https://github.com/techmovie/easy-upload/issues/226)) ([9e149e1](https://github.com/techmovie/easy-upload/commit/9e149e112a3e5e355c1c8cc1671a1206e7f145f7))
+* change isbluray regex ([a115a99](https://github.com/techmovie/easy-upload/commit/a115a99a3b05918f8a9e0434744a0698e1fa9b72)), closes [#227](https://github.com/techmovie/easy-upload/issues/227)
+* **hdb:** change screenshot-related function ([e2fffe0](https://github.com/techmovie/easy-upload/commit/e2fffe073dc9c4ad20bb958d147f7958c93001e9)), closes [#223](https://github.com/techmovie/easy-upload/issues/223)
+* **reg:** change empty tag regex ([889c048](https://github.com/techmovie/easy-upload/commit/889c0485af03378a034d8512d56e569fd5010039)), closes [#230](https://github.com/techmovie/easy-upload/issues/230)
+* remove replaceall ([34ca9d7](https://github.com/techmovie/easy-upload/commit/34ca9d70796973a7cabfdcb84c7e07db167cfdbc))
+* revert release.js ([3919a15](https://github.com/techmovie/easy-upload/commit/3919a155a315b0d057c6bc02039fdbc7b2e7cef9))
+* some patch ([#220](https://github.com/techmovie/easy-upload/issues/220)) ([50aa090](https://github.com/techmovie/easy-upload/commit/50aa090845a3e147b10724e25c7400287203ec48)), closes [/github.com/techmovie/easy-upload/issues/221#issuecomment-1426707518](https://github.com//github.com/techmovie/easy-upload/issues/221/issues/issuecomment-1426707518)
+
+
+### Features
+
+* some fix and support get tag chinese subtitle from mediainfo ([#228](https://github.com/techmovie/easy-upload/issues/228)) ([217f6b7](https://github.com/techmovie/easy-upload/commit/217f6b79d743def88e5a6ec9b98fa79cf92e3dba))
+
+
+
 ## [3.2.14](https://github.com/techmovie/easy-upload/compare/3.2.13...3.2.14) (2023-02-05)
 
 
