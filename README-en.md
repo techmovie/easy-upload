@@ -4,7 +4,7 @@
 
 ## About
 
-Support reproducing torrents for mainstream Chinese and international private trackers sites, making upload handy by reducing repetitive work.
+Easy-upload is a userscript that supports reproducing torrents for mainstream Chinese and international private trackers sites. It reduces repetitive work, making the upload process more convenient.
 
 ## Compatibility
 
@@ -18,15 +18,15 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 
 ## Features
 
-- Support transfer between Chinese and international sites of different web architectures by automatically fill in info such as description, video parameters, etc.
-- Support custom configuration of transfer sites.
+- Supports transfer between Chinese and international sites of different web architectures by automatically filling in info such as description, video parameters, etc.
+- Supports custom configuration of transfer sites.
 - Support batch transfer. Batch transfer to target sites with one-click.
 - Add thumbnail transfer from original image to meet screenshot requirements by some sites.
-- Support grabbing Douban movie description based on IMDB info, when some domestic sites requires Douban info in reproducing from international sites.
+- Support grabbing Douban movie description based on IMDB info, when some Chinese sites requires Douban info in reproducing from international sites.
 - Allow filling info on upload page by unified yaml config of the site, making it easier to add an unsupported site. If you want to add an unsupported site, please turn to [Site Configuration Rules](https://github.com/techmovie/easy-upload/wiki/How-to-Add-Unsupported-Sites)
 - Support quick search of current resource, and the site for searching is configurable.
 - Support batch uploading screenshots to ptpimg, which can solve the problem that screenshots of some sites cannot be displayed on other sites
-- By clicking the quick search button, you can check whether the target tracker has the current torrent(Only support site based on NexusPHP by now)
+- Allows checking whether the target tracker has the current torrent by clicking the quick search button (only supports site based on NexusPHP by now).
 
   ![](https://ptpimg.me/4475d0.gif)
 
@@ -35,7 +35,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 - Click the gear wheel icon to open settings panel.
 - Enable transfer sites: define target site list to hide unregistered and unwanted sites. All sites will be displayed by default.
 - Enable batch transfer: click “batch reproduce” button to open target sites for group transfer.
-- Enable site search: config quick search list to define searching scope.
+- Enable site search: configure the quick search list to define the searching scope.
 
 ## Cautions
 
@@ -55,7 +55,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 
 Please refer [Project plan](https://github.com/techmovie/easy-upload/projects)
 
-I don’t have access or upload permission to all sites, so any help including testing and PR is welcoming.
+I don't have access or upload permission to all sites, so any help, including testing and PR, would be greatly appreciated.
 
 ## Supported Sites
 
