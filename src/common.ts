@@ -591,6 +591,8 @@ const getVideoCodecFromTitle = (title:string, videoType = '') => {
     return 'mpeg2';
   } else if (title.match(/mpeg-?4/i)) {
     return 'mpeg4';
+  } else if (title.match(/vvc/i)) {
+    return 'vvc';
   }
   return '';
 };
@@ -917,6 +919,8 @@ const getVideoCodecByMediaInfo = (mainVideo:string, generalPart:string, secondVi
     videoCodec = 'h264';
   } else if (videoFormat.match(/VC-1/i)) {
     videoCodec = 'vc1';
+  } else if (videoFormat.match(/vvc/i)) {
+    videoCodec = 'vvc';
   }
   return {
     videoCodec,
