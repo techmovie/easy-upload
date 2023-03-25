@@ -30,20 +30,23 @@ export default (info: TorrentInfo.Info) => {
     $(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event('input'));
     fillMediaInfo(info);
     fillDescription(info);
-    const selectNodeParent = document.querySelector('form');
-    const select = new MutationObserver(async mutationRecords => {
+
+    const { tags } = currentSiteInfo;
+    const tagKeys = Object.keys(info.tags);
+    if (tags) { // 加载顺序导致问题
+      tagKeys.forEach(key => {
+        if (info.tags[key] && tags[key as keyof typeof tags]) {
+          $(tags[key as keyof typeof tags]).parent().parent().click();
+        }
+      });
+    }
+    const selectNodeParent = document.querySelector('form') as HTMLFormElement;
+    const select = new MutationObserver(mutationRecords => {
+      console.log(mutationRecords);
       const { category: categoryConfig } = currentSiteInfo;
       $(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category as keyof typeof categoryConfig.map]})`).click();
       const keyArray = ['videoType', 'videoCodec', 'audioCodec'] as const;
-      type Key = typeof keyArray[number]
-
-      select.disconnect();
-      const sleep = (ms: number) => {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      };
-      for (const tag in info.tags) {
-        if (currentSiteInfo.tags[tag]) { await sleep(100).then((v) => $(currentSiteInfo.tags[tag])[0].click()); }
-      }
+      type Key = typeof keyArray[number];
       keyArray.forEach(key => {
         const { map } = currentSiteInfo[key as Key];
         if (map) {
@@ -59,7 +62,15 @@ export default (info: TorrentInfo.Info) => {
           }
         }
       });
-      if (info.resolution !== '') $(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]?.click();
+      // const videoType = info.videoType.charAt(0).toUpperCase() + info.videoType.slice(1);
+      // $(`div.ant-select-item-option-content:contains(${videoType})`).click();
+      // $(`div.ant-select-item-option-content:contains(${info.videoCodec})`).click();
+      // if (info.audioCodec) {
+      // const audioCodec = info.audioCodec.toUpperCase();
+      // $(`div.ant-select-item-option-content:contains(${audioCodec})`).click();
+      // }
+      $(`div.ant-select-item-option-content:contains(${info.resolution})`).click();
+      select.disconnect();
     });
     if (selectNodeParent) { select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false }); }
     insert.disconnect();
@@ -71,12 +82,8 @@ function fillMediaInfo (info: TorrentInfo.Info) {
   $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event('input'));
 }
 function fillDescription (info: TorrentInfo.Info) {
-  let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '').trim();
-  if (info.mediaInfos && info.mediaInfos[1]) {
-    info.mediaInfos.forEach(mediaInfo => {
-      description = description.replace(`[quote]${mediaInfo}[/quote]`, '');
-    });
-  }
+  let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '');
+  description = description.replaceAll(/\[url.*\[\/url\]/g, '').replaceAll(/\[img.*\[\/img\]/g, '').replaceAll(/\[\/?(i|b|center|quote|size|color)\]/g, '').replaceAll(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, '').replaceAll(/\n\n*/g, '\n');
   if (info.sourceSite === 'PTP') {
     description = buildPTPDescription(info);
     description = description.replace(/\[comparison[^[]*\[\/comparison\]/gi, '');

@@ -22,7 +22,8 @@ export default async () => {
   const category = getCategory(Category);
   const videoType = getVideoType(Type, Resolution);
   let IMDBYear = $('.movie-heading span:last').text();
-  const movieName = $('.movie-heading span:first').text();
+  let movieName = $('.movie-heading span:first').text();
+  let imdbUrl = $('.movie-details a:contains(IMDB)').attr('href') as string;
 
   if (CURRENT_SITE_NAME === 'HDPOST') {
     const englishTitle = title.match(/[\s\W\d]+(.+)/)?.[1] ?? '';
@@ -38,14 +39,21 @@ export default async () => {
   } else {
     IMDBYear = IMDBYear.replace(/\(|\)|\s/g, '');
   }
-  const imdbUrl = $('.movie-details a[href*="imdb.com"]').attr('href') as string;
   const resolution = Resolution.match(/\d+(i|p)/i)?.[0] ?? '';
 
-  const descriptionDom = $('.fa-sticky-note').parents('.panel-heading')
+  let descriptionDom = $('.fa-sticky-note').parents('.panel-heading')
     .siblings('.table-responsive').find('.panel-body').clone();
   descriptionDom.find('#collection_waypoint').remove();
+  let mediaInfoOrBDInfo = $('.decoda-code code').text();
+  if (CURRENT_SITE_NAME === 'Blutopia') {
+    const title = $('.meta__title').text().trim();
+    movieName = title.replace(/\(.+\)/g, '');
+    IMDBYear = title.match(/\((\d{4})\)/)?.[1] ?? '';
+    imdbUrl = $('.meta__imdb a').attr('href') as string;
+    descriptionDom = $('.panel-body. bbcode-rendered');
+    mediaInfoOrBDInfo = $('.bbcode-rendered code').text();
+  }
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-  const mediaInfoOrBDInfo = $('.decoda-code code').text();
   if (mediaInfoOrBDInfo) {
     descriptionBBCode = `\n[quote]${mediaInfoOrBDInfo}[/quote]${descriptionBBCode}`;
   }
@@ -83,17 +91,17 @@ const getBasicInfo = () => {
     Size: 'Size',
     体积: 'Size',
     體積: 'Size',
-    3: 'Size',
+    size: 'Size',
     Category: 'Category',
     类别: 'Category',
     類別: 'Category',
-    0: 'Category',
+    category: 'Category',
     Type: 'Type',
     规格: 'Type',
     規格: 'Type',
-    2: 'Type',
+    type: 'Type',
     Resolution: 'Resolution',
-    1: 'Resolution',
+    resolution: 'Resolution',
   };
   if (CURRENT_SITE_NAME !== 'Blutopia') {
     const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
@@ -109,12 +117,13 @@ const getBasicInfo = () => {
       }
     });
   } else {
-    const formats = $('.torrent-format span.torrent-category.text-info,.torrent-format span.torrent-resolution.text-info,.torrent-format span.torrent-type.text-info,.torrent-format span.torrent-size.text-info');
+    const formats = $('.torrent__tags li');
     formats.each((index, item) => {
-      type keyIndex = Pick<typeof keyMap, 0|1|2|3>
-      basicInfo[keyMap[index as keyof keyIndex] as keyof BasicInfo] = $(item).text().trim();
+      const className = $(item).attr('class')?.replace('torrent__', '');
+      type key = Pick<typeof keyMap, 'resolution'|'type'|'size'|'category'>
+      basicInfo[keyMap[className as keyof key] as keyof BasicInfo] = $(item).text().trim();
     });
-    const title = $('h1.text-center').text();
+    const title = $('h1.torrent__name').text().trim();
     basicInfo.Name = title;
     console.log(basicInfo);
   }
