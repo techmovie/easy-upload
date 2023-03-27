@@ -302,13 +302,13 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   }
   $(currentSiteInfo.description.selector).val(description);
   // 站点特殊处理
-  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU/)) {
+  if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
     const fillIMDBId = currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
     $(currentSiteInfo.imdb.selector).val(fillIMDBId);
     getTMDBIdByIMDBId(imdbId).then(data => {
       $(currentSiteInfo.tmdb.selector).val(data.id);
     });
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU|LST/)) {
       $('#torrent').on('change', () => {
         $(currentSiteInfo.imdb.selector).val(fillIMDBId);
         getTMDBIdByIMDBId(imdbId).then(data => {
