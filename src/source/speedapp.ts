@@ -42,8 +42,8 @@ export default async () => {
     .replace(/\s+/g, '').trim()
     .replace(/\[img\]https:\/\/speedapp\.io\/img\/descr\/(screens|release_info)\.svg\[\/img\]/g, '')
     .replace('[img]https://speedapp.io/img/descr/release_info.svg[/img]', '')
-    .replace(/original\.(png|webp)\]\n\[img\]/g, 'original.webp][img]')
-    .replace(/original\.(png|webp)\[\/img\]\n\[\/url\]/g, 'mobile.webp[/img][/url]')
+    .replace(/original\.(png|webp)\]\n?\[img\]/g, 'original.webp][img]')
+    .replace(/original\.(png|webp)\[\/img\]\n?\[\/url\]/g, 'mobile.webp[/img][/url]')
     .replace(/\[\/url\]\n*/g, '[/url]');
   TORRENT_INFO.screenshots = screenshots;
   TORRENT_INFO.title = torrentName;
