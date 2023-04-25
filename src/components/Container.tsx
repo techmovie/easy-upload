@@ -91,6 +91,7 @@ const Container = () => {
       <ConfigSvg onClick={openSettingPanel} className='setting-svg' />
     </h4>;
   };
+  const quickSearchClosed = getValue('easy-seed.quick-search-closed', false) || '';
   return <>
     {
       (isNexusPHP || isHDB || CURRENT_SITE_NAME?.match(/(HDSpace|HDT)$/)) &&
@@ -113,14 +114,16 @@ const Container = () => {
             <FunctionList />
           </td>
         </tr>
-        <tr className={isHDB ? 'hdb-tr' : ''}>
-          <td className={baseTitleClass.join(' ')}>
-            <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
-          </td>
-          <td className={baseContentClass.join(' ')}>
-            <SearchList />
-          </td>
-        </tr>
+        {
+          !quickSearchClosed && <tr className={isHDB ? 'hdb-tr' : ''}>
+            <td className={baseTitleClass.join(' ')}>
+              <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
+            </td>
+            <td className={baseContentClass.join(' ')}>
+              <SearchList />
+            </td>
+          </tr>
+        }
       </>
     }
     {
@@ -138,12 +141,14 @@ const Container = () => {
           <h4>{$t('快捷操作')}</h4>
           <FunctionList />
         </div>
-        <div className="custom-site">
-          <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-          <div>
-            <SearchList />
+        {
+          !quickSearchClosed && <div className="custom-site">
+            <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+            <div>
+              <SearchList />
+            </div>
           </div>
-        </div>
+        }
       </>
     }
     {
@@ -161,12 +166,14 @@ const Container = () => {
               <h4>{$t('快捷操作')}</h4>
               <FunctionList />
             </div>
-            <div className="custom-site">
-              <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-              <div>
-                <SearchList />
+            {
+              !quickSearchClosed && <div className="custom-site">
+                <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+                <div>
+                  <SearchList />
+                </div>
               </div>
-            </div>
+            }
           </>
     }
     {
@@ -185,12 +192,14 @@ const Container = () => {
               <h4>{$t('快捷操作')}</h4>
               <FunctionList />
             </div>
-            <div className='custom-site'>
-              <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-              <div>
-                <SearchList />
+            {
+              !quickSearchClosed && <div className='custom-site'>
+                <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
+                <div>
+                  <SearchList />
+                </div>
               </div>
-            </div>
+            }
           </td>
         </tr>
 
@@ -206,10 +215,13 @@ const Container = () => {
 
         {CURRENT_SITE_NAME !== 'EMP' && <FunctionList />}
         <div class="ptp-search-list">
-          <div class="ptp-title-wrapper">
-            <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
-            <SearchList />
-          </div>
+          {
+            !quickSearchClosed && <div class="ptp-title-wrapper">
+              <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
+              <SearchList />
+            </div>
+          }
+
         </div>
       </div>
 

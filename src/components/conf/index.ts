@@ -21,6 +21,12 @@ const SiteListConfig = [
 ];
 const FeatureSwitchList = [
   {
+    name: 'quick-search-closed',
+    des: '关闭快速检索',
+    type: 'checkbox',
+    key: 'quickSearchClosed',
+  },
+  {
     name: 'transfer-img-closed',
     des: '关闭转缩略图功能',
     type: 'checkbox',
