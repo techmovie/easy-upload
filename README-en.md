@@ -91,6 +91,7 @@ You can buy me a coffee through [PayPal](https://www.paypal.com/paypalme/techmov
     <tr>
       <td align="center" valign="top" width="20%"><a href="https://github.com/fzlins"><img src="https://avatars.githubusercontent.com/u/100051558?v=4?s=75" width="75px;" alt="fzlins"/><br /><sub><b>fzlins</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=fzlins" title="Code">💻</a></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/LostRager"><img src="https://avatars.githubusercontent.com/u/5929772?v=4?s=75" width="75px;" alt="LostRager"/><br /><sub><b>LostRager</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=LostRager" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/KesaubeEire"><img src="https://avatars.githubusercontent.com/u/20382002?v=4?s=75" width="75px;" alt="KesaubeEire"/><br /><sub><b>KesaubeEire</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=KesaubeEire" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
