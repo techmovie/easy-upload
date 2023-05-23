@@ -109,7 +109,9 @@ const getPTPImage = () => {
     if (parent?.tagName === 'A' && parent?.getAttribute('href')?.match(/\.png$/)) {
       imgList.push(parent.getAttribute('href') || '');
     } else {
-      imgList.push(imageDom[i].getAttribute('src') || '');
+      const imgDom = imageDom[i];
+      const imgSrc = imgDom.getAttribute('src') || imgDom.getAttribute('alt');
+      imgList.push(imgSrc);
     }
   }
   return imgList;
