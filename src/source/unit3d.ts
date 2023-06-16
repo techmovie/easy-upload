@@ -24,6 +24,7 @@ export default async () => {
   let IMDBYear = $('.movie-heading span:last').text();
   let movieName = $('.movie-heading span:first').text();
   let imdbUrl = $('.movie-details a:contains(IMDB)').attr('href') as string;
+  let poster = $('.movie-poster').attr('src');
 
   if (CURRENT_SITE_NAME === 'HDPOST') {
     const englishTitle = title.match(/[\s\W\d]+(.+)/)?.[1] ?? '';
@@ -50,8 +51,9 @@ export default async () => {
     movieName = title.replace(/\(.+\)/g, '');
     IMDBYear = title.match(/\((\d{4})\)/)?.[1] ?? '';
     imdbUrl = $('.meta__imdb a').attr('href') as string;
-    descriptionDom = $('.panel-body. bbcode-rendered');
+    descriptionDom = $('.panel__body.bbcode-rendered');
     mediaInfoOrBDInfo = $('.bbcode-rendered code').text();
+    poster = $('.meta__poster-link img').attr('src');
   }
   let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
   if (mediaInfoOrBDInfo) {
@@ -70,7 +72,7 @@ export default async () => {
   TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;
   TORRENT_INFO.resolution = resolution;
   TORRENT_INFO.imdbUrl = imdbUrl;
-  TORRENT_INFO.poster = $('.movie-poster').attr('src');
+  TORRENT_INFO.poster = poster;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   TORRENT_INFO.source = getSourceFromTitle(title);
   TORRENT_INFO.videoType = videoType.toLowerCase();

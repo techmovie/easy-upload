@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload?category_id=1
 needDoubanInfo: true
-seedDomSelector: '#meta-info+.meta-general>.panel:first'
+seedDomSelector: '.torrent__buttons+.panelV2'
 search:
   path: /torrents
   replaceKey: ['tt', '']
