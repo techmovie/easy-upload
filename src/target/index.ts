@@ -148,7 +148,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'Concertos') {
-    $('#add').click();
+    $('#add').trigger('click');
     $('.sceditor-button.sceditor-button-source.has-icon')[0].click();
     description = description.replace(mediaInfo.trim(), '');
   }
@@ -248,6 +248,14 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
         layui.form.render('checkbox');
       }, 1000);
     }
+  }
+
+  if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+    description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
+    description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
+      const slash = p1 || '';
+      return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
+    });
   }
   // 过滤空标签
   description = filterEmptyTags(description);

@@ -46,7 +46,7 @@ export default async () => {
     .siblings('.table-responsive').find('.panel-body').clone();
   descriptionDom.find('#collection_waypoint').remove();
   let mediaInfoOrBDInfo = $('.decoda-code code').text();
-  if (CURRENT_SITE_NAME === 'Blutopia') {
+  if (CURRENT_SITE_NAME.match(/Blutopia|Aither/i)) {
     const title = $('.meta__title').text().trim();
     movieName = title.replace(/\(.+\)/g, '');
     IMDBYear = title.match(/\((\d{4})\)/)?.[1] ?? '';
@@ -105,7 +105,7 @@ const getBasicInfo = () => {
     Resolution: 'Resolution',
     resolution: 'Resolution',
   };
-  if (CURRENT_SITE_NAME !== 'Blutopia') {
+  if (!CURRENT_SITE_NAME.match(/Blutopia|Aither/i)) {
     const lineSelector = $('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
     lineSelector.each((index, element) => {
       const key = $(element).find('td:first').text().replace(/\s|\n/g, '');
