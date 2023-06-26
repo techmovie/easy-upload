@@ -298,6 +298,11 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
           }
         }
       });
+    } else {
+      $('#torrent').on('change', () => {
+        $(currentSiteInfo.name.selector).val(info.title);
+        if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.subtitle);
+      });
     }
     info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
   }
