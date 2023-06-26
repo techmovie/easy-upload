@@ -79,6 +79,12 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
     info.title = info.title.replace(' DoVi ', ' DV ').replace(' DDP ', ' DD+ ');
     if (info.source.match(/web/gi)) info.title = info.title.replace(' HEVC', ' H.265');
   }
+  if (CURRENT_SITE_NAME === 'KEEPFRDS' && info.category === 'music') {
+    const { title, subtitle } = info;
+    // 交换
+    info.subtitle = title;
+    if (subtitle !== undefined)info.title = subtitle;
+  }
   const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
   const isBluray = info.videoType.match(/bluray/i);
@@ -392,14 +398,11 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   // 填入制作组
   fillTeamName(info);
   // 对配置覆盖不到的地方进行专门处理
-  if (CURRENT_SITE_NAME.match(/PTHome|LemonHD|1PTBA|52pt|Audiences/i)) {
+  if (CURRENT_SITE_NAME.match(/PTHome|1PTBA|52pt|Audiences/i)) {
     if (info.tags.diy) {
       let categoryValue = '';
       if (CURRENT_SITE_NAME.match(/Audiences|PTHome/)) {
         categoryValue = info.videoType === 'bluray' ? '14' : '13';
-      } else if (CURRENT_SITE_NAME === 'LemonHD') {
-        $('select[name="tag_diy"]').val('yes');
-        return;
       } else if (CURRENT_SITE_NAME === '1PTBA') {
         categoryValue = info.videoType === 'bluray' ? '1' : '4';
       } else if (CURRENT_SITE_NAME === '52pt') {
