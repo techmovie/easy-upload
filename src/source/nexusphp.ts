@@ -42,9 +42,6 @@ export default async () => {
     }
     descriptionBBCode = descriptionBBCode.replace(/\[img\d\]/g, '[img]');
   }
-  if (CURRENT_SITE_NAME === 'LemonHD') {
-    descriptionBBCode = descriptionBBCode.replace(/\[b\]\[color=\w+\][^[]+?网上搜集[^[]+?\[\/color\]\[\/b\]/, '');
-  }
   if (CURRENT_SITE_NAME === 'HDChina') {
     const meta:string[] = [];
     $("li:contains('基本信息'):last").next('li').children('i').each(function () {
@@ -134,14 +131,6 @@ export default async () => {
       descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
     }
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
-  }
-
-  if (CURRENT_SITE_NAME === 'LemonHD') {
-    metaInfo += $("td.rowhead:contains('详细信息')").next().text().replace(/：/g, ':');
-    // 适配 lemonhd.org/details_animate.php 分辨率缺冒号(:)   -_-//
-    if (metaInfo.match(/分辨率:/) === null) {
-      metaInfo = metaInfo.replace('分辨率', '分辨率:');
-    }
   }
 
   if (CURRENT_SITE_NAME === 'HaresClub') {

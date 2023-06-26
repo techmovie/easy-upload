@@ -63,18 +63,6 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
 };
 const UploadSiteList = () => {
   const handleSiteClickEvent = async (url:string) => {
-    if (url.match(/lemonhd/)) {
-      const catMap = {
-        movie: 'movie',
-        tv: 'tv',
-        tvPack: 'tv',
-        variety: 'tv',
-        documentary: 'doc',
-        concert: 'mv',
-      };
-      const path = catMap[TORRENT_INFO.category as keyof typeof catMap] || 'movie';
-      url = url.replace('upload_movie', `upload_${path}`);
-    }
     if (url.match(/hdpost|blutopia|asiancinema|monikadesign|lst/)) {
       const catMap = {
         movie: '1',
