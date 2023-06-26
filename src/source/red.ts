@@ -37,7 +37,7 @@ async function getTorrentInfo (torrentId:string) {
   description = `[img]${wikiImage}[/img]\n${description}`;
   return {
     title: $('.header h2').text(),
-    subtitle: $(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text(),
+    subtitle: `${$(`#torrent${torrentId}`).prev().find('strong').contents().last().text().trim()} / ${$(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
     year: `${year}`,
     poster: wikiImage,
     description,
