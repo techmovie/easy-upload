@@ -65,8 +65,6 @@ const userScriptComment = `// ==UserScript==
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
-// @match        https://lemonhd.org/upload_*
-// @match        https://lemonhd.org/details*
 // @match        https://blutopia.xyz/torrents/*
 // @match        https://blutopia.xyz/torrents?*
 // @match        https://blutopia.xyz/upload/*
