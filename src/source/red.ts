@@ -35,6 +35,12 @@ async function getTorrentInfo (torrentId:string) {
   div.innerHTML = wikiBody;
   let description = bbBody || htmlToBBCode(div);
   description = `[img]${wikiImage}[/img]\n${description}`;
+  const log = await fetch(`/torrents.php?action=loglist&torrentid=${torrentId}`, {
+    responseType: undefined,
+  });
+  const logDiv = document.createElement('div');
+  logDiv.innerHTML = log;
+  const logBBcode = htmlToBBCode(logDiv);
   return {
     title: $('.header h2').text(),
     subtitle: `${$(`#torrent${torrentId}`).prev().find('strong').contents().last().text().trim()} / ${$(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
@@ -50,6 +56,7 @@ async function getTorrentInfo (torrentId:string) {
       artists: musicInfo.artists.map(item => item.name),
       media,
       encoding,
+      log: logBBcode,
     },
   };
 }
