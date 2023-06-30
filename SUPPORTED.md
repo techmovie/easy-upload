@@ -44,7 +44,6 @@
 |    iTS    |            ❌             |           ✅            |
 | KEEPFRDS  |            ✅             |           ✅            |
 |    KG     |            ✅             |           ✅            |
-|  LemonHD  |            ✅             |           ✅            |
 |   MTeam   |            ✅             |           ✅            |
 |    MTV    |            ✅             |           ❌            |
 |  NPUBits  |            ❌             |           ✅            |
