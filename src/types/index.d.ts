@@ -19,6 +19,7 @@ declare namespace TorrentInfo {
     publisher: string
     ISBN: string
     book_intro: string
+    poster: string
   }
   interface Info {
     title: string, // 标题
