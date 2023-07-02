@@ -205,6 +205,11 @@ export default async () => {
     ...tags,
     ...pageTags,
   };
+
+  if (!TORRENT_INFO.isForbidden && TORRENT_INFO.tags.exclusive) {
+    TORRENT_INFO.isForbidden = true;
+  }
+
   const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfo);
   if (infoFromMediaInfoinfo.subtitles) {
     for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
