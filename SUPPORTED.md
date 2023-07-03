@@ -41,6 +41,7 @@
 |  HDTime   |            ✅             |           ✅            |
 |    HDU    |            ✅             |           ✅            |
 |  HDZone   |            ✅             |           ✅            |
+|    HH     |            ✅             |           ❌            |
 |    iTS    |            ❌             |           ✅            |
 | KEEPFRDS  |            ✅             |           ✅            |
 |    KG     |            ✅             |           ✅            |
