@@ -1300,7 +1300,7 @@ const getTagsFromSubtitle = (title:string) => {
   if (title.match(/Criterion|CC标准/i)) {
     tags.the_criterion_collection = true;
   }
-  if (title.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|exclusive/)) {
+  if (title.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|禁止转载|exclusive/)) {
     tags.exclusive = true;
   }
   return tags;

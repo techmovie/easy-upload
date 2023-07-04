@@ -34,6 +34,11 @@ export default async () => {
   if (CURRENT_SITE_NAME === 'ACM') {
     title = title.replace(/\/\s+\W+/, '');
   }
+  if (CURRENT_SITE_NAME === 'MDU') {
+    title = $('h1.text-center').text().trim();
+    TORRENT_INFO.subtitle = $('h2.text-center').text().trim();
+  }
+
   if (!IMDBYear) {
     const matchYear = TORRENT_INFO.title.match(/(19|20)\d{2}/g);
     IMDBYear = matchYear?.pop() ?? '';
@@ -77,6 +82,10 @@ export default async () => {
   TORRENT_INFO.source = getSourceFromTitle(title);
   TORRENT_INFO.videoType = videoType.toLowerCase();
   TORRENT_INFO.description = descriptionBBCode;
+
+  const fullInformation = TORRENT_INFO.subtitle + descriptionBBCode;
+  const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|请勿转载|禁止转载|exclusive/);
+  TORRENT_INFO.isForbidden = !!isForbidden;
 };
 const getBasicInfo = () => {
   const basicInfo:BasicInfo = {
