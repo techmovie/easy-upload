@@ -16,18 +16,26 @@ search:
     sortField: size
 name:
   selector: '#title'
+subtitle:
+  selector: 'input[name="subhead"]'
 description:
   selector: '#bbcode-description'
 imdb:
   selector: '#autoimdb'
 tmdb:
   selector: '#autotmdb'
+mal:
+  selector: '#automal'
+bgm:
+  selector: '#bgm'
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
+bdinfo:
+  selector: 'textarea[name="bdinfo"]'
 anonymous:
   selector: '.form__group input[type="checkbox"][name="anonymous"]'
 category:
-  selector: '#browsecat'
+  selector: '#autocat'
   map:
     movie: '1'
     tv: '2'
@@ -37,12 +45,12 @@ videoType:
   map:
     uhdbluray: '1'
     bluray: '1'
-    remux: '3'
-    encode: '12'
+    remux: '2'
+    encode: '3'
     web: '4'
-    hdtv: '6'
-    dvd: '1'
-    dvdrip: '12'
+    hdtv: ''
+    dvd: ''
+    dvdrip: ''
     other: ''
 resolution:
   selector: '#autores'
