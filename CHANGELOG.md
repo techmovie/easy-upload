@@ -1,3 +1,23 @@
+## [3.2.18](https://github.com/techmovie/easy-upload/compare/3.2.17...3.2.18) (2023-07-05)
+
+
+### Bug Fixes
+
+* add missing translations ([bd3613d](https://github.com/techmovie/easy-upload/commit/bd3613d24b6513a9404fd888166db06ce85a1bba))
+* **bib:** fill in poster ([8f24360](https://github.com/techmovie/easy-upload/commit/8f243607fbc272bd84eea6eaa7243d68f84c8071))
+* **blutopia:** adap the new version of UNIT3D ([946ec9c](https://github.com/techmovie/easy-upload/commit/946ec9c33ce1c07624ddc4d4e518b1e5196b7cce))
+* **unit3d:** adapt to the new version of unit3d(aither blutopia) ([6fde822](https://github.com/techmovie/easy-upload/commit/6fde8223ac589819a5c3d19160a4f1d4187f959c))
+
+
+### Features
+
+* **lemon:** remove support ([fc15f0a](https://github.com/techmovie/easy-upload/commit/fc15f0af813d7596e437fbe9eed07d0e42926f27))
+* **new site:** hhclub ([b49d8a3](https://github.com/techmovie/easy-upload/commit/b49d8a30e9f9de679cf033cdb698ef440740f232))
+* red sourch subtitle expand and remove lemon ([#253](https://github.com/techmovie/easy-upload/issues/253)) ([dd6fa5f](https://github.com/techmovie/easy-upload/commit/dd6fa5fd153b9de52221a314e69d0344bd75e4a6))
+* **red:** add music log to source ([17a9d03](https://github.com/techmovie/easy-upload/commit/17a9d034e3eda834546b608be0299dea1d18a4ad))
+
+
+
 ## [3.2.17](https://github.com/techmovie/easy-upload/compare/3.2.16...3.2.17) (2023-06-15)
 
 
