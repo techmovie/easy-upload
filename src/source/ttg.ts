@@ -32,7 +32,7 @@ export default async () => {
     const descriptionDom = $('#kt_d');
     const bbCodes = getFilterBBCode(descriptionDom[0]);
     if (!imdbUrl) {
-      TORRENT_INFO.imdbUrl = bbCodes.match(/https:\/\/www.imdb.com\/title\/tt\d+/)?.[0];
+      TORRENT_INFO.imdbUrl = bbCodes.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)?.[0];
     } else {
       TORRENT_INFO.imdbUrl = imdbUrl;
     }
