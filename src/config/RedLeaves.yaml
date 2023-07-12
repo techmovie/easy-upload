@@ -30,7 +30,7 @@ description:
 imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
-  selector: 'input[name="douban"]'
+  selector: 'input[name="pt_gen"]'
 mediaInfo:
   selector: 'textarea[name="technical_info"]'
 anonymous:
@@ -43,7 +43,7 @@ tags:
   HDR: '#leaves-tag7'
   DolbyVision: '#leaves-tag17'
 category:
-  selector: 'select[name="type"]'
+  selector: '#browsecat'
   map:
     movie: '401'
     tv:

@@ -576,6 +576,15 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
       $(currentSiteInfo.videoType.selector).val(resolution === '2160p' ? '2' : '4');
     }
   }
+  // 单独处理红叶
+  if (CURRENT_SITE_NAME === 'RedLeaves') {
+    try {
+      $(currentSiteInfo.category.selector).trigger('change');
+    } catch (err) {
+
+    }
+    $('tr.mode_5').css('display', '');
+  }
 };
 
 const fillTeamName = (info: TorrentInfo.Info) => {
