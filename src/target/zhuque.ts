@@ -2,13 +2,19 @@ import { PT_SITE } from '../const';
 import {
   buildPTPDescription,
 } from './common';
+import {
+  getTMDBIdByIMDBId, getIMDBIdByUrl,
+} from '../common';
 const currentSiteInfo = PT_SITE.ZHUQUE;
 export default (info: TorrentInfo.Info) => {
   const targetNode = document;
+  const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
   const insert = new MutationObserver(mutationRecords => {
     $('input.ant-select-selection-search-input[id]').each(function () { this.dispatchEvent(new Event('keydown')); });
     $(currentSiteInfo.name.selector).val(info.title);
     $(currentSiteInfo.name.selector)[0].dispatchEvent(new Event('input'));
+    $(currentSiteInfo.imdb.selector).val(imdbId);
+    $(currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event('input'));
     if (info.subtitle) {
       $(currentSiteInfo.subtitle.selector).val(info.subtitle);
       $(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event('input'));

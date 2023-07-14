@@ -23,9 +23,11 @@ description:
 anonymous: 
   selector: '#form_item_anonymous'
 imdb:
-  selector: ''
+  selector: 'input[placeholder="tt123456"]'
 douban:
   selector: '#form_item_doubanid'
+tmdb:
+  selector: '.ant-space.ant-space-horizontal.ant-space-align-center >.ant-space-item:last-child > input'
 screenshots:
   selector: '#form_item_screenshot'
 mediaInfo:
