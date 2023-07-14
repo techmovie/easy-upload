@@ -13,10 +13,10 @@ export default (info: TorrentInfo.Info) => {
       $(currentSiteInfo.subtitle.selector).val(info.subtitle);
       $(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event('input'));
     }
-    if (info.doubanUrl) {
+    /* if (info.doubanUrl) {
       $(currentSiteInfo.douban.selector).val(info.doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '');
       $(currentSiteInfo.douban.selector)[0].dispatchEvent(new Event('input'));
-    }
+    } */
     let screenshotStr = '';
     if (info.screenshots.length > 0) {
       info.screenshots.forEach(img => {

@@ -38,13 +38,13 @@ tags:
 category:
   selector: '#form_item_category'
   map:
-    movie: 'Movie'
-    tv: 'Series'
-    tvPack: 'Series'
-    cartoon: 'Anime'
-    concert: 'Show'
-    documentary: 'Other'
-    variety: 'Other'
+    movie: '电影'
+    tv: '电视剧'
+    tvPack: '电视剧'
+    cartoon: '动画'
+    concert: '其它'
+    documentary: '其它'
+    variety: '其它'
 videoType:
   selector: '#rc_select_9'
   map:
