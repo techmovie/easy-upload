@@ -23,9 +23,11 @@ description:
 anonymous: 
   selector: '#form_item_anonymous'
 imdb:
-  selector: ''
+  selector: 'input[placeholder="tt123456"]'
 douban:
   selector: '#form_item_doubanid'
+tmdb:
+  selector: '.ant-space.ant-space-horizontal.ant-space-align-center >.ant-space-item:last-child > input'
 screenshots:
   selector: '#form_item_screenshot'
 mediaInfo:
@@ -38,13 +40,13 @@ tags:
 category:
   selector: '#form_item_category'
   map:
-    movie: 'Movie'
-    tv: 'Series'
-    tvPack: 'Series'
-    cartoon: 'Anime'
-    concert: 'Show'
-    documentary: 'Other'
-    variety: 'Other'
+    movie: '电影'
+    tv: '电视剧'
+    tvPack: '电视剧'
+    cartoon: '动画'
+    concert: '其它'
+    documentary: '其它'
+    variety: '其它'
 videoType:
   selector: '#rc_select_9'
   map:
@@ -58,13 +60,13 @@ videoType:
 videoCodec:
   selector: '#rc_select_10'
   map:
-    h264: 'H.264'
-    hevc: 'H.265'
+    h264: 'H264'
+    hevc: 'H265'
     x264: 'x264'
     x265: 'x265'
-    h265: 'H.265'
+    h265: 'H265'
     mpeg2: 'Other'
-    mpeg4: 'H.264'
+    mpeg4: 'H265'
     vc1: 'Other'
     xvid: 'Other'
     dvd: 'Other'
