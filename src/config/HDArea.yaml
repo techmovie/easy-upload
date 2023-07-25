@@ -1,12 +1,12 @@
-url: 'https://www.hdarea.co'
-host: hdarea.co
+url: 'https://hdarea.club'
+host: hdarea.club
 siteType: NexusPHP
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBhQINJhF4AAABH1JREFUOMuNlEtsVGUYht//P/85c86c6bQz7UynMx2mLdALt2IFLZabNaAmGgRMJDFhoe41LtgYNiYsSIxRdxIJMZHISgwmLgjQCLFSC5XWQikNLQidTi+203Yu5/p/LlTUoMi7+r7vTd58m/dheAxRaeavxbMBkoDQAMYAACyYeGCzxwok+nNUYS/qIJ8jELHBmA2AGGOPF/ggKPuDjvmxFgx93SHDTT7VJct87mwdgvEsi7TNILZlGrU7cwAWxSNfO7kbAGIA64bEDkxPbHVE5bLnhZbN/K1WuHM5WNlJZL+7I5Vjg6X1hwYEANBkH1CZUtD/uU73B3Rv1XMuhRJF+ck+n3W0t1M5fxTFhaT0dLUcCFueUP1gcSbIrLtpMLmZHHBZsf6mD3Gak2cBS/eAhfE6OIX9IHmEmHhDKmqSH6OQF+1Y7Si1taVUl5jf9i7chu0/Gw6/ZFU+7UsW4vDBpVoNJ9QqnGBGCCgB4PirQLJut5TikBtsDC2knqzRqjIT+sCnLtPERhKGpeYm1EB6x0Uv1nICeTYumXsDo0NvwkWlHVuDUuypnODiG4Gx08DhsXqc6O7E8nQLk8Izez/cFFi6H0Q5yzhDo2q5KtkeuGr+KpPrbmvJddcxmm9lcBySgG82lpxE980oygMCdy5yZPu7oATXMs+BWpgUyvCZDAVERsICt8sAN1BO7ZBOpH7RBgrapbeisOc2EuyAb8QAIzWG2o7+vOOWBaLNKn76rJPKS62kmPD1GscJt9kU5JqWH1G1wgSnQJCKrbtKMMPn64EhzPc/Czv/PHwZtOJd8EKNNyoC6COmEEdkVRNmb7f5vhJdXnOwmDt4dnhp70dfMT0+otiWTQKQWsim1JY+O9N9C0AIRmwtypMr4EnFij1TLsS2DlUAg4wx4hg+dQAl2WBHm1FueGKYatLvmQqd0+9d9pT8lOEHamCnNpeFHu4RApMYfL8N5HcSMdU1MuBGoo/F24anFvMIaxzCUyOrYSRDXqSl4GW2XqkuLF8IFr20FWk+oNge+WacCmv3ZgXDucTC1TByPS9h7vp26RqslNguSTN7TA3XiFcBAIRX0dRLqU1VqGlz1Xjb98bgkTDGT65zV72+4Bupa1LRVL9uZbZq6HCa2XMvUHFir7RKaSe0QdqpXXMUTF099Rq7/84p+XuXrdyoWg7Xb+NcqHpAu6v+eCiNkY+PU+WGCTe956qr1whl9lp7YOpCA1n5uOSmaletd0rpl2eVzJ5zzIx/QK47UmUKCIVDlGqbXQC9LiBD82MRokAXyAywheFObeHGBs3njEjT3OAKUVi5X9iJnVOoaO41BM5A6D1SwRSTKoTC/kkbf/RLcCMunMXbza419zabvrxHWRyv9dVqFFMvOqhcPQIzcd6tSPc64fRojUBWYchLQIb+C18zPgEcGjx3o37l6BbP4/tcsyHpxNq/peqmPlM3rkQZfiHA4uzfyffQ9W8w5XeX8QqAxnoTXygcswAkY49m8kM89OQfBofkvnuaCMz1IMEZfML/6jelxwpRbOI1GgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0xMFQwNjoyMDowOCswMDowML4c7OgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMTBUMDY6MjA6MDgrMDA6MDDPQVRUAAAAAElFTkSuQmCC
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -31,12 +31,12 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="dburl"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
   map:
-    movie: 
+    movie:
       - '300'
       - '401'
       - '415'
@@ -47,7 +47,7 @@ category:
       - '412'
       - '413'
       - '417'
-    tv: 
+    tv:
       - '402'
       - '403'
     tvPack: '402'
@@ -86,23 +86,23 @@ audioCodec:
 videoType:
   selector: 'select[name="medium_sel"]'
   map:
-    uhdbluray: 
+    uhdbluray:
       - '1'
       - '300'
-    bluray: 
+    bluray:
       - '1'
       - '401'
-    remux: 
+    remux:
       - '3'
       - '415'
     encode: '7'
-    web: 
+    web:
       - '9'
       - '412'
-    hdtv: 
+    hdtv:
       - '5'
       - '413'
-    dvd: 
+    dvd:
       - '2'
       - '414'
     dvdrip: '6'
@@ -111,16 +111,16 @@ resolution:
   selector: 'select[name="standard_sel"]'
   map:
     2160p: '5'
-    1080p: 
+    1080p:
       - '1'
       - '410'
     1080i: '2'
-    720p: 
+    720p:
       - '3'
       - '411'
     576p: '4'
     480p: '4'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     epic: '1'
