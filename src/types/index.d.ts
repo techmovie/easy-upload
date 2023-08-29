@@ -53,8 +53,6 @@ declare namespace TorrentInfo {
     otherTags?: any,
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
-    formDom?: string // bB专用
-    image?: string // bB专用
   }
 }
 declare namespace Site {

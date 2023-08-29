@@ -8,7 +8,6 @@
 | Audiences |            ✅             |           ✅            |
 |  AvistaZ  |            ✅             |           ❌            |
 |   azusa   |            ❌             |           ✅            |
-|    bB     |            ❌             |           ✅            |
 |    Bdc    |            ✅             |           ✅            |
 |    BTN    |            ✅             |           ❌            |
 | BTSCHOOL  |            ✅             |           ✅            |

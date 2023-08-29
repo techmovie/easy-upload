@@ -98,25 +98,6 @@ const UploadSiteList = () => {
       };
       url = url.replace('/upload', `/upload/${catMap[TORRENT_INFO.category as keyof typeof catMap] || 'ebooks'}`);
     }
-    if (url.match(/baconbits/)) {
-      const catMap = {
-        movie: 'Movies',
-        tv: 'TV',
-        tvPack: 'TV',
-        documentary: 'Movies',
-        cartoon: 'Anime',
-        app: 'Applications',
-        ebook: 'E-Books',
-        magazine: 'Magazines',
-        audioBook: 'Audiobooks',
-        comics: 'Comics',
-      };
-      const bBDomUrl = `${PT_SITE.bB.url}/ajax.php?action=upload_section&section=${catMap[TORRENT_INFO.category as keyof typeof catMap]}`;
-      const formDom = await fetch(bBDomUrl, {
-        responseType: undefined,
-      });
-      TORRENT_INFO.formDom = formDom;
-    }
     if (url.match(PT_SITE.BYR.host)) {
       const catMap = {
         movie: '408',

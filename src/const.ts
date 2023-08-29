@@ -38,7 +38,6 @@ const TORRENT_INFO: TorrentInfo.Info = {
   size: 0,
   isForbidden: false,
   poster: '',
-  formDom: '',
 };
 
 const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';

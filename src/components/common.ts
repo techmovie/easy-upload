@@ -12,7 +12,7 @@ const getQuickSearchUrl = (siteName:string) => {
   let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl as string);
   let searchKeyWord = '';
   const { movieAkaName, movieName, title } = TORRENT_INFO;
-  if (imdbId && !siteName.match(/(nzbs.in|HDF|bB|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
+  if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
   siteInfo.siteType !== 'AvistaZ') {
     if (replaceKey) {
       searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
