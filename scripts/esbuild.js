@@ -22,7 +22,7 @@ esbuild.build({
       banner: { js: userScriptComment },
     }
     : [],
-  minify: isProd,
+  minify: false,
   sourcemap: false,
   jsxFactory: 'h',
   jsxFragment: 'Fragment',
