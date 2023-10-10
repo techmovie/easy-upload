@@ -81,7 +81,13 @@ const Transfer = () => {
         TORRENT_INFO.screenshots = uploadedImgs.slice(0, TORRENT_INFO.screenshots.length);
         let { description } = TORRENT_INFO;
         imgList.forEach((img, index) => {
-          if (description.includes(img)) {
+          if (img.match(/i\.hdbits\.org/)) {
+            const imgId = img.match(/i\.hdbits\.org\/(.+)\./)?.[1] ?? '';
+            const urlReg = new RegExp(`\\[url=https://img.hdbits.org/${imgId}\\].+?\\[\\/url\\]\n*`, 'ig');
+            if (description.match(urlReg)) {
+              description = description.replace(urlReg, uploadedImgs[index] || '');
+            }
+          } else if (description.includes(img)) {
             const urlReg = new RegExp(`\\[url=${img}\\].+?\\[\\/url\\]\n*`, 'ig');
             if (description.match(urlReg)) {
               description = description.replace(urlReg, uploadedImgs[index] || '');
