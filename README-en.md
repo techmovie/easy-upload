@@ -1,6 +1,6 @@
 # easy-upload
 
-[Installation address 1](https://greasyfork.org/en/scripts/423199) | [Installation address 2](https://openuserjs.org/scripts/birdplane/EasyUpload_PT%E4%B8%80%E9%94%AE%E8%BD%AC%E7%A7%8D) | [Join Telegram group](https://t.me/easyupload)
+[Installation](https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js) | [Join Telegram group](https://t.me/+Ss_nJoAapvRhYTM1)
 
 ## About
 
