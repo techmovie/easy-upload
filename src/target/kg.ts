@@ -27,7 +27,7 @@ export default async (info:TorrentInfo.Info) => {
     if (imdbData) {
       const { country, Languages: languages } = imdbData.details;
       $('input[name="lang"]').val(languages);
-      const { description, genre, poster } = imdbData;
+      let { description, genre, poster = '' } = imdbData;
       const genreMap = siteInfo.genres.map;
       const countryMap = siteInfo.country.map;
       let countryValue = '';
@@ -38,6 +38,9 @@ export default async (info:TorrentInfo.Info) => {
         } else if (countryValue === 'United Kingdom') {
           countryValue = 'UK';
         }
+      }
+      if (!poster) {
+        poster = info.poster || '';
       }
       $('select[name="country_id"]').val(countryMap[countryValue as keyof typeof countryMap]);
       const descriptionBBCode = `[img]${poster}[/img]

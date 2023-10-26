@@ -73,6 +73,7 @@ export default async () => {
     const size = torrentHeaderDom.find('.nobr span').attr('title')?.replace(/[^\d]/g, '') ?? '';
     TORRENT_INFO.size = parseFloat(size);
     TORRENT_INFO.screenshots = screenshots;
+    TORRENT_INFO.poster = $('.sidebar-cover-image').attr('src') || '';
     console.log(TORRENT_INFO);
   });
 
@@ -111,7 +112,7 @@ const getPTPImage = () => {
     } else {
       const imgDom = imageDom[i];
       const imgSrc = imgDom.getAttribute('src') || imgDom.getAttribute('alt');
-      imgList.push(imgSrc);
+      imgList.push(imgSrc || '');
     }
   }
   return imgList;
