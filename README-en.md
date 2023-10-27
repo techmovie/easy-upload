@@ -1,6 +1,6 @@
 # easy-upload
 
-[Installation](https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js) | [Join Telegram group](https://t.me/+Ss_nJoAapvRhYTM1)
+[Installation address 1](https://greasyfork.org/en/scripts/423199) | [Installation address 2](https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js) | [Join Telegram group](https://t.me/+Ss_nJoAapvRhYTM1)
 
 ## About
 

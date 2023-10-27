@@ -25,7 +25,8 @@ export default function createTgChannelMsg (core) {
   let tgMsg = `
 📣 <b>更新至${newVersion}</b>
 
-👉 <a href="https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js">安装地址</a>
+👉 <a href="https://greasyfork.org/zh-CN/scripts/423199">安装地址1</a>
+👉 <a href="https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js">安装地址2</a>
 👉 <a href="https://github.com/techmovie/easy-upload/blob/master/CHANGELOG.md">CHANGELOG</a>
 👉 <a href="https://github.com/techmovie/easy-upload/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B">使用教程</a>
 `;

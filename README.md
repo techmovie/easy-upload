@@ -2,7 +2,7 @@
 
 [English Version](README-en.md)
 
-[安装地址](https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js) | [加入 Telegram 群组](https://t.me/+Ss_nJoAapvRhYTM1)
+[安装地址 1](https://greasyfork.org/zh-CN/scripts/423199) | [安装地址 2](https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js) | [加入 Telegram 群组](https://t.me/+Ss_nJoAapvRhYTM1)
 
 ## 关于
 
