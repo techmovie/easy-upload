@@ -93,6 +93,14 @@ const Container = () => {
   };
   const quickSearchClosed = getValue('easy-seed.quick-search-closed', false) || '';
   return <>
+    { (CURRENT_SITE_NAME === 'HH') && <>
+      <div class="font-bold leading-6"><Title /></div>
+      <div class="font-bold leading-6"><UploadSiteList /></div>
+      <div class="font-bold leading-6">{$t('快捷操作')}</div>
+      <div class="font-bold leading-6"><FunctionList /></div>
+      <div class="font-bold leading-6">{$t('快速检索')}</div>
+      <div class="font-bold leading-6"><SearchList /></div>
+    </>}
     {
       (isNexusPHP || isHDB || CURRENT_SITE_NAME?.match(/(HDSpace|HDT)$/)) &&
       <>

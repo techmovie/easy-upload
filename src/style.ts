@@ -75,7 +75,7 @@ td.title-td h4{
   min-width: 60px;
   margin-right: 15px;
 }
-#seed-dom li,.search-list li {
+#seed-dom li,.search-list li,.site-list li {
   font-weight: 600;
   line-height: 24px;
   margin-right: 5px;
@@ -83,8 +83,10 @@ td.title-td h4{
   margin-bottom: 0;
   margin-left: 0;
   padding: 0px;
+  display: flex;
+  align-items: center;
 }
-#seed-dom li a,.search-list li a {
+#seed-dom li a,.search-list li a,.site-list li a {
   padding-right: 3px;
   display: inline-flex;
   align-items: center;
