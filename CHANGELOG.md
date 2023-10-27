@@ -1,3 +1,13 @@
+## [3.2.23](https://github.com/techmovie/easy-upload/compare/3.2.22...3.2.23) (2023-10-27)
+
+
+### Bug Fixes
+
+* get poster from ptp when transfer to kg ([11d152f](https://github.com/techmovie/easy-upload/commit/11d152f12d7b5b6b28ad5dd852724d45a1a64c8e))
+* **hh:** adap to the new ui ([68af0c1](https://github.com/techmovie/easy-upload/commit/68af0c19374151768948741436617be558c1b77d))
+
+
+
 ## [3.2.22](https://github.com/techmovie/easy-upload/compare/3.2.21...3.2.22) (2023-10-10)
 
 
