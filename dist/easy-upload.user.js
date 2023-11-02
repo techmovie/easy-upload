@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      3.2.23
+// @version      4.0.0
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -1811,7 +1811,7 @@
         selector: 'textarea[name="mediainfo"]'
       },
       anonymous: {
-        selector: '.form__group input[type="checkbox"][name="anonymous"]'
+        selector: '.form__group input[type="checkbox"][name="anon"]'
       },
       category: {
         selector: "#browsecat",
@@ -12558,6 +12558,9 @@ ${"\xA0".repeat(6)}`)}
   // src/target/index.ts
   init_preact_shim();
 
+  // src/target/helper.ts
+  init_preact_shim();
+
   // src/target/common.ts
   init_preact_shim();
   var getScreenshotsBBCode = (imgArray) => {
@@ -12664,6 +12667,28 @@ ${imgs.join("\n")}
     return `${filterDescription}
 ${allImages.join("")}`;
   };
+  var filterEmptyTags = (description) => {
+    const reg = new RegExp("\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
+    if (description.match(reg)) {
+      description = description.replace(reg, (_match, p1, p22) => {
+        if (p1 === p22) {
+          return "";
+        }
+        return _match;
+      });
+      return filterEmptyTags(description);
+    }
+    return description;
+  };
+  var fixTorrentTitle = (title, isWebSource) => {
+    let fixedTitle = title.replace(" DoVi ", " DV ").replace(" DDP ", " DD+ ");
+    if (isWebSource)
+      fixedTitle = fixedTitle.replace(" HEVC", " H.265");
+    return fixedTitle;
+  };
+
+  // src/target/site-operations.ts
+  init_preact_shim();
 
   // src/target/its.ts
   init_preact_shim();
@@ -12929,10 +12954,702 @@ $1`);
     (_a3 = document.getElementById("DescriptionField")) == null ? void 0 : _a3.dispatchEvent(event);
   };
 
+  // src/target/ptn.ts
+  init_preact_shim();
+  var ptn_default = (info) => {
+    const { resolution, videoType, source } = info;
+    let format = "";
+    const formatMap = {
+      remux: "Remux",
+      web: "WebRip",
+      dvd: "DVDR",
+      dvdrip: "DVDRip",
+      "720p": "720P",
+      "1080p": "1080P",
+      "2160p": "2160P"
+    };
+    if (videoType.match(/bluray/)) {
+      format = "BluRay";
+    } else if (videoType === "encode" && source === "bluray") {
+      format = formatMap[resolution];
+    } else {
+      format = formatMap[videoType] || "";
+    }
+    jQuery("#format").val(format);
+  };
+
+  // src/target/site-operations.ts
+  var currentSiteInfo = CURRENT_SITE_INFO;
+  var SITE_OPERATIONS = {
+    PTSBAO: {
+      beforeHandler: () => {
+        if (localStorage.getItem("autosave")) {
+          localStorage.removeItem("autosave");
+        }
+      },
+      afterHandler: (info) => {
+        jQuery('a[data-sceditor-command="source"]')[0].click();
+        jQuery(currentSiteInfo.description.selector).val(info.description);
+      }
+    },
+    Concertos: {
+      handleDescription: (info) => {
+        let { description, mediaInfo } = info;
+        jQuery("#add").trigger("click");
+        jQuery(".sceditor-button.sceditor-button-source.has-icon")[0].click();
+        description = description.replace(mediaInfo.trim(), "");
+        return description;
+      }
+    },
+    PTer: {
+      handleDescription: (info) => {
+        var _a3, _b2;
+        let description = info.description;
+        const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+        description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
+        description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
+        if ((_a3 = info.comparisons) == null ? void 0 : _a3.length) {
+          for (const comparison of info.comparisons) {
+            const { title, imgs } = comparison;
+            const titleCount = (_b2 = title == null ? void 0 : title.split(",").length) != null ? _b2 : "";
+            imgs.forEach((img) => {
+              description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
+            });
+          }
+        }
+        return description;
+      },
+      titleHandler: (info) => {
+        const isWebSource = !!info.source.match(/web/gi);
+        const title = fixTorrentTitle(info.title, isWebSource);
+        info.title = title;
+        return info;
+      },
+      afterHandler: (info) => {
+        var _a3, _b2;
+        const language = (_b2 = (_a3 = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+        if (!language.match(/英语/) && info.area === "EU") {
+          jQuery(currentSiteInfo.area.selector).val("8");
+        }
+      }
+    },
+    Blutopia: {
+      titleHandler: (info) => {
+        const isWebSource = !!info.source.match(/web/gi);
+        const title = fixTorrentTitle(info.title, isWebSource);
+        info.title = title;
+        return info;
+      }
+    },
+    Aither: {
+      titleHandler: (info) => {
+        const isWebSource = !!info.source.match(/web/gi);
+        const title = fixTorrentTitle(info.title, isWebSource);
+        info.title = title;
+        return info;
+      }
+    },
+    KEEPFRDS: {
+      handleDescription: (info) => {
+        var _a3, _b2, _c;
+        let { description, screenshots } = info;
+        const currentSiteInfo7 = CURRENT_SITE_INFO;
+        description = description.replaceAll(/\[\/?(center|code)\]/g, "");
+        if (info.sourceSite === "PTP") {
+          description = (_b2 = (_a3 = info == null ? void 0 : info.originalDescription) == null ? void 0 : _a3.replace(/^(\s+)/g, "")) != null ? _b2 : "";
+          description = filterEmptyTags(description);
+          description = description.replace(/http:\/\/ptpimg/g, "https://ptpimg");
+          screenshots.forEach((screenshot) => {
+            const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
+            if (!description.match(regStr)) {
+              const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
+              if (description.match(regOldFormat)) {
+                description = description.replace(regOldFormat, `[img]${screenshot}[/img]`);
+              } else {
+                description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "gi"), `[img]${screenshot}[/img]`);
+              }
+            }
+          });
+        }
+        jQuery("#torrent").on("change", () => {
+          jQuery(currentSiteInfo7.name.selector).val(info.title);
+          if (info.subtitle)
+            jQuery(currentSiteInfo7.subtitle.selector).val(info.subtitle);
+        });
+        (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+        });
+        return description;
+      },
+      titleHandler: (info) => {
+        if (info.category === "music") {
+          const { title, subtitle } = info;
+          info.subtitle = title;
+          if (subtitle !== void 0)
+            info.title = subtitle;
+        }
+        return info;
+      }
+    },
+    SpeedApp: {
+      handleDescription: (info) => {
+        let { description } = info;
+        description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
+        return description;
+      },
+      afterHandler: (info) => {
+        if (info.imdbId) {
+          jQuery(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+        }
+      }
+    },
+    PTN: {
+      handleDescription: (info) => {
+        let { description, imdbUrl } = info;
+        description = `${imdbUrl}
+
+${description}`;
+        return description;
+      },
+      afterHandler: (info) => {
+        ptn_default(info);
+      }
+    },
+    HDT: {
+      handleDescription: (info) => {
+        let { description } = info;
+        description = description.replace(/(\[\/img\])(\[img\])/g, "$1 $2").replace(/(\[\/url\])(\[url)/g, "$1 $2");
+        return description;
+      },
+      afterHandler: (info) => {
+        if (info.category !== "tvPack") {
+          jQuery('select[name="season"').val("true");
+        }
+        if (info.imdbId) {
+          jQuery(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+        }
+      }
+    },
+    HDRoute: {
+      afterHandler: (info) => {
+        hdr_default(info);
+      }
+    },
+    HDBits: {
+      titleHandler: (info) => {
+        let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p22) => {
+          return `${info.movieName || info.movieAkaName} ${p22}`;
+        });
+        if (info.videoType === "remux") {
+          mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/ig, "");
+        }
+        info.title = mediaTitle;
+        return info;
+      }
+    },
+    SSD: {
+      afterHandler: (info) => {
+        if (info.category === "tvPack" || info.title.match(/Trilogy|Collection/i) || info.subtitle && info.subtitle.match(/合集/)) {
+          jQuery('input[name="pack"]').attr("checked", "true");
+        }
+        jQuery(currentSiteInfo.imdb.selector).val(info.doubanUrl || info.imdbUrl);
+        jQuery(currentSiteInfo.screenshots.selector).val(info.screenshots.join("\n"));
+      }
+    },
+    HDAI: {
+      afterHandler: (info) => {
+        const { doubanUrl, imdbUrl, isBluray, screenshots } = info;
+        jQuery(currentSiteInfo.imdb.selector).val(doubanUrl || imdbUrl);
+        jQuery(currentSiteInfo.screenshots.selector).val(screenshots.join("\n"));
+        if (isBluray) {
+          jQuery('input[type="checkbox"][name="tag[o]"]').attr("checked", "true");
+        }
+      }
+    },
+    HDU: {
+      afterHandler: (info) => {
+        let videoTypeValue = "";
+        const { resolution, videoType, category } = info;
+        const isTV = category.match(/tv/);
+        if (videoType === "remux") {
+          if (resolution === "2160p") {
+            videoTypeValue = isTV ? "16" : "15";
+          } else {
+            videoTypeValue = isTV ? "12" : "3";
+          }
+        }
+        if (isTV) {
+          if (videoType === "encode") {
+            videoTypeValue = "14";
+          } else if (videoType === "web") {
+            videoTypeValue = "13";
+          }
+        }
+        if (videoTypeValue) {
+          jQuery(currentSiteInfo.videoType.selector).val(videoTypeValue);
+        }
+      }
+    },
+    TJUPT: {
+      afterHandler: (info) => {
+        jQuery("#browsecat").trigger("change");
+        tjupt_default(info);
+      }
+    },
+    NYPT: {
+      afterHandler: (info) => {
+        jQuery("#browsecat").trigger("change");
+        const domTimeout = setTimeout(() => {
+          const catMap = {
+            movie: "#movie_enname",
+            tv: "#series_enname",
+            tvPack: "#series_enname",
+            documentary: "#doc_enname",
+            variety: "#show_enname",
+            cartoon: "#anime_enname"
+          };
+          const selector = catMap[info.category];
+          if (selector) {
+            jQuery(selector).val(info.title);
+          }
+          clearTimeout(domTimeout);
+        }, 2e3);
+      }
+    },
+    iTS: {
+      afterHandler: (info) => {
+        its_default(info);
+      }
+    },
+    UHDBits: {
+      afterHandler: (info) => {
+        jQuery(currentSiteInfo.imdb.selector).val(info.imdbId || "");
+        if (info.title.match(/web-?rip/i)) {
+          jQuery(currentSiteInfo.videoType.selector).val("WEBRip");
+        }
+        const teamName = getTeamName(info);
+        jQuery("#team").val(teamName === "other" ? "Unknown" : teamName);
+        jQuery("#imdb_button").trigger("click");
+      }
+    },
+    "52pt": {
+      afterHandler: (info) => {
+        const { tags, videoType, resolution } = info;
+        let videoTypeValue = videoType;
+        if (videoType.match(/bluray/)) {
+          if (tags.chinese_audio || tags.cantonese_audio || tags.chinese_subtitle) {
+            videoTypeValue = videoType === "bluray" ? "14" : "15";
+          }
+        } else if (videoType === "remux" && resolution === "2160p") {
+          videoTypeValue = "5";
+        }
+        jQuery(currentSiteInfo.videoType.selector).val(videoTypeValue);
+      }
+    },
+    BTSCHOOL: {
+      afterHandler: (info) => {
+        var _a3, _b2;
+        jQuery(currentSiteInfo.imdb.selector).val(info.imdbId || "");
+        if (info.doubanUrl) {
+          const doubanId = (_b2 = (_a3 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+          jQuery(currentSiteInfo.douban.selector).val(doubanId);
+        }
+      }
+    },
+    HDTime: {
+      afterHandler: (info) => {
+        if (info.videoType.match(/bluray/i)) {
+          jQuery(currentSiteInfo.category.selector).val("424");
+        }
+      }
+    },
+    RedLeaves: {
+      afterHandler: (info) => {
+        try {
+          jQuery(currentSiteInfo.category.selector).trigger("change");
+        } catch (err) {
+        }
+        jQuery("tr.mode_5").css("display", "");
+      }
+    },
+    HDFans: {
+      afterHandler: (info) => {
+        const { videoType, resolution, tags } = info;
+        if (videoType === "remux") {
+          jQuery(currentSiteInfo.videoType.selector).val(resolution === "2160p" ? "10" : "8");
+        } else if (videoType === "encode") {
+          const map = {
+            "2160p": "9",
+            "1080p": "5",
+            "1080i": "5",
+            "720p": "11"
+          };
+          jQuery(currentSiteInfo.videoType.selector).val(map[resolution] || "16");
+        }
+        if (tags.diy) {
+          jQuery(currentSiteInfo.videoType.selector).val(resolution === "2160p" ? "2" : "4");
+        }
+      }
+    },
+    Bib: {
+      afterHandler: (info) => {
+        if (info.doubanBookInfo) {
+          bib_default(info);
+        }
+      }
+    },
+    HaresClub: {
+      afterHandler: (info) => {
+        jQuery(".modesw").trigger("click");
+        jQuery(currentSiteInfo.screenshots.selector).val(info.screenshots.join("\n"));
+        if (layui) {
+          setTimeout(() => {
+            layui.form.render("select");
+            layui.form.render("checkbox");
+          }, 1e3);
+        }
+      }
+    }
+  };
+
+  // src/target/helper.ts
+  var ExportHelper = class {
+    constructor(info) {
+      this.info = info;
+      this.currentSiteInfo = CURRENT_SITE_INFO;
+      this.operation = SITE_OPERATIONS[CURRENT_SITE_NAME];
+    }
+    prepareToFillInfo() {
+      var _a3;
+      if ((_a3 = this.operation) == null ? void 0 : _a3.beforeHandler) {
+        this.operation.beforeHandler();
+      }
+    }
+    fillTeamName() {
+      const teamConfig = this.currentSiteInfo.team;
+      const teamName = getTeamName(this.info);
+      if (teamName && teamConfig) {
+        const formateTeamName = teamConfig.map[teamName.toLowerCase()];
+        const matchValue = formateTeamName || teamConfig.map.other;
+        if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === "BTSCHOOL") {
+          jQuery(teamConfig.selector).val(teamConfig.map.hdbint);
+          return;
+        }
+        if (CURRENT_SITE_NAME === "HDAI" && !formateTeamName) {
+          jQuery('input[name="team"]').val(teamName);
+          return;
+        }
+        if (CURRENT_SITE_NAME === "UHDBits") {
+          jQuery("#team").val(teamName === "other" ? "Unknown" : teamName);
+          return;
+        }
+        if (matchValue) {
+          jQuery(teamConfig.selector).val(matchValue.toLowerCase());
+        }
+      }
+    }
+    disableTorrentChange() {
+      var _a3, _b2;
+      const nameSelector = (_b2 = (_a3 = this.currentSiteInfo.name) == null ? void 0 : _a3.selector) != null ? _b2 : "";
+      if (nameSelector.match(/^#\w+/)) {
+        const nameDom = jQuery(nameSelector).clone().attr("name", "").hide();
+        jQuery(nameSelector).attr("id", "").after(nameDom);
+      }
+    }
+    getThanksQuote() {
+      const isChineseSite = isChineseTacker(this.currentSiteInfo.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
+      let thanksQuote = `\u8F6C\u81EA[b]${this.info.sourceSite}[/b]\uFF0C\u611F\u8C22\u539F\u53D1\u5E03\u8005\uFF01`;
+      if (!isChineseSite) {
+        thanksQuote = `Torrent from [b]${this.info.sourceSite}[/b].
+All thanks to the original uploader\uFF01`;
+      }
+      return `[quote]${thanksQuote}[/quote]
+
+`;
+    }
+    getChineseName() {
+      var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
+      const { description, subtitle } = this.info;
+      const originalName = (_b2 = (_a3 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+      const translateName = (_f = (_e = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
+      let chineseName = originalName;
+      if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+        chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+      }
+      if (chineseName === "" && subtitle !== "" && subtitle !== void 0) {
+        chineseName = (_j = (_i = (_h = (_g = this.info) == null ? void 0 : _g.subtitle) == null ? void 0 : _h.replaceAll(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
+      }
+      return chineseName.trim();
+    }
+    torrentTitleHandler() {
+      var _a3;
+      let fixedTitle = this.info.title.replace("H 265", "H.265").replace("H 264", "H.264");
+      this.info.title = fixedTitle;
+      if ((_a3 = this.operation) == null ? void 0 : _a3.titleHandler) {
+        this.info = this.operation.titleHandler(this.info);
+      }
+      if (this.currentSiteInfo.name) {
+        if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
+          fixedTitle = fixedTitle.replace(/\s/ig, ".");
+        } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
+          fixedTitle = `[${this.getChineseName()}]${fixedTitle}`;
+        }
+        jQuery(this.currentSiteInfo.name.selector).val(fixedTitle);
+      }
+      this.info.title = fixedTitle;
+      return this.info;
+    }
+    imdbHandler() {
+      var _a3, _b2, _c;
+      const imdbSelector = (_b2 = (_a3 = this.currentSiteInfo) == null ? void 0 : _a3.imdb) == null ? void 0 : _b2.selector;
+      if (!imdbSelector) {
+        return;
+      }
+      const imdbId = getIMDBIdByUrl(this.info.imdbUrl || "");
+      this.info.imdbId = imdbId;
+      if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
+        jQuery(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
+      } else if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
+        let tmdbId = "";
+        const fillIMDBId = this.currentSiteInfo.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
+        jQuery(imdbSelector).val(fillIMDBId);
+        getTMDBIdByIMDBId(imdbId).then((data) => {
+          tmdbId = data.id;
+          jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
+        });
+        if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU|LST/)) {
+          jQuery("#torrent").on("change", () => {
+            jQuery(imdbSelector).val(fillIMDBId);
+            jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
+            jQuery("#automal").val(0);
+          });
+        }
+      } else {
+        jQuery(imdbSelector).val(this.info.imdbUrl || "");
+      }
+    }
+    fillBasicAttributes() {
+      const commonInfoKeys = ["subtitle", "douban", "area", "audioCodec"];
+      commonInfoKeys.forEach((key) => {
+        const siteInfo = this.currentSiteInfo[key];
+        if (siteInfo && siteInfo.selector) {
+          let value = this.info[key];
+          if (key === "douban") {
+            value = this.info.doubanUrl;
+          } else if (key === "area" || key === "audioCodec") {
+            value = siteInfo.map[value];
+          }
+          jQuery(siteInfo.selector).val(value);
+        }
+      });
+    }
+    descriptionHandler() {
+      var _a3, _b2, _c;
+      let { mediaInfo, isBluray, screenshots = [], description = "", doubanInfo, poster } = this.info;
+      if (description) {
+        description = description.replace(/^(\s+)/g, "");
+        if (isChineseTacker(this.currentSiteInfo.siteType) && CURRENT_SITE_NAME !== "SSD") {
+          if (doubanInfo) {
+            description = `${doubanInfo}
+${description}`;
+          }
+        } else {
+          const { sourceSiteType } = this.info;
+          if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== "Bib") {
+            description = filterNexusDescription(this.info);
+          }
+        }
+      }
+      if (this.currentSiteInfo.mediaInfo) {
+        if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither|MDU)/)) {
+          const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
+          jQuery(selector).val(mediaInfo);
+          description = description.replace(mediaInfo.trim(), "");
+        } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
+          jQuery(this.currentSiteInfo.bdinfo.selector).val(mediaInfo);
+          this.info.mediaInfo = "";
+        } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
+          jQuery(this.currentSiteInfo.mediaInfo.selector).val(mediaInfo);
+          description = description.replace(mediaInfo.trim(), "");
+        }
+      }
+      if (this.currentSiteInfo.screenshots) {
+        screenshots.forEach((img) => {
+          if (description.includes(img)) {
+            description = description.replace(img, "");
+            if (!img.match(/\[url=.+?\[url]/)) {
+              description = description.replace(/\[img\]\[\/img\]\n*/g, "");
+            }
+          }
+        });
+      }
+      if (this.currentSiteInfo.poster) {
+        if (!poster) {
+          const doubanPosterImage = (description + doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
+          if (doubanPosterImage && doubanPosterImage[1]) {
+            poster = doubanPosterImage[1];
+          } else {
+            poster = (_b2 = (_a3 = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+          }
+        }
+        if (poster) {
+          jQuery(this.currentSiteInfo.poster).val(poster);
+          if (CURRENT_SITE_NAME === "HDRoute") {
+            jQuery('input[name="poster"]').val(poster);
+            description = description.replace(poster, "");
+          }
+        }
+      }
+      if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
+        if (this.info.sourceSite === "PTP") {
+          description = buildPTPDescription(this.info);
+        }
+        if (screenshots.length > 0) {
+          screenshots.forEach((img) => {
+            const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
+*)?`);
+            if (description.match(regStr)) {
+              description = description.replace(regStr, (p1, p22) => {
+                return `[url=${p22}][img=350x350]${p22}[/img][/url]`;
+              });
+            }
+          });
+        }
+        if (description.match(/mobile\.webp\[\/img/gi)) {
+          description = description.replace(/\[img\]/g, "[img=350x350]");
+        }
+      }
+      if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+        description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
+        description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
+          const slash = p1 || "";
+          return p22 ? `${p22}: [${slash}spoiler]` : `[${slash}spoiler]`;
+        });
+      }
+      if ((_c = this.operation) == null ? void 0 : _c.handleDescription) {
+        description = this.operation.handleDescription(__spreadProps(__spreadValues({}, this.info), {
+          description
+        }));
+      }
+      description = filterEmptyTags(description);
+      const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
+      if (!thanksQuoteClosed && this.info.sourceSite !== void 0) {
+        description = this.getThanksQuote() + description.trim();
+      }
+      jQuery(this.currentSiteInfo.description.selector).val(description);
+      this.info = __spreadProps(__spreadValues({}, this.info), {
+        description
+      });
+    }
+    categoryHandler() {
+      const { isBluray, category, videoType } = this.info;
+      if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
+        this.info.category = videoType;
+        this.info.videoType = category;
+        if (isBluray) {
+          let bdType = getBDType(this.info.size);
+          if (videoType === "uhdbluray" && bdType === "BD50") {
+            bdType = "uhd50";
+          }
+          this.info.category = bdType || "";
+        }
+      }
+      if (this.currentSiteInfo.category) {
+        const category2 = this.currentSiteInfo.category.map[this.info.category];
+        const keyArray = ["videoCodec", "videoType", "resolution", "source", "area"];
+        let finalSelectArray = [];
+        if (Array.isArray(category2)) {
+          finalSelectArray = [...category2];
+          keyArray.forEach((key) => {
+            finalSelectArray = matchSelectForm(this.currentSiteInfo, this.info, key, finalSelectArray);
+            if (finalSelectArray.length === 1) {
+              jQuery(this.currentSiteInfo.category.selector).val(finalSelectArray[0]);
+            }
+          });
+        } else {
+          [...keyArray, "category"].forEach((key) => {
+            matchSelectForm(this.currentSiteInfo, this.info, key, finalSelectArray);
+          });
+        }
+      }
+    }
+    fillRemainingInfo() {
+      if (this.currentSiteInfo.format) {
+        const formatData = this.currentSiteInfo.format;
+        jQuery(formatData.selector).val(formatData.map[this.info.format]);
+      }
+      if (this.currentSiteInfo.image) {
+        jQuery(this.currentSiteInfo.image.selector).val(this.info.image || "");
+      }
+      if (this.currentSiteInfo.anonymous) {
+        const { selector, value = "" } = this.currentSiteInfo.anonymous;
+        if (value) {
+          jQuery(selector).val(value);
+        } else {
+          jQuery(selector).attr("checked", "true");
+        }
+      }
+      if (this.currentSiteInfo.tags) {
+        Object.keys(this.info.tags).forEach((key) => {
+          if (this.info.tags[key] && this.currentSiteInfo.tags[key]) {
+            jQuery(this.currentSiteInfo.tags[key]).attr("checked", "true");
+          }
+        });
+      }
+      this.fillTeamName();
+      if (CURRENT_SITE_NAME.match(/HDHome|HDZone|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+        setTimeout(() => {
+          var _a3;
+          const event = new Event("change");
+          (_a3 = document.querySelector(this.currentSiteInfo.category.selector)) == null ? void 0 : _a3.dispatchEvent(event);
+        }, 1e3);
+      }
+    }
+    dealWithMoreSites() {
+      var _a3, _b2, _c, _d, _e;
+      if ((_a3 = this.operation) == null ? void 0 : _a3.afterHandler) {
+        this.operation.afterHandler(this.info);
+      }
+      if (CURRENT_SITE_NAME.match(/PTHome|1PTBA|52pt|Audiences/i)) {
+        if (this.info.tags.diy) {
+          let categoryValue = "";
+          if (CURRENT_SITE_NAME.match(/Audiences|PTHome/)) {
+            categoryValue = this.info.videoType === "bluray" ? "14" : "13";
+          } else if (CURRENT_SITE_NAME === "1PTBA") {
+            categoryValue = this.info.videoType === "bluray" ? "1" : "4";
+          } else if (CURRENT_SITE_NAME === "52pt") {
+            categoryValue = this.info.videoType === "bluray" ? "2" : "12";
+          }
+          jQuery(this.currentSiteInfo.videoType.selector).val(categoryValue);
+        }
+      }
+      if (this.currentSiteInfo.siteType === "UNIT3D" && this.info.category.match(/tv/)) {
+        const season = (_c = (_b2 = this.info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _b2[1]) != null ? _c : 1;
+        const episode = (_e = (_d = this.info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _d[1]) != null ? _e : 0;
+        jQuery("#season_number").val(season);
+        jQuery("#episode_number").val(episode);
+      }
+      if (CURRENT_SITE_NAME.match(/HDHome|HDZone/)) {
+        if (this.info.title.match(/iPad/i)) {
+          const categoryMap = {
+            movie: "412",
+            tv: "426",
+            tvPack: "433",
+            documentary: "418"
+          };
+          const ipadCat = categoryMap[this.info.category];
+          if (ipadCat) {
+            jQuery("#browsecat").val(ipadCat);
+          }
+        }
+      }
+    }
+  };
+
   // src/target/ptp.ts
   init_preact_shim();
   var ptp_default = async (info) => {
-    const currentSiteInfo6 = PT_SITE.PTP;
+    const currentSiteInfo7 = PT_SITE.PTP;
     const {
       title,
       imdbUrl,
@@ -12944,14 +13661,14 @@ $1`);
     } = info;
     const groupId = getUrlParam("groupid");
     if (!groupId) {
-      jQuery(currentSiteInfo6.imdb.selector).val(imdbUrl || 0);
+      jQuery(currentSiteInfo7.imdb.selector).val(imdbUrl || 0);
       AutoFill();
     }
     info.resolution = getResolution2(resolution, videoType, title);
     info.videoCodec = getVideoCodec(videoCodec, videoType, size);
     const keyArray = ["category", "source", "videoCodec", "resolution"];
     keyArray.forEach((key) => {
-      const { selector = "", map } = currentSiteInfo6[key];
+      const { selector = "", map } = currentSiteInfo7[key];
       if (map) {
         const mapValue = map[info[key]];
         jQuery(selector).val(mapValue);
@@ -12960,7 +13677,7 @@ $1`);
       }
     });
     const description = getDescription(info);
-    jQuery(currentSiteInfo6.description.selector).val(description);
+    jQuery(currentSiteInfo7.description.selector).val(description);
     const editionInfo = getEditionInfo(videoType, tags);
     if (editionInfo.length > 0) {
       jQuery("#remaster").attr("checked", "true");
@@ -13041,33 +13758,9 @@ ${comparison.imgs.join("\n")}
 ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
   };
 
-  // src/target/ptn.ts
-  init_preact_shim();
-  var ptn_default = (info) => {
-    const { resolution, videoType, source } = info;
-    let format = "";
-    const formatMap = {
-      remux: "Remux",
-      web: "WebRip",
-      dvd: "DVDR",
-      dvdrip: "DVDRip",
-      "720p": "720P",
-      "1080p": "1080P",
-      "2160p": "2160P"
-    };
-    if (videoType.match(/bluray/)) {
-      format = "BluRay";
-    } else if (videoType === "encode" && source === "bluray") {
-      format = formatMap[resolution];
-    } else {
-      format = formatMap[videoType] || "";
-    }
-    jQuery("#format").val(format);
-  };
-
   // src/target/gpw.ts
   init_preact_shim();
-  var currentSiteInfo = PT_SITE.GPW;
+  var currentSiteInfo2 = PT_SITE.GPW;
   var gpw_default = async (info) => {
     const isUploadSuccess = !jQuery("#mediainfo")[0];
     if (isUploadSuccess) {
@@ -13076,14 +13769,14 @@ ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
     transformInfo(info);
     const isAddFormat = getUrlParam("groupid");
     if (!isAddFormat) {
-      jQuery(currentSiteInfo.imdb.selector).val(info.imdbUrl || 0);
+      jQuery(currentSiteInfo2.imdb.selector).val(info.imdbUrl || 0);
       jQuery("#imdb_button").trigger("click");
       jQuery("#upload .collapse").show();
     }
-    jQuery(currentSiteInfo.category.selector).val(currentSiteInfo.category.map[info.category]);
+    jQuery(currentSiteInfo2.category.selector).val(currentSiteInfo2.category.map[info.category]);
     fillEditionInfo(info);
     fillMediaInfo(info);
-    if (!jQuery(currentSiteInfo.source.selector).val()) {
+    if (!jQuery(currentSiteInfo2.source.selector).val()) {
       handleNoAutoCheck(info);
     }
     fillScene(info);
@@ -13110,7 +13803,7 @@ ${comparison.imgs.join("\n")}
     return description.trim();
   }
   function fillEditionInfo(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo.targetInfo.editionTags[tag]).filter(Boolean);
+    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo2.targetInfo.editionTags[tag]).filter(Boolean);
     let otherTag;
     if (Object.keys(info.otherTags).length > 0) {
       otherTag = Object.keys(info.otherTags).join(", ");
@@ -13153,7 +13846,7 @@ ${comparison.imgs.join("\n")}
       if (tags.diy) {
         videoType = "DIY";
       }
-      const videoTypeConfig = currentSiteInfo.videoType;
+      const videoTypeConfig = currentSiteInfo2.videoType;
       const { selector, map } = videoTypeConfig;
       jQuery(selector).val(map[videoType]);
       jQuery(selector)[0].dispatchEvent(new Event("change"));
@@ -13177,7 +13870,7 @@ ${comparison.imgs.join("\n")}
     const keyArray = ["source", "videoCodec", "format", "resolution"];
     keyArray.forEach((key) => {
       var _a4, _b2;
-      const { selector = "", map } = currentSiteInfo[key];
+      const { selector = "", map } = currentSiteInfo2[key];
       if (map) {
         const mapValue = map[info[key]];
         jQuery(selector).val(mapValue);
@@ -13241,26 +13934,26 @@ ${comparison.imgs.join("\n")}
     } else {
       description = buildDescription(info);
     }
-    jQuery(currentSiteInfo.description.selector).val(description);
-    jQuery(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo2.description.selector).val(description);
+    jQuery(currentSiteInfo2.description.selector)[0].dispatchEvent(new Event("input"));
   }
 
   // src/target/npubits.ts
   init_preact_shim();
   var npubits_default = (info) => {
     var _a3, _b2;
-    const currentSiteInfo6 = PT_SITE.NPUBits;
+    const currentSiteInfo7 = PT_SITE.NPUBits;
     let { title, year, movieName, category, doubanInfo, description, subtitle } = info;
-    jQuery(currentSiteInfo6.subtitle.selector).val(subtitle || "");
+    jQuery(currentSiteInfo7.subtitle.selector).val(subtitle || "");
     if (doubanInfo) {
       description = `${doubanInfo}
 ${description}`;
     }
-    jQuery(currentSiteInfo6.description.selector).val(description);
+    jQuery(currentSiteInfo7.description.selector).val(description);
     jQuery("#torrent_name_checkbox").attr("checked", "true");
-    jQuery(currentSiteInfo6.name.selector).val(title);
-    jQuery(currentSiteInfo6.category.selector).val(currentSiteInfo6.category.map[category]);
-    jQuery(currentSiteInfo6.category.selector)[0].dispatchEvent(new Event("change"));
+    jQuery(currentSiteInfo7.name.selector).val(title);
+    jQuery(currentSiteInfo7.category.selector).val(currentSiteInfo7.category.map[category]);
+    jQuery(currentSiteInfo7.category.selector)[0].dispatchEvent(new Event("change"));
     if (category.match(/tv/)) {
       const districtMap = {
         CN: "23",
@@ -13272,18 +13965,18 @@ ${description}`;
         EU: "65",
         OT: "63"
       };
-      jQuery(currentSiteInfo6.area.selector).val(districtMap[info.area]);
+      jQuery(currentSiteInfo7.area.selector).val(districtMap[info.area]);
     } else if (category.match(/movie/)) {
-      jQuery(currentSiteInfo6.area.selector).val(currentSiteInfo6.area.map[info.area]);
+      jQuery(currentSiteInfo7.area.selector).val(currentSiteInfo7.area.map[info.area]);
     }
-    jQuery(currentSiteInfo6.area.selector)[0].dispatchEvent(new Event("change"));
+    jQuery(currentSiteInfo7.area.selector)[0].dispatchEvent(new Event("change"));
     const keyArray = ["videoCodec", "videoType", "resolution"];
     keyArray.forEach((key) => {
-      const { selector, map } = currentSiteInfo6[key];
+      const { selector, map } = currentSiteInfo7[key];
       fill_field(selector, map[info[key]]);
     });
     const teamName = getTeamName(info);
-    const teamConfig = currentSiteInfo6.team;
+    const teamConfig = currentSiteInfo7.team;
     jQuery(`${teamConfig.selector}`).val(teamConfig.map[teamName]);
     jQuery("#torrent_name_field0").val(movieName);
     if (category === "movie") {
@@ -13299,7 +13992,7 @@ ${description}`;
   init_preact_shim();
   var byr_default = (info) => {
     var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
-    const currentSiteInfo6 = PT_SITE.BYR;
+    const currentSiteInfo7 = PT_SITE.BYR;
     const {
       title,
       description,
@@ -13311,9 +14004,9 @@ ${description}`;
       imdbUrl,
       doubanUrl
     } = info;
-    jQuery(currentSiteInfo6.subtitle.selector).val(subtitle || "");
-    jQuery(currentSiteInfo6.imdb.selector).val(imdbUrl || "");
-    jQuery(currentSiteInfo6.douban.selector).val(doubanUrl || "");
+    jQuery(currentSiteInfo7.subtitle.selector).val(subtitle || "");
+    jQuery(currentSiteInfo7.imdb.selector).val(imdbUrl || "");
+    jQuery(currentSiteInfo7.douban.selector).val(doubanUrl || "");
     CKEDITOR.on("instanceReady", () => {
       CKEDITOR.instances.descr.setData(bbcode2Html(description));
     });
@@ -13608,19 +14301,19 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
 
   // src/target/bhd.ts
   init_preact_shim();
-  var currentSiteInfo2 = PT_SITE.BeyondHD;
+  var currentSiteInfo3 = PT_SITE.BeyondHD;
   var bhd_default = (info) => {
     let title = info.title;
     if (info.videoType === "dvd") {
       title = buildDVDTitle(info);
     }
-    jQuery(currentSiteInfo2.name.selector).val(title);
+    jQuery(currentSiteInfo3.name.selector).val(title);
     fillSpecs(info);
     fillTMDBId(info);
     fillMediaInfo2(info);
     selectTag(info);
     fillDescription2(info);
-    jQuery(currentSiteInfo2.anonymous.selector).attr("checked", "true");
+    jQuery(currentSiteInfo3.anonymous.selector).attr("checked", "true");
     if (info.videoType === "tvPack") {
       jQuery('input[name="pack"]').attr("checked", "true");
     }
@@ -13629,36 +14322,36 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       if (info.videoType === "dvd") {
         title2 = buildDVDTitle(info);
       }
-      jQuery(currentSiteInfo2.name.selector).val(title2);
-      const categoryMap = currentSiteInfo2.category.map;
+      jQuery(currentSiteInfo3.name.selector).val(title2);
+      const categoryMap = currentSiteInfo3.category.map;
       const categoryValueArr = categoryMap[info.category];
       const keyArray = ["resolution"];
       let finalSelectArray = [];
       if (Array.isArray(categoryValueArr)) {
         finalSelectArray = [...categoryValueArr];
         keyArray.forEach((key) => {
-          finalSelectArray = matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+          finalSelectArray = matchSelectForm(currentSiteInfo3, info, key, finalSelectArray);
           console.log(finalSelectArray);
           if (finalSelectArray.length === 1) {
-            jQuery(currentSiteInfo2.category.selector).val(finalSelectArray[0]);
+            jQuery(currentSiteInfo3.category.selector).val(finalSelectArray[0]);
           }
         });
       } else {
         [...keyArray, "category"].forEach((key) => {
-          matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+          matchSelectForm(currentSiteInfo3, info, key, finalSelectArray);
         });
       }
     });
   };
   function fillTMDBId(info) {
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    jQuery(currentSiteInfo2.imdb.selector).val(imdbId);
+    jQuery(currentSiteInfo3.imdb.selector).val(imdbId);
     getTMDBIdByIMDBId(imdbId).then((data) => {
-      jQuery(currentSiteInfo2.tmdb.selector).val(data.id);
+      jQuery(currentSiteInfo3.tmdb.selector).val(data.id);
     });
   }
   function fillMediaInfo2(info) {
-    jQuery(currentSiteInfo2.mediaInfo.selector).val(info.mediaInfo);
+    jQuery(currentSiteInfo3.mediaInfo.selector).val(info.mediaInfo);
   }
   function fillSpecs(info) {
     const { category, videoType } = info;
@@ -13672,26 +14365,26 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       }
       info.category = bdType || "";
     }
-    const categoryMap = currentSiteInfo2.category.map;
+    const categoryMap = currentSiteInfo3.category.map;
     const categoryValueArr = categoryMap[info.category];
     const keyArray = ["videoType", "resolution", "source", "category"];
     let finalSelectArray = [];
     if (Array.isArray(categoryValueArr)) {
       finalSelectArray = [...categoryValueArr];
       keyArray.forEach((key) => {
-        finalSelectArray = matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+        finalSelectArray = matchSelectForm(currentSiteInfo3, info, key, finalSelectArray);
         if (finalSelectArray.length === 1) {
-          jQuery(currentSiteInfo2.category.selector).val(finalSelectArray[0]);
+          jQuery(currentSiteInfo3.category.selector).val(finalSelectArray[0]);
         }
       });
     } else {
       [...keyArray, "category"].forEach((key) => {
-        matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+        matchSelectForm(currentSiteInfo3, info, key, finalSelectArray);
       });
     }
   }
   function selectTag(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo2.targetInfo.editionTags[tag]).filter(Boolean);
+    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo3.targetInfo.editionTags[tag]).filter(Boolean);
     const editionOption = Array.from(jQuery('select[name="edition"] option')).map((opt) => jQuery(opt).attr("value"));
     if (editionTags.length > 0) {
       for (const tag of editionTags) {
@@ -13725,8 +14418,8 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
         }
       });
     }
-    jQuery(currentSiteInfo2.description.selector).val(description);
-    jQuery(currentSiteInfo2.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo3.description.selector).val(description);
+    jQuery(currentSiteInfo3.description.selector)[0].dispatchEvent(new Event("input"));
   }
   function buildDescription3(info) {
     let description = info.description;
@@ -13767,11 +14460,11 @@ ${comparison.imgs.join("\n")}
 
   // src/target/bdc.ts
   init_preact_shim();
-  var currentSiteInfo3 = PT_SITE.Bdc;
+  var currentSiteInfo4 = PT_SITE.Bdc;
   var bdc_default = async (info) => {
-    jQuery(currentSiteInfo3.name.selector).val(info.title);
-    jQuery(currentSiteInfo3.imdb.selector).val(info.imdbUrl || "");
-    jQuery(currentSiteInfo3.anonymous.selector).attr("checked", "true");
+    jQuery(currentSiteInfo4.name.selector).val(info.title);
+    jQuery(currentSiteInfo4.imdb.selector).val(info.imdbUrl || "");
+    jQuery(currentSiteInfo4.anonymous.selector).attr("checked", "true");
     fillCategory(info);
     fillDescription3(info);
   };
@@ -13786,13 +14479,13 @@ ${comparison.imgs.join("\n")}
     } else if (category.match(/tv/)) {
       categoryValue = "19";
     } else {
-      categoryValue = `${currentSiteInfo3.resolution.map[resolution][videoType]}`;
+      categoryValue = `${currentSiteInfo4.resolution.map[resolution][videoType]}`;
     }
     jQuery('select[name="category"]').val(categoryValue);
   }
   async function fillDescription3(info) {
     var _a3, _b2, _c;
-    jQuery(currentSiteInfo3.description.selector).val($t("\u6570\u636E\u52A0\u8F7D\u4E2D..."));
+    jQuery(currentSiteInfo4.description.selector).val($t("\u6570\u636E\u52A0\u8F7D\u4E2D..."));
     let template = `
   [align=center][color=#FF0000][size=large][font=Trebuchet MS][b]${info.title}[/b][/font][/size][/color]
   
@@ -13847,13 +14540,13 @@ ${comparison.imgs.join("\n")}
         }, 0);
       }
     } catch (error) {
-      jQuery(currentSiteInfo3.description.selector).val(error.message);
+      jQuery(currentSiteInfo4.description.selector).val(error.message);
     }
   }
 
   // src/target/zhuque.ts
   init_preact_shim();
-  var currentSiteInfo4 = PT_SITE.ZHUQUE;
+  var currentSiteInfo5 = PT_SITE.ZHUQUE;
   var zhuque_default = (info) => {
     const targetNode = document;
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
@@ -13861,13 +14554,13 @@ ${comparison.imgs.join("\n")}
       jQuery("input.ant-select-selection-search-input[id]").each(function() {
         this.dispatchEvent(new Event("keydown"));
       });
-      jQuery(currentSiteInfo4.name.selector).val(info.title);
-      jQuery(currentSiteInfo4.name.selector)[0].dispatchEvent(new Event("input"));
-      jQuery(currentSiteInfo4.imdb.selector).val(imdbId);
-      jQuery(currentSiteInfo4.imdb.selector)[0].dispatchEvent(new Event("input"));
+      jQuery(currentSiteInfo5.name.selector).val(info.title);
+      jQuery(currentSiteInfo5.name.selector)[0].dispatchEvent(new Event("input"));
+      jQuery(currentSiteInfo5.imdb.selector).val(imdbId);
+      jQuery(currentSiteInfo5.imdb.selector)[0].dispatchEvent(new Event("input"));
       if (info.subtitle) {
-        jQuery(currentSiteInfo4.subtitle.selector).val(info.subtitle);
-        jQuery(currentSiteInfo4.subtitle.selector)[0].dispatchEvent(new Event("input"));
+        jQuery(currentSiteInfo5.subtitle.selector).val(info.subtitle);
+        jQuery(currentSiteInfo5.subtitle.selector)[0].dispatchEvent(new Event("input"));
       }
       let screenshotStr = "";
       if (info.screenshots.length > 0) {
@@ -13876,28 +14569,28 @@ ${comparison.imgs.join("\n")}
 `;
         });
       }
-      jQuery(currentSiteInfo4.screenshots.selector).val(screenshotStr);
-      jQuery(currentSiteInfo4.screenshots.selector)[0].dispatchEvent(new Event("input"));
+      jQuery(currentSiteInfo5.screenshots.selector).val(screenshotStr);
+      jQuery(currentSiteInfo5.screenshots.selector)[0].dispatchEvent(new Event("input"));
       fillMediaInfo3(info);
       fillDescription4(info);
       const selectNodeParent = document.querySelector("form");
       const select = new MutationObserver(async (mutationRecords2) => {
         var _a3;
-        const { category: categoryConfig } = currentSiteInfo4;
+        const { category: categoryConfig } = currentSiteInfo5;
         jQuery(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category]})`).click();
         const keyArray = ["videoType", "videoCodec", "audioCodec"];
         select.disconnect();
         const sleep = (ms) => {
           return new Promise((resolve) => setTimeout(resolve, ms));
         };
-        const { tags } = currentSiteInfo4;
+        const { tags } = currentSiteInfo5;
         for (const tag in info.tags) {
           if (tags[tag]) {
             await sleep(100).then((v3) => jQuery(tags[tag])[0].click());
           }
         }
         keyArray.forEach((key) => {
-          const { map } = currentSiteInfo4[key];
+          const { map } = currentSiteInfo5[key];
           if (map) {
             const mapValue = map[info[key]];
             if (mapValue) {
@@ -13922,8 +14615,8 @@ ${comparison.imgs.join("\n")}
     insert.observe(targetNode, { attributes: false, childList: false, subtree: true, characterDataOldValue: false });
   };
   function fillMediaInfo3(info) {
-    jQuery(currentSiteInfo4.mediaInfo.selector).val(info.mediaInfo);
-    jQuery(currentSiteInfo4.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo5.mediaInfo.selector).val(info.mediaInfo);
+    jQuery(currentSiteInfo5.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
   }
   function fillDescription4(info) {
     let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, "").trim();
@@ -13967,8 +14660,8 @@ ${description}
 \`\`\`
 ${description}`;
     }
-    jQuery(currentSiteInfo4.description.selector).val(description);
-    jQuery(currentSiteInfo4.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo5.description.selector).val(description);
+    jQuery(currentSiteInfo5.description.selector)[0].dispatchEvent(new Event("input"));
   }
 
   // src/target/autofill.ts
@@ -14079,592 +14772,42 @@ ${jQuery(description.selector).val()}`);
   };
 
   // src/target/index.ts
+  var siteHandlers = {
+    PTP: ptp_default,
+    GPW: gpw_default,
+    NPUBits: npubits_default,
+    BYR: byr_default,
+    SC: sc_default,
+    KG: kg_default,
+    BeyondHD: bhd_default,
+    Bdc: bdc_default,
+    ZHUQUE: zhuque_default
+  };
   var fillTargetForm = (info) => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q;
+    var _a3;
     autofill_default(info || {});
     if (!info) {
       return;
     }
     console.log(info);
-    if (CURRENT_SITE_NAME === "PTP") {
-      ptp_default(info);
-      return false;
+    const handler = siteHandlers[CURRENT_SITE_NAME];
+    if (handler) {
+      handler(info);
     }
-    if (CURRENT_SITE_NAME === "GPW") {
-      gpw_default(info);
-      return false;
-    }
-    if (CURRENT_SITE_NAME === "NPUBits") {
-      npubits_default(info);
-      return false;
-    }
-    if (CURRENT_SITE_NAME === "BYR") {
-      byr_default(info);
-      return false;
-    }
-    if (CURRENT_SITE_NAME === "SC") {
-      sc_default(info);
-      return false;
-    }
-    if (CURRENT_SITE_NAME === "KG") {
-      kg_default(info);
-      return;
-    }
-    if (CURRENT_SITE_NAME === "BeyondHD") {
-      bhd_default(info);
-      return;
-    }
-    if (CURRENT_SITE_NAME === "Bdc") {
-      bdc_default(info);
-      return;
-    }
-    if (CURRENT_SITE_NAME === "ZHUQUE") {
-      zhuque_default(info);
-      return;
-    }
-    if (CURRENT_SITE_NAME === "PTSBAO" && localStorage.getItem("autosave")) {
-      localStorage.removeItem("autosave");
-    }
-    info.title = info.title.replace("H 265", "H.265").replace("H 264", "H.264");
-    if (CURRENT_SITE_NAME === "PTer" || CURRENT_SITE_NAME.match(/^(Blutopia|Aither)/)) {
-      info.title = info.title.replace(" DoVi ", " DV ").replace(" DDP ", " DD+ ");
-      if (info.source.match(/web/gi))
-        info.title = info.title.replace(" HEVC", " H.265");
-    }
-    if (CURRENT_SITE_NAME === "KEEPFRDS" && info.category === "music") {
-      const { title, subtitle } = info;
-      info.subtitle = title;
-      if (subtitle !== void 0)
-        info.title = subtitle;
-    }
-    const currentSiteInfo6 = CURRENT_SITE_INFO;
-    const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    const isBluray = info.videoType.match(/bluray/i);
-    const { screenshots = [] } = info;
-    const imdbSelector = (_a3 = currentSiteInfo6 == null ? void 0 : currentSiteInfo6.imdb) == null ? void 0 : _a3.selector;
-    if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
-      jQuery(imdbSelector).val((_b2 = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _b2 : "");
-    } else if (imdbSelector) {
-      jQuery(imdbSelector).val(info.imdbUrl || "");
-    }
-    if (CURRENT_SITE_NAME === "HDBits") {
-      let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p22) => {
-        return `${info.movieName || info.movieAkaName} ${p22}`;
-      });
-      if (info.videoType === "remux") {
-        mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/ig, "");
-      }
-      info.title = mediaTitle;
-    }
-    if (currentSiteInfo6.name) {
-      const { title } = info;
-      let torrentTitle = title;
-      if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
-        torrentTitle = title.replace(/\s/ig, ".");
-      } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
-        torrentTitle = `[${getChineseName(info)}]${title}`;
-      }
-      jQuery(currentSiteInfo6.name.selector).val(torrentTitle);
-    }
-    disableTorrentChange();
-    const commonInfoKeys = ["subtitle", "douban", "area", "audioCodec"];
-    commonInfoKeys.forEach((key) => {
-      const siteInfo = currentSiteInfo6[key];
-      if (siteInfo && siteInfo.selector) {
-        let value = info[key];
-        if (key === "douban") {
-          value = info.doubanUrl;
-        } else if (key === "area" || key === "audioCodec") {
-          value = siteInfo.map[value];
-        }
-        jQuery(siteInfo.selector).val(value);
-      }
-    });
-    const mediaInfo = info.mediaInfo;
-    let description = "";
-    if (info.description) {
-      description = info.description.replace(/^(\s+)/g, "");
-      if (isChineseTacker(currentSiteInfo6.siteType) && CURRENT_SITE_NAME !== "SSD") {
-        const { doubanInfo } = info;
-        if (doubanInfo) {
-          description = `${doubanInfo}
-${description}`;
-        }
-      } else {
-        const { sourceSiteType } = info;
-        if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== "Bib") {
-          description = filterNexusDescription(info);
-        }
-      }
-    }
-    if (CURRENT_SITE_NAME === "Concertos") {
-      jQuery("#add").trigger("click");
-      jQuery(".sceditor-button.sceditor-button-source.has-icon")[0].click();
-      description = description.replace(mediaInfo.trim(), "");
-    }
-    if (currentSiteInfo6.mediaInfo) {
-      if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither|MDU)/)) {
-        const selector = isBluray ? 'textarea[name="bdinfo"]' : currentSiteInfo6.mediaInfo.selector;
-        jQuery(selector).val(mediaInfo);
-        description = description.replace(mediaInfo.trim(), "");
-      } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
-        jQuery(currentSiteInfo6.bdinfo.selector).val(mediaInfo);
-        info.mediaInfo = "";
-      } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
-        jQuery(currentSiteInfo6.mediaInfo.selector).val(mediaInfo);
-        description = description.replace(mediaInfo.trim(), "");
-      }
-    }
-    if (currentSiteInfo6.screenshots) {
-      screenshots.forEach((img) => {
-        if (description.includes(img)) {
-          description = description.replace(img, "");
-          if (!img.match(/\[url=.+?\[url]/)) {
-            description = description.replace(/\[img\]\[\/img\]\n*/g, "");
-          }
-        }
-      });
-    }
-    if (CURRENT_SITE_NAME === "SSD") {
-      jQuery(currentSiteInfo6.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-      jQuery(currentSiteInfo6.screenshots.selector).val(screenshots.join("\n"));
-      if (info.category === "tvPack" || info.title.match(/Trilogy|Collection/i) || info.subtitle && info.subtitle.match(/合集/)) {
-        jQuery('input[name="pack"]').attr("checked", "true");
-      }
-    }
-    if (CURRENT_SITE_NAME === "HDAI") {
-      jQuery(currentSiteInfo6.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-      jQuery(currentSiteInfo6.screenshots.selector).val(screenshots.join("\n"));
-      if (isBluray) {
-        jQuery('input[type="checkbox"][name="tag[o]"]').attr("checked", "true");
-      }
-    }
-    if (CURRENT_SITE_NAME === "PTSBAO") {
-      jQuery("#torrent").on("change", () => {
-        jQuery('a[data-sceditor-command="source"]')[0].click();
-        jQuery(currentSiteInfo6.description.selector).val(description);
-      });
-    }
-    if (currentSiteInfo6.poster) {
-      let poster = info.poster;
-      if (!poster) {
-        const doubanPosterImage = (info.description + info.doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
-        if (doubanPosterImage && doubanPosterImage[1]) {
-          poster = doubanPosterImage[1];
-        } else {
-          poster = (_d = (_c = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _c[1]) != null ? _d : "";
-        }
-      }
-      if (poster) {
-        jQuery(currentSiteInfo6.poster).val(poster);
-        if (CURRENT_SITE_NAME === "HDRoute") {
-          jQuery('input[name="poster"]').val(poster);
-          description = description.replace(poster, "");
-        }
-      }
-    }
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
-      if (info.sourceSite === "PTP") {
-        description = buildPTPDescription(info);
-      }
-      if (info.screenshots.length > 0) {
-        info.screenshots.forEach((img) => {
-          const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
-*)?`);
-          if (description.match(regStr)) {
-            description = description.replace(regStr, (p1, p22) => {
-              return `[url=${p22}][img=350x350]${p22}[/img][/url]`;
-            });
-          }
-        });
-      }
-      if (description.match(/mobile\.webp\[\/img/gi)) {
-        description = description.replace(/\[img\]/g, "[img=350x350]");
-      }
-    }
-    if (CURRENT_SITE_NAME === "HaresClub") {
-      jQuery(".modesw").trigger("click");
-      jQuery(currentSiteInfo6.screenshots.selector).val(screenshots.join("\n"));
-      if (layui) {
-        setTimeout(() => {
-          layui.form.render("select");
-          layui.form.render("checkbox");
-        }, 1e3);
-      }
-    }
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
-      description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
-      description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
-        const slash = p1 || "";
-        return p22 ? `${p22}: [${slash}spoiler]` : `[${slash}spoiler]`;
-      });
-    }
-    description = filterEmptyTags(description);
-    if (CURRENT_SITE_NAME === "PTer") {
-      const { mediaInfo: mediaInfo2, bdinfo } = getBDInfoOrMediaInfo(description);
-      description = description.replace(`[quote]${mediaInfo2}[/quote]`, `[hide=mediainfo]${mediaInfo2}[/hide]`);
-      description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
-      if ((_e = info.comparisons) == null ? void 0 : _e.length) {
-        for (const comparison of info.comparisons) {
-          const { title, imgs } = comparison;
-          const titleCount = (_f = title == null ? void 0 : title.split(",").length) != null ? _f : "";
-          imgs.forEach((img) => {
-            description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
-          });
-        }
-      }
-    }
-    if (CURRENT_SITE_NAME === "KEEPFRDS") {
-      description = description.replaceAll(/\[\/?(center|code)\]/g, "");
-      if (info.sourceSite === "PTP") {
-        description = (_h = (_g = info == null ? void 0 : info.originalDescription) == null ? void 0 : _g.replace(/^(\s+)/g, "")) != null ? _h : "";
-        description = filterEmptyTags(description);
-        description = description.replace(/http:\/\/ptpimg/g, "https://ptpimg");
-        screenshots.forEach((screenshot) => {
-          const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
-          if (!description.match(regStr)) {
-            const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
-            if (description.match(regOldFormat)) {
-              description = description.replace(regOldFormat, `[img]${screenshot}[/img]`);
-            } else {
-              description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "gi"), `[img]${screenshot}[/img]`);
-            }
-          }
-        });
-      } else {
-        jQuery("#torrent").on("change", () => {
-          jQuery(currentSiteInfo6.name.selector).val(info.title);
-          if (info.subtitle)
-            jQuery(currentSiteInfo6.subtitle.selector).val(info.subtitle);
-        });
-      }
-      (_i = info.mediaInfos) == null ? void 0 : _i.forEach((mediaInfo2) => {
-        description = description.replace(`[quote]${mediaInfo2}[/quote]`, `${mediaInfo2}`).replace(`${mediaInfo2}`, `[mediainfo]${mediaInfo2}[/mediainfo]`);
-      });
-    }
-    if (CURRENT_SITE_NAME === "SpeedApp") {
-      description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
-    }
-    if (CURRENT_SITE_NAME === "PTN") {
-      description = `${info.imdbUrl}
-
-${description}`;
-    }
-    if (CURRENT_SITE_NAME === "HDT") {
-      description = description.replace(/(\[\/img\])(\[img\])/g, "$1 $2").replace(/(\[\/url\])(\[url)/g, "$1 $2");
-    }
-    const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
-    if (!thanksQuoteClosed && info.sourceSite !== void 0) {
-      description = getThanksQuote(info) + description.trim();
-    }
-    jQuery(currentSiteInfo6.description.selector).val(description);
-    if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
-      const fillIMDBId = currentSiteInfo6.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
-      jQuery(currentSiteInfo6.imdb.selector).val(fillIMDBId);
-      getTMDBIdByIMDBId(imdbId).then((data) => {
-        jQuery(currentSiteInfo6.tmdb.selector).val(data.id);
-      });
-      if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU|LST/)) {
-        jQuery("#torrent").on("change", () => {
-          jQuery(currentSiteInfo6.imdb.selector).val(fillIMDBId);
-          getTMDBIdByIMDBId(imdbId).then((data) => {
-            jQuery(currentSiteInfo6.tmdb.selector).val(data.id);
-            jQuery("#automal").val(0);
-          });
-        });
-      }
-      if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
-        const { category, videoType } = info;
-        info.category = videoType;
-        info.videoType = category;
-        if (isBluray) {
-          let bdType = getBDType(info.size);
-          if (videoType === "uhdbluray" && bdType === "BD50") {
-            bdType = "uhd50";
-          }
-          info.category = bdType || "";
-        }
-      }
-    }
-    if (currentSiteInfo6.category) {
-      const category = currentSiteInfo6.category.map[info.category];
-      const keyArray = ["videoCodec", "videoType", "resolution", "source", "area"];
-      let finalSelectArray = [];
-      if (Array.isArray(category)) {
-        finalSelectArray = [...category];
-        keyArray.forEach((key) => {
-          finalSelectArray = matchSelectForm(currentSiteInfo6, info, key, finalSelectArray);
-          if (finalSelectArray.length === 1) {
-            jQuery(currentSiteInfo6.category.selector).val(finalSelectArray[0]);
-          }
-        });
-      } else {
-        [...keyArray, "category"].forEach((key) => {
-          matchSelectForm(currentSiteInfo6, info, key, finalSelectArray);
-        });
-      }
-    }
-    if (currentSiteInfo6.format) {
-      const formatData = currentSiteInfo6.format;
-      jQuery(formatData.selector).val(formatData.map[info.format]);
-    }
-    if (currentSiteInfo6.image) {
-      jQuery(currentSiteInfo6.image.selector).val(info.image || "");
-    }
-    if (CURRENT_SITE_NAME.match(/HDHome|HDZone|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
-      setTimeout(() => {
-        var _a4;
-        const event = new Event("change");
-        (_a4 = document.querySelector(currentSiteInfo6.category.selector)) == null ? void 0 : _a4.dispatchEvent(event);
-      }, 1e3);
-    }
-    if (currentSiteInfo6.anonymous) {
-      const { selector, value = "" } = currentSiteInfo6.anonymous;
-      if (value) {
-        jQuery(selector).val(value);
-      } else {
-        jQuery(selector).attr("checked", "true");
-      }
-    }
-    if (currentSiteInfo6.tags) {
-      Object.keys(info.tags).forEach((key) => {
-        if (info.tags[key] && currentSiteInfo6.tags[key]) {
-          jQuery(currentSiteInfo6.tags[key]).attr("checked", "true");
-        }
-      });
-    }
-    fillTeamName(info);
-    if (CURRENT_SITE_NAME.match(/PTHome|1PTBA|52pt|Audiences/i)) {
-      if (info.tags.diy) {
-        let categoryValue = "";
-        if (CURRENT_SITE_NAME.match(/Audiences|PTHome/)) {
-          categoryValue = info.videoType === "bluray" ? "14" : "13";
-        } else if (CURRENT_SITE_NAME === "1PTBA") {
-          categoryValue = info.videoType === "bluray" ? "1" : "4";
-        } else if (CURRENT_SITE_NAME === "52pt") {
-          categoryValue = info.videoType === "bluray" ? "2" : "12";
-        }
-        jQuery(currentSiteInfo6.videoType.selector).val(categoryValue);
-      }
-    }
-    if (CURRENT_SITE_NAME.match(/HDU/)) {
-      let videoTypeValue = "";
-      const { resolution, videoType, category } = info;
-      const isTV = category.match(/tv/);
-      if (videoType === "remux") {
-        if (resolution === "2160p") {
-          videoTypeValue = isTV ? "16" : "15";
-        } else {
-          videoTypeValue = isTV ? "12" : "3";
-        }
-      }
-      if (isTV) {
-        if (videoType === "encode") {
-          videoTypeValue = "14";
-        } else if (videoType === "web") {
-          videoTypeValue = "13";
-        }
-      }
-      if (videoTypeValue) {
-        jQuery(currentSiteInfo6.videoType.selector).val(videoTypeValue);
-      }
-    }
-    if (CURRENT_SITE_NAME === "TJUPT") {
-      jQuery("#browsecat").trigger("change");
-      tjupt_default(info);
-    }
-    if (CURRENT_SITE_NAME === "NYPT") {
-      jQuery("#browsecat").trigger("change");
-      const domTimeout = setTimeout(() => {
-        const catMap = {
-          movie: "#movie_enname",
-          tv: "#series_enname",
-          tvPack: "#series_enname",
-          documentary: "#doc_enname",
-          variety: "#show_enname",
-          cartoon: "#anime_enname"
-        };
-        const selector = catMap[info.category];
-        if (selector) {
-          jQuery(selector).val(info.title);
-        }
-        clearTimeout(domTimeout);
-      }, 2e3);
-    }
-    if (currentSiteInfo6.siteType === "UNIT3D" && info.category.match(/tv/)) {
-      const season = (_k = (_j = info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _j[1]) != null ? _k : 1;
-      const episode = (_m = (_l = info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _l[1]) != null ? _m : 0;
-      jQuery("#season_number").val(season);
-      jQuery("#episode_number").val(episode);
-    }
-    if (CURRENT_SITE_NAME === "HDRoute") {
-      hdr_default(info);
-    }
-    if (CURRENT_SITE_NAME === "HDT") {
-      if (info.category !== "tvPack") {
-        jQuery('select[name="season"').val("true");
-      }
-      if (imdbId) {
-        jQuery(currentSiteInfo6.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
-      }
-    }
-    if (CURRENT_SITE_NAME === "SpeedApp") {
-      if (imdbId) {
-        jQuery(currentSiteInfo6.imdb.selector).val(`https://www.imdb.com/title/${imdbId}/`);
-      }
-    }
-    if (CURRENT_SITE_NAME === "PTer") {
-      const language = (_o = (_n = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _n[2]) != null ? _o : "";
-      if (!language.match(/英语/) && info.area === "EU") {
-        jQuery(currentSiteInfo6.area.selector).val("8");
-      }
-    }
-    if (CURRENT_SITE_NAME.match(/HDHome|HDZone/)) {
-      if (info.title.match(/iPad/i)) {
-        const categoryMap = {
-          movie: "412",
-          tv: "426",
-          tvPack: "433",
-          documentary: "418"
-        };
-        const ipadCat = categoryMap[info.category];
-        if (ipadCat) {
-          jQuery("#browsecat").val(ipadCat);
-        }
-      }
-    }
-    if (CURRENT_SITE_NAME === "Bib" && info.doubanBookInfo) {
-      bib_default(info);
-    }
-    if (CURRENT_SITE_NAME === "iTS") {
-      its_default(info);
-    }
-    if (CURRENT_SITE_NAME === "UHDBits") {
-      jQuery(currentSiteInfo6.imdb.selector).val(imdbId);
-      const teamName = getTeamName(info);
-      jQuery("#team").val(teamName === "other" ? "Unknown" : teamName);
-      if (info.title.match(/web-?rip/i)) {
-        jQuery(currentSiteInfo6.videoType.selector).val("WEBRip");
-      }
-      jQuery("#imdb_button").trigger("click");
-    }
-    if (CURRENT_SITE_NAME === "52pt") {
-      const { tags, videoType, resolution } = info;
-      let videoTypeValue = videoType;
-      if (videoType.match(/bluray/)) {
-        if (tags.chinese_audio || tags.cantonese_audio || tags.chinese_subtitle) {
-          videoTypeValue = videoType === "bluray" ? "14" : "15";
-        }
-      } else if (videoType === "remux" && resolution === "2160p") {
-        videoTypeValue = "5";
-      }
-      jQuery(currentSiteInfo6.videoType.selector).val(videoTypeValue);
-    }
-    if (CURRENT_SITE_NAME === "BTSCHOOL") {
-      jQuery(imdbSelector).val(imdbId);
-      if (info.doubanUrl) {
-        const doubanId = (_q = (_p = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _p[1]) != null ? _q : "";
-        jQuery(currentSiteInfo6.douban.selector).val(doubanId);
-      }
-    }
-    if (CURRENT_SITE_NAME === "PTN") {
-      ptn_default(info);
-    }
-    if (CURRENT_SITE_NAME === "HDTime") {
-      if (info.videoType.match(/bluray/i)) {
-        jQuery(currentSiteInfo6.category.selector).val("424");
-      }
-    }
-    if (CURRENT_SITE_NAME === "HDFans") {
-      const { videoType, resolution, tags } = info;
-      if (videoType === "remux") {
-        jQuery(currentSiteInfo6.videoType.selector).val(resolution === "2160p" ? "10" : "8");
-      } else if (videoType === "encode") {
-        const map = {
-          "2160p": "9",
-          "1080p": "5",
-          "1080i": "5",
-          "720p": "11"
-        };
-        jQuery(currentSiteInfo6.videoType.selector).val(map[resolution] || "16");
-      }
-      if (tags.diy) {
-        jQuery(currentSiteInfo6.videoType.selector).val(resolution === "2160p" ? "2" : "4");
-      }
-    }
-    if (CURRENT_SITE_NAME === "RedLeaves") {
-      try {
-        jQuery(currentSiteInfo6.category.selector).trigger("change");
-      } catch (err) {
-      }
-      jQuery("tr.mode_5").css("display", "");
-    }
+    const targetTorrentInfo = __spreadValues({}, info);
+    const isBluray = !!((_a3 = info == null ? void 0 : info.videoType) == null ? void 0 : _a3.match(/bluray/i));
+    targetTorrentInfo.isBluray = isBluray;
+    const targetHelper = new ExportHelper(targetTorrentInfo);
+    targetHelper.prepareToFillInfo();
+    targetHelper.torrentTitleHandler();
+    targetHelper.imdbHandler();
+    targetHelper.descriptionHandler();
+    targetHelper.disableTorrentChange();
+    targetHelper.fillBasicAttributes();
+    targetHelper.categoryHandler();
+    targetHelper.fillRemainingInfo();
+    targetHelper.dealWithMoreSites();
   };
-  var fillTeamName = (info) => {
-    const teamConfig = CURRENT_SITE_INFO.team;
-    const teamName = getTeamName(info);
-    if (teamName && teamConfig) {
-      const formateTeamName = teamConfig.map[teamName.toLowerCase()];
-      const matchValue = formateTeamName || teamConfig.map.other;
-      if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === "BTSCHOOL") {
-        jQuery(teamConfig.selector).val(teamConfig.map.hdbint);
-        return;
-      }
-      if (CURRENT_SITE_NAME === "HDAI" && !formateTeamName) {
-        jQuery('input[name="team"]').val(teamName);
-        return;
-      }
-      if (matchValue) {
-        jQuery(teamConfig.selector).val(matchValue.toLowerCase());
-      }
-    }
-  };
-  var disableTorrentChange = () => {
-    var _a3, _b2;
-    const nameSelector = (_b2 = (_a3 = CURRENT_SITE_INFO.name) == null ? void 0 : _a3.selector) != null ? _b2 : "";
-    if (nameSelector.match(/^#\w+/)) {
-      const nameDom = jQuery(nameSelector).clone().attr("name", "").hide();
-      jQuery(nameSelector).attr("id", "").after(nameDom);
-    }
-  };
-  var getThanksQuote = (info) => {
-    const isChineseSite = isChineseTacker(CURRENT_SITE_INFO.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
-    let thanksQuote = `\u8F6C\u81EA[b]${info.sourceSite}[/b]\uFF0C\u611F\u8C22\u539F\u53D1\u5E03\u8005\uFF01`;
-    if (!isChineseSite) {
-      thanksQuote = `Torrent from [b]${info.sourceSite}[/b].
-All thanks to the original uploader\uFF01`;
-    }
-    return `[quote]${thanksQuote}[/quote]
-
-`;
-  };
-  var filterEmptyTags = (description) => {
-    const reg = new RegExp("\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
-    if (description.match(reg)) {
-      description = description.replace(reg, (_match, p1, p22) => {
-        if (p1 === p22) {
-          return "";
-        }
-        return _match;
-      });
-      return filterEmptyTags(description);
-    }
-    return description;
-  };
-  function getChineseName(info) {
-    var _a3, _b2, _c, _d, _e, _f, _g;
-    const { description } = info;
-    const originalName = (_b2 = (_a3 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
-    const translateName = (_f = (_e = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
-    let chineseName = originalName;
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
-    }
-    if (chineseName === "" && info.subtitle !== "" && info.subtitle !== void 0) {
-      chineseName = (_g = info.subtitle.replaceAll(/【|】.*/g, "").split("/")) == null ? void 0 : _g[0];
-    }
-    return chineseName.trim();
-  }
 
   // src/source/index.ts
   init_preact_shim();
@@ -14886,7 +15029,7 @@ ${descriptionData}`;
       const tag = editionTags[rawTag];
       if (tag) {
         knownTags[tag] = true;
-      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech/i)) {
+      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) {
       } else {
         otherTags[rawTag] = true;
       }
@@ -17193,49 +17336,37 @@ ${description}`;
   }
 
   // src/source/index.ts
-  var getTorrentInfo8 = () => {
-    return Promise.resolve();
+  var siteNameMap = {
+    BeyondHD: bhd_default2,
+    HDBits: hdb_default,
+    TTG: ttg_default,
+    HDT: hdt_default,
+    KG: kg_default2,
+    UHDBits: uhd_default,
+    PTP: ptp_default2,
+    BTN: btn_default,
+    TeamHD: teamhd_default,
+    HDSpace: hdspace_default,
+    GPW: gpw_default2,
+    EMP: emp_default,
+    Bdc: bdc_default2,
+    RED: red_default,
+    DicMusic: red_default,
+    MTV: mtv_default,
+    SpeedApp: speedapp_default
   };
+  var siteTypeInfoMap = {
+    NexusPHP: nexusphp_default,
+    UNIT3D: unit3d_default,
+    AvistaZ: avistaz_default
+  };
+  var getTorrentInfo8 = () => Promise.resolve();
   if (!CURRENT_SITE_INFO) {
     console.log("do nothing");
-  } else if (CURRENT_SITE_INFO.siteType === "NexusPHP") {
-    getTorrentInfo8 = nexusphp_default;
-  } else if (CURRENT_SITE_NAME === "BeyondHD") {
-    getTorrentInfo8 = bhd_default2;
-  } else if (CURRENT_SITE_NAME === "HDBits") {
-    getTorrentInfo8 = hdb_default;
-  } else if (CURRENT_SITE_NAME === "TTG") {
-    getTorrentInfo8 = ttg_default;
-  } else if (CURRENT_SITE_INFO.siteType === "UNIT3D") {
-    getTorrentInfo8 = unit3d_default;
-  } else if (CURRENT_SITE_NAME === "HDT") {
-    getTorrentInfo8 = hdt_default;
-  } else if (CURRENT_SITE_NAME === "KG") {
-    getTorrentInfo8 = kg_default2;
-  } else if (CURRENT_SITE_NAME === "UHDBits") {
-    getTorrentInfo8 = uhd_default;
-  } else if (CURRENT_SITE_NAME === "PTP") {
-    getTorrentInfo8 = ptp_default2;
-  } else if (CURRENT_SITE_NAME === "BTN") {
-    getTorrentInfo8 = btn_default;
-  } else if (CURRENT_SITE_INFO.siteType === "AvistaZ") {
-    getTorrentInfo8 = avistaz_default;
-  } else if (CURRENT_SITE_NAME === "TeamHD") {
-    getTorrentInfo8 = teamhd_default;
-  } else if (CURRENT_SITE_NAME === "HDSpace") {
-    getTorrentInfo8 = hdspace_default;
-  } else if (CURRENT_SITE_NAME === "GPW") {
-    getTorrentInfo8 = gpw_default2;
-  } else if (CURRENT_SITE_NAME === "EMP") {
-    getTorrentInfo8 = emp_default;
-  } else if (CURRENT_SITE_NAME === "Bdc") {
-    getTorrentInfo8 = bdc_default2;
-  } else if (CURRENT_SITE_NAME === "RED" || CURRENT_SITE_NAME === "DicMusic") {
-    getTorrentInfo8 = red_default;
-  } else if (CURRENT_SITE_NAME === "MTV") {
-    getTorrentInfo8 = mtv_default;
-  } else if (CURRENT_SITE_NAME === "SpeedApp") {
-    getTorrentInfo8 = speedapp_default;
+  } else if (siteNameMap[CURRENT_SITE_NAME]) {
+    getTorrentInfo8 = siteNameMap[CURRENT_SITE_NAME];
+  } else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType]) {
+    getTorrentInfo8 = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
   }
   var source_default = getTorrentInfo8;
 
@@ -18946,7 +19077,7 @@ ${screenBBcodeArray.join("")}`;
   var Container_default = Container;
 
   // src/index.tsx
-  var currentSiteInfo5 = CURRENT_SITE_INFO;
+  var currentSiteInfo6 = CURRENT_SITE_INFO;
   var torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
   var timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
   var torrentTimestamp = timestampMatchArray && timestampMatchArray.length > 0 ? timestampMatchArray[2] : null;
@@ -18955,7 +19086,7 @@ ${screenBBcodeArray.join("")}`;
   var _a2, _b;
   if (CURRENT_SITE_NAME) {
     fillSearchImdb();
-    if (currentSiteInfo5.asTarget) {
+    if (currentSiteInfo6.asTarget) {
       if (torrentInfoRaw) {
         torrentInfo = JSON.parse(decodeURIComponent(torrentInfoRaw));
       } else if (torrentTimestamp) {
@@ -18963,11 +19094,11 @@ ${screenBBcodeArray.join("")}`;
       }
       fillTargetForm(torrentInfo);
     }
-    if (currentSiteInfo5.asSource && !location.href.match(/upload/ig) && !(currentSiteInfo5.search && location.pathname.match(currentSiteInfo5.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
+    if (currentSiteInfo6.asSource && !location.href.match(/upload/ig) && !(currentSiteInfo6.search && location.pathname.match(currentSiteInfo6.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
       source_default().then(() => {
         console.log(TORRENT_INFO);
       });
-      let target = jQuery(currentSiteInfo5.seedDomSelector)[0];
+      let target = jQuery(currentSiteInfo6.seedDomSelector)[0];
       const element = document.createElement("div");
       S(/* @__PURE__ */ v(Container_default, null), element);
       if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV"].includes(CURRENT_SITE_NAME)) {
