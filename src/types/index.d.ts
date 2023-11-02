@@ -54,6 +54,12 @@ declare namespace TorrentInfo {
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
   }
+
+  interface TargetTorrentInfo extends Info {
+    isBluray?: Boolean
+    imdbId?: string
+    image?: string
+  }
 }
 declare namespace Site {
   interface Selector {

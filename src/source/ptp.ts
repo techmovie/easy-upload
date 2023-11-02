@@ -231,7 +231,7 @@ function getTags (rawTags:string[], exclude:string[] = []) {
     const tag = editionTags[rawTag as keyof typeof editionTags];
     if (tag) {
       knownTags[tag] = true;
-    } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech/i)) {
+    } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) {
       // skip
     } else {
       otherTags[rawTag] = true;

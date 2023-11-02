@@ -25,7 +25,7 @@ tmdb:
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 anonymous:
-  selector: '.form__group input[type="checkbox"][name="anonymous"]'
+  selector: '.form__group input[type="checkbox"][name="anon"]'
 category:
   selector: '#browsecat'
   map:

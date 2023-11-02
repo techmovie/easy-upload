@@ -20,48 +20,40 @@ import getRedInfo from './red';
 import getMTVInfo from './mtv';
 import getSpeedAppInfo from './speedapp';
 
-let getTorrentInfo = ():any => {
-  return Promise.resolve();
+const siteNameMap = {
+  BeyondHD: getBHDInfo,
+  HDBits: getHDBInfo,
+  TTG: getTTGInfo,
+  HDT: getHDTInfo,
+  KG: getKGInfo,
+  UHDBits: getUHDInfo,
+  PTP: getPTPInfo,
+  BTN: getBTNInfo,
+  TeamHD: getTeamHDInfo,
+  HDSpace: getHDSpaceInfo,
+  GPW: getGPWInfo,
+  EMP: getEMPInfo,
+  Bdc: getBdcInfo,
+  RED: getRedInfo,
+  DicMusic: getRedInfo,
+  MTV: getMTVInfo,
+  SpeedApp: getSpeedAppInfo,
 };
+
+const siteTypeInfoMap = {
+  NexusPHP: getNexusPHPInfo,
+  UNIT3D: getUNIT3DInfo,
+  AvistaZ: getAvistaZInfo,
+};
+
+let getTorrentInfo = (): any => Promise.resolve();
+
 if (!CURRENT_SITE_INFO) {
   console.log('do nothing');
-} else if (CURRENT_SITE_INFO.siteType === 'NexusPHP') {
-  getTorrentInfo = getNexusPHPInfo;
-} else if (CURRENT_SITE_NAME === 'BeyondHD') {
-  getTorrentInfo = getBHDInfo;
-} else if (CURRENT_SITE_NAME === 'HDBits') {
-  getTorrentInfo = getHDBInfo;
-} else if (CURRENT_SITE_NAME === 'TTG') {
-  getTorrentInfo = getTTGInfo;
-} else if (CURRENT_SITE_INFO.siteType === 'UNIT3D') {
-  getTorrentInfo = getUNIT3DInfo;
-} else if (CURRENT_SITE_NAME === 'HDT') {
-  getTorrentInfo = getHDTInfo;
-} else if (CURRENT_SITE_NAME === 'KG') {
-  getTorrentInfo = getKGInfo;
-} else if (CURRENT_SITE_NAME === 'UHDBits') {
-  getTorrentInfo = getUHDInfo;
-} else if (CURRENT_SITE_NAME === 'PTP') {
-  getTorrentInfo = getPTPInfo;
-} else if (CURRENT_SITE_NAME === 'BTN') {
-  getTorrentInfo = getBTNInfo;
-} else if (CURRENT_SITE_INFO.siteType === 'AvistaZ') {
-  getTorrentInfo = getAvistaZInfo;
-} else if (CURRENT_SITE_NAME === 'TeamHD') {
-  getTorrentInfo = getTeamHDInfo;
-} else if (CURRENT_SITE_NAME === 'HDSpace') {
-  getTorrentInfo = getHDSpaceInfo;
-} else if (CURRENT_SITE_NAME === 'GPW') {
-  getTorrentInfo = getGPWInfo;
-} else if (CURRENT_SITE_NAME === 'EMP') {
-  getTorrentInfo = getEMPInfo;
-} else if (CURRENT_SITE_NAME === 'Bdc') {
-  getTorrentInfo = getBdcInfo;
-} else if (CURRENT_SITE_NAME === 'RED' || CURRENT_SITE_NAME === 'DicMusic') {
-  getTorrentInfo = getRedInfo;
-} else if (CURRENT_SITE_NAME === 'MTV') {
-  getTorrentInfo = getMTVInfo;
-} else if (CURRENT_SITE_NAME === 'SpeedApp') {
-  getTorrentInfo = getSpeedAppInfo;
+} else if (siteNameMap[CURRENT_SITE_NAME as keyof typeof siteNameMap]) {
+  getTorrentInfo = siteNameMap[CURRENT_SITE_NAME as keyof typeof siteNameMap];
+} else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType as keyof typeof siteTypeInfoMap]) {
+  getTorrentInfo = siteTypeInfoMap[CURRENT_SITE_INFO.siteType as keyof typeof siteTypeInfoMap];
 }
+
 export default getTorrentInfo;

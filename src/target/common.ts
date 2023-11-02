@@ -126,6 +126,26 @@ const filterNexusDescription = (info:TorrentInfo.Info) => {
   const allImages = getFilterImages(description);
   return `${filterDescription}\n${allImages.join('')}`;
 };
+// 过滤空标签
+const filterEmptyTags = (description: string): string => {
+  // eslint-disable-next-line prefer-regex-literals
+  const reg = new RegExp('\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
+  if (description.match(reg)) {
+    description = description.replace(reg, (_match, p1, p2) => {
+      if (p1 === p2) {
+        return '';
+      }
+      return _match;
+    });
+    return filterEmptyTags(description);
+  }
+  return description;
+};
+const fixTorrentTitle = (title:string, isWebSource: boolean) => {
+  let fixedTitle = title.replace(' DoVi ', ' DV ').replace(' DDP ', ' DD+ ');
+  if (isWebSource) fixedTitle = fixedTitle.replace(' HEVC', ' H.265');
+  return fixedTitle;
+};
 export {
   getScreenshotsBBCode,
   getTeamName,
@@ -133,4 +153,6 @@ export {
   buildPTPDescription,
   isChineseTacker,
   filterNexusDescription,
+  filterEmptyTags,
+  fixTorrentTitle,
 };
