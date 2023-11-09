@@ -134,6 +134,30 @@ const Container = () => {
         }
       </>
     }
+    {CURRENT_SITE_NAME === 'Cinematik' && <>
+      <tr>
+        <td className="rowhead"><Title /></td>
+        <td><UploadSiteList /></td>
+      </tr>
+      <tr>
+        <td className="rowhead">
+          {$t('快捷操作')}
+        </td>
+        <td>
+          <FunctionList />
+        </td>
+      </tr>
+      {!quickSearchClosed && <tr>
+        <td className="rowhead">
+          <h4 className="quick-search" onClick={checkQuickResult}>{$t('快速检索')}</h4>
+        </td>
+        <td>
+          <SearchList />
+        </td>
+      </tr>
+      }
+    </>
+    }
     {
       CURRENT_SITE_NAME === 'TeamHD' &&
       <>

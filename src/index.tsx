@@ -39,35 +39,35 @@ if (CURRENT_SITE_NAME) {
       console.log(TORRENT_INFO);
     });
 
-    let target = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
-    const element = document.createElement('div');
-    render(<App />, element);
+    let refNode = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
+    const app = document.createElement('div');
+    render(<App />, app);
     if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV'].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
-        target = document.querySelector(`#torrent_detail_${torrentId} >td`);
+        refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
       } else if (CURRENT_SITE_NAME === 'EMP') {
         const groupId = getUrlParam('id');
-        target = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
+        refNode = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
       } else if (CURRENT_SITE_NAME === 'MTV') {
-        target = document.querySelector(`#torrentinfo${torrentId}>td`);
+        refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
       } else {
-        target = document.querySelector(`#torrent_${torrentId} >td`);
+        refNode = document.querySelector(`#torrent_${torrentId} >td`);
       }
-      target?.prepend(element);
+      refNode?.prepend(app);
     } else if (CURRENT_SITE_NAME === 'UHDBits') {
       const torrentId = getUrlParam('torrentid');
       $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
-      $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(element);
+      $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(app);
     } else if (CURRENT_SITE_NAME === 'SpeedApp') {
       const div = document.createElement('div');
       div.setAttribute('class', 'row col-md-12 mt-5');
-      element.setAttribute('class', 'card-body card');
-      div.appendChild(element);
-      target?.parentNode?.insertBefore(div, target);
+      app.setAttribute('class', 'card-body card');
+      div.appendChild(app);
+      refNode?.parentNode?.insertBefore(div, refNode);
     } else {
-      Array.from(element.childNodes).forEach(node => {
-        target?.parentNode?.insertBefore(node, target);
+      Array.from(app.childNodes).forEach(child => {
+        refNode?.parentNode?.insertBefore(child, refNode);
       });
     }
   }

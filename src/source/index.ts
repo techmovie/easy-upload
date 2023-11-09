@@ -3,6 +3,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO } from '../const';
 import getPTPInfo from './ptp';
 import getBHDInfo from './bhd';
 import getHDBInfo from './hdb';
+import getTikInfo from './tik';
 import getTTGInfo from './ttg';
 import getUNIT3DInfo from './unit3d';
 import getNexusPHPInfo from './nexusphp';
@@ -23,6 +24,7 @@ import getSpeedAppInfo from './speedapp';
 const siteNameMap = {
   BeyondHD: getBHDInfo,
   HDBits: getHDBInfo,
+  Cinematik: getTikInfo,
   TTG: getTTGInfo,
   HDT: getHDTInfo,
   KG: getKGInfo,

@@ -3,7 +3,7 @@ import {
   buildPTPDescription,
 } from './common';
 import {
-  getTMDBIdByIMDBId, getIMDBIdByUrl,
+  getIMDBIdByUrl,
 } from '../common';
 const currentSiteInfo = PT_SITE.ZHUQUE;
 export default (info: TorrentInfo.Info) => {
