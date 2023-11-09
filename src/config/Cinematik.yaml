@@ -5,7 +5,7 @@ icon: data:image/png;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAA
 asSource: true
 asTarget: false
 uploadPath: /upload.php
-seedDomSelector: "body > table.mainouter > tbody > tr > td > table:nth-child(5) > tbody > tr:nth-child(3)"
+seedDomSelector: "div.odiv_1 + table >tbody tr:nth-child(3n)"
 needDoubanInfo: true
 search:
   path: /browse.php
