@@ -4,3 +4,4 @@ node_modules
 src/config.json
 src/i18n.json
 tg-channel.txt
+bun.lockb

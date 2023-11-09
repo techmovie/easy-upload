@@ -215,6 +215,7 @@ td.title-td h4{
 svg.setting-svg{
   height: 20px;
   width: 20px;
+  vertical-align: middle;
   animation: 5s linear rotate infinite;
   cursor: pointer;
 }
