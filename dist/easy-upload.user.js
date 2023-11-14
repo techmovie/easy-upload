@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      4.0.0
+// @version      4.1.0
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -2030,6 +2030,26 @@
           in: "1",
           order: "size",
           sort: "desc"
+        }
+      }
+    },
+    Cinematik: {
+      url: "https://cinematik.net",
+      host: "cinematik.net",
+      siteType: "Cinematik",
+      icon: "data:image/png;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8ACAgIAA0NDQATExMAFBQUABsbGwAfHx8AJycnACoqKgAtLS0AMTExADU1NQA5OTkAPj4+AEFBQQBFRUUASEhIAE1NTQBRUVEAVVVVAFlZWQBdXV0AYWFhAGVlZQBpaWkAbm5uAHJycgB1dXUAenp6AH5+fgCCgoIAhoaGAImJiQCOjo4AkpKRAJSUlACdnZ0ApaWlAKioqACsrKwAsrKyALS0tAC8vLwAxcXFAM3NzQDa2toA6enoAO/u7QD+/v4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/ykgICAfHx8fICv///////8iJiAZGRkYGRgiKf//////IBsZFBQUFBQSIC4p/////yIkGxQQEhISEB0wLib///8gGRUQDQ0NDQ0SFBkfKf//ICIZDBQdEgwMCQwYGxv//x8dFQkZMC0fDQkJFRsZ//8fHxUFGDAwMCwYBxUbGP//Hx8YAhgwMDAwIgUVHxj//x0VDTEVMDAqFQUCEBUV//8dIhgxDSkVAzExMRUgFf//HRAJMTECMTExMTEMEBX//x0lGTExMTExMTExGSQU//8dEgwxMTExMTExMQwQFP//HSAVMTExMTExMTEVIBX//yYYGBUYGBgYGBUYGBQg/4Af//+AD///gAf/P4AD//+AAf85gAH//4AB//+AAf//gAH/P4AB++eAAb5fgAFc6YABvl+AAVc6gAE/v4AB/z8=",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      seedDomSelector: "div.odiv_1 + table >tbody tr:nth-child(3n)",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{imdb}",
+          cat: 0,
+          incldead: 1,
+          srchdtls: 1
         }
       }
     },
@@ -11508,26 +11528,42 @@ ${"\xA0".repeat(6)}`)}
     }
   };
   var uploadToHDB = async (screenshots, galleryName) => {
+    const apiUrl = "https://img.hdbits.org/upload_api.php";
     try {
       const promiseArray = screenshots.map((item) => {
         return urlToFile(item);
       });
-      const fileArray = await Promise.all(promiseArray);
+      const files = await Promise.all(promiseArray);
+      const firstFile = files.shift();
       const formData = new FormData();
       formData.append("galleryoption", "1");
       formData.append("galleryname", galleryName);
-      fileArray.forEach((file) => {
-        formData.append("images_files[]", file);
-      });
-      const data = await fetch("https://img.hdbits.org/upload_api.php", {
+      formData.append("images_files[]", firstFile);
+      const firstResp = await fetch(apiUrl, {
         data: formData,
         method: "POST",
         responseType: void 0
       });
-      if (data.includes("error")) {
-        throw data;
+      if (firstResp.includes("error")) {
+        throw firstResp;
       }
-      return data;
+      const reqs = files.map((file) => {
+        const formData2 = new FormData();
+        formData2.append("galleryoption", "2");
+        formData2.append("galleryname", galleryName);
+        formData2.append("images_files[]", file);
+        return fetch(apiUrl, {
+          data: formData2,
+          method: "POST",
+          responseType: void 0
+        });
+      });
+      const resp = await Promise.all(reqs);
+      const respStr = resp.join("");
+      if (respStr.includes("error")) {
+        throw respStr;
+      }
+      return firstResp + respStr;
     } catch (error) {
       handleError(error);
     }
@@ -15302,6 +15338,55 @@ ${descriptionBBCode}`;
     return screenshots;
   };
 
+  // src/source/tik.ts
+  init_preact_shim();
+  var tik_default = async () => {
+    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
+    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
+    const typeText = jQuery("td.heading:contains(Type)").eq(0).next().text();
+    const isMovie = typeText !== "TV-Series";
+    const tags = [];
+    jQuery("td.heading:contains(Tags)").eq(0).next().children().each((_3, child) => {
+      tags.push(child.textContent);
+    });
+    const size = jQuery("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_3, size2) => size2.replace(/,/g, ""));
+    const title = jQuery("h1").eq(0).text();
+    const imdbNumber = jQuery('span:contains("IMDB id:") a').text();
+    const descContainer = jQuery("td.heading:contains(Description)").eq(0).next();
+    const desc = descContainer.text();
+    const rawDesc = descContainer.html();
+    TORRENT_INFO.mediaInfo = jQuery("td[style~=dotted]").text();
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(TORRENT_INFO.mediaInfo);
+    TORRENT_INFO.size = parseInt(size, 10);
+    TORRENT_INFO.title = formatTorrentTitle(title);
+    TORRENT_INFO.description = desc;
+    TORRENT_INFO.screenshots = getImagesFromDesc(rawDesc);
+    TORRENT_INFO.year = jQuery("span.gr_hsep:contains(Year)").text().replace("Year: ", "").trim();
+    TORRENT_INFO.movieName = jQuery("div.gr_tdsep h1:first-child").text();
+    TORRENT_INFO.imdbUrl = `https://www.imdb.com/title/tt${imdbNumber}/`;
+    TORRENT_INFO.category = isMovie ? "movie" : "tvPack";
+    TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
+    TORRENT_INFO.videoType = tags.includes("Blu-ray") ? "bluray" : "dvd";
+    TORRENT_INFO.videoCodec = videoCodec;
+    TORRENT_INFO.audioCodec = audioCodec;
+    TORRENT_INFO.resolution = resolution;
+    TORRENT_INFO.tags = mediaTags;
+  };
+  function getImagesFromDesc(desc) {
+    const screenshots = [];
+    if (!desc) {
+      return screenshots;
+    }
+    const matches = desc.match(/[a-z0-9]{32}/g);
+    if (!matches) {
+      return screenshots;
+    }
+    for (const m3 of matches) {
+      screenshots.push(`https://hostik.cinematik.net/gal/ori/${m3[0]}/${m3[1]}/${m3}.jpg`);
+    }
+    return screenshots;
+  }
+
   // src/source/ttg.ts
   init_preact_shim();
   var ttg_default = async () => {
@@ -17339,6 +17424,7 @@ ${description}`;
   var siteNameMap = {
     BeyondHD: bhd_default2,
     HDBits: hdb_default,
+    Cinematik: tik_default,
     TTG: ttg_default,
     HDT: hdt_default,
     KG: kg_default2,
@@ -17652,6 +17738,7 @@ td.title-td h4{
 svg.setting-svg{
   height: 20px;
   width: 20px;
+  vertical-align: middle;
   animation: 5s linear rotate infinite;
   cursor: pointer;
 }
@@ -19012,7 +19099,16 @@ ${screenBBcodeArray.join("")}`;
       onClick: checkQuickResult
     }, $t("\u5FEB\u901F\u68C0\u7D22"))), /* @__PURE__ */ v("td", {
       className: baseContentClass.join(" ")
-    }, /* @__PURE__ */ v(SearchList_default, null)))), CURRENT_SITE_NAME === "TeamHD" && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("div", {
+    }, /* @__PURE__ */ v(SearchList_default, null)))), CURRENT_SITE_NAME === "Cinematik" && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("tr", null, /* @__PURE__ */ v("td", {
+      className: "rowhead"
+    }, /* @__PURE__ */ v(Title, null)), /* @__PURE__ */ v("td", null, /* @__PURE__ */ v(UploadSiteList_default, null))), /* @__PURE__ */ v("tr", null, /* @__PURE__ */ v("td", {
+      className: "rowhead"
+    }, $t("\u5FEB\u6377\u64CD\u4F5C")), /* @__PURE__ */ v("td", null, /* @__PURE__ */ v(FunctionList_default, null))), !quickSearchClosed && /* @__PURE__ */ v("tr", null, /* @__PURE__ */ v("td", {
+      className: "rowhead"
+    }, /* @__PURE__ */ v("h4", {
+      className: "quick-search",
+      onClick: checkQuickResult
+    }, $t("\u5FEB\u901F\u68C0\u7D22"))), /* @__PURE__ */ v("td", null, /* @__PURE__ */ v(SearchList_default, null)))), CURRENT_SITE_NAME === "TeamHD" && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("div", {
       className: "custom-site"
     }, /* @__PURE__ */ v(Title, null), /* @__PURE__ */ v("div", {
       className: "easy-seed-td",
@@ -19098,36 +19194,36 @@ ${screenBBcodeArray.join("")}`;
       source_default().then(() => {
         console.log(TORRENT_INFO);
       });
-      let target = jQuery(currentSiteInfo6.seedDomSelector)[0];
-      const element = document.createElement("div");
-      S(/* @__PURE__ */ v(Container_default, null), element);
+      let refNode = jQuery(currentSiteInfo6.seedDomSelector)[0];
+      const app = document.createElement("div");
+      S(/* @__PURE__ */ v(Container_default, null), app);
       if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV"].includes(CURRENT_SITE_NAME)) {
         const torrentId = getUrlParam("torrentid");
         if (CURRENT_SITE_NAME === "GPW") {
-          target = document.querySelector(`#torrent_detail_${torrentId} >td`);
+          refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
         } else if (CURRENT_SITE_NAME === "EMP") {
           const groupId = getUrlParam("id");
-          target = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
+          refNode = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
         } else if (CURRENT_SITE_NAME === "MTV") {
-          target = document.querySelector(`#torrentinfo${torrentId}>td`);
+          refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
         } else {
-          target = document.querySelector(`#torrent_${torrentId} >td`);
+          refNode = document.querySelector(`#torrent_${torrentId} >td`);
         }
-        target == null ? void 0 : target.prepend(element);
+        refNode == null ? void 0 : refNode.prepend(app);
       } else if (CURRENT_SITE_NAME === "UHDBits") {
         const torrentId = getUrlParam("torrentid");
         jQuery(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
-        (_a2 = jQuery(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _a2.prepend(element);
+        (_a2 = jQuery(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _a2.prepend(app);
       } else if (CURRENT_SITE_NAME === "SpeedApp") {
         const div = document.createElement("div");
         div.setAttribute("class", "row col-md-12 mt-5");
-        element.setAttribute("class", "card-body card");
-        div.appendChild(element);
-        (_b = target == null ? void 0 : target.parentNode) == null ? void 0 : _b.insertBefore(div, target);
+        app.setAttribute("class", "card-body card");
+        div.appendChild(app);
+        (_b = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _b.insertBefore(div, refNode);
       } else {
-        Array.from(element.childNodes).forEach((node) => {
+        Array.from(app.childNodes).forEach((child) => {
           var _a3;
-          (_a3 = target == null ? void 0 : target.parentNode) == null ? void 0 : _a3.insertBefore(node, target);
+          (_a3 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a3.insertBefore(child, refNode);
         });
       }
     }

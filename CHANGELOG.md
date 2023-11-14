@@ -1,3 +1,19 @@
+# [4.1.0](https://github.com/techmovie/easy-upload/compare/4.0.0...4.1.0) (2023-11-14)
+
+
+### Bug Fixes
+
+* **tik:** panel fails to load on certain torrent pages ([#264](https://github.com/techmovie/easy-upload/issues/264)) ([0b5696f](https://github.com/techmovie/easy-upload/commit/0b5696f14c61bca2e5e47a3e7be5deb17006cbb2))
+
+
+### Features
+
+* **hdb:** upload images simultaneously ([#265](https://github.com/techmovie/easy-upload/issues/265)) ([a82c35c](https://github.com/techmovie/easy-upload/commit/a82c35cd5b6ee3d8138e8e1b711167e3a47c47ba))
+* **new site:** cinematik ([#263](https://github.com/techmovie/easy-upload/issues/263)) ([a4ed83e](https://github.com/techmovie/easy-upload/commit/a4ed83e2b055b6b526365c718abf8679d3796b1b))
+* resize ico file ([60e413e](https://github.com/techmovie/easy-upload/commit/60e413e0fe5db0bfc7a3733c4e288d7cecf00df0))
+
+
+
 # [4.0.0](https://github.com/techmovie/easy-upload/compare/3.2.23...4.0.0) (2023-11-02)
 
 
