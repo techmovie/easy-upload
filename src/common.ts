@@ -492,27 +492,47 @@ const uploadToImgbox = async (screenshot: string, authToken:string, tokenSecret:
     return data.files[0];
   }
 };
-const uploadToHDB = async (screenshots: string[], galleryName:string) => {
+const uploadToHDB = async (screenshots: string[], galleryName: string) => {
+  const apiUrl = 'https://img.hdbits.org/upload_api.php';
   try {
     const promiseArray = screenshots.map(item => {
       return urlToFile(item);
     });
-    const fileArray = await Promise.all(promiseArray);
+    const files = await Promise.all(promiseArray);
+    const firstFile = files.shift();
     const formData = new FormData();
     formData.append('galleryoption', '1');
     formData.append('galleryname', galleryName);
-    fileArray.forEach(file => {
-      formData.append('images_files[]', file);
-    });
-    const data = await fetch('https://img.hdbits.org/upload_api.php', {
+    // @ts-ignore
+    formData.append('images_files[]', firstFile);
+    const firstResp = await fetch(apiUrl, {
       data: formData,
       method: 'POST',
       responseType: undefined,
     });
-    if (data.includes('error')) {
-      throw data;
+    if (firstResp.includes('error')) {
+      throw firstResp;
     }
-    return data;
+
+    const reqs = files.map(file => {
+      const formData = new FormData();
+      formData.append('galleryoption', '2');
+      formData.append('galleryname', galleryName);
+      formData.append('images_files[]', file);
+      return fetch(apiUrl, {
+        data: formData,
+        method: 'POST',
+        responseType: undefined,
+      });
+    });
+
+    const resp: string[] = await Promise.all(reqs);
+    const respStr = resp.join('');
+    if (respStr.includes('error')) {
+      throw respStr;
+    }
+
+    return firstResp + respStr;
   } catch (error) {
     handleError(error);
   }
