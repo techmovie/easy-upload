@@ -16,6 +16,7 @@
 | Blutopia  |            ✅             |           ✅            |
 |    BYR    |            ❌             |           ✅            |
 |  CHDBits  |            ✅             |           ✅            |
+| Cinematik |            ✅             |           ❌            |
 |  CinemaZ  |            ✅             |           ❌            |
 | DicMusic  |            ✅             |           ❌            |
 |  DiscFan  |            ✅             |           ✅            |
