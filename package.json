@@ -44,6 +44,7 @@
     "commitizen": "^4.2.4",
     "conventional-changelog-cli": "^2.2.2",
     "cz-conventional-changelog": "^3.3.0",
+    "decode-ico": "^0.4.1",
     "esbuild": "^0.14.21",
     "esbuild-plugin-svgr": "^0.0.3",
     "eslint": "^7.32.0",
@@ -60,6 +61,7 @@
     "node-notifier": "^9.0.1",
     "ora": "^5.4.0",
     "prettier": "^2.5.1",
+    "sharp": "^0.32.6",
     "typescript": "^4.5.2",
     "yaml": "^1.10.0"
   },
