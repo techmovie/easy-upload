@@ -277,6 +277,10 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
   if (title !== original_title) {
     foreignTitle = original_title;
   }
+  let poster = cover_url;
+  if (poster.includes('img3')) {
+    poster = poster.replace('img3', 'img1').replace(/m(_ratio_poster)/, 'l$1');
+  }
   const formatData: Douban.DoubanData = {
     imdbId: imdbRate.id,
     imdbLink: `https://www.imdb.com/title/${imdbRate.id}/`,
@@ -300,7 +304,7 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
     doubanRatingAverage: rating.value,
     doubanVotes: `${rating.count}`,
     doubanRating: `${rating.value}/10 from ${rating.count} users`,
-    poster: cover_url,
+    poster,
     director: directors,
     cast: actors,
     writer: [],
