@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      4.1.0
+// @version      4.1.1
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -951,7 +951,7 @@
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUnPUA0UVVAZWpQfoRTgolJc3lIcXdSgYc5Wl4zUFQfMDIuSExCaG1SgYhckZhimKBbkJdajpVPfIJEa3Bdk5pXiZBLdnxFbXI4WFwvSU1PfYN1paxvoahsn6aGsLZhmKBbj5ZRgIZVho06W182VVlYi5Jgl59elJyLs7miw8eoxsqryMywy8+px8ucvsNrn6ZflZ0yTlJJcng/Y2iavcJtoKeBrbNelJtDaW4rREcxTVE9X2R5qK5KdHoqQkUoP0IsRUiNtbo3VlomOz5NeX8lOj0jNjkeLzEgMjQiNDchMzYkODslOTxYipEoPkEiNTgbKiwZJykcLC4dLS8uR0tBZmsaKCoZJig+YWYSHB0XIyUWIiQWISMfMTMRGhsVICIUHyATHR4cKy0QGRoTHh8YJScQGBkPFxj////TR8cdAAAAAWJLR0Roy2z0IgAAAAd0SU1FB+UEFw4WFlDBxPsAAAEBSURBVBjTFcppX4IwHADgPwmWmuWRVmCZdF9W2mmFlnlWNtBGY7YxWfL9v0H69vk9AMpCRFVVLaotaksxiENiObmymkpnsupaLr++sQmKbhS2UoVtwyjulEx9F/b2Dw6Pjk9Oz87LF1rpMgtXlap5faNG8+nb8l0ldw8PtcenZwvq9Yaiv5jVV2jWI2+tdqfb679bmWQsAR/Nz8FXHNkOGvZH2qgBqPfdH2LXdTFy2j/NLhBc8+iYenP6VbpjYHzgC59zOtOJhSgEojNmbE5c4tafD4RxTKaMCCGkg6WEMAypx8kscdcOwhACSTjFtkddNJFMBMCoCIj0bIq4DKY++wfZwT9SAOOuEQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0yM1QxNDoyMjoyMiswMDowMNu9360AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMjNUMTQ6MjI6MjIrMDA6MDCq4GcRAAAAAElFTkSuQmCC",
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload?category_id=1",
+      uploadPath: "/torrents/create?category_id=1",
       needDoubanInfo: true,
       seedDomSelector: ".torrent__buttons+.panelV2",
       search: {
@@ -1780,7 +1780,7 @@
       icon: "data:image/png;base64,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",
       asSource: true,
       asTarget: true,
-      uploadPath: "/torrents/create??category_id=1",
+      uploadPath: "/torrents/create?category_id=1",
       needDoubanInfo: true,
       seedDomSelector: ".torrent__buttons+.panelV2",
       search: {
@@ -7563,6 +7563,20 @@
         }
       }
     },
+    R3SUB: {
+      url: "https://r3sub.com",
+      host: "r3sub.com",
+      siteType: "subtitles",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAEaklEQVR4nNWUe0zTVxTHf8zxcsOxyYQsLr6yzL2dj8w5kKnJfEyBgW+GmsmyCFkFUbQRBEqhlVrqWqGAkE6KOGq1pKniBItO0XYWeSjSIqwFaSn0Vyi1QOXR7/Ij6lDm/t9Jbs4v9+Z+fufc7zmHIP5Xlp+f787lcr2PHj3qIxaLp1GrvLzcRyaT+VZWVk6Xy+V+IpHIV6PRTJVIJFP+E5aSkvKKTCbdcKroVGZ+zsmzguM5ZXz+cWaO4JfDJwuKzkjK5PdLiqX6I8nJZQpF+QoAvgCmPAG7PQeTSCTeKpVqpcFgqbdYrNZeq/VRT0+P3WK1dnX39nX2WCz9pMUKkuzDX23t/SXic6qkQ8l5WUzmJutg57sAPKiA/klVInlDqayJaTf04kUbnbQDaJtboVFrbJLSshvpaRmJAPwBeI9DAXhy2Qc/yTy8WyQtznusvCCD8pIcN6ov435dPR5c08CoNWDAPjgJfLexGeyM7Pr8XN5ak8n0tsvl8iSuX69am0HfnLRtlfdwxFduoNamYC/s+vYdHNmxHFcSaFCXnkdXh3kc4gIw8gTocIzgqlLdF0+jFcvPnVtos9neIg7s+vxW3NY52h++IbA5iMCmQALhSwl894U7YjYuxv3bWjyyDWNk1IUx6glcGPdjFBlAv20AVZVqR1ryocKcHM4SYueG90xRawJsUV8TiFpJIHIFgfULCER8ORXZjHj02weepUgxxib4p9bf7wBfIDTnFxZuJfb9uDY9NjKwcMf6uW2hyzxc4csIxGz+GAXZSWhqrHt29SnI9YJgAyOAyeIAM4P9iM/n76ZE8a+6plmYsHcPI2TFvKuhwQG69KS9vbfv6CYGMcmGR4EmnWFEUXWrT35Z/SBx//4LubmCCKKjo8MbwOsPSXLmzZt/BhcIhTuYmcfExb/JzYZuO3oHBjHodMI55HQNDjldducQuu1DUNfrwWLxTBFh686yWBmxUqk0rKamZsl4h9y7d8+DJMlpbW1mf5PJNEskOh2WemBn2aHoRWClxoLDYQ9ncQW9Wcf4PdkcpjOT/j22rJ6HjesW3+Bx+bSKiorVKpVqUXNz8+zxwgbgRrWRXq/3AuAlEolXlRyLkV7JXo1yRhBo25eT0dHRp9MZqbykPSEPlbz1yIv9APRdgbeyeMKfamtrFzU1Nc1qb29/c1I/U16mUCyQFzEEF7jbH4sTl2JfZNDthARavKjgRGQabWN1BSdkTBgXBMbPYZeERb9u02q1841Go191dbXXvw4Ko9Hud74kL5xzMKo0LWbd76zkOHbJmTOhcvnFVTz2EfoJ+hYFPXrDxZSDsanKP5TBer1+NgCfl04g6gDAaw4HAvRGy/zGRu2ndXV1H+l0urkkSc40dA3NaTGYPrxz9+5nDQ0N77e2ts5oaWnxfG5AvGDUm7pTQnV1dc0wm83+drvdT6/X+1osFp/Ozs7pT/epVI1G41SCIF4Ke04oqgKov1MewKtU9NQ3VW6UiBqNxn1iqn8DP4ZZROQMmnUAAAAASUVORK5CYII=",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/movie.php",
+        params: {
+          id: "{imdb}"
+        }
+      }
+    },
     RED: {
       url: "https://redacted.ch",
       host: "redacted.ch",
@@ -11274,6 +11288,10 @@
     if (title !== original_title) {
       foreignTitle = original_title;
     }
+    let poster = cover_url;
+    if (poster.includes("img3")) {
+      poster = poster.replace("img3", "img1").replace(/m(_ratio_poster)/, "l$1");
+    }
     const formatData = {
       imdbId: imdbRate.id,
       imdbLink: `https://www.imdb.com/title/${imdbRate.id}/`,
@@ -11297,7 +11315,7 @@
       doubanRatingAverage: rating.value,
       doubanVotes: `${rating.count}`,
       doubanRating: `${rating.value}/10 from ${rating.count} users`,
-      poster: cover_url,
+      poster,
       director: directors,
       cast: actors,
       writer: [],
