@@ -5,8 +5,8 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~b font table:first>tbody>tr:nth-child(5)' 
-search: 
+seedDomSelector: '#top~font table:first>tbody>tr:nth-child(5)'
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +16,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -29,7 +29,7 @@ description:
   selector: '#descr'
 imdb:
   selector: 'input[name="url"][type="text"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
@@ -104,19 +104,19 @@ resolution:
   selector: 'select[name="standard_sel"]'
   map:
     4320p: '1'
-    2160p: 
+    2160p:
       - '2'
       - '10'
       - '9'
-    1080p: 
+    1080p:
       - '3'
       - '5'
       - '8'
-    1080i: 
+    1080i:
       - '4'
       - '5'
       - '8'
-    720p: 
+    720p:
       - '5'
       - '11'
     576p: '6'
@@ -132,7 +132,7 @@ area:
     JP: '6'
     KR: '7'
     OT: '9'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     hdfans: '9'
