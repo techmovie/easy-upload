@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: false
 uploadPath: /upload.php
+needDoubanInfo: true
 seedDomSelector: '.bg-content_bg div.leading-6:nth-child(5)'
 search:
   path: /torrents.php

@@ -20,6 +20,7 @@ import getBdcInfo from './bdc';
 import getRedInfo from './red';
 import getMTVInfo from './mtv';
 import getSpeedAppInfo from './speedapp';
+import getHHInfo from './hh';
 
 const siteNameMap = {
   BeyondHD: getBHDInfo,
@@ -40,6 +41,7 @@ const siteNameMap = {
   DicMusic: getRedInfo,
   MTV: getMTVInfo,
   SpeedApp: getSpeedAppInfo,
+  HH: getHHInfo,
 };
 
 const siteTypeInfoMap = {
