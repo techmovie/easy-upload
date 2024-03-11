@@ -1,0 +1,58 @@
+url: https://fearnopeer.com
+host: fearnopeer.com
+siteType: UNIT3D
+icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==
+asSource: true
+asTarget: true
+uploadPath: /torrents/create?category_id=1
+needDoubanInfo: true
+seedDomSelector: .torrent__buttons+.panelV2
+search:
+  path: /torrents
+  replaceKey:
+    - tt
+    - ''
+  params:
+    name: '{name}'
+    imdbId: '{imdb}'
+    sortField: size
+name:
+  selector: '#title'
+description:
+  selector: '#bbcode-description'
+imdb:
+  selector: '#autoimdb'
+tmdb:
+  selector: '#autotmdb'
+mediaInfo:
+  selector: textarea[name="mediainfo"]
+anonymous:
+  selector: .form__group input[type="checkbox"][name="anon"]
+category:
+  selector: '#browsecat'
+  map:
+    movie: '1'
+    tv: '2'
+    tvPack: '2'
+videoType:
+  selector: '#autotype'
+  map:
+    uhdbluray: '1'
+    bluray: '1'
+    remux: '3'
+    encode: '12'
+    web: '4'
+    hdtv: '6'
+    dvd: '1'
+    dvdrip: '12'
+    other: ''
+resolution:
+  selector: '#autores'
+  map:
+    4320p: '11'
+    2160p: '1'
+    1080p: '2'
+    1080i: '3'
+    720p: '5'
+    576p: '6'
+    480p: '8'

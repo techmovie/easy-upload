@@ -16,7 +16,7 @@ import { getQuickSearchUrl } from './common';
 const Container = () => {
   const [settingPanelOpen, setSettingPanelOpen] = useState(false);
   const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) ||
-    CURRENT_SITE_NAME?.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST/);
+    CURRENT_SITE_NAME?.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/);
   const isHDB = CURRENT_SITE_NAME === 'HDBits';
   const baseTitleClass = ['title-td'];
   const baseContentClass = ['easy-seed-td'];

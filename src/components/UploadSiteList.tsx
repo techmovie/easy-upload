@@ -63,7 +63,7 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
 };
 const UploadSiteList = () => {
   const handleSiteClickEvent = async (url:string) => {
-    if (url.match(/hdpost|blutopia|asiancinema|monikadesign|lst/)) {
+    if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
       const catMap = {
         movie: '1',
         tv: '2',

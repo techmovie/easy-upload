@@ -121,7 +121,7 @@ export default class ExportHelper {
 
     if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
       $(imdbSelector).val(imdbId?.replace('tt', '') ?? '');
-    } else if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
+    } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
       let tmdbId = '';
       const fillIMDBId = this.currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
       $(imdbSelector).val(fillIMDBId);
@@ -129,7 +129,7 @@ export default class ExportHelper {
         tmdbId = data.id;
         $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
       });
-      if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU|LST/)) {
+      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|LST/)) {
         $('#torrent').on('change', () => {
           $(imdbSelector).val(fillIMDBId);
           $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
@@ -179,7 +179,7 @@ export default class ExportHelper {
     }
 
     if (this.currentSiteInfo.mediaInfo) {
-      if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither|MDU)/)) {
+      if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU)/)) {
         const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
         $(selector).val(mediaInfo);
         description = description.replace(mediaInfo.trim(), '');
@@ -222,7 +222,7 @@ export default class ExportHelper {
       }
     }
     // Blutopia可以通过设置为显示缩略图
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU/)) {
       if (this.info.sourceSite === 'PTP') {
         description = buildPTPDescription(this.info);
       }
@@ -242,7 +242,7 @@ export default class ExportHelper {
       }
     }
 
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither/)) {
       description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
       description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
         const slash = p1 || '';

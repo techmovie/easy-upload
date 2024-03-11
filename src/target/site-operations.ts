@@ -70,6 +70,14 @@ export const SITE_OPERATIONS = {
       return info;
     },
   },
+  fearnopeer: {
+    titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+      const isWebSource = !!info.source.match(/web/gi);
+      const title = fixTorrentTitle(info.title, isWebSource);
+      info.title = title;
+      return info;
+    },
+  },
   Aither: {
     titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       const isWebSource = !!info.source.match(/web/gi);
