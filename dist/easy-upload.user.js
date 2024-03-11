@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      4.1.1
+// @version      4.2.0
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -3617,7 +3617,7 @@
       asSource: true,
       asTarget: true,
       uploadPath: "/upload.php",
-      seedDomSelector: "#top~b font table:first>tbody>tr:nth-child(5)",
+      seedDomSelector: "#top~font table:first>tbody>tr:nth-child(5)",
       search: {
         path: "/torrents.php",
         imdbOptionKey: "4",
@@ -5396,6 +5396,7 @@
       asSource: true,
       asTarget: false,
       uploadPath: "/upload.php",
+      needDoubanInfo: true,
       seedDomSelector: ".bg-content_bg div.leading-6:nth-child(5)",
       search: {
         path: "/torrents.php",
@@ -8785,25 +8786,79 @@
         selector: "#rc_select_12"
       }
     },
-    azusa: {
-      url: "https://azusa.wiki",
-      host: "azusa.wiki",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAgBAAABIXAAASFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABVTUdVAAAAAEhAO0jGxcbyz9DP8szMzPLc3d3y6uDb8q/AyfKRz+ryqeH38rLv//J1qsryj8ji8rby//Kl3vLync7r8pi79/KSwP/yr8Pi8uji2PLl5ubbUktLwQ4FBfJQSEM7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEY+PGIAAAAAXFRPSaWjpP+xsrL/2dnZ/+Hg3//Z1dP/epy2/5DM5/+v5/z/hrHS/5LB1f+Uv9j/jLXW/67s+f+ezuz/mcD//5O59f/KzdH/7Oji/9/g4PRIQUHqFAkK/1dORiwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUUlFYAAAAABHQTw+TEpL/8fIyf/q6ur/3dva/9PQz/+Ap8D/kMvm/7f4//9PZqH/u8fI/4yHqP9lir3/vv///5K84f+Stvr/lb34/8XL1f/y7uf/0dHR4jApKfIfFRX8ZVxTBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaUkxnAAAAAAAAADpDQEH/7O3t/+Hh4f/V1dX/4tnV/6rI1v+Z3/X/odrs/1lTkv+misn/jG+x/3h/sv+y5fz/jLvo/5W29f+Swv//sMTi//v06v+0s7PQFQwN/zIpJtAAAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAFRMRmoAAAAAJB8cNo+Mjf/6+/v/19fX/9fW1v/d1tT/rNPi/5bc7f9ua6X/pXbX/5x81/+DabP/m3rJ/5Ca3v+Ts+v/oMr9/5PB//+uxOX/+fTr/4WAf7YDAAD/SUA8kAAAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAAAAAAAATEM+amheUwdhWlU0v7/A/+zt7f/U1NT/3NrZ/9XT0/+t5/T/i7TY/3pYqv+Ue8X/iXO6/6+O5v+mjuD/b1yY/5Ka2f+bzPz/kL///6zC5f/++e//dnFx9QEAAP9iW1ZEAAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAABQR0NjU0pBHGhhXD7R0tP/4uPj/9fX1//k3dr/x87S/6nx/v+XsN3/elim/3lopf+CbrH/pYnb/6CC1P+jeM7/mKfh/4/D9/+Esvb/uMbc///+9f9xbG7/DwQE83RsYwQAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAFlSTlFZUEkoaGBZTczMzv/k5eX/2dra/+XZ1P+/1+D/leX1/4OazP+mfNr/yKL//7iW8v+wkOj/u5j3/8ib//+jqO//frPs/63B4P/i3NP/9vf2/1NNUP8qHxqiAAAAAAAAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAAAAAAAAWlJMOFlQSTI9My9ktLO1//3+/v/e2tj/19LQ/6bW6f94vtr/bZTD/7+W///Al///vpn9/72Z/P/Dnf//roLi/4NtuP+7xtn/6OXY//b18v/X2Nr/JBwe/1ZNR0AAAAAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAABkWlARW1JIQCgeGYxJRUj/+Pn5///89/+94O3/iNH3/2aiyv9qkKb/pY3H/7aV4/+0lNX/sJDc/7yZ8f+SmNz/Lz1Y/7y0sP///////////G5pau8XDQvpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaUktLQTg1yQAAAP9aVVOnoaavoX2YpYFhb3XJKDtM/3CEkv+ooYb/ioqH/2Bom/+DgJP/j5GP/2yRpZoxOj+VIBMR/6Gcmq9oZGKdBgAA81FIRIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhRTVUxJyf/CQME/xsWElYAAAAAAAAAAAkAAOYcEQ7KhoaCnXp9mv9ccbb/apDg/3WOv/96cmFuAAAAADkwKUkGAAH/IxcUtwAAAM0VDhD/fXZwDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWVFKOycdHv8MCAn/LCgkfwAAAABMRT90AAAA/z8uHYEAAAAAbYrS9ZO8/v+06P//qNr//4Wdxql2cHgKJxoMThAJCv8rISL/AAAA/0dAO6kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABhWE4JMign9QsHCP8lIByEAAAAADkzL68FAgH/OCsurX+Xypyu3f/9qtn//3N20P99jNj/sOf//6vV/eNCSFm0BwAA/jEnJv8NCQr/Rj44dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8MzHMBAIC/zg0MX4AAAAAIRsa3wYAAP9OVnn/rd7//6LL//+gzP7/d4DL/3yMzf+iz/7/r97//5W///8cGR3/IxMO/xcPEP8+NzR1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQ7OaECAQH/ODQycQAAAAAcFBT/DQAA/2x9n/+z5P//msH7/5vB/P+m1f//pNH//5q/+/+exf//r9z//zI4SP8EAAD/HRQV/0Q8OmYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATkVBdwEAAf88NS5Tf3hxExcRFf8YBwD/c4qv/7vv//+z4P//nMP+/5vC/P+awPv/nMP+/7Ph///B9v//UWOD/wAAAP8ZEBL/SUA7TgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQSERXAgAB/0I8NGhSTk2nEwwP/yATDP+au+7/ncHn/2uHs/+gyPv/nsX9/6LL//+iyv//aoOt/6PE4v+cwPT/AAAA/wgDA/9kWlE1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFRKREgTDQ//HRkZxA8JCP8hFRP/Ix4k/5iovf9BPkX/AAAA/5Kw2v+u3P//teT//4Ghz/8AAAD/V01F/5Spyv8WGCj/AAAA/1lRTHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWE5GNRsUFf8AAAD/Ew0O/yshIP8sJCj/Ojo6/ykjEv87NS3/ja3U/6DL//9da4X/g6jb/05XY/9MRzj/LTFB/yAcJv8DAQD/MCgn1gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABdVFAWHRYW/wAAAP8ZExP/Miko/yYYEv8zNkP/coyu/4alzf+36P//VmmJ/wAAAP+gxfn/rNj//4613P9CSmH/DwAA/xELDP8jGxv7X1VNEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApIiHtAAAA/xkSE/85Ly//KB4c/xkMCP90ia7/w/n//6LL/v8UDxH/DgEA/2Ryjv+hyfz/t+f//zc4S/8aCwH/GRMU/yEZGv9bUkokAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhPR3IIBQb/HxcY/zguLv8uJyj/EQMA/zApK/+56v//b4ew/wAAAP8vIh//LCMk/36Xvv+Kq+r/HhIX/ygeGf8fFxf/Jx4f/V1WUREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACshIf8nHh//Myoq/ygiIv8cFBH/JhkW/4Wh3f8/SV7/BQAA/zkwMP8dDAD/Y3Oa/1Vijv8cDAD/LSQk/yEYGf81LSzYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANi0s1R8WF/8xKCj/JBwd/xwVFf8rHhn/R0x3/yEfLv8YDgj/OzIx/y0hGf9JUn3/NzVK/yUZD/8uJSX/GhEV/1BHQXIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABZUEpoFgwO/y8lJf8lHR7/GRMT/y0jIf8uJy3/HBUY/yIZGf89NDP/NC0x/zAtPv8oHhz/LiYl/xsTFf8zKyvjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuJSbpGxIT/y0kJP8aExT/KCAg/ykeG/8eFhX/LSUl/0E4OP8rIyT/KB4b/yshH/8gFxn/JRwd/ZWKeiYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIZ9czUdFBT/JRsc/x8ZGf8hGhr/LiQk/yQbG/83Ly//PDMz/yUcHP8pHx//IBcZ/x8WGOdnX1UyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFlRS0UiGRvrHhUX/x8XGP8rISH/KiEh/zEoKP8pISH/IRgZ/yUcHf84Ly2mUUlDEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFJLSBBEOzd0NSwqsy0kJNorIiLtKSAg6C8mJck3Ly6MTEVBNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//////QAAAf0AAAH9AAAB/QAAA70AAAO8AAADvAAAA7wAAAe8AAAHvAAAD/4AAA/+GAQP/hEAH/4QAB//EAAf/xAAH/8AAB//AAAf/wAAH/8AAB//AAAP/4AAD/+AAA//wAAf/8AAH//AAD//4AA//+AAf//wAP//+AP//////8=",
-      asSource: false,
+    fearnopeer: {
+      url: "https://fearnopeer.com",
+      host: "fearnopeer.com",
+      siteType: "UNIT3D",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==",
+      asSource: true,
       asTarget: true,
-      uploadPath: "/upload.php",
-      name: {
-        selector: "#name"
+      uploadPath: "/torrents/create?category_id=1",
+      needDoubanInfo: true,
+      seedDomSelector: ".torrent__buttons+.panelV2",
+      search: {
+        path: "/torrents",
+        replaceKey: [
+          "tt",
+          ""
+        ],
+        params: {
+          name: "{name}",
+          imdbId: "{imdb}",
+          sortField: "size"
+        }
       },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
+      name: {
+        selector: "#title"
       },
       description: {
-        selector: "#descr"
+        selector: "#bbcode-description"
+      },
+      imdb: {
+        selector: "#autoimdb"
+      },
+      tmdb: {
+        selector: "#autotmdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
       },
       anonymous: {
-        selector: 'input[name="uplver"]'
+        selector: '.form__group input[type="checkbox"][name="anon"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2"
+        }
+      },
+      videoType: {
+        selector: "#autotype",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "3",
+          encode: "12",
+          web: "4",
+          hdtv: "6",
+          dvd: "1",
+          dvdrip: "12",
+          other: ""
+        }
+      },
+      resolution: {
+        selector: "#autores",
+        map: {
+          "4320p": "11",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "3",
+          "720p": "5",
+          "576p": "6",
+          "480p": "8"
+        }
       }
     },
     iTS: {
@@ -13095,6 +13150,14 @@ $1`);
         return info;
       }
     },
+    fearnopeer: {
+      titleHandler: (info) => {
+        const isWebSource = !!info.source.match(/web/gi);
+        const title = fixTorrentTitle(info.title, isWebSource);
+        info.title = title;
+        return info;
+      }
+    },
     Aither: {
       titleHandler: (info) => {
         const isWebSource = !!info.source.match(/web/gi);
@@ -13463,7 +13526,7 @@ All thanks to the original uploader\uFF01`;
       this.info.imdbId = imdbId;
       if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
         jQuery(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
-      } else if (CURRENT_SITE_NAME.match(/Blutopia|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
+      } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
         let tmdbId = "";
         const fillIMDBId = this.currentSiteInfo.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
         jQuery(imdbSelector).val(fillIMDBId);
@@ -13471,7 +13534,7 @@ All thanks to the original uploader\uFF01`;
           tmdbId = data.id;
           jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
         });
-        if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU|LST/)) {
+        if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|LST/)) {
           jQuery("#torrent").on("change", () => {
             jQuery(imdbSelector).val(fillIMDBId);
             jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
@@ -13515,7 +13578,7 @@ ${description}`;
         }
       }
       if (this.currentSiteInfo.mediaInfo) {
-        if (CURRENT_SITE_NAME.match(/^(Blutopia|Aither|MDU)/)) {
+        if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU)/)) {
           const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
           jQuery(selector).val(mediaInfo);
           description = description.replace(mediaInfo.trim(), "");
@@ -13554,7 +13617,7 @@ ${description}`;
           }
         }
       }
-      if (CURRENT_SITE_NAME.match(/Blutopia|Aither|MDU/)) {
+      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU/)) {
         if (this.info.sourceSite === "PTP") {
           description = buildPTPDescription(this.info);
         }
@@ -13573,7 +13636,7 @@ ${description}`;
           description = description.replace(/\[img\]/g, "[img=350x350]");
         }
       }
-      if (CURRENT_SITE_NAME.match(/Blutopia|Aither/)) {
+      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither/)) {
         description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
         description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
           const slash = p1 || "";
@@ -15663,7 +15726,7 @@ ${doubanPart}`);
     let descriptionDom = jQuery(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
     descriptionDom.find("#collection_waypoint").remove();
     let mediaInfoOrBDInfo = jQuery(".decoda-code code").text();
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither/i)) {
+    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
       const title2 = jQuery(".meta__title").text().trim();
       movieName = title2.replace(/\(.+\)/g, "");
       IMDBYear = (_h = (_g = title2.match(/\((\d{4})\)/)) == null ? void 0 : _g[1]) != null ? _h : "";
@@ -15726,7 +15789,7 @@ ${doubanPart}`);
       Resolution: "Resolution",
       resolution: "Resolution"
     };
-    if (!CURRENT_SITE_NAME.match(/Blutopia|Aither/i)) {
+    if (!CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
       const lineSelector = jQuery('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
       lineSelector.each((index, element) => {
         var _a3, _b2, _c;
@@ -15787,6 +15850,108 @@ ${doubanPart}`);
 
   // src/source/nexusphp.ts
   init_preact_shim();
+
+  // src/source/helper.ts
+  init_preact_shim();
+  var getVideoType5 = (videoType) => {
+    if (!videoType) {
+      return "";
+    }
+    videoType = videoType.replace(/[.-]/g, "").toLowerCase();
+    if (videoType.match(/encode|x264|x265|bdrip|hdrip|压制/ig)) {
+      return "encode";
+    } else if (videoType.match(/remux/ig)) {
+      return "remux";
+    } else if (videoType.match(/uhd|ultra/ig)) {
+      return "uhdbluray";
+    } else if (videoType.match(/blu|discs/ig)) {
+      return "bluray";
+    } else if (videoType.match(/webdl/ig)) {
+      return "web";
+    } else if (videoType.match(/hdtv/ig)) {
+      return "hdtv";
+    } else if (videoType.match(/dvdr/ig)) {
+      return "dvdrip";
+    } else if (videoType.match(/dvd/ig)) {
+      return "dvd";
+    }
+    return "";
+  };
+  var getCategory2 = (category) => {
+    if (!category) {
+      return "";
+    }
+    category = category.replace(/[.-]/g, "").toLowerCase();
+    if (category.match(/movie|bd|ultra|电影/ig)) {
+      return "movie";
+    } else if (category.match(/综艺/ig)) {
+      return "variety";
+    } else if (category.match(/tv|drama|剧集|电视/ig)) {
+      return "tv";
+    } else if (category.match(/TVSeries/ig)) {
+      return "tvPack";
+    } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
+      return "documentary";
+    } else if (category.match(/sport|体育/ig)) {
+      return "sport";
+    } else if (category.match(/mv|演唱|concert/ig)) {
+      return "concert";
+    } else if (category.match(/anim|动(画|漫)/ig)) {
+      return "cartoon";
+    } else if (category.match(/App|软件|Software|軟體/ig)) {
+      return "app";
+    } else if (category.match(/电子书|小说|Ebook/ig)) {
+      return "ebook";
+    } else if (category.match(/有声书|AudioBook/ig)) {
+      return "audiobook";
+    } else if (category.match(/杂志|magazine/ig)) {
+      return "magazine";
+    } else if (category.match(/漫画|comics/ig)) {
+      return "comics";
+    } else if (category.match(/公开课/ig)) {
+      return "onlineCourse";
+    } else if (category.match(/资料/ig)) {
+      return "ebook";
+    }
+    return "";
+  };
+  var getResolution3 = (resolution) => {
+    resolution = resolution.toLowerCase();
+    if (resolution.match(/4k|2160|UHD/ig)) {
+      return "2160p";
+    } else if (resolution.match(/1080(p)?/ig)) {
+      return "1080p";
+    } else if (resolution.match(/1080i/ig)) {
+      return "1080i";
+    } else if (resolution.match(/720(p)?/ig)) {
+      return "720p";
+    } else if (resolution.match(/sd/ig)) {
+      return "480p";
+    }
+    return resolution;
+  };
+  var getFormat2 = (data) => {
+    if (data.match(/pdf/i)) {
+      return "pdf";
+    } else if (data.match(/EPUB/i)) {
+      return "epub";
+    } else if (data.match(/MOBI/i)) {
+      return "mobi";
+    } else if (data.match(/mp3/i)) {
+      return "mp3";
+    } else if (data.match(/mp4/i)) {
+      return "mp4";
+    } else if (data.match(/txt/i)) {
+      return "txt";
+    } else if (data.match(/azw3/i)) {
+      return "azw3";
+    } else if (data.match(/镜像/i)) {
+      return "iso";
+    }
+    return "other";
+  };
+
+  // src/source/nexusphp.ts
   var nexusphp_default = async () => {
     var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
     let title = formatTorrentTitle((_b2 = (_a3 = jQuery("#top").text().split(/\s{3,}/)) == null ? void 0 : _a3[0]) == null ? void 0 : _b2.trim());
@@ -16092,103 +16257,6 @@ ${extraScreenshot}`;
       return matchValue.replace(/\s/g, "").trim().toLowerCase();
     }
     return "";
-  };
-  var getVideoType5 = (videoType) => {
-    if (!videoType) {
-      return "";
-    }
-    videoType = videoType.replace(/[.-]/g, "").toLowerCase();
-    if (videoType.match(/encode|x264|x265|bdrip|hdrip|压制/ig)) {
-      return "encode";
-    } else if (videoType.match(/remux/ig)) {
-      return "remux";
-    } else if (videoType.match(/uhd|ultra/ig)) {
-      return "uhdbluray";
-    } else if (videoType.match(/blu|discs/ig)) {
-      return "bluray";
-    } else if (videoType.match(/webdl/ig)) {
-      return "web";
-    } else if (videoType.match(/hdtv/ig)) {
-      return "hdtv";
-    } else if (videoType.match(/dvdr/ig)) {
-      return "dvdrip";
-    } else if (videoType.match(/dvd/ig)) {
-      return "dvd";
-    }
-    return "";
-  };
-  var getCategory2 = (category) => {
-    if (!category) {
-      return "";
-    }
-    category = category.replace(/[.-]/g, "").toLowerCase();
-    if (category.match(/movie|bd|ultra|电影/ig)) {
-      return "movie";
-    } else if (category.match(/综艺/ig)) {
-      return "variety";
-    } else if (category.match(/tv|drama|剧集|电视/ig)) {
-      return "tv";
-    } else if (category.match(/TVSeries/ig)) {
-      return "tvPack";
-    } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
-      return "documentary";
-    } else if (category.match(/sport|体育/ig)) {
-      return "sport";
-    } else if (category.match(/mv|演唱|concert/ig)) {
-      return "concert";
-    } else if (category.match(/anim|动(画|漫)/ig)) {
-      return "cartoon";
-    } else if (category.match(/App|软件|Software|軟體/ig)) {
-      return "app";
-    } else if (category.match(/电子书|小说|Ebook/ig)) {
-      return "ebook";
-    } else if (category.match(/有声书|AudioBook/ig)) {
-      return "audiobook";
-    } else if (category.match(/杂志|magazine/ig)) {
-      return "magazine";
-    } else if (category.match(/漫画|comics/ig)) {
-      return "comics";
-    } else if (category.match(/公开课/ig)) {
-      return "onlineCourse";
-    } else if (category.match(/资料/ig)) {
-      return "ebook";
-    }
-    return "";
-  };
-  var getResolution3 = (resolution) => {
-    resolution = resolution.toLowerCase();
-    if (resolution.match(/4k|2160|UHD/ig)) {
-      return "2160p";
-    } else if (resolution.match(/1080(p)?/ig)) {
-      return "1080p";
-    } else if (resolution.match(/1080i/ig)) {
-      return "1080i";
-    } else if (resolution.match(/720(p)?/ig)) {
-      return "720p";
-    } else if (resolution.match(/sd/ig)) {
-      return "480p";
-    }
-    return resolution;
-  };
-  var getFormat2 = (data) => {
-    if (data.match(/pdf/i)) {
-      return "pdf";
-    } else if (data.match(/EPUB/i)) {
-      return "epub";
-    } else if (data.match(/MOBI/i)) {
-      return "mobi";
-    } else if (data.match(/mp3/i)) {
-      return "mp3";
-    } else if (data.match(/mp4/i)) {
-      return "mp4";
-    } else if (data.match(/txt/i)) {
-      return "txt";
-    } else if (data.match(/azw3/i)) {
-      return "azw3";
-    } else if (data.match(/镜像/i)) {
-      return "iso";
-    }
-    return "other";
   };
   var getTagsFromPage = () => {
     let tags = {};
@@ -17438,6 +17506,131 @@ ${description}`;
     };
   }
 
+  // src/source/hh.ts
+  init_preact_shim();
+  var hh_default = async () => {
+    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i;
+    const title = formatTorrentTitle(((_a3 = document.title.match(/"(.+)"/)) == null ? void 0 : _a3[1]) || "");
+    const subTitle = jQuery("div.font-bold.leading-6:contains('\u526F\u6807\u9898')").next().text().replace(/：/g, ":");
+    const imbdDom = jQuery('#kimdb a[href*="imdb.com/title"]');
+    const siteImdbUrl = (_b2 = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _b2 : "";
+    const movieName = (_d = (_c = imbdDom == null ? void 0 : imbdDom.text()) == null ? void 0 : _c.replace(/\n|\s/g, "")) != null ? _d : "";
+    const metaInfo = getMetaInfo2();
+    const isBluray = !!((_e = metaInfo.videoType) == null ? void 0 : _e.match(/bluray/i));
+    const mediaInfo = jQuery("#mediainfo-raw code").text() || "";
+    const specs = getSpecsFromMediainfo2(isBluray, mediaInfo);
+    if (Object.keys(specs).length > 0) {
+      Object.assign(metaInfo, specs);
+    }
+    const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
+    const formatSize = getSize(size);
+    const year = (_f = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f : [];
+    const screenshots = jQuery("#screenshot-content img").toArray().map((el) => jQuery(el).attr("src")).filter((url) => url && url !== "");
+    const doubanUrl = (_g = jQuery("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
+    let description = `
+    [quote]${mediaInfo}[/quote]
+  `;
+    screenshots.forEach((url) => {
+      description += `[img]${url}[/img]`;
+    });
+    const tags = getTagsFromPage2();
+    Object.assign(TORRENT_INFO, {
+      title,
+      subtitle: subTitle,
+      imdbUrl: siteImdbUrl,
+      description,
+      year: year.length > 0 ? year.pop() : "",
+      source: getSourceFromTitle(title),
+      mediaInfo,
+      screenshots,
+      movieName,
+      sourceSite: CURRENT_SITE_NAME,
+      sourceSiteType: TORRENT_INFO.sourceSiteType,
+      category: getCategory2(category),
+      size: formatSize,
+      tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags),
+      videoType: getVideoType5(videoType),
+      videoCodec,
+      audioCodec,
+      resolution,
+      doubanUrl,
+      poster: (_i = (_h = jQuery("#cover-content")) == null ? void 0 : _h.attr("src")) != null ? _i : ""
+    });
+  };
+  var getMetaInfo2 = () => {
+    const meta = getMetaValue2();
+    const category = meta["\u7C7B\u578B"];
+    const videoType = meta["\u6765\u6E90"];
+    const videoCodec = meta["\u7F16\u7801"];
+    const audioCodec = meta["\u97F3\u9891\u7F16\u7801"];
+    const resolution = meta["\u5206\u8FA8\u7387"];
+    const processing = meta["\u5904\u7406"];
+    const size = meta["\u5927\u5C0F"];
+    console.log({
+      category,
+      videoType,
+      videoCodec,
+      audioCodec,
+      resolution,
+      size
+    });
+    return {
+      category,
+      videoType,
+      videoCodec,
+      audioCodec,
+      resolution,
+      processing,
+      size
+    };
+  };
+  var getMetaValue2 = () => {
+    const result = {};
+    jQuery("div.font-bold.leading-6:contains('\u57FA\u672C\u4FE1\u606F')").next().find("div span").each((index, el) => {
+      if (index % 2 === 0) {
+        const key = jQuery(el).text().replace(/:|：/g, "").trim();
+        result[key] = jQuery(el).next().text();
+      }
+    });
+    return result;
+  };
+  function getSpecsFromMediainfo2(isBluray, mediaInfo) {
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
+    if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
+      return {
+        videoCodec,
+        audioCodec,
+        resolution,
+        mediaTags
+      };
+    }
+    return {};
+  }
+  var getTagsFromPage2 = () => {
+    const tags = {};
+    const tagText = jQuery("div.font-bold.leading-6:contains('\u6807\u7B7E')").next().text();
+    if (tagText.includes("\u4E2D\u5B57")) {
+      tags.chinese_subtitle = true;
+    }
+    if (tagText.includes("\u56FD\u8BED")) {
+      tags.chinese_audio = true;
+    }
+    if (tagText.includes("\u7CA4\u8BED")) {
+      tags.cantonese_audio = true;
+    }
+    if (tagText.includes("DIY")) {
+      tags.diy = true;
+    }
+    if (tagText.includes("\u675C\u6BD4\u89C6\u754C")) {
+      tags.dolbyVision = true;
+    }
+    if (tagText.includes("HDR")) {
+      tags.dolbyVision = true;
+    }
+    return tags;
+  };
+
   // src/source/index.ts
   var siteNameMap = {
     BeyondHD: bhd_default2,
@@ -17457,7 +17650,8 @@ ${description}`;
     RED: red_default,
     DicMusic: red_default,
     MTV: mtv_default,
-    SpeedApp: speedapp_default
+    SpeedApp: speedapp_default,
+    HH: hh_default
   };
   var siteTypeInfoMap = {
     NexusPHP: nexusphp_default,
@@ -18668,7 +18862,7 @@ ${screenBBcodeArray.join("")}`;
   };
   var UploadSiteList = () => {
     const handleSiteClickEvent = async (url) => {
-      if (url.match(/hdpost|blutopia|asiancinema|monikadesign|lst/)) {
+      if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
         const catMap = {
           movie: "1",
           tv: "2",
@@ -19003,7 +19197,7 @@ ${screenBBcodeArray.join("")}`;
   var Container = () => {
     var _a3, _b2;
     const [settingPanelOpen, setSettingPanelOpen] = d2(false);
-    const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || ((_a3 = CURRENT_SITE_NAME) == null ? void 0 : _a3.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST/));
+    const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || ((_a3 = CURRENT_SITE_NAME) == null ? void 0 : _a3.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
     const isHDB = CURRENT_SITE_NAME === "HDBits";
     const baseTitleClass = ["title-td"];
     const baseContentClass = ["easy-seed-td"];
