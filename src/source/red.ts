@@ -35,7 +35,7 @@ async function getTorrentInfo (torrentId:string) {
   div.innerHTML = wikiBody;
   let description = bbBody || htmlToBBCode(div);
   description = `[img]${wikiImage}[/img]\n${description}`;
-  description = $('<div/>').html(description).text().replace(/\[\/?artist\]/g, '').replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, '').replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');
+  description = $('<textarea/>').html(description).text().replace(/\[\/?artist\]/g, '').replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, '').replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');
   const log = await fetch(`/torrents.php?action=loglist&torrentid=${torrentId}`, {
     responseType: undefined,
   });
