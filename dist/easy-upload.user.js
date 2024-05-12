@@ -14,9 +14,6 @@
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
-// @match        https://blutopia.xyz/torrents/*
-// @match        https://blutopia.xyz/torrents?*
-// @match        https://blutopia.xyz/upload/*
 // @match        https://blutopia.cc/torrents/*
 // @match        https://blutopia.cc/torrents?*
 // @match        https://blutopia.cc/upload/*
@@ -29,8 +26,6 @@
 // @match        https://ptpimg.me/*
 // @match        https://*/upload*
 // @match        http://*/upload*
-// @match        https://www.hd.ai/Torrents.upload
-// @match        https://www.hd.ai/Torrents.index?*
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*
@@ -88,21 +83,24 @@
     return a3;
   };
   var __spreadProps = (a3, b3) => __defProps(a3, __getOwnPropDescs(b3));
-  var __esm = (fn2, res) => function __init() {
-    return fn2 && (res = (0, fn2[__getOwnPropNames(fn2)[0]])(fn2 = 0)), res;
+  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  var __reExport = (target, module, copyDefault, desc) => {
+    if (module && typeof module === "object" || typeof module === "function") {
+      for (let key of __getOwnPropNames(module))
+        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
+          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
     }
-    return to;
+    return target;
   };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+  var __toESM = (module, isNodeMode) => {
+    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
+  };
 
   // node_modules/preact/dist/preact.module.js
   function a(n2, l3) {
@@ -115,17 +113,17 @@
     l3 && l3.removeChild(n2);
   }
   function v(l3, u3, i3) {
-    var t3, o3, r3, f3 = {};
-    for (r3 in u3)
-      r3 == "key" ? t3 = u3[r3] : r3 == "ref" ? o3 = u3[r3] : f3[r3] = u3[r3];
+    var t3, r3, o3, f3 = {};
+    for (o3 in u3)
+      o3 == "key" ? t3 = u3[o3] : o3 == "ref" ? r3 = u3[o3] : f3[o3] = u3[o3];
     if (arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), typeof l3 == "function" && l3.defaultProps != null)
-      for (r3 in l3.defaultProps)
-        f3[r3] === void 0 && (f3[r3] = l3.defaultProps[r3]);
-    return y(l3, f3, t3, o3, null);
+      for (o3 in l3.defaultProps)
+        f3[o3] === void 0 && (f3[o3] = l3.defaultProps[o3]);
+    return y(l3, f3, t3, r3, null);
   }
-  function y(n2, i3, t3, o3, r3) {
-    var f3 = { type: n2, props: i3, key: t3, ref: o3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: r3 == null ? ++u : r3 };
-    return r3 == null && l.vnode != null && l.vnode(f3), f3;
+  function y(n2, i3, t3, r3, o3) {
+    var f3 = { type: n2, props: i3, key: t3, ref: r3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: o3 == null ? ++u : o3 };
+    return o3 == null && l.vnode != null && l.vnode(f3), f3;
   }
   function p() {
     return { current: null };
@@ -156,18 +154,18 @@
     }
   }
   function m(n2) {
-    (!n2.__d && (n2.__d = true) && t.push(n2) && !g.__r++ || r !== l.debounceRendering) && ((r = l.debounceRendering) || o)(g);
+    (!n2.__d && (n2.__d = true) && t.push(n2) && !g.__r++ || o !== l.debounceRendering) && ((o = l.debounceRendering) || r)(g);
   }
   function g() {
     for (var n2; g.__r = t.length; )
       n2 = t.sort(function(n3, l3) {
         return n3.__v.__b - l3.__v.__b;
       }), t = [], n2.some(function(n3) {
-        var l3, u3, i3, t3, o3, r3;
-        n3.__d && (o3 = (t3 = (l3 = n3).__v).__e, (r3 = l3.__P) && (u3 = [], (i3 = a({}, t3)).__v = t3.__v + 1, j(r3, t3, i3, l3.__n, r3.ownerSVGElement !== void 0, t3.__h != null ? [o3] : null, u3, o3 == null ? k(t3) : o3, t3.__h), z(u3, t3), t3.__e != o3 && b(t3)));
+        var l3, u3, i3, t3, r3, o3;
+        n3.__d && (r3 = (t3 = (l3 = n3).__v).__e, (o3 = l3.__P) && (u3 = [], (i3 = a({}, t3)).__v = t3.__v + 1, j(o3, t3, i3, l3.__n, o3.ownerSVGElement !== void 0, t3.__h != null ? [r3] : null, u3, r3 == null ? k(t3) : r3, t3.__h), z(u3, t3), t3.__e != r3 && b(t3)));
       });
   }
-  function w(n2, l3, u3, i3, t3, o3, r3, f3, s3, a3) {
+  function w(n2, l3, u3, i3, t3, r3, o3, f3, s3, a3) {
     var h3, v3, p3, _3, b3, m3, g4, w4 = i3 && i3.__k || c, A4 = w4.length;
     for (u3.__k = [], h3 = 0; h3 < l3.length; h3++)
       if ((_3 = u3.__k[h3] = (_3 = l3[h3]) == null || typeof _3 == "boolean" ? null : typeof _3 == "string" || typeof _3 == "number" || typeof _3 == "bigint" ? y(null, _3, null, null, _3) : Array.isArray(_3) ? y(d, { children: _3 }, null, null, null) : _3.__b > 0 ? y(_3.type, _3.props, _3.key, null, _3.__v) : _3) != null) {
@@ -181,7 +179,7 @@
             }
             p3 = null;
           }
-        j(n2, _3, p3 = p3 || e, t3, o3, r3, f3, s3, a3), b3 = _3.__e, (v3 = _3.ref) && p3.ref != v3 && (g4 || (g4 = []), p3.ref && g4.push(p3.ref, null, _3), g4.push(v3, _3.__c || b3, _3)), b3 != null ? (m3 == null && (m3 = b3), typeof _3.type == "function" && _3.__k === p3.__k ? _3.__d = s3 = x(_3, s3, n2) : s3 = P(n2, _3, p3, w4, b3, s3), typeof u3.type == "function" && (u3.__d = s3)) : s3 && p3.__e == s3 && s3.parentNode != n2 && (s3 = k(p3));
+        j(n2, _3, p3 = p3 || e, t3, r3, o3, f3, s3, a3), b3 = _3.__e, (v3 = _3.ref) && p3.ref != v3 && (g4 || (g4 = []), p3.ref && g4.push(p3.ref, null, _3), g4.push(v3, _3.__c || b3, _3)), b3 != null ? (m3 == null && (m3 = b3), typeof _3.type == "function" && _3.__k === p3.__k ? _3.__d = s3 = x(_3, s3, n2) : s3 = P(n2, _3, p3, w4, b3, s3), typeof u3.type == "function" && (u3.__d = s3)) : s3 && p3.__e == s3 && s3.parentNode != n2 && (s3 = k(p3));
       }
     for (u3.__e = m3, h3 = A4; h3--; )
       w4[h3] != null && (typeof u3.type == "function" && w4[h3].__e != null && w4[h3].__e == u3.__d && (u3.__d = k(i3, h3 + 1)), N(w4[h3], w4[h3]));
@@ -190,8 +188,8 @@
         M(g4[h3], g4[++h3], g4[++h3]);
   }
   function x(n2, l3, u3) {
-    for (var i3, t3 = n2.__k, o3 = 0; t3 && o3 < t3.length; o3++)
-      (i3 = t3[o3]) && (i3.__ = n2, l3 = typeof i3.type == "function" ? x(i3, l3, u3) : P(u3, i3, i3, t3, i3.__e, l3));
+    for (var i3, t3 = n2.__k, r3 = 0; t3 && r3 < t3.length; r3++)
+      (i3 = t3[r3]) && (i3.__ = n2, l3 = typeof i3.type == "function" ? x(i3, l3, u3) : P(u3, i3, i3, t3, i3.__e, l3));
     return l3;
   }
   function A(n2, l3) {
@@ -199,34 +197,34 @@
       A(n3, l3);
     }) : l3.push(n2)), l3;
   }
-  function P(n2, l3, u3, i3, t3, o3) {
-    var r3, f3, e3;
+  function P(n2, l3, u3, i3, t3, r3) {
+    var o3, f3, e3;
     if (l3.__d !== void 0)
-      r3 = l3.__d, l3.__d = void 0;
-    else if (u3 == null || t3 != o3 || t3.parentNode == null)
+      o3 = l3.__d, l3.__d = void 0;
+    else if (u3 == null || t3 != r3 || t3.parentNode == null)
       n:
-        if (o3 == null || o3.parentNode !== n2)
-          n2.appendChild(t3), r3 = null;
+        if (r3 == null || r3.parentNode !== n2)
+          n2.appendChild(t3), o3 = null;
         else {
-          for (f3 = o3, e3 = 0; (f3 = f3.nextSibling) && e3 < i3.length; e3 += 2)
+          for (f3 = r3, e3 = 0; (f3 = f3.nextSibling) && e3 < i3.length; e3 += 2)
             if (f3 == t3)
               break n;
-          n2.insertBefore(t3, o3), r3 = o3;
+          n2.insertBefore(t3, r3), o3 = r3;
         }
-    return r3 !== void 0 ? r3 : t3.nextSibling;
+    return o3 !== void 0 ? o3 : t3.nextSibling;
   }
   function C(n2, l3, u3, i3, t3) {
-    var o3;
-    for (o3 in u3)
-      o3 === "children" || o3 === "key" || o3 in l3 || H(n2, o3, null, u3[o3], i3);
-    for (o3 in l3)
-      t3 && typeof l3[o3] != "function" || o3 === "children" || o3 === "key" || o3 === "value" || o3 === "checked" || u3[o3] === l3[o3] || H(n2, o3, l3[o3], u3[o3], i3);
+    var r3;
+    for (r3 in u3)
+      r3 === "children" || r3 === "key" || r3 in l3 || H(n2, r3, null, u3[r3], i3);
+    for (r3 in l3)
+      t3 && typeof l3[r3] != "function" || r3 === "children" || r3 === "key" || r3 === "value" || r3 === "checked" || u3[r3] === l3[r3] || H(n2, r3, l3[r3], u3[r3], i3);
   }
   function $2(n2, l3, u3) {
     l3[0] === "-" ? n2.setProperty(l3, u3) : n2[l3] = u3 == null ? "" : typeof u3 != "number" || s.test(l3) ? u3 : u3 + "px";
   }
   function H(n2, l3, u3, i3, t3) {
-    var o3;
+    var r3;
     n:
       if (l3 === "style")
         if (typeof u3 == "string")
@@ -240,10 +238,10 @@
               i3 && u3[l3] === i3[l3] || $2(n2.style, l3, u3[l3]);
         }
       else if (l3[0] === "o" && l3[1] === "n")
-        o3 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + o3] = u3, u3 ? i3 || n2.addEventListener(l3, o3 ? T : I, o3) : n2.removeEventListener(l3, o3 ? T : I, o3);
+        r3 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + r3] = u3, u3 ? i3 || n2.addEventListener(l3, r3 ? T : I, r3) : n2.removeEventListener(l3, r3 ? T : I, r3);
       else if (l3 !== "dangerouslySetInnerHTML") {
         if (t3)
-          l3 = l3.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
+          l3 = l3.replace(/xlink[H:h]/, "h").replace(/sName$/, "s");
         else if (l3 !== "href" && l3 !== "list" && l3 !== "form" && l3 !== "tabIndex" && l3 !== "download" && l3 in n2)
           try {
             n2[l3] = u3 == null ? "" : u3;
@@ -259,39 +257,33 @@
   function T(n2) {
     this.l[n2.type + true](l.event ? l.event(n2) : n2);
   }
-  function j(n2, u3, i3, t3, o3, r3, f3, e3, c3) {
-    var s3, h3, v3, y3, p3, k4, b3, m3, g4, x3, A4, P3, C3, $4 = u3.type;
+  function j(n2, u3, i3, t3, r3, o3, f3, e3, c3) {
+    var s3, h3, v3, y3, p3, k4, b3, m3, g4, x4, A4, P3 = u3.type;
     if (u3.constructor !== void 0)
       return null;
-    i3.__h != null && (c3 = i3.__h, e3 = u3.__e = i3.__e, u3.__h = null, r3 = [e3]), (s3 = l.__b) && s3(u3);
+    i3.__h != null && (c3 = i3.__h, e3 = u3.__e = i3.__e, u3.__h = null, o3 = [e3]), (s3 = l.__b) && s3(u3);
     try {
       n:
-        if (typeof $4 == "function") {
-          if (m3 = u3.props, g4 = (s3 = $4.contextType) && t3[s3.__c], x3 = s3 ? g4 ? g4.props.value : s3.__ : t3, i3.__c ? b3 = (h3 = u3.__c = i3.__c).__ = h3.__E : ("prototype" in $4 && $4.prototype.render ? u3.__c = h3 = new $4(m3, x3) : (u3.__c = h3 = new _(m3, x3), h3.constructor = $4, h3.render = O), g4 && g4.sub(h3), h3.props = m3, h3.state || (h3.state = {}), h3.context = x3, h3.__n = t3, v3 = h3.__d = true, h3.__h = []), h3.__s == null && (h3.__s = h3.state), $4.getDerivedStateFromProps != null && (h3.__s == h3.state && (h3.__s = a({}, h3.__s)), a(h3.__s, $4.getDerivedStateFromProps(m3, h3.__s))), y3 = h3.props, p3 = h3.state, v3)
-            $4.getDerivedStateFromProps == null && h3.componentWillMount != null && h3.componentWillMount(), h3.componentDidMount != null && h3.__h.push(h3.componentDidMount);
+        if (typeof P3 == "function") {
+          if (m3 = u3.props, g4 = (s3 = P3.contextType) && t3[s3.__c], x4 = s3 ? g4 ? g4.props.value : s3.__ : t3, i3.__c ? b3 = (h3 = u3.__c = i3.__c).__ = h3.__E : ("prototype" in P3 && P3.prototype.render ? u3.__c = h3 = new P3(m3, x4) : (u3.__c = h3 = new _(m3, x4), h3.constructor = P3, h3.render = O), g4 && g4.sub(h3), h3.props = m3, h3.state || (h3.state = {}), h3.context = x4, h3.__n = t3, v3 = h3.__d = true, h3.__h = []), h3.__s == null && (h3.__s = h3.state), P3.getDerivedStateFromProps != null && (h3.__s == h3.state && (h3.__s = a({}, h3.__s)), a(h3.__s, P3.getDerivedStateFromProps(m3, h3.__s))), y3 = h3.props, p3 = h3.state, v3)
+            P3.getDerivedStateFromProps == null && h3.componentWillMount != null && h3.componentWillMount(), h3.componentDidMount != null && h3.__h.push(h3.componentDidMount);
           else {
-            if ($4.getDerivedStateFromProps == null && m3 !== y3 && h3.componentWillReceiveProps != null && h3.componentWillReceiveProps(m3, x3), !h3.__e && h3.shouldComponentUpdate != null && h3.shouldComponentUpdate(m3, h3.__s, x3) === false || u3.__v === i3.__v) {
+            if (P3.getDerivedStateFromProps == null && m3 !== y3 && h3.componentWillReceiveProps != null && h3.componentWillReceiveProps(m3, x4), !h3.__e && h3.shouldComponentUpdate != null && h3.shouldComponentUpdate(m3, h3.__s, x4) === false || u3.__v === i3.__v) {
               h3.props = m3, h3.state = h3.__s, u3.__v !== i3.__v && (h3.__d = false), h3.__v = u3, u3.__e = i3.__e, u3.__k = i3.__k, u3.__k.forEach(function(n3) {
                 n3 && (n3.__ = u3);
               }), h3.__h.length && f3.push(h3);
               break n;
             }
-            h3.componentWillUpdate != null && h3.componentWillUpdate(m3, h3.__s, x3), h3.componentDidUpdate != null && h3.__h.push(function() {
+            h3.componentWillUpdate != null && h3.componentWillUpdate(m3, h3.__s, x4), h3.componentDidUpdate != null && h3.__h.push(function() {
               h3.componentDidUpdate(y3, p3, k4);
             });
           }
-          if (h3.context = x3, h3.props = m3, h3.__v = u3, h3.__P = n2, A4 = l.__r, P3 = 0, "prototype" in $4 && $4.prototype.render)
-            h3.state = h3.__s, h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context);
-          else
-            do {
-              h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context), h3.state = h3.__s;
-            } while (h3.__d && ++P3 < 25);
-          h3.state = h3.__s, h3.getChildContext != null && (t3 = a(a({}, t3), h3.getChildContext())), v3 || h3.getSnapshotBeforeUpdate == null || (k4 = h3.getSnapshotBeforeUpdate(y3, p3)), C3 = s3 != null && s3.type === d && s3.key == null ? s3.props.children : s3, w(n2, Array.isArray(C3) ? C3 : [C3], u3, i3, t3, o3, r3, f3, e3, c3), h3.base = u3.__e, u3.__h = null, h3.__h.length && f3.push(h3), b3 && (h3.__E = h3.__ = null), h3.__e = false;
+          h3.context = x4, h3.props = m3, h3.state = h3.__s, (s3 = l.__r) && s3(u3), h3.__d = false, h3.__v = u3, h3.__P = n2, s3 = h3.render(h3.props, h3.state, h3.context), h3.state = h3.__s, h3.getChildContext != null && (t3 = a(a({}, t3), h3.getChildContext())), v3 || h3.getSnapshotBeforeUpdate == null || (k4 = h3.getSnapshotBeforeUpdate(y3, p3)), A4 = s3 != null && s3.type === d && s3.key == null ? s3.props.children : s3, w(n2, Array.isArray(A4) ? A4 : [A4], u3, i3, t3, r3, o3, f3, e3, c3), h3.base = u3.__e, u3.__h = null, h3.__h.length && f3.push(h3), b3 && (h3.__E = h3.__ = null), h3.__e = false;
         } else
-          r3 == null && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = L(i3.__e, u3, i3, t3, o3, r3, f3, c3);
+          o3 == null && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = L(i3.__e, u3, i3, t3, r3, o3, f3, c3);
       (s3 = l.diffed) && s3(u3);
     } catch (n3) {
-      u3.__v = null, (c3 || r3 != null) && (u3.__e = e3, u3.__h = !!c3, r3[r3.indexOf(e3)] = null), l.__e(n3, u3, i3);
+      u3.__v = null, (c3 || o3 != null) && (u3.__e = e3, u3.__h = !!c3, o3[o3.indexOf(e3)] = null), l.__e(n3, u3, i3);
     }
   }
   function z(n2, u3) {
@@ -305,35 +297,35 @@
       }
     });
   }
-  function L(l3, u3, i3, t3, o3, r3, f3, c3) {
+  function L(l3, u3, i3, t3, r3, o3, f3, c3) {
     var s3, a3, v3, y3 = i3.props, p3 = u3.props, d3 = u3.type, _3 = 0;
-    if (d3 === "svg" && (o3 = true), r3 != null) {
-      for (; _3 < r3.length; _3++)
-        if ((s3 = r3[_3]) && "setAttribute" in s3 == !!d3 && (d3 ? s3.localName === d3 : s3.nodeType === 3)) {
-          l3 = s3, r3[_3] = null;
+    if (d3 === "svg" && (r3 = true), o3 != null) {
+      for (; _3 < o3.length; _3++)
+        if ((s3 = o3[_3]) && "setAttribute" in s3 == !!d3 && (d3 ? s3.localName === d3 : s3.nodeType === 3)) {
+          l3 = s3, o3[_3] = null;
           break;
         }
     }
     if (l3 == null) {
       if (d3 === null)
         return document.createTextNode(p3);
-      l3 = o3 ? document.createElementNS("http://www.w3.org/2000/svg", d3) : document.createElement(d3, p3.is && p3), r3 = null, c3 = false;
+      l3 = r3 ? document.createElementNS("http://www.w3.org/2000/svg", d3) : document.createElement(d3, p3.is && p3), o3 = null, c3 = false;
     }
     if (d3 === null)
       y3 === p3 || c3 && l3.data === p3 || (l3.data = p3);
     else {
-      if (r3 = r3 && n.call(l3.childNodes), a3 = (y3 = i3.props || e).dangerouslySetInnerHTML, v3 = p3.dangerouslySetInnerHTML, !c3) {
-        if (r3 != null)
+      if (o3 = o3 && n.call(l3.childNodes), a3 = (y3 = i3.props || e).dangerouslySetInnerHTML, v3 = p3.dangerouslySetInnerHTML, !c3) {
+        if (o3 != null)
           for (y3 = {}, _3 = 0; _3 < l3.attributes.length; _3++)
             y3[l3.attributes[_3].name] = l3.attributes[_3].value;
         (v3 || a3) && (v3 && (a3 && v3.__html == a3.__html || v3.__html === l3.innerHTML) || (l3.innerHTML = v3 && v3.__html || ""));
       }
-      if (C(l3, p3, y3, o3, c3), v3)
+      if (C(l3, p3, y3, r3, c3), v3)
         u3.__k = [];
-      else if (_3 = u3.props.children, w(l3, Array.isArray(_3) ? _3 : [_3], u3, i3, t3, o3 && d3 !== "foreignObject", r3, f3, r3 ? r3[0] : i3.__k && k(i3, 0), c3), r3 != null)
-        for (_3 = r3.length; _3--; )
-          r3[_3] != null && h(r3[_3]);
-      c3 || ("value" in p3 && (_3 = p3.value) !== void 0 && (_3 !== l3.value || d3 === "progress" && !_3 || d3 === "option" && _3 !== y3.value) && H(l3, "value", _3, y3.value, false), "checked" in p3 && (_3 = p3.checked) !== void 0 && _3 !== l3.checked && H(l3, "checked", _3, y3.checked, false));
+      else if (_3 = u3.props.children, w(l3, Array.isArray(_3) ? _3 : [_3], u3, i3, t3, r3 && d3 !== "foreignObject", o3, f3, o3 ? o3[0] : i3.__k && k(i3, 0), c3), o3 != null)
+        for (_3 = o3.length; _3--; )
+          o3[_3] != null && h(o3[_3]);
+      c3 || ("value" in p3 && (_3 = p3.value) !== void 0 && (_3 !== y3.value || _3 !== l3.value || d3 === "progress" && !_3) && H(l3, "value", _3, y3.value, false), "checked" in p3 && (_3 = p3.checked) !== void 0 && _3 !== l3.checked && H(l3, "checked", _3, y3.checked, false));
     }
     return l3;
   }
@@ -345,7 +337,7 @@
     }
   }
   function N(n2, u3, i3) {
-    var t3, o3;
+    var t3, r3;
     if (l.unmount && l.unmount(n2), (t3 = n2.ref) && (t3.current && t3.current !== n2.__e || M(t3, null, u3)), (t3 = n2.__c) != null) {
       if (t3.componentWillUnmount)
         try {
@@ -356,25 +348,25 @@
       t3.base = t3.__P = null;
     }
     if (t3 = n2.__k)
-      for (o3 = 0; o3 < t3.length; o3++)
-        t3[o3] && N(t3[o3], u3, typeof n2.type != "function");
+      for (r3 = 0; r3 < t3.length; r3++)
+        t3[r3] && N(t3[r3], u3, typeof n2.type != "function");
     i3 || n2.__e == null || h(n2.__e), n2.__e = n2.__d = void 0;
   }
   function O(n2, l3, u3) {
     return this.constructor(n2, u3);
   }
   function S(u3, i3, t3) {
-    var o3, r3, f3;
-    l.__ && l.__(u3, i3), r3 = (o3 = typeof t3 == "function") ? null : t3 && t3.__k || i3.__k, f3 = [], j(i3, u3 = (!o3 && t3 || i3).__k = v(d, null, [u3]), r3 || e, e, i3.ownerSVGElement !== void 0, !o3 && t3 ? [t3] : r3 ? null : i3.firstChild ? n.call(i3.childNodes) : null, f3, !o3 && t3 ? t3 : r3 ? r3.__e : i3.firstChild, o3), z(f3, u3);
+    var r3, o3, f3;
+    l.__ && l.__(u3, i3), o3 = (r3 = typeof t3 == "function") ? null : t3 && t3.__k || i3.__k, f3 = [], j(i3, u3 = (!r3 && t3 || i3).__k = v(d, null, [u3]), o3 || e, e, i3.ownerSVGElement !== void 0, !r3 && t3 ? [t3] : o3 ? null : i3.firstChild ? n.call(i3.childNodes) : null, f3, !r3 && t3 ? t3 : o3 ? o3.__e : i3.firstChild, r3), z(f3, u3);
   }
   function q(n2, l3) {
     S(n2, l3, q);
   }
   function B(l3, u3, i3) {
-    var t3, o3, r3, f3 = a({}, l3.props);
-    for (r3 in u3)
-      r3 == "key" ? t3 = u3[r3] : r3 == "ref" ? o3 = u3[r3] : f3[r3] = u3[r3];
-    return arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), y(l3.type, f3, t3 || l3.key, o3 || l3.ref, null);
+    var t3, r3, o3, f3 = a({}, l3.props);
+    for (o3 in u3)
+      o3 == "key" ? t3 = u3[o3] : o3 == "ref" ? r3 = u3[o3] : f3[o3] = u3[o3];
+    return arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), y(l3.type, f3, t3 || l3.key, r3 || l3.ref, null);
   }
   function D(n2, l3) {
     var u3 = { __c: l3 = "__cC" + f++, __: n2, Consumer: function(n3, l4) {
@@ -395,19 +387,19 @@
     } };
     return u3.Provider.__ = u3.Consumer.contextType = u3;
   }
-  var n, l, u, i, t, o, r, f, e, c, s;
+  var n, l, u, i, t, r, o, f, e, c, s;
   var init_preact_module = __esm({
     "node_modules/preact/dist/preact.module.js"() {
       init_preact_shim();
       e = {};
       c = [];
       s = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
-      n = c.slice, l = { __e: function(n2, l3, u3, i3) {
-        for (var t3, o3, r3; l3 = l3.__; )
-          if ((t3 = l3.__c) && !t3.__)
+      n = c.slice, l = { __e: function(n2, l3) {
+        for (var u3, i3, t3; l3 = l3.__; )
+          if ((u3 = l3.__c) && !u3.__)
             try {
-              if ((o3 = t3.constructor) && o3.getDerivedStateFromError != null && (t3.setState(o3.getDerivedStateFromError(n2)), r3 = t3.__d), t3.componentDidCatch != null && (t3.componentDidCatch(n2, i3 || {}), r3 = t3.__d), r3)
-                return t3.__E = t3;
+              if ((i3 = u3.constructor) && i3.getDerivedStateFromError != null && (u3.setState(i3.getDerivedStateFromError(n2)), t3 = u3.__d), u3.componentDidCatch != null && (u3.componentDidCatch(n2), t3 = u3.__d), t3)
+                return u3.__E = u3;
             } catch (l4) {
               n2 = l4;
             }
@@ -419,7 +411,7 @@
         u3 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = a({}, this.state), typeof n2 == "function" && (n2 = n2(a({}, u3), this.props)), n2 && a(u3, n2), n2 != null && this.__v && (l3 && this.__h.push(l3), m(this));
       }, _.prototype.forceUpdate = function(n2) {
         this.__v && (this.__e = true, n2 && this.__h.push(n2), m(this));
-      }, _.prototype.render = d, t = [], o = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, g.__r = 0, f = 0;
+      }, _.prototype.render = d, t = [], r = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, g.__r = 0, f = 0;
     }
   });
 
@@ -1186,208 +1178,6 @@
         }
       }
     },
-    BLUEBIRD: {
-      url: "https://bluebird-hd.org",
-      host: "bluebird-hd.org",
-      siteType: "bluebird",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACGVBMVEWotrlCjJo7l6k6laY7l6g/jp6brbE6f41G2vRF2PJF1/FF1/JH3Pc8j54ueok7vdU4tc04ts06vNQ5jZwra3gtnLAtmKwuma0rl6splaoqlqotmK0wnrMzeoclWmYyiJknfY4ieYoieYsheIosgJE2iJg1h5g2iJkwg5Qhd4kgeowsZnIuV2F3rrxBf4wSWGcYXGsXW2oWW2qDt8Oq2OOg0NyVxtOAtcNjnaspbnwiUVswUFh7r747bXkAMDwEN0IENkICNEAFOEOYxM+l0NtjkJtgjplnlaF9sL1nm6gjRk8qRU2Cs8FkkZ1Gb3lOd4FReYNVfYdGbXemztiLs70AHCYAIiwAIStHb3mGucc3UlsqQ0t+rryKvMqcy9ep1uG13+vF7vinztibwsx7oqwAHCUBIywAGyQoTFY7V18uTFR9sL5RgIwjUFsoVmEqWGIgTVgdS1YSQEsTQUwXRE9biZV9sb80VFwzWWF3rLpAeYYJSFYPTlsOTFoPTVt5qbSbxtKNu8iCsb55q7h4rLtWkJ0iTVctXWhgorE6hJQbbX4fcIEecIBsrbqDvcp2ssBtqrhoprVRl6YjdYYoX2ooZnIrk6cpj6IqkKMqj6MmjKAnjKAojaEpjqIojqEli58xdIItdYQ3s8o1rMM1rMI3h5Y2foxE1O9C0OpCz+lE1vE6j56Yqq9DmalAqLpAprhCnrCGn6X////cFElzAAAAAWJLR0SyrWrP6AAAAAd0SU1FB+YDAgQyIDB3PAEAAADuSURBVBjTY2BgZGKGAxZWNgZ2Dk4uOODm4WXg4xcQhAMBIWEGEVExcRCQkJSSkpCWkWWQk1dQVFJSUlZRVVPX0NTSZtDR1dM3MDA0MjYxNTO3sLRisLaxtbN3cHRydnF1c/fw9GLw9vH18w8IDAoOCQ0Lj4iMYoiOiY2LT0hMSk5JTUvPiMxkyMrOyc3Lyy8oLCgqLiktK2eoqKyqrqmpratvaGxqbmltY2jv6Ozq7u7p6e3rnzBx0uQpDFOnTZ8BBDNnzZ4zd978aQsYFi5aDAFLlixZvHjRUoZly1esRIBVqxnWrF23Hg7WbdgIAFw/WUNqMtpuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAzLTAyVDA0OjUwOjMyKzAwOjAwrsTcpgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMy0wMlQwNDo1MDozMiswMDowMN+ZZBoAAAAASUVORK5CYII=",
-      asSource: false,
-      asTarget: false,
-      search: {
-        path: "/browse.php",
-        params: {
-          search: "{name}",
-          incldead: 0,
-          cat: 0,
-          dsearch: "{imdb}",
-          stype: "or"
-        }
-      }
-    },
-    BTN: {
-      url: "https://broadcasthe.net",
-      host: "broadcasthe.net",
-      siteType: "gazelle",
-      icon: "data:image/png;base64,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",
-      asSource: true,
-      asTarget: false,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        params: {
-          action: "advanced",
-          imdb: "{imdb}",
-          artistname: "{name}"
-        }
-      }
-    },
-    BTSCHOOL: {
-      url: "https://pt.btschool.club",
-      host: "btschool.club",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBwQr3f9M9AAAAz1JREFUOMt91M+LHXYVBfDPefPmR2ZeY0tnWoyxVgihrT8KQoo/SmwUN23RKtGdiAsFS7vRko1/QYdUEMGFS90KcSWoBIRY6mS0oRoTqVLjj9bEpI2pjUle5r3j4k1k6sID39W953A599xvbGPpu2dN3yoDu9UeHMRS2RNeR8ogXMCb5BTOM/13suLGM/eCwOLRM7CEfZkJ3UlW6JsYmwkOMIfbKltYoOdbL0jOYWv8zP2yePSM1m2D5PFwD21C5VTa1/Bak6tUarnskaxq908pRq1T1V9qxsNp7Q6fo7vDivhV6oXE65Lp1W/cbwfGK8+d/WcYTJPTaQ+WEfa3dk3rRObXzzySeGgQBpwIm5Kt/xF6G0bPvexmtyRZaPuB1qFpO5nW8cyv/+6BJJPZ82fcvP5/xHZi/uhZWNC+a1LT1iRrz25gEoaPiYMt+GuS5/FiMcQWS+EOLGN3dS+up/6B82K5bA2bqOGd4cnwoRk3I2zgS/TKFo+RR9vux91JRuosTpf3hC3MqeVhZsl5n3ZSvphYxVe2Y/RuPI0n1Mt4EYfxE3wTnxVPkO9rfxSWB22XtYdxCfdVPlNdxc+rH8R8+Gr4PI4luYLvjTN+VWzip9WH8WFsDvGx8ClxDL+pnsA9eAqb1R+QcWKOHK6exrlFiyIbE9OXwpfF18u5QeIRyVLlZOVPZEAen20qGwOD8bYtH8X78UM8VB1NTQ1YDHuxivcO1RtNx/gWuYB5eqF8e2p6cc4cM8LX8DNyLHxh5mEv4z58Eqfwi6w9u3F7kz1YjRTj6ivVNyKTyDw+YhaZ43gLi/g4Hsbd+C1+jFeyur65Fi1RvRyZXDxyAKytb97KcMzu1q3ajvoC1jrr2RpG98286a7MJjiztn6yjFw88sAtbndeyNr6S+qGMqQPhkfxLxwfkNPkUrlUPlE9hHdwNTsmfNtUNR6EVXoYny6Xw+/DH7ZJXS6H1F24FuaanNNeCH8vYyGyq+yl78SB7f9xiBOR5+mN7PBiSXvvLBJGYk41XC/XxBLZhZF2GQuSv23b9EfcvHjkwCxgsPadk1zFwO2tu8SDYV7ta1zByvY5vqq5Rn+d5C/b3v13Wf8BYeJvdWEcGZ8AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6MDQ6NDMrMDA6MDC0QHbWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjA0OjQzKzAwOjAwxR3OagAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: 'input[name="picture"]',
-      imdb: {
-        selector: 'input[name="imdbid"]'
-      },
-      douban: {
-        selector: 'input[name="doubanid"]'
-      },
-      tags: {
-        chinese_audio: 'input[type="checkbox"][name="span[]"][value="5"]',
-        chinese_subtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "405",
-          tv: "406",
-          tvPack: "406",
-          documentary: "408",
-          concert: "409",
-          sport: "410",
-          cartoon: "407",
-          variety: "412",
-          music: "411"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          x264: "1",
-          hevc: "10",
-          x265: "10",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "10",
-          dd: "10",
-          "dd+": "10",
-          flac: "1",
-          dts: "3",
-          truehd: "11",
-          lpcm: "5",
-          dtshdma: "3",
-          atmos: "3",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "12",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "11",
-          cd: "8"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "1",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          btschool: "1",
-          zone: "13",
-          btshd: "2",
-          btstv: "3",
-          btspad: "4",
-          wiki: "5",
-          hdchina: "6",
-          hdbint: "7",
-          mteam: "9",
-          cmct: "10",
-          ourbits: "11",
-          other: "12"
-        }
-      }
-    },
-    BYR: {
-      url: "https://byr.pt",
-      host: "byr.pt",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,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",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="dburl"]'
-      }
-    },
     Bdc: {
       url: "https://broadcity.in",
       host: "broadcity.in",
@@ -1773,6 +1563,24 @@
         }
       }
     },
+    BLUEBIRD: {
+      url: "https://bluebird-hd.org",
+      host: "bluebird-hd.org",
+      siteType: "bluebird",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACGVBMVEWotrlCjJo7l6k6laY7l6g/jp6brbE6f41G2vRF2PJF1/FF1/JH3Pc8j54ueok7vdU4tc04ts06vNQ5jZwra3gtnLAtmKwuma0rl6splaoqlqotmK0wnrMzeoclWmYyiJknfY4ieYoieYsheIosgJE2iJg1h5g2iJkwg5Qhd4kgeowsZnIuV2F3rrxBf4wSWGcYXGsXW2oWW2qDt8Oq2OOg0NyVxtOAtcNjnaspbnwiUVswUFh7r747bXkAMDwEN0IENkICNEAFOEOYxM+l0NtjkJtgjplnlaF9sL1nm6gjRk8qRU2Cs8FkkZ1Gb3lOd4FReYNVfYdGbXemztiLs70AHCYAIiwAIStHb3mGucc3UlsqQ0t+rryKvMqcy9ep1uG13+vF7vinztibwsx7oqwAHCUBIywAGyQoTFY7V18uTFR9sL5RgIwjUFsoVmEqWGIgTVgdS1YSQEsTQUwXRE9biZV9sb80VFwzWWF3rLpAeYYJSFYPTlsOTFoPTVt5qbSbxtKNu8iCsb55q7h4rLtWkJ0iTVctXWhgorE6hJQbbX4fcIEecIBsrbqDvcp2ssBtqrhoprVRl6YjdYYoX2ooZnIrk6cpj6IqkKMqj6MmjKAnjKAojaEpjqIojqEli58xdIItdYQ3s8o1rMM1rMI3h5Y2foxE1O9C0OpCz+lE1vE6j56Yqq9DmalAqLpAprhCnrCGn6X////cFElzAAAAAWJLR0SyrWrP6AAAAAd0SU1FB+YDAgQyIDB3PAEAAADuSURBVBjTY2BgZGKGAxZWNgZ2Dk4uOODm4WXg4xcQhAMBIWEGEVExcRCQkJSSkpCWkWWQk1dQVFJSUlZRVVPX0NTSZtDR1dM3MDA0MjYxNTO3sLRisLaxtbN3cHRydnF1c/fw9GLw9vH18w8IDAoOCQ0Lj4iMYoiOiY2LT0hMSk5JTUvPiMxkyMrOyc3Lyy8oLCgqLiktK2eoqKyqrqmpratvaGxqbmltY2jv6Ozq7u7p6e3rnzBx0uQpDFOnTZ8BBDNnzZ4zd978aQsYFi5aDAFLlixZvHjRUoZly1esRIBVqxnWrF23Hg7WbdgIAFw/WUNqMtpuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAzLTAyVDA0OjUwOjMyKzAwOjAwrsTcpgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMy0wMlQwNDo1MDozMiswMDowMN+ZZBoAAAAASUVORK5CYII=",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{name}",
+          incldead: 0,
+          cat: 0,
+          dsearch: "{imdb}",
+          stype: "or"
+        }
+      }
+    },
     Blutopia: {
       url: "https://blutopia.cc",
       host: "blutopia.(xyz|cc)",
@@ -1846,6 +1654,190 @@
           "576p": "6",
           "480p": "8"
         }
+      }
+    },
+    BTN: {
+      url: "https://broadcasthe.net",
+      host: "broadcasthe.net",
+      siteType: "gazelle",
+      icon: "data:image/png;base64,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",
+      asSource: true,
+      asTarget: false,
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          action: "advanced",
+          imdb: "{imdb}",
+          artistname: "{name}"
+        }
+      }
+    },
+    BTSCHOOL: {
+      url: "https://pt.btschool.club",
+      host: "btschool.club",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBwQr3f9M9AAAAz1JREFUOMt91M+LHXYVBfDPefPmR2ZeY0tnWoyxVgihrT8KQoo/SmwUN23RKtGdiAsFS7vRko1/QYdUEMGFS90KcSWoBIRY6mS0oRoTqVLjj9bEpI2pjUle5r3j4k1k6sID39W953A599xvbGPpu2dN3yoDu9UeHMRS2RNeR8ogXMCb5BTOM/13suLGM/eCwOLRM7CEfZkJ3UlW6JsYmwkOMIfbKltYoOdbL0jOYWv8zP2yePSM1m2D5PFwD21C5VTa1/Bak6tUarnskaxq908pRq1T1V9qxsNp7Q6fo7vDivhV6oXE65Lp1W/cbwfGK8+d/WcYTJPTaQ+WEfa3dk3rRObXzzySeGgQBpwIm5Kt/xF6G0bPvexmtyRZaPuB1qFpO5nW8cyv/+6BJJPZ82fcvP5/xHZi/uhZWNC+a1LT1iRrz25gEoaPiYMt+GuS5/FiMcQWS+EOLGN3dS+up/6B82K5bA2bqOGd4cnwoRk3I2zgS/TKFo+RR9vux91JRuosTpf3hC3MqeVhZsl5n3ZSvphYxVe2Y/RuPI0n1Mt4EYfxE3wTnxVPkO9rfxSWB22XtYdxCfdVPlNdxc+rH8R8+Gr4PI4luYLvjTN+VWzip9WH8WFsDvGx8ClxDL+pnsA9eAqb1R+QcWKOHK6exrlFiyIbE9OXwpfF18u5QeIRyVLlZOVPZEAen20qGwOD8bYtH8X78UM8VB1NTQ1YDHuxivcO1RtNx/gWuYB5eqF8e2p6cc4cM8LX8DNyLHxh5mEv4z58Eqfwi6w9u3F7kz1YjRTj6ivVNyKTyDw+YhaZ43gLi/g4Hsbd+C1+jFeyur65Fi1RvRyZXDxyAKytb97KcMzu1q3ajvoC1jrr2RpG98286a7MJjiztn6yjFw88sAtbndeyNr6S+qGMqQPhkfxLxwfkNPkUrlUPlE9hHdwNTsmfNtUNR6EVXoYny6Xw+/DH7ZJXS6H1F24FuaanNNeCH8vYyGyq+yl78SB7f9xiBOR5+mN7PBiSXvvLBJGYk41XC/XxBLZhZF2GQuSv23b9EfcvHjkwCxgsPadk1zFwO2tu8SDYV7ta1zByvY5vqq5Rn+d5C/b3v13Wf8BYeJvdWEcGZ8AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6MDQ6NDMrMDA6MDC0QHbWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjA0OjQzKzAwOjAwxR3OagAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      poster: 'input[name="picture"]',
+      imdb: {
+        selector: 'input[name="imdbid"]'
+      },
+      douban: {
+        selector: 'input[name="doubanid"]'
+      },
+      tags: {
+        chinese_audio: 'input[type="checkbox"][name="span[]"][value="5"]',
+        chinese_subtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "405",
+          tv: "406",
+          tvPack: "406",
+          documentary: "408",
+          concert: "409",
+          sport: "410",
+          cartoon: "407",
+          variety: "412",
+          music: "411"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          x264: "1",
+          hevc: "10",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "10",
+          dd: "10",
+          "dd+": "10",
+          flac: "1",
+          dts: "3",
+          truehd: "11",
+          lpcm: "5",
+          dtshdma: "3",
+          atmos: "3",
+          dtsx: "3"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "12",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "10",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "11",
+          cd: "8"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "1",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          btschool: "1",
+          zone: "13",
+          btshd: "2",
+          btstv: "3",
+          btspad: "4",
+          wiki: "5",
+          hdchina: "6",
+          hdbint: "7",
+          mteam: "9",
+          cmct: "10",
+          ourbits: "11",
+          other: "12"
+        }
+      }
+    },
+    BYR: {
+      url: "https://byr.pt",
+      host: "byr.pt",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,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",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="dburl"]'
       }
     },
     CHDBits: {
@@ -2013,26 +2005,6 @@
         }
       }
     },
-    CinemaZ: {
-      url: "https://cinemaz.to",
-      host: "cinemaz.to",
-      siteType: "AvistaZ",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAP+Hj8y/AAAAB3RJTUUH5QwGCikNXab0zAAAAL1JREFUGNNlyi1IA3EAxuFnHzoE3WSw4hBsBpOIzWTUZBaFlctL64LdImJfH1ZBZ7YLNneMQ8OF3dzcQNC/QZGh7y8+bwFbTkVKEg0ndsRScjZdSiR2DS26ta7iSMyFKws4lNnDsjtN8mpeTNGX6SOTqlJQciyzpGlD1bN9B87FzGsZGBvpmhhJReZUoK4nCD4FwYNtZ9qw6kn4bagnuC/6u7IyPvL/4N0bct8wy7HIjdcixrrWhJ/Lo45rK18qoT8Iilms5wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0xMi0wNlQxMDo0MToxMyswMDowMGagtagAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMTItMDZUMTA6NDE6MTMrMDA6MDAX/Q0UAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
-      needDoubanInfo: true,
-      search: {
-        path: "/torrents",
-        params: {
-          search: "{imdb}",
-          in: "1",
-          order: "size",
-          sort: "desc"
-        }
-      }
-    },
     Cinematik: {
       url: "https://cinematik.net",
       host: "cinematik.net",
@@ -2050,6 +2022,26 @@
           cat: 0,
           incldead: 1,
           srchdtls: 1
+        }
+      }
+    },
+    CinemaZ: {
+      url: "https://cinemaz.to",
+      host: "cinemaz.to",
+      siteType: "AvistaZ",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAP+Hj8y/AAAAB3RJTUUH5QwGCikNXab0zAAAAL1JREFUGNNlyi1IA3EAxuFnHzoE3WSw4hBsBpOIzWTUZBaFlctL64LdImJfH1ZBZ7YLNneMQ8OF3dzcQNC/QZGh7y8+bwFbTkVKEg0ndsRScjZdSiR2DS26ta7iSMyFKws4lNnDsjtN8mpeTNGX6SOTqlJQciyzpGlD1bN9B87FzGsZGBvpmhhJReZUoK4nCD4FwYNtZ9qw6kn4bagnuC/6u7IyPvL/4N0bct8wy7HIjdcixrrWhJ/Lo45rK18qoT8Iilms5wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0xMi0wNlQxMDo0MToxMyswMDowMGagtagAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMTItMDZUMTA6NDE6MTMrMDA6MDAX/Q0UAAAAAElFTkSuQmCC",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
+      needDoubanInfo: true,
+      search: {
+        path: "/torrents",
+        params: {
+          search: "{imdb}",
+          in: "1",
+          order: "size",
+          sort: "desc"
         }
       }
     },
@@ -2355,6 +2347,81 @@
         }
       }
     },
+    fearnopeer: {
+      url: "https://fearnopeer.com",
+      host: "fearnopeer.com",
+      siteType: "UNIT3D",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/torrents/create?category_id=1",
+      needDoubanInfo: true,
+      seedDomSelector: ".torrent__buttons+.panelV2",
+      search: {
+        path: "/torrents",
+        replaceKey: [
+          "tt",
+          ""
+        ],
+        params: {
+          name: "{name}",
+          imdbId: "{imdb}",
+          sortField: "size"
+        }
+      },
+      name: {
+        selector: "#title"
+      },
+      description: {
+        selector: "#bbcode-description"
+      },
+      imdb: {
+        selector: "#autoimdb"
+      },
+      tmdb: {
+        selector: "#autotmdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      anonymous: {
+        selector: '.form__group input[type="checkbox"][name="anon"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2"
+        }
+      },
+      videoType: {
+        selector: "#autotype",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "3",
+          encode: "12",
+          web: "4",
+          hdtv: "6",
+          dvd: "1",
+          dvdrip: "12",
+          other: ""
+        }
+      },
+      resolution: {
+        selector: "#autores",
+        map: {
+          "4320p": "11",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "3",
+          "720p": "5",
+          "576p": "6",
+          "480p": "8"
+        }
+      }
+    },
     FL: {
       url: "https://filelist.io",
       host: "filelist.io",
@@ -2549,6 +2616,168 @@
         }
       }
     },
+    HaresClub: {
+      url: "https://club.hares.top",
+      host: "hares.top",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,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",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~.layui-row:first table:first>tbody>tr:nth-child(6)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          search_mode: "0"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="pt_gen[imdb][link]"]'
+      },
+      douban: {
+        selector: 'input[name="pt_gen[douban][link]"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      screenshots: {
+        selector: 'textarea[name="screenshots"]'
+      },
+      tags: {
+        chinese_audio: 'input[name="tags[]"][value="32"]',
+        cantonese_audio: 'input[name="tags[]"][value="64"]',
+        diy: 'input[name="tags[]"][value="1024"]',
+        hdr: 'input[name="tags[]"][value="4096"]',
+        hdr10_plus: 'input[name="tags[]"][value="8192"]',
+        dolby_vision: 'input[name="tags[]"][value="16384"]',
+        chinese_subtitle: 'input[name="tags[]"][value="256"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "409",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "6",
+          x264: "8",
+          x265: "7",
+          h265: "6",
+          mpeg2: "4",
+          mpeg4: "9",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "13",
+          dd: "13",
+          mp3: "4",
+          "dd+": "13",
+          flac: "1",
+          dts: "3",
+          truehd: "9",
+          lpcm: "14",
+          dtshdma: "11",
+          atmos: "8",
+          dtsx: "10",
+          ape: "2",
+          ogg: "5",
+          wav: "15"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "2",
+          bluray: "2",
+          remux: "3",
+          encode: "4",
+          web: "5",
+          hdtv: "8",
+          dvd: "0",
+          dvdrip: "0",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "5",
+          "2160p": "6",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3"
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "1",
+          US: "4",
+          EU: "4",
+          HK: "2",
+          TW: "3",
+          JP: "7",
+          KR: "7",
+          OT: "10"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          chd: "4",
+          hds: "5",
+          wiki: "6",
+          cmct: "8",
+          beast: "9",
+          hdc: "10",
+          frds: "11",
+          pter: "12",
+          bhd: "13",
+          pth: "14",
+          other: "15"
+        }
+      }
+    },
     HD4FANS: {
       url: "https://pt.hd4fans.org",
       host: "hd4fans.org",
@@ -2652,168 +2881,6 @@
           cmct: "6",
           r2ts: "7",
           kbits: "8"
-        }
-      }
-    },
-    HDAI: {
-      url: "http://www.hd.ai",
-      host: "hd.ai",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACLlBMVEUnJyciIiInJycnJycnJycnJycnJycoKCgnJycnJycnJycnJycmJiYmJiYmJiYlJSUmJiYkJCQjIyMjIyMjIyMjIyMiIiIiIiIiIiIiIiIhISEiIiIhISEhISEhISEhHx8eQFUaercdUnQhIiIhISEhISEoKCgnJycmJiYlJSUyMjJAQEAkJCQ/Pz+Hh4fCwcHh4OBSUlKtra1ubWxlb3PP298+Pj7Nzc2Zm50cTF8Wg61zwd0WhK4cTmKZnJ2NjY38+/q0y9Mpn8whpdia0+ib0+gpn820y9UzMzO4t7eYoaWGwNar2eqt2OjA4OvD4eyr2Oir2OmGwdiYo6dDQ0OBf38hTV8WlsiHyOHR5e2Yz+OXz+TO5OwWlMYiQU6Bf34jIyNDQkJ/i5AccpYWlMiGxt/J4uqTy+GXzeLP5OsXksUiQU8zMjK0vMCTrLeHvdO12Oat1OS92+e72ua11+Wx1uWFvtWWoqe3trYiJiiKmKD08vG8z9gymMgilcuPxd2Zyt8ll8wslsexydT18/IjIyIhKC07U1/KycmdoqQbUGoUe61erNBosdMUe64ZUGuPlJc9PT0hISEiIiIjIiIiKSwcUWtTWV2sq6tkZGRQYGi0xs69zdRVZGxeXl6lpaVTU1MeWHccUGyFhYW5uLjY19bY19e6ubmEhIQjISEhNkIbdKQePlAiISBBQUEdVXQbc6UhMjwhIB8gICAhISAhKzEbbJwcZ5MhKjD///8cBd9jAAAAJnRSTlMAAA9wx+bs7Q6V+fjF5ezt7e3t7OXGcPgOlfkPcMfm7O3t7e3t7NLV0KEAAAABYktHRLk6uBZgAAAAB3RJTUUH5QQKBykeq2bSOAAAAXFJREFUGNNVi2VbAkEURkexAywMRGydWQdbbMHuxq6xu7u7exe7uzt/nrvKF8+n957nHgA0eVraOrpqdLS1eJoA6OkbuP3DQF8P8Azd/4BQPQx5wOh3IER5eFAI/R5GwJh7wlJPL29vL08p5qQx4EMIsY+vn39AgL+frw9mTz4QIIhlgUHBIaGhYeERgTIMkQCYQITlisio6JjY6Lh4hRwjaMLJhMSk5JTUtPSMzKzsxAROChBW5uTm5RcUFhXnl5SWKTGbCxApr6isqq6prauvbmgsUxJWmmLc1NzS2tbe0dnV3dPbR2Fsysn+gcGh4ZHRsfGJySk54aQZmZ6ZnZtfWFxaXlldm1unCTED5oxqY3Nre2d3b//g8OiYZhjGHFgwKtXJqfTs/OLy6lpKM4QwFkBIyM3t3f0D9fhIMWzLIgSWVmzw9Pzy+vbGpSxWlsDaRkS/f3x+fdNqRDbWQMNWbCexd3B0cnZhcZXYiW01fgC8EXLoIVrAZQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0xMFQwNzo0MTozMCswMDowMNmd3ZQAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMTBUMDc6NDE6MzArMDA6MDCowGUoAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/Torrents.upload",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      search: {
-        path: "/Torrents.index",
-        imdbOptionKey: "9",
-        nameOptionKey: "1",
-        params: {
-          name: "{name}",
-          search_area: "{optionKey}",
-          imdb: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: 'input[name="poster"]',
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="nfo"]'
-      },
-      screenshots: {
-        selector: 'textarea[name="screenshot"]'
-      },
-      tags: {
-        chinese_audio: 'input[type="checkbox"][name="tag[cn]"]',
-        chinese_subtitle: 'input[type="checkbox"][name="tag[zz]"]'
-      },
-      category: {
-        selector: 'select[name="type"]',
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2",
-          documentary: "4",
-          concert: "6",
-          sport: "7",
-          cartoon: "5",
-          variety: "3"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "2",
-          hevc: "1",
-          x264: "2",
-          x265: "1",
-          h265: "1",
-          mpeg2: "5",
-          mpeg4: "2",
-          vc1: "3",
-          xvid: "4",
-          dvd: "5"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "10",
-          ac3: "11",
-          dd: "11",
-          "dd+": "11",
-          flac: "7",
-          dts: "5",
-          truehd: "4",
-          lpcm: "6",
-          dtshdma: "2",
-          atmos: "3",
-          dtsx: "1"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "5",
-          web: "4",
-          hdtv: "6",
-          dvd: "7",
-          dvdrip: "10",
-          other: "0",
-          cd: "8"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "1",
-          "2160p": "2",
-          "1080p": "3",
-          "1080i": "4",
-          "720p": "5",
-          "576p": "6",
-          "480p": "6"
-        }
-      },
-      area: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          CN: "1",
-          US: "2",
-          EU: "2",
-          HK: "3",
-          TW: "3",
-          JP: "4",
-          KR: "5",
-          OT: "6"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          other: "1",
-          ao: "20",
-          beitai: "18",
-          beyondhd: "19",
-          beast: "23",
-          chd: "2",
-          chdbits: "3",
-          cmct: "4",
-          frds: "5",
-          fltth: "17",
-          hdai: "6",
-          hdchina: "7",
-          hdhome: "8",
-          hdsky: "9",
-          lemonhd: "28",
-          leaguehd: "29",
-          mteam: "10",
-          nypt: "24",
-          ngb: "26",
-          ourtv: "11",
-          ourbits: "12",
-          pter: "13",
-          pthome: "14",
-          putao: "22",
-          strife: "21",
-          tjupt: "15",
-          ttg: "16",
-          tlf: "30",
-          u2: "31",
-          wiki: "25"
         }
       }
     },
@@ -5417,14 +5484,65 @@
         }
       }
     },
-    HaresClub: {
-      url: "https://club.hares.top",
-      host: "hares.top",
+    iTS: {
+      url: "http://shadowthein.net",
+      host: "shadowthein.net",
+      siteType: "its",
+      asSource: false,
+      asTarget: true,
+      icon: "data:image/png;base64,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",
+      seedDomSelector: "h1~.line>tbody>tr:nth-child(2)",
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/browse.php",
+        params: {
+          incldead: 1,
+          search: "{imdb}",
+          search_in: "names",
+          sort: 5,
+          type: "desc"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      imdb: {
+        selector: 'input[name="imdblink"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      tags: {
+        hdr: 'input[name="HDR10"]',
+        hdr10_plus: 'input[name="HDR10Plus"]',
+        dolby_vision: 'input[name="DolbyVision"]'
+      },
+      anonymous: {
+        selector: 'input[name="anonymous"][value="true"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "68",
+          tv: "65",
+          concert: "61",
+          music: "6",
+          ebook: "26"
+        }
+      }
+    },
+    KamePT: {
+      url: "https://kamept.com",
+      host: "kamept.com",
       siteType: "NexusPHP",
-      icon: "data:image/png;base64,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",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5woaCDQq3ANFWQAAA51JREFUOMuFlFtT21YUhb+jI8m2ZMtXCgYMLiEpoXGmTXpvc5k8NP83nabT5z4ktNOZUEiDSyBASInxVb7JliWdPNDSIZB0v+9v1t577SWivlK8XUpRPzyg9uI5Uig+WFomlZ9GN02klFzQcVr6eZZi5+kfvNx6RKcxwNQNOo1jMsVl9HicfHGGzFQBKbULwWeAQkDP7fLjTw/x/SZSxEnG4kR+Ej3hYcZD3GaVZKHG4uVLWLZ1DnpO4cT3Oaw1qfVa5BybsqPRFQFmzyNvJkBoHB3UGY0Drt2ooOtnEdrbwFCBFXPA9RnXBZlElkuX85ixGENvwsALaHZ6bG5s0TiuI8T7FAqo1RpY2XlyKRepBDNzWeyE5OVhC8OwAPizusloErBS+YjiXPE9QAXttotumkwtzJMQJo2+wAs8XNfDtgTSEMzNZ9l+XsN1+yilTpS8a4cIDeH1ycmQccKmulcnbQrSlk2gedjJGKufXKPV9pBSQwhx5jDnRrbtOLbmE26/gDmDhZkUmcIUBccilYpz3Gyy93QbiwAnlfz/KxuGTmQlCRbLeJFkdSrNF5VZYjN5QqGRPMjw994OKqojwiFHe7tMlxbRpHwHUNdpDSJc36TvNikcBdy8WsDrJxhhUixPUyjlufLlDbKFHLXdA8beECuVQqkLbGMYOmEUYoo4s9oS3X3JDw/XqVYPSU3PEs9m0E2TmdIcSkU4hTwT33+3D3VdR0UKW4ZUygtUVu5QKi/TbtVoN+pomkQJSafRIAxCpCkZDvqoSF0AVBCGIaFSGGmL8m2HlfsWXb3O2q/rvKjuYpgG6XwGIQTyny8JggkKdXaHvu/zfOsvnlV38YOQtjtg7fctLKPHk18eIzqKaDSh+bpJMpPEyeUYj8YM3QEpJ40QJ9pE1FdKCFhff8aDBz/THY4ZKYO+e4QxbjFvm7ivenx37ytu3LnJwFdsbO7Q6nQYtlxu3bvDZ7e+PQWeKozCkFFkoAwd1WuTtyM+vVLi69UVJk6OYqlITAo6geLRbxvs7B4wl7X45u5tlOL0p0+BuqFj2xbK87GcJJmEQyqboa9Myh+WaB++RkQhZNLksmnE1Y/RpES3nTPZKP5N7PF4zP7+Kx6vrbO1vcfn15e5VlklHHuISZdISyAIkVpEqxeyt/+KTm/I9/fvsrS0cB4oxElabzzZpNXuUrm+QiabJYoiAt9H03WUikApNKnjeUMEYCdTaNp/ZnkDkeWj+pSQ1t4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjZUMDg6NTI6NDIrMDA6MDDrWrkWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI2VDA4OjUyOjQyKzAwOjAwmgcBqgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yNlQwODo1Mjo0MiswMDowMM0SIHUAAAAASUVORK5CYII=",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#top~.layui-row:first table:first>tbody>tr:nth-child(6)",
+      seedDomSelector: "#top~table>tbody>tr:nth-child(4)",
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
@@ -5435,7 +5553,7 @@
           search_area: "{optionKey}",
           search: "{imdb}",
           sort: "5",
-          search_mode: "0"
+          type: "desc"
         },
         result: {
           list: ".torrents>tbody>tr",
@@ -5453,130 +5571,8 @@
       description: {
         selector: "#descr"
       },
-      imdb: {
-        selector: 'input[name="pt_gen[imdb][link]"]'
-      },
-      douban: {
-        selector: 'input[name="pt_gen[douban][link]"]'
-      },
       anonymous: {
         selector: 'input[name="uplver"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="technical_info"]'
-      },
-      screenshots: {
-        selector: 'textarea[name="screenshots"]'
-      },
-      tags: {
-        chinese_audio: 'input[name="tags[]"][value="32"]',
-        cantonese_audio: 'input[name="tags[]"][value="64"]',
-        diy: 'input[name="tags[]"][value="1024"]',
-        hdr: 'input[name="tags[]"][value="4096"]',
-        hdr10_plus: 'input[name="tags[]"][value="8192"]',
-        dolby_vision: 'input[name="tags[]"][value="16384"]',
-        chinese_subtitle: 'input[name="tags[]"][value="256"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "409",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "6",
-          x264: "8",
-          x265: "7",
-          h265: "6",
-          mpeg2: "4",
-          mpeg4: "9",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "13",
-          dd: "13",
-          mp3: "4",
-          "dd+": "13",
-          flac: "1",
-          dts: "3",
-          truehd: "9",
-          lpcm: "14",
-          dtshdma: "11",
-          atmos: "8",
-          dtsx: "10",
-          ape: "2",
-          ogg: "5",
-          wav: "15"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "2",
-          bluray: "2",
-          remux: "3",
-          encode: "4",
-          web: "5",
-          hdtv: "8",
-          dvd: "0",
-          dvdrip: "0",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "5",
-          "2160p": "6",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "1",
-          US: "4",
-          EU: "4",
-          HK: "2",
-          TW: "3",
-          JP: "7",
-          KR: "7",
-          OT: "10"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          chd: "4",
-          hds: "5",
-          wiki: "6",
-          cmct: "8",
-          beast: "9",
-          hdc: "10",
-          frds: "11",
-          pter: "12",
-          bhd: "13",
-          pth: "14",
-          other: "15"
-        }
       }
     },
     KEEPFRDS: {
@@ -6009,46 +6005,6 @@
         }
       }
     },
-    KamePT: {
-      url: "https://kamept.com",
-      host: "kamept.com",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5woaCDQq3ANFWQAAA51JREFUOMuFlFtT21YUhb+jI8m2ZMtXCgYMLiEpoXGmTXpvc5k8NP83nabT5z4ktNOZUEiDSyBASInxVb7JliWdPNDSIZB0v+9v1t577SWivlK8XUpRPzyg9uI5Uig+WFomlZ9GN02klFzQcVr6eZZi5+kfvNx6RKcxwNQNOo1jMsVl9HicfHGGzFQBKbULwWeAQkDP7fLjTw/x/SZSxEnG4kR+Ej3hYcZD3GaVZKHG4uVLWLZ1DnpO4cT3Oaw1qfVa5BybsqPRFQFmzyNvJkBoHB3UGY0Drt2ooOtnEdrbwFCBFXPA9RnXBZlElkuX85ixGENvwsALaHZ6bG5s0TiuI8T7FAqo1RpY2XlyKRepBDNzWeyE5OVhC8OwAPizusloErBS+YjiXPE9QAXttotumkwtzJMQJo2+wAs8XNfDtgTSEMzNZ9l+XsN1+yilTpS8a4cIDeH1ycmQccKmulcnbQrSlk2gedjJGKufXKPV9pBSQwhx5jDnRrbtOLbmE26/gDmDhZkUmcIUBccilYpz3Gyy93QbiwAnlfz/KxuGTmQlCRbLeJFkdSrNF5VZYjN5QqGRPMjw994OKqojwiFHe7tMlxbRpHwHUNdpDSJc36TvNikcBdy8WsDrJxhhUixPUyjlufLlDbKFHLXdA8beECuVQqkLbGMYOmEUYoo4s9oS3X3JDw/XqVYPSU3PEs9m0E2TmdIcSkU4hTwT33+3D3VdR0UKW4ZUygtUVu5QKi/TbtVoN+pomkQJSafRIAxCpCkZDvqoSF0AVBCGIaFSGGmL8m2HlfsWXb3O2q/rvKjuYpgG6XwGIQTyny8JggkKdXaHvu/zfOsvnlV38YOQtjtg7fctLKPHk18eIzqKaDSh+bpJMpPEyeUYj8YM3QEpJ40QJ9pE1FdKCFhff8aDBz/THY4ZKYO+e4QxbjFvm7ivenx37ytu3LnJwFdsbO7Q6nQYtlxu3bvDZ7e+PQWeKozCkFFkoAwd1WuTtyM+vVLi69UVJk6OYqlITAo6geLRbxvs7B4wl7X45u5tlOL0p0+BuqFj2xbK87GcJJmEQyqboa9Myh+WaB++RkQhZNLksmnE1Y/RpES3nTPZKP5N7PF4zP7+Kx6vrbO1vcfn15e5VlklHHuISZdISyAIkVpEqxeyt/+KTm/I9/fvsrS0cB4oxElabzzZpNXuUrm+QiabJYoiAt9H03WUikApNKnjeUMEYCdTaNp/ZnkDkeWj+pSQ1t4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjZUMDg6NTI6NDIrMDA6MDDrWrkWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI2VDA4OjUyOjQyKzAwOjAwmgcBqgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yNlQwODo1Mjo0MiswMDowMM0SIHUAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~table>tbody>tr:nth-child(4)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      }
-    },
     LST: {
       url: "https://lst.gg",
       host: "lst.gg",
@@ -6213,23 +6169,6 @@
           "480p": "8"
         }
       }
-    },
-    MTV: {
-      url: "https://www.morethantv.me",
-      host: "morethantv.me",
-      siteType: "gazelle",
-      asSource: true,
-      asTarget: false,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents/browse",
-        params: {
-          searchtext: "{imdb}",
-          title: "{name}"
-        }
-      },
-      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw=="
     },
     MTeam: {
       url: "https://kp.m-team.cc",
@@ -6426,6 +6365,23 @@
         }
       }
     },
+    MTV: {
+      url: "https://www.morethantv.me",
+      host: "morethantv.me",
+      siteType: "gazelle",
+      asSource: true,
+      asTarget: false,
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents/browse",
+        params: {
+          searchtext: "{imdb}",
+          title: "{name}"
+        }
+      },
+      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw=="
+    },
     NPUBits: {
       url: "https://npupt.com",
       host: "npupt.com",
@@ -6594,6 +6550,21 @@
         }
       }
     },
+    "nzbs.in": {
+      url: "https://nzbs.in",
+      host: "nzbs.in",
+      siteType: "nzb",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QATwB9ALSzxfhxAAAAB3RJTUUH5QQMAx4c9w3kIAAAA6xJREFUOMt1lM9rVFcUxz/nvDszieOYMUrGxAR/RU0VreBCUFIo7UIRUqEroUJLVyJ02x9QaKHrLtq/oKUUpKvSdV0VoRulBEG0JJpR44+aTExiMvPuPaeLN5lQ2x54D+65j885993v+crZz645/4ju0gUnQ9SpkHCB3DLMQTAQB4TivRnhXzDf3DaLHB6pcumtfYgIP/x6j9tzy2gmuNOD8r/ALs9RUkqc2Fdj6tQog+M7cHHezSO/XH/A9OwLyDJwR16Bhk2WI9284hwcrTJ1apTjxxt81emwps7nx3YylSDv3Ofu43VS7wcVUAG0B3PBXcgEdg2U+PDsOG+cGOZ5jDQ9Z94TC9GYPN7g/XMHGa4HsgzEpfsUWMWLAgJkRBp14eOLRzi6t455YixkvBeUDzTjoAZM4OieOh9fPMbueongEe0d2VEXBxGiJQ4M93PlwhH276pRDoqIUBI4Hyqcz8pk4kWulLGnsZXL70ywf2QL0SJO0WIIYiQpcWhvjbdf38nE2CC5wbV7OQ9XjLGqMDlWwgWuz0XmVpzRmjM5Eji8ZzvnTo9RuvGMO3OriIBcvnrPV2NgohE4s7ePTJU7C86NVomyRE7WE2utZRZXE82lyFJHKKVF1m/+xMulBXB43mrzvNVBRAhP/rxBa1XJZw2ZEYI4TR/gafU1tvc7z1S4df8FFRfWOhGLQifvMHv/MU8ePcQMREGl0Ka8+dGPLgJu4BF2bqvwyaWTfDc/xPXH4O40thpfninz/bTx2wPh9AhcmVjn66u3eLq0hoj0pBMqtRHEQUjgTq3ex67hBvZXiRUvdDW/bnz7B8wsBVZESJlTq1aIrrSjdIHFTQfFMTXcHHMnOkR3zCF1P3uZC7/PG6iCFrmeiHFMQLsWEBbtNn1a5VA2jmrGYKmfIMpudY5oQivGtpoytyDUvMPDFBBXRKAeKvSFosKGEtU1kHmZdjTWUyK5kQHJnVUzDg8KX5wOTGw3TIr8RrQt8TLltGOkHXPaMUfrNk7wBo/IabLGI1smx5g3ZSaVaXnG8Bbn08nAYCOw7IrjGLBiOQ+8TVPWadKmSZuAOI6jruCyOUTuuAnujgoM90MVw5KSKG5VETIE9WLaem4jPccohrqkwtSBjKODcGAAgijgXNgPx3Yo+waUssRNrxHpWe0rBiu0c2N6ZpGhWomhLSC5cPNusTckzlDVsQjTsx3aeexZ3n8arIjSWja++fk2Ilb07pvFpGt1LoAX4A3xbMTfU7u3vspnhj4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTJUMDM6MzA6MjcrMDA6MDBRcNLMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEyVDAzOjMwOjI3KzAwOjAwIC1qcAAAAABJRU5ErkJggg==",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/search/{name}",
+        params: {
+          t: -1,
+          ob: "size_desc"
+        }
+      }
+    },
     OpenSub: {
       url: "https://www.opensubtitles.org",
       host: "opensubtitles.org",
@@ -6742,6 +6713,120 @@
         }
       }
     },
+    PrivateHD: {
+      url: "https://privatehd.to",
+      host: "privatehd.to",
+      siteType: "AvistaZ",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{name}",
+          in: "1",
+          order: "size",
+          sort: "desc"
+        }
+      }
+    },
+    PTer: {
+      url: "https://pterclub.com",
+      host: "pterclub.com",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACu1BMVEUAAAD////Cl3f/sZv/88f/NgD/z6j/VAD/AAD/++v/NwCGe33/rGgAAAX/6dgABBr/zqgTL1vxCACLblsAAAwAEzYAAgiZgmoCAwX9AAAFBAb7q3IEAAADAgL217wFAAD//////////////f///f////9IPkDRiEj/mTr/lTr/lTr9mz3InGrZlFv9tXP/3r0AAAAkGh27YRL7gBBsUTKpVBb/exP/j0D/xJIAAAE5KiX1ewT5eQLpfhxhSzbOagv/lU3/7dkAAAArIBqFUSWNUh9+TCOtXxv5fgy0aimFTh6OUh6NWzJROCbneA3/gCf/yp0EAAABAAIAABQAABUNDB2YVhz7hiDCpYoAAAAAABIAAAsTFBmlXRv/fBX/vYQbGB+4ZRb/iCT/+eUBDx6PVSH/fhz/wowAAAAwJyP0jjnTuKXvx6kABUtfOybTcBP/hTD/1K0AAAJONCH8fwaPXCikcUz/unz/rnPpjT/dcg7/cQn/lUf///8AABVqQSL5gQ1iSCy1XhL/eAr+cgr+dgf+fSb/zKQAChyFTyHndw9bQi/TbwvrdgrrfC77rXUUFhumXBrFbhBhQCy8bByuYRWxYhiuYBunXh+OXDSai38AAAAsIB+kXQ9dRzqogmIjHRstKCgOFyoAAyAAAAk9KyPShTM1O0gAAAtWOSP+nksAAwxxRyPtcxv7pmwDAgNALB5zRyZnPh2WYzz82LoEAAABAAEAAAUAAAP/dwD/dAH/cwH/cgDTdRX2fAT+eAD/eAD+dwD4eAP0ewX2egT/eQD/bwb9ewH/egD/dAD/fQD/dgD+fgH/dQD/fAD/cwD+fgPUcRP+cwP/ewDpdgr+ewLzeQX+fAD+eQD9bwP7fQT/fwD/fQH+fQT0ewb/fgHBZxP/fgLYcRD/egfufAv+dgznew3ndwb///9+450wAAAAuXRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkNDA4HASCOq6ipq2FhZxcCh/r8yuT4vjQVtf7+99b3tRYnq8fCyvH70sLBpNv981gIHBsXafLnTRYYH6n1/HOC/NEhafX3Xw+pui4IB5D+zSYdxv7PwHBdj+36egIw3P3c8Pf2/LIaUO773Pfrlx9y+/Tj9e3hyJdGBwOR87dgNikaBw+xuyEkz4ZA6PVdQ6WmqX0YBw0LDAI5k3AAAAABYktHRAH/Ai3eAAAAB3RJTUUH5QQKBzAvYbh7GgAAAUJJREFUGNNjYMAGGBkVFJWgQFlFlZERJMikpq6hqQUGmto6unr6zCwMDAaGRjt37dq9e/euXXuMTUzNzC1YGRksrfbus7bZf+DgocNHbO3sjx5zcGRjcHJ2cXVzP37Uw9PL28fX78RJ/wB2hsCg4JDQsFOnwyMio6JjYs+cjYvnANllkJB47nxSMicDQ0rqhbNp6VwgwYzMi+cuZWXncOfm5V8+X1DIAxTjLSq+cqKktKy8orLq6oHqmlo+oCB/Xf21Aw2NTc0trddv3GxrFwDpFuzovHW0q7vn9p2793r7+oXAfmKYMPH+uUmTp0ydNn3GzFnCYCGR2XMenHs4d978BQsXLRaFhojYkqWPTjxetlycESmYJFasfHLi6SpJZDEGqdVrnj1fu04aWUxGdv2GjZs2b5FDEZTfum37jtkMBAEAezt4kKiqYGgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDg6NDYrMDA6MDBMncp9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ4OjQ2KzAwOjAwPcBywQAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      tags: {
+        chinese_audio: "#guoyu",
+        diy: "#diy",
+        cantonese_audio: "#yueyu",
+        chinese_subtitle: "#zhongzi"
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "404",
+          tvPack: "404",
+          documentary: "402",
+          concert: "406",
+          sport: "407",
+          cartoon: "403",
+          variety: "405",
+          music: "406"
+        }
+      },
+      videoType: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "2",
+          remux: "3",
+          encode: "6",
+          web: "5",
+          hdtv: "4",
+          dvd: "7",
+          dvdrip: "7",
+          other: "15"
+        }
+      },
+      area: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          CN: "1",
+          US: "4",
+          EU: "4",
+          HK: "2",
+          TW: "3",
+          JP: "6",
+          KR: "5",
+          IND: "7",
+          OT: "8"
+        }
+      }
+    },
     PTHome: {
       url: "https://www.pthome.net",
       host: "pthome.net",
@@ -6877,111 +6962,6 @@
           pthebook: "24",
           pthmusic: "25",
           other: "5"
-        }
-      }
-    },
-    PTMSG: {
-      url: "https://pt.msg.vg",
-      host: "msg.vg",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAeFBMVEWGw/6Hw/6HxP6Fw/6Lxv6r1f6Xy/6s1v6h0f6g0P6Tyv6fz/6i0f6ez/6Lxf632/6l0v6p1P6x2P6n0/6n1P6RyP6j0f6Nxv6Vyv6j0v6w2P6f0P6h0P673f663f6Ryf6Px/6Kxf6azf6QyP6YzP6Uyv6Fwv7///+R5Vm0AAAAAWJLR0QnLQ+oIwAAAAd0SU1FB+YCAQQLEUD4N98AAABPSURBVAjXlc3XEYAgAAXBRxAUEQUDmLP9lygl6P7fHPAHASgDeMKFTDOV64LAlJV1VtdN23kE6fphnGaplxV+M7sSxxmumwKxY+xh0dfbCwB/A5hH0DsvAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAyLTAxVDA0OjExOjE1KzAwOjAwiHfJQwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMi0wMVQwNDoxMToxNyswMDowMG61YNYAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          x264: "1",
-          hevc: "18",
-          x265: "18",
-          h265: "18",
-          mpeg2: "4",
-          mpeg4: "17",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          hddvd: "2",
-          other: "11"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "6",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hds: "1",
-          chd: "2",
-          mysilu: "3",
-          wiki: "4",
-          other: "5",
-          ptmsg: "6"
         }
       }
     },
@@ -7282,120 +7262,6 @@
           ffansdvd: "14",
           fhdmv: "15",
           enichi: "16"
-        }
-      }
-    },
-    PTer: {
-      url: "https://pterclub.com",
-      host: "pterclub.com",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACu1BMVEUAAAD////Cl3f/sZv/88f/NgD/z6j/VAD/AAD/++v/NwCGe33/rGgAAAX/6dgABBr/zqgTL1vxCACLblsAAAwAEzYAAgiZgmoCAwX9AAAFBAb7q3IEAAADAgL217wFAAD//////////////f///f////9IPkDRiEj/mTr/lTr/lTr9mz3InGrZlFv9tXP/3r0AAAAkGh27YRL7gBBsUTKpVBb/exP/j0D/xJIAAAE5KiX1ewT5eQLpfhxhSzbOagv/lU3/7dkAAAArIBqFUSWNUh9+TCOtXxv5fgy0aimFTh6OUh6NWzJROCbneA3/gCf/yp0EAAABAAIAABQAABUNDB2YVhz7hiDCpYoAAAAAABIAAAsTFBmlXRv/fBX/vYQbGB+4ZRb/iCT/+eUBDx6PVSH/fhz/wowAAAAwJyP0jjnTuKXvx6kABUtfOybTcBP/hTD/1K0AAAJONCH8fwaPXCikcUz/unz/rnPpjT/dcg7/cQn/lUf///8AABVqQSL5gQ1iSCy1XhL/eAr+cgr+dgf+fSb/zKQAChyFTyHndw9bQi/TbwvrdgrrfC77rXUUFhumXBrFbhBhQCy8bByuYRWxYhiuYBunXh+OXDSai38AAAAsIB+kXQ9dRzqogmIjHRstKCgOFyoAAyAAAAk9KyPShTM1O0gAAAtWOSP+nksAAwxxRyPtcxv7pmwDAgNALB5zRyZnPh2WYzz82LoEAAABAAEAAAUAAAP/dwD/dAH/cwH/cgDTdRX2fAT+eAD/eAD+dwD4eAP0ewX2egT/eQD/bwb9ewH/egD/dAD/fQD/dgD+fgH/dQD/fAD/cwD+fgPUcRP+cwP/ewDpdgr+ewLzeQX+fAD+eQD9bwP7fQT/fwD/fQH+fQT0ewb/fgHBZxP/fgLYcRD/egfufAv+dgznew3ndwb///9+450wAAAAuXRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkNDA4HASCOq6ipq2FhZxcCh/r8yuT4vjQVtf7+99b3tRYnq8fCyvH70sLBpNv981gIHBsXafLnTRYYH6n1/HOC/NEhafX3Xw+pui4IB5D+zSYdxv7PwHBdj+36egIw3P3c8Pf2/LIaUO773Pfrlx9y+/Tj9e3hyJdGBwOR87dgNikaBw+xuyEkz4ZA6PVdQ6WmqX0YBw0LDAI5k3AAAAABYktHRAH/Ai3eAAAAB3RJTUUH5QQKBzAvYbh7GgAAAUJJREFUGNNjYMAGGBkVFJWgQFlFlZERJMikpq6hqQUGmto6unr6zCwMDAaGRjt37dq9e/euXXuMTUzNzC1YGRksrfbus7bZf+DgocNHbO3sjx5zcGRjcHJ2cXVzP37Uw9PL28fX78RJ/wB2hsCg4JDQsFOnwyMio6JjYs+cjYvnANllkJB47nxSMicDQ0rqhbNp6VwgwYzMi+cuZWXncOfm5V8+X1DIAxTjLSq+cqKktKy8orLq6oHqmlo+oCB/Xf21Aw2NTc0trddv3GxrFwDpFuzovHW0q7vn9p2793r7+oXAfmKYMPH+uUmTp0ydNn3GzFnCYCGR2XMenHs4d978BQsXLRaFhojYkqWPTjxetlycESmYJFasfHLi6SpJZDEGqdVrnj1fu04aWUxGdv2GjZs2b5FDEZTfum37jtkMBAEAezt4kKiqYGgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDg6NDYrMDA6MDBMncp9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ4OjQ2KzAwOjAwPcBywQAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: "#torrenttable>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      tags: {
-        chinese_audio: "#guoyu",
-        diy: "#diy",
-        cantonese_audio: "#yueyu",
-        chinese_subtitle: "#zhongzi"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "404",
-          tvPack: "404",
-          documentary: "402",
-          concert: "406",
-          sport: "407",
-          cartoon: "403",
-          variety: "405",
-          music: "406"
-        }
-      },
-      videoType: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "6",
-          web: "5",
-          hdtv: "4",
-          dvd: "7",
-          dvdrip: "7",
-          other: "15"
-        }
-      },
-      area: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          CN: "1",
-          US: "4",
-          EU: "4",
-          HK: "2",
-          TW: "3",
-          JP: "6",
-          KR: "5",
-          IND: "7",
-          OT: "8"
-        }
-      }
-    },
-    PrivateHD: {
-      url: "https://privatehd.to",
-      host: "privatehd.to",
-      siteType: "AvistaZ",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse.php",
-        params: {
-          search: "{name}",
-          in: "1",
-          order: "size",
-          sort: "desc"
         }
       }
     },
@@ -7745,6 +7611,137 @@
         }
       }
     },
+    SoulVoice: {
+      url: "https://pt.soulvoice.club",
+      host: "soulvoice.club",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBzEdsHQb2wAAA2FJREFUOMut1FuIn9UVBfDf/r7/TKPJSJLGJrWJJo1WMKLgpcSoEYn4oq21gihSCvpii29qC0ZpQSKooeCDLwUvoKDWgigqiBeiBjUVNCApasTMkIpJkwzKjLnM5Vs+/D+pUEtf3LBhwz5ns85eax2+56gtO7oaTVZggOnwVcqM8Mf17Xdeuv/VC9BRg5bueLFIGcH+wcxc5weD5ib8Cp9jomQHXtn6bvd55uP2fvB9r6zXNgNdNz9W1W4gl1JrlVX4JMmtg7GRJpIJah3OLUL9VnkrXbaU2r51R9eZ2iBtK9386mrqjh7AD1F97uy6HGok8B4+wzFM9AcuL/WXyJnD5RTplqr6M27EYvwLX+JIeHMwaOaapCQmsB2jaMg27MU5VXVDKo1mCWzskX2FN3AQJ2C3+EcXmgrV1LTksR7dydRp5DXsJOeLZRa+oNRGfIHnsABn4Wji8ag9Cc1tFzQIjdcj9/bE/Iy6XPJ+4k0MspQk40me7wddiFk8ikcamfvDprc0cNvPW2FO1cPkN3gI46p+Qh2iaUysX4R9qpbiKJ4Jvwt3ah2MDFf9bX3d9/asZF7TjIyoGitaVSvE2Pz0VVPlwOKq+siQySmdo4rbN739H2H/L8Vfc+uoE9f+3uTev5+0csWqJZt/MTmindlzeHrBlyvXHlALDn63U74prtt8CtLQnFJVF+E0HEmy/7jRbttDN9UynEctxwx2hndqduZQjl+oXb6boUS4fvMalbal+WVVPY2HcYs4A4cfearZU2U8jPRk3IWni78aGT275mZ1e1cPB163eY3R0U4ql1TVvTgXB/C88qOqusxkVeIE6ooMey9jHr/GPemcnKL7cPUQ4bGZZnGVm4dy8VmS7Tgbl2L3ow/oovYVh4urw6LIG5jGpuLa6tJY2D+5yrreBdNJ/l1Vl/Ra+zDx4ksfUDGNv+FIcXGp0zN000C5MuXEVAyaZiCZ24BlmKuqdf1X9s/En7pkVyEV1HPFqbgFa2uoRzhD1enY33SZXYjze+YmsQsPJm6UPNuU7qkt49qVEyTTSbYmbsaTvVUncRzOK626/q41Y4mNkhb7sa/PY09uGf8vnc3u/akobc2N4cdiObW8yj7mtw9YNlXlBcUTd7/r/8XIqk+/Kaf6/Pjb/a8BRYVt72oJuZAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDk6MjkrMDA6MDCTeNgtAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ5OjI5KzAwOjAw4iVgkQAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
+      needDoubanBookInfo: true,
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          concert: "406",
+          variety: "403",
+          music: "408"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "2",
+          h265: "2",
+          x264: "1",
+          x265: "2",
+          mpeg2: "5",
+          mpeg4: "1",
+          vc1: "5",
+          xvid: "5"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "3",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "4",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          hds: "1",
+          chd: "2",
+          frds: "3",
+          cmct: "4",
+          other: "5"
+        }
+      }
+    },
+    SpeedApp: {
+      url: "https://speedapp.io",
+      host: "speedapp.io",
+      siteType: "SpeedApp",
+      icon: "data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAAAACdnZ0Ao6OjA01NTXwuLi7HAAAA8QAAAOsAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOsAAADyLCwsyU5OTnujo6MDnZ2dAJiYmAw2NjbLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/zY2NsuYmJgMRkZGkAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0ZGRpARERHjAAAA/wAAAP8AAwT/AB4p/wAhK/8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyj/ACQs/wARFv8AGiD/ACUu/wAeKP8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyn/AB8o/wAiLP8AHCX/AAAA/wAAAP8AAAD/ERER4wAAAPAAAAD/AAAA/wAtNf8A2f//ANH//wDK//8Ayv//AMr//wDK//8Ayv//AMr//wDJ//8A2P//AKLM/wCkzf8A7f//AMf//wDJ//8Ayv//AMr//wDK//8Ayv//AMr//wDK//8Ayf//ANb//wDM/f8AHCX/AAAA/wAAAP8AAADwAgIC7QAAAP8AAAD/ADQ8/wDj//8A1v//AND//wDQ//8A0P//AND//wDQ//8A0P//AM///wDR//8A9///AG+M/wCXuP8A+P//AM3//wDQ//8A0P//AND//wDQ//8A0P//AND//wDP//8A2///ANb//wAiLf8AAAD/AAAA/wICAu0DAwPsAAAA/wAAAP8AMDf/ANX//wDK//8AxP//AMT//wDE//8AxP//AMT//wDE//8AxP//AO///wCbuP8AAAD/AAAA/wCv0/8A6///AMH//wDE//8AxP//AMT//wDE//8AxP//AMP//wDP//8Ayf//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMf//wDX//8AgZn/AAAA/wAAAP8AAAD/AAUJ/wCVtP8A2P//AMb//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//AN7//wA/Vv8AAAD/AAAA/wAAAP8AAAD/AFt1/wDj//8Ax///AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDE//8Azv//AN///wBKYP8AAAD/AAAA/wBief8A4///AMn//wDE//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMX//wDB//8A1f//AOz//wA1Q/8AR1n/AO7//wDQ//8Awv//AMX//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMT//wDG//8Axv//AMT//wDF//8Axf//AMP//wDR//8Avef/AJ3J/wDW//8Az///AMH//wDF//8Axf//AMX//wDE//8Axv//AMb//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDK//8Aw///ANz//wDf//8Ax///AML//wDD//8A1f//ALfg/wCCqP8Ax/P/ANL//wDC//8Axf//AMX//wDF//8Awv//AMn//wDg//8A2P//AMH//wDP//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wA1PP8A3///AMr//wDu//8AfJn/AGmA/wDr//8Ayf//ANL//wC34f8Agqj/AMPv/wDR//8Aw///AMX//wDF//8Axf//AMH//wDR//8A4v//AGB4/wCTtf8A7P//AM3//wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ACIo/wDA6v8A+///AJy3/wAAAP8AAAD/AHeN/wD8//8At+P/AIGn/wDD7/8A0f//AMP//wDF//8Axf//AMX//wDC//8A0P//AO///wBkev8AAAD/AAUH/wCv0/8A+P//AMf//wAeKP8AAAD/AAAA/wMDA+wBAQHsAAAA/wAAAP8AKjP/AKnO/wBsgv8AAAD/AAAA/wAAAP8AAAD/AFVi/wCgy/8AxO7/ANH//wDD//8Axf//AMX//wDF//8Awv//ANP//wDX+v8ARVj/AAAA/wAAAP8AAAD/AAAB/wCatP8A7P//ACMu/wAAAP8AAAD/AQEB7AAAAOwAAAD/AAAA/wA4Q/8A8///AGd+/wAAAP8AAAD/AAAA/wAAAP8AQ1j/ANv//wDS//8Awv//AMX//wDF//8Axf//AMP//wDR//8Ax+//AJ/L/wAwQf8AAAD/AAAA/wAAAP8AAAD/AG+I/wCoyf8AHiX/AAAA/wAAAP8AAADsAwMD7AAAAP8AAAD/AC02/wDa//8A+P//AICW/wAAAP8AAAD/AGR6/wDt//8Az///AML//wDF//8Axf//AMX//wDD//8A0f//AMLu/wCAp/8Avur/AO7//wBMYf8AAAD/AAAA/wCbuf8A9v//AKXQ/wAWHP8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANT//wDP//8A7///AGd9/wBTZ/8A6P//AND//wDB//8Axf//AMX//wDF//8Aw///ANH//wDD7/8Agaf/ALfg/wDR//8A1f//AN3//wBHWv8Afpv/AO7//wDR//8A1///ACIs/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMn//wDH//8A2f//ANv//wDL//8Awv//AMX//wDF//8Axf//AML//wDS//8AxPH/AICn/wC24f8A1f//AMP//wDB//8Azv//ANz//wDY//8AxP//AM///wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMT//wDI//8AyP//AMT//wDF//8Axf//AMX//wDB//8Az///ANj//wCeyP8At+P/ANL//wDD//8Axf//AMX//wDE//8Ayf//AMf//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDF//8Awf//AND//wDt//8ARVj/AFVl/wD7//8Ayf//AMP//wDF//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMP//wDL//8A6f//AGJ5/wAAAP8AAAD/AHWL/wDr//8Ax///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//ANz//wBNZf8AAAD/AAAA/wAAAP8AAAD/AGd//wDh//8Axv//AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDI//8A2v//AGd8/wAAAP8AAAD/AAAA/wAAAP8Afpj/ANz//wDG//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMT//wDH//8A8P//AH6V/wAAAP8AAAD/AJe0/wDu//8Aw///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7QAAAP8AAAD/ADM7/wDd//8A0f//AMv//wDL//8Ay///AMv//wDL//8Ay///AMn//wDP//8A9///AGV+/wBogf8A/f//AMr//wDK//8Ay///AMv//wDL//8Ay///AMv//wDK//8A1v//ANH//wAhLP8AAAD/AAAA/wMDA+0AAADwAAAA/wAAAP8AMTn/AOf//wDe//8A1v//ANb//wDW//8A1v//ANb//wDW//8A1v//ANT//wDa//8A9P//AKTK/wC76P8A4f//ANb//wDW//8A1v//ANb//wDW//8A1v//ANX//wDj//8A2f//AB4o/wAAAP8AAAD/AAAA8AcHB+UAAAD/AAAA/wAHCf8AMTn/ADM6/wAwN/8AMDf/ADA3/wAwN/8AMDf/ADA3/wAwN/8AMDf/AC43/wA5QP8AKDL/ACAo/wA1Ov8ALzf/ADA3/wAwN/8AMDf/ADA3/wAwN/8ALzf/ADQ7/wAuNv8AAwT/AAAA/wAAAP8HBwflVVVVowAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/1VVVaOqqqobERER6gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8RERHqqqqqG6GhoQBeXl4dNzc3nA4ODuIAAADxAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAPENDQ3iNzc3nF5eXh2hoaEAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "div.row.d-sm-none + div + div",
+      uploadPath: "/upload",
+      needDoubanInfo: false,
+      search: {
+        path: "/browse",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          search_area: "{optionKey}",
+          search: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      description: {
+        selector: "#torrentDescription_releaseInfo"
+      },
+      imdb: {
+        selector: "#url"
+      },
+      mediaInfo: {
+        selector: "#torrentDescription_mediaInfo"
+      },
+      bdinfo: {
+        selector: "#torrentDescription_bdInfo"
+      },
+      screenshots: {
+        selector: "#torrentDescription_screenshots"
+      }
+    },
     SSD: {
       url: "https://springsunday.net",
       host: "springsunday.net",
@@ -7876,137 +7873,6 @@
           KR: "10",
           OT: "3"
         }
-      }
-    },
-    SoulVoice: {
-      url: "https://pt.soulvoice.club",
-      host: "soulvoice.club",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBzEdsHQb2wAAA2FJREFUOMut1FuIn9UVBfDf/r7/TKPJSJLGJrWJJo1WMKLgpcSoEYn4oq21gihSCvpii29qC0ZpQSKooeCDLwUvoKDWgigqiBeiBjUVNCApasTMkIpJkwzKjLnM5Vs+/D+pUEtf3LBhwz5ns85eax2+56gtO7oaTVZggOnwVcqM8Mf17Xdeuv/VC9BRg5bueLFIGcH+wcxc5weD5ib8Cp9jomQHXtn6bvd55uP2fvB9r6zXNgNdNz9W1W4gl1JrlVX4JMmtg7GRJpIJah3OLUL9VnkrXbaU2r51R9eZ2iBtK9386mrqjh7AD1F97uy6HGok8B4+wzFM9AcuL/WXyJnD5RTplqr6M27EYvwLX+JIeHMwaOaapCQmsB2jaMg27MU5VXVDKo1mCWzskX2FN3AQJ2C3+EcXmgrV1LTksR7dydRp5DXsJOeLZRa+oNRGfIHnsABn4Wji8ag9Cc1tFzQIjdcj9/bE/Iy6XPJ+4k0MspQk40me7wddiFk8ikcamfvDprc0cNvPW2FO1cPkN3gI46p+Qh2iaUysX4R9qpbiKJ4Jvwt3ah2MDFf9bX3d9/asZF7TjIyoGitaVSvE2Pz0VVPlwOKq+siQySmdo4rbN739H2H/L8Vfc+uoE9f+3uTev5+0csWqJZt/MTmindlzeHrBlyvXHlALDn63U74prtt8CtLQnFJVF+E0HEmy/7jRbttDN9UynEctxwx2hndqduZQjl+oXb6boUS4fvMalbal+WVVPY2HcYs4A4cfearZU2U8jPRk3IWni78aGT275mZ1e1cPB163eY3R0U4ql1TVvTgXB/C88qOqusxkVeIE6ooMey9jHr/GPemcnKL7cPUQ4bGZZnGVm4dy8VmS7Tgbl2L3ow/oovYVh4urw6LIG5jGpuLa6tJY2D+5yrreBdNJ/l1Vl/Ra+zDx4ksfUDGNv+FIcXGp0zN000C5MuXEVAyaZiCZ24BlmKuqdf1X9s/En7pkVyEV1HPFqbgFa2uoRzhD1enY33SZXYjze+YmsQsPJm6UPNuU7qkt49qVEyTTSbYmbsaTvVUncRzOK626/q41Y4mNkhb7sa/PY09uGf8vnc3u/akobc2N4cdiObW8yj7mtw9YNlXlBcUTd7/r/8XIqk+/Kaf6/Pjb/a8BRYVt72oJuZAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDk6MjkrMDA6MDCTeNgtAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ5OjI5KzAwOjAw4iVgkQAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      needDoubanBookInfo: true,
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          cartoon: "405",
-          sport: "407",
-          concert: "406",
-          variety: "403",
-          music: "408"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "2",
-          h265: "2",
-          x264: "1",
-          x265: "2",
-          mpeg2: "5",
-          mpeg4: "1",
-          vc1: "5",
-          xvid: "5"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "3",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "4",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hds: "1",
-          chd: "2",
-          frds: "3",
-          cmct: "4",
-          other: "5"
-        }
-      }
-    },
-    SpeedApp: {
-      url: "https://speedapp.io",
-      host: "speedapp.io",
-      siteType: "SpeedApp",
-      icon: "data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAAAACdnZ0Ao6OjA01NTXwuLi7HAAAA8QAAAOsAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOsAAADyLCwsyU5OTnujo6MDnZ2dAJiYmAw2NjbLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/zY2NsuYmJgMRkZGkAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0ZGRpARERHjAAAA/wAAAP8AAwT/AB4p/wAhK/8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyj/ACQs/wARFv8AGiD/ACUu/wAeKP8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyn/AB8o/wAiLP8AHCX/AAAA/wAAAP8AAAD/ERER4wAAAPAAAAD/AAAA/wAtNf8A2f//ANH//wDK//8Ayv//AMr//wDK//8Ayv//AMr//wDJ//8A2P//AKLM/wCkzf8A7f//AMf//wDJ//8Ayv//AMr//wDK//8Ayv//AMr//wDK//8Ayf//ANb//wDM/f8AHCX/AAAA/wAAAP8AAADwAgIC7QAAAP8AAAD/ADQ8/wDj//8A1v//AND//wDQ//8A0P//AND//wDQ//8A0P//AM///wDR//8A9///AG+M/wCXuP8A+P//AM3//wDQ//8A0P//AND//wDQ//8A0P//AND//wDP//8A2///ANb//wAiLf8AAAD/AAAA/wICAu0DAwPsAAAA/wAAAP8AMDf/ANX//wDK//8AxP//AMT//wDE//8AxP//AMT//wDE//8AxP//AO///wCbuP8AAAD/AAAA/wCv0/8A6///AMH//wDE//8AxP//AMT//wDE//8AxP//AMP//wDP//8Ayf//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMf//wDX//8AgZn/AAAA/wAAAP8AAAD/AAUJ/wCVtP8A2P//AMb//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//AN7//wA/Vv8AAAD/AAAA/wAAAP8AAAD/AFt1/wDj//8Ax///AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDE//8Azv//AN///wBKYP8AAAD/AAAA/wBief8A4///AMn//wDE//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMX//wDB//8A1f//AOz//wA1Q/8AR1n/AO7//wDQ//8Awv//AMX//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMT//wDG//8Axv//AMT//wDF//8Axf//AMP//wDR//8Avef/AJ3J/wDW//8Az///AMH//wDF//8Axf//AMX//wDE//8Axv//AMb//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDK//8Aw///ANz//wDf//8Ax///AML//wDD//8A1f//ALfg/wCCqP8Ax/P/ANL//wDC//8Axf//AMX//wDF//8Awv//AMn//wDg//8A2P//AMH//wDP//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wA1PP8A3///AMr//wDu//8AfJn/AGmA/wDr//8Ayf//ANL//wC34f8Agqj/AMPv/wDR//8Aw///AMX//wDF//8Axf//AMH//wDR//8A4v//AGB4/wCTtf8A7P//AM3//wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ACIo/wDA6v8A+///AJy3/wAAAP8AAAD/AHeN/wD8//8At+P/AIGn/wDD7/8A0f//AMP//wDF//8Axf//AMX//wDC//8A0P//AO///wBkev8AAAD/AAUH/wCv0/8A+P//AMf//wAeKP8AAAD/AAAA/wMDA+wBAQHsAAAA/wAAAP8AKjP/AKnO/wBsgv8AAAD/AAAA/wAAAP8AAAD/AFVi/wCgy/8AxO7/ANH//wDD//8Axf//AMX//wDF//8Awv//ANP//wDX+v8ARVj/AAAA/wAAAP8AAAD/AAAB/wCatP8A7P//ACMu/wAAAP8AAAD/AQEB7AAAAOwAAAD/AAAA/wA4Q/8A8///AGd+/wAAAP8AAAD/AAAA/wAAAP8AQ1j/ANv//wDS//8Awv//AMX//wDF//8Axf//AMP//wDR//8Ax+//AJ/L/wAwQf8AAAD/AAAA/wAAAP8AAAD/AG+I/wCoyf8AHiX/AAAA/wAAAP8AAADsAwMD7AAAAP8AAAD/AC02/wDa//8A+P//AICW/wAAAP8AAAD/AGR6/wDt//8Az///AML//wDF//8Axf//AMX//wDD//8A0f//AMLu/wCAp/8Avur/AO7//wBMYf8AAAD/AAAA/wCbuf8A9v//AKXQ/wAWHP8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANT//wDP//8A7///AGd9/wBTZ/8A6P//AND//wDB//8Axf//AMX//wDF//8Aw///ANH//wDD7/8Agaf/ALfg/wDR//8A1f//AN3//wBHWv8Afpv/AO7//wDR//8A1///ACIs/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMn//wDH//8A2f//ANv//wDL//8Awv//AMX//wDF//8Axf//AML//wDS//8AxPH/AICn/wC24f8A1f//AMP//wDB//8Azv//ANz//wDY//8AxP//AM///wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMT//wDI//8AyP//AMT//wDF//8Axf//AMX//wDB//8Az///ANj//wCeyP8At+P/ANL//wDD//8Axf//AMX//wDE//8Ayf//AMf//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDF//8Awf//AND//wDt//8ARVj/AFVl/wD7//8Ayf//AMP//wDF//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMP//wDL//8A6f//AGJ5/wAAAP8AAAD/AHWL/wDr//8Ax///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//ANz//wBNZf8AAAD/AAAA/wAAAP8AAAD/AGd//wDh//8Axv//AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDI//8A2v//AGd8/wAAAP8AAAD/AAAA/wAAAP8Afpj/ANz//wDG//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMT//wDH//8A8P//AH6V/wAAAP8AAAD/AJe0/wDu//8Aw///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7QAAAP8AAAD/ADM7/wDd//8A0f//AMv//wDL//8Ay///AMv//wDL//8Ay///AMn//wDP//8A9///AGV+/wBogf8A/f//AMr//wDK//8Ay///AMv//wDL//8Ay///AMv//wDK//8A1v//ANH//wAhLP8AAAD/AAAA/wMDA+0AAADwAAAA/wAAAP8AMTn/AOf//wDe//8A1v//ANb//wDW//8A1v//ANb//wDW//8A1v//ANT//wDa//8A9P//AKTK/wC76P8A4f//ANb//wDW//8A1v//ANb//wDW//8A1v//ANX//wDj//8A2f//AB4o/wAAAP8AAAD/AAAA8AcHB+UAAAD/AAAA/wAHCf8AMTn/ADM6/wAwN/8AMDf/ADA3/wAwN/8AMDf/ADA3/wAwN/8AMDf/AC43/wA5QP8AKDL/ACAo/wA1Ov8ALzf/ADA3/wAwN/8AMDf/ADA3/wAwN/8ALzf/ADQ7/wAuNv8AAwT/AAAA/wAAAP8HBwflVVVVowAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/1VVVaOqqqobERER6gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8RERHqqqqqG6GhoQBeXl4dNzc3nA4ODuIAAADxAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAPENDQ3iNzc3nF5eXh2hoaEAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "div.row.d-sm-none + div + div",
-      uploadPath: "/upload",
-      needDoubanInfo: false,
-      search: {
-        path: "/browse",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          search_area: "{optionKey}",
-          search: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      description: {
-        selector: "#torrentDescription_releaseInfo"
-      },
-      imdb: {
-        selector: "#url"
-      },
-      mediaInfo: {
-        selector: "#torrentDescription_mediaInfo"
-      },
-      bdinfo: {
-        selector: "#torrentDescription_bdInfo"
-      },
-      screenshots: {
-        selector: "#torrentDescription_screenshots"
       }
     },
     SubHD: {
@@ -8150,6 +8016,23 @@
           catedu: "4",
           madfox: "5",
           other: "7"
+        }
+      }
+    },
+    TeamHD: {
+      url: "https://teamhd.org",
+      host: "teamhd.org",
+      siteType: "TeamHD",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC",
+      asSource: true,
+      asTarget: false,
+      seedDomSelector: "#details_hop",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse",
+        params: {
+          incldead: "0",
+          search: "{name}"
         }
       }
     },
@@ -8580,23 +8463,6 @@
         }
       }
     },
-    TeamHD: {
-      url: "https://teamhd.org",
-      host: "teamhd.org",
-      siteType: "TeamHD",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: false,
-      seedDomSelector: "#details_hop",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse",
-        params: {
-          incldead: "0",
-          search: "{name}"
-        }
-      }
-    },
     UHDBits: {
       url: "https://uhdbits.org",
       host: "uhdbits.org",
@@ -8786,147 +8652,6 @@
         selector: "#rc_select_12"
       }
     },
-    fearnopeer: {
-      url: "https://fearnopeer.com",
-      host: "fearnopeer.com",
-      siteType: "UNIT3D",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/torrents/create?category_id=1",
-      needDoubanInfo: true,
-      seedDomSelector: ".torrent__buttons+.panelV2",
-      search: {
-        path: "/torrents",
-        replaceKey: [
-          "tt",
-          ""
-        ],
-        params: {
-          name: "{name}",
-          imdbId: "{imdb}",
-          sortField: "size"
-        }
-      },
-      name: {
-        selector: "#title"
-      },
-      description: {
-        selector: "#bbcode-description"
-      },
-      imdb: {
-        selector: "#autoimdb"
-      },
-      tmdb: {
-        selector: "#autotmdb"
-      },
-      mediaInfo: {
-        selector: 'textarea[name="mediainfo"]'
-      },
-      anonymous: {
-        selector: '.form__group input[type="checkbox"][name="anon"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2"
-        }
-      },
-      videoType: {
-        selector: "#autotype",
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "12",
-          web: "4",
-          hdtv: "6",
-          dvd: "1",
-          dvdrip: "12",
-          other: ""
-        }
-      },
-      resolution: {
-        selector: "#autores",
-        map: {
-          "4320p": "11",
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "3",
-          "720p": "5",
-          "576p": "6",
-          "480p": "8"
-        }
-      }
-    },
-    iTS: {
-      url: "http://shadowthein.net",
-      host: "shadowthein.net",
-      siteType: "its",
-      asSource: false,
-      asTarget: true,
-      icon: "data:image/png;base64,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",
-      seedDomSelector: "h1~.line>tbody>tr:nth-child(2)",
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/browse.php",
-        params: {
-          incldead: 1,
-          search: "{imdb}",
-          search_in: "names",
-          sort: 5,
-          type: "desc"
-        }
-      },
-      name: {
-        selector: 'input[name="name"]'
-      },
-      imdb: {
-        selector: 'input[name="imdblink"]'
-      },
-      description: {
-        selector: 'textarea[name="descr"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="mediainfo"]'
-      },
-      tags: {
-        hdr: 'input[name="HDR10"]',
-        hdr10_plus: 'input[name="HDR10Plus"]',
-        dolby_vision: 'input[name="DolbyVision"]'
-      },
-      anonymous: {
-        selector: 'input[name="anonymous"][value="true"]'
-      },
-      category: {
-        selector: 'select[name="type"]',
-        map: {
-          movie: "68",
-          tv: "65",
-          concert: "61",
-          music: "6",
-          ebook: "26"
-        }
-      }
-    },
-    "nzbs.in": {
-      url: "https://nzbs.in",
-      host: "nzbs.in",
-      siteType: "nzb",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QATwB9ALSzxfhxAAAAB3RJTUUH5QQMAx4c9w3kIAAAA6xJREFUOMt1lM9rVFcUxz/nvDszieOYMUrGxAR/RU0VreBCUFIo7UIRUqEroUJLVyJ02x9QaKHrLtq/oKUUpKvSdV0VoRulBEG0JJpR44+aTExiMvPuPaeLN5lQ2x54D+65j885993v+crZz645/4ju0gUnQ9SpkHCB3DLMQTAQB4TivRnhXzDf3DaLHB6pcumtfYgIP/x6j9tzy2gmuNOD8r/ALs9RUkqc2Fdj6tQog+M7cHHezSO/XH/A9OwLyDJwR16Bhk2WI9284hwcrTJ1apTjxxt81emwps7nx3YylSDv3Ofu43VS7wcVUAG0B3PBXcgEdg2U+PDsOG+cGOZ5jDQ9Z94TC9GYPN7g/XMHGa4HsgzEpfsUWMWLAgJkRBp14eOLRzi6t455YixkvBeUDzTjoAZM4OieOh9fPMbueongEe0d2VEXBxGiJQ4M93PlwhH276pRDoqIUBI4Hyqcz8pk4kWulLGnsZXL70ywf2QL0SJO0WIIYiQpcWhvjbdf38nE2CC5wbV7OQ9XjLGqMDlWwgWuz0XmVpzRmjM5Eji8ZzvnTo9RuvGMO3OriIBcvnrPV2NgohE4s7ePTJU7C86NVomyRE7WE2utZRZXE82lyFJHKKVF1m/+xMulBXB43mrzvNVBRAhP/rxBa1XJZw2ZEYI4TR/gafU1tvc7z1S4df8FFRfWOhGLQifvMHv/MU8ePcQMREGl0Ka8+dGPLgJu4BF2bqvwyaWTfDc/xPXH4O40thpfninz/bTx2wPh9AhcmVjn66u3eLq0hoj0pBMqtRHEQUjgTq3ex67hBvZXiRUvdDW/bnz7B8wsBVZESJlTq1aIrrSjdIHFTQfFMTXcHHMnOkR3zCF1P3uZC7/PG6iCFrmeiHFMQLsWEBbtNn1a5VA2jmrGYKmfIMpudY5oQivGtpoytyDUvMPDFBBXRKAeKvSFosKGEtU1kHmZdjTWUyK5kQHJnVUzDg8KX5wOTGw3TIr8RrQt8TLltGOkHXPaMUfrNk7wBo/IabLGI1smx5g3ZSaVaXnG8Bbn08nAYCOw7IrjGLBiOQ+8TVPWadKmSZuAOI6jruCyOUTuuAnujgoM90MVw5KSKG5VETIE9WLaem4jPccohrqkwtSBjKODcGAAgijgXNgPx3Yo+waUssRNrxHpWe0rBiu0c2N6ZpGhWomhLSC5cPNusTckzlDVsQjTsx3aeexZ3n8arIjSWja++fk2Ilb07pvFpGt1LoAX4A3xbMTfU7u3vspnhj4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTJUMDM6MzA6MjcrMDA6MDBRcNLMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEyVDAzOjMwOjI3KzAwOjAwIC1qcAAAAABJRU5ErkJggg==",
-      asSource: false,
-      asTarget: false,
-      search: {
-        path: "/search/{name}",
-        params: {
-          t: -1,
-          ob: "size_desc"
-        }
-      }
-    },
     zimuku: {
       url: "http://zimuku.org",
       host: "zimuku.org",
@@ -9056,129 +8781,131 @@
   init_preact_shim();
 
   // src/i18n.json
+  var en_US = {
+    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
+    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
+    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
+    \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
+    \u83B7\u53D6\u5931\u8D25: "Request failed",
+    \u83B7\u53D6\u6210\u529F: "Data request successful",
+    \u8BF7\u6C42\u5931\u8D25: "Request failed",
+    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
+    ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
+    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
+    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
+    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
+    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
+    "\u8F6C\u6362\u4E2D...": "Converting...",
+    "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
+    "\u83B7\u53D6\u4E2D...": "Requesting...",
+    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
+    "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent may be prohibited, are you sure to continue?",
+    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
+    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
+    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
+    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
+    \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
+    \u5FEB\u901F\u68C0\u7D22: "Quick search",
+    \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
+    \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
+    \u4E00\u952E\u8F6C\u79CD: "Transfer to",
+    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
+    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
+    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
+    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
+    \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
+    "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
+    \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
+    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
+    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
+    \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "Remove the 'Upload screenshots to ptpimg' button",
+    \u4FDD\u5B58: "Save",
+    \u53D6\u6D88: "Cancel",
+    \u9519\u8BEF: "Error",
+    \u6210\u529F: "Success",
+    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
+    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
+    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
+    \u63D0\u793A: "Hint",
+    \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
+    \u65E0\u9700\u8F6C\u5B58: "No need to upload",
+    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
+    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
+    \u62F7\u8D1D: "Copy",
+    \u5DF2\u62F7\u8D1D: "Copied",
+    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
+    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link",
+    \u6279\u91CF\u68C0\u7D22: "Batch search",
+    \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "Open multiple search tabs at the same time",
+    \u8C46\u74E3\u914D\u7F6E: "Douban Config",
+    \u8C46\u74E3Cookie: "Douban Cookie",
+    \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
+    \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch"
+  };
+  var zh_CN = {
+    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
+    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
+    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
+    \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
+    \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
+    \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
+    \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
+    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
+    ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
+    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
+    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
+    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
+    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
+    "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
+    "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
+    "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
+    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
+    "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
+    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
+    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
+    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
+    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
+    \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
+    \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
+    \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
+    \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
+    \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
+    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
+    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
+    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
+    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
+    \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
+    "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
+    \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
+    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
+    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
+    \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
+    \u4FDD\u5B58: "\u4FDD\u5B58",
+    \u53D6\u6D88: "\u53D6\u6D88",
+    \u9519\u8BEF: "\u9519\u8BEF",
+    \u6210\u529F: "\u6210\u529F",
+    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
+    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
+    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
+    \u63D0\u793A: "\u63D0\u793A",
+    \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
+    \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
+    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
+    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
+    \u62F7\u8D1D: "\u62F7\u8D1D",
+    \u5DF2\u62F7\u8D1D: "\u5DF2\u62F7\u8D1D",
+    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
+    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5",
+    \u6279\u91CF\u68C0\u7D22: "\u6279\u91CF\u68C0\u7D22",
+    \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875",
+    \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
+    \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
+    \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
+    \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22"
+  };
   var i18n_default = {
-    en_US: {
-      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
-      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
-      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
-      \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
-      \u83B7\u53D6\u5931\u8D25: "Request failed",
-      \u83B7\u53D6\u6210\u529F: "Data request successful",
-      \u8BF7\u6C42\u5931\u8D25: "Request failed",
-      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
-      ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
-      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
-      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
-      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
-      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
-      "\u8F6C\u6362\u4E2D...": "Converting...",
-      "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
-      "\u83B7\u53D6\u4E2D...": "Requesting...",
-      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
-      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent may be prohibited, are you sure to continue?",
-      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
-      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
-      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
-      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
-      \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
-      \u5FEB\u901F\u68C0\u7D22: "Quick search",
-      \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
-      \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
-      \u4E00\u952E\u8F6C\u79CD: "Transfer to",
-      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
-      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
-      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
-      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
-      \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
-      "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
-      \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
-      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
-      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
-      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "Remove the 'Upload screenshots to ptpimg' button",
-      \u4FDD\u5B58: "Save",
-      \u53D6\u6D88: "Cancel",
-      \u9519\u8BEF: "Error",
-      \u6210\u529F: "Success",
-      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
-      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
-      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
-      \u63D0\u793A: "Hint",
-      \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
-      \u65E0\u9700\u8F6C\u5B58: "No need to upload",
-      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
-      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
-      \u62F7\u8D1D: "Copy",
-      \u5DF2\u62F7\u8D1D: "Copied",
-      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
-      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link",
-      \u6279\u91CF\u68C0\u7D22: "Batch search",
-      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "Open multiple search tabs at the same time",
-      \u8C46\u74E3\u914D\u7F6E: "Douban Config",
-      \u8C46\u74E3Cookie: "Douban Cookie",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch"
-    },
-    zh_CN: {
-      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
-      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
-      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
-      \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
-      \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
-      \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
-      \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
-      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
-      ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
-      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
-      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
-      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
-      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
-      "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
-      "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
-      "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
-      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
-      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
-      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
-      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
-      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
-      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
-      \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
-      \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
-      \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
-      \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
-      \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
-      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
-      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
-      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
-      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
-      \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
-      "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
-      \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
-      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
-      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
-      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
-      \u4FDD\u5B58: "\u4FDD\u5B58",
-      \u53D6\u6D88: "\u53D6\u6D88",
-      \u9519\u8BEF: "\u9519\u8BEF",
-      \u6210\u529F: "\u6210\u529F",
-      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
-      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
-      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
-      \u63D0\u793A: "\u63D0\u793A",
-      \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
-      \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
-      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
-      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
-      \u62F7\u8D1D: "\u62F7\u8D1D",
-      \u5DF2\u62F7\u8D1D: "\u5DF2\u62F7\u8D1D",
-      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
-      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5",
-      \u6279\u91CF\u68C0\u7D22: "\u6279\u91CF\u68C0\u7D22",
-      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875",
-      \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
-      \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22"
-    }
+    en_US,
+    zh_CN
   };
 
   // src/components/Notification.tsx
@@ -9271,9 +8998,6 @@
       _defineProperties(Constructor.prototype, protoProps);
     if (staticProps)
       _defineProperties(Constructor, staticProps);
-    Object.defineProperty(Constructor, "prototype", {
-      writable: false
-    });
     return Constructor;
   }
 
@@ -9283,7 +9007,7 @@
   // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
   init_preact_shim();
   function _setPrototypeOf(o3, p3) {
-    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o4, p4) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p4) {
       o4.__proto__ = p4;
       return o4;
     };
@@ -9302,9 +9026,6 @@
         configurable: true
       }
     });
-    Object.defineProperty(subClass, "prototype", {
-      writable: false
-    });
     if (superClass)
       _setPrototypeOf(subClass, superClass);
   }
@@ -9316,11 +9037,16 @@
   init_preact_shim();
   function _typeof(obj) {
     "@babel/helpers - typeof";
-    return _typeof = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(obj2) {
-      return typeof obj2;
-    } : function(obj2) {
-      return obj2 && typeof Symbol == "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
-    }, _typeof(obj);
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function _typeof3(obj2) {
+        return typeof obj2;
+      };
+    } else {
+      _typeof = function _typeof3(obj2) {
+        return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+      };
+    }
+    return _typeof(obj);
   }
 
   // node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
@@ -9345,7 +9071,7 @@
   // node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
   init_preact_shim();
   function _getPrototypeOf(o3) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf2(o4) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
       return o4.__proto__ || Object.getPrototypeOf(o4);
     };
     return _getPrototypeOf(o3);
@@ -9363,147 +9089,139 @@
   var t2;
   var u2;
   var r2;
-  var o2;
-  var i2 = 0;
-  var c2 = [];
-  var f2 = l.__b;
-  var e2 = l.__r;
-  var a2 = l.diffed;
-  var v2 = l.__c;
-  var l2 = l.unmount;
+  var o2 = 0;
+  var i2 = [];
+  var c2 = l.__b;
+  var f2 = l.__r;
+  var e2 = l.diffed;
+  var a2 = l.__c;
+  var v2 = l.unmount;
   function m2(t3, r3) {
-    l.__h && l.__h(u2, t3, i2 || r3), i2 = 0;
-    var o3 = u2.__H || (u2.__H = { __: [], __h: [] });
-    return t3 >= o3.__.length && o3.__.push({}), o3.__[t3];
+    l.__h && l.__h(u2, t3, o2 || r3), o2 = 0;
+    var i3 = u2.__H || (u2.__H = { __: [], __h: [] });
+    return t3 >= i3.__.length && i3.__.push({}), i3.__[t3];
   }
-  function d2(n2) {
-    return i2 = 1, p2(z2, n2);
+  function l2(n2) {
+    return o2 = 1, p2(w2, n2);
   }
   function p2(n2, r3, o3) {
     var i3 = m2(t2++, 2);
-    return i3.t = n2, i3.__c || (i3.__ = [o3 ? o3(r3) : z2(void 0, r3), function(n3) {
+    return i3.t = n2, i3.__c || (i3.__ = [o3 ? o3(r3) : w2(void 0, r3), function(n3) {
       var t3 = i3.t(i3.__[0], n3);
       i3.__[0] !== t3 && (i3.__ = [t3, i3.__[1]], i3.__c.setState({}));
     }], i3.__c = u2), i3.__;
   }
   function y2(r3, o3) {
     var i3 = m2(t2++, 3);
-    !l.__s && w2(i3.__H, o3) && (i3.__ = r3, i3.u = o3, u2.__H.__h.push(i3));
+    !l.__s && k2(i3.__H, o3) && (i3.__ = r3, i3.__H = o3, u2.__H.__h.push(i3));
   }
   function h2(r3, o3) {
     var i3 = m2(t2++, 4);
-    !l.__s && w2(i3.__H, o3) && (i3.__ = r3, i3.u = o3, u2.__h.push(i3));
+    !l.__s && k2(i3.__H, o3) && (i3.__ = r3, i3.__H = o3, u2.__h.push(i3));
   }
   function s2(n2) {
-    return i2 = 5, A2(function() {
+    return o2 = 5, d2(function() {
       return { current: n2 };
     }, []);
   }
   function _2(n2, t3, u3) {
-    i2 = 6, h2(function() {
-      return typeof n2 == "function" ? (n2(t3()), function() {
-        return n2(null);
-      }) : n2 ? (n2.current = t3(), function() {
-        return n2.current = null;
-      }) : void 0;
+    o2 = 6, h2(function() {
+      typeof n2 == "function" ? n2(t3()) : n2 && (n2.current = t3());
     }, u3 == null ? u3 : u3.concat(n2));
   }
-  function A2(n2, u3) {
+  function d2(n2, u3) {
     var r3 = m2(t2++, 7);
-    return w2(r3.__H, u3) ? (r3.o = n2(), r3.u = u3, r3.__h = n2, r3.o) : r3.__;
+    return k2(r3.__H, u3) && (r3.__ = n2(), r3.__H = u3, r3.__h = n2), r3.__;
   }
-  function F(n2, t3) {
-    return i2 = 8, A2(function() {
+  function A2(n2, t3) {
+    return o2 = 8, d2(function() {
       return n2;
     }, t3);
   }
-  function T2(n2) {
+  function F(n2) {
     var r3 = u2.context[n2.__c], o3 = m2(t2++, 9);
     return o3.c = n2, r3 ? (o3.__ == null && (o3.__ = true, r3.sub(u2)), r3.props.value) : n2.__;
   }
-  function q2(t3, u3) {
+  function T2(t3, u3) {
     l.useDebugValue && l.useDebugValue(u3 ? u3(t3) : t3);
   }
-  function b2() {
-    for (var t3; t3 = c2.shift(); )
+  function x2() {
+    var t3;
+    for (i2.sort(function(n2, t4) {
+      return n2.__v.__b - t4.__v.__b;
+    }); t3 = i2.pop(); )
       if (t3.__P)
         try {
-          t3.__H.__h.forEach(j2), t3.__H.__h.forEach(k2), t3.__H.__h = [];
+          t3.__H.__h.forEach(g2), t3.__H.__h.forEach(j2), t3.__H.__h = [];
         } catch (u3) {
           t3.__H.__h = [], l.__e(u3, t3.__v);
         }
   }
   l.__b = function(n2) {
-    u2 = null, f2 && f2(n2);
+    u2 = null, c2 && c2(n2);
   }, l.__r = function(n2) {
-    e2 && e2(n2), t2 = 0;
-    var o3 = (u2 = n2.__c).__H;
-    o3 && (r2 === u2 ? (o3.__h = [], u2.__h = [], o3.__.forEach(function(n3) {
-      n3.o = n3.u = void 0;
-    })) : (o3.__.forEach(function(n3) {
-      n3.u && (n3.__H = n3.u), n3.o && (n3.__ = n3.o), n3.o = n3.u = void 0;
-    }), o3.__h.forEach(j2), o3.__h.forEach(k2), o3.__h = [])), r2 = u2;
+    f2 && f2(n2), t2 = 0;
+    var r3 = (u2 = n2.__c).__H;
+    r3 && (r3.__h.forEach(g2), r3.__h.forEach(j2), r3.__h = []);
   }, l.diffed = function(t3) {
-    a2 && a2(t3);
-    var i3 = t3.__c;
-    i3 && i3.__H && i3.__H.__h.length && (c2.push(i3) !== 1 && o2 === l.requestAnimationFrame || ((o2 = l.requestAnimationFrame) || function(n2) {
+    e2 && e2(t3);
+    var o3 = t3.__c;
+    o3 && o3.__H && o3.__H.__h.length && (i2.push(o3) !== 1 && r2 === l.requestAnimationFrame || ((r2 = l.requestAnimationFrame) || function(n2) {
       var t4, u3 = function() {
-        clearTimeout(r3), g2 && cancelAnimationFrame(t4), setTimeout(n2);
+        clearTimeout(r3), b2 && cancelAnimationFrame(t4), setTimeout(n2);
       }, r3 = setTimeout(u3, 100);
-      g2 && (t4 = requestAnimationFrame(u3));
-    })(b2)), u2 = null, r2 = null;
+      b2 && (t4 = requestAnimationFrame(u3));
+    })(x2)), u2 = null;
   }, l.__c = function(t3, u3) {
     u3.some(function(t4) {
       try {
-        t4.__H && t4.__H.__.forEach(function(n2) {
-          n2.u && (n2.__H = n2.u), n2.o && (n2.__ = n2.o), n2.o = n2.u = void 0;
-        }), t4.__h.forEach(j2), t4.__h = t4.__h.filter(function(n2) {
-          return !n2.__ || k2(n2);
+        t4.__h.forEach(g2), t4.__h = t4.__h.filter(function(n2) {
+          return !n2.__ || j2(n2);
         });
       } catch (r3) {
         u3.some(function(n2) {
           n2.__h && (n2.__h = []);
         }), u3 = [], l.__e(r3, t4.__v);
       }
-    }), v2 && v2(t3, u3);
+    }), a2 && a2(t3, u3);
   }, l.unmount = function(t3) {
-    l2 && l2(t3);
+    v2 && v2(t3);
     var u3, r3 = t3.__c;
     r3 && r3.__H && (r3.__H.__.forEach(function(n2) {
       try {
-        j2(n2);
+        g2(n2);
       } catch (n3) {
         u3 = n3;
       }
     }), u3 && l.__e(u3, r3.__v));
   };
-  var g2 = typeof requestAnimationFrame == "function";
-  function j2(n2) {
+  var b2 = typeof requestAnimationFrame == "function";
+  function g2(n2) {
     var t3 = u2, r3 = n2.__c;
     typeof r3 == "function" && (n2.__c = void 0, r3()), u2 = t3;
   }
-  function k2(n2) {
+  function j2(n2) {
     var t3 = u2;
     n2.__c = n2.__(), u2 = t3;
   }
-  function w2(n2, t3) {
+  function k2(n2, t3) {
     return !n2 || n2.length !== t3.length || t3.some(function(t4, u3) {
       return t4 !== n2[u3];
     });
   }
-  function z2(n2, t3) {
+  function w2(n2, t3) {
     return typeof t3 == "function" ? t3(n2) : t3;
   }
 
   // node_modules/preact/compat/dist/compat.module.js
   init_preact_module();
   init_preact_module();
-  function C2(n2, t3) {
+  function S2(n2, t3) {
     for (var e3 in t3)
       n2[e3] = t3[e3];
     return n2;
   }
-  function S2(n2, t3) {
+  function C2(n2, t3) {
     for (var e3 in n2)
       if (e3 !== "__source" && !(e3 in t3))
         return true;
@@ -9518,7 +9236,7 @@
   function g3(n2, t3) {
     function e3(n3) {
       var e4 = this.props.ref, r4 = e4 == n3.ref;
-      return !r4 && e4 && (e4.call ? e4(null) : e4.current = null), t3 ? !t3(this.props, n3) || !r4 : S2(this.props, n3);
+      return !r4 && e4 && (e4.call ? e4(null) : e4.current = null), t3 ? !t3(this.props, n3) || !r4 : C2(this.props, n3);
     }
     function r3(t4) {
       return this.shouldComponentUpdate = e3, v(n2, t4);
@@ -9526,17 +9244,17 @@
     return r3.displayName = "Memo(" + (n2.displayName || n2.name) + ")", r3.prototype.isReactComponent = true, r3.__f = true, r3;
   }
   (E.prototype = new _()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n2, t3) {
-    return S2(this.props, n2) || S2(this.state, t3);
+    return C2(this.props, n2) || C2(this.state, t3);
   };
   var w3 = l.__b;
   l.__b = function(n2) {
     n2.type && n2.type.__f && n2.ref && (n2.props.ref = n2.ref, n2.ref = null), w3 && w3(n2);
   };
   var R = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function x2(n2) {
-    function t3(t4) {
-      var e3 = C2({}, t4);
-      return delete e3.ref, n2(e3, t4.ref || null);
+  function x3(n2) {
+    function t3(t4, e3) {
+      var r3 = S2({}, t4);
+      return delete r3.ref, n2(r3, (e3 = t4.ref || e3) && (typeof e3 != "object" || "current" in e3) ? e3 : null);
     }
     return t3.$$typeof = R, t3.render = t3, t3.prototype.isReactComponent = t3.__f = true, t3.displayName = "ForwardRef(" + (n2.displayName || n2.name) + ")", t3;
   }
@@ -9552,13 +9270,13 @@
     return t3[0];
   }, toArray: A };
   var A3 = l.__e;
-  l.__e = function(n2, t3, e3, r3) {
+  l.__e = function(n2, t3, e3) {
     if (n2.then) {
-      for (var u3, o3 = t3; o3 = o3.__; )
-        if ((u3 = o3.__c) && u3.__c)
-          return t3.__e == null && (t3.__e = e3.__e, t3.__k = e3.__k), u3.__c(n2, t3);
+      for (var r3, u3 = t3; u3 = u3.__; )
+        if ((r3 = u3.__c) && r3.__c)
+          return t3.__e == null && (t3.__e = e3.__e, t3.__k = e3.__k), r3.__c(n2, t3);
     }
-    A3(n2, t3, e3, r3);
+    A3(n2, t3, e3);
   };
   var O2 = l.unmount;
   function L2() {
@@ -9610,8 +9328,8 @@
         for (r3.setState({ __e: r3.__b = null }); t4 = r3.t.pop(); )
           t4.forceUpdate();
       }
-    }, f3 = t3.__h === true;
-    r3.__u++ || f3 || r3.setState({ __e: r3.__b = r3.__v.__k[0] }), n2.then(i3, i3);
+    }, c3 = t3.__h === true;
+    r3.__u++ || c3 || r3.setState({ __e: r3.__b = r3.__v.__k[0] }), n2.then(i3, i3);
   }, L2.prototype.componentWillUnmount = function() {
     this.t = [];
   }, L2.prototype.render = function(n2, t3) {
@@ -9621,7 +9339,7 @@
         this.__v.__k[0] = function n3(t4, e4, r4) {
           return t4 && (t4.__c && t4.__c.__H && (t4.__c.__H.__.forEach(function(n4) {
             typeof n4.__c == "function" && n4.__c();
-          }), t4.__c.__H = null), (t4 = C2({}, t4)).__c != null && (t4.__c.__P === r4 && (t4.__c.__P = e4), t4.__c = null), t4.__k = t4.__k && t4.__k.map(function(t5) {
+          }), t4.__c.__H = null), (t4 = S2({}, t4)).__c != null && (t4.__c.__P === r4 && (t4.__c.__P = e4), t4.__c = null), t4.__k = t4.__k && t4.__k.map(function(t5) {
             return n3(t5, e4, r4);
           })), t4;
         }(this.__b, e3, r3.__O = r3.__P);
@@ -9659,8 +9377,7 @@
     } }), S(v(D2, { context: t3.context }, n2.__v), t3.l)) : t3.l && t3.componentWillUnmount();
   }
   function W(n2, t3) {
-    var e3 = v(I2, { __v: n2, i: t3 });
-    return e3.containerInfo = t3, e3;
+    return v(I2, { __v: n2, i: t3 });
   }
   (M2.prototype = new _()).__e = function(n2) {
     var t3 = this, e3 = U(t3.__v), r3 = t3.o.get(n2);
@@ -9683,10 +9400,10 @@
       T3(n2, e3, t3);
     });
   };
-  var P2 = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.element") || 60103;
-  var V = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|marker(?!H|W|U)|overline|paint|stop|strikethrough|stroke|text(?!L)|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
-  var j3 = typeof document != "undefined";
-  var z3 = function(n2) {
+  var j3 = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.element") || 60103;
+  var P2 = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|marker(?!H|W|U)|overline|paint|stop|strikethrough|stroke|text(?!L)|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
+  var V = typeof document != "undefined";
+  var z2 = function(n2) {
     return (typeof Symbol != "undefined" && typeof Symbol() == "symbol" ? /fil|che|rad/i : /fil|che|ra/i).test(n2);
   };
   function B2(n2, t3, e3) {
@@ -9708,11 +9425,11 @@
   function Y() {
     return this.cancelBubble;
   }
-  function q3() {
+  function q2() {
     return this.defaultPrevented;
   }
   l.event = function(n2) {
-    return H2 && (n2 = H2(n2)), n2.persist = Z, n2.isPropagationStopped = Y, n2.isDefaultPrevented = q3, n2.nativeEvent = n2;
+    return H2 && (n2 = H2(n2)), n2.persist = Z, n2.isPropagationStopped = Y, n2.isDefaultPrevented = q2, n2.nativeEvent = n2;
   };
   var G;
   var J = { configurable: true, get: function() {
@@ -9725,7 +9442,7 @@
       var u3 = t3.indexOf("-") === -1;
       for (var o3 in r3 = {}, e3) {
         var i3 = e3[o3];
-        j3 && o3 === "children" && t3 === "noscript" || o3 === "value" && "defaultValue" in e3 && i3 == null || (o3 === "defaultValue" && "value" in e3 && e3.value == null ? o3 = "value" : o3 === "download" && i3 === true ? i3 = "" : /ondoubleclick/i.test(o3) ? o3 = "ondblclick" : /^onchange(textarea|input)/i.test(o3 + t3) && !z3(e3.type) ? o3 = "oninput" : /^onfocus$/i.test(o3) ? o3 = "onfocusin" : /^onblur$/i.test(o3) ? o3 = "onfocusout" : /^on(Ani|Tra|Tou|BeforeInp|Compo)/.test(o3) ? o3 = o3.toLowerCase() : u3 && V.test(o3) ? o3 = o3.replace(/[A-Z0-9]/, "-$&").toLowerCase() : i3 === null && (i3 = void 0), /^oninput/i.test(o3) && (o3 = o3.toLowerCase(), r3[o3] && (o3 = "oninputCapture")), r3[o3] = i3);
+        V && o3 === "children" && t3 === "noscript" || o3 === "value" && "defaultValue" in e3 && i3 == null || (o3 === "defaultValue" && "value" in e3 && e3.value == null ? o3 = "value" : o3 === "download" && i3 === true ? i3 = "" : /ondoubleclick/i.test(o3) ? o3 = "ondblclick" : /^onchange(textarea|input)/i.test(o3 + t3) && !z2(e3.type) ? o3 = "oninput" : /^onfocus$/i.test(o3) ? o3 = "onfocusin" : /^onblur$/i.test(o3) ? o3 = "onfocusout" : /^on(Ani|Tra|Tou|BeforeInp)/.test(o3) ? o3 = o3.toLowerCase() : u3 && P2.test(o3) ? o3 = o3.replace(/[A-Z0-9]/, "-$&").toLowerCase() : i3 === null && (i3 = void 0), r3[o3] = i3);
       }
       t3 == "select" && r3.multiple && Array.isArray(r3.value) && (r3.value = A(e3.children).forEach(function(n3) {
         n3.props.selected = r3.value.indexOf(n3.props.value) != -1;
@@ -9733,7 +9450,7 @@
         n3.props.selected = r3.multiple ? r3.defaultValue.indexOf(n3.props.value) != -1 : r3.defaultValue == n3.props.value;
       })), n2.props = r3, e3.class != e3.className && (J.enumerable = "className" in e3, e3.className != null && (r3.class = e3.className), Object.defineProperty(r3, "className", J));
     }
-    n2.$$typeof = P2, K && K(n2);
+    n2.$$typeof = j3, K && K(n2);
   };
   var Q = l.__r;
   l.__r = function(n2) {
@@ -9746,7 +9463,7 @@
     return v.bind(null, n2);
   }
   function en(n2) {
-    return !!n2 && n2.$$typeof === P2;
+    return !!n2 && n2.$$typeof === j3;
   }
   function rn(n2) {
     return en(n2) ? B.apply(null, arguments) : n2;
@@ -9760,10 +9477,10 @@
   var ln = function(n2, t3) {
     return n2(t3);
   };
-  var fn = function(n2, t3) {
+  var cn = function(n2, t3) {
     return n2(t3);
   };
-  var compat_module_default = { useState: d2, useReducer: p2, useEffect: y2, useLayoutEffect: h2, useRef: s2, useImperativeHandle: _2, useMemo: A2, useCallback: F, useContext: T2, useDebugValue: q2, version: "17.0.2", Children: k3, render: B2, hydrate: $3, unmountComponentAtNode: un, createPortal: W, createElement: v, createContext: D, createFactory: tn, cloneElement: rn, createRef: p, Fragment: d, isValidElement: en, findDOMNode: on, Component: _, PureComponent: E, memo: g3, forwardRef: x2, flushSync: fn, unstable_batchedUpdates: ln, StrictMode: d, Suspense: L2, SuspenseList: M2, lazy: F2, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: X };
+  var compat_module_default = { useState: l2, useReducer: p2, useEffect: y2, useLayoutEffect: h2, useRef: s2, useImperativeHandle: _2, useMemo: d2, useCallback: A2, useContext: F, useDebugValue: T2, version: "17.0.2", Children: k3, render: B2, hydrate: $3, unmountComponentAtNode: un, createPortal: W, createElement: v, createContext: D, createFactory: tn, cloneElement: rn, createRef: p, Fragment: d, isValidElement: en, findDOMNode: on, Component: _, PureComponent: E, memo: g3, forwardRef: x3, flushSync: cn, unstable_batchedUpdates: ln, StrictMode: d, Suspense: L2, SuspenseList: M2, lazy: F2, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: X };
 
   // node_modules/react-dom/index.mjs
   init_preact_shim();
@@ -10886,7 +10603,7 @@
   // node_modules/rc-notification/es/useNotification.js
   function useNotification(notificationInstance) {
     var createdRef = s2({});
-    var _React$useState = d2([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
+    var _React$useState = l2([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
     function notify(noticeProps) {
       notificationInstance.add(noticeProps, function(div, props) {
         var key = props.key;
@@ -13273,16 +12990,6 @@ ${description}`;
         jQuery(currentSiteInfo.screenshots.selector).val(info.screenshots.join("\n"));
       }
     },
-    HDAI: {
-      afterHandler: (info) => {
-        const { doubanUrl, imdbUrl, isBluray, screenshots } = info;
-        jQuery(currentSiteInfo.imdb.selector).val(doubanUrl || imdbUrl);
-        jQuery(currentSiteInfo.screenshots.selector).val(screenshots.join("\n"));
-        if (isBluray) {
-          jQuery('input[type="checkbox"][name="tag[o]"]').attr("checked", "true");
-        }
-      }
-    },
     HDU: {
       afterHandler: (info) => {
         let videoTypeValue = "";
@@ -13450,10 +13157,6 @@ ${description}`;
         const matchValue = formateTeamName || teamConfig.map.other;
         if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === "BTSCHOOL") {
           jQuery(teamConfig.selector).val(teamConfig.map.hdbint);
-          return;
-        }
-        if (CURRENT_SITE_NAME === "HDAI" && !formateTeamName) {
-          jQuery('input[name="team"]').val(teamName);
           return;
         }
         if (CURRENT_SITE_NAME === "UHDBits") {
@@ -16198,7 +15901,7 @@ ${extraScreenshot}`;
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       videoTypeKey = "encode";
     }
-    if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome|HDZone/i)) {
+    if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDZone/i)) {
       videoTypeKey = "\u5A92\u4ECB";
     }
     if (CURRENT_SITE_NAME.match(/HDFans/)) {
@@ -16236,7 +15939,7 @@ ${extraScreenshot}`;
     if (key.match(/大小/)) {
       regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
     }
-    if (CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice|PuTao/) && key.match(/类型/)) {
+    if (CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|SoulVoice|PuTao/) && key.match(/类型/)) {
       regStr = `(${key}):\\s?([^\\s]+)?`;
     }
     if (CURRENT_SITE_NAME === "PTer" && key.match(/类型|地区/)) {
@@ -17694,9 +17397,6 @@ ${description}`;
       } else if (CURRENT_SITE_NAME === "Bdc") {
         jQuery("#tsstac").val(imdbParam);
         jQuery("#search_type").val(searchType);
-      } else if (CURRENT_SITE_NAME === "HDAI") {
-        jQuery('input[name="keyword"]').val(imdbParam || nameParam);
-        jQuery('select[name="keyword_area"]').val(searchType);
       } else if (CURRENT_SITE_NAME === "PTN") {
         jQuery("#movieimdb").val(imdbParam);
         jQuery("#moviename").val(nameParam);
@@ -18323,10 +18023,10 @@ tr.pad[id*="torrent_"]{
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   };
   var Douban = () => {
-    const [btnText, setBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
-    const [bookBtnText, setBookBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [searchValue, setSearchValue] = d2("");
+    const [btnText, setBtnText] = l2("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
+    const [bookBtnText, setBookBtnText] = l2("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
+    const [btnDisable, setBtnDisable] = l2(false);
+    const [searchValue, setSearchValue] = l2("");
     const doubanClosed = GM_getValue("easy-seed.douban-closed") || "";
     const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
     const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) && !doubanClosed;
@@ -18446,11 +18146,11 @@ tr.pad[id*="torrent_"]{
   // src/components/Transfer.tsx
   init_preact_shim();
   var Transfer = () => {
-    const [imgHost, setImgHost] = d2("imgbox");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [btnText, setBtnText] = d2("\u8F6C\u7F29\u7565\u56FE");
-    const [progress, setProgress] = d2(-1);
-    const [imgList, setImgList] = d2([]);
+    const [imgHost, setImgHost] = l2("imgbox");
+    const [btnDisable, setBtnDisable] = l2(false);
+    const [btnText, setBtnText] = l2("\u8F6C\u7F29\u7565\u56FE");
+    const [progress, setProgress] = l2(-1);
+    const [imgList, setImgList] = l2([]);
     const getThumbnailImgs = async () => {
       var _a3, _b2, _c;
       try {
@@ -18585,12 +18285,12 @@ tr.pad[id*="torrent_"]{
   // src/components/UploadImg.tsx
   init_preact_shim();
   var UploadImg = () => {
-    const [selectHost, setSelectHost] = d2("ptpimg");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [btnText, setBtnText] = d2("\u8F6C\u5B58\u622A\u56FE");
-    const [canCopy, setCanCopy] = d2(false);
-    const [screenBBCode, setScreenBBCode] = d2([]);
-    const [copyText, setCopyText] = d2("\u62F7\u8D1D");
+    const [selectHost, setSelectHost] = l2("ptpimg");
+    const [btnDisable, setBtnDisable] = l2(false);
+    const [btnText, setBtnText] = l2("\u8F6C\u5B58\u622A\u56FE");
+    const [canCopy, setCanCopy] = l2(false);
+    const [screenBBCode, setScreenBBCode] = l2([]);
+    const [copyText, setCopyText] = l2("\u62F7\u8D1D");
     const uploadScreenshotsToAnother = async () => {
       var _a3;
       const screenshots = TORRENT_INFO.screenshots;
@@ -19060,8 +18760,8 @@ ${screenBBcodeArray.join("")}`;
     const featureList = getFeatureList();
     const siteList = getSiteSetList();
     const { closePanel } = props;
-    const [ptpImgApiKey, setPtpImgApiKey] = d2(getValue("easy-seed.ptp-img-api-key", false) || "");
-    const [doubanCookie, setDoubanCookie] = d2(getValue("easy-seed.douban-cookie", false) || "");
+    const [ptpImgApiKey, setPtpImgApiKey] = l2(getValue("easy-seed.ptp-img-api-key", false) || "");
+    const [doubanCookie, setDoubanCookie] = l2(getValue("easy-seed.douban-cookie", false) || "");
     const saveSetting = () => {
       const targetSitesEnabled = [];
       const searchSitesEnabled = [];
@@ -19196,7 +18896,7 @@ ${screenBBcodeArray.join("")}`;
   // src/components/Container.tsx
   var Container = () => {
     var _a3, _b2;
-    const [settingPanelOpen, setSettingPanelOpen] = d2(false);
+    const [settingPanelOpen, setSettingPanelOpen] = l2(false);
     const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || ((_a3 = CURRENT_SITE_NAME) == null ? void 0 : _a3.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
     const isHDB = CURRENT_SITE_NAME === "HDBits";
     const baseTitleClass = ["title-td"];
