@@ -107,6 +107,8 @@ export const SITE_OPERATIONS = {
             }
           }
         });
+      } else if (info.sourceSite === 'RED') {
+        description = description.replace(/\[#\]/g, '[*]');
       }
       $('#torrent').on('change', () => {
         $(currentSiteInfo.name.selector).val(info.title);
