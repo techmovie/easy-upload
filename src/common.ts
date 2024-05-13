@@ -3,7 +3,7 @@
 import {
   CURRENT_SITE_NAME, EUROPE_LIST, TMDB_API_KEY,
   TMDB_API_URL, PT_GEN_API,
-  DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, USE_CHINESE,
+  DOUBAN_SUGGEST_API, CURRENT_SITE_INFO, BROWSER_LANGUAGE,
   TORRENT_INFO, DOUBAN_MOBILE_API,
 } from './const';
 import i18nConfig from './i18n.json';
@@ -1473,9 +1473,9 @@ const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean =
   }
 };
 
-const $t = (key:string) => {
-  const languageKey = USE_CHINESE ? 'zh_CN' : 'en_US';
-  return i18nConfig[languageKey][key as keyof typeof i18nConfig.zh_CN] || key;
+const $t = (key: string) => {
+  const languageKey = BROWSER_LANGUAGE as 'en' | 'zh' | 'ko';
+  return i18nConfig[languageKey][key as keyof typeof i18nConfig[typeof languageKey]] || key;
 };
 
 const urlToFile = async (url: string): Promise<File> => {

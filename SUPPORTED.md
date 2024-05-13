@@ -25,7 +25,6 @@
 |    GPW     |            ✅             |           ✅            |
 | HaresClub  |            ✅             |           ✅            |
 |  HD4FANS   |            ✅             |           ✅            |
-|    HDAI    |            ✅             |           ✅            |
 |   HDArea   |            ✅             |           ✅            |
 |  HDAtmos   |            ❌             |           ✅            |
 |   HDBits   |            ✅             |           ✅            |
@@ -52,7 +51,6 @@
 |  OurBits   |            ✅             |           ✅            |
 | PrivateHD  |            ✅             |           ❌            |
 |   PTHome   |            ✅             |           ✅            |
-|   PTMSG    |            ✅             |           ✅            |
 |    PTN     |            ❌             |           ✅            |
 |    PTP     |            ✅             |           ✅            |
 |   PTSBAO   |            ✅             |           ✅            |

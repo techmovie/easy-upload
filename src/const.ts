@@ -46,7 +46,8 @@ const DOUBAN_MOBILE_API = 'https://m.douban.com/rexxar/api/v2';
 const PT_GEN_API = 'https://media.pttool.workers.dev';
 const TMDB_API_URL = 'https://api.tmdb.org';
 const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
-const USE_CHINESE = /zh|zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
+const BROWSER_LANGUAGE = navigator.language.toLowerCase().split('-')[0];
+
 type SiteName = keyof typeof PT_SITE;
 const getSiteName = (host:string) => {
   let siteName = '' as SiteName|'';
@@ -101,5 +102,5 @@ export {
   HDB_TEAM,
   DOUBAN_SUGGEST_API,
   SORTED_SITE_KEYS,
-  USE_CHINESE,
+  BROWSER_LANGUAGE,
 };
