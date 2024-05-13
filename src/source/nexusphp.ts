@@ -265,7 +265,7 @@ const getMetaInfo = (metaInfo:string) => {
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     videoTypeKey = 'encode';
   }
-  if (CURRENT_SITE_NAME.match(/TLF|HDAI|HDHome|HDZone/i)) {
+  if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDZone/i)) {
     videoTypeKey = '媒介';
   }
   if (CURRENT_SITE_NAME.match(/HDFans/)) {
@@ -302,7 +302,7 @@ const getMetaValue = (key:string, metaInfo:string) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|HDAI|SoulVoice|PuTao/)) && key.match(/类型/)) {
+  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|SoulVoice|PuTao/)) && key.match(/类型/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {

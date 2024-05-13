@@ -201,17 +201,6 @@ export const SITE_OPERATIONS = {
       $(currentSiteInfo.screenshots.selector).val(info.screenshots.join('\n'));
     },
   },
-  HDAI: {
-    afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      const { doubanUrl, imdbUrl, isBluray, screenshots } = info;
-      $(currentSiteInfo.imdb.selector).val((doubanUrl || imdbUrl) as string);
-      $(currentSiteInfo.screenshots.selector).val(screenshots.join('\n'));
-      if (isBluray) {
-        $('input[type="checkbox"][name="tag[o]"]').attr('checked', 'true');
-      }
-    },
-
-  },
   HDU: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       let videoTypeValue = '';

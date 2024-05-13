@@ -65,9 +65,6 @@ const userScriptComment = `// ==UserScript==
 // @match        https://*/details.php?id=*
 // @match        https://totheglory.im/t/*
 // @match        https://beyond-hd.me/torrents/*
-// @match        https://blutopia.xyz/torrents/*
-// @match        https://blutopia.xyz/torrents?*
-// @match        https://blutopia.xyz/upload/*
 // @match        https://blutopia.cc/torrents/*
 // @match        https://blutopia.cc/torrents?*
 // @match        https://blutopia.cc/upload/*
@@ -80,8 +77,6 @@ const userScriptComment = `// ==UserScript==
 // @match        https://ptpimg.me/*
 // @match        https://*/upload*
 // @match        http://*/upload*
-// @match        https://www.hd.ai/Torrents.upload
-// @match        https://www.hd.ai/Torrents.index?*
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*

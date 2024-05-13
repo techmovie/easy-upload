@@ -46,10 +46,6 @@ export default class ExportHelper {
         $(teamConfig.selector).val(teamConfig.map.hdbint);
         return;
       }
-      if (CURRENT_SITE_NAME === 'HDAI' && !formateTeamName) {
-        $('input[name="team"]').val(teamName);
-        return;
-      }
       if (CURRENT_SITE_NAME === 'UHDBits') {
         $('#team').val(teamName === 'other' ? 'Unknown' : teamName);
         return;
