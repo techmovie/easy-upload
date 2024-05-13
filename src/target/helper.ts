@@ -83,7 +83,7 @@ export default class ExportHelper {
       chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : '';
     }
     if (chineseName === '' && subtitle !== '' && subtitle !== undefined) {
-      chineseName = this.info?.subtitle?.replaceAll(/【|】.*/g, '').split('/')?.[0] ?? '';
+      chineseName = this.info?.subtitle?.replace(/【|】.*/g, '').split('/')?.[0] ?? '';
     }
     return chineseName.trim();
   }

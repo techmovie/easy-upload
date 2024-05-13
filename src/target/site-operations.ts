@@ -90,7 +90,7 @@ export const SITE_OPERATIONS = {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let { description, screenshots } = info;
       const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
-      description = description.replaceAll(/\[\/?(center|code)\]/g, '');
+      description = description.replace(/\[\/?(center|code)\]/g, '');
       if (info.sourceSite === 'PTP') {
         description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
         description = filterEmptyTags(description);
