@@ -7,20 +7,10 @@ asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(6)'
 search:
-  path: /torrents.php
-  imdbOptionKey: '4'
-  nameOptionKey: '0'
+  path: /browse/movie
+  replaceKey: ['tt', 'https://www.imdb.com/title/tt']
   params:
-    incldead: '0'
-    search_area: '{optionKey}'
-    search: '{imdb}'
-    sort: '5'
-    type: desc
-  result:
-    list: '.torrents>tbody>tr'
-    url: '.torrenttr .torrentname td a[href*="details.php?id="]'
-    name: '.torrenttr .torrentname td a[href*="details.php?id="]'
-    size: 'td:nth-child(5)'
+    keyword: '{imdb}'
 name:
   selector: '#name'
 subtitle:
