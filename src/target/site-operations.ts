@@ -111,22 +111,18 @@ export const SITE_OPERATIONS = {
         description = description.replace(/\[#\]/g, '[*]');
       }
       $('#torrent').on('change', () => {
-        $(currentSiteInfo.name.selector).val(info.title);
-        if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.subtitle);
+        if (info.category !== 'music') {
+          $(currentSiteInfo.name.selector).val(info.title);
+          if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.subtitle);
+        } else {
+          $(currentSiteInfo.name.selector).val(info.subtitle);
+          if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.title);
+        }
       });
 
       info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
 
       return description;
-    },
-    titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      if (info.category === 'music') {
-        const { title, subtitle } = info;
-        // 交换
-        info.subtitle = title;
-        if (subtitle !== undefined)info.title = subtitle;
-      }
-      return info;
     },
   },
   SpeedApp: {
