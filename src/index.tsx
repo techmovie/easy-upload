@@ -65,6 +65,25 @@ if (CURRENT_SITE_NAME) {
       app.setAttribute('class', 'card-body card');
       div.appendChild(app);
       refNode?.parentNode?.insertBefore(div, refNode);
+    } else if (CURRENT_SITE_NAME === 'MTeam') {
+      const targetNode = document.getElementById('root');
+      const config = { childList: true, subtree: true };
+      const observer = new MutationObserver((mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            const targetElement = $(currentSiteInfo.seedDomSelector)[0];
+            if (targetElement) {
+              observer.disconnect();
+              refNode = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
+              Array.from(app.childNodes).forEach(child => {
+                refNode?.parentNode?.insertBefore(child, refNode);
+              });
+              break;
+            }
+          }
+        }
+      });
+      observer.observe(targetNode as HTMLElement, config);
     } else {
       Array.from(app.childNodes).forEach(child => {
         refNode?.parentNode?.insertBefore(child, refNode);

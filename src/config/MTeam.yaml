@@ -1,11 +1,11 @@
 url: 'https://kp.m-team.cc'
 host: m-team.cc
-siteType: NexusPHP
+siteType: MTeam
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABdFBMVEUAAAACAgCCajIDAgEHBgImHw5XSCFcSyNTRCAeGAtpVihSQx9yXSxaSSJxXStZSSKxkUR9ZzCafjvNqE+TeDihhD6niUAdFwsAAAAGBQJ3Yi46MBYAAAAHBQJqVyhmVCcAAAAAAAA1LBSGbjMAAAAgGwx1YC0AAAAAAABENxqNdDYAAAAnIA9NPx0IBwMzKROmiUBSQx8IBgMaFQqCajLOqU86MBa9m0lEOBqSeDhyXStsWSlVRSAuJhJrWClxXCtmVCcjHQ1kUiZvWyoqIxBVRiByXixmVCckHg7rwFruw1zvxFzjulf0yV72yl/uw1v0yF7tw1v1yV74zGD3y1/3yl/1yV/4y1/5zGDxxl3lvFjku1jwxVzIpE3qwFrWsFL5zWDCn0vft1bHpE3MqE/Wr1LvxVz4zF/ctVXet1ZKPBzas1Tyx11ZSSK4l0f6zWDdtlVJPBzYsVNYSCK2lUbetlVIOxvXsFNXSCG1lEXpv1r///+72WvcAAAASXRSTlMAAAAAAKvo6uaQ+OL75/vn++v2/vX5+ogrXOazQ1/e2RsBoO85geUyDrfyRI3Hb6f5y2GA7P79/vz9+/nkwfn7+e35++73+/ejS5QV5gAAAAFiS0dEe0/StfwAAAAHdElNRQflBAoGJSzOxqaDAAAA40lEQVQY02NgZWNHAxycDFyeXqjA24ebgcfXDw348zLwBaALBvKTJhjkFxwSHBoU5hceEREaBFMZKSAoFBXq5ycsIhodAhUMFxOXkJSKCY6VlpGViwuFCEbKKzAoKsUnKKswMqkmRkAEA9TUmTU0kxK0tFkUdZKhgiEpunr6Bn4hqYZGxiZpMNvTTc3M/fyCQjIsLCPh7gzJzMoOCfLzy8nNy4c7KaSgsCgE6OzI4pIIP9IErUCCpWiC1pEBAUEZZeV+AQEB3hWVIQG+VTYMtnZ89nwOjk5W9vZ8zi6ubvZ87h4AngBo3AG4MQYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDY6Mzc6NDQrMDA6MDDepEzfAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA2OjM3OjQ0KzAwOjAwr/n0YwAAAABJRU5ErkJggg==
 asSource: true
 asTarget: true
-uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(6)'
+uploadPath: /upload
+seedDomSelector: '.detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)'
 search:
   path: /browse/movie
   replaceKey: ['tt', 'https://www.imdb.com/title/tt']
@@ -14,17 +14,21 @@ search:
 name:
   selector: '#name'
 subtitle:
-  selector: 'input[name="small_descr"]'
+  selector: '#smallDescr'
 description:
   selector: '#descr'
+mediainfo:
+  selector: '#mediainfo'
 imdb:
-  selector: 'input[name="url"][type="text"]'
+  selector: '#imdb'
+douban:
+  selector: '#douban'
 tags:
-  chinese_audio: '#l_dub'
-  diy: '#l_diy'
-  chinese_subtitle: '#l_sub'
+  chinese_audio: 'input[value="dub"]'
+  diy: 'input[value="diy"]'
+  chinese_subtitle: 'input[value="sub"]'
 category:
-  selector: '#browsecat'
+  selector: '#category'
   map:
     movie:
       - '401'
@@ -52,7 +56,7 @@ category:
     magazine: '427'
     audioBook: '427'
 videoCodec:
-  selector: 'select[name="codec_sel"]'
+  selector: '#videoCodec'
   map:
     h264: '1'
     hevc: '16'
@@ -92,7 +96,7 @@ videoType:
       - '403'
     other: ''
 resolution:
-  selector: 'select[name="standard_sel"]'
+  selector: '#standard'
   map:
     2160p:
       - '6'
@@ -133,9 +137,7 @@ team:
   selector: 'select[name="team_sel"]'
   map:
     mteam: '9'
-    mpad: '10'
     tnp: '23'
-    mteamtv: '17'
     kishd: '7'
     bmdru: '6'
     onehd: '18'
@@ -144,3 +146,4 @@ team:
     r2hd: '21'
     pack: '8'
     geek: '24'
+    qhstudio: '34'

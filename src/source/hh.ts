@@ -1,5 +1,5 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getSize, getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle } from '../common';
+import { formatTorrentTitle, getSize, getSpecsFromMediainfo, getSourceFromTitle } from '../common';
 import { getVideoType, getCategory } from './helper';
 
 export default async () => {
@@ -93,20 +93,6 @@ const getMetaValue = () => {
   });
   return result;
 };
-
-function getSpecsFromMediainfo (isBluray:boolean, mediaInfo:string) {
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
-  if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
-    return {
-      videoCodec,
-      audioCodec,
-      resolution,
-      mediaTags,
-    };
-  }
-  return {};
-}
 
 const getTagsFromPage = () => {
   const tags:TorrentInfo.MediaTags = {};

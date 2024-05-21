@@ -98,6 +98,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://monikadesign.uk/upload/*
 // @match        https://lst.gg/torrents/*
 // @match        https://lst.gg/torrents?*
+// @match        https://*.m-team.cc/detail/*
 
 // @run-at       document-end
 // @grant        GM_addStyle

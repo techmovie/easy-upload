@@ -625,7 +625,7 @@ const getFilterImages = (bbcode:string): string[] => {
   if (!bbcode) {
     return [];
   }
-  let allImages = Array.from(bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g) ?? []);
+  let allImages = Array.from(bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig) ?? []);
   if (allImages && allImages.length > 0) {
     allImages = allImages.map(img => {
       if (img.match(/\[url=.+?\]/)) {
@@ -1554,6 +1554,20 @@ const getTvSeasonData = async (data:Douban.Season) => {
   }
 };
 
+const getSpecsFromMediainfo = (isBluray:boolean, mediaInfo:string) => {
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
+  if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
+    return {
+      videoCodec,
+      audioCodec,
+      resolution,
+      mediaTags,
+    };
+  }
+  return {};
+};
+
 export {
   getUrlParam,
   formatTorrentTitle,
@@ -1596,4 +1610,5 @@ export {
   getDoubanBookInfo,
   uploadToImgbox,
   uploadToHDB,
+  getSpecsFromMediainfo,
 };

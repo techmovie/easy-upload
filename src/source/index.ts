@@ -21,6 +21,7 @@ import getRedInfo from './red';
 import getMTVInfo from './mtv';
 import getSpeedAppInfo from './speedapp';
 import getHHInfo from './hh';
+import getMTInfo from './mt';
 
 const siteNameMap = {
   BeyondHD: getBHDInfo,
@@ -42,6 +43,7 @@ const siteNameMap = {
   MTV: getMTVInfo,
   SpeedApp: getSpeedAppInfo,
   HH: getHHInfo,
+  MTeam: getMTInfo,
 };
 
 const siteTypeInfoMap = {

@@ -101,6 +101,20 @@ const Container = () => {
       <div class="font-bold leading-6">{$t('快速检索')}</div>
       <div class="font-bold leading-6"><SearchList /></div>
     </>}
+    { (CURRENT_SITE_NAME === 'MTeam') && <>
+      <tr class="ant-descriptions-row">
+        <th class="ant-descriptions-item-label" colSpan={1} style="width: 135px; text-align: right;">
+          <span><div class="font-bold leading-6"><Title /></div></span>
+        </th>
+        <td class="ant-descriptions-item-content" colSpan={1}><UploadSiteList /></td>
+      </tr>
+      <tr class="ant-descriptions-row">
+        <th class="ant-descriptions-item-label" colSpan={1} style="width: 135px; text-align: right;">
+          <span><div class="font-bold leading-6">{$t('快速检索')}</div></span>
+        </th>
+        <td class="ant-descriptions-item-content" colSpan={1}><SearchList /></td>
+      </tr>
+    </>}
     {
       (isNexusPHP || isHDB || CURRENT_SITE_NAME?.match(/(HDSpace|HDT)$/)) &&
       <>
