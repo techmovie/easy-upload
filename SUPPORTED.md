@@ -20,7 +20,6 @@
 |  DicMusic  |            ✅             |           ❌            |
 |  DiscFan   |            ✅             |           ✅            |
 |    EMP     |            ✅             |           ❌            |
-|    FBCD    |            ❌             |           ✅            |
 | fearnopeer |            ✅             |           ✅            |
 |    GPW     |            ✅             |           ✅            |
 | HaresClub  |            ✅             |           ✅            |
