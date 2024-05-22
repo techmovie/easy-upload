@@ -24,9 +24,9 @@ imdb:
 douban:
   selector: '#douban'
 tags:
-  chinese_audio: 'input[value="dub"]'
   diy: 'input[value="diy"]'
   chinese_subtitle: 'input[value="sub"]'
+  chinese_audio: 'input[value="dub"]'
 category:
   selector: '#category'
   map:
@@ -67,31 +67,69 @@ videoCodec:
     mpeg4: '15'
     vc1: '2'
     xvid: '3'
+    av1: '19'
+audioCodec:
+  selector: '#audioCodec'
+  map:
+    aac: '6'
+    ac3: '8'
+    dd: '8'
+    dd+: '8'
+    flac: '1'
+    dts: '3'
+    truehd: '9'
+    lpcm: '7'
+    dtshdma: '11'
+    atmos: '10'
+    dtsx: '3'
+    ape: '2'
+    wav: '7'
+    other: '7'
+    mp3: '4'
+source:
+  selector: '#source'
+  map:
+    uhdbluray: 1'
+    bluray: '1'
+    hdtv: '4'
+    dvd: '3'
+    web: '8'
+    vhs: '6'
+    hddvd: '6'
 videoType:
+  selector: '#medium'
   map:
     uhdbluray:
+      - '1'
       - '421'
       - '438'
     bluray:
+      - '1'
       - '421'
       - '438'
     remux:
+      - '3'
       - '439'
     encode:
+      - '7'
       - '401'
       - '419'
       - '403'
       - '402'
     web:
+      - '10'
       - '419'
       - '402'
     hdtv:
+      - '5'
       - '419'
       - '402'
     dvd:
+      - '6'
       - '420'
       - '435'
     dvdrip:
+      - '7'
       - '401'
       - '403'
     other: ''
@@ -123,7 +161,7 @@ resolution:
       - '401'
       - '403'
 area:
-  selector: 'select[name="processing_sel"]'
+  selector: '#processing'
   map:
     CN: '1'
     US: '2'
@@ -134,7 +172,7 @@ area:
     KR: '5'
     OT: '6'
 team:
-  selector: 'select[name="team_sel"]'
+  selector: '#team'
   map:
     mteam: '9'
     tnp: '23'

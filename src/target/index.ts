@@ -11,6 +11,7 @@ import handleBHD from './bhd';
 import handleBdc from './bdc';
 import handleZQ from './zhuque';
 import autoFill from './autofill';
+import handleMT from './mt';
 
 const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   PTP: handlePTP,
@@ -22,6 +23,7 @@ const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   BeyondHD: handleBHD,
   Bdc: handleBdc,
   ZHUQUE: handleZQ,
+  MTeam: handleMT,
 };
 
 const fillTargetForm = (info: TorrentInfo.Info) => {
@@ -33,6 +35,9 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   const handler = siteHandlers[CURRENT_SITE_NAME];
   if (handler) {
     handler(info);
+  }
+  if (CURRENT_SITE_NAME === 'MTeam') {
+    return;
   }
 
   const targetTorrentInfo: TorrentInfo.TargetTorrentInfo = { ...info };

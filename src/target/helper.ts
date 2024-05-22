@@ -4,7 +4,7 @@ import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription, filterEmptyTags,
+  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription, filterEmptyTags, setSelectValue,
 } from './common';
 import { SITE_OPERATIONS } from './site-operations';
 
@@ -252,7 +252,6 @@ export default class ExportHelper {
         description,
       });
     }
-
     // 过滤空标签
     description = filterEmptyTags(description);
 
@@ -292,7 +291,7 @@ export default class ExportHelper {
         keyArray.forEach(key => {
           finalSelectArray = matchSelectForm(this.currentSiteInfo, this.info, key as SelectKey, finalSelectArray);
           if (finalSelectArray.length === 1) {
-            $(this.currentSiteInfo.category.selector).val(finalSelectArray[0]);
+            setSelectValue(this.currentSiteInfo.category.selector, finalSelectArray[0]);
           }
         });
       } else {

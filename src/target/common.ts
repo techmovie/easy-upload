@@ -1,6 +1,7 @@
 import {
   getFilterImages,
 } from '../common';
+import { CURRENT_SITE_NAME } from '../const';
 
 const getScreenshotsBBCode = (imgArray:string[]) => {
   return imgArray.map(img => {
@@ -38,17 +39,39 @@ const matchSelectForm = (siteInfo:Site.SiteInfo, movieInfo:TorrentInfo.Info, key
   if (Array.isArray(valueArray) && selectArray) {
     // 如果当前key下有selector属性 赋值为value第一项
     if (siteInfo[key].selector) {
-      $(siteInfo[key].selector).val(valueArray.shift());
+      setSelectValue(siteInfo[key].selector, valueArray.shift());
     }
     // 如果此时分类对应的值仍未数组 则继续过滤
     if (selectArray.length > 1) {
       selectArray = selectArray.filter(item => valueArray.includes(item));
     }
   } else if (siteInfo[key] && siteInfo[key].selector) {
-    $(siteInfo[key].selector).val(valueArray);
+    setSelectValue(siteInfo[key].selector, valueArray);
   }
   return selectArray;
 };
+function setSelectValue (selector:string, value:string) {
+  if (CURRENT_SITE_NAME === 'MTeam') {
+    const select = document.querySelector(selector) as HTMLSelectElement;
+    if (select) {
+      const lastValue = select.value;
+      select.value = value;
+      const tracker = select._valueTracker;
+      if (tracker) {
+        tracker.setValue(lastValue);
+      }
+      const event = new Event('change', { bubbles: true });
+      select.dispatchEvent(event);
+      setTimeout(() => {
+        Array.from(document.querySelectorAll('.ant-select-item-option-active .ant-select-item-option-content')).forEach(el => {
+          el.dispatchEvent(new Event('click', { bubbles: true }));
+        });
+      }, 1000);
+    }
+  } else {
+    $(selector).val(value);
+  }
+}
 function buildPTPDescription (info:TorrentInfo.Info) {
   let text = info.originalDescription || '';
 
@@ -109,7 +132,7 @@ function buildPTPDescription (info:TorrentInfo.Info) {
 }
 // 是否为国内站点
 const isChineseTacker = (siteType:string) => {
-  return siteType.match(/NexusPHP|TTG|TNode/);
+  return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
 };
 const filterNexusDescription = (info:TorrentInfo.Info) => {
   const { description } = info;
@@ -129,7 +152,7 @@ const filterNexusDescription = (info:TorrentInfo.Info) => {
 // 过滤空标签
 const filterEmptyTags = (description: string): string => {
   // eslint-disable-next-line prefer-regex-literals
-  const reg = new RegExp('\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
+  const reg = new RegExp('\\[(?!info)([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]', 'g');
   if (description.match(reg)) {
     description = description.replace(reg, (_match, p1, p2) => {
       if (p1 === p2) {
@@ -155,4 +178,5 @@ export {
   filterNexusDescription,
   filterEmptyTags,
   fixTorrentTitle,
+  setSelectValue,
 };
