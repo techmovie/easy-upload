@@ -85,6 +85,7 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
     mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
   }
   if (mediaInfoOrBDInfo) {
+    mediaInfoOrBDInfo = mediaInfoOrBDInfo.replace(/\n{1,}/g, '\n');
     const specs = await getSpecsFromMediainfo(isBluray, mediaInfoOrBDInfo);
     videoCodec = specs.videoCodec ? specs.videoCodec : videoCodec;
     resolution = specs.resolution ? specs.resolution as resolution : resolution;
