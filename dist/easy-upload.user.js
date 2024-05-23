@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      4.2.0
+// @version      4.2.1
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -47,6 +47,7 @@
 // @match        https://monikadesign.uk/upload/*
 // @match        https://lst.gg/torrents/*
 // @match        https://lst.gg/torrents?*
+// @match        https://*.m-team.cc/detail/*
 
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -83,24 +84,21 @@
     return a3;
   };
   var __spreadProps = (a3, b3) => __defProps(a3, __getOwnPropDescs(b3));
-  var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
-  var __esm = (fn, res) => function __init() {
-    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  var __esm = (fn2, res) => function __init() {
+    return fn2 && (res = (0, fn2[__getOwnPropNames(fn2)[0]])(fn2 = 0)), res;
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __reExport = (target, module, copyDefault, desc) => {
-    if (module && typeof module === "object" || typeof module === "function") {
-      for (let key of __getOwnPropNames(module))
-        if (!__hasOwnProp.call(target, key) && (copyDefault || key !== "default"))
-          __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
     }
-    return target;
+    return to;
   };
-  var __toESM = (module, isNodeMode) => {
-    return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", !isNodeMode && module && module.__esModule ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
-  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 
   // node_modules/preact/dist/preact.module.js
   function a(n2, l3) {
@@ -113,17 +111,17 @@
     l3 && l3.removeChild(n2);
   }
   function v(l3, u3, i3) {
-    var t3, r3, o3, f3 = {};
-    for (o3 in u3)
-      o3 == "key" ? t3 = u3[o3] : o3 == "ref" ? r3 = u3[o3] : f3[o3] = u3[o3];
+    var t3, o3, r3, f3 = {};
+    for (r3 in u3)
+      r3 == "key" ? t3 = u3[r3] : r3 == "ref" ? o3 = u3[r3] : f3[r3] = u3[r3];
     if (arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), typeof l3 == "function" && l3.defaultProps != null)
-      for (o3 in l3.defaultProps)
-        f3[o3] === void 0 && (f3[o3] = l3.defaultProps[o3]);
-    return y(l3, f3, t3, r3, null);
+      for (r3 in l3.defaultProps)
+        f3[r3] === void 0 && (f3[r3] = l3.defaultProps[r3]);
+    return y(l3, f3, t3, o3, null);
   }
-  function y(n2, i3, t3, r3, o3) {
-    var f3 = { type: n2, props: i3, key: t3, ref: r3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: o3 == null ? ++u : o3 };
-    return o3 == null && l.vnode != null && l.vnode(f3), f3;
+  function y(n2, i3, t3, o3, r3) {
+    var f3 = { type: n2, props: i3, key: t3, ref: o3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: r3 == null ? ++u : r3 };
+    return r3 == null && l.vnode != null && l.vnode(f3), f3;
   }
   function p() {
     return { current: null };
@@ -154,18 +152,18 @@
     }
   }
   function m(n2) {
-    (!n2.__d && (n2.__d = true) && t.push(n2) && !g.__r++ || o !== l.debounceRendering) && ((o = l.debounceRendering) || r)(g);
+    (!n2.__d && (n2.__d = true) && t.push(n2) && !g.__r++ || r !== l.debounceRendering) && ((r = l.debounceRendering) || o)(g);
   }
   function g() {
     for (var n2; g.__r = t.length; )
       n2 = t.sort(function(n3, l3) {
         return n3.__v.__b - l3.__v.__b;
       }), t = [], n2.some(function(n3) {
-        var l3, u3, i3, t3, r3, o3;
-        n3.__d && (r3 = (t3 = (l3 = n3).__v).__e, (o3 = l3.__P) && (u3 = [], (i3 = a({}, t3)).__v = t3.__v + 1, j(o3, t3, i3, l3.__n, o3.ownerSVGElement !== void 0, t3.__h != null ? [r3] : null, u3, r3 == null ? k(t3) : r3, t3.__h), z(u3, t3), t3.__e != r3 && b(t3)));
+        var l3, u3, i3, t3, o3, r3;
+        n3.__d && (o3 = (t3 = (l3 = n3).__v).__e, (r3 = l3.__P) && (u3 = [], (i3 = a({}, t3)).__v = t3.__v + 1, j(r3, t3, i3, l3.__n, r3.ownerSVGElement !== void 0, t3.__h != null ? [o3] : null, u3, o3 == null ? k(t3) : o3, t3.__h), z(u3, t3), t3.__e != o3 && b(t3)));
       });
   }
-  function w(n2, l3, u3, i3, t3, r3, o3, f3, s3, a3) {
+  function w(n2, l3, u3, i3, t3, o3, r3, f3, s3, a3) {
     var h3, v3, p3, _3, b3, m3, g4, w4 = i3 && i3.__k || c, A4 = w4.length;
     for (u3.__k = [], h3 = 0; h3 < l3.length; h3++)
       if ((_3 = u3.__k[h3] = (_3 = l3[h3]) == null || typeof _3 == "boolean" ? null : typeof _3 == "string" || typeof _3 == "number" || typeof _3 == "bigint" ? y(null, _3, null, null, _3) : Array.isArray(_3) ? y(d, { children: _3 }, null, null, null) : _3.__b > 0 ? y(_3.type, _3.props, _3.key, null, _3.__v) : _3) != null) {
@@ -179,7 +177,7 @@
             }
             p3 = null;
           }
-        j(n2, _3, p3 = p3 || e, t3, r3, o3, f3, s3, a3), b3 = _3.__e, (v3 = _3.ref) && p3.ref != v3 && (g4 || (g4 = []), p3.ref && g4.push(p3.ref, null, _3), g4.push(v3, _3.__c || b3, _3)), b3 != null ? (m3 == null && (m3 = b3), typeof _3.type == "function" && _3.__k === p3.__k ? _3.__d = s3 = x(_3, s3, n2) : s3 = P(n2, _3, p3, w4, b3, s3), typeof u3.type == "function" && (u3.__d = s3)) : s3 && p3.__e == s3 && s3.parentNode != n2 && (s3 = k(p3));
+        j(n2, _3, p3 = p3 || e, t3, o3, r3, f3, s3, a3), b3 = _3.__e, (v3 = _3.ref) && p3.ref != v3 && (g4 || (g4 = []), p3.ref && g4.push(p3.ref, null, _3), g4.push(v3, _3.__c || b3, _3)), b3 != null ? (m3 == null && (m3 = b3), typeof _3.type == "function" && _3.__k === p3.__k ? _3.__d = s3 = x(_3, s3, n2) : s3 = P(n2, _3, p3, w4, b3, s3), typeof u3.type == "function" && (u3.__d = s3)) : s3 && p3.__e == s3 && s3.parentNode != n2 && (s3 = k(p3));
       }
     for (u3.__e = m3, h3 = A4; h3--; )
       w4[h3] != null && (typeof u3.type == "function" && w4[h3].__e != null && w4[h3].__e == u3.__d && (u3.__d = k(i3, h3 + 1)), N(w4[h3], w4[h3]));
@@ -188,8 +186,8 @@
         M(g4[h3], g4[++h3], g4[++h3]);
   }
   function x(n2, l3, u3) {
-    for (var i3, t3 = n2.__k, r3 = 0; t3 && r3 < t3.length; r3++)
-      (i3 = t3[r3]) && (i3.__ = n2, l3 = typeof i3.type == "function" ? x(i3, l3, u3) : P(u3, i3, i3, t3, i3.__e, l3));
+    for (var i3, t3 = n2.__k, o3 = 0; t3 && o3 < t3.length; o3++)
+      (i3 = t3[o3]) && (i3.__ = n2, l3 = typeof i3.type == "function" ? x(i3, l3, u3) : P(u3, i3, i3, t3, i3.__e, l3));
     return l3;
   }
   function A(n2, l3) {
@@ -197,34 +195,34 @@
       A(n3, l3);
     }) : l3.push(n2)), l3;
   }
-  function P(n2, l3, u3, i3, t3, r3) {
-    var o3, f3, e3;
+  function P(n2, l3, u3, i3, t3, o3) {
+    var r3, f3, e3;
     if (l3.__d !== void 0)
-      o3 = l3.__d, l3.__d = void 0;
-    else if (u3 == null || t3 != r3 || t3.parentNode == null)
+      r3 = l3.__d, l3.__d = void 0;
+    else if (u3 == null || t3 != o3 || t3.parentNode == null)
       n:
-        if (r3 == null || r3.parentNode !== n2)
-          n2.appendChild(t3), o3 = null;
+        if (o3 == null || o3.parentNode !== n2)
+          n2.appendChild(t3), r3 = null;
         else {
-          for (f3 = r3, e3 = 0; (f3 = f3.nextSibling) && e3 < i3.length; e3 += 2)
+          for (f3 = o3, e3 = 0; (f3 = f3.nextSibling) && e3 < i3.length; e3 += 2)
             if (f3 == t3)
               break n;
-          n2.insertBefore(t3, r3), o3 = r3;
+          n2.insertBefore(t3, o3), r3 = o3;
         }
-    return o3 !== void 0 ? o3 : t3.nextSibling;
+    return r3 !== void 0 ? r3 : t3.nextSibling;
   }
   function C(n2, l3, u3, i3, t3) {
-    var r3;
-    for (r3 in u3)
-      r3 === "children" || r3 === "key" || r3 in l3 || H(n2, r3, null, u3[r3], i3);
-    for (r3 in l3)
-      t3 && typeof l3[r3] != "function" || r3 === "children" || r3 === "key" || r3 === "value" || r3 === "checked" || u3[r3] === l3[r3] || H(n2, r3, l3[r3], u3[r3], i3);
+    var o3;
+    for (o3 in u3)
+      o3 === "children" || o3 === "key" || o3 in l3 || H(n2, o3, null, u3[o3], i3);
+    for (o3 in l3)
+      t3 && typeof l3[o3] != "function" || o3 === "children" || o3 === "key" || o3 === "value" || o3 === "checked" || u3[o3] === l3[o3] || H(n2, o3, l3[o3], u3[o3], i3);
   }
   function $2(n2, l3, u3) {
     l3[0] === "-" ? n2.setProperty(l3, u3) : n2[l3] = u3 == null ? "" : typeof u3 != "number" || s.test(l3) ? u3 : u3 + "px";
   }
   function H(n2, l3, u3, i3, t3) {
-    var r3;
+    var o3;
     n:
       if (l3 === "style")
         if (typeof u3 == "string")
@@ -238,10 +236,10 @@
               i3 && u3[l3] === i3[l3] || $2(n2.style, l3, u3[l3]);
         }
       else if (l3[0] === "o" && l3[1] === "n")
-        r3 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + r3] = u3, u3 ? i3 || n2.addEventListener(l3, r3 ? T : I, r3) : n2.removeEventListener(l3, r3 ? T : I, r3);
+        o3 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + o3] = u3, u3 ? i3 || n2.addEventListener(l3, o3 ? T : I, o3) : n2.removeEventListener(l3, o3 ? T : I, o3);
       else if (l3 !== "dangerouslySetInnerHTML") {
         if (t3)
-          l3 = l3.replace(/xlink[H:h]/, "h").replace(/sName$/, "s");
+          l3 = l3.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
         else if (l3 !== "href" && l3 !== "list" && l3 !== "form" && l3 !== "tabIndex" && l3 !== "download" && l3 in n2)
           try {
             n2[l3] = u3 == null ? "" : u3;
@@ -257,33 +255,39 @@
   function T(n2) {
     this.l[n2.type + true](l.event ? l.event(n2) : n2);
   }
-  function j(n2, u3, i3, t3, r3, o3, f3, e3, c3) {
-    var s3, h3, v3, y3, p3, k4, b3, m3, g4, x4, A4, P3 = u3.type;
+  function j(n2, u3, i3, t3, o3, r3, f3, e3, c3) {
+    var s3, h3, v3, y3, p3, k4, b3, m3, g4, x3, A4, P3, C3, $4 = u3.type;
     if (u3.constructor !== void 0)
       return null;
-    i3.__h != null && (c3 = i3.__h, e3 = u3.__e = i3.__e, u3.__h = null, o3 = [e3]), (s3 = l.__b) && s3(u3);
+    i3.__h != null && (c3 = i3.__h, e3 = u3.__e = i3.__e, u3.__h = null, r3 = [e3]), (s3 = l.__b) && s3(u3);
     try {
       n:
-        if (typeof P3 == "function") {
-          if (m3 = u3.props, g4 = (s3 = P3.contextType) && t3[s3.__c], x4 = s3 ? g4 ? g4.props.value : s3.__ : t3, i3.__c ? b3 = (h3 = u3.__c = i3.__c).__ = h3.__E : ("prototype" in P3 && P3.prototype.render ? u3.__c = h3 = new P3(m3, x4) : (u3.__c = h3 = new _(m3, x4), h3.constructor = P3, h3.render = O), g4 && g4.sub(h3), h3.props = m3, h3.state || (h3.state = {}), h3.context = x4, h3.__n = t3, v3 = h3.__d = true, h3.__h = []), h3.__s == null && (h3.__s = h3.state), P3.getDerivedStateFromProps != null && (h3.__s == h3.state && (h3.__s = a({}, h3.__s)), a(h3.__s, P3.getDerivedStateFromProps(m3, h3.__s))), y3 = h3.props, p3 = h3.state, v3)
-            P3.getDerivedStateFromProps == null && h3.componentWillMount != null && h3.componentWillMount(), h3.componentDidMount != null && h3.__h.push(h3.componentDidMount);
+        if (typeof $4 == "function") {
+          if (m3 = u3.props, g4 = (s3 = $4.contextType) && t3[s3.__c], x3 = s3 ? g4 ? g4.props.value : s3.__ : t3, i3.__c ? b3 = (h3 = u3.__c = i3.__c).__ = h3.__E : ("prototype" in $4 && $4.prototype.render ? u3.__c = h3 = new $4(m3, x3) : (u3.__c = h3 = new _(m3, x3), h3.constructor = $4, h3.render = O), g4 && g4.sub(h3), h3.props = m3, h3.state || (h3.state = {}), h3.context = x3, h3.__n = t3, v3 = h3.__d = true, h3.__h = []), h3.__s == null && (h3.__s = h3.state), $4.getDerivedStateFromProps != null && (h3.__s == h3.state && (h3.__s = a({}, h3.__s)), a(h3.__s, $4.getDerivedStateFromProps(m3, h3.__s))), y3 = h3.props, p3 = h3.state, v3)
+            $4.getDerivedStateFromProps == null && h3.componentWillMount != null && h3.componentWillMount(), h3.componentDidMount != null && h3.__h.push(h3.componentDidMount);
           else {
-            if (P3.getDerivedStateFromProps == null && m3 !== y3 && h3.componentWillReceiveProps != null && h3.componentWillReceiveProps(m3, x4), !h3.__e && h3.shouldComponentUpdate != null && h3.shouldComponentUpdate(m3, h3.__s, x4) === false || u3.__v === i3.__v) {
+            if ($4.getDerivedStateFromProps == null && m3 !== y3 && h3.componentWillReceiveProps != null && h3.componentWillReceiveProps(m3, x3), !h3.__e && h3.shouldComponentUpdate != null && h3.shouldComponentUpdate(m3, h3.__s, x3) === false || u3.__v === i3.__v) {
               h3.props = m3, h3.state = h3.__s, u3.__v !== i3.__v && (h3.__d = false), h3.__v = u3, u3.__e = i3.__e, u3.__k = i3.__k, u3.__k.forEach(function(n3) {
                 n3 && (n3.__ = u3);
               }), h3.__h.length && f3.push(h3);
               break n;
             }
-            h3.componentWillUpdate != null && h3.componentWillUpdate(m3, h3.__s, x4), h3.componentDidUpdate != null && h3.__h.push(function() {
+            h3.componentWillUpdate != null && h3.componentWillUpdate(m3, h3.__s, x3), h3.componentDidUpdate != null && h3.__h.push(function() {
               h3.componentDidUpdate(y3, p3, k4);
             });
           }
-          h3.context = x4, h3.props = m3, h3.state = h3.__s, (s3 = l.__r) && s3(u3), h3.__d = false, h3.__v = u3, h3.__P = n2, s3 = h3.render(h3.props, h3.state, h3.context), h3.state = h3.__s, h3.getChildContext != null && (t3 = a(a({}, t3), h3.getChildContext())), v3 || h3.getSnapshotBeforeUpdate == null || (k4 = h3.getSnapshotBeforeUpdate(y3, p3)), A4 = s3 != null && s3.type === d && s3.key == null ? s3.props.children : s3, w(n2, Array.isArray(A4) ? A4 : [A4], u3, i3, t3, r3, o3, f3, e3, c3), h3.base = u3.__e, u3.__h = null, h3.__h.length && f3.push(h3), b3 && (h3.__E = h3.__ = null), h3.__e = false;
+          if (h3.context = x3, h3.props = m3, h3.__v = u3, h3.__P = n2, A4 = l.__r, P3 = 0, "prototype" in $4 && $4.prototype.render)
+            h3.state = h3.__s, h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context);
+          else
+            do {
+              h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context), h3.state = h3.__s;
+            } while (h3.__d && ++P3 < 25);
+          h3.state = h3.__s, h3.getChildContext != null && (t3 = a(a({}, t3), h3.getChildContext())), v3 || h3.getSnapshotBeforeUpdate == null || (k4 = h3.getSnapshotBeforeUpdate(y3, p3)), C3 = s3 != null && s3.type === d && s3.key == null ? s3.props.children : s3, w(n2, Array.isArray(C3) ? C3 : [C3], u3, i3, t3, o3, r3, f3, e3, c3), h3.base = u3.__e, u3.__h = null, h3.__h.length && f3.push(h3), b3 && (h3.__E = h3.__ = null), h3.__e = false;
         } else
-          o3 == null && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = L(i3.__e, u3, i3, t3, r3, o3, f3, c3);
+          r3 == null && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = L(i3.__e, u3, i3, t3, o3, r3, f3, c3);
       (s3 = l.diffed) && s3(u3);
     } catch (n3) {
-      u3.__v = null, (c3 || o3 != null) && (u3.__e = e3, u3.__h = !!c3, o3[o3.indexOf(e3)] = null), l.__e(n3, u3, i3);
+      u3.__v = null, (c3 || r3 != null) && (u3.__e = e3, u3.__h = !!c3, r3[r3.indexOf(e3)] = null), l.__e(n3, u3, i3);
     }
   }
   function z(n2, u3) {
@@ -297,35 +301,35 @@
       }
     });
   }
-  function L(l3, u3, i3, t3, r3, o3, f3, c3) {
+  function L(l3, u3, i3, t3, o3, r3, f3, c3) {
     var s3, a3, v3, y3 = i3.props, p3 = u3.props, d3 = u3.type, _3 = 0;
-    if (d3 === "svg" && (r3 = true), o3 != null) {
-      for (; _3 < o3.length; _3++)
-        if ((s3 = o3[_3]) && "setAttribute" in s3 == !!d3 && (d3 ? s3.localName === d3 : s3.nodeType === 3)) {
-          l3 = s3, o3[_3] = null;
+    if (d3 === "svg" && (o3 = true), r3 != null) {
+      for (; _3 < r3.length; _3++)
+        if ((s3 = r3[_3]) && "setAttribute" in s3 == !!d3 && (d3 ? s3.localName === d3 : s3.nodeType === 3)) {
+          l3 = s3, r3[_3] = null;
           break;
         }
     }
     if (l3 == null) {
       if (d3 === null)
         return document.createTextNode(p3);
-      l3 = r3 ? document.createElementNS("http://www.w3.org/2000/svg", d3) : document.createElement(d3, p3.is && p3), o3 = null, c3 = false;
+      l3 = o3 ? document.createElementNS("http://www.w3.org/2000/svg", d3) : document.createElement(d3, p3.is && p3), r3 = null, c3 = false;
     }
     if (d3 === null)
       y3 === p3 || c3 && l3.data === p3 || (l3.data = p3);
     else {
-      if (o3 = o3 && n.call(l3.childNodes), a3 = (y3 = i3.props || e).dangerouslySetInnerHTML, v3 = p3.dangerouslySetInnerHTML, !c3) {
-        if (o3 != null)
+      if (r3 = r3 && n.call(l3.childNodes), a3 = (y3 = i3.props || e).dangerouslySetInnerHTML, v3 = p3.dangerouslySetInnerHTML, !c3) {
+        if (r3 != null)
           for (y3 = {}, _3 = 0; _3 < l3.attributes.length; _3++)
             y3[l3.attributes[_3].name] = l3.attributes[_3].value;
         (v3 || a3) && (v3 && (a3 && v3.__html == a3.__html || v3.__html === l3.innerHTML) || (l3.innerHTML = v3 && v3.__html || ""));
       }
-      if (C(l3, p3, y3, r3, c3), v3)
+      if (C(l3, p3, y3, o3, c3), v3)
         u3.__k = [];
-      else if (_3 = u3.props.children, w(l3, Array.isArray(_3) ? _3 : [_3], u3, i3, t3, r3 && d3 !== "foreignObject", o3, f3, o3 ? o3[0] : i3.__k && k(i3, 0), c3), o3 != null)
-        for (_3 = o3.length; _3--; )
-          o3[_3] != null && h(o3[_3]);
-      c3 || ("value" in p3 && (_3 = p3.value) !== void 0 && (_3 !== y3.value || _3 !== l3.value || d3 === "progress" && !_3) && H(l3, "value", _3, y3.value, false), "checked" in p3 && (_3 = p3.checked) !== void 0 && _3 !== l3.checked && H(l3, "checked", _3, y3.checked, false));
+      else if (_3 = u3.props.children, w(l3, Array.isArray(_3) ? _3 : [_3], u3, i3, t3, o3 && d3 !== "foreignObject", r3, f3, r3 ? r3[0] : i3.__k && k(i3, 0), c3), r3 != null)
+        for (_3 = r3.length; _3--; )
+          r3[_3] != null && h(r3[_3]);
+      c3 || ("value" in p3 && (_3 = p3.value) !== void 0 && (_3 !== l3.value || d3 === "progress" && !_3 || d3 === "option" && _3 !== y3.value) && H(l3, "value", _3, y3.value, false), "checked" in p3 && (_3 = p3.checked) !== void 0 && _3 !== l3.checked && H(l3, "checked", _3, y3.checked, false));
     }
     return l3;
   }
@@ -337,7 +341,7 @@
     }
   }
   function N(n2, u3, i3) {
-    var t3, r3;
+    var t3, o3;
     if (l.unmount && l.unmount(n2), (t3 = n2.ref) && (t3.current && t3.current !== n2.__e || M(t3, null, u3)), (t3 = n2.__c) != null) {
       if (t3.componentWillUnmount)
         try {
@@ -348,25 +352,25 @@
       t3.base = t3.__P = null;
     }
     if (t3 = n2.__k)
-      for (r3 = 0; r3 < t3.length; r3++)
-        t3[r3] && N(t3[r3], u3, typeof n2.type != "function");
+      for (o3 = 0; o3 < t3.length; o3++)
+        t3[o3] && N(t3[o3], u3, typeof n2.type != "function");
     i3 || n2.__e == null || h(n2.__e), n2.__e = n2.__d = void 0;
   }
   function O(n2, l3, u3) {
     return this.constructor(n2, u3);
   }
   function S(u3, i3, t3) {
-    var r3, o3, f3;
-    l.__ && l.__(u3, i3), o3 = (r3 = typeof t3 == "function") ? null : t3 && t3.__k || i3.__k, f3 = [], j(i3, u3 = (!r3 && t3 || i3).__k = v(d, null, [u3]), o3 || e, e, i3.ownerSVGElement !== void 0, !r3 && t3 ? [t3] : o3 ? null : i3.firstChild ? n.call(i3.childNodes) : null, f3, !r3 && t3 ? t3 : o3 ? o3.__e : i3.firstChild, r3), z(f3, u3);
+    var o3, r3, f3;
+    l.__ && l.__(u3, i3), r3 = (o3 = typeof t3 == "function") ? null : t3 && t3.__k || i3.__k, f3 = [], j(i3, u3 = (!o3 && t3 || i3).__k = v(d, null, [u3]), r3 || e, e, i3.ownerSVGElement !== void 0, !o3 && t3 ? [t3] : r3 ? null : i3.firstChild ? n.call(i3.childNodes) : null, f3, !o3 && t3 ? t3 : r3 ? r3.__e : i3.firstChild, o3), z(f3, u3);
   }
   function q(n2, l3) {
     S(n2, l3, q);
   }
   function B(l3, u3, i3) {
-    var t3, r3, o3, f3 = a({}, l3.props);
-    for (o3 in u3)
-      o3 == "key" ? t3 = u3[o3] : o3 == "ref" ? r3 = u3[o3] : f3[o3] = u3[o3];
-    return arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), y(l3.type, f3, t3 || l3.key, r3 || l3.ref, null);
+    var t3, o3, r3, f3 = a({}, l3.props);
+    for (r3 in u3)
+      r3 == "key" ? t3 = u3[r3] : r3 == "ref" ? o3 = u3[r3] : f3[r3] = u3[r3];
+    return arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), y(l3.type, f3, t3 || l3.key, o3 || l3.ref, null);
   }
   function D(n2, l3) {
     var u3 = { __c: l3 = "__cC" + f++, __: n2, Consumer: function(n3, l4) {
@@ -387,19 +391,19 @@
     } };
     return u3.Provider.__ = u3.Consumer.contextType = u3;
   }
-  var n, l, u, i, t, r, o, f, e, c, s;
+  var n, l, u, i, t, o, r, f, e, c, s;
   var init_preact_module = __esm({
     "node_modules/preact/dist/preact.module.js"() {
       init_preact_shim();
       e = {};
       c = [];
       s = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
-      n = c.slice, l = { __e: function(n2, l3) {
-        for (var u3, i3, t3; l3 = l3.__; )
-          if ((u3 = l3.__c) && !u3.__)
+      n = c.slice, l = { __e: function(n2, l3, u3, i3) {
+        for (var t3, o3, r3; l3 = l3.__; )
+          if ((t3 = l3.__c) && !t3.__)
             try {
-              if ((i3 = u3.constructor) && i3.getDerivedStateFromError != null && (u3.setState(i3.getDerivedStateFromError(n2)), t3 = u3.__d), u3.componentDidCatch != null && (u3.componentDidCatch(n2), t3 = u3.__d), t3)
-                return u3.__E = u3;
+              if ((o3 = t3.constructor) && o3.getDerivedStateFromError != null && (t3.setState(o3.getDerivedStateFromError(n2)), r3 = t3.__d), t3.componentDidCatch != null && (t3.componentDidCatch(n2, i3 || {}), r3 = t3.__d), r3)
+                return t3.__E = t3;
             } catch (l4) {
               n2 = l4;
             }
@@ -411,7 +415,7 @@
         u3 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = a({}, this.state), typeof n2 == "function" && (n2 = n2(a({}, u3), this.props)), n2 && a(u3, n2), n2 != null && this.__v && (l3 && this.__h.push(l3), m(this));
       }, _.prototype.forceUpdate = function(n2) {
         this.__v && (this.__e = true, n2 && this.__h.push(n2), m(this));
-      }, _.prototype.render = d, t = [], r = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, g.__r = 0, f = 0;
+      }, _.prototype.render = d, t = [], o = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, g.__r = 0, f = 0;
     }
   });
 
@@ -1178,6 +1182,208 @@
         }
       }
     },
+    BLUEBIRD: {
+      url: "https://bluebird-hd.org",
+      host: "bluebird-hd.org",
+      siteType: "bluebird",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACGVBMVEWotrlCjJo7l6k6laY7l6g/jp6brbE6f41G2vRF2PJF1/FF1/JH3Pc8j54ueok7vdU4tc04ts06vNQ5jZwra3gtnLAtmKwuma0rl6splaoqlqotmK0wnrMzeoclWmYyiJknfY4ieYoieYsheIosgJE2iJg1h5g2iJkwg5Qhd4kgeowsZnIuV2F3rrxBf4wSWGcYXGsXW2oWW2qDt8Oq2OOg0NyVxtOAtcNjnaspbnwiUVswUFh7r747bXkAMDwEN0IENkICNEAFOEOYxM+l0NtjkJtgjplnlaF9sL1nm6gjRk8qRU2Cs8FkkZ1Gb3lOd4FReYNVfYdGbXemztiLs70AHCYAIiwAIStHb3mGucc3UlsqQ0t+rryKvMqcy9ep1uG13+vF7vinztibwsx7oqwAHCUBIywAGyQoTFY7V18uTFR9sL5RgIwjUFsoVmEqWGIgTVgdS1YSQEsTQUwXRE9biZV9sb80VFwzWWF3rLpAeYYJSFYPTlsOTFoPTVt5qbSbxtKNu8iCsb55q7h4rLtWkJ0iTVctXWhgorE6hJQbbX4fcIEecIBsrbqDvcp2ssBtqrhoprVRl6YjdYYoX2ooZnIrk6cpj6IqkKMqj6MmjKAnjKAojaEpjqIojqEli58xdIItdYQ3s8o1rMM1rMI3h5Y2foxE1O9C0OpCz+lE1vE6j56Yqq9DmalAqLpAprhCnrCGn6X////cFElzAAAAAWJLR0SyrWrP6AAAAAd0SU1FB+YDAgQyIDB3PAEAAADuSURBVBjTY2BgZGKGAxZWNgZ2Dk4uOODm4WXg4xcQhAMBIWEGEVExcRCQkJSSkpCWkWWQk1dQVFJSUlZRVVPX0NTSZtDR1dM3MDA0MjYxNTO3sLRisLaxtbN3cHRydnF1c/fw9GLw9vH18w8IDAoOCQ0Lj4iMYoiOiY2LT0hMSk5JTUvPiMxkyMrOyc3Lyy8oLCgqLiktK2eoqKyqrqmpratvaGxqbmltY2jv6Ozq7u7p6e3rnzBx0uQpDFOnTZ8BBDNnzZ4zd978aQsYFi5aDAFLlixZvHjRUoZly1esRIBVqxnWrF23Hg7WbdgIAFw/WUNqMtpuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAzLTAyVDA0OjUwOjMyKzAwOjAwrsTcpgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMy0wMlQwNDo1MDozMiswMDowMN+ZZBoAAAAASUVORK5CYII=",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{name}",
+          incldead: 0,
+          cat: 0,
+          dsearch: "{imdb}",
+          stype: "or"
+        }
+      }
+    },
+    BTN: {
+      url: "https://broadcasthe.net",
+      host: "broadcasthe.net",
+      siteType: "gazelle",
+      icon: "data:image/png;base64,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",
+      asSource: true,
+      asTarget: false,
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          action: "advanced",
+          imdb: "{imdb}",
+          artistname: "{name}"
+        }
+      }
+    },
+    BTSCHOOL: {
+      url: "https://pt.btschool.club",
+      host: "btschool.club",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBwQr3f9M9AAAAz1JREFUOMt91M+LHXYVBfDPefPmR2ZeY0tnWoyxVgihrT8KQoo/SmwUN23RKtGdiAsFS7vRko1/QYdUEMGFS90KcSWoBIRY6mS0oRoTqVLjj9bEpI2pjUle5r3j4k1k6sID39W953A599xvbGPpu2dN3yoDu9UeHMRS2RNeR8ogXMCb5BTOM/13suLGM/eCwOLRM7CEfZkJ3UlW6JsYmwkOMIfbKltYoOdbL0jOYWv8zP2yePSM1m2D5PFwD21C5VTa1/Bak6tUarnskaxq908pRq1T1V9qxsNp7Q6fo7vDivhV6oXE65Lp1W/cbwfGK8+d/WcYTJPTaQ+WEfa3dk3rRObXzzySeGgQBpwIm5Kt/xF6G0bPvexmtyRZaPuB1qFpO5nW8cyv/+6BJJPZ82fcvP5/xHZi/uhZWNC+a1LT1iRrz25gEoaPiYMt+GuS5/FiMcQWS+EOLGN3dS+up/6B82K5bA2bqOGd4cnwoRk3I2zgS/TKFo+RR9vux91JRuosTpf3hC3MqeVhZsl5n3ZSvphYxVe2Y/RuPI0n1Mt4EYfxE3wTnxVPkO9rfxSWB22XtYdxCfdVPlNdxc+rH8R8+Gr4PI4luYLvjTN+VWzip9WH8WFsDvGx8ClxDL+pnsA9eAqb1R+QcWKOHK6exrlFiyIbE9OXwpfF18u5QeIRyVLlZOVPZEAen20qGwOD8bYtH8X78UM8VB1NTQ1YDHuxivcO1RtNx/gWuYB5eqF8e2p6cc4cM8LX8DNyLHxh5mEv4z58Eqfwi6w9u3F7kz1YjRTj6ivVNyKTyDw+YhaZ43gLi/g4Hsbd+C1+jFeyur65Fi1RvRyZXDxyAKytb97KcMzu1q3ajvoC1jrr2RpG98286a7MJjiztn6yjFw88sAtbndeyNr6S+qGMqQPhkfxLxwfkNPkUrlUPlE9hHdwNTsmfNtUNR6EVXoYny6Xw+/DH7ZJXS6H1F24FuaanNNeCH8vYyGyq+yl78SB7f9xiBOR5+mN7PBiSXvvLBJGYk41XC/XxBLZhZF2GQuSv23b9EfcvHjkwCxgsPadk1zFwO2tu8SDYV7ta1zByvY5vqq5Rn+d5C/b3v13Wf8BYeJvdWEcGZ8AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6MDQ6NDMrMDA6MDC0QHbWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjA0OjQzKzAwOjAwxR3OagAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      poster: 'input[name="picture"]',
+      imdb: {
+        selector: 'input[name="imdbid"]'
+      },
+      douban: {
+        selector: 'input[name="doubanid"]'
+      },
+      tags: {
+        chinese_audio: 'input[type="checkbox"][name="span[]"][value="5"]',
+        chinese_subtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "405",
+          tv: "406",
+          tvPack: "406",
+          documentary: "408",
+          concert: "409",
+          sport: "410",
+          cartoon: "407",
+          variety: "412",
+          music: "411"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          x264: "1",
+          hevc: "10",
+          x265: "10",
+          h265: "10",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "10",
+          dd: "10",
+          "dd+": "10",
+          flac: "1",
+          dts: "3",
+          truehd: "11",
+          lpcm: "5",
+          dtshdma: "3",
+          atmos: "3",
+          dtsx: "3"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "12",
+          bluray: "1",
+          remux: "3",
+          encode: "7",
+          web: "10",
+          hdtv: "5",
+          dvd: "6",
+          dvdrip: "6",
+          other: "11",
+          cd: "8"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "1",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          btschool: "1",
+          zone: "13",
+          btshd: "2",
+          btstv: "3",
+          btspad: "4",
+          wiki: "5",
+          hdchina: "6",
+          hdbint: "7",
+          mteam: "9",
+          cmct: "10",
+          ourbits: "11",
+          other: "12"
+        }
+      }
+    },
+    BYR: {
+      url: "https://byr.pt",
+      host: "byr.pt",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,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",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="dburl"]'
+      }
+    },
     Bdc: {
       url: "https://broadcity.in",
       host: "broadcity.in",
@@ -1563,24 +1769,6 @@
         }
       }
     },
-    BLUEBIRD: {
-      url: "https://bluebird-hd.org",
-      host: "bluebird-hd.org",
-      siteType: "bluebird",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACGVBMVEWotrlCjJo7l6k6laY7l6g/jp6brbE6f41G2vRF2PJF1/FF1/JH3Pc8j54ueok7vdU4tc04ts06vNQ5jZwra3gtnLAtmKwuma0rl6splaoqlqotmK0wnrMzeoclWmYyiJknfY4ieYoieYsheIosgJE2iJg1h5g2iJkwg5Qhd4kgeowsZnIuV2F3rrxBf4wSWGcYXGsXW2oWW2qDt8Oq2OOg0NyVxtOAtcNjnaspbnwiUVswUFh7r747bXkAMDwEN0IENkICNEAFOEOYxM+l0NtjkJtgjplnlaF9sL1nm6gjRk8qRU2Cs8FkkZ1Gb3lOd4FReYNVfYdGbXemztiLs70AHCYAIiwAIStHb3mGucc3UlsqQ0t+rryKvMqcy9ep1uG13+vF7vinztibwsx7oqwAHCUBIywAGyQoTFY7V18uTFR9sL5RgIwjUFsoVmEqWGIgTVgdS1YSQEsTQUwXRE9biZV9sb80VFwzWWF3rLpAeYYJSFYPTlsOTFoPTVt5qbSbxtKNu8iCsb55q7h4rLtWkJ0iTVctXWhgorE6hJQbbX4fcIEecIBsrbqDvcp2ssBtqrhoprVRl6YjdYYoX2ooZnIrk6cpj6IqkKMqj6MmjKAnjKAojaEpjqIojqEli58xdIItdYQ3s8o1rMM1rMI3h5Y2foxE1O9C0OpCz+lE1vE6j56Yqq9DmalAqLpAprhCnrCGn6X////cFElzAAAAAWJLR0SyrWrP6AAAAAd0SU1FB+YDAgQyIDB3PAEAAADuSURBVBjTY2BgZGKGAxZWNgZ2Dk4uOODm4WXg4xcQhAMBIWEGEVExcRCQkJSSkpCWkWWQk1dQVFJSUlZRVVPX0NTSZtDR1dM3MDA0MjYxNTO3sLRisLaxtbN3cHRydnF1c/fw9GLw9vH18w8IDAoOCQ0Lj4iMYoiOiY2LT0hMSk5JTUvPiMxkyMrOyc3Lyy8oLCgqLiktK2eoqKyqrqmpratvaGxqbmltY2jv6Ozq7u7p6e3rnzBx0uQpDFOnTZ8BBDNnzZ4zd978aQsYFi5aDAFLlixZvHjRUoZly1esRIBVqxnWrF23Hg7WbdgIAFw/WUNqMtpuAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAzLTAyVDA0OjUwOjMyKzAwOjAwrsTcpgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMy0wMlQwNDo1MDozMiswMDowMN+ZZBoAAAAASUVORK5CYII=",
-      asSource: false,
-      asTarget: false,
-      search: {
-        path: "/browse.php",
-        params: {
-          search: "{name}",
-          incldead: 0,
-          cat: 0,
-          dsearch: "{imdb}",
-          stype: "or"
-        }
-      }
-    },
     Blutopia: {
       url: "https://blutopia.cc",
       host: "blutopia.(xyz|cc)",
@@ -1654,190 +1842,6 @@
           "576p": "6",
           "480p": "8"
         }
-      }
-    },
-    BTN: {
-      url: "https://broadcasthe.net",
-      host: "broadcasthe.net",
-      siteType: "gazelle",
-      icon: "data:image/png;base64,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",
-      asSource: true,
-      asTarget: false,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        params: {
-          action: "advanced",
-          imdb: "{imdb}",
-          artistname: "{name}"
-        }
-      }
-    },
-    BTSCHOOL: {
-      url: "https://pt.btschool.club",
-      host: "btschool.club",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBwQr3f9M9AAAAz1JREFUOMt91M+LHXYVBfDPefPmR2ZeY0tnWoyxVgihrT8KQoo/SmwUN23RKtGdiAsFS7vRko1/QYdUEMGFS90KcSWoBIRY6mS0oRoTqVLjj9bEpI2pjUle5r3j4k1k6sID39W953A599xvbGPpu2dN3yoDu9UeHMRS2RNeR8ogXMCb5BTOM/13suLGM/eCwOLRM7CEfZkJ3UlW6JsYmwkOMIfbKltYoOdbL0jOYWv8zP2yePSM1m2D5PFwD21C5VTa1/Bak6tUarnskaxq908pRq1T1V9qxsNp7Q6fo7vDivhV6oXE65Lp1W/cbwfGK8+d/WcYTJPTaQ+WEfa3dk3rRObXzzySeGgQBpwIm5Kt/xF6G0bPvexmtyRZaPuB1qFpO5nW8cyv/+6BJJPZ82fcvP5/xHZi/uhZWNC+a1LT1iRrz25gEoaPiYMt+GuS5/FiMcQWS+EOLGN3dS+up/6B82K5bA2bqOGd4cnwoRk3I2zgS/TKFo+RR9vux91JRuosTpf3hC3MqeVhZsl5n3ZSvphYxVe2Y/RuPI0n1Mt4EYfxE3wTnxVPkO9rfxSWB22XtYdxCfdVPlNdxc+rH8R8+Gr4PI4luYLvjTN+VWzip9WH8WFsDvGx8ClxDL+pnsA9eAqb1R+QcWKOHK6exrlFiyIbE9OXwpfF18u5QeIRyVLlZOVPZEAen20qGwOD8bYtH8X78UM8VB1NTQ1YDHuxivcO1RtNx/gWuYB5eqF8e2p6cc4cM8LX8DNyLHxh5mEv4z58Eqfwi6w9u3F7kz1YjRTj6ivVNyKTyDw+YhaZ43gLi/g4Hsbd+C1+jFeyur65Fi1RvRyZXDxyAKytb97KcMzu1q3ajvoC1jrr2RpG98286a7MJjiztn6yjFw88sAtbndeyNr6S+qGMqQPhkfxLxwfkNPkUrlUPlE9hHdwNTsmfNtUNR6EVXoYny6Xw+/DH7ZJXS6H1F24FuaanNNeCH8vYyGyq+yl78SB7f9xiBOR5+mN7PBiSXvvLBJGYk41XC/XxBLZhZF2GQuSv23b9EfcvHjkwCxgsPadk1zFwO2tu8SDYV7ta1zByvY5vqq5Rn+d5C/b3v13Wf8BYeJvdWEcGZ8AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6MDQ6NDMrMDA6MDC0QHbWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjA0OjQzKzAwOjAwxR3OagAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: 'input[name="picture"]',
-      imdb: {
-        selector: 'input[name="imdbid"]'
-      },
-      douban: {
-        selector: 'input[name="doubanid"]'
-      },
-      tags: {
-        chinese_audio: 'input[type="checkbox"][name="span[]"][value="5"]',
-        chinese_subtitle: 'input[type="checkbox"][name="span[]"][value="6"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "405",
-          tv: "406",
-          tvPack: "406",
-          documentary: "408",
-          concert: "409",
-          sport: "410",
-          cartoon: "407",
-          variety: "412",
-          music: "411"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          x264: "1",
-          hevc: "10",
-          x265: "10",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "10",
-          dd: "10",
-          "dd+": "10",
-          flac: "1",
-          dts: "3",
-          truehd: "11",
-          lpcm: "5",
-          dtshdma: "3",
-          atmos: "3",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "12",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "10",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "11",
-          cd: "8"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "1",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          btschool: "1",
-          zone: "13",
-          btshd: "2",
-          btstv: "3",
-          btspad: "4",
-          wiki: "5",
-          hdchina: "6",
-          hdbint: "7",
-          mteam: "9",
-          cmct: "10",
-          ourbits: "11",
-          other: "12"
-        }
-      }
-    },
-    BYR: {
-      url: "https://byr.pt",
-      host: "byr.pt",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,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",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="dburl"]'
       }
     },
     CHDBits: {
@@ -2005,26 +2009,6 @@
         }
       }
     },
-    Cinematik: {
-      url: "https://cinematik.net",
-      host: "cinematik.net",
-      siteType: "Cinematik",
-      icon: "data:image/png;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8ACAgIAA0NDQATExMAFBQUABsbGwAfHx8AJycnACoqKgAtLS0AMTExADU1NQA5OTkAPj4+AEFBQQBFRUUASEhIAE1NTQBRUVEAVVVVAFlZWQBdXV0AYWFhAGVlZQBpaWkAbm5uAHJycgB1dXUAenp6AH5+fgCCgoIAhoaGAImJiQCOjo4AkpKRAJSUlACdnZ0ApaWlAKioqACsrKwAsrKyALS0tAC8vLwAxcXFAM3NzQDa2toA6enoAO/u7QD+/v4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/ykgICAfHx8fICv///////8iJiAZGRkYGRgiKf//////IBsZFBQUFBQSIC4p/////yIkGxQQEhISEB0wLib///8gGRUQDQ0NDQ0SFBkfKf//ICIZDBQdEgwMCQwYGxv//x8dFQkZMC0fDQkJFRsZ//8fHxUFGDAwMCwYBxUbGP//Hx8YAhgwMDAwIgUVHxj//x0VDTEVMDAqFQUCEBUV//8dIhgxDSkVAzExMRUgFf//HRAJMTECMTExMTEMEBX//x0lGTExMTExMTExGSQU//8dEgwxMTExMTExMQwQFP//HSAVMTExMTExMTEVIBX//yYYGBUYGBgYGBUYGBQg/4Af//+AD///gAf/P4AD//+AAf85gAH//4AB//+AAf//gAH/P4AB++eAAb5fgAFc6YABvl+AAVc6gAE/v4AB/z8=",
-      asSource: true,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      seedDomSelector: "div.odiv_1 + table >tbody tr:nth-child(3n)",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse.php",
-        params: {
-          search: "{imdb}",
-          cat: 0,
-          incldead: 1,
-          srchdtls: 1
-        }
-      }
-    },
     CinemaZ: {
       url: "https://cinemaz.to",
       host: "cinemaz.to",
@@ -2042,6 +2026,26 @@
           in: "1",
           order: "size",
           sort: "desc"
+        }
+      }
+    },
+    Cinematik: {
+      url: "https://cinematik.net",
+      host: "cinematik.net",
+      siteType: "Cinematik",
+      icon: "data:image/png;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8ACAgIAA0NDQATExMAFBQUABsbGwAfHx8AJycnACoqKgAtLS0AMTExADU1NQA5OTkAPj4+AEFBQQBFRUUASEhIAE1NTQBRUVEAVVVVAFlZWQBdXV0AYWFhAGVlZQBpaWkAbm5uAHJycgB1dXUAenp6AH5+fgCCgoIAhoaGAImJiQCOjo4AkpKRAJSUlACdnZ0ApaWlAKioqACsrKwAsrKyALS0tAC8vLwAxcXFAM3NzQDa2toA6enoAO/u7QD+/v4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/ykgICAfHx8fICv///////8iJiAZGRkYGRgiKf//////IBsZFBQUFBQSIC4p/////yIkGxQQEhISEB0wLib///8gGRUQDQ0NDQ0SFBkfKf//ICIZDBQdEgwMCQwYGxv//x8dFQkZMC0fDQkJFRsZ//8fHxUFGDAwMCwYBxUbGP//Hx8YAhgwMDAwIgUVHxj//x0VDTEVMDAqFQUCEBUV//8dIhgxDSkVAzExMRUgFf//HRAJMTECMTExMTEMEBX//x0lGTExMTExMTExGSQU//8dEgwxMTExMTExMQwQFP//HSAVMTExMTExMTEVIBX//yYYGBUYGBgYGBUYGBQg/4Af//+AD///gAf/P4AD//+AAf85gAH//4AB//+AAf//gAH/P4AB++eAAb5fgAFc6YABvl+AAVc6gAE/v4AB/z8=",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      seedDomSelector: "div.odiv_1 + table >tbody tr:nth-child(3n)",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{imdb}",
+          cat: 0,
+          incldead: 1,
+          srchdtls: 1
         }
       }
     },
@@ -2212,215 +2216,6 @@
       asSource: true,
       asTarget: false,
       uploadPath: "/upload.php"
-    },
-    FBCD: {
-      url: "https://pt.fbcd.ga",
-      host: "pt.fbcd.ga",
-      siteType: "NexusPHP",
-      icon: "data:image/ico;base64,AAABAAEAgIAAAAEAIAAoCAEAFgAAACgAAACAAAAAAAEAAAEAIAAAAAAAAAABABMLAAATCwAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8CAgL/AgIC/wICAv8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/xMTE/83Nzf/BAQE/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/CQkJ/wgJCf8FBQX/CQkJ/wYGBv8HBwf/FhYW/0FBQf8ICAj/CwsL/wICAv8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wAAAP8sLCz/LSws/yAfH/81NDT/Gxoa/zk4OP8WFRX/PDw8/xMTE/9BQUH/CAgI/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/ysrK/8sKir/IB4e/zQyMv8cGhr/OTc3/xgVFf89Ozv/EhMT/0BAQP8JCQn/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8AAAD/LS0t/y8tLf8jISH/NjQ0/xwaGv88Ojr/GRcX/0A+Pv8TExP/Q0ND/wgICP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8mJib/FxYW/yIhIf8bGRn/GxkZ/x8eHv8WFRX/IyIi/xESEv8pKSn/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AgIC/wICAv8AAAD/AwMD/wEBAf8CAgL/AQEB/wMDA/8AAAD/BAQE/wEBAf8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8AAAD/AQEB/wAAAP8BAQH/AAAA/wEBAf8AAAD/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AgIC/wMDA/8DAwP/AwMD/wMDA/8CAgL/AQEB/wEBAf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wEBAf8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8CAgL/AwMD/wMDA/8CAgL/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AQEB/wEBAf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wEBAf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wEBAf8AAAD/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wEBAf8BAQH/AQEB/wEBAf8BAQH/AQEB/wEBAf8BAQH/AAAA/wEBAf8BAQH/AAAA/wEBAf8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wMDA/8AAAD/AAAA/wAAAP8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wICAv8DAwP/BAQE/wQEBP8EBAT/BAQE/wQEBP8EBAT/BgYG/wYGBv8FBQX/BAQE/wMDA/8CAgL/AgIC/wEBAf8BAQH/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8CAgL/AgIC/wICAv8BAQH/AQEB/wMDA/8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AgIC/wQEBP8EBAT/BAQE/wQEBP8EBAT/BwcH/wQEBP8AAAD/AAAA/wEBAf8GBgb/BwcH/wQEBP8EBAT/BAQE/wMDA/8DAwP/AwMD/wMDA/8DAwP/AwMD/wMDA/8DAwP/AgIC/wMDA/8DAwP/AgIC/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8DAwP/BAQE/wQEBP8DAwP/AAAA/wAAAP8AAAD/AQEB/wMDA/8CAgL/AQEB/wEBAf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AgIC/wICAv8BAQH/AQEB/wMDA/8AAAD/CgoK/0hISP9PT0//FBQU/wAAAP8DAwP/BgYG/wUFBf8EBAT/BAQE/wQEBP8EBAT/BAQE/wQEBP8EBAT/BAQE/wQEBP8EBAT/BAQE/wQEBP8DAwP/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AQEB/wICAv8EBAT/AgIC/wAAAP8AAAD/AAAA/wAAAP8bGxv/IiIi/x8fH/8GBgb/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AgIC/wICAv8AAAD/AAAA/wAAAP8AAAD/AQEB/wEBAf8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAA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Af8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wQEBP8AAAD/hYWF/+jo6P/y8vL/3d3d/+vr6/9tbW3/AAAA/wQEBP8CAgL/AAAA/yUlJf+5ubn/jIyM/4+Pj/+goKD/Li4u/wAAAP8FBQX/AwMD/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/wEBAf8CAgL/AQEB/6qqqv/V1dX/7e3t/+Hh4f/X19f/5ubm/1NTU/8AAAD/AwMD/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wAAAP8TExP/tbW1/93d3f/v7+//4ODg/+jo6P8gICD/AAAA/wICAv8DAwP/AAAA/2hoaP+7u7v/hISE/6ys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AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wAAAP9ycnL/yMjI/7W1tf/V1dX/X19f/wAAAP8GBgb/BAQE/wQEBP8EBAT/BQUF/wEBAf8AAAD/Pz8//6Wlpf+5ubn/ycnJ/7y8vP+rq6v/goKC/1ZWVv8lJSX/AAAA/wICAv8BAQH/AAAA/wAAAP8DAwP/AAAA/5WVlf/i4uL/1tbW/9bW1v+jo6P/RkZG/wAAAP8DAwP/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wYGBv9SUlL/qamp/9HR0f/Hx8f/MDAw/wAAAP8FBQX/BQUF/wQEBP8EBAT/BwcH/wYG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AP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8CAgL/AwMD/wYGBv8FBQX/AAAA/wAAAP8UFBT/XV1d/7CwsP+4uLj/kpKS/1dXV/8uLi7/FhYW/wQEBP8GBgb/AgIC/wAAAP8AAAD/ERER/21tbf/Ly8v/r6+v/0VFRf8JCQn/AgIC/wEBAf8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AgIC/wQEBP8FBQX/BQUF/wEBAf8AAAD/BgYG/z8/P/9/f3//mJiY/7i4uP+/v7//n5+f/5ubm/+Ghob/eXl5/42Njf+srKz/kJCQ/z8/P/8AAAD/AAAA/wAAAP8CAgL/AgIC/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AgIC/wMDA/8EBAT/BQUF/wcHB/8DAwP/AAAA/wAAAP8JCQn/ICAg/zIyMv8vLy//IiIi/ysrK/80NDT/Pz8//xMTE/8AAAD/AAAA/wICAv8DAwP/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AQEB/wAAAP8AAAD/AQEB/wICAv8EBAT/BAQE/wQEBP8GBgb/BAQE/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wMDA/8CAgL/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wEBAf8CAgL/AwMD/wMDA/8EBAT/BQUF/wUFBf8DAwP/AgIC/wEBAf8BAQH/AQEB/wICAv8BAQH/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AQEB/wICAv8DAwP/BAQE/wQEBP8DAwP/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AAAA/wAAAP8BAQH/AgIC/wICAv8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wEBAf8BAQH/AQEB/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban_id"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="technical_info"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      tags: {
-        chinese_audio: "input[value=16]",
-        chinese_subtitle: "input[value=32]",
-        hdr: "#tag_hdr10",
-        hdr10_plus: "#tag_hdrm",
-        dolby_vision: "#tag_db"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "408",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      source: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "7",
-          bluray: "1",
-          hdtv: "4",
-          dvd: "3",
-          web: "11",
-          vhs: "8",
-          hddvd: "8"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "15",
-          hevc: "14",
-          mpeg2: "17",
-          mpeg4: "1",
-          vc1: "16",
-          xvid: "5"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "18",
-          dd: "18",
-          "dd+": "18",
-          flac: "1",
-          dts: "3",
-          truehd: "20",
-          lpcm: "21",
-          dtshdma: "19",
-          atmos: "19",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "12",
-          bluray: "1",
-          remux: "3",
-          encode: "15",
-          web: "10",
-          hdtv: "5",
-          dvd: "2",
-          dvdrip: "15",
-          other: "11"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "10",
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
-      }
-    },
-    fearnopeer: {
-      url: "https://fearnopeer.com",
-      host: "fearnopeer.com",
-      siteType: "UNIT3D",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/torrents/create?category_id=1",
-      needDoubanInfo: true,
-      seedDomSelector: ".torrent__buttons+.panelV2",
-      search: {
-        path: "/torrents",
-        replaceKey: [
-          "tt",
-          ""
-        ],
-        params: {
-          name: "{name}",
-          imdbId: "{imdb}",
-          sortField: "size"
-        }
-      },
-      name: {
-        selector: "#title"
-      },
-      description: {
-        selector: "#bbcode-description"
-      },
-      imdb: {
-        selector: "#autoimdb"
-      },
-      tmdb: {
-        selector: "#autotmdb"
-      },
-      mediaInfo: {
-        selector: 'textarea[name="mediainfo"]'
-      },
-      anonymous: {
-        selector: '.form__group input[type="checkbox"][name="anon"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "1",
-          tv: "2",
-          tvPack: "2"
-        }
-      },
-      videoType: {
-        selector: "#autotype",
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "12",
-          web: "4",
-          hdtv: "6",
-          dvd: "1",
-          dvdrip: "12",
-          other: ""
-        }
-      },
-      resolution: {
-        selector: "#autores",
-        map: {
-          "4320p": "11",
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "3",
-          "720p": "5",
-          "576p": "6",
-          "480p": "8"
-        }
-      }
     },
     FL: {
       url: "https://filelist.io",
@@ -2613,168 +2408,6 @@
           uhdbluray: "Untouched",
           dvd: "Untouched",
           dvdrip: "Encode"
-        }
-      }
-    },
-    HaresClub: {
-      url: "https://club.hares.top",
-      host: "hares.top",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,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",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~.layui-row:first table:first>tbody>tr:nth-child(6)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          search_mode: "0"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="pt_gen[imdb][link]"]'
-      },
-      douban: {
-        selector: 'input[name="pt_gen[douban][link]"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="technical_info"]'
-      },
-      screenshots: {
-        selector: 'textarea[name="screenshots"]'
-      },
-      tags: {
-        chinese_audio: 'input[name="tags[]"][value="32"]',
-        cantonese_audio: 'input[name="tags[]"][value="64"]',
-        diy: 'input[name="tags[]"][value="1024"]',
-        hdr: 'input[name="tags[]"][value="4096"]',
-        hdr10_plus: 'input[name="tags[]"][value="8192"]',
-        dolby_vision: 'input[name="tags[]"][value="16384"]',
-        chinese_subtitle: 'input[name="tags[]"][value="256"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "409",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "6",
-          x264: "8",
-          x265: "7",
-          h265: "6",
-          mpeg2: "4",
-          mpeg4: "9",
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "13",
-          dd: "13",
-          mp3: "4",
-          "dd+": "13",
-          flac: "1",
-          dts: "3",
-          truehd: "9",
-          lpcm: "14",
-          dtshdma: "11",
-          atmos: "8",
-          dtsx: "10",
-          ape: "2",
-          ogg: "5",
-          wav: "15"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "2",
-          bluray: "2",
-          remux: "3",
-          encode: "4",
-          web: "5",
-          hdtv: "8",
-          dvd: "0",
-          dvdrip: "0",
-          other: "0"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "4320p": "5",
-          "2160p": "6",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel"]',
-        map: {
-          CN: "1",
-          US: "4",
-          EU: "4",
-          HK: "2",
-          TW: "3",
-          JP: "7",
-          KR: "7",
-          OT: "10"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          chd: "4",
-          hds: "5",
-          wiki: "6",
-          cmct: "8",
-          beast: "9",
-          hdc: "10",
-          frds: "11",
-          pter: "12",
-          bhd: "13",
-          pth: "14",
-          other: "15"
         }
       }
     },
@@ -3856,6 +3489,350 @@
           tlf: "8",
           pter: "20",
           pbk: "21"
+        }
+      }
+    },
+    HDFun: {
+      url: "https://hdfun.me",
+      host: "hdfun.me",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: [
+            "411",
+            "412",
+            "413",
+            "414",
+            "415",
+            "450",
+            "499",
+            "416"
+          ],
+          tv: [
+            "425",
+            "426",
+            "471",
+            "427",
+            "428",
+            "429",
+            "430",
+            "452",
+            "431"
+          ],
+          tvPack: [
+            "432",
+            "433",
+            "434",
+            "435",
+            "436",
+            "437",
+            "438"
+          ],
+          documentary: [
+            "417",
+            "418",
+            "419",
+            "420",
+            "421",
+            "451",
+            "500",
+            "422"
+          ],
+          concert: "441",
+          sport: [
+            "442",
+            "443"
+          ],
+          cartoon: [
+            "444",
+            "445",
+            "446",
+            "447",
+            "448",
+            "454",
+            "449",
+            "501"
+          ],
+          variety: ""
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "12",
+          x264: "1",
+          x265: "2",
+          h265: "2",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "3",
+          xvid: "5",
+          dvd: "5"
+        }
+      },
+      source: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: "9",
+          bluray: "1",
+          hdtv: "4",
+          dvd: "3",
+          web: "7",
+          vhs: "8",
+          hddvd: "8"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "15",
+          dd: "15",
+          "dd+": "15",
+          dts: "3",
+          truehd: "13",
+          lpcm: "14",
+          dtshdma: "11",
+          atmos: "11",
+          dtsx: "3"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: [
+            "10",
+            "499",
+            "500",
+            "502",
+            "501"
+          ],
+          bluray: [
+            "1",
+            "450",
+            "451",
+            "452",
+            "453",
+            "454"
+          ],
+          remux: [
+            "3",
+            "415",
+            "421",
+            "430",
+            "437",
+            "448"
+          ],
+          encode: [
+            "7",
+            "411",
+            "412",
+            "413",
+            "414",
+            "416",
+            "417",
+            "418",
+            "419",
+            "420",
+            "422",
+            "425",
+            "426",
+            "471",
+            "427",
+            "428",
+            "429",
+            "431",
+            "432",
+            "433",
+            "434",
+            "435",
+            "436",
+            "438",
+            "444",
+            "445",
+            "446",
+            "447",
+            "449"
+          ],
+          web: [
+            "11",
+            "411",
+            "412",
+            "413",
+            "414",
+            "416",
+            "417",
+            "418",
+            "419",
+            "420",
+            "422",
+            "425",
+            "426",
+            "471",
+            "427",
+            "429",
+            "431",
+            "432",
+            "433",
+            "434",
+            "436",
+            "438",
+            "444",
+            "445",
+            "446",
+            "447",
+            "449"
+          ],
+          hdtv: [
+            "5",
+            "412",
+            "413",
+            "416",
+            "418",
+            "419",
+            "422",
+            "424",
+            "426",
+            "471",
+            "427",
+            "428",
+            "431",
+            "433",
+            "434",
+            "435",
+            "438",
+            "442",
+            "443",
+            "445",
+            "446",
+            "449"
+          ],
+          dvd: [
+            "",
+            "411",
+            "417",
+            "425",
+            "432",
+            "444"
+          ],
+          dvdrip: [
+            "7",
+            "411",
+            "417",
+            "425",
+            "432",
+            "444"
+          ],
+          other: ""
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": [
+            "1",
+            "499",
+            "416",
+            "500",
+            "422",
+            "431",
+            "438",
+            "502",
+            "449",
+            "501"
+          ],
+          "1080p": [
+            "2",
+            "414",
+            "420",
+            "429",
+            "436",
+            "447"
+          ],
+          "1080i": [
+            "3",
+            "424",
+            "428",
+            "435",
+            "443"
+          ],
+          "720p": [
+            "4",
+            "413",
+            "419",
+            "423",
+            "427",
+            "434",
+            "442",
+            "446"
+          ],
+          "576p": [
+            "5",
+            "411",
+            "417",
+            "425",
+            "432",
+            "444"
+          ],
+          "480p": [
+            "5",
+            "411",
+            "417",
+            "425",
+            "432",
+            "444"
+          ]
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          hdzone: "1",
+          hdz: "2",
+          hdztv: "3",
+          ttg: "6",
+          mteam: "7",
+          other: "11"
         }
       }
     },
@@ -5111,350 +5088,6 @@
         }
       }
     },
-    HDZone: {
-      url: "http://hdzone.me",
-      host: "hdzone.me",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: [
-            "411",
-            "412",
-            "413",
-            "414",
-            "415",
-            "450",
-            "499",
-            "416"
-          ],
-          tv: [
-            "425",
-            "426",
-            "471",
-            "427",
-            "428",
-            "429",
-            "430",
-            "452",
-            "431"
-          ],
-          tvPack: [
-            "432",
-            "433",
-            "434",
-            "435",
-            "436",
-            "437",
-            "438"
-          ],
-          documentary: [
-            "417",
-            "418",
-            "419",
-            "420",
-            "421",
-            "451",
-            "500",
-            "422"
-          ],
-          concert: "441",
-          sport: [
-            "442",
-            "443"
-          ],
-          cartoon: [
-            "444",
-            "445",
-            "446",
-            "447",
-            "448",
-            "454",
-            "449",
-            "501"
-          ],
-          variety: ""
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "12",
-          x264: "1",
-          x265: "2",
-          h265: "2",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "3",
-          xvid: "5",
-          dvd: "5"
-        }
-      },
-      source: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "9",
-          bluray: "1",
-          hdtv: "4",
-          dvd: "3",
-          web: "7",
-          vhs: "8",
-          hddvd: "8"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "15",
-          dd: "15",
-          "dd+": "15",
-          dts: "3",
-          truehd: "13",
-          lpcm: "14",
-          dtshdma: "11",
-          atmos: "11",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: [
-            "10",
-            "499",
-            "500",
-            "502",
-            "501"
-          ],
-          bluray: [
-            "1",
-            "450",
-            "451",
-            "452",
-            "453",
-            "454"
-          ],
-          remux: [
-            "3",
-            "415",
-            "421",
-            "430",
-            "437",
-            "448"
-          ],
-          encode: [
-            "7",
-            "411",
-            "412",
-            "413",
-            "414",
-            "416",
-            "417",
-            "418",
-            "419",
-            "420",
-            "422",
-            "425",
-            "426",
-            "471",
-            "427",
-            "428",
-            "429",
-            "431",
-            "432",
-            "433",
-            "434",
-            "435",
-            "436",
-            "438",
-            "444",
-            "445",
-            "446",
-            "447",
-            "449"
-          ],
-          web: [
-            "11",
-            "411",
-            "412",
-            "413",
-            "414",
-            "416",
-            "417",
-            "418",
-            "419",
-            "420",
-            "422",
-            "425",
-            "426",
-            "471",
-            "427",
-            "429",
-            "431",
-            "432",
-            "433",
-            "434",
-            "436",
-            "438",
-            "444",
-            "445",
-            "446",
-            "447",
-            "449"
-          ],
-          hdtv: [
-            "5",
-            "412",
-            "413",
-            "416",
-            "418",
-            "419",
-            "422",
-            "424",
-            "426",
-            "471",
-            "427",
-            "428",
-            "431",
-            "433",
-            "434",
-            "435",
-            "438",
-            "442",
-            "443",
-            "445",
-            "446",
-            "449"
-          ],
-          dvd: [
-            "",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          dvdrip: [
-            "7",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          other: ""
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": [
-            "1",
-            "499",
-            "416",
-            "500",
-            "422",
-            "431",
-            "438",
-            "502",
-            "449",
-            "501"
-          ],
-          "1080p": [
-            "2",
-            "414",
-            "420",
-            "429",
-            "436",
-            "447"
-          ],
-          "1080i": [
-            "3",
-            "424",
-            "428",
-            "435",
-            "443"
-          ],
-          "720p": [
-            "4",
-            "413",
-            "419",
-            "423",
-            "427",
-            "434",
-            "442",
-            "446"
-          ],
-          "576p": [
-            "5",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          "480p": [
-            "5",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ]
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hdzone: "1",
-          hdz: "2",
-          hdztv: "3",
-          ttg: "6",
-          mteam: "7",
-          other: "11"
-        }
-      }
-    },
     HH: {
       url: "https://hhanclub.top",
       host: "hhanclub.top",
@@ -5484,65 +5117,14 @@
         }
       }
     },
-    iTS: {
-      url: "http://shadowthein.net",
-      host: "shadowthein.net",
-      siteType: "its",
-      asSource: false,
-      asTarget: true,
-      icon: "data:image/png;base64,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",
-      seedDomSelector: "h1~.line>tbody>tr:nth-child(2)",
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/browse.php",
-        params: {
-          incldead: 1,
-          search: "{imdb}",
-          search_in: "names",
-          sort: 5,
-          type: "desc"
-        }
-      },
-      name: {
-        selector: 'input[name="name"]'
-      },
-      imdb: {
-        selector: 'input[name="imdblink"]'
-      },
-      description: {
-        selector: 'textarea[name="descr"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="mediainfo"]'
-      },
-      tags: {
-        hdr: 'input[name="HDR10"]',
-        hdr10_plus: 'input[name="HDR10Plus"]',
-        dolby_vision: 'input[name="DolbyVision"]'
-      },
-      anonymous: {
-        selector: 'input[name="anonymous"][value="true"]'
-      },
-      category: {
-        selector: 'select[name="type"]',
-        map: {
-          movie: "68",
-          tv: "65",
-          concert: "61",
-          music: "6",
-          ebook: "26"
-        }
-      }
-    },
-    KamePT: {
-      url: "https://kamept.com",
-      host: "kamept.com",
+    HaresClub: {
+      url: "https://club.hares.top",
+      host: "hares.top",
       siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5woaCDQq3ANFWQAAA51JREFUOMuFlFtT21YUhb+jI8m2ZMtXCgYMLiEpoXGmTXpvc5k8NP83nabT5z4ktNOZUEiDSyBASInxVb7JliWdPNDSIZB0v+9v1t577SWivlK8XUpRPzyg9uI5Uig+WFomlZ9GN02klFzQcVr6eZZi5+kfvNx6RKcxwNQNOo1jMsVl9HicfHGGzFQBKbULwWeAQkDP7fLjTw/x/SZSxEnG4kR+Ej3hYcZD3GaVZKHG4uVLWLZ1DnpO4cT3Oaw1qfVa5BybsqPRFQFmzyNvJkBoHB3UGY0Drt2ooOtnEdrbwFCBFXPA9RnXBZlElkuX85ixGENvwsALaHZ6bG5s0TiuI8T7FAqo1RpY2XlyKRepBDNzWeyE5OVhC8OwAPizusloErBS+YjiXPE9QAXttotumkwtzJMQJo2+wAs8XNfDtgTSEMzNZ9l+XsN1+yilTpS8a4cIDeH1ycmQccKmulcnbQrSlk2gedjJGKufXKPV9pBSQwhx5jDnRrbtOLbmE26/gDmDhZkUmcIUBccilYpz3Gyy93QbiwAnlfz/KxuGTmQlCRbLeJFkdSrNF5VZYjN5QqGRPMjw994OKqojwiFHe7tMlxbRpHwHUNdpDSJc36TvNikcBdy8WsDrJxhhUixPUyjlufLlDbKFHLXdA8beECuVQqkLbGMYOmEUYoo4s9oS3X3JDw/XqVYPSU3PEs9m0E2TmdIcSkU4hTwT33+3D3VdR0UKW4ZUygtUVu5QKi/TbtVoN+pomkQJSafRIAxCpCkZDvqoSF0AVBCGIaFSGGmL8m2HlfsWXb3O2q/rvKjuYpgG6XwGIQTyny8JggkKdXaHvu/zfOsvnlV38YOQtjtg7fctLKPHk18eIzqKaDSh+bpJMpPEyeUYj8YM3QEpJ40QJ9pE1FdKCFhff8aDBz/THY4ZKYO+e4QxbjFvm7ivenx37ytu3LnJwFdsbO7Q6nQYtlxu3bvDZ7e+PQWeKozCkFFkoAwd1WuTtyM+vVLi69UVJk6OYqlITAo6geLRbxvs7B4wl7X45u5tlOL0p0+BuqFj2xbK87GcJJmEQyqboa9Myh+WaB++RkQhZNLksmnE1Y/RpES3nTPZKP5N7PF4zP7+Kx6vrbO1vcfn15e5VlklHHuISZdISyAIkVpEqxeyt/+KTm/I9/fvsrS0cB4oxElabzzZpNXuUrm+QiabJYoiAt9H03WUikApNKnjeUMEYCdTaNp/ZnkDkeWj+pSQ1t4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjZUMDg6NTI6NDIrMDA6MDDrWrkWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI2VDA4OjUyOjQyKzAwOjAwmgcBqgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yNlQwODo1Mjo0MiswMDowMM0SIHUAAAAASUVORK5CYII=",
+      icon: "data:image/png;base64,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",
       asSource: true,
       asTarget: true,
-      seedDomSelector: "#top~table>tbody>tr:nth-child(4)",
+      seedDomSelector: "#top~.layui-row:first table:first>tbody>tr:nth-child(6)",
       uploadPath: "/upload.php",
       search: {
         path: "/torrents.php",
@@ -5553,7 +5135,7 @@
           search_area: "{optionKey}",
           search: "{imdb}",
           sort: "5",
-          type: "desc"
+          search_mode: "0"
         },
         result: {
           list: ".torrents>tbody>tr",
@@ -5571,8 +5153,130 @@
       description: {
         selector: "#descr"
       },
+      imdb: {
+        selector: 'input[name="pt_gen[imdb][link]"]'
+      },
+      douban: {
+        selector: 'input[name="pt_gen[douban][link]"]'
+      },
       anonymous: {
         selector: 'input[name="uplver"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      screenshots: {
+        selector: 'textarea[name="screenshots"]'
+      },
+      tags: {
+        chinese_audio: 'input[name="tags[]"][value="32"]',
+        cantonese_audio: 'input[name="tags[]"][value="64"]',
+        diy: 'input[name="tags[]"][value="1024"]',
+        hdr: 'input[name="tags[]"][value="4096"]',
+        hdr10_plus: 'input[name="tags[]"][value="8192"]',
+        dolby_vision: 'input[name="tags[]"][value="16384"]',
+        chinese_subtitle: 'input[name="tags[]"][value="256"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "409",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "6",
+          x264: "8",
+          x265: "7",
+          h265: "6",
+          mpeg2: "4",
+          mpeg4: "9",
+          vc1: "2",
+          xvid: "3",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "6",
+          ac3: "13",
+          dd: "13",
+          mp3: "4",
+          "dd+": "13",
+          flac: "1",
+          dts: "3",
+          truehd: "9",
+          lpcm: "14",
+          dtshdma: "11",
+          atmos: "8",
+          dtsx: "10",
+          ape: "2",
+          ogg: "5",
+          wav: "15"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "2",
+          bluray: "2",
+          remux: "3",
+          encode: "4",
+          web: "5",
+          hdtv: "8",
+          dvd: "0",
+          dvdrip: "0",
+          other: "0"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "5",
+          "2160p": "6",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3"
+        }
+      },
+      area: {
+        selector: 'select[name="processing_sel"]',
+        map: {
+          CN: "1",
+          US: "4",
+          EU: "4",
+          HK: "2",
+          TW: "3",
+          JP: "7",
+          KR: "7",
+          OT: "10"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          chd: "4",
+          hds: "5",
+          wiki: "6",
+          cmct: "8",
+          beast: "9",
+          hdc: "10",
+          frds: "11",
+          pter: "12",
+          bhd: "13",
+          pth: "14",
+          other: "15"
+        }
       }
     },
     KEEPFRDS: {
@@ -6005,6 +5709,46 @@
         }
       }
     },
+    KamePT: {
+      url: "https://kamept.com",
+      host: "kamept.com",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5woaCDQq3ANFWQAAA51JREFUOMuFlFtT21YUhb+jI8m2ZMtXCgYMLiEpoXGmTXpvc5k8NP83nabT5z4ktNOZUEiDSyBASInxVb7JliWdPNDSIZB0v+9v1t577SWivlK8XUpRPzyg9uI5Uig+WFomlZ9GN02klFzQcVr6eZZi5+kfvNx6RKcxwNQNOo1jMsVl9HicfHGGzFQBKbULwWeAQkDP7fLjTw/x/SZSxEnG4kR+Ej3hYcZD3GaVZKHG4uVLWLZ1DnpO4cT3Oaw1qfVa5BybsqPRFQFmzyNvJkBoHB3UGY0Drt2ooOtnEdrbwFCBFXPA9RnXBZlElkuX85ixGENvwsALaHZ6bG5s0TiuI8T7FAqo1RpY2XlyKRepBDNzWeyE5OVhC8OwAPizusloErBS+YjiXPE9QAXttotumkwtzJMQJo2+wAs8XNfDtgTSEMzNZ9l+XsN1+yilTpS8a4cIDeH1ycmQccKmulcnbQrSlk2gedjJGKufXKPV9pBSQwhx5jDnRrbtOLbmE26/gDmDhZkUmcIUBccilYpz3Gyy93QbiwAnlfz/KxuGTmQlCRbLeJFkdSrNF5VZYjN5QqGRPMjw994OKqojwiFHe7tMlxbRpHwHUNdpDSJc36TvNikcBdy8WsDrJxhhUixPUyjlufLlDbKFHLXdA8beECuVQqkLbGMYOmEUYoo4s9oS3X3JDw/XqVYPSU3PEs9m0E2TmdIcSkU4hTwT33+3D3VdR0UKW4ZUygtUVu5QKi/TbtVoN+pomkQJSafRIAxCpCkZDvqoSF0AVBCGIaFSGGmL8m2HlfsWXb3O2q/rvKjuYpgG6XwGIQTyny8JggkKdXaHvu/zfOsvnlV38YOQtjtg7fctLKPHk18eIzqKaDSh+bpJMpPEyeUYj8YM3QEpJ40QJ9pE1FdKCFhff8aDBz/THY4ZKYO+e4QxbjFvm7ivenx37ytu3LnJwFdsbO7Q6nQYtlxu3bvDZ7e+PQWeKozCkFFkoAwd1WuTtyM+vVLi69UVJk6OYqlITAo6geLRbxvs7B4wl7X45u5tlOL0p0+BuqFj2xbK87GcJJmEQyqboa9Myh+WaB++RkQhZNLksmnE1Y/RpES3nTPZKP5N7PF4zP7+Kx6vrbO1vcfn15e5VlklHHuISZdISyAIkVpEqxeyt/+KTm/I9/fvsrS0cB4oxElabzzZpNXuUrm+QiabJYoiAt9H03WUikApNKnjeUMEYCdTaNp/ZnkDkeWj+pSQ1t4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjZUMDg6NTI6NDIrMDA6MDDrWrkWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI2VDA4OjUyOjQyKzAwOjAwmgcBqgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yNlQwODo1Mjo0MiswMDowMM0SIHUAAAAASUVORK5CYII=",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~table>tbody>tr:nth-child(4)",
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      }
+    },
     LST: {
       url: "https://lst.gg",
       host: "lst.gg",
@@ -6170,52 +5914,67 @@
         }
       }
     },
+    MTV: {
+      url: "https://www.morethantv.me",
+      host: "morethantv.me",
+      siteType: "gazelle",
+      asSource: true,
+      asTarget: false,
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents/browse",
+        params: {
+          searchtext: "{imdb}",
+          title: "{name}"
+        }
+      },
+      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw=="
+    },
     MTeam: {
       url: "https://kp.m-team.cc",
       host: "m-team.cc",
-      siteType: "NexusPHP",
+      siteType: "MTeam",
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABdFBMVEUAAAACAgCCajIDAgEHBgImHw5XSCFcSyNTRCAeGAtpVihSQx9yXSxaSSJxXStZSSKxkUR9ZzCafjvNqE+TeDihhD6niUAdFwsAAAAGBQJ3Yi46MBYAAAAHBQJqVyhmVCcAAAAAAAA1LBSGbjMAAAAgGwx1YC0AAAAAAABENxqNdDYAAAAnIA9NPx0IBwMzKROmiUBSQx8IBgMaFQqCajLOqU86MBa9m0lEOBqSeDhyXStsWSlVRSAuJhJrWClxXCtmVCcjHQ1kUiZvWyoqIxBVRiByXixmVCckHg7rwFruw1zvxFzjulf0yV72yl/uw1v0yF7tw1v1yV74zGD3y1/3yl/1yV/4y1/5zGDxxl3lvFjku1jwxVzIpE3qwFrWsFL5zWDCn0vft1bHpE3MqE/Wr1LvxVz4zF/ctVXet1ZKPBzas1Tyx11ZSSK4l0f6zWDdtlVJPBzYsVNYSCK2lUbetlVIOxvXsFNXSCG1lEXpv1r///+72WvcAAAASXRSTlMAAAAAAKvo6uaQ+OL75/vn++v2/vX5+ogrXOazQ1/e2RsBoO85geUyDrfyRI3Hb6f5y2GA7P79/vz9+/nkwfn7+e35++73+/ejS5QV5gAAAAFiS0dEe0/StfwAAAAHdElNRQflBAoGJSzOxqaDAAAA40lEQVQY02NgZWNHAxycDFyeXqjA24ebgcfXDw348zLwBaALBvKTJhjkFxwSHBoU5hceEREaBFMZKSAoFBXq5ycsIhodAhUMFxOXkJSKCY6VlpGViwuFCEbKKzAoKsUnKKswMqkmRkAEA9TUmTU0kxK0tFkUdZKhgiEpunr6Bn4hqYZGxiZpMNvTTc3M/fyCQjIsLCPh7gzJzMoOCfLzy8nNy4c7KaSgsCgE6OzI4pIIP9IErUCCpWiC1pEBAUEZZeV+AQEB3hWVIQG+VTYMtnZ89nwOjk5W9vZ8zi6ubvZ87h4AngBo3AG4MQYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDY6Mzc6NDQrMDA6MDDepEzfAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA2OjM3OjQ0KzAwOjAwr/n0YwAAAABJRU5ErkJggg==",
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(6)",
+      uploadPath: "/upload",
+      seedDomSelector: ".detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)",
       search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
+        path: "/browse/movie",
+        replaceKey: [
+          "tt",
+          "https://www.imdb.com/title/tt"
+        ],
         params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrenttr .torrentname td a[href*="details.php?id="]',
-          name: '.torrenttr .torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
+          keyword: "{imdb}"
         }
       },
       name: {
         selector: "#name"
       },
       subtitle: {
-        selector: 'input[name="small_descr"]'
+        selector: "#smallDescr"
       },
       description: {
         selector: "#descr"
       },
+      mediainfo: {
+        selector: "#mediainfo"
+      },
       imdb: {
-        selector: 'input[name="url"][type="text"]'
+        selector: "#imdb"
+      },
+      douban: {
+        selector: "#douban"
       },
       tags: {
-        chinese_audio: "#l_dub",
-        diy: "#l_diy",
-        chinese_subtitle: "#l_sub"
+        diy: 'input[value="diy"]',
+        chinese_subtitle: 'input[value="sub"]',
+        chinese_audio: 'input[value="dub"]'
       },
       category: {
-        selector: "#browsecat",
+        selector: "#category",
         map: {
           movie: [
             "401",
@@ -6248,7 +6007,7 @@
         }
       },
       videoCodec: {
-        selector: 'select[name="codec_sel"]',
+        selector: "#videoCodec",
         map: {
           h264: "1",
           hevc: "16",
@@ -6258,41 +6017,83 @@
           mpeg2: "4",
           mpeg4: "15",
           vc1: "2",
-          xvid: "3"
+          xvid: "3",
+          av1: "19"
+        }
+      },
+      audioCodec: {
+        selector: "#audioCodec",
+        map: {
+          aac: "6",
+          ac3: "8",
+          dd: "8",
+          "dd+": "8",
+          flac: "1",
+          dts: "3",
+          truehd: "9",
+          lpcm: "7",
+          dtshdma: "11",
+          atmos: "10",
+          dtsx: "3",
+          ape: "2",
+          wav: "7",
+          other: "7",
+          mp3: "4"
+        }
+      },
+      source: {
+        selector: "#source",
+        map: {
+          uhdbluray: "1'",
+          bluray: "1",
+          hdtv: "4",
+          dvd: "3",
+          web: "8",
+          vhs: "6",
+          hddvd: "6"
         }
       },
       videoType: {
+        selector: "#medium",
         map: {
           uhdbluray: [
+            "1",
             "421",
             "438"
           ],
           bluray: [
+            "1",
             "421",
             "438"
           ],
           remux: [
+            "3",
             "439"
           ],
           encode: [
+            "7",
             "401",
             "419",
             "403",
             "402"
           ],
           web: [
+            "10",
             "419",
             "402"
           ],
           hdtv: [
+            "5",
             "419",
             "402"
           ],
           dvd: [
+            "6",
             "420",
             "435"
           ],
           dvdrip: [
+            "7",
             "401",
             "403"
           ],
@@ -6300,7 +6101,7 @@
         }
       },
       resolution: {
-        selector: 'select[name="standard_sel"]',
+        selector: "#standard",
         map: {
           "2160p": [
             "6",
@@ -6335,7 +6136,7 @@
         }
       },
       area: {
-        selector: 'select[name="processing_sel"]',
+        selector: "#processing",
         map: {
           CN: "1",
           US: "2",
@@ -6348,12 +6149,10 @@
         }
       },
       team: {
-        selector: 'select[name="team_sel"]',
+        selector: "#team",
         map: {
           mteam: "9",
-          mpad: "10",
           tnp: "23",
-          mteamtv: "17",
           kishd: "7",
           bmdru: "6",
           onehd: "18",
@@ -6361,26 +6160,10 @@
           stbox: "20",
           r2hd: "21",
           pack: "8",
-          geek: "24"
+          geek: "24",
+          qhstudio: "34"
         }
       }
-    },
-    MTV: {
-      url: "https://www.morethantv.me",
-      host: "morethantv.me",
-      siteType: "gazelle",
-      asSource: true,
-      asTarget: false,
-      needDoubanInfo: true,
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents/browse",
-        params: {
-          searchtext: "{imdb}",
-          title: "{name}"
-        }
-      },
-      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw=="
     },
     NPUBits: {
       url: "https://npupt.com",
@@ -6550,21 +6333,6 @@
         }
       }
     },
-    "nzbs.in": {
-      url: "https://nzbs.in",
-      host: "nzbs.in",
-      siteType: "nzb",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QATwB9ALSzxfhxAAAAB3RJTUUH5QQMAx4c9w3kIAAAA6xJREFUOMt1lM9rVFcUxz/nvDszieOYMUrGxAR/RU0VreBCUFIo7UIRUqEroUJLVyJ02x9QaKHrLtq/oKUUpKvSdV0VoRulBEG0JJpR44+aTExiMvPuPaeLN5lQ2x54D+65j885993v+crZz645/4ju0gUnQ9SpkHCB3DLMQTAQB4TivRnhXzDf3DaLHB6pcumtfYgIP/x6j9tzy2gmuNOD8r/ALs9RUkqc2Fdj6tQog+M7cHHezSO/XH/A9OwLyDJwR16Bhk2WI9284hwcrTJ1apTjxxt81emwps7nx3YylSDv3Ofu43VS7wcVUAG0B3PBXcgEdg2U+PDsOG+cGOZ5jDQ9Z94TC9GYPN7g/XMHGa4HsgzEpfsUWMWLAgJkRBp14eOLRzi6t455YixkvBeUDzTjoAZM4OieOh9fPMbueongEe0d2VEXBxGiJQ4M93PlwhH276pRDoqIUBI4Hyqcz8pk4kWulLGnsZXL70ywf2QL0SJO0WIIYiQpcWhvjbdf38nE2CC5wbV7OQ9XjLGqMDlWwgWuz0XmVpzRmjM5Eji8ZzvnTo9RuvGMO3OriIBcvnrPV2NgohE4s7ePTJU7C86NVomyRE7WE2utZRZXE82lyFJHKKVF1m/+xMulBXB43mrzvNVBRAhP/rxBa1XJZw2ZEYI4TR/gafU1tvc7z1S4df8FFRfWOhGLQifvMHv/MU8ePcQMREGl0Ka8+dGPLgJu4BF2bqvwyaWTfDc/xPXH4O40thpfninz/bTx2wPh9AhcmVjn66u3eLq0hoj0pBMqtRHEQUjgTq3ex67hBvZXiRUvdDW/bnz7B8wsBVZESJlTq1aIrrSjdIHFTQfFMTXcHHMnOkR3zCF1P3uZC7/PG6iCFrmeiHFMQLsWEBbtNn1a5VA2jmrGYKmfIMpudY5oQivGtpoytyDUvMPDFBBXRKAeKvSFosKGEtU1kHmZdjTWUyK5kQHJnVUzDg8KX5wOTGw3TIr8RrQt8TLltGOkHXPaMUfrNk7wBo/IabLGI1smx5g3ZSaVaXnG8Bbn08nAYCOw7IrjGLBiOQ+8TVPWadKmSZuAOI6jruCyOUTuuAnujgoM90MVw5KSKG5VETIE9WLaem4jPccohrqkwtSBjKODcGAAgijgXNgPx3Yo+waUssRNrxHpWe0rBiu0c2N6ZpGhWomhLSC5cPNusTckzlDVsQjTsx3aeexZ3n8arIjSWja++fk2Ilb07pvFpGt1LoAX4A3xbMTfU7u3vspnhj4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTJUMDM6MzA6MjcrMDA6MDBRcNLMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEyVDAzOjMwOjI3KzAwOjAwIC1qcAAAAABJRU5ErkJggg==",
-      asSource: false,
-      asTarget: false,
-      search: {
-        path: "/search/{name}",
-        params: {
-          t: -1,
-          ob: "size_desc"
-        }
-      }
-    },
     OpenSub: {
       url: "https://www.opensubtitles.org",
       host: "opensubtitles.org",
@@ -6710,120 +6478,6 @@
           JP: "4",
           KR: "5",
           OT: "6"
-        }
-      }
-    },
-    PrivateHD: {
-      url: "https://privatehd.to",
-      host: "privatehd.to",
-      siteType: "AvistaZ",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: false,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse.php",
-        params: {
-          search: "{name}",
-          in: "1",
-          order: "size",
-          sort: "desc"
-        }
-      }
-    },
-    PTer: {
-      url: "https://pterclub.com",
-      host: "pterclub.com",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACu1BMVEUAAAD////Cl3f/sZv/88f/NgD/z6j/VAD/AAD/++v/NwCGe33/rGgAAAX/6dgABBr/zqgTL1vxCACLblsAAAwAEzYAAgiZgmoCAwX9AAAFBAb7q3IEAAADAgL217wFAAD//////////////f///f////9IPkDRiEj/mTr/lTr/lTr9mz3InGrZlFv9tXP/3r0AAAAkGh27YRL7gBBsUTKpVBb/exP/j0D/xJIAAAE5KiX1ewT5eQLpfhxhSzbOagv/lU3/7dkAAAArIBqFUSWNUh9+TCOtXxv5fgy0aimFTh6OUh6NWzJROCbneA3/gCf/yp0EAAABAAIAABQAABUNDB2YVhz7hiDCpYoAAAAAABIAAAsTFBmlXRv/fBX/vYQbGB+4ZRb/iCT/+eUBDx6PVSH/fhz/wowAAAAwJyP0jjnTuKXvx6kABUtfOybTcBP/hTD/1K0AAAJONCH8fwaPXCikcUz/unz/rnPpjT/dcg7/cQn/lUf///8AABVqQSL5gQ1iSCy1XhL/eAr+cgr+dgf+fSb/zKQAChyFTyHndw9bQi/TbwvrdgrrfC77rXUUFhumXBrFbhBhQCy8bByuYRWxYhiuYBunXh+OXDSai38AAAAsIB+kXQ9dRzqogmIjHRstKCgOFyoAAyAAAAk9KyPShTM1O0gAAAtWOSP+nksAAwxxRyPtcxv7pmwDAgNALB5zRyZnPh2WYzz82LoEAAABAAEAAAUAAAP/dwD/dAH/cwH/cgDTdRX2fAT+eAD/eAD+dwD4eAP0ewX2egT/eQD/bwb9ewH/egD/dAD/fQD/dgD+fgH/dQD/fAD/cwD+fgPUcRP+cwP/ewDpdgr+ewLzeQX+fAD+eQD9bwP7fQT/fwD/fQH+fQT0ewb/fgHBZxP/fgLYcRD/egfufAv+dgznew3ndwb///9+450wAAAAuXRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkNDA4HASCOq6ipq2FhZxcCh/r8yuT4vjQVtf7+99b3tRYnq8fCyvH70sLBpNv981gIHBsXafLnTRYYH6n1/HOC/NEhafX3Xw+pui4IB5D+zSYdxv7PwHBdj+36egIw3P3c8Pf2/LIaUO773Pfrlx9y+/Tj9e3hyJdGBwOR87dgNikaBw+xuyEkz4ZA6PVdQ6WmqX0YBw0LDAI5k3AAAAABYktHRAH/Ai3eAAAAB3RJTUUH5QQKBzAvYbh7GgAAAUJJREFUGNNjYMAGGBkVFJWgQFlFlZERJMikpq6hqQUGmto6unr6zCwMDAaGRjt37dq9e/euXXuMTUzNzC1YGRksrfbus7bZf+DgocNHbO3sjx5zcGRjcHJ2cXVzP37Uw9PL28fX78RJ/wB2hsCg4JDQsFOnwyMio6JjYs+cjYvnANllkJB47nxSMicDQ0rqhbNp6VwgwYzMi+cuZWXncOfm5V8+X1DIAxTjLSq+cqKktKy8orLq6oHqmlo+oCB/Xf21Aw2NTc0trddv3GxrFwDpFuzovHW0q7vn9p2793r7+oXAfmKYMPH+uUmTp0ydNn3GzFnCYCGR2XMenHs4d978BQsXLRaFhojYkqWPTjxetlycESmYJFasfHLi6SpJZDEGqdVrnj1fu04aWUxGdv2GjZs2b5FDEZTfum37jtkMBAEAezt4kKiqYGgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDg6NDYrMDA6MDBMncp9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ4OjQ2KzAwOjAwPcBywQAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: "#torrenttable>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      tags: {
-        chinese_audio: "#guoyu",
-        diy: "#diy",
-        cantonese_audio: "#yueyu",
-        chinese_subtitle: "#zhongzi"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "404",
-          tvPack: "404",
-          documentary: "402",
-          concert: "406",
-          sport: "407",
-          cartoon: "403",
-          variety: "405",
-          music: "406"
-        }
-      },
-      videoType: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "6",
-          web: "5",
-          hdtv: "4",
-          dvd: "7",
-          dvdrip: "7",
-          other: "15"
-        }
-      },
-      area: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          CN: "1",
-          US: "4",
-          EU: "4",
-          HK: "2",
-          TW: "3",
-          JP: "6",
-          KR: "5",
-          IND: "7",
-          OT: "8"
         }
       }
     },
@@ -7265,6 +6919,120 @@
         }
       }
     },
+    PTer: {
+      url: "https://pterclub.com",
+      host: "pterclub.com",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACu1BMVEUAAAD////Cl3f/sZv/88f/NgD/z6j/VAD/AAD/++v/NwCGe33/rGgAAAX/6dgABBr/zqgTL1vxCACLblsAAAwAEzYAAgiZgmoCAwX9AAAFBAb7q3IEAAADAgL217wFAAD//////////////f///f////9IPkDRiEj/mTr/lTr/lTr9mz3InGrZlFv9tXP/3r0AAAAkGh27YRL7gBBsUTKpVBb/exP/j0D/xJIAAAE5KiX1ewT5eQLpfhxhSzbOagv/lU3/7dkAAAArIBqFUSWNUh9+TCOtXxv5fgy0aimFTh6OUh6NWzJROCbneA3/gCf/yp0EAAABAAIAABQAABUNDB2YVhz7hiDCpYoAAAAAABIAAAsTFBmlXRv/fBX/vYQbGB+4ZRb/iCT/+eUBDx6PVSH/fhz/wowAAAAwJyP0jjnTuKXvx6kABUtfOybTcBP/hTD/1K0AAAJONCH8fwaPXCikcUz/unz/rnPpjT/dcg7/cQn/lUf///8AABVqQSL5gQ1iSCy1XhL/eAr+cgr+dgf+fSb/zKQAChyFTyHndw9bQi/TbwvrdgrrfC77rXUUFhumXBrFbhBhQCy8bByuYRWxYhiuYBunXh+OXDSai38AAAAsIB+kXQ9dRzqogmIjHRstKCgOFyoAAyAAAAk9KyPShTM1O0gAAAtWOSP+nksAAwxxRyPtcxv7pmwDAgNALB5zRyZnPh2WYzz82LoEAAABAAEAAAUAAAP/dwD/dAH/cwH/cgDTdRX2fAT+eAD/eAD+dwD4eAP0ewX2egT/eQD/bwb9ewH/egD/dAD/fQD/dgD+fgH/dQD/fAD/cwD+fgPUcRP+cwP/ewDpdgr+ewLzeQX+fAD+eQD9bwP7fQT/fwD/fQH+fQT0ewb/fgHBZxP/fgLYcRD/egfufAv+dgznew3ndwb///9+450wAAAAuXRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkNDA4HASCOq6ipq2FhZxcCh/r8yuT4vjQVtf7+99b3tRYnq8fCyvH70sLBpNv981gIHBsXafLnTRYYH6n1/HOC/NEhafX3Xw+pui4IB5D+zSYdxv7PwHBdj+36egIw3P3c8Pf2/LIaUO773Pfrlx9y+/Tj9e3hyJdGBwOR87dgNikaBw+xuyEkz4ZA6PVdQ6WmqX0YBw0LDAI5k3AAAAABYktHRAH/Ai3eAAAAB3RJTUUH5QQKBzAvYbh7GgAAAUJJREFUGNNjYMAGGBkVFJWgQFlFlZERJMikpq6hqQUGmto6unr6zCwMDAaGRjt37dq9e/euXXuMTUzNzC1YGRksrfbus7bZf+DgocNHbO3sjx5zcGRjcHJ2cXVzP37Uw9PL28fX78RJ/wB2hsCg4JDQsFOnwyMio6JjYs+cjYvnANllkJB47nxSMicDQ0rqhbNp6VwgwYzMi+cuZWXncOfm5V8+X1DIAxTjLSq+cqKktKy8orLq6oHqmlo+oCB/Xf21Aw2NTc0trddv3GxrFwDpFuzovHW0q7vn9p2793r7+oXAfmKYMPH+uUmTp0ydNn3GzFnCYCGR2XMenHs4d978BQsXLRaFhojYkqWPTjxetlycESmYJFasfHLi6SpJZDEGqdVrnj1fu04aWUxGdv2GjZs2b5FDEZTfum37jtkMBAEAezt4kKiqYGgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDg6NDYrMDA6MDBMncp9AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ4OjQ2KzAwOjAwPcBywQAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      tags: {
+        chinese_audio: "#guoyu",
+        diy: "#diy",
+        cantonese_audio: "#yueyu",
+        chinese_subtitle: "#zhongzi"
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "404",
+          tvPack: "404",
+          documentary: "402",
+          concert: "406",
+          sport: "407",
+          cartoon: "403",
+          variety: "405",
+          music: "406"
+        }
+      },
+      videoType: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "2",
+          remux: "3",
+          encode: "6",
+          web: "5",
+          hdtv: "4",
+          dvd: "7",
+          dvdrip: "7",
+          other: "15"
+        }
+      },
+      area: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          CN: "1",
+          US: "4",
+          EU: "4",
+          HK: "2",
+          TW: "3",
+          JP: "6",
+          KR: "5",
+          IND: "7",
+          OT: "8"
+        }
+      }
+    },
+    PrivateHD: {
+      url: "https://privatehd.to",
+      host: "privatehd.to",
+      siteType: "AvistaZ",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACDVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQFGPyRwZTsXFQxVTS1nXTYpJRVwZTp5bT93az52aj51aj14bD9NRSgEAwIhHQ7FrlbUvF4rJhMDAwGfjUblymWPfj7RuV3jyWXiyGPgxmPfxmLLtFktJxM1LRDWt0HRskAqJA2chTDmxUaskzTPsD/Ss0B/bipwYSZ5aCnHqj7YuUJCORQ0LAzUsTDPri82LQwMCgIODAISDwOfhSTivjSojSbMqy/CoywcFwYPDQOxlSjYtTFCNw80KwnQrCbXsSe5mSGxkh+ykx/NqiXbtSiliR7JpiTAnyMbFwUPDQKwkiDWsSdBNgw0KgfQqhzYsB3Bnhu7mRq8mhrbsx6lhxbJpBvAnRobFgMQDQKxkRjXsB1CNgk1KgXVrBTSqRM8MAYSDwIVEQIYFAKigg/kuBWqiRDOphPEnhIcFgIQDQGzkBDarxRDNgY1KgPZrQzTqQwrIgIDAwCefgnpug2uiwnRpwvUqgyAZgZwWQV5YAXKoQvbrwxDNgMiGwHKoAXZrAUsIwEEAwCigATquQaSdATWqQXouAXntwbltQbltQXRpQUuJAECAQBJOQB0WwEYEgBYRQBrVAErIgBzWwB9YwF7YQF6YAF8YQFQPwD///9sRWxwAAAAE3RSTlMAD2jG8P0cpvgOpWf292nCxe3vW6icJgAAAAFiS0dErrlrk6cAAAAHdElNRQflBR0MDgqXgh1XAAABKUlEQVQY02NgYGBkYmZhFYYCVhZmJkYGIGBj5xBGARzsbAwMnFzCGICdk4GbB1OYl4+BXxgLEGAQxCYsxMAqIiomLiwsIiEpJS0jKycvL6egqMTKIKysoqomLKyuoamlraOrp6+vp2dgKMwgbGRsYgoUNjO3sLSytrGxsbWzdwAKOzo5u7i6uXt4enn7+ALN9fMPCAQKBwWHhIaFh0dERkXHxAKF4+ITEoHCSckpqWlp6ckZmVnZOUDh3Lz8AqBwYVFxSWlZeUVlVXVNLVC4rr6hESjc1NzSKizc1t7R2dXd09vb29c/YSJQeNLkKVOFhadNnzFz1uw5c+fNmztv/gJhBtaFixYvERZeuHTZ8hUrV60GgjVrp7Hi8jyOoMIRsDiiAUekYY9iAOujViqpcnSrAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA1LTI5VDEyOjE0OjEwKzAwOjAw1eU6iAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNS0yOVQxMjoxNDoxMCswMDowMKS4gjQAAAAASUVORK5CYII=",
+      asSource: true,
+      asTarget: false,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#content-area .block:last table:first>tbody>tr:nth-child(3)",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse.php",
+        params: {
+          search: "{name}",
+          in: "1",
+          order: "size",
+          sort: "desc"
+        }
+      }
+    },
     PuTao: {
       url: "https://pt.sjtu.edu.cn",
       host: "sjtu.edu.cn",
@@ -7611,137 +7379,6 @@
         }
       }
     },
-    SoulVoice: {
-      url: "https://pt.soulvoice.club",
-      host: "soulvoice.club",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBzEdsHQb2wAAA2FJREFUOMut1FuIn9UVBfDf/r7/TKPJSJLGJrWJJo1WMKLgpcSoEYn4oq21gihSCvpii29qC0ZpQSKooeCDLwUvoKDWgigqiBeiBjUVNCApasTMkIpJkwzKjLnM5Vs+/D+pUEtf3LBhwz5ns85eax2+56gtO7oaTVZggOnwVcqM8Mf17Xdeuv/VC9BRg5bueLFIGcH+wcxc5weD5ib8Cp9jomQHXtn6bvd55uP2fvB9r6zXNgNdNz9W1W4gl1JrlVX4JMmtg7GRJpIJah3OLUL9VnkrXbaU2r51R9eZ2iBtK9386mrqjh7AD1F97uy6HGok8B4+wzFM9AcuL/WXyJnD5RTplqr6M27EYvwLX+JIeHMwaOaapCQmsB2jaMg27MU5VXVDKo1mCWzskX2FN3AQJ2C3+EcXmgrV1LTksR7dydRp5DXsJOeLZRa+oNRGfIHnsABn4Wji8ag9Cc1tFzQIjdcj9/bE/Iy6XPJ+4k0MspQk40me7wddiFk8ikcamfvDprc0cNvPW2FO1cPkN3gI46p+Qh2iaUysX4R9qpbiKJ4Jvwt3ah2MDFf9bX3d9/asZF7TjIyoGitaVSvE2Pz0VVPlwOKq+siQySmdo4rbN739H2H/L8Vfc+uoE9f+3uTev5+0csWqJZt/MTmindlzeHrBlyvXHlALDn63U74prtt8CtLQnFJVF+E0HEmy/7jRbttDN9UynEctxwx2hndqduZQjl+oXb6boUS4fvMalbal+WVVPY2HcYs4A4cfearZU2U8jPRk3IWni78aGT275mZ1e1cPB163eY3R0U4ql1TVvTgXB/C88qOqusxkVeIE6ooMey9jHr/GPemcnKL7cPUQ4bGZZnGVm4dy8VmS7Tgbl2L3ow/oovYVh4urw6LIG5jGpuLa6tJY2D+5yrreBdNJ/l1Vl/Ra+zDx4ksfUDGNv+FIcXGp0zN000C5MuXEVAyaZiCZ24BlmKuqdf1X9s/En7pkVyEV1HPFqbgFa2uoRzhD1enY33SZXYjze+YmsQsPJm6UPNuU7qkt49qVEyTTSbYmbsaTvVUncRzOK626/q41Y4mNkhb7sa/PY09uGf8vnc3u/akobc2N4cdiObW8yj7mtw9YNlXlBcUTd7/r/8XIqk+/Kaf6/Pjb/a8BRYVt72oJuZAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDk6MjkrMDA6MDCTeNgtAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ5OjI5KzAwOjAw4iVgkQAAAABJRU5ErkJggg==",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      needDoubanBookInfo: true,
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          cartoon: "405",
-          sport: "407",
-          concert: "406",
-          variety: "403",
-          music: "408"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "2",
-          h265: "2",
-          x264: "1",
-          x265: "2",
-          mpeg2: "5",
-          mpeg4: "1",
-          vc1: "5",
-          xvid: "5"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "3",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "4",
-          "576p": "4",
-          "480p": "4"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hds: "1",
-          chd: "2",
-          frds: "3",
-          cmct: "4",
-          other: "5"
-        }
-      }
-    },
-    SpeedApp: {
-      url: "https://speedapp.io",
-      host: "speedapp.io",
-      siteType: "SpeedApp",
-      icon: "data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAAAACdnZ0Ao6OjA01NTXwuLi7HAAAA8QAAAOsAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOsAAADyLCwsyU5OTnujo6MDnZ2dAJiYmAw2NjbLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/zY2NsuYmJgMRkZGkAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0ZGRpARERHjAAAA/wAAAP8AAwT/AB4p/wAhK/8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyj/ACQs/wARFv8AGiD/ACUu/wAeKP8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyn/AB8o/wAiLP8AHCX/AAAA/wAAAP8AAAD/ERER4wAAAPAAAAD/AAAA/wAtNf8A2f//ANH//wDK//8Ayv//AMr//wDK//8Ayv//AMr//wDJ//8A2P//AKLM/wCkzf8A7f//AMf//wDJ//8Ayv//AMr//wDK//8Ayv//AMr//wDK//8Ayf//ANb//wDM/f8AHCX/AAAA/wAAAP8AAADwAgIC7QAAAP8AAAD/ADQ8/wDj//8A1v//AND//wDQ//8A0P//AND//wDQ//8A0P//AM///wDR//8A9///AG+M/wCXuP8A+P//AM3//wDQ//8A0P//AND//wDQ//8A0P//AND//wDP//8A2///ANb//wAiLf8AAAD/AAAA/wICAu0DAwPsAAAA/wAAAP8AMDf/ANX//wDK//8AxP//AMT//wDE//8AxP//AMT//wDE//8AxP//AO///wCbuP8AAAD/AAAA/wCv0/8A6///AMH//wDE//8AxP//AMT//wDE//8AxP//AMP//wDP//8Ayf//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMf//wDX//8AgZn/AAAA/wAAAP8AAAD/AAUJ/wCVtP8A2P//AMb//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//AN7//wA/Vv8AAAD/AAAA/wAAAP8AAAD/AFt1/wDj//8Ax///AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDE//8Azv//AN///wBKYP8AAAD/AAAA/wBief8A4///AMn//wDE//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMX//wDB//8A1f//AOz//wA1Q/8AR1n/AO7//wDQ//8Awv//AMX//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMT//wDG//8Axv//AMT//wDF//8Axf//AMP//wDR//8Avef/AJ3J/wDW//8Az///AMH//wDF//8Axf//AMX//wDE//8Axv//AMb//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDK//8Aw///ANz//wDf//8Ax///AML//wDD//8A1f//ALfg/wCCqP8Ax/P/ANL//wDC//8Axf//AMX//wDF//8Awv//AMn//wDg//8A2P//AMH//wDP//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wA1PP8A3///AMr//wDu//8AfJn/AGmA/wDr//8Ayf//ANL//wC34f8Agqj/AMPv/wDR//8Aw///AMX//wDF//8Axf//AMH//wDR//8A4v//AGB4/wCTtf8A7P//AM3//wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ACIo/wDA6v8A+///AJy3/wAAAP8AAAD/AHeN/wD8//8At+P/AIGn/wDD7/8A0f//AMP//wDF//8Axf//AMX//wDC//8A0P//AO///wBkev8AAAD/AAUH/wCv0/8A+P//AMf//wAeKP8AAAD/AAAA/wMDA+wBAQHsAAAA/wAAAP8AKjP/AKnO/wBsgv8AAAD/AAAA/wAAAP8AAAD/AFVi/wCgy/8AxO7/ANH//wDD//8Axf//AMX//wDF//8Awv//ANP//wDX+v8ARVj/AAAA/wAAAP8AAAD/AAAB/wCatP8A7P//ACMu/wAAAP8AAAD/AQEB7AAAAOwAAAD/AAAA/wA4Q/8A8///AGd+/wAAAP8AAAD/AAAA/wAAAP8AQ1j/ANv//wDS//8Awv//AMX//wDF//8Axf//AMP//wDR//8Ax+//AJ/L/wAwQf8AAAD/AAAA/wAAAP8AAAD/AG+I/wCoyf8AHiX/AAAA/wAAAP8AAADsAwMD7AAAAP8AAAD/AC02/wDa//8A+P//AICW/wAAAP8AAAD/AGR6/wDt//8Az///AML//wDF//8Axf//AMX//wDD//8A0f//AMLu/wCAp/8Avur/AO7//wBMYf8AAAD/AAAA/wCbuf8A9v//AKXQ/wAWHP8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANT//wDP//8A7///AGd9/wBTZ/8A6P//AND//wDB//8Axf//AMX//wDF//8Aw///ANH//wDD7/8Agaf/ALfg/wDR//8A1f//AN3//wBHWv8Afpv/AO7//wDR//8A1///ACIs/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMn//wDH//8A2f//ANv//wDL//8Awv//AMX//wDF//8Axf//AML//wDS//8AxPH/AICn/wC24f8A1f//AMP//wDB//8Azv//ANz//wDY//8AxP//AM///wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMT//wDI//8AyP//AMT//wDF//8Axf//AMX//wDB//8Az///ANj//wCeyP8At+P/ANL//wDD//8Axf//AMX//wDE//8Ayf//AMf//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDF//8Awf//AND//wDt//8ARVj/AFVl/wD7//8Ayf//AMP//wDF//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMP//wDL//8A6f//AGJ5/wAAAP8AAAD/AHWL/wDr//8Ax///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//ANz//wBNZf8AAAD/AAAA/wAAAP8AAAD/AGd//wDh//8Axv//AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDI//8A2v//AGd8/wAAAP8AAAD/AAAA/wAAAP8Afpj/ANz//wDG//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMT//wDH//8A8P//AH6V/wAAAP8AAAD/AJe0/wDu//8Aw///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7QAAAP8AAAD/ADM7/wDd//8A0f//AMv//wDL//8Ay///AMv//wDL//8Ay///AMn//wDP//8A9///AGV+/wBogf8A/f//AMr//wDK//8Ay///AMv//wDL//8Ay///AMv//wDK//8A1v//ANH//wAhLP8AAAD/AAAA/wMDA+0AAADwAAAA/wAAAP8AMTn/AOf//wDe//8A1v//ANb//wDW//8A1v//ANb//wDW//8A1v//ANT//wDa//8A9P//AKTK/wC76P8A4f//ANb//wDW//8A1v//ANb//wDW//8A1v//ANX//wDj//8A2f//AB4o/wAAAP8AAAD/AAAA8AcHB+UAAAD/AAAA/wAHCf8AMTn/ADM6/wAwN/8AMDf/ADA3/wAwN/8AMDf/ADA3/wAwN/8AMDf/AC43/wA5QP8AKDL/ACAo/wA1Ov8ALzf/ADA3/wAwN/8AMDf/ADA3/wAwN/8ALzf/ADQ7/wAuNv8AAwT/AAAA/wAAAP8HBwflVVVVowAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/1VVVaOqqqobERER6gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8RERHqqqqqG6GhoQBeXl4dNzc3nA4ODuIAAADxAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAPENDQ3iNzc3nF5eXh2hoaEAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "div.row.d-sm-none + div + div",
-      uploadPath: "/upload",
-      needDoubanInfo: false,
-      search: {
-        path: "/browse",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          search_area: "{optionKey}",
-          search: "{imdb}"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      description: {
-        selector: "#torrentDescription_releaseInfo"
-      },
-      imdb: {
-        selector: "#url"
-      },
-      mediaInfo: {
-        selector: "#torrentDescription_mediaInfo"
-      },
-      bdinfo: {
-        selector: "#torrentDescription_bdInfo"
-      },
-      screenshots: {
-        selector: "#torrentDescription_screenshots"
-      }
-    },
     SSD: {
       url: "https://springsunday.net",
       host: "springsunday.net",
@@ -7873,6 +7510,137 @@
           KR: "10",
           OT: "3"
         }
+      }
+    },
+    SoulVoice: {
+      url: "https://pt.soulvoice.club",
+      host: "soulvoice.club",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBzEdsHQb2wAAA2FJREFUOMut1FuIn9UVBfDf/r7/TKPJSJLGJrWJJo1WMKLgpcSoEYn4oq21gihSCvpii29qC0ZpQSKooeCDLwUvoKDWgigqiBeiBjUVNCApasTMkIpJkwzKjLnM5Vs+/D+pUEtf3LBhwz5ns85eax2+56gtO7oaTVZggOnwVcqM8Mf17Xdeuv/VC9BRg5bueLFIGcH+wcxc5weD5ib8Cp9jomQHXtn6bvd55uP2fvB9r6zXNgNdNz9W1W4gl1JrlVX4JMmtg7GRJpIJah3OLUL9VnkrXbaU2r51R9eZ2iBtK9386mrqjh7AD1F97uy6HGok8B4+wzFM9AcuL/WXyJnD5RTplqr6M27EYvwLX+JIeHMwaOaapCQmsB2jaMg27MU5VXVDKo1mCWzskX2FN3AQJ2C3+EcXmgrV1LTksR7dydRp5DXsJOeLZRa+oNRGfIHnsABn4Wji8ag9Cc1tFzQIjdcj9/bE/Iy6XPJ+4k0MspQk40me7wddiFk8ikcamfvDprc0cNvPW2FO1cPkN3gI46p+Qh2iaUysX4R9qpbiKJ4Jvwt3ah2MDFf9bX3d9/asZF7TjIyoGitaVSvE2Pz0VVPlwOKq+siQySmdo4rbN739H2H/L8Vfc+uoE9f+3uTev5+0csWqJZt/MTmindlzeHrBlyvXHlALDn63U74prtt8CtLQnFJVF+E0HEmy/7jRbttDN9UynEctxwx2hndqduZQjl+oXb6boUS4fvMalbal+WVVPY2HcYs4A4cfearZU2U8jPRk3IWni78aGT275mZ1e1cPB163eY3R0U4ql1TVvTgXB/C88qOqusxkVeIE6ooMey9jHr/GPemcnKL7cPUQ4bGZZnGVm4dy8VmS7Tgbl2L3ow/oovYVh4urw6LIG5jGpuLa6tJY2D+5yrreBdNJ/l1Vl/Ra+zDx4ksfUDGNv+FIcXGp0zN000C5MuXEVAyaZiCZ24BlmKuqdf1X9s/En7pkVyEV1HPFqbgFa2uoRzhD1enY33SZXYjze+YmsQsPJm6UPNuU7qkt49qVEyTTSbYmbsaTvVUncRzOK626/q41Y4mNkhb7sa/PY09uGf8vnc3u/akobc2N4cdiObW8yj7mtw9YNlXlBcUTd7/r/8XIqk+/Kaf6/Pjb/a8BRYVt72oJuZAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6NDk6MjkrMDA6MDCTeNgtAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjQ5OjI5KzAwOjAw4iVgkQAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
+      needDoubanBookInfo: true,
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          concert: "406",
+          variety: "403",
+          music: "408"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          hevc: "2",
+          h265: "2",
+          x264: "1",
+          x265: "2",
+          mpeg2: "5",
+          mpeg4: "1",
+          vc1: "5",
+          xvid: "5"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "2160p": "3",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "4",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          hds: "1",
+          chd: "2",
+          frds: "3",
+          cmct: "4",
+          other: "5"
+        }
+      }
+    },
+    SpeedApp: {
+      url: "https://speedapp.io",
+      host: "speedapp.io",
+      siteType: "SpeedApp",
+      icon: "data:image/x-icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABMLAAATCwAAAAAAAAAAAACdnZ0Ao6OjA01NTXwuLi7HAAAA8QAAAOsAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOoAAADqAAAA6gAAAOsAAADyLCwsyU5OTnujo6MDnZ2dAJiYmAw2NjbLAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/zY2NsuYmJgMRkZGkAAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/0ZGRpARERHjAAAA/wAAAP8AAwT/AB4p/wAhK/8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyj/ACQs/wARFv8AGiD/ACUu/wAeKP8AHyn/AB8p/wAfKf8AHyn/AB8p/wAfKf8AHyn/AB8o/wAiLP8AHCX/AAAA/wAAAP8AAAD/ERER4wAAAPAAAAD/AAAA/wAtNf8A2f//ANH//wDK//8Ayv//AMr//wDK//8Ayv//AMr//wDJ//8A2P//AKLM/wCkzf8A7f//AMf//wDJ//8Ayv//AMr//wDK//8Ayv//AMr//wDK//8Ayf//ANb//wDM/f8AHCX/AAAA/wAAAP8AAADwAgIC7QAAAP8AAAD/ADQ8/wDj//8A1v//AND//wDQ//8A0P//AND//wDQ//8A0P//AM///wDR//8A9///AG+M/wCXuP8A+P//AM3//wDQ//8A0P//AND//wDQ//8A0P//AND//wDP//8A2///ANb//wAiLf8AAAD/AAAA/wICAu0DAwPsAAAA/wAAAP8AMDf/ANX//wDK//8AxP//AMT//wDE//8AxP//AMT//wDE//8AxP//AO///wCbuP8AAAD/AAAA/wCv0/8A6///AMH//wDE//8AxP//AMT//wDE//8AxP//AMP//wDP//8Ayf//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMf//wDX//8AgZn/AAAA/wAAAP8AAAD/AAUJ/wCVtP8A2P//AMb//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//AN7//wA/Vv8AAAD/AAAA/wAAAP8AAAD/AFt1/wDj//8Ax///AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDE//8Azv//AN///wBKYP8AAAD/AAAA/wBief8A4///AMn//wDE//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwN/8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMX//wDB//8A1f//AOz//wA1Q/8AR1n/AO7//wDQ//8Awv//AMX//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA3/wDW//8Ay///AMT//wDG//8Axv//AMT//wDF//8Axf//AMP//wDR//8Avef/AJ3J/wDW//8Az///AMH//wDF//8Axf//AMX//wDE//8Axv//AMb//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDf/ANb//wDK//8Aw///ANz//wDf//8Ax///AML//wDD//8A1f//ALfg/wCCqP8Ax/P/ANL//wDC//8Axf//AMX//wDF//8Awv//AMn//wDg//8A2P//AMH//wDP//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wA1PP8A3///AMr//wDu//8AfJn/AGmA/wDr//8Ayf//ANL//wC34f8Agqj/AMPv/wDR//8Aw///AMX//wDF//8Axf//AMH//wDR//8A4v//AGB4/wCTtf8A7P//AM3//wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ACIo/wDA6v8A+///AJy3/wAAAP8AAAD/AHeN/wD8//8At+P/AIGn/wDD7/8A0f//AMP//wDF//8Axf//AMX//wDC//8A0P//AO///wBkev8AAAD/AAUH/wCv0/8A+P//AMf//wAeKP8AAAD/AAAA/wMDA+wBAQHsAAAA/wAAAP8AKjP/AKnO/wBsgv8AAAD/AAAA/wAAAP8AAAD/AFVi/wCgy/8AxO7/ANH//wDD//8Axf//AMX//wDF//8Awv//ANP//wDX+v8ARVj/AAAA/wAAAP8AAAD/AAAB/wCatP8A7P//ACMu/wAAAP8AAAD/AQEB7AAAAOwAAAD/AAAA/wA4Q/8A8///AGd+/wAAAP8AAAD/AAAA/wAAAP8AQ1j/ANv//wDS//8Awv//AMX//wDF//8Axf//AMP//wDR//8Ax+//AJ/L/wAwQf8AAAD/AAAA/wAAAP8AAAD/AG+I/wCoyf8AHiX/AAAA/wAAAP8AAADsAwMD7AAAAP8AAAD/AC02/wDa//8A+P//AICW/wAAAP8AAAD/AGR6/wDt//8Az///AML//wDF//8Axf//AMX//wDD//8A0f//AMLu/wCAp/8Avur/AO7//wBMYf8AAAD/AAAA/wCbuf8A9v//AKXQ/wAWHP8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANT//wDP//8A7///AGd9/wBTZ/8A6P//AND//wDB//8Axf//AMX//wDF//8Aw///ANH//wDD7/8Agaf/ALfg/wDR//8A1f//AN3//wBHWv8Afpv/AO7//wDR//8A1///ACIs/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMn//wDH//8A2f//ANv//wDL//8Awv//AMX//wDF//8Axf//AML//wDS//8AxPH/AICn/wC24f8A1f//AMP//wDB//8Azv//ANz//wDY//8AxP//AM///wDJ//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMT//wDI//8AyP//AMT//wDF//8Axf//AMX//wDB//8Az///ANj//wCeyP8At+P/ANL//wDD//8Axf//AMX//wDE//8Ayf//AMf//wDD//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDF//8Awf//AND//wDt//8ARVj/AFVl/wD7//8Ayf//AMP//wDF//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMP//wDL//8A6f//AGJ5/wAAAP8AAAD/AHWL/wDr//8Ax///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7AAAAP8AAAD/ADA4/wDW//8Ay///AMX//wDF//8Axf//AMX//wDF//8Ayf//ANz//wBNZf8AAAD/AAAA/wAAAP8AAAD/AGd//wDh//8Axv//AMX//wDF//8Axf//AMX//wDE//8A0P//AMr//wAfKf8AAAD/AAAA/wMDA+wDAwPsAAAA/wAAAP8AMDj/ANb//wDL//8Axf//AMX//wDF//8Axf//AMX//wDI//8A2v//AGd8/wAAAP8AAAD/AAAA/wAAAP8Afpj/ANz//wDG//8Axf//AMX//wDF//8Axf//AMT//wDQ//8Ayv//AB8p/wAAAP8AAAD/AwMD7AMDA+wAAAD/AAAA/wAwOP8A1v//AMv//wDF//8Axf//AMX//wDF//8Axf//AMT//wDH//8A8P//AH6V/wAAAP8AAAD/AJe0/wDu//8Aw///AMT//wDF//8Axf//AMX//wDF//8AxP//AND//wDK//8AHyn/AAAA/wAAAP8DAwPsAwMD7QAAAP8AAAD/ADM7/wDd//8A0f//AMv//wDL//8Ay///AMv//wDL//8Ay///AMn//wDP//8A9///AGV+/wBogf8A/f//AMr//wDK//8Ay///AMv//wDL//8Ay///AMv//wDK//8A1v//ANH//wAhLP8AAAD/AAAA/wMDA+0AAADwAAAA/wAAAP8AMTn/AOf//wDe//8A1v//ANb//wDW//8A1v//ANb//wDW//8A1v//ANT//wDa//8A9P//AKTK/wC76P8A4f//ANb//wDW//8A1v//ANb//wDW//8A1v//ANX//wDj//8A2f//AB4o/wAAAP8AAAD/AAAA8AcHB+UAAAD/AAAA/wAHCf8AMTn/ADM6/wAwN/8AMDf/ADA3/wAwN/8AMDf/ADA3/wAwN/8AMDf/AC43/wA5QP8AKDL/ACAo/wA1Ov8ALzf/ADA3/wAwN/8AMDf/ADA3/wAwN/8ALzf/ADQ7/wAuNv8AAwT/AAAA/wAAAP8HBwflVVVVowAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/1VVVaOqqqobERER6gAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8RERHqqqqqG6GhoQBeXl4dNzc3nA4ODuIAAADxAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAOwAAADsAAAA7AAAAPENDQ3iNzc3nF5eXh2hoaEAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "div.row.d-sm-none + div + div",
+      uploadPath: "/upload",
+      needDoubanInfo: false,
+      search: {
+        path: "/browse",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          search_area: "{optionKey}",
+          search: "{imdb}"
+        }
+      },
+      name: {
+        selector: "#name"
+      },
+      description: {
+        selector: "#torrentDescription_releaseInfo"
+      },
+      imdb: {
+        selector: "#url"
+      },
+      mediaInfo: {
+        selector: "#torrentDescription_mediaInfo"
+      },
+      bdinfo: {
+        selector: "#torrentDescription_bdInfo"
+      },
+      screenshots: {
+        selector: "#torrentDescription_screenshots"
       }
     },
     SubHD: {
@@ -8016,23 +7784,6 @@
           catedu: "4",
           madfox: "5",
           other: "7"
-        }
-      }
-    },
-    TeamHD: {
-      url: "https://teamhd.org",
-      host: "teamhd.org",
-      siteType: "TeamHD",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: false,
-      seedDomSelector: "#details_hop",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse",
-        params: {
-          incldead: "0",
-          search: "{name}"
         }
       }
     },
@@ -8463,6 +8214,23 @@
         }
       }
     },
+    TeamHD: {
+      url: "https://teamhd.org",
+      host: "teamhd.org",
+      siteType: "TeamHD",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC",
+      asSource: true,
+      asTarget: false,
+      seedDomSelector: "#details_hop",
+      needDoubanInfo: true,
+      search: {
+        path: "/browse",
+        params: {
+          incldead: "0",
+          search: "{name}"
+        }
+      }
+    },
     UHDBits: {
       url: "https://uhdbits.org",
       host: "uhdbits.org",
@@ -8652,6 +8420,147 @@
         selector: "#rc_select_12"
       }
     },
+    fearnopeer: {
+      url: "https://fearnopeer.com",
+      host: "fearnopeer.com",
+      siteType: "UNIT3D",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACnklEQVR4nK1UO0hjURA9KRIw6EOUYIgWaqVRMRjBQtFnWgujkCLgBwsRERRMZZIiiJqAKIiVqPgjLAiSNJqPIClsBBtFxC4WtjYr2OlZ5vKy7Kq7G1wHhvvevJnz5pw79wIfmwWADmADwBWA7wBejPXKiOtG3j/NBsADIAwgBSAP4BnAq7HmjXjYyLP9CcgEoAxA0ChiEZ438suM+t9Mgt8APBYJVvBHo67sLc3gJ8D4C2iwQN9saFEszb/R9wigbrVaQ1VVVWxoaGBLS4vy1tZWut1utZaWlr4DqK2tVXlNTU2qrq6ujpqmhQRww263p0dGRnh0dMREIsHd3V3u7OwwmUxyb29PFQmIyWSixWJRz0tLS8xms9zf3+fy8jLX19fp8XjSAnitaVq+v7+ft7e3jMVibGxspNlspnRdUlKingXE4XBQfizvq6urzGQyHB8fZ2VlJS8vL7m1tSW08VRdXf08Pz/P+/t7lej3+xVdKQwEApyYmGB9fT1dLhcPDg5ot9t5eHjIeDzOrq4uFX94eODi4qLMKV6cTufr8fExb25uVPuDg4NKF5vNxlwux7OzMw4PD7O3t5fb29tsb29X3Z2cnHB6eprBYJCbm5vs6emR4cdTR0fHs4CJhkJJqIpWAiBFqVSKKysrnJycVBRHR0d5fn6u9J6ZmeHs7Czb2tqkRnV43dfXl7+7u+PU1BQrKip+7mIkEuHc3BwHBga4tramKIoUIsvFxQXHxsbej47P59uIRqPp09NTRaWwi6LT0NAQu7u71dh4vV6Gw2G1YQsLCwpU1/W3gGl0dnbqbrc71NzcTKvVqkZDPgqwaFiYwfLyctbU1Khdl+7FNU17Cxj68KQUQD97Ur78LMOwL71txL78PizYf93YPwA8btamn3E35AAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/torrents/create?category_id=1",
+      needDoubanInfo: true,
+      seedDomSelector: ".torrent__buttons+.panelV2",
+      search: {
+        path: "/torrents",
+        replaceKey: [
+          "tt",
+          ""
+        ],
+        params: {
+          name: "{name}",
+          imdbId: "{imdb}",
+          sortField: "size"
+        }
+      },
+      name: {
+        selector: "#title"
+      },
+      description: {
+        selector: "#bbcode-description"
+      },
+      imdb: {
+        selector: "#autoimdb"
+      },
+      tmdb: {
+        selector: "#autotmdb"
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      anonymous: {
+        selector: '.form__group input[type="checkbox"][name="anon"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "1",
+          tv: "2",
+          tvPack: "2"
+        }
+      },
+      videoType: {
+        selector: "#autotype",
+        map: {
+          uhdbluray: "1",
+          bluray: "1",
+          remux: "3",
+          encode: "12",
+          web: "4",
+          hdtv: "6",
+          dvd: "1",
+          dvdrip: "12",
+          other: ""
+        }
+      },
+      resolution: {
+        selector: "#autores",
+        map: {
+          "4320p": "11",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "3",
+          "720p": "5",
+          "576p": "6",
+          "480p": "8"
+        }
+      }
+    },
+    iTS: {
+      url: "http://shadowthein.net",
+      host: "shadowthein.net",
+      siteType: "its",
+      asSource: false,
+      asTarget: true,
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQMAxcfv8YO0wAABQ5JREFUOMutlF2MVPUZxn//c86cMzOH2ZllZ2YZYIddlv2gyAJiEWK9MKXEQk1TUYGqbaQ3LdoES1pNbFou2qSJadI0XDTWikntRzBpVD6k0hBJU8S1iwou7MCwOw7L7Lq7M+zsfJ3vvxerTZv2ss/Ve/HLm/d9nuSB/7PEXKpTm+hfZ06s+Edzdd6Obr5I/fw2jOQc4b7rcGErSLE1+NXTv61uHlkf6i4QaURZ2H+UWGEVmm3AwDWFE7u+7jxw4i917Ur/qt3Uc4fc0sCpjsrVHefu7T9yx+hoFthf13D7rqFMp3OzTu6Rbz30Kmsb8dhPSxvuO1Ruf+N7bQvcJQX+bCquhuqjw/qR5w5oq/K5+bzSXGcpy1N6S8nMyOmHkSFZU9S+UqdPf93Ft6xB74PUfb3jV6vFjuaW95SLu7e12BBEGPAV0J0q7lxbevdZ/zfa1NLl8zfsZrXRmvzDgpbs7ilUH/3Y8IP2sEKnHeCGw7ieQSqoRYKOFW/WDW90qLzwdKlDk2nLQ0iQIiCkiZCRQtOu3tVstoyhCcVLfzL84chaoyxZ3rKU/oZNMwKGDVpIRzYS8vUd6XQmNyajcw1Cniqk8PAVUAQ4ARTHQdvx2lT7hYw/dGvVmqC7Xlo/ZnjcE4D0QbdBCh+BT6RmBFtyf+03q3K9p4AbAtUDXwdfBflZykpuaHPvkrmqLqYLqt50ZO/8Am4koBiDyRh4IXClpLHSxZExpKWBhIgFjgFhCzQHVBfiAtTeR7ZXJmYraxur7+yyPdcpWCSy4CWFo4a9xXemTBNscamcHDjzTuCnroUjbRnctnDgC1dfvPR6IuFYyTv+qDz20hvF7xTLr6y5Pb5ma/Pj7sEus1Fvz0ybDQi7ix5aBKi11gE/0uw6WCjsXdj25V3pOlckoHngK1AP6aXKxtCU1nO7wkgmmWzNVOz5+lK77DbjCTVu2gbYOpgWVIhKA5GYjJl7FSnPBkIft3W31lRA+OD7UBDOjRdnsuNaAJSz2cCLBd6oHvHFzSJh6QuzsWi02oT8uvhkd8vMRwjtOvm1L506d8/g7NDlfEr1W/gq1FSFmY4Om1uPo/38wFMIX/1z4BcyD57/4FBbpURD1WlFQAC5lEHeajsTbN76fNtM/idD71/dV2WBmgpRINqCtxOdVPX06Ydv9vlKvbeHt/bvW9g4p32UKs97qqviSQPVB9WC4UjaHlm54k3riYeKG2/X87rXQOKB9ACYDcP5ZHuxNtjzd/Xe7ajHLl9m03sj38gWLx017PISXw+IeQ6ocNFYwvGevrPBzu2/fuLIC7/MFke/b1h1ITXQFIg6cNzsdM4tjR8+eez4qeErOZQVpZIiBXuXTU2ZIU9iuLCkKckpCke7+kanB1LP3S1NNTl7e/uy6YqCANODRA1eb0vwau/gyWDNht9/89Fvy+d/+CwaIDxNM/FASLBROd0e9c90rr70/qah7z7QcP7pes5KgUQBhCuouAqvrEw4b6cHTl784qYnzWJm/m/HngFAk0L4p7bc/eE7RvSrk5GQHDaXjY0vjb+s79z5p7Gx0Zt7+7+Ap6rudEivzWkRzkVizkSm492Psl0vZHfcf+LOWm3+rc+WAWg/3rMHRSgv30olqo2wcsONLx9+8KXfFScvvCtPAxw+zM8OHvzE2rPnR1OJeP98Mn49RPL8yLEXK18R+/gFP/jPxpZS/msGpBDiv2r935hF8H8wn+tTfi1WST2Ov5MAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTJUMDM6MjM6MzErMDA6MDDUs4OrAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEyVDAzOjIzOjMxKzAwOjAwpe47FwAAAABJRU5ErkJggg==",
+      seedDomSelector: "h1~.line>tbody>tr:nth-child(2)",
+      needDoubanInfo: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/browse.php",
+        params: {
+          incldead: 1,
+          search: "{imdb}",
+          search_in: "names",
+          sort: 5,
+          type: "desc"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      imdb: {
+        selector: 'input[name="imdblink"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      tags: {
+        hdr: 'input[name="HDR10"]',
+        hdr10_plus: 'input[name="HDR10Plus"]',
+        dolby_vision: 'input[name="DolbyVision"]'
+      },
+      anonymous: {
+        selector: 'input[name="anonymous"][value="true"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "68",
+          tv: "65",
+          concert: "61",
+          music: "6",
+          ebook: "26"
+        }
+      }
+    },
+    "nzbs.in": {
+      url: "https://nzbs.in",
+      host: "nzbs.in",
+      siteType: "nzb",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QATwB9ALSzxfhxAAAAB3RJTUUH5QQMAx4c9w3kIAAAA6xJREFUOMt1lM9rVFcUxz/nvDszieOYMUrGxAR/RU0VreBCUFIo7UIRUqEroUJLVyJ02x9QaKHrLtq/oKUUpKvSdV0VoRulBEG0JJpR44+aTExiMvPuPaeLN5lQ2x54D+65j885993v+crZz645/4ju0gUnQ9SpkHCB3DLMQTAQB4TivRnhXzDf3DaLHB6pcumtfYgIP/x6j9tzy2gmuNOD8r/ALs9RUkqc2Fdj6tQog+M7cHHezSO/XH/A9OwLyDJwR16Bhk2WI9284hwcrTJ1apTjxxt81emwps7nx3YylSDv3Ofu43VS7wcVUAG0B3PBXcgEdg2U+PDsOG+cGOZ5jDQ9Z94TC9GYPN7g/XMHGa4HsgzEpfsUWMWLAgJkRBp14eOLRzi6t455YixkvBeUDzTjoAZM4OieOh9fPMbueongEe0d2VEXBxGiJQ4M93PlwhH276pRDoqIUBI4Hyqcz8pk4kWulLGnsZXL70ywf2QL0SJO0WIIYiQpcWhvjbdf38nE2CC5wbV7OQ9XjLGqMDlWwgWuz0XmVpzRmjM5Eji8ZzvnTo9RuvGMO3OriIBcvnrPV2NgohE4s7ePTJU7C86NVomyRE7WE2utZRZXE82lyFJHKKVF1m/+xMulBXB43mrzvNVBRAhP/rxBa1XJZw2ZEYI4TR/gafU1tvc7z1S4df8FFRfWOhGLQifvMHv/MU8ePcQMREGl0Ka8+dGPLgJu4BF2bqvwyaWTfDc/xPXH4O40thpfninz/bTx2wPh9AhcmVjn66u3eLq0hoj0pBMqtRHEQUjgTq3ex67hBvZXiRUvdDW/bnz7B8wsBVZESJlTq1aIrrSjdIHFTQfFMTXcHHMnOkR3zCF1P3uZC7/PG6iCFrmeiHFMQLsWEBbtNn1a5VA2jmrGYKmfIMpudY5oQivGtpoytyDUvMPDFBBXRKAeKvSFosKGEtU1kHmZdjTWUyK5kQHJnVUzDg8KX5wOTGw3TIr8RrQt8TLltGOkHXPaMUfrNk7wBo/IabLGI1smx5g3ZSaVaXnG8Bbn08nAYCOw7IrjGLBiOQ+8TVPWadKmSZuAOI6jruCyOUTuuAnujgoM90MVw5KSKG5VETIE9WLaem4jPccohrqkwtSBjKODcGAAgijgXNgPx3Yo+waUssRNrxHpWe0rBiu0c2N6ZpGhWomhLSC5cPNusTckzlDVsQjTsx3aeexZ3n8arIjSWja++fk2Ilb07pvFpGt1LoAX4A3xbMTfU7u3vspnhj4AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTJUMDM6MzA6MjcrMDA6MDBRcNLMAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEyVDAzOjMwOjI3KzAwOjAwIC1qcAAAAABJRU5ErkJggg==",
+      asSource: false,
+      asTarget: false,
+      search: {
+        path: "/search/{name}",
+        params: {
+          t: -1,
+          ob: "size_desc"
+        }
+      }
+    },
     zimuku: {
       url: "http://zimuku.org",
       host: "zimuku.org",
@@ -8739,7 +8648,7 @@
   var PT_GEN_API = "https://media.pttool.workers.dev";
   var TMDB_API_URL = "https://api.tmdb.org";
   var TMDB_API_KEY = "3d62cb1443c6b34b61262ab332aaf78c";
-  var USE_CHINESE = /zh|zh-cn|zh-hk|zh-tw/.test(navigator.language.toLowerCase());
+  var BROWSER_LANGUAGE = navigator.language.toLowerCase().split("-")[0];
   var getSiteName = (host) => {
     let siteName = "";
     try {
@@ -8781,131 +8690,189 @@
   init_preact_shim();
 
   // src/i18n.json
-  var en_US = {
-    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
-    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
-    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
-    \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
-    \u83B7\u53D6\u5931\u8D25: "Request failed",
-    \u83B7\u53D6\u6210\u529F: "Data request successful",
-    \u8BF7\u6C42\u5931\u8D25: "Request failed",
-    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
-    ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
-    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
-    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
-    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
-    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
-    "\u8F6C\u6362\u4E2D...": "Converting...",
-    "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
-    "\u83B7\u53D6\u4E2D...": "Requesting...",
-    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
-    "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent may be prohibited, are you sure to continue?",
-    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
-    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
-    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
-    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
-    \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
-    \u5FEB\u901F\u68C0\u7D22: "Quick search",
-    \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
-    \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
-    \u4E00\u952E\u8F6C\u79CD: "Transfer to",
-    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
-    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
-    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
-    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
-    \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
-    "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
-    \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
-    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
-    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
-    \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "Remove the 'Upload screenshots to ptpimg' button",
-    \u4FDD\u5B58: "Save",
-    \u53D6\u6D88: "Cancel",
-    \u9519\u8BEF: "Error",
-    \u6210\u529F: "Success",
-    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
-    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
-    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
-    \u63D0\u793A: "Hint",
-    \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
-    \u65E0\u9700\u8F6C\u5B58: "No need to upload",
-    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
-    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
-    \u62F7\u8D1D: "Copy",
-    \u5DF2\u62F7\u8D1D: "Copied",
-    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
-    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link",
-    \u6279\u91CF\u68C0\u7D22: "Batch search",
-    \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "Open multiple search tabs at the same time",
-    \u8C46\u74E3\u914D\u7F6E: "Douban Config",
-    \u8C46\u74E3Cookie: "Douban Cookie",
-    \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
-    \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch"
-  };
-  var zh_CN = {
-    \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
-    \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
-    \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
-    \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
-    \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
-    \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
-    \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
-    "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
-    ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
-    \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
-    \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
-    "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
-    \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
-    "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
-    "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
-    "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
-    \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
-    "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
-    \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
-    \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
-    \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
-    \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
-    \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
-    \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
-    \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
-    \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
-    \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
-    \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
-    \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
-    \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
-    \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
-    \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
-    "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
-    \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
-    \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
-    \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
-    \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
-    \u4FDD\u5B58: "\u4FDD\u5B58",
-    \u53D6\u6D88: "\u53D6\u6D88",
-    \u9519\u8BEF: "\u9519\u8BEF",
-    \u6210\u529F: "\u6210\u529F",
-    \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
-    \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
-    "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
-    \u63D0\u793A: "\u63D0\u793A",
-    \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
-    \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
-    "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
-    \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
-    \u62F7\u8D1D: "\u62F7\u8D1D",
-    \u5DF2\u62F7\u8D1D: "\u5DF2\u62F7\u8D1D",
-    \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
-    \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5",
-    \u6279\u91CF\u68C0\u7D22: "\u6279\u91CF\u68C0\u7D22",
-    \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875",
-    \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
-    \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
-    \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
-    \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22"
-  };
   var i18n_default = {
-    en_US,
-    zh_CN
+    en: {
+      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
+      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
+      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
+      \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
+      \u83B7\u53D6\u5931\u8D25: "Request failed",
+      \u83B7\u53D6\u6210\u529F: "Data request successful",
+      \u8BF7\u6C42\u5931\u8D25: "Request failed",
+      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
+      ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
+      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
+      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
+      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
+      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
+      "\u8F6C\u6362\u4E2D...": "Converting...",
+      "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
+      "\u83B7\u53D6\u4E2D...": "Requesting...",
+      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
+      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent may be prohibited, are you sure to continue?",
+      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
+      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
+      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
+      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
+      \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
+      \u5FEB\u901F\u68C0\u7D22: "Quick search",
+      \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
+      \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
+      \u4E00\u952E\u8F6C\u79CD: "Transfer to",
+      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
+      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
+      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
+      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
+      \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
+      "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
+      \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
+      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
+      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
+      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "Remove the 'Upload screenshots to ptpimg' button",
+      \u4FDD\u5B58: "Save",
+      \u53D6\u6D88: "Cancel",
+      \u9519\u8BEF: "Error",
+      \u6210\u529F: "Success",
+      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
+      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
+      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
+      \u63D0\u793A: "Hint",
+      \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
+      \u65E0\u9700\u8F6C\u5B58: "No need to upload",
+      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
+      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
+      \u62F7\u8D1D: "Copy",
+      \u5DF2\u62F7\u8D1D: "Copied",
+      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
+      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link",
+      \u6279\u91CF\u68C0\u7D22: "Batch search",
+      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "Open multiple search tabs at the same time",
+      \u8C46\u74E3\u914D\u7F6E: "Douban Config",
+      \u8C46\u74E3Cookie: "Douban Cookie",
+      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
+      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch"
+    },
+    ko: {
+      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uC5BB\uAE30 \uC2E4\uD328",
+      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\uB354\uC6B0\uBC18 ID \uC544\uC774\uB514 \uC5BB\uAE30 \uC2E4\uD328",
+      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\uB354\uC6B0\uBC18 \uB370\uC774\uD130 \uC5BB\uAE30 \uC2E4\uD328",
+      \u7F3A\u5C11IMDB\u4FE1\u606F: "\uB204\uB77D\uB41C IMDB \uC815\uBCF4",
+      \u83B7\u53D6\u5931\u8D25: "\uC694\uCCAD \uC2E4\uD328",
+      \u83B7\u53D6\u6210\u529F: "\uB370\uC774\uD130 \uC694\uCCAD \uC131\uACF5",
+      \u8BF7\u6C42\u5931\u8D25: "\uC694\uCCAD \uC2E4\uD328",
+      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\uC5C5\uB85C\uB4DC \uC2E4\uD328, \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694.",
+      ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg \uC5C5\uB85C\uB4DC \uC2E4\uD328",
+      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\uC124\uC815 \uD328\uB110\uC5D0 ptpimg\uC758 API_KEY\uB97C \uC785\uB825\uD558\uC138\uC694.",
+      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\uD3EC\uC2A4\uD130 \uC5C5\uB85C\uB4DC \uC2E4\uD328",
+      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\uB370\uC774\uD130 \uBD88\uB7EC\uC624\uAE30 \uC911...",
+      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\uC774\uBBF8\uC9C0 \uBAA9\uB85D \uC5BB\uAE30 \uC2E4\uD328",
+      "\u8F6C\u6362\u4E2D...": "\uBCC0\uD658 \uC911...",
+      "\u8F6C\u6362\u6210\u529F\uFF01": "\uBCC0\uD658\uB428!",
+      "\u83B7\u53D6\u4E2D...": "\uC694\uCCAD \uC911...",
+      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uB204\uB77D",
+      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\uC774 \uD1A0\uB80C\uD2B8\uC758 \uC804\uC1A1\uC774 \uAE08\uC9C0\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4, \uACC4\uC18D\uD558\uACA0\uC2B5\uB2C8\uAE4C?",
+      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\uD398\uC774\uC9C0\uAC00 \uBD88\uB7EC\uC62C \uB54C\uAE4C\uC9C0 \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.",
+      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uC785\uB825",
+      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\uB354\uC6B0\uBC18\uC758 \uB370\uC774\uD130 \uC5BB\uAE30",
+      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\uB354\uC6B0\uBC18 \uB3C4\uC11C \uB370\uC774\uD130 \uC5BB\uAE30",
+      \u8F6C\u7F29\u7565\u56FE: "\uC378\uB124\uC77C\uB85C \uBCC0\uD658",
+      \u5FEB\u901F\u68C0\u7D22: "\uBE60\uB978 \uAC80\uC0C9",
+      \u4E00\u952E\u7FA4\u8F6C: "\uC77C\uAD04 \uC804\uC1A1",
+      \u5FEB\u6377\u64CD\u4F5C: "\uBE60\uB978 \uC791\uC5C5",
+      \u4E00\u952E\u8F6C\u79CD: "\uC804\uC1A1 \uB300\uC0C1",
+      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\uC804\uC1A1 \uB300\uC0C1 \uC139\uC158\uC758 \uC0AC\uC774\uD2B8 \uC120\uD0DD",
+      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\uC77C\uAD04 \uC804\uC1A1 \uBC84\uD2BC\uC744 \uC0AC\uC6A9\uD560 \uC0AC\uC774\uD2B8 \uC120\uD0DD",
+      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\uC544\uB798\uC5D0\uC11C \uC120\uD0DD\uD55C \uC0AC\uC774\uD2B8\uB85C \uC6D0\uD074\uB9AD \uC77C\uAD04 \uC804\uC1A1\uD558\uAE30",
+      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\uBE60\uB978 \uAC80\uC0C9 \uC139\uC158\uC5D0\uC11C \uC0AC\uC774\uD2B8 \uC120\uD0DD",
+      \u56FE\u5E8A\u914D\u7F6E: "\uC774\uBBF8\uC9C0 \uD638\uC2A4\uD2B8 \uC124\uC815",
+      "\u5982\u4F55\u83B7\u53D6\uFF1F": "\uC5B4\uB5BB\uAC8C \uC5BB\uB098\uC694?",
+      \u989D\u5916\u529F\u80FD\u5173\u95ED: "\uCD94\uAC00 \uAE30\uB2A5 \uB044\uAE30",
+      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\uC378\uB124\uC77C\uB85C \uBCC0\uD658 \uBC84\uD2BC \uC81C\uAC70\uD558\uAE30",
+      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\uC544\uC774\uCF58 \uC81C\uAC70\uD558\uAE30",
+      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\uC2A4\uD06C\uB9B0\uC0F7\uC744 ptpimg\uC5D0 \uC5C5\uB85C\uB4DC \uBC84\uD2BC \uC81C\uAC70\uD558\uAE30",
+      \u4FDD\u5B58: "\uC800\uC7A5",
+      \u53D6\u6D88: "\uCDE8\uC18C",
+      \u9519\u8BEF: "\uC624\uB958",
+      \u6210\u529F: "\uC131\uACF5",
+      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\uB85C\uCEEC \uC0AC\uC774\uD2B8 \uC124\uC815 \uC800\uC7A5 \uC2E4\uD328",
+      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\uBA3C\uC800 \uC77C\uAD04 \uC804\uC1A1 \uBAA9\uB85D \uC124\uC815",
+      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\uC804\uC1A1 \uD398\uC774\uC9C0\uAC00 \uC5F4\uB838\uACE0, \uD574\uB2F9 \uD398\uC774\uC9C0\uB85C \uC774\uB3D9\uD558\uC5EC \uC791\uC5C5",
+      \u63D0\u793A: "\uD78C\uD2B8",
+      \u8F6C\u5B58\u622A\u56FE: "\uB2E4\uB978 \uD638\uC2A4\uD2B8\uC5D0 \uC2A4\uD06C\uB9B0\uC0F7 \uC5C5\uB85C\uB4DC",
+      \u65E0\u9700\u8F6C\u5B58: "\uC5C5\uB85C\uB4DC\uD560 \uD544\uC694 \uC5C6\uC74C",
+      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\uC5C5\uB85C\uB4DC \uC911, \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.",
+      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\uAC10\uC0AC \uB0B4\uC6A9\uC744 \uD3EC\uD568\uD558\uC9C0 \uC54A\uC74C",
+      \u62F7\u8D1D: "\uBCF5\uC0AC",
+      \u5DF2\u62F7\u8D1D: "\uBCF5\uC0AC\uB428",
+      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uBC84\uD2BC \uBC0F \uB9C1\uD06C \uD544\uB4DC \uC228\uAE30\uAE30",
+      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\uC62C\uBC14\uB978 \uB9C1\uD06C\uB97C \uC785\uB825\uD558\uC138\uC694.",
+      \u6279\u91CF\u68C0\u7D22: "\uC77C\uAD04 \uAC80\uC0C9",
+      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\uC5EC\uB7EC \uAC80\uC0C9 \uD0ED \uB3D9\uC2DC\uC5D0 \uC5F4\uAE30",
+      \u8C46\u74E3\u914D\u7F6E: "\uB354\uC6B0\uBC18 \uAD6C\uC131",
+      \u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4",
+      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4 \uAD6C\uC131\uD558\uC138\uC694."
+    },
+    zh: {
+      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
+      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
+      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
+      \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
+      \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
+      \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
+      \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
+      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
+      ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
+      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
+      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
+      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
+      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
+      "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
+      "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
+      "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
+      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
+      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
+      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
+      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
+      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
+      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
+      \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
+      \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
+      \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
+      \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
+      \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
+      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
+      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
+      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
+      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
+      \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
+      "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
+      \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
+      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
+      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
+      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
+      \u4FDD\u5B58: "\u4FDD\u5B58",
+      \u53D6\u6D88: "\u53D6\u6D88",
+      \u9519\u8BEF: "\u9519\u8BEF",
+      \u6210\u529F: "\u6210\u529F",
+      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
+      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
+      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
+      \u63D0\u793A: "\u63D0\u793A",
+      \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
+      \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
+      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
+      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
+      \u62F7\u8D1D: "\u62F7\u8D1D",
+      \u5DF2\u62F7\u8D1D: "\u5DF2\u62F7\u8D1D",
+      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
+      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5",
+      \u6279\u91CF\u68C0\u7D22: "\u6279\u91CF\u68C0\u7D22",
+      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875",
+      \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
+      \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
+      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
+      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22"
+    }
   };
 
   // src/components/Notification.tsx
@@ -8998,6 +8965,9 @@
       _defineProperties(Constructor.prototype, protoProps);
     if (staticProps)
       _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -9007,7 +8977,7 @@
   // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
   init_preact_shim();
   function _setPrototypeOf(o3, p3) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p4) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o4, p4) {
       o4.__proto__ = p4;
       return o4;
     };
@@ -9026,6 +8996,9 @@
         configurable: true
       }
     });
+    Object.defineProperty(subClass, "prototype", {
+      writable: false
+    });
     if (superClass)
       _setPrototypeOf(subClass, superClass);
   }
@@ -9037,16 +9010,11 @@
   init_preact_shim();
   function _typeof(obj) {
     "@babel/helpers - typeof";
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof3(obj2) {
-        return typeof obj2;
-      };
-    } else {
-      _typeof = function _typeof3(obj2) {
-        return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
-      };
-    }
-    return _typeof(obj);
+    return _typeof = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(obj2) {
+      return typeof obj2;
+    } : function(obj2) {
+      return obj2 && typeof Symbol == "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+    }, _typeof(obj);
   }
 
   // node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
@@ -9071,7 +9039,7 @@
   // node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
   init_preact_shim();
   function _getPrototypeOf(o3) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf2(o4) {
       return o4.__proto__ || Object.getPrototypeOf(o4);
     };
     return _getPrototypeOf(o3);
@@ -9089,139 +9057,147 @@
   var t2;
   var u2;
   var r2;
-  var o2 = 0;
-  var i2 = [];
-  var c2 = l.__b;
-  var f2 = l.__r;
-  var e2 = l.diffed;
-  var a2 = l.__c;
-  var v2 = l.unmount;
+  var o2;
+  var i2 = 0;
+  var c2 = [];
+  var f2 = l.__b;
+  var e2 = l.__r;
+  var a2 = l.diffed;
+  var v2 = l.__c;
+  var l2 = l.unmount;
   function m2(t3, r3) {
-    l.__h && l.__h(u2, t3, o2 || r3), o2 = 0;
-    var i3 = u2.__H || (u2.__H = { __: [], __h: [] });
-    return t3 >= i3.__.length && i3.__.push({}), i3.__[t3];
+    l.__h && l.__h(u2, t3, i2 || r3), i2 = 0;
+    var o3 = u2.__H || (u2.__H = { __: [], __h: [] });
+    return t3 >= o3.__.length && o3.__.push({}), o3.__[t3];
   }
-  function l2(n2) {
-    return o2 = 1, p2(w2, n2);
+  function d2(n2) {
+    return i2 = 1, p2(z2, n2);
   }
   function p2(n2, r3, o3) {
     var i3 = m2(t2++, 2);
-    return i3.t = n2, i3.__c || (i3.__ = [o3 ? o3(r3) : w2(void 0, r3), function(n3) {
+    return i3.t = n2, i3.__c || (i3.__ = [o3 ? o3(r3) : z2(void 0, r3), function(n3) {
       var t3 = i3.t(i3.__[0], n3);
       i3.__[0] !== t3 && (i3.__ = [t3, i3.__[1]], i3.__c.setState({}));
     }], i3.__c = u2), i3.__;
   }
   function y2(r3, o3) {
     var i3 = m2(t2++, 3);
-    !l.__s && k2(i3.__H, o3) && (i3.__ = r3, i3.__H = o3, u2.__H.__h.push(i3));
+    !l.__s && w2(i3.__H, o3) && (i3.__ = r3, i3.u = o3, u2.__H.__h.push(i3));
   }
   function h2(r3, o3) {
     var i3 = m2(t2++, 4);
-    !l.__s && k2(i3.__H, o3) && (i3.__ = r3, i3.__H = o3, u2.__h.push(i3));
+    !l.__s && w2(i3.__H, o3) && (i3.__ = r3, i3.u = o3, u2.__h.push(i3));
   }
   function s2(n2) {
-    return o2 = 5, d2(function() {
+    return i2 = 5, A2(function() {
       return { current: n2 };
     }, []);
   }
   function _2(n2, t3, u3) {
-    o2 = 6, h2(function() {
-      typeof n2 == "function" ? n2(t3()) : n2 && (n2.current = t3());
+    i2 = 6, h2(function() {
+      return typeof n2 == "function" ? (n2(t3()), function() {
+        return n2(null);
+      }) : n2 ? (n2.current = t3(), function() {
+        return n2.current = null;
+      }) : void 0;
     }, u3 == null ? u3 : u3.concat(n2));
   }
-  function d2(n2, u3) {
+  function A2(n2, u3) {
     var r3 = m2(t2++, 7);
-    return k2(r3.__H, u3) && (r3.__ = n2(), r3.__H = u3, r3.__h = n2), r3.__;
+    return w2(r3.__H, u3) ? (r3.o = n2(), r3.u = u3, r3.__h = n2, r3.o) : r3.__;
   }
-  function A2(n2, t3) {
-    return o2 = 8, d2(function() {
+  function F(n2, t3) {
+    return i2 = 8, A2(function() {
       return n2;
     }, t3);
   }
-  function F(n2) {
+  function T2(n2) {
     var r3 = u2.context[n2.__c], o3 = m2(t2++, 9);
     return o3.c = n2, r3 ? (o3.__ == null && (o3.__ = true, r3.sub(u2)), r3.props.value) : n2.__;
   }
-  function T2(t3, u3) {
+  function q2(t3, u3) {
     l.useDebugValue && l.useDebugValue(u3 ? u3(t3) : t3);
   }
-  function x2() {
-    var t3;
-    for (i2.sort(function(n2, t4) {
-      return n2.__v.__b - t4.__v.__b;
-    }); t3 = i2.pop(); )
+  function b2() {
+    for (var t3; t3 = c2.shift(); )
       if (t3.__P)
         try {
-          t3.__H.__h.forEach(g2), t3.__H.__h.forEach(j2), t3.__H.__h = [];
+          t3.__H.__h.forEach(j2), t3.__H.__h.forEach(k2), t3.__H.__h = [];
         } catch (u3) {
           t3.__H.__h = [], l.__e(u3, t3.__v);
         }
   }
   l.__b = function(n2) {
-    u2 = null, c2 && c2(n2);
+    u2 = null, f2 && f2(n2);
   }, l.__r = function(n2) {
-    f2 && f2(n2), t2 = 0;
-    var r3 = (u2 = n2.__c).__H;
-    r3 && (r3.__h.forEach(g2), r3.__h.forEach(j2), r3.__h = []);
+    e2 && e2(n2), t2 = 0;
+    var o3 = (u2 = n2.__c).__H;
+    o3 && (r2 === u2 ? (o3.__h = [], u2.__h = [], o3.__.forEach(function(n3) {
+      n3.o = n3.u = void 0;
+    })) : (o3.__.forEach(function(n3) {
+      n3.u && (n3.__H = n3.u), n3.o && (n3.__ = n3.o), n3.o = n3.u = void 0;
+    }), o3.__h.forEach(j2), o3.__h.forEach(k2), o3.__h = [])), r2 = u2;
   }, l.diffed = function(t3) {
-    e2 && e2(t3);
-    var o3 = t3.__c;
-    o3 && o3.__H && o3.__H.__h.length && (i2.push(o3) !== 1 && r2 === l.requestAnimationFrame || ((r2 = l.requestAnimationFrame) || function(n2) {
+    a2 && a2(t3);
+    var i3 = t3.__c;
+    i3 && i3.__H && i3.__H.__h.length && (c2.push(i3) !== 1 && o2 === l.requestAnimationFrame || ((o2 = l.requestAnimationFrame) || function(n2) {
       var t4, u3 = function() {
-        clearTimeout(r3), b2 && cancelAnimationFrame(t4), setTimeout(n2);
+        clearTimeout(r3), g2 && cancelAnimationFrame(t4), setTimeout(n2);
       }, r3 = setTimeout(u3, 100);
-      b2 && (t4 = requestAnimationFrame(u3));
-    })(x2)), u2 = null;
+      g2 && (t4 = requestAnimationFrame(u3));
+    })(b2)), u2 = null, r2 = null;
   }, l.__c = function(t3, u3) {
     u3.some(function(t4) {
       try {
-        t4.__h.forEach(g2), t4.__h = t4.__h.filter(function(n2) {
-          return !n2.__ || j2(n2);
+        t4.__H && t4.__H.__.forEach(function(n2) {
+          n2.u && (n2.__H = n2.u), n2.o && (n2.__ = n2.o), n2.o = n2.u = void 0;
+        }), t4.__h.forEach(j2), t4.__h = t4.__h.filter(function(n2) {
+          return !n2.__ || k2(n2);
         });
       } catch (r3) {
         u3.some(function(n2) {
           n2.__h && (n2.__h = []);
         }), u3 = [], l.__e(r3, t4.__v);
       }
-    }), a2 && a2(t3, u3);
+    }), v2 && v2(t3, u3);
   }, l.unmount = function(t3) {
-    v2 && v2(t3);
+    l2 && l2(t3);
     var u3, r3 = t3.__c;
     r3 && r3.__H && (r3.__H.__.forEach(function(n2) {
       try {
-        g2(n2);
+        j2(n2);
       } catch (n3) {
         u3 = n3;
       }
     }), u3 && l.__e(u3, r3.__v));
   };
-  var b2 = typeof requestAnimationFrame == "function";
-  function g2(n2) {
+  var g2 = typeof requestAnimationFrame == "function";
+  function j2(n2) {
     var t3 = u2, r3 = n2.__c;
     typeof r3 == "function" && (n2.__c = void 0, r3()), u2 = t3;
   }
-  function j2(n2) {
+  function k2(n2) {
     var t3 = u2;
     n2.__c = n2.__(), u2 = t3;
   }
-  function k2(n2, t3) {
+  function w2(n2, t3) {
     return !n2 || n2.length !== t3.length || t3.some(function(t4, u3) {
       return t4 !== n2[u3];
     });
   }
-  function w2(n2, t3) {
+  function z2(n2, t3) {
     return typeof t3 == "function" ? t3(n2) : t3;
   }
 
   // node_modules/preact/compat/dist/compat.module.js
   init_preact_module();
   init_preact_module();
-  function S2(n2, t3) {
+  function C2(n2, t3) {
     for (var e3 in t3)
       n2[e3] = t3[e3];
     return n2;
   }
-  function C2(n2, t3) {
+  function S2(n2, t3) {
     for (var e3 in n2)
       if (e3 !== "__source" && !(e3 in t3))
         return true;
@@ -9236,7 +9212,7 @@
   function g3(n2, t3) {
     function e3(n3) {
       var e4 = this.props.ref, r4 = e4 == n3.ref;
-      return !r4 && e4 && (e4.call ? e4(null) : e4.current = null), t3 ? !t3(this.props, n3) || !r4 : C2(this.props, n3);
+      return !r4 && e4 && (e4.call ? e4(null) : e4.current = null), t3 ? !t3(this.props, n3) || !r4 : S2(this.props, n3);
     }
     function r3(t4) {
       return this.shouldComponentUpdate = e3, v(n2, t4);
@@ -9244,17 +9220,17 @@
     return r3.displayName = "Memo(" + (n2.displayName || n2.name) + ")", r3.prototype.isReactComponent = true, r3.__f = true, r3;
   }
   (E.prototype = new _()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n2, t3) {
-    return C2(this.props, n2) || C2(this.state, t3);
+    return S2(this.props, n2) || S2(this.state, t3);
   };
   var w3 = l.__b;
   l.__b = function(n2) {
     n2.type && n2.type.__f && n2.ref && (n2.props.ref = n2.ref, n2.ref = null), w3 && w3(n2);
   };
   var R = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function x3(n2) {
-    function t3(t4, e3) {
-      var r3 = S2({}, t4);
-      return delete r3.ref, n2(r3, (e3 = t4.ref || e3) && (typeof e3 != "object" || "current" in e3) ? e3 : null);
+  function x2(n2) {
+    function t3(t4) {
+      var e3 = C2({}, t4);
+      return delete e3.ref, n2(e3, t4.ref || null);
     }
     return t3.$$typeof = R, t3.render = t3, t3.prototype.isReactComponent = t3.__f = true, t3.displayName = "ForwardRef(" + (n2.displayName || n2.name) + ")", t3;
   }
@@ -9270,13 +9246,13 @@
     return t3[0];
   }, toArray: A };
   var A3 = l.__e;
-  l.__e = function(n2, t3, e3) {
+  l.__e = function(n2, t3, e3, r3) {
     if (n2.then) {
-      for (var r3, u3 = t3; u3 = u3.__; )
-        if ((r3 = u3.__c) && r3.__c)
-          return t3.__e == null && (t3.__e = e3.__e, t3.__k = e3.__k), r3.__c(n2, t3);
+      for (var u3, o3 = t3; o3 = o3.__; )
+        if ((u3 = o3.__c) && u3.__c)
+          return t3.__e == null && (t3.__e = e3.__e, t3.__k = e3.__k), u3.__c(n2, t3);
     }
-    A3(n2, t3, e3);
+    A3(n2, t3, e3, r3);
   };
   var O2 = l.unmount;
   function L2() {
@@ -9328,8 +9304,8 @@
         for (r3.setState({ __e: r3.__b = null }); t4 = r3.t.pop(); )
           t4.forceUpdate();
       }
-    }, c3 = t3.__h === true;
-    r3.__u++ || c3 || r3.setState({ __e: r3.__b = r3.__v.__k[0] }), n2.then(i3, i3);
+    }, f3 = t3.__h === true;
+    r3.__u++ || f3 || r3.setState({ __e: r3.__b = r3.__v.__k[0] }), n2.then(i3, i3);
   }, L2.prototype.componentWillUnmount = function() {
     this.t = [];
   }, L2.prototype.render = function(n2, t3) {
@@ -9339,7 +9315,7 @@
         this.__v.__k[0] = function n3(t4, e4, r4) {
           return t4 && (t4.__c && t4.__c.__H && (t4.__c.__H.__.forEach(function(n4) {
             typeof n4.__c == "function" && n4.__c();
-          }), t4.__c.__H = null), (t4 = S2({}, t4)).__c != null && (t4.__c.__P === r4 && (t4.__c.__P = e4), t4.__c = null), t4.__k = t4.__k && t4.__k.map(function(t5) {
+          }), t4.__c.__H = null), (t4 = C2({}, t4)).__c != null && (t4.__c.__P === r4 && (t4.__c.__P = e4), t4.__c = null), t4.__k = t4.__k && t4.__k.map(function(t5) {
             return n3(t5, e4, r4);
           })), t4;
         }(this.__b, e3, r3.__O = r3.__P);
@@ -9377,7 +9353,8 @@
     } }), S(v(D2, { context: t3.context }, n2.__v), t3.l)) : t3.l && t3.componentWillUnmount();
   }
   function W(n2, t3) {
-    return v(I2, { __v: n2, i: t3 });
+    var e3 = v(I2, { __v: n2, i: t3 });
+    return e3.containerInfo = t3, e3;
   }
   (M2.prototype = new _()).__e = function(n2) {
     var t3 = this, e3 = U(t3.__v), r3 = t3.o.get(n2);
@@ -9400,10 +9377,10 @@
       T3(n2, e3, t3);
     });
   };
-  var j3 = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.element") || 60103;
-  var P2 = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|marker(?!H|W|U)|overline|paint|stop|strikethrough|stroke|text(?!L)|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
-  var V = typeof document != "undefined";
-  var z2 = function(n2) {
+  var P2 = typeof Symbol != "undefined" && Symbol.for && Symbol.for("react.element") || 60103;
+  var V = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|marker(?!H|W|U)|overline|paint|stop|strikethrough|stroke|text(?!L)|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
+  var j3 = typeof document != "undefined";
+  var z3 = function(n2) {
     return (typeof Symbol != "undefined" && typeof Symbol() == "symbol" ? /fil|che|rad/i : /fil|che|ra/i).test(n2);
   };
   function B2(n2, t3, e3) {
@@ -9425,11 +9402,11 @@
   function Y() {
     return this.cancelBubble;
   }
-  function q2() {
+  function q3() {
     return this.defaultPrevented;
   }
   l.event = function(n2) {
-    return H2 && (n2 = H2(n2)), n2.persist = Z, n2.isPropagationStopped = Y, n2.isDefaultPrevented = q2, n2.nativeEvent = n2;
+    return H2 && (n2 = H2(n2)), n2.persist = Z, n2.isPropagationStopped = Y, n2.isDefaultPrevented = q3, n2.nativeEvent = n2;
   };
   var G;
   var J = { configurable: true, get: function() {
@@ -9442,7 +9419,7 @@
       var u3 = t3.indexOf("-") === -1;
       for (var o3 in r3 = {}, e3) {
         var i3 = e3[o3];
-        V && o3 === "children" && t3 === "noscript" || o3 === "value" && "defaultValue" in e3 && i3 == null || (o3 === "defaultValue" && "value" in e3 && e3.value == null ? o3 = "value" : o3 === "download" && i3 === true ? i3 = "" : /ondoubleclick/i.test(o3) ? o3 = "ondblclick" : /^onchange(textarea|input)/i.test(o3 + t3) && !z2(e3.type) ? o3 = "oninput" : /^onfocus$/i.test(o3) ? o3 = "onfocusin" : /^onblur$/i.test(o3) ? o3 = "onfocusout" : /^on(Ani|Tra|Tou|BeforeInp)/.test(o3) ? o3 = o3.toLowerCase() : u3 && P2.test(o3) ? o3 = o3.replace(/[A-Z0-9]/, "-$&").toLowerCase() : i3 === null && (i3 = void 0), r3[o3] = i3);
+        j3 && o3 === "children" && t3 === "noscript" || o3 === "value" && "defaultValue" in e3 && i3 == null || (o3 === "defaultValue" && "value" in e3 && e3.value == null ? o3 = "value" : o3 === "download" && i3 === true ? i3 = "" : /ondoubleclick/i.test(o3) ? o3 = "ondblclick" : /^onchange(textarea|input)/i.test(o3 + t3) && !z3(e3.type) ? o3 = "oninput" : /^onfocus$/i.test(o3) ? o3 = "onfocusin" : /^onblur$/i.test(o3) ? o3 = "onfocusout" : /^on(Ani|Tra|Tou|BeforeInp|Compo)/.test(o3) ? o3 = o3.toLowerCase() : u3 && V.test(o3) ? o3 = o3.replace(/[A-Z0-9]/, "-$&").toLowerCase() : i3 === null && (i3 = void 0), /^oninput/i.test(o3) && (o3 = o3.toLowerCase(), r3[o3] && (o3 = "oninputCapture")), r3[o3] = i3);
       }
       t3 == "select" && r3.multiple && Array.isArray(r3.value) && (r3.value = A(e3.children).forEach(function(n3) {
         n3.props.selected = r3.value.indexOf(n3.props.value) != -1;
@@ -9450,7 +9427,7 @@
         n3.props.selected = r3.multiple ? r3.defaultValue.indexOf(n3.props.value) != -1 : r3.defaultValue == n3.props.value;
       })), n2.props = r3, e3.class != e3.className && (J.enumerable = "className" in e3, e3.className != null && (r3.class = e3.className), Object.defineProperty(r3, "className", J));
     }
-    n2.$$typeof = j3, K && K(n2);
+    n2.$$typeof = P2, K && K(n2);
   };
   var Q = l.__r;
   l.__r = function(n2) {
@@ -9463,7 +9440,7 @@
     return v.bind(null, n2);
   }
   function en(n2) {
-    return !!n2 && n2.$$typeof === j3;
+    return !!n2 && n2.$$typeof === P2;
   }
   function rn(n2) {
     return en(n2) ? B.apply(null, arguments) : n2;
@@ -9477,10 +9454,10 @@
   var ln = function(n2, t3) {
     return n2(t3);
   };
-  var cn = function(n2, t3) {
+  var fn = function(n2, t3) {
     return n2(t3);
   };
-  var compat_module_default = { useState: l2, useReducer: p2, useEffect: y2, useLayoutEffect: h2, useRef: s2, useImperativeHandle: _2, useMemo: d2, useCallback: A2, useContext: F, useDebugValue: T2, version: "17.0.2", Children: k3, render: B2, hydrate: $3, unmountComponentAtNode: un, createPortal: W, createElement: v, createContext: D, createFactory: tn, cloneElement: rn, createRef: p, Fragment: d, isValidElement: en, findDOMNode: on, Component: _, PureComponent: E, memo: g3, forwardRef: x3, flushSync: cn, unstable_batchedUpdates: ln, StrictMode: d, Suspense: L2, SuspenseList: M2, lazy: F2, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: X };
+  var compat_module_default = { useState: d2, useReducer: p2, useEffect: y2, useLayoutEffect: h2, useRef: s2, useImperativeHandle: _2, useMemo: A2, useCallback: F, useContext: T2, useDebugValue: q2, version: "17.0.2", Children: k3, render: B2, hydrate: $3, unmountComponentAtNode: un, createPortal: W, createElement: v, createContext: D, createFactory: tn, cloneElement: rn, createRef: p, Fragment: d, isValidElement: en, findDOMNode: on, Component: _, PureComponent: E, memo: g3, forwardRef: x2, flushSync: fn, unstable_batchedUpdates: ln, StrictMode: d, Suspense: L2, SuspenseList: M2, lazy: F2, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: X };
 
   // node_modules/react-dom/index.mjs
   init_preact_shim();
@@ -10603,7 +10580,7 @@
   // node_modules/rc-notification/es/useNotification.js
   function useNotification(notificationInstance) {
     var createdRef = s2({});
-    var _React$useState = l2([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
+    var _React$useState = d2([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
     function notify(noticeProps) {
       notificationInstance.add(noticeProps, function(div, props) {
         var key = props.key;
@@ -11441,7 +11418,7 @@ ${"\xA0".repeat(6)}`)}
     if (!bbcode) {
       return [];
     }
-    let allImages = Array.from((_a3 = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g)) != null ? _a3 : []);
+    let allImages = Array.from((_a3 = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig)) != null ? _a3 : []);
     if (allImages && allImages.length > 0) {
       allImages = allImages.map((img) => {
         if (img.match(/\[url=.+?\]/)) {
@@ -12302,7 +12279,7 @@ ${"\xA0".repeat(6)}`)}
     }
   };
   var $t = (key) => {
-    const languageKey = USE_CHINESE ? "zh_CN" : "en_US";
+    const languageKey = BROWSER_LANGUAGE;
     return i18n_default[languageKey][key] || key;
   };
   var urlToFile = async (url) => {
@@ -12380,6 +12357,19 @@ ${"\xA0".repeat(6)}`)}
       return response;
     }
   };
+  var getSpecsFromMediainfo = (isBluray, mediaInfo) => {
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
+    if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
+      return {
+        videoCodec,
+        audioCodec,
+        resolution,
+        mediaTags
+      };
+    }
+    return {};
+  };
 
   // src/target/index.ts
   init_preact_shim();
@@ -12412,16 +12402,38 @@ ${"\xA0".repeat(6)}`)}
     const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : "";
     if (Array.isArray(valueArray) && selectArray) {
       if (siteInfo[key].selector) {
-        jQuery(siteInfo[key].selector).val(valueArray.shift());
+        setSelectValue(siteInfo[key].selector, valueArray.shift());
       }
       if (selectArray.length > 1) {
         selectArray = selectArray.filter((item) => valueArray.includes(item));
       }
     } else if (siteInfo[key] && siteInfo[key].selector) {
-      jQuery(siteInfo[key].selector).val(valueArray);
+      setSelectValue(siteInfo[key].selector, valueArray);
     }
     return selectArray;
   };
+  function setSelectValue(selector, value) {
+    if (CURRENT_SITE_NAME === "MTeam") {
+      const select = document.querySelector(selector);
+      if (select) {
+        const lastValue = select.value;
+        select.value = value;
+        const tracker = select._valueTracker;
+        if (tracker) {
+          tracker.setValue(lastValue);
+        }
+        const event = new Event("change", { bubbles: true });
+        select.dispatchEvent(event);
+        setTimeout(() => {
+          Array.from(document.querySelectorAll(".ant-select-item-option-active .ant-select-item-option-content")).forEach((el) => {
+            el.dispatchEvent(new Event("click", { bubbles: true }));
+          });
+        }, 1e3);
+      }
+    } else {
+      jQuery(selector).val(value);
+    }
+  }
   function buildPTPDescription(info) {
     let text = info.originalDescription || "";
     text = text.replace(/http:\/\/ptpimg\.me/g, "https://ptpimg.me");
@@ -12474,7 +12486,7 @@ ${imgs.join("\n")}
     return text.trim();
   }
   var isChineseTacker = (siteType) => {
-    return siteType.match(/NexusPHP|TTG|TNode/);
+    return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
   };
   var filterNexusDescription = (info) => {
     const { description } = info;
@@ -12494,7 +12506,7 @@ ${imgs.join("\n")}
 ${allImages.join("")}`;
   };
   var filterEmptyTags = (description) => {
-    const reg = new RegExp("\\[([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
+    const reg = new RegExp("\\[(?!info)([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
     if (description.match(reg)) {
       description = description.replace(reg, (_match, p1, p22) => {
         if (p1 === p22) {
@@ -12888,7 +12900,7 @@ $1`);
         var _a3, _b2, _c;
         let { description, screenshots } = info;
         const currentSiteInfo7 = CURRENT_SITE_INFO;
-        description = description.replaceAll(/\[\/?(center|code)\]/g, "");
+        description = description.replace(/\[\/?(center|code)\]/g, "");
         if (info.sourceSite === "PTP") {
           description = (_b2 = (_a3 = info == null ? void 0 : info.originalDescription) == null ? void 0 : _a3.replace(/^(\s+)/g, "")) != null ? _b2 : "";
           description = filterEmptyTags(description);
@@ -12904,25 +12916,24 @@ $1`);
               }
             }
           });
+        } else if (info.sourceSite === "RED") {
+          description = description.replace(/\[#\]/g, "[*]");
         }
         jQuery("#torrent").on("change", () => {
-          jQuery(currentSiteInfo7.name.selector).val(info.title);
-          if (info.subtitle)
-            jQuery(currentSiteInfo7.subtitle.selector).val(info.subtitle);
+          if (info.category !== "music") {
+            jQuery(currentSiteInfo7.name.selector).val(info.title);
+            if (info.subtitle)
+              jQuery(currentSiteInfo7.subtitle.selector).val(info.subtitle);
+          } else {
+            jQuery(currentSiteInfo7.name.selector).val(info.subtitle);
+            if (info.subtitle)
+              jQuery(currentSiteInfo7.subtitle.selector).val(info.title);
+          }
         });
         (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
           description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
         });
         return description;
-      },
-      titleHandler: (info) => {
-        if (info.category === "music") {
-          const { title, subtitle } = info;
-          info.subtitle = title;
-          if (subtitle !== void 0)
-            info.title = subtitle;
-        }
-        return info;
       }
     },
     SpeedApp: {
@@ -13015,6 +13026,14 @@ ${description}`;
       }
     },
     TJUPT: {
+      handleDescription: (info) => {
+        var _a3;
+        let { description } = info;
+        (_a3 = info.mediaInfos) == null ? void 0 : _a3.forEach((mediaInfo) => {
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+        });
+        return description;
+      },
       afterHandler: (info) => {
         jQuery("#browsecat").trigger("change");
         tjupt_default(info);
@@ -13197,7 +13216,7 @@ All thanks to the original uploader\uFF01`;
         chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
       }
       if (chineseName === "" && subtitle !== "" && subtitle !== void 0) {
-        chineseName = (_j = (_i = (_h = (_g = this.info) == null ? void 0 : _g.subtitle) == null ? void 0 : _h.replaceAll(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
+        chineseName = (_j = (_i = (_h = (_g = this.info) == null ? void 0 : _g.subtitle) == null ? void 0 : _h.replace(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
       }
       return chineseName.trim();
     }
@@ -13383,7 +13402,7 @@ ${description}`;
           keyArray.forEach((key) => {
             finalSelectArray = matchSelectForm(this.currentSiteInfo, this.info, key, finalSelectArray);
             if (finalSelectArray.length === 1) {
-              jQuery(this.currentSiteInfo.category.selector).val(finalSelectArray[0]);
+              setSelectValue(this.currentSiteInfo.category.selector, finalSelectArray[0]);
             }
           });
         } else {
@@ -13417,7 +13436,7 @@ ${description}`;
         });
       }
       this.fillTeamName();
-      if (CURRENT_SITE_NAME.match(/HDHome|HDZone|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+      if (CURRENT_SITE_NAME.match(/HDHome|HDFun|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
         setTimeout(() => {
           var _a3;
           const event = new Event("change");
@@ -13449,7 +13468,7 @@ ${description}`;
         jQuery("#season_number").val(season);
         jQuery("#episode_number").val(episode);
       }
-      if (CURRENT_SITE_NAME.match(/HDHome|HDZone/)) {
+      if (CURRENT_SITE_NAME.match(/HDHome|HDFun/)) {
         if (this.info.title.match(/iPad/i)) {
           const categoryMap = {
             movie: "412",
@@ -14591,6 +14610,90 @@ ${jQuery(description.selector).val()}`);
     }
   };
 
+  // src/target/mt.ts
+  init_preact_shim();
+  var mt_default = async (info) => {
+    const targetNode = document.getElementById("root");
+    const config = { childList: true, subtree: true };
+    const observer = new MutationObserver((mutationsList, observer2) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          const targetElement = document.querySelector("#name");
+          const editor = document.querySelector(".editor-input");
+          if (targetElement && editor) {
+            observer2.disconnect();
+            fillMTInfo(info);
+            break;
+          }
+        }
+      }
+    });
+    observer.observe(targetNode, config);
+  };
+  var fillMTInfo = async (info) => {
+    const currentSiteInfo7 = PT_SITE.MTeam;
+    const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfo, tags } = info;
+    setInputValue(currentSiteInfo7.name.selector, title);
+    setInputValue(currentSiteInfo7.subtitle.selector, subtitle || "");
+    setInputValue(currentSiteInfo7.douban.selector, doubanUrl || "");
+    setInputValue(currentSiteInfo7.imdb.selector, imdbUrl || "");
+    setInputValue(currentSiteInfo7.mediainfo.selector, mediaInfo);
+    setSelectValue(currentSiteInfo7.audioCodec.selector, currentSiteInfo7.audioCodec.map[audioCodec]);
+    const targetHelper = new ExportHelper(info);
+    targetHelper.descriptionHandler();
+    targetHelper.disableTorrentChange();
+    targetHelper.categoryHandler();
+    let timeout = 0;
+    Object.keys(tags).forEach((key) => {
+      const siteTagMap = currentSiteInfo7.tags[key];
+      if (tags[key] && siteTagMap) {
+        setTimeout(() => {
+          setInputValue(siteTagMap, "", true);
+        }, timeout);
+        timeout += 100;
+      }
+    });
+    fillDescription5(targetHelper.info.description);
+  };
+  function setInputValue(selector, value, isCheckbox = false) {
+    const input = document.querySelector(selector);
+    if (input) {
+      const lastValue = input.value;
+      input.value = value;
+      const tracker = input._valueTracker;
+      if (tracker) {
+        tracker.setValue(lastValue);
+      }
+      const event = new Event(isCheckbox ? "click" : "input", { bubbles: true });
+      input.dispatchEvent(event);
+    }
+  }
+  function fillDescription5(description) {
+    var _a3;
+    const editor = (_a3 = document.querySelector(".editor-input")) == null ? void 0 : _a3.__lexicalEditor;
+    const descriptionArray = description.split("\n").map((line) => {
+      return {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text: line
+          }
+        ]
+      };
+    });
+    const content = JSON.stringify({
+      root: {
+        children: descriptionArray,
+        type: "root"
+      }
+    });
+    const editorState = editor.parseEditorState(content);
+    editor.update(() => {
+      editor.setEditorState(editorState);
+    });
+  }
+
   // src/target/index.ts
   var siteHandlers = {
     PTP: ptp_default,
@@ -14601,7 +14704,8 @@ ${jQuery(description.selector).val()}`);
     KG: kg_default,
     BeyondHD: bhd_default,
     Bdc: bdc_default,
-    ZHUQUE: zhuque_default
+    ZHUQUE: zhuque_default,
+    MTeam: mt_default
   };
   var fillTargetForm = (info) => {
     var _a3;
@@ -14613,6 +14717,9 @@ ${jQuery(description.selector).val()}`);
     const handler = siteHandlers[CURRENT_SITE_NAME];
     if (handler) {
       handler(info);
+    }
+    if (CURRENT_SITE_NAME === "MTeam") {
+      return;
     }
     const targetTorrentInfo = __spreadValues({}, info);
     const isBluray = !!((_a3 = info == null ? void 0 : info.videoType) == null ? void 0 : _a3.match(/bluray/i));
@@ -15876,13 +15983,13 @@ ${extraScreenshot}`;
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
     const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
     if (TORRENT_INFO.mediaInfo) {
-      getSpecsFromMediainfo(isBluray);
+      getSpecsFromMediainfo2(isBluray);
     } else {
       const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
       const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
       if (mediaInfoOrBDInfo) {
         TORRENT_INFO.mediaInfo = CURRENT_SITE_NAME === "HaresClub" ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
-        getSpecsFromMediainfo(isBluray);
+        getSpecsFromMediainfo2(isBluray);
       }
     }
     if (CURRENT_SITE_NAME === "TCCF") {
@@ -15901,7 +16008,7 @@ ${extraScreenshot}`;
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       videoTypeKey = "encode";
     }
-    if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDZone/i)) {
+    if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDFun/i)) {
       videoTypeKey = "\u5A92\u4ECB";
     }
     if (CURRENT_SITE_NAME.match(/HDFans/)) {
@@ -15987,7 +16094,7 @@ ${extraScreenshot}`;
     }
     return tags;
   };
-  function getSpecsFromMediainfo(isBluray) {
+  function getSpecsFromMediainfo2(isBluray) {
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
     if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
@@ -17057,6 +17164,10 @@ ${descriptionData}`;
     let description = bbBody || htmlToBBCode(div);
     description = `[img]${wikiImage}[/img]
 ${description}`;
+    const descSource = new DOMParser().parseFromString(description, "text/html");
+    if (descSource.documentElement.textContent) {
+      description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, "").replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, "").replace(new RegExp("(?<=(\\[\\/b\\]|,)[\\s\\\\.a-zA-Z]*)\\[\\/url\\]", "g"), "");
+    }
     const log = await fetch(`/torrents.php?action=loglist&torrentid=${torrentId}`, {
       responseType: void 0
     });
@@ -17221,7 +17332,7 @@ ${description}`;
     const metaInfo = getMetaInfo2();
     const isBluray = !!((_e = metaInfo.videoType) == null ? void 0 : _e.match(/bluray/i));
     const mediaInfo = jQuery("#mediainfo-raw code").text() || "";
-    const specs = getSpecsFromMediainfo2(isBluray, mediaInfo);
+    const specs = getSpecsFromMediainfo(isBluray, mediaInfo);
     if (Object.keys(specs).length > 0) {
       Object.assign(metaInfo, specs);
     }
@@ -17297,19 +17408,6 @@ ${description}`;
     });
     return result;
   };
-  function getSpecsFromMediainfo2(isBluray, mediaInfo) {
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
-    if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
-      return {
-        videoCodec,
-        audioCodec,
-        resolution,
-        mediaTags
-      };
-    }
-    return {};
-  }
   var getTagsFromPage2 = () => {
     const tags = {};
     const tagText = jQuery("div.font-bold.leading-6:contains('\u6807\u7B7E')").next().text();
@@ -17334,6 +17432,155 @@ ${description}`;
     return tags;
   };
 
+  // src/source/mt.ts
+  init_preact_shim();
+  var MT_SPECS_MAP = {
+    source: {
+      8: "web",
+      1: "bluray",
+      3: "dvd",
+      4: "hdtv",
+      5: "hdtv",
+      6: "other",
+      7: "cd"
+    },
+    medium: {
+      1: "bluray",
+      2: "hddvd",
+      3: "remux",
+      7: "encode",
+      4: "bluray",
+      5: "hdtv",
+      6: "dvd",
+      8: "cd",
+      10: "web"
+    },
+    standard: {
+      1: "1080p",
+      2: "1080i",
+      3: "720p",
+      5: "480p",
+      6: "2160p"
+    }
+  };
+  var mt_default2 = async () => {
+    const originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url) {
+      this.addEventListener("readystatechange", async function() {
+        if (this.readyState === 4) {
+          if (url.includes("/api/torrent/detail")) {
+            const detailData = JSON.parse(this.responseText);
+            if (detailData.code === "0") {
+              const info = await getTorrentInfo8(detailData.data);
+              Object.assign(TORRENT_INFO, info);
+            }
+          }
+          if (url.includes("/api/torrent/imdbInfo")) {
+            const imdbData = JSON.parse(this.responseText);
+            if (imdbData.code === "0") {
+              const imdbInfo = getMovieInfo(imdbData.data);
+              Object.assign(TORRENT_INFO, imdbInfo);
+            }
+          }
+        }
+      });
+      originalOpen.apply(this, arguments);
+    };
+  };
+  var getTorrentInfo8 = async (info) => {
+    var _a3, _b2;
+    const { name, imdb, douban, category, source, medium, standard, size, mediainfo, descr, smallDescr } = info;
+    const title = formatTorrentTitle(name);
+    const year = (_a3 = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _a3 : [];
+    let resolution = getResolution5(standard);
+    const videoType = getVideoType17(medium, title, resolution);
+    let sourceName = getSource3(source, resolution);
+    if (!sourceName) {
+      sourceName = getSourceFromTitle(title);
+    }
+    let videoCodec = getVideoCodecFromTitle(title);
+    const audioCodec = getAudioCodecFromTitle(title);
+    const screenshots = await getScreenshotsFromBBCode(descr);
+    let mediaTags = {};
+    let mediaInfoOrBDInfo = mediainfo;
+    const isBluray = !!videoType.match(/bluray/i);
+    if (!mediaInfoOrBDInfo) {
+      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descr);
+      mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
+    }
+    if (mediaInfoOrBDInfo) {
+      mediaInfoOrBDInfo = mediaInfoOrBDInfo.replace(/\n{1,}/g, "\n");
+      const specs = await getSpecsFromMediainfo(isBluray, mediaInfoOrBDInfo);
+      videoCodec = specs.videoCodec ? specs.videoCodec : videoCodec;
+      resolution = specs.resolution ? specs.resolution : resolution;
+      mediaTags = specs.mediaTags || {};
+    }
+    let area = "";
+    const areaMatch = (_b2 = descr.match(/(产\s+地|国\s+家)】?\s*(.+)/)) == null ? void 0 : _b2[2];
+    if (areaMatch) {
+      area = getAreaCode(areaMatch);
+    }
+    return {
+      sourceSite: CURRENT_SITE_NAME,
+      sourceSiteType: CURRENT_SITE_INFO.siteType,
+      subtitle: smallDescr,
+      title,
+      area,
+      imdbUrl: imdb,
+      doubanUrl: douban,
+      size: parseInt(size, 10),
+      category: getCategory8(category),
+      videoType,
+      resolution,
+      source: sourceName,
+      videoCodec,
+      audioCodec,
+      screenshots,
+      mediaInfo: mediaInfoOrBDInfo,
+      mediaInfos: [mediaInfoOrBDInfo],
+      description: descr,
+      year: year.length > 0 ? year.pop() : "",
+      movieName: "",
+      tags: __spreadValues({}, mediaTags)
+    };
+  };
+  var getCategory8 = (id) => {
+    const catMap = PT_SITE.MTeam.category.map;
+    for (const [key, value] of Object.entries(catMap)) {
+      if (value.includes(id)) {
+        return key;
+      }
+    }
+    return "";
+  };
+  var getSource3 = (id, resolution) => {
+    const sourceName = MT_SPECS_MAP.source[id];
+    if (sourceName === "bluray" && resolution === "2160p") {
+      return "uhdbluray";
+    }
+    return sourceName;
+  };
+  var getResolution5 = (id) => {
+    return MT_SPECS_MAP.standard[id];
+  };
+  var getVideoType17 = (id, title, resolution) => {
+    const videoType = MT_SPECS_MAP.medium[id];
+    if (videoType === "bluray" && resolution === "2160p") {
+      return "uhdbluray";
+    } else if (videoType === "dvd" && title.match(/dvdrip/i)) {
+      return "dvdrip";
+    }
+    return videoType;
+  };
+  var getMovieInfo = (data) => {
+    const { year, title, photo } = data;
+    return {
+      year,
+      movieName: title,
+      poster: photo.full || photo.thumb
+    };
+  };
+
   // src/source/index.ts
   var siteNameMap = {
     BeyondHD: bhd_default2,
@@ -17354,22 +17601,23 @@ ${description}`;
     DicMusic: red_default,
     MTV: mtv_default,
     SpeedApp: speedapp_default,
-    HH: hh_default
+    HH: hh_default,
+    MTeam: mt_default2
   };
   var siteTypeInfoMap = {
     NexusPHP: nexusphp_default,
     UNIT3D: unit3d_default,
     AvistaZ: avistaz_default
   };
-  var getTorrentInfo8 = () => Promise.resolve();
+  var getTorrentInfo9 = () => Promise.resolve();
   if (!CURRENT_SITE_INFO) {
     console.log("do nothing");
   } else if (siteNameMap[CURRENT_SITE_NAME]) {
-    getTorrentInfo8 = siteNameMap[CURRENT_SITE_NAME];
+    getTorrentInfo9 = siteNameMap[CURRENT_SITE_NAME];
   } else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType]) {
-    getTorrentInfo8 = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
+    getTorrentInfo9 = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
   }
-  var source_default = getTorrentInfo8;
+  var source_default = getTorrentInfo9;
 
   // src/site-dom/quick-search.ts
   init_preact_shim();
@@ -18023,10 +18271,10 @@ tr.pad[id*="torrent_"]{
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   };
   var Douban = () => {
-    const [btnText, setBtnText] = l2("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
-    const [bookBtnText, setBookBtnText] = l2("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
-    const [btnDisable, setBtnDisable] = l2(false);
-    const [searchValue, setSearchValue] = l2("");
+    const [btnText, setBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
+    const [bookBtnText, setBookBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
+    const [btnDisable, setBtnDisable] = d2(false);
+    const [searchValue, setSearchValue] = d2("");
     const doubanClosed = GM_getValue("easy-seed.douban-closed") || "";
     const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
     const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) && !doubanClosed;
@@ -18146,11 +18394,11 @@ tr.pad[id*="torrent_"]{
   // src/components/Transfer.tsx
   init_preact_shim();
   var Transfer = () => {
-    const [imgHost, setImgHost] = l2("imgbox");
-    const [btnDisable, setBtnDisable] = l2(false);
-    const [btnText, setBtnText] = l2("\u8F6C\u7F29\u7565\u56FE");
-    const [progress, setProgress] = l2(-1);
-    const [imgList, setImgList] = l2([]);
+    const [imgHost, setImgHost] = d2("imgbox");
+    const [btnDisable, setBtnDisable] = d2(false);
+    const [btnText, setBtnText] = d2("\u8F6C\u7F29\u7565\u56FE");
+    const [progress, setProgress] = d2(-1);
+    const [imgList, setImgList] = d2([]);
     const getThumbnailImgs = async () => {
       var _a3, _b2, _c;
       try {
@@ -18285,12 +18533,12 @@ tr.pad[id*="torrent_"]{
   // src/components/UploadImg.tsx
   init_preact_shim();
   var UploadImg = () => {
-    const [selectHost, setSelectHost] = l2("ptpimg");
-    const [btnDisable, setBtnDisable] = l2(false);
-    const [btnText, setBtnText] = l2("\u8F6C\u5B58\u622A\u56FE");
-    const [canCopy, setCanCopy] = l2(false);
-    const [screenBBCode, setScreenBBCode] = l2([]);
-    const [copyText, setCopyText] = l2("\u62F7\u8D1D");
+    const [selectHost, setSelectHost] = d2("ptpimg");
+    const [btnDisable, setBtnDisable] = d2(false);
+    const [btnText, setBtnText] = d2("\u8F6C\u5B58\u622A\u56FE");
+    const [canCopy, setCanCopy] = d2(false);
+    const [screenBBCode, setScreenBBCode] = d2([]);
+    const [copyText, setCopyText] = d2("\u62F7\u8D1D");
     const uploadScreenshotsToAnother = async () => {
       var _a3;
       const screenshots = TORRENT_INFO.screenshots;
@@ -18760,8 +19008,8 @@ ${screenBBcodeArray.join("")}`;
     const featureList = getFeatureList();
     const siteList = getSiteSetList();
     const { closePanel } = props;
-    const [ptpImgApiKey, setPtpImgApiKey] = l2(getValue("easy-seed.ptp-img-api-key", false) || "");
-    const [doubanCookie, setDoubanCookie] = l2(getValue("easy-seed.douban-cookie", false) || "");
+    const [ptpImgApiKey, setPtpImgApiKey] = d2(getValue("easy-seed.ptp-img-api-key", false) || "");
+    const [doubanCookie, setDoubanCookie] = d2(getValue("easy-seed.douban-cookie", false) || "");
     const saveSetting = () => {
       const targetSitesEnabled = [];
       const searchSitesEnabled = [];
@@ -18896,7 +19144,7 @@ ${screenBBcodeArray.join("")}`;
   // src/components/Container.tsx
   var Container = () => {
     var _a3, _b2;
-    const [settingPanelOpen, setSettingPanelOpen] = l2(false);
+    const [settingPanelOpen, setSettingPanelOpen] = d2(false);
     const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || ((_a3 = CURRENT_SITE_NAME) == null ? void 0 : _a3.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
     const isHDB = CURRENT_SITE_NAME === "HDBits";
     const baseTitleClass = ["title-td"];
@@ -18987,7 +19235,29 @@ ${screenBBcodeArray.join("")}`;
       class: "font-bold leading-6"
     }, $t("\u5FEB\u901F\u68C0\u7D22")), /* @__PURE__ */ v("div", {
       class: "font-bold leading-6"
-    }, /* @__PURE__ */ v(SearchList_default, null))), (isNexusPHP || isHDB || ((_b2 = CURRENT_SITE_NAME) == null ? void 0 : _b2.match(/(HDSpace|HDT)$/))) && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("tr", {
+    }, /* @__PURE__ */ v(SearchList_default, null))), CURRENT_SITE_NAME === "MTeam" && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("tr", {
+      class: "ant-descriptions-row"
+    }, /* @__PURE__ */ v("th", {
+      class: "ant-descriptions-item-label",
+      colSpan: 1,
+      style: "width: 135px; text-align: right;"
+    }, /* @__PURE__ */ v("span", null, /* @__PURE__ */ v("div", {
+      class: "font-bold leading-6"
+    }, /* @__PURE__ */ v(Title, null)))), /* @__PURE__ */ v("td", {
+      class: "ant-descriptions-item-content",
+      colSpan: 1
+    }, /* @__PURE__ */ v(UploadSiteList_default, null))), /* @__PURE__ */ v("tr", {
+      class: "ant-descriptions-row"
+    }, /* @__PURE__ */ v("th", {
+      class: "ant-descriptions-item-label",
+      colSpan: 1,
+      style: "width: 135px; text-align: right;"
+    }, /* @__PURE__ */ v("span", null, /* @__PURE__ */ v("div", {
+      class: "font-bold leading-6"
+    }, $t("\u5FEB\u901F\u68C0\u7D22")))), /* @__PURE__ */ v("td", {
+      class: "ant-descriptions-item-content",
+      colSpan: 1
+    }, /* @__PURE__ */ v(SearchList_default, null)))), (isNexusPHP || isHDB || ((_b2 = CURRENT_SITE_NAME) == null ? void 0 : _b2.match(/(HDSpace|HDT)$/))) && /* @__PURE__ */ v(d, null, /* @__PURE__ */ v("tr", {
       className: isHDB ? "hdb-tr" : ""
     }, /* @__PURE__ */ v("td", {
       className: baseTitleClass.join(" ")
@@ -18995,7 +19265,7 @@ ${screenBBcodeArray.join("")}`;
       className: baseContentClass.join(" ")
     }, /* @__PURE__ */ v("div", {
       id: "seed-dom",
-      className: !USE_CHINESE ? "use-eng" : ""
+      className: BROWSER_LANGUAGE === "en" ? "use-eng" : ""
     }, /* @__PURE__ */ v(UploadSiteList_default, null)))), /* @__PURE__ */ v("tr", {
       className: isHDB ? "hdb-tr" : ""
     }, /* @__PURE__ */ v("td", {
@@ -19027,7 +19297,7 @@ ${screenBBcodeArray.join("")}`;
       style: { flexWrap: "wrap" }
     }, /* @__PURE__ */ v("div", {
       id: "seed-dom",
-      className: !USE_CHINESE ? "use-eng" : ""
+      className: BROWSER_LANGUAGE === "en" ? "use-eng" : ""
     }, /* @__PURE__ */ v(UploadSiteList_default, null)))), /* @__PURE__ */ v("div", {
       className: "custom-site"
     }, /* @__PURE__ */ v("h4", null, $t("\u5FEB\u6377\u64CD\u4F5C")), /* @__PURE__ */ v(FunctionList_default, null)), !quickSearchClosed && /* @__PURE__ */ v("div", {
@@ -19041,7 +19311,7 @@ ${screenBBcodeArray.join("")}`;
       style: { flexWrap: "wrap" }
     }, /* @__PURE__ */ v("div", {
       id: "seed-dom",
-      className: !USE_CHINESE ? "use-eng" : ""
+      className: BROWSER_LANGUAGE === "en" ? "use-eng" : ""
     }, /* @__PURE__ */ v(UploadSiteList_default, null)))), /* @__PURE__ */ v("div", {
       className: "custom-site"
     }, /* @__PURE__ */ v("h4", null, $t("\u5FEB\u6377\u64CD\u4F5C")), /* @__PURE__ */ v(FunctionList_default, null)), !quickSearchClosed && /* @__PURE__ */ v("div", {
@@ -19057,7 +19327,7 @@ ${screenBBcodeArray.join("")}`;
       style: { flexWrap: "wrap" }
     }, /* @__PURE__ */ v("div", {
       id: "seed-dom",
-      className: !USE_CHINESE ? "use-eng" : ""
+      className: BROWSER_LANGUAGE === "en" ? "use-eng" : ""
     }, /* @__PURE__ */ v(UploadSiteList_default, null)))), /* @__PURE__ */ v("div", {
       className: "custom-site"
     }, /* @__PURE__ */ v("h4", null, $t("\u5FEB\u6377\u64CD\u4F5C")), /* @__PURE__ */ v(FunctionList_default, null)), !quickSearchClosed && /* @__PURE__ */ v("div", {
@@ -19066,7 +19336,7 @@ ${screenBBcodeArray.join("")}`;
       onClick: checkQuickResult
     }, $t("\u5FEB\u901F\u68C0\u7D22")), /* @__PURE__ */ v("div", null, /* @__PURE__ */ v(SearchList_default, null)))))), CURRENT_SITE_INFO.siteType === "gazelle" && /* @__PURE__ */ v("div", {
       id: "seed-dom",
-      className: ["movie-page__torrent__panel", !USE_CHINESE ? "use-eng" : ""].join(" ")
+      className: ["movie-page__torrent__panel", BROWSER_LANGUAGE === "en" ? "use-eng" : ""].join(" ")
     }, /* @__PURE__ */ v("div", {
       className: "ptp-title-wrapper"
     }, /* @__PURE__ */ v(Title, null), /* @__PURE__ */ v(UploadSiteList_default, null)), CURRENT_SITE_NAME !== "EMP" && /* @__PURE__ */ v(FunctionList_default, null), /* @__PURE__ */ v("div", {
@@ -19132,6 +19402,26 @@ ${screenBBcodeArray.join("")}`;
         app.setAttribute("class", "card-body card");
         div.appendChild(app);
         (_b = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _b.insertBefore(div, refNode);
+      } else if (CURRENT_SITE_NAME === "MTeam") {
+        const targetNode = document.getElementById("root");
+        const config = { childList: true, subtree: true };
+        const observer = new MutationObserver((mutationsList, observer2) => {
+          for (const mutation of mutationsList) {
+            if (mutation.type === "childList") {
+              const targetElement = jQuery(currentSiteInfo6.seedDomSelector)[0];
+              if (targetElement) {
+                observer2.disconnect();
+                refNode = jQuery(currentSiteInfo6.seedDomSelector)[0];
+                Array.from(app.childNodes).forEach((child) => {
+                  var _a3;
+                  (_a3 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a3.insertBefore(child, refNode);
+                });
+                break;
+              }
+            }
+          }
+        });
+        observer.observe(targetNode, config);
       } else {
         Array.from(app.childNodes).forEach((child) => {
           var _a3;

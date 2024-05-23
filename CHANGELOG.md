@@ -1,3 +1,27 @@
+## [4.2.1](https://github.com/techmovie/easy-upload/compare/4.2.0...4.2.1) (2024-05-23)
+
+
+### Bug Fixes
+
+* **mteam:** adapt new ui of mt(source part) ([bc2b011](https://github.com/techmovie/easy-upload/commit/bc2b01199a3cc5bb4e847aba576f632994c301a4)), closes [#271](https://github.com/techmovie/easy-upload/issues/271)
+* **mteam:** adapt to the new ui of mt(target part) ([f442f62](https://github.com/techmovie/easy-upload/commit/f442f627ed64a6bab9b31b66e7dbf25f5371f91e)), closes [#271](https://github.com/techmovie/easy-upload/issues/271)
+* **mteam:** support to fill tag and description ([814dcbe](https://github.com/techmovie/easy-upload/commit/814dcbef0152142f8596c5eeee88ec09465d695b)), closes [#271](https://github.com/techmovie/easy-upload/issues/271)
+* **quick search:** fix quick search for mt ([eebdfaf](https://github.com/techmovie/easy-upload/commit/eebdfafa84a7f2ff9a714cfed545719334018dc5)), closes [#271](https://github.com/techmovie/easy-upload/issues/271)
+* remove fbcd and frds music title subtitle fix ([#274](https://github.com/techmovie/easy-upload/issues/274)) ([2eb913c](https://github.com/techmovie/easy-upload/commit/2eb913c2f1a91e094d7c6f8a597c91236df850c8))
+* remove red site link and some unsopport bbcode ([#272](https://github.com/techmovie/easy-upload/issues/272)) ([31c4187](https://github.com/techmovie/easy-upload/commit/31c418711971fb70de313f7be8b8c404eb5d0edc))
+* remove replaceAll function ([906dd1c](https://github.com/techmovie/easy-upload/commit/906dd1cc860244285fb5502ab1f9cf0fce66bfa9))
+
+
+### Features
+
+* add ko_kr ([#270](https://github.com/techmovie/easy-upload/issues/270)) ([f2690a1](https://github.com/techmovie/easy-upload/commit/f2690a1cd24038c70ae1da46c46bde9d5c77d9a5))
+* **hdfun:** change hdzone to hdfun ([a302ea5](https://github.com/techmovie/easy-upload/commit/a302ea55eb10c13c8ae4d23aacfa437f824c347a)), closes [#271](https://github.com/techmovie/easy-upload/issues/271)
+* remove down site ([#268](https://github.com/techmovie/easy-upload/issues/268)) ([64d990b](https://github.com/techmovie/easy-upload/commit/64d990befe845a62a2b00f2d45190568835ac277))
+* support Korean ([baa0b7f](https://github.com/techmovie/easy-upload/commit/baa0b7f922afd6a7fe2ef0ab5ff53fd0ba7b6116))
+* **tjupt:** support mediainfo ([#273](https://github.com/techmovie/easy-upload/issues/273)) ([80f93e1](https://github.com/techmovie/easy-upload/commit/80f93e1378c08b6026782dcb343998ac9142a32b))
+
+
+
 # [4.2.0](https://github.com/techmovie/easy-upload/compare/4.1.1...4.2.0) (2024-03-11)
 
 
