@@ -31,11 +31,17 @@ const openBatchSeedTabs = () => {
     });
     return false;
   }
-  SORTED_SITE_KEYS.forEach((siteName) => {
+  SORTED_SITE_KEYS.forEach(async (siteName) => {
     const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
     const { url, uploadPath = '' } = siteInfo;
     if (siteInfo.asTarget) {
       if (batchSeedSetting.includes(siteName)) {
+        if (!TORRENT_INFO.torrentData) {
+          const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+          if (torrentData) {
+            TORRENT_INFO.torrentData = torrentData;
+          }
+        }
         const timestamp = `${Date.now()}`;
         GM_setValue('uploadInfo', TORRENT_INFO);
         GM_openInTab(`${url + uploadPath}#timestamp=${timestamp}`);
@@ -135,9 +141,11 @@ const UploadSiteList = () => {
       return;
     }
     const timestamp = `${Date.now()}`;
-    const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
-    if (torrentData) {
-      TORRENT_INFO.torrentData = torrentData;
+    if (!TORRENT_INFO.torrentData) {
+      const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+      if (torrentData) {
+        TORRENT_INFO.torrentData = torrentData;
+      }
     }
     GM_setValue('uploadInfo', TORRENT_INFO);
     url = `${url}#timestamp=${timestamp}`;
