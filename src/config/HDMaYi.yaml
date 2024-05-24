@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -22,8 +23,10 @@ subtitle:
   selector: 'input[name="small_descr"]'
 description:
   selector: '#descr'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#browsecat'
   map:
@@ -70,7 +73,7 @@ resolution:
     720p: '4'
     576p: '5'
     480p: '5'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     hds: '1'

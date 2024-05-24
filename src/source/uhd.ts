@@ -20,6 +20,9 @@ export default async () => {
   const [movieName = '', movieAkaName = ''] = titleText.match(/(.+?)\[/)?.[1].split('/') ?? [];
   const year = titleText.match(/\[(\d+)\]/)?.[1] ?? '';
 
+  const torrentLink = $(`#torrent${torrentId}`).find('a[href*="action=download"]').attr('href');
+  CURRENT_SITE_INFO.torrentLink = torrentLink;
+
   let tags = getTagsFromSubtitle(title);
   const source = getSourceFromTitle(title);
   const category = title.match(/Season\s+\d+/) ? 'tv' : 'movie';

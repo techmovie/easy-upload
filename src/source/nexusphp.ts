@@ -104,7 +104,7 @@ export default async () => {
       const doubanInfo = $('#kdouban .imdbwp__content').text().replace(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replace(/\n/g, '\n◎').replace(/\n◎$/, '\n').replace('◎Rating:', `◎IMDb链接:${siteImdbUrl}\n◎IMDb评分: ${imdbRate}\n◎豆瓣链接: ${TORRENT_INFO.doubanUrl}\n◎豆瓣评分:`);
       const postUrl = $('#kimdb img.imdbwp__img')?.attr('src') ?? '';
       const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
-      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo ?? '';
+      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo || '';
     }
     descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, '');
   }
@@ -114,7 +114,7 @@ export default async () => {
     const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
     const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
     const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') ?? '';
+    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') || '';
     if (descriptionBBCode === '' || descriptionBBCode === undefined) {
       let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
       extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';

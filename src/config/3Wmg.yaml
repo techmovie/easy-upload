@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
-search: 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +17,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -31,9 +32,11 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="pt_gen[douban][link]"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
-tags: 
+torrent:
+  selector: 'input[name="file"]'
+tags:
   chinese_audio: 'input[name="tags[]"][value="16"]'
   diy: 'input[name="tags[]"][value="8"]'
   hdr: 'input[name="tags[]"][value="64"]'
@@ -51,11 +54,11 @@ category:
     variety: '403'
 source:
   selector: 'select[name="source_sel"]'
-  map: 
-    uhdbluray: "1"
-    bluray: "1"
-    hdtv: "4"
-    dvd: "3"
-    web: "6"
-    vhs: "6"
-    hddvd: "2"
+  map:
+    uhdbluray: '1'
+    bluray: '1'
+    hdtv: '4'
+    dvd: '3'
+    web: '6'
+    vhs: '6'
+    hddvd: '2'

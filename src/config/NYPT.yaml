@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)' 
-search: 
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -24,6 +25,8 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="dburl"]'
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#browsecat'
   map:

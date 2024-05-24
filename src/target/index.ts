@@ -56,6 +56,7 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   targetHelper.categoryHandler();
   targetHelper.fillRemainingInfo();
   targetHelper.dealWithMoreSites();
+  targetHelper.fillTorrentFile();
 };
 
 export {

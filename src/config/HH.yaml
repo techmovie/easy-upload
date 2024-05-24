@@ -7,6 +7,7 @@ asTarget: false
 uploadPath: /upload.php
 needDoubanInfo: true
 seedDomSelector: '.bg-content_bg div.leading-6:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 search:
   path: /torrents.php
   imdbOptionKey: '4'

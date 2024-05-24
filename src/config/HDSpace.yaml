@@ -5,13 +5,14 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#mcol>table>tbody>tr:last table:first>tbody>tr:nth-child(2)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 needDoubanInfo: true
 uploadPath: /index.php?page=upload
-search: 
+search:
   path: /index.php
   imdbOptionKey: '2'
   nameOptionKey: '0'
-  replaceKey: ['tt','']
+  replaceKey: ['tt', '']
   params:
     search: '{imdb}'
     page: torrents
@@ -20,23 +21,25 @@ search:
     by: 2
 name:
   selector: '#filename'
-imdb: 
+imdb:
   selector: 'input[name="imdb"]'
-description: 
-    selector: 'textarea[name="info"]'
-anonymous: 
+description:
+  selector: 'textarea[name="info"]'
+anonymous:
   selector: 'input[name="anonymous"][value="true"]'
+torrent:
+  selector: 'input[type="file"][name="torrent"]'
 category:
   selector: 'select[name="category"]'
   map:
-    movie: 
+    movie:
       - '15'
       - '40'
       - '16'
       - '18'
       - '19'
       - '41'
-    tv: 
+    tv:
       - '15'
       - '40'
       - '16'
@@ -48,32 +51,32 @@ category:
       - '16'
       - '21'
       - '22'
-    documentary: 
+    documentary:
       - '15'
       - '40'
       - '16'
       - '24'
       - '25'
-    cartoon: 
+    cartoon:
       - '15'
       - '40'
       - '16'
       - '27'
       - '28'
-    concert: 
+    concert:
       - '15'
       - '40'
       - '16'
       - '31'
 videoType:
   map:
-    uhdbluray: 
+    uhdbluray:
       - '15'
     bluray:
-     - '15' 
-    remux: 
+      - '15'
+    remux:
       - '40'
-    encode: 
+    encode:
       - '18'
       - '19'
       - '41'
@@ -84,7 +87,7 @@ videoType:
       - '27'
       - '28'
       - '31'
-    web: 
+    web:
       - '18'
       - '19'
       - '41'
@@ -95,7 +98,7 @@ videoType:
       - '27'
       - '28'
       - '31'
-    hdtv: 
+    hdtv:
       - '18'
       - '19'
       - '41'
@@ -108,24 +111,24 @@ videoType:
       - '31'
 resolution:
   map:
-    2160p: 
+    2160p:
       - '15'
       - '40'
       - '16'
       - '41'
-    1080p: 
+    1080p:
       - '19'
       - '22'
       - '25'
       - '28'
       - '31'
-    1080i: 
+    1080i:
       - '19'
       - '22'
       - '25'
       - '28'
       - '31'
-    720p: 
+    720p:
       - '18'
       - '21'
       - '24'

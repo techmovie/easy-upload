@@ -5,7 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAYCAMAAADJYP15AAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   params:
     searchstr: '{imdb}'
@@ -15,6 +15,8 @@ search:
     action: basic
     searchsubmit: 1
 needDoubanInfo: true
+torrent:
+  selector: '#file'
 sourceInfo:
   editionTags:
     10-bit: 10_bit
@@ -113,7 +115,7 @@ videoCodec:
     x264: 'x264'
     x265: 'x265'
     h265: 'H.265'
-    mpeg2: 'Other'  
+    mpeg2: 'Other'
     mpeg4: 'H.264'
     vc1: 'Other'
     xvid: xvid
@@ -128,7 +130,7 @@ resolution:
     720p: '720p'
     576p: '576p'
     480p: '480p'
-format: 
+format:
   selector: '#container'
   map:
     mkv: 'MKV'

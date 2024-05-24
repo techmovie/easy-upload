@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdB
 asSource: true
 asTarget: false
 seedDomSelector: '#details_hop'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 needDoubanInfo: true
-search: 
+search:
   path: /browse
   params:
     incldead: '0'

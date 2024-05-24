@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAdCAYAAAC5UQwxAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: 'h1~table:first>tbody>tr:nth-child(3)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
 search:
   path: /torrents.php
@@ -28,6 +29,8 @@ douban:
   selector: 'input[name="douban_url"]'
 anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: '#torrent'
 category:
   selector: '#browsecat'
   map:

@@ -48,6 +48,7 @@ const fillMTInfo = async (info:TorrentInfo.Info) => {
     }
   });
   fillDescription(targetHelper.info.description);
+  targetHelper.fillTorrentFile();
 };
 
 function setInputValue (selector:string, value:string, isCheckbox = false) {

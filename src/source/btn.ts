@@ -39,6 +39,9 @@ function getTorrentInfo (torrentId:string) {
   const category = getCategory(season);
   const sourceFrom = getSourceFromTitle(torrentName);
 
+  const torrentLink = $(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr('href');
+  CURRENT_SITE_INFO.torrentLink = torrentLink;
+
   return {
     title: formatTorrentTitle(torrentName),
     format: container.toLowerCase(),

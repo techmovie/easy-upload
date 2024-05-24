@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table>tbody>tr:nth-child(4)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
 search:
   path: /torrents.php
@@ -29,3 +30,5 @@ description:
   selector: '#descr'
 anonymous:
   selector: input[name="uplver"]
+torrent:
+  selector: 'input[name="file"]'

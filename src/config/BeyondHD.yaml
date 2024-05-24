@@ -5,9 +5,10 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '.table-details tr:last'
+torrentDownloadLinkSelector: 'a[href*="/download/"].bhd-fl-button'
 needDoubanInfo: true
 uploadPath: /upload
-search: 
+search:
   path: /torrents/all
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -87,7 +88,7 @@ tmdb:
   selector: '#tmdbauto'
 mediaInfo:
   selector: '#mediainfo'
-anonymous: 
+anonymous:
   selector: 'input[name="anonymous"]'
 videoType:
   selector: '#category_id'
@@ -95,7 +96,9 @@ videoType:
     movie: '1'
     tv: '2'
     tvPack: '2'
-category: 
+torrent:
+  selector: 'input[type="file"][accept=".torrent"]'
+category:
   selector: '#autotype'
   map:
     BD100: 'UHD 100'
@@ -138,9 +141,9 @@ category:
 source:
   selector: '#autosource'
   map:
-    uhdbluray: 
-      - 'Blu-ray'  
-    bluray: 
+    uhdbluray:
+      - 'Blu-ray'
+    bluray:
       - 'Blu-ray'
       - 'BD 50'
       - 'BD 25'
@@ -155,19 +158,19 @@ source:
       - '576p'
       - '540p'
       - '480p'
-    hdtv: 
+    hdtv:
       - 'HDTV'
       - '2160p'
       - '1080p'
       - '1080i'
       - '720p'
-    dvd: 
+    dvd:
       - 'DVD'
       - 'DVD 9'
       - 'DVD 5'
       - 'DVD Remux'
       - '480p'
-    web: 
+    web:
       - 'WEB'
       - '2160p'
       - '1080p'
@@ -175,7 +178,7 @@ source:
       - '576p'
       - '540p'
       - '480p'
-    hddvd: 'HD-DVD'    
+    hddvd: 'HD-DVD'
 resolution:
   map:
     2160p:
@@ -205,5 +208,5 @@ resolution:
       - 'DVD 5'
       - 'DVD Remux'
       - '480p'
-    other: 
+    other:
       - 'Other'

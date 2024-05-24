@@ -4,7 +4,9 @@ import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription, isChineseTacker, buildPTPDescription, filterEmptyTags, setSelectValue,
+  getTeamName, matchSelectForm, filterNexusDescription,
+  isChineseTacker, buildPTPDescription, filterEmptyTags, setSelectValue,
+  base64ToBlob,
 } from './common';
 import { SITE_OPERATIONS } from './site-operations';
 
@@ -23,7 +25,7 @@ export default class ExportHelper {
   operation: SiteOperation
   constructor (info:TorrentInfo.TargetTorrentInfo) {
     this.info = info;
-    this.currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
+    this.currentSiteInfo = CURRENT_SITE_INFO;
     this.operation = SITE_OPERATIONS[CURRENT_SITE_NAME as keyof typeof SITE_OPERATIONS];
   }
 
@@ -376,6 +378,35 @@ export default class ExportHelper {
         const ipadCat = categoryMap[this.info.category as keyof typeof categoryMap];
         if (ipadCat) {
           $('#browsecat').val(ipadCat);
+        }
+      }
+    }
+  }
+
+  fillTorrentFile () {
+    const { torrentData } = this.info;
+    if (CURRENT_SITE_INFO.torrent) {
+      const fileInput = $(CURRENT_SITE_INFO.torrent.selector);
+      if (torrentData && fileInput.length > 0) {
+        const blob = base64ToBlob(torrentData);
+        const torrentFileName = this.info.title?.replace(/\s/g, '.');
+        const file = new File([blob], `${torrentFileName}.torrent`, { type: 'application/x-bittorrent' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        const uploadInput = fileInput[0] as HTMLInputElement;
+        if (CURRENT_SITE_NAME === 'MTeam') {
+          setTimeout(() => {
+            const lastValue = uploadInput.files;
+            uploadInput.files = dataTransfer.files;
+            const tracker = uploadInput._valueTracker;
+            if (tracker) {
+              tracker.setValue(lastValue);
+            }
+            const event = new Event('change', { bubbles: true });
+            uploadInput.dispatchEvent(event);
+          }, 100);
+        } else {
+          uploadInput.files = dataTransfer.files;
         }
       }
     }

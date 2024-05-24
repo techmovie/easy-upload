@@ -6,6 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 search:
   path: /torrents.php
   imdbOptionKey: '4'
@@ -35,6 +36,8 @@ mediaInfo:
   selector: 'textarea[name="technical_info"]'
 anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: 'input[name="file"]'
 tags:
   chinese_audio: '#leaves-tag5'
   diy: '#leaves-tag4'

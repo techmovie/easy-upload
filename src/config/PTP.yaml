@@ -6,7 +6,7 @@ asSource: true
 asTarget: true
 needDoubanInfo: true
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   params:
     action: advanced
@@ -51,12 +51,14 @@ description:
 poster: '#image'
 imdb:
   selector: '#imdb'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 mediaInfo:
   selector: '#Media_BDInfo'
 screenshots:
   selector: '#url_vimages'
+torrent:
+  selector: '#file'
 category:
   selector: '#categories'
   map:
@@ -73,7 +75,7 @@ videoCodec:
     x264: 'x264'
     x265: 'x265'
     h265: 'H.265'
-    mpeg2: 'Other'  
+    mpeg2: 'Other'
     mpeg4: 'H.264'
     vc1: 'Other'
     xvid: 'XviD'
@@ -83,7 +85,7 @@ videoCodec:
     BD66: 'BD66'
     BD50: 'BD50'
     BD25: 'BD25'
-source: 
+source:
   selector: '#source'
   map:
     uhdbluray: 'Blu-ray'

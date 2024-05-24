@@ -6,6 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 search:
   path: /torrents.php
   imdbOptionKey: '4'
@@ -21,6 +22,8 @@ search:
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
     size: 'td:nth-child(5)'
+torrent:
+  selector: 'input[name="file"]'
 subtitle:
   selector: 'input[name="small_descr"]'
 description:

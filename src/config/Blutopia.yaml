@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /torrents/create?category_id=1
+torrentDownloadLinkSelector: 'a[href*="/torrents/download/"]'
 needDoubanInfo: true
 seedDomSelector: '.torrent__buttons+.panelV2'
 search:
@@ -26,6 +27,8 @@ mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 anonymous:
   selector: '.form__group input[type="checkbox"][name="anon"]'
+torrent:
+  selector: 'input[type="file"][accept=".torrent"]'
 category:
   selector: '#browsecat'
   map:

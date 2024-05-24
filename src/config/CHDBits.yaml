@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(6)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
 search:
   path: /torrents.php
@@ -31,6 +32,8 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: '#torrent'
 tags:
   chinese_audio: 'input[name="cnlang"]'
   chinese_subtitle: 'input[name="cnsub"]'

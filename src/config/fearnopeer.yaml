@@ -7,6 +7,7 @@ asTarget: true
 uploadPath: /torrents/create?category_id=1
 needDoubanInfo: true
 seedDomSelector: .torrent__buttons+.panelV2
+torrentDownloadLinkSelector: 'a[href*="/torrents/download/"]'
 search:
   path: /torrents
   replaceKey:
@@ -28,6 +29,8 @@ mediaInfo:
   selector: textarea[name="mediainfo"]
 anonymous:
   selector: .form__group input[type="checkbox"][name="anon"]
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#browsecat'
   map:

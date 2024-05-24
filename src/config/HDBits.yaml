@@ -6,7 +6,8 @@ asSource: true
 asTarget: true
 needDoubanInfo: true
 uploadPath: /upload.php
-seedDomSelector: '#details >tbody >tr:contains(Last seeded)' 
+seedDomSelector: '#details >tbody >tr:contains(Last seeded)'
+torrentDownloadLinkSelector: 'a[href*="download.php/"]'
 search:
   path: /browse.php
   params:
@@ -21,6 +22,8 @@ imdb:
   selector: '#imdb'
 mediaInfo:
   selector: 'textarea[name="techinfo"]'
+torrent:
+  selector: '#file'
 category:
   selector: '#type_category'
   map:

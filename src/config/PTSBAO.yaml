@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -16,7 +17,7 @@ search:
     search: '{imdb}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '.torrents>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
@@ -29,9 +30,11 @@ description:
   selector: 'textarea[tabindex]'
 imdb:
   selector: 'input[name="imdburl"][type="text"]'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
-tags: 
+torrent:
+  selector: 'input[name="file"]'
+tags:
   chinese_subtitle: 'input[type="checkbox"][name="zz"]'
 # 太混乱了 不想做支持了
 category:
@@ -90,19 +93,19 @@ videoType:
 resolution:
   selector: 'select[name="standard_sel"]'
   map:
-    2160p: 
+    2160p:
       - '5'
       - '92'
-    1080p: 
+    1080p:
       - '1'
       - '3'
     1080i: '1'
-    720p: 
+    720p:
       - '2'
       - '91'
     576p: '3'
     480p: '4'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     ffansbd: '8'

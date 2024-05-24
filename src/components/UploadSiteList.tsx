@@ -1,10 +1,11 @@
 import {
-  TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME,
+  TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME, CURRENT_SITE_INFO,
 } from '../const';
 import {
   $t, fetch, getIMDBIdByUrl, getValue,
 } from '../common';
 import Notification from './Notification';
+import { getTorrentFileData } from '../source/helper';
 
 const getPTPGroupId = async (imdbUrl:string|undefined) => {
   if (!imdbUrl) {
@@ -134,6 +135,10 @@ const UploadSiteList = () => {
       return;
     }
     const timestamp = `${Date.now()}`;
+    const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+    if (torrentData) {
+      TORRENT_INFO.torrentData = torrentData;
+    }
     GM_setValue('uploadInfo', TORRENT_INFO);
     url = `${url}#timestamp=${timestamp}`;
     GM_openInTab(url);

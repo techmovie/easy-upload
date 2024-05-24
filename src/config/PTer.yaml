@@ -6,6 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 search:
   path: /torrents.php
   imdbOptionKey: '4'
@@ -33,6 +34,8 @@ douban:
   selector: 'input[name="douban"]'
 anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: 'input[name="file"]'
 tags:
   chinese_audio: '#guoyu'
   diy: '#diy'

@@ -5,7 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAgCAAAAAAgK5ejAAAABGdB
 asSource: false
 asTarget: true
 uploadPath: /upload.php
-search: 
+torrent:
+  selector: 'input[name="file_input"]'
+search:
   path: /torrents.php
   params:
     action: advanced

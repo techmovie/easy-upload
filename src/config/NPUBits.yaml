@@ -5,27 +5,30 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdB
 asSource: false
 asTarget: true
 uploadPath: /upload.php
-search: 
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
+search:
   path: /torrents.php
   params:
     incldead: '0'
     search: '{name}'
     sort: '5'
     type: desc
-  result: 
+  result:
     list: '#torrents_table>tbody>tr'
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
     size: 'td:nth-child(3)>center:first'
-name: 
-   selector: '#name'
+name:
+  selector: '#name'
 subtitle:
   selector: '#small_descr'
 description:
   selector: '#descr'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
   value: 'yes'
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#browsecat'
   map:
@@ -61,7 +64,7 @@ videoCodec:
     x264: 'x264'
     x265: 'x265'
     h265: 'x265'
-    mpeg2: 'MPEG2'  
+    mpeg2: 'MPEG2'
     mpeg4: 'H264'
     xvid: 'Xvid'
     dvd: 'MPEG2'
@@ -86,7 +89,7 @@ resolution:
     720p: 720p
     576p: 576p
     480p: 480p
-team: 
+team:
   selector: 5
   map:
     wiki: WiKi

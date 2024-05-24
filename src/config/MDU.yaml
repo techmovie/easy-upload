@@ -7,6 +7,7 @@ asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
 seedDomSelector: '#meta-info+.meta-general>.panel:first'
+torrentDownloadLinkSelector: 'a[href*="/download/torrent/"]'
 search:
   path: /torrents
   replaceKey: ['tt', '']
@@ -34,6 +35,8 @@ bdinfo:
   selector: 'textarea[name="bdinfo"]'
 anonymous:
   selector: '.form__group input[type="checkbox"][name="anonymous"]'
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#autocat'
   map:

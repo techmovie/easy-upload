@@ -5,7 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   params:
     order_way: desc
@@ -16,10 +16,12 @@ description:
   selector: '#release_desc'
 imdb:
   selector: '#imdbid'
-anonymous: 
+anonymous:
   selector: '#anonymous'
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
+torrent:
+  selector: '#file'
 category:
   selector: '#categories'
   map:
@@ -46,7 +48,7 @@ videoCodec:
     x264: 'x264'
     x265: 'x265'
     h265: 'HEVC'
-    mpeg2: 'MPEG-2'  
+    mpeg2: 'MPEG-2'
     mpeg4: 'AVC/H.264'
     vc1: 'VC-1'
     dvd: 'MPEG'

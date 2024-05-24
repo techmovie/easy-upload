@@ -7,7 +7,7 @@ asTarget: true
 seedDomSelector: 'div.layout-container > div > form'
 uploadPath: /torrent/upload
 needDoubanInfo: false
-search: 
+search:
   path: /torrent/search
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -20,8 +20,10 @@ subtitle:
   selector: '#form_item_subtitle'
 description:
   selector: '#form_item_note'
-anonymous: 
+anonymous:
   selector: '#form_item_anonymous'
+torrent:
+  selector: '#form_item_torrent'
 imdb:
   selector: 'input[placeholder="tt123456"]'
 douban:

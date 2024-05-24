@@ -5,7 +5,8 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdB
 asSource: false
 asTarget: true
 uploadPath: /upload.php
-search: 
+
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -21,3 +22,5 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="dburl"]'
+torrent:
+  selector: '#torrent'

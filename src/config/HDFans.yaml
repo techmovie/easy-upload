@@ -6,6 +6,7 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '#top~font table:first>tbody>tr:nth-child(5)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 search:
   path: /torrents.php
   imdbOptionKey: '4'
@@ -31,6 +32,8 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 anonymous:
   selector: 'input[name="uplver"]'
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: '#browsecat'
   map:

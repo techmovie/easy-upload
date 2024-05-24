@@ -27,6 +27,9 @@ export default async () => {
   TORRENT_INFO.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';
   TORRENT_INFO.year = $('.page__title').text().match(/\[(\d+)\]/)?.[1] ?? '';
   const torrentHeaderDom = $(`#group_torrent_header_${torrentId}`);
+  const torrentLink = torrentHeaderDom.find('a[title="Download"]').attr('href');
+  CURRENT_SITE_INFO.torrentLink = torrentLink;
+
   TORRENT_INFO.category = getPTPType();
   const screenshots = getPTPImage();
   getDescription(torrentId).then(res => {

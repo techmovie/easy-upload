@@ -7,6 +7,7 @@ asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
 seedDomSelector: '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr:last'
+torrentDownloadLinkSelector: 'a[href*="/torrents/download/"]'
 search:
   path: /torrents
   params:
@@ -22,8 +23,10 @@ tmdb:
   selector: '#autotmdb'
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
-anonymous: 
+anonymous:
   selector: '.radio-inline:first input[name="anonymous"]'
+torrent:
+  selector: 'input[name="file"]'
 videoType:
   selector: '#autocat'
   map:
@@ -52,7 +55,7 @@ category:
       - '14'
       - '16'
     dvdrip: '13'
-    other: ''   
+    other: ''
 resolution:
   selector: '#autores'
   map:

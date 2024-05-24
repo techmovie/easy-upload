@@ -1,11 +1,13 @@
 import svgr from './plugin-svgr.js';
 import esbuild from 'esbuild';
-import { yamlToJSON, userScriptComment } from './helper.js';
+import chokidar from 'chokidar';
+import { yamlToJSON } from './helper.js';
 
+const outFile = './.cache/easy-upload.user.js';
 yamlToJSON();
-esbuild.build({
+const ctx = await esbuild.context({
   entryPoints: ['src/index.tsx'],
-  outfile: 'dist/easy-upload.user.js',
+  outfile: outFile,
   logLevel: 'info',
   bundle: true,
   target: 'chrome58',
@@ -15,7 +17,6 @@ esbuild.build({
   alias: {
     path: 'path-browserify',
   },
-  banner: { js: userScriptComment },
   minify: false,
   sourcemap: false,
   jsxFactory: 'h',
@@ -38,6 +39,12 @@ esbuild.build({
       plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
     }),
   ],
-}).catch(() => {
-  process.exit(1);
+});
+
+await ctx.watch();
+console.log('watching...');
+
+chokidar.watch(['src/config/*', 'src/i18n/*.yaml'], { awaitWriteFinish: true, ignoreInitial: true }).on('all', (eventName, path) => {
+  console.log(`${path}:${eventName}`);
+  yamlToJSON();
 });

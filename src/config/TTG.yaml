@@ -5,6 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#main_table h1~table:first>tbody>tr:nth-child(2)'
+torrentDownloadLinkSelector: 'a[href*="im/dl/"]'
 uploadPath: /upload.php
 search:
   path: /browse.php
@@ -32,6 +33,8 @@ imdb:
 anonymous:
   selector: select[name="anonymity"]
   value: yes
+torrent:
+  selector: 'input[name="file"]'
 category:
   selector: select[name="type"]
   map:

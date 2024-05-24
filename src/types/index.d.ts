@@ -53,6 +53,7 @@ declare namespace TorrentInfo {
     otherTags?: any,
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
+    torrentData?: string
   }
 
   interface TargetTorrentInfo extends Info {
@@ -80,6 +81,7 @@ declare namespace Site {
     asTarget: boolean
     uploadPath: string
     seedDomSelector: string
+    torrentDownloadLinkSelector?: string
     needDoubanInfo?: false
     needDoubanBookInfo?: false
     douban: Selector
@@ -115,6 +117,8 @@ declare namespace Site {
       selector: string
       value?:string
     }
+    torrent?: Selector
+    torrentLink?: string
     category: SelectorMap
     videoCodec: SelectorMap
     audioCodec: SelectorMap

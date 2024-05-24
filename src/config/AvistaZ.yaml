@@ -6,8 +6,9 @@ asSource: true
 asTarget: false
 uploadPath: /upload.php
 seedDomSelector: '#content-area .block:last table:first>tbody>tr:nth-child(3)'
+torrentDownloadLinkSelector: 'a[href*="/download/torrent/"]'
 needDoubanInfo: true
-search: 
+search:
   path: /torrents
   params:
     search: '{imdb}'

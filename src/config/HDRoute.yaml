@@ -5,11 +5,11 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdB
 asSource: false
 asTarget: true
 uploadPath: /upload.php
-search: 
+search:
   path: /browse.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
-  replaceKey: ['tt','']
+  replaceKey: ['tt', '']
   params:
     s: '{name}'
     dp: '0'
@@ -26,8 +26,10 @@ description:
 poster: 'input[name="poster_big"]'
 imdb:
   selector: '#upload-imdb_url'
-anonymous: 
+anonymous:
   selector: 'input[name="is_anonymous"]'
+torrent:
+  selector: '#file_torrent'
 tags:
   chinese_audio: 'input[name="is_mandrain"]'
   cantonese_audio: 'input[name="is_cantonese"]'

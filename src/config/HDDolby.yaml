@@ -5,8 +5,9 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAAAAACo4kLRAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '#top~table:first>tbody>tr:nth-child(3)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '4'
   nameOptionKey: '0'
@@ -26,7 +27,9 @@ imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
   selector: 'input[name="douban_id"]'
-tags: 
+torrent:
+  selector: 'input[name="file"]'
+tags:
   chinese_audio: '#tag_gy'
   diy: '#tag_diy'
   chinese_subtitle: '#tag_zz'
@@ -34,7 +37,7 @@ tags:
   hdr: '#tag_hdr10'
   hdr10_plus: '#tag_hdrm'
   dolby_vision: '#tag_db'
-anonymous: 
+anonymous:
   selector: 'input[name="uplver"]'
 category:
   selector: '#browsecat'
@@ -95,7 +98,7 @@ resolution:
     720p: '4'
     576p: '5'
     480p: '5'
-team: 
+team:
   selector: 'select[name="team_sel"]'
   map:
     dream: '1'

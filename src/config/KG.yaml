@@ -6,8 +6,9 @@ asSource: true
 asTarget: true
 uploadPath: /upload.php
 seedDomSelector: '.outer h1~table:first>tbody>tr:nth-child(6)'
+torrentDownloadLinkSelector: 'a[href*="/down.php/"]'
 needDoubanInfo: true
-search: 
+search:
   path: /browse.php
   imdbOptionKey: 'imdb'
   nameOptionKey: 'title'
@@ -16,9 +17,9 @@ search:
     search_type: '{optionKey}'
     sort: size
     d: DESC
-source: 
+source:
   selector: select[name='source']
-  map: 
+  map:
     uhdbluray: Blu-ray
     bluray: Blu-ray
     hdtv: TV
@@ -27,14 +28,16 @@ source:
     vhs: VHS
     hddvd: HD-DVD
     other: Other
-resolution: 
+resolution:
   selector: select[name='hdrip']
-  map: 
+  map:
     720p: '1'
     1080p: '2'
     bluray: '3'
+torrent:
+  selector: 'input[name="file"]'
 genres:
-  map: 
+  map:
     Action: '4'
     Adventure: '55'
     Animation: '5'
@@ -69,8 +72,8 @@ genres:
     Video Art: '56'
     War: '26'
     Western: '27'
-country: 
-  map: 
+country:
+  map:
     USA: '2'
     UK: '12'
     Germany: '7'

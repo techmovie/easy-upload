@@ -27,6 +27,8 @@ tags:
   diy: 'input[value="diy"]'
   chinese_subtitle: 'input[value="sub"]'
   chinese_audio: 'input[value="dub"]'
+torrent:
+  selector: '#torrent-input'
 category:
   selector: '#category'
   map:
@@ -89,7 +91,7 @@ audioCodec:
 source:
   selector: '#source'
   map:
-    uhdbluray: 1'
+    uhdbluray: '1'
     bluray: '1'
     hdtv: '4'
     dvd: '3'

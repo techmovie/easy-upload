@@ -37,6 +37,9 @@ const getTorrentInfo = async (torrentId:string) => {
   const { knownTags, otherTags } = getTags(infoArray, ['可替代', '特色']);
   const tags = { ...knownTags };
 
+  const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr('href');
+  CURRENT_SITE_INFO.torrentLink = torrentLink;
+
   const torrentDom = $(`#torrent_detail_${torrentId}`).find('#subtitles_box').next('blockquote');
   const screenshots = getScreenshots(torrentDom);
   const mediaInfoArray:string[] = (mediainfos as string[]).map(info => info.replace(/\r\n/g, '\n'));

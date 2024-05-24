@@ -5,9 +5,10 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAAABGdB
 asSource: true
 asTarget: true
 seedDomSelector: '.listadetails>tbody>tr:nth-child(2)'
+torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 needDoubanInfo: true
 uploadPath: /upload.php
-search: 
+search:
   path: /torrents.php
   imdbOptionKey: '2'
   nameOptionKey: '3'
@@ -18,20 +19,22 @@ search:
     by: DESC
 name:
   selector: 'input[name="filename"]'
-imdb: 
+imdb:
   selector: 'input[name="infosite"]'
-description: 
-    selector: 'textarea[name="info"]'
-tags: 
+description:
+  selector: 'textarea[name="info"]'
+tags:
   hdr: 'input[name="HDR10"]'
   hdr10_plus: 'input[name="HDR10Plus"]'
   dolby_vision: 'input[name="DolbyVision"]'
-anonymous: 
+anonymous:
   selector: 'input[name="anonymous"][value="true"]'
+torrent:
+  selector: 'input[name="torrent"]'
 category:
   selector: 'select[name="category"]'
   map:
-    movie: 
+    movie:
       - '70'
       - '1'
       - '71'
@@ -40,7 +43,7 @@ category:
       - '5'
       - '3'
       - '63'
-    tv: 
+    tv:
       - '72'
       - '59'
       - '73'
@@ -56,7 +59,7 @@ category:
       - '65'
       - '30'
       - '38'
-    documentary: 
+    documentary:
       - '70'
       - '1'
       - '71'
@@ -65,7 +68,7 @@ category:
       - '5'
       - '3'
       - '63'
-    cartoon: 
+    cartoon:
       - '70'
       - '1'
       - '71'
@@ -74,14 +77,14 @@ category:
       - '5'
       - '3'
       - '63'
-    concert: 
+    concert:
       - '61'
       - '62'
       - '66'
       - '57'
       - '45'
       - '44'
-    variety: 
+    variety:
       - '72'
       - '59'
       - '73'
@@ -94,17 +97,17 @@ videoType:
     uhdbluray:
       - '70'
       - '72'
-    bluray: 
+    bluray:
       - '1'
       - '59'
       - '61'
-    remux: 
+    remux:
       - '71'
       - '2'
       - '62'
       - '73'
       - '60'
-    encode: 
+    encode:
       - '64'
       - '5'
       - '3'
@@ -114,7 +117,7 @@ videoType:
       - '66'
       - '57'
       - '45'
-    web: 
+    web:
       - '64'
       - '5'
       - '3'
@@ -124,7 +127,7 @@ videoType:
       - '66'
       - '57'
       - '45'
-    hdtv: 
+    hdtv:
       - '64'
       - '5'
       - '3'
@@ -136,7 +139,7 @@ videoType:
       - '45'
 resolution:
   map:
-    2160p: 
+    2160p:
       - '70'
       - '72'
       - '71'
@@ -144,7 +147,7 @@ resolution:
       - '64'
       - '65'
       - '66'
-    1080p: 
+    1080p:
       - '1'
       - '59'
       - '61'
@@ -154,7 +157,7 @@ resolution:
       - '5'
       - '30'
       - '57'
-    1080i: 
+    1080i:
       - '1'
       - '59'
       - '61'
@@ -164,7 +167,7 @@ resolution:
       - '5'
       - '30'
       - '57'
-    720p: 
+    720p:
       - '3'
       - '38'
       - '45'

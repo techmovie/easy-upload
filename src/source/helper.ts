@@ -1,3 +1,7 @@
+import parseTorrent, { toTorrentFile } from 'parse-torrent';
+import { fetch } from '../common';
+import { Buffer } from 'buffer/index.js';
+import { CURRENT_SITE_INFO } from '../const';
 
 /**
  * 格式化视频类型
@@ -109,9 +113,50 @@ const getFormat = (data:string) => {
   return 'other';
 };
 
+const blobToBase64 = (blob:Blob):Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      resolve(e.target?.result as string);
+    };
+    fileReader.readAsDataURL(blob);
+    fileReader.onerror = () => {
+      reject(new Error('blobToBase64 error'));
+    };
+  });
+};
+
+const getTorrentFileData = async (selector = '', torrentLink = '') => {
+  let downloadLink = torrentLink || $(selector).attr('href');
+  if (!downloadLink) {
+    console.warn('Failed to get torrent file download link');
+    return null;
+  }
+  if (!downloadLink.startsWith('http')) {
+    downloadLink = `${CURRENT_SITE_INFO.url}/${downloadLink}`;
+  }
+  const file = await fetch(downloadLink, {
+    method: 'GET',
+    responseType: 'arraybuffer',
+  });
+  const result = await parseTorrent(Buffer.from(file));
+  const buf = toTorrentFile({
+    ...result,
+    comment: '',
+    announce: [],
+    info: {
+      ...result.info,
+      source: '',
+    },
+  });
+  const blob = new Blob([buf], { type: 'application/x-bittorrent' });
+  const base64 = await blobToBase64(blob);
+  return base64;
+};
 export {
   getVideoType,
   getCategory,
   getResolution,
   getFormat,
+  getTorrentFileData,
 };
