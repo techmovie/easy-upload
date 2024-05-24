@@ -1,3 +1,19 @@
+# [5.0.0](https://github.com/techmovie/easy-upload/compare/4.2.1...5.0.0) (2024-05-24)
+
+
+### Bug Fixes
+
+* add type for current_info ([d0829a8](https://github.com/techmovie/easy-upload/commit/d0829a8fdf4fa0aee87b2d39e6dee725c806cc34))
+* **tjupt:** support to check chinese subtitle ([e57477e](https://github.com/techmovie/easy-upload/commit/e57477e87caae2113de1c3634ff4e453f037f2b5))
+
+
+### Features
+
+* add torrent transfering support for batch transfer ([f5bed84](https://github.com/techmovie/easy-upload/commit/f5bed84a9f5d899822670c317c990b52c32cf575))
+* support to transfer torrent file fix([#255](https://github.com/techmovie/easy-upload/issues/255)) ([ef8ac2f](https://github.com/techmovie/easy-upload/commit/ef8ac2facc357edd04e9acf4e016e4d64a561f4e))
+
+
+
 ## [4.2.1](https://github.com/techmovie/easy-upload/compare/4.2.0...4.2.1) (2024-05-23)
 
 
