@@ -34,7 +34,7 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
       const {
         douban, imdb, subtitle,
         description, name,
-      } = CURRENT_SITE_INFO as Site.SiteInfo;
+      } = CURRENT_SITE_INFO;
       if (CURRENT_SITE_NAME === 'SSD') {
         $(imdb.selector).val(doubanLink);
       } else {
@@ -82,7 +82,7 @@ export default (info: TorrentInfo.Info) => {
     return;
   }
   if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
-    const { imdb, douban } = CURRENT_SITE_INFO as Site.SiteInfo;
+    const { imdb, douban } = CURRENT_SITE_INFO;
     let selector: JQuery = $('');
     if (douban && (douban.selector && $(douban.selector)) && $(douban.selector).val()) {
       selector = $(douban.selector);

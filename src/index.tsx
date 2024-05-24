@@ -13,7 +13,6 @@ import './site-dom/ptpimg';
 import './style';
 import App from './components/Container';
 
-const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
 const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
 const torrentTimestamp = (timestampMatchArray && timestampMatchArray.length > 0) ? timestampMatchArray[2] : null;
@@ -21,7 +20,7 @@ const torrentInfoRaw = (torrentInfoMatchArray && torrentInfoMatchArray.length > 
 let torrentInfo = null;
 if (CURRENT_SITE_NAME) {
   fillSearchImdb();
-  if (currentSiteInfo.asTarget) {
+  if (CURRENT_SITE_INFO.asTarget) {
     if (torrentInfoRaw) {
       torrentInfo = JSON.parse(decodeURIComponent(torrentInfoRaw));
     } else if (torrentTimestamp) {
@@ -29,17 +28,17 @@ if (CURRENT_SITE_NAME) {
     }
     fillTargetForm(torrentInfo as TorrentInfo.Info);
   }
-  if (currentSiteInfo.asSource &&
+  if (CURRENT_SITE_INFO.asSource &&
     (!location.href.match(/upload/ig)) &&
-    !(currentSiteInfo.search &&
-      location.pathname.match(currentSiteInfo.search.path) &&
+    !(CURRENT_SITE_INFO.search &&
+      location.pathname.match(CURRENT_SITE_INFO.search.path) &&
       (getUrlParam('imdb') || getUrlParam('name')))) {
     getTorrentInfo().then(() => {
       // 向当前所在站点添加按钮等内容
       console.log(TORRENT_INFO);
     });
 
-    let refNode = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
+    let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
     const app = document.createElement('div');
     render(<App />, app);
     if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV'].includes(CURRENT_SITE_NAME)) {
@@ -71,10 +70,10 @@ if (CURRENT_SITE_NAME) {
       const observer = new MutationObserver((mutationsList, observer) => {
         for (const mutation of mutationsList) {
           if (mutation.type === 'childList') {
-            const targetElement = $(currentSiteInfo.seedDomSelector)[0];
+            const targetElement = $(CURRENT_SITE_INFO.seedDomSelector)[0];
             if (targetElement) {
               observer.disconnect();
-              refNode = $(currentSiteInfo.seedDomSelector)[0] as HTMLElement|null;
+              refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
               Array.from(app.childNodes).forEach(child => {
                 refNode?.parentNode?.insertBefore(child, refNode);
               });

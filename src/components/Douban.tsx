@@ -38,7 +38,7 @@ const Douban = () => {
   const [btnDisable, setBtnDisable] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
-  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO as Site.SiteInfo;
+  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
   const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) &&
    !doubanClosed;
 

@@ -9,8 +9,6 @@ import handleHDRoute from './hdr';
 import handleBib from './bib';
 import handlePTN from './ptn';
 
-const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
-
 export const SITE_OPERATIONS = {
   PTSBAO: {
     beforeHandler: () => {
@@ -20,7 +18,7 @@ export const SITE_OPERATIONS = {
     },
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       $('a[data-sceditor-command="source"]')[0].click();
-      $(currentSiteInfo.description.selector).val(info.description);
+      $(CURRENT_SITE_INFO.description.selector).val(info.description);
     },
   },
   Concertos: {
@@ -58,7 +56,7 @@ export const SITE_OPERATIONS = {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
       if (!language.match(/英语/) && info.area === 'EU') {
-        $(currentSiteInfo.area.selector).val('8');
+        $(CURRENT_SITE_INFO.area.selector).val('8');
       }
     },
   },
@@ -89,7 +87,6 @@ export const SITE_OPERATIONS = {
   KEEPFRDS: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let { description, screenshots } = info;
-      const currentSiteInfo = CURRENT_SITE_INFO as Site.SiteInfo;
       description = description.replace(/\[\/?(center|code)\]/g, '');
       if (info.sourceSite === 'PTP') {
         description = info?.originalDescription?.replace(/^(\s+)/g, '') ?? '';
@@ -112,11 +109,11 @@ export const SITE_OPERATIONS = {
       }
       $('#torrent').on('change', () => {
         if (info.category !== 'music') {
-          $(currentSiteInfo.name.selector).val(info.title);
-          if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.subtitle);
+          $(CURRENT_SITE_INFO.name.selector).val(info.title);
+          if (info.subtitle)$(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
         } else {
-          $(currentSiteInfo.name.selector).val(info.subtitle);
-          if (info.subtitle)$(currentSiteInfo.subtitle.selector).val(info.title);
+          $(CURRENT_SITE_INFO.name.selector).val(info.subtitle || '');
+          if (info.subtitle)$(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
         }
       });
 
@@ -139,7 +136,7 @@ export const SITE_OPERATIONS = {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       // IMDB地址需要完整url
       if (info.imdbId) {
-        $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+        $(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
       }
     },
   },
@@ -168,7 +165,7 @@ export const SITE_OPERATIONS = {
       }
       // IMDB地址最后需要带上「/」
       if (info.imdbId) {
-        $(currentSiteInfo.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+        $(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
       }
     },
   },
@@ -195,8 +192,8 @@ export const SITE_OPERATIONS = {
       if (info.category === 'tvPack' || info.title.match(/Trilogy|Collection/i) || (info.subtitle && info.subtitle.match(/合集/))) {
         $('input[name="pack"]').attr('checked', 'true');
       }
-      $(currentSiteInfo.imdb.selector).val((info.doubanUrl || info.imdbUrl) as string);
-      $(currentSiteInfo.screenshots.selector).val(info.screenshots.join('\n'));
+      $(CURRENT_SITE_INFO.imdb.selector).val((info.doubanUrl || info.imdbUrl) as string);
+      $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
     },
   },
   HDU: {
@@ -219,7 +216,7 @@ export const SITE_OPERATIONS = {
         }
       }
       if (videoTypeValue) {
-        $(currentSiteInfo.videoType.selector).val(videoTypeValue);
+        $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
       }
     },
   },
@@ -261,9 +258,9 @@ export const SITE_OPERATIONS = {
   },
   UHDBits: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      $(currentSiteInfo.imdb.selector).val(info.imdbId || '');
+      $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || '');
       if (info.title.match(/web-?rip/i)) {
-        $(currentSiteInfo.videoType.selector).val('WEBRip');
+        $(CURRENT_SITE_INFO.videoType.selector).val('WEBRip');
       }
       const teamName = getTeamName(info);
       $('#team').val(teamName === 'other' ? 'Unknown' : teamName);
@@ -281,29 +278,29 @@ export const SITE_OPERATIONS = {
       } else if (videoType === 'remux' && resolution === '2160p') {
         videoTypeValue = '5';
       }
-      $(currentSiteInfo.videoType.selector).val(videoTypeValue);
+      $(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
     },
   },
   BTSCHOOL: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      $(currentSiteInfo.imdb.selector).val(info.imdbId || '');
+      $(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || '');
       if (info.doubanUrl) {
         const doubanId = info.doubanUrl.match(/\/(\d+)/)?.[1] ?? '';
-        $(currentSiteInfo.douban.selector).val(doubanId);
+        $(CURRENT_SITE_INFO.douban.selector).val(doubanId);
       }
     },
   },
   HDTime: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       if (info.videoType.match(/bluray/i)) {
-        $(currentSiteInfo.category.selector).val('424');
+        $(CURRENT_SITE_INFO.category.selector).val('424');
       }
     },
   },
   RedLeaves: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       try {
-        $(currentSiteInfo.category.selector).trigger('change');
+        $(CURRENT_SITE_INFO.category.selector).trigger('change');
       } catch (err) {
 
       }
@@ -314,7 +311,7 @@ export const SITE_OPERATIONS = {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       const { videoType, resolution, tags } = info;
       if (videoType === 'remux') {
-        $(currentSiteInfo.videoType.selector).val(resolution === '2160p' ? '10' : '8');
+        $(CURRENT_SITE_INFO.videoType.selector).val(resolution === '2160p' ? '10' : '8');
       } else if (videoType === 'encode') {
         const map = {
           '2160p': '9',
@@ -322,10 +319,10 @@ export const SITE_OPERATIONS = {
           '1080i': '5',
           '720p': '11',
         };
-        $(currentSiteInfo.videoType.selector).val(map[resolution as keyof typeof map] || '16');
+        $(CURRENT_SITE_INFO.videoType.selector).val(map[resolution as keyof typeof map] || '16');
       }
       if (tags.diy) {
-        $(currentSiteInfo.videoType.selector).val(resolution === '2160p' ? '2' : '4');
+        $(CURRENT_SITE_INFO.videoType.selector).val(resolution === '2160p' ? '2' : '4');
       }
     },
   },
@@ -339,7 +336,7 @@ export const SITE_OPERATIONS = {
   HaresClub: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       $('.modesw').trigger('click');
-      $(currentSiteInfo.screenshots.selector).val(info.screenshots.join('\n'));
+      $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
       if (layui) {
         setTimeout(() => {
           layui.form.render('select');
