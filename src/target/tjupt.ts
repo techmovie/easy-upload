@@ -1,7 +1,7 @@
 export default (info:TorrentInfo.Info) => {
   const domTimeout = setTimeout(() => {
     if ($('#ename')) {
-      const { title, description, doubanInfo, category, resolution } = info;
+      const { title, description, doubanInfo, category, resolution, tags } = info;
       $('#ename').val(title);
       const fullDescription = description + doubanInfo;
       let area = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
@@ -100,6 +100,9 @@ export default (info:TorrentInfo.Info) => {
       }
       $('#cname').val(chineseName);
       clearTimeout(domTimeout);
+      if (tags.chinese_subtitle && !tags.chinese_audio) {
+        $('input[name="chinese"]').attr('checked', 'true');
+      }
     }
   }, 2000);
 };
