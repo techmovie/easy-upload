@@ -39,6 +39,7 @@
     "@svgr/core": "^6.0.0",
     "@svgr/plugin-svgo": "^6.0.0",
     "@types/jquery": "^3.5.5",
+    "@types/parse-torrent": "^5.8.7",
     "@types/tampermonkey": "^4.0.5",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",

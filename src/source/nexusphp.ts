@@ -184,7 +184,7 @@ export default async () => {
   TORRENT_INFO.isForbidden = !!isForbidden;
   // 兼容家园
   if (!processing || processing.match(/raw|encode/)) {
-    const areaMatch = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
+    const areaMatch = descriptionBBCode.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2];
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
     }

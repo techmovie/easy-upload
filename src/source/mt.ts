@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getSpecsFromMediainfo
   , getAudioCodecFromTitle, getVideoCodecFromTitle, getScreenshotsFromBBCode,
   getSourceFromTitle, getAreaCode,
-  getBDInfoOrMediaInfo,
+  getBDInfoOrMediaInfo, fetch,
 } from '../common';
 
 import type { TorrentDetailInfo, IMDbInfo } from '../types/sites/mt';
@@ -79,7 +79,7 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
   const screenshots = await getScreenshotsFromBBCode(descr);
   let mediaTags = {};
   let mediaInfoOrBDInfo = mediainfo;
-  const isBluray = !!videoType.match(/bluray/i);
+  const isBluray = !!videoType?.match(/bluray/i);
   if (!mediaInfoOrBDInfo) {
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descr);
     mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -92,10 +92,12 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
     mediaTags = specs.mediaTags || {};
   }
   let area = '';
-  const areaMatch = descr.match(/(产\s+地|国\s+家)】?\s*(.+)/)?.[2];
+  const areaMatch = descr.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2];
   if (areaMatch) {
     area = getAreaCode(areaMatch);
   }
+  await getTorrentURL();
+
   return {
     sourceSite: CURRENT_SITE_NAME,
     sourceSiteType: CURRENT_SITE_INFO.siteType,
@@ -158,4 +160,22 @@ const getMovieInfo = (data: IMDbInfo) => {
     movieName: title,
     poster: photo.full || photo.thumb,
   };
+};
+
+const getTorrentURL = async () => {
+  const torrentId = location.pathname.match(/detail\/(\d+)/)?.[1] ?? '';
+  if (!torrentId) {
+    return '';
+  }
+  const formData = new FormData();
+  formData.append('id', torrentId);
+  const response = await fetch('https://api.m-team.cc/api/torrent/genDlToken', {
+    method: 'POST',
+    data: formData,
+    headers: {
+      Authorization: localStorage.getItem('auth') || '',
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    },
+  });
+  CURRENT_SITE_INFO.torrentLink = response?.data ?? '';
 };
