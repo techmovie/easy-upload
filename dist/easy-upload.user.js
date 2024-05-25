@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.0.0
+// @version      5.0.1
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -10124,6 +10124,9 @@
       imdb: {
         selector: 'input[name="imdb_c"]'
       },
+      douban: {
+        selector: 'input[name="douban_id"]'
+      },
       anonymous: {
         selector: 'select[name="anonymity"]',
         value: "yes"
@@ -15242,6 +15245,15 @@ ${description}`;
           }, 1e3);
         }
       }
+    },
+    TTG: {
+      afterHandler: (info) => {
+        var _a3, _b2;
+        if (info.doubanUrl) {
+          const doubanId = (_b2 = (_a3 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+          jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+        }
+      }
     }
   };
 
@@ -18885,7 +18897,7 @@ ${extraScreenshot}`;
     const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|exclusive/);
     TORRENT_INFO.isForbidden = !!isForbidden;
     if (!processing || processing.match(/raw|encode/)) {
-      const areaMatch = (_B = descriptionBBCode.match(/(产\s+地|国\s+家)】?\s*(.+)/)) == null ? void 0 : _B[2];
+      const areaMatch = (_B = descriptionBBCode.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _B[2];
       if (areaMatch) {
         TORRENT_INFO.area = getAreaCode(areaMatch);
       }
@@ -20457,7 +20469,7 @@ ${description}`;
     const screenshots = await getScreenshotsFromBBCode(descr);
     let mediaTags = {};
     let mediaInfoOrBDInfo = mediainfo;
-    const isBluray = !!videoType.match(/bluray/i);
+    const isBluray = !!(videoType == null ? void 0 : videoType.match(/bluray/i));
     if (!mediaInfoOrBDInfo) {
       const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descr);
       mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
@@ -20470,10 +20482,11 @@ ${description}`;
       mediaTags = specs.mediaTags || {};
     }
     let area = "";
-    const areaMatch = (_b2 = descr.match(/(产\s+地|国\s+家)】?\s*(.+)/)) == null ? void 0 : _b2[2];
+    const areaMatch = (_b2 = descr.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _b2[2];
     if (areaMatch) {
       area = getAreaCode(areaMatch);
     }
+    await getTorrentURL();
     return {
       sourceSite: CURRENT_SITE_NAME,
       sourceSiteType: CURRENT_SITE_INFO.siteType,
@@ -20533,6 +20546,24 @@ ${description}`;
       movieName: title,
       poster: photo.full || photo.thumb
     };
+  };
+  var getTorrentURL = async () => {
+    var _a3, _b2, _c;
+    const torrentId = (_b2 = (_a3 = location.pathname.match(/detail\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    if (!torrentId) {
+      return "";
+    }
+    const formData = new FormData();
+    formData.append("id", torrentId);
+    const response = await fetch("https://api.m-team.cc/api/torrent/genDlToken", {
+      method: "POST",
+      data: formData,
+      headers: {
+        Authorization: localStorage.getItem("auth") || "",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+      }
+    });
+    CURRENT_SITE_INFO.torrentLink = (_c = response == null ? void 0 : response.data) != null ? _c : "";
   };
 
   // src/source/index.ts
@@ -21155,14 +21186,10 @@ tr.pad[id*="torrent_"]{
 }
 #seed-dom .ptp-title-wrapper .site-list li:first-child{
   padding: 0;
-  padding-left: 80px;
+  padding-left: 95px;
 }
 #seed-dom .ptp-title-wrapper .search-list li:first-child{
   padding-left: 65px;
-}
-#seed-dom.use-eng .ptp-title-wrapper .site-list li:first-child{
-  padding: 0;
-  padding-left: 90px;
 }
 #seed-dom.use-eng  .ptp-title-wrapper .search-list li:first-child{
   padding-left: 85px;

@@ -1,3 +1,18 @@
+## [5.0.1](https://github.com/techmovie/easy-upload/compare/5.0.0...5.0.1) (2024-05-25)
+
+
+### Bug Fixes
+
+* style fix ([3b4b0ee](https://github.com/techmovie/easy-upload/commit/3b4b0ee4c3b02970b3f1f9c798f13ec04aeadf83))
+
+
+### Features
+
+* **mteam:** support to get torrent link ([5523bc9](https://github.com/techmovie/easy-upload/commit/5523bc9e92a48494b92eab127e714f1c3b168262))
+* **ttg:** support to fill douban id ([cde8e8f](https://github.com/techmovie/easy-upload/commit/cde8e8f83afbbdc3352cc3a0d8bd606f5eb15779))
+
+
+
 # [5.0.0](https://github.com/techmovie/easy-upload/compare/4.2.1...5.0.0) (2024-05-24)
 
 
