@@ -522,14 +522,10 @@ tr.pad[id*="torrent_"]{
 }
 #seed-dom .ptp-title-wrapper .site-list li:first-child{
   padding: 0;
-  padding-left: 80px;
+  padding-left: 95px;
 }
 #seed-dom .ptp-title-wrapper .search-list li:first-child{
   padding-left: 65px;
-}
-#seed-dom.use-eng .ptp-title-wrapper .site-list li:first-child{
-  padding: 0;
-  padding-left: 90px;
 }
 #seed-dom.use-eng  .ptp-title-wrapper .search-list li:first-child{
   padding-left: 85px;
