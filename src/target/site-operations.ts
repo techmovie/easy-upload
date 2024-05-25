@@ -345,4 +345,12 @@ export const SITE_OPERATIONS = {
       }
     },
   },
+  TTG: {
+    afterHandler: (info: TorrentInfo.TargetTorrentInfo) => {
+      if (info.doubanUrl) {
+        const doubanId = info.doubanUrl.match(/\/(\d+)/)?.[1] ?? '';
+        $(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+      }
+    },
+  },
 };

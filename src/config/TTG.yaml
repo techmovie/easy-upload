@@ -30,6 +30,8 @@ description:
   selector: textarea[name="descr"]
 imdb:
   selector: input[name="imdb_c"]
+douban:
+  selector: 'input[name="douban_id"]'
 anonymous:
   selector: select[name="anonymity"]
   value: yes
