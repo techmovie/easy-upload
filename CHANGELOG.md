@@ -1,3 +1,13 @@
+## [5.0.2](https://github.com/techmovie/easy-upload/compare/5.0.1...5.0.2) (2024-05-27)
+
+
+### Bug Fixes
+
+* **gpw:** bugfix ([60075f2](https://github.com/techmovie/easy-upload/commit/60075f2fede268ed5f76d3db5d621774528c6c47))
+* **ptp:** fix regex for img match ([4b2da82](https://github.com/techmovie/easy-upload/commit/4b2da8281b725e4b588e96beb048d07b409d6489))
+
+
+
 ## [5.0.1](https://github.com/techmovie/easy-upload/compare/5.0.0...5.0.1) (2024-05-25)
 
 

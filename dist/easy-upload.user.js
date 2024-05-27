@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.0.1
+// @version      5.0.2
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -4253,7 +4253,6 @@
       },
       targetInfo: {
         editionTags: {
-          "10_bit": "10_bit",
           "2_disc_set": "2_disc_set",
           "2d_3d_edition": "2d_3d_edition",
           "2_in_1": "2_in_1",
@@ -4265,14 +4264,10 @@
           "4k_remaster": "4k_remaster",
           "4k_restoration": "4k_restoration",
           director_s_cut: "director_s_cut",
-          dolby_atmos: "dolby_atmos",
-          dolby_vision: "dolby_vision",
           dual_audio: "dual_audio",
           english_dub: "english_dub",
           extended_edition: "extended_edition",
           extras: "extras",
-          hdr10: "hdr10",
-          hdr10_plus: "hdr10plus",
           masters_of_cinema: "masters_of_cinema",
           scene: null,
           the_criterion_collection: "the_criterion_collection",
@@ -15385,7 +15380,7 @@ All thanks to the original uploader\uFF01`;
       });
     }
     descriptionHandler() {
-      var _a3, _b2, _c;
+      var _a3, _b2, _c, _d;
       let { mediaInfo, isBluray, screenshots = [], description = "", doubanInfo, poster } = this.info;
       if (description) {
         description = description.replace(/^(\s+)/g, "");
@@ -15477,7 +15472,7 @@ ${description}`;
       if (!thanksQuoteClosed && this.info.sourceSite !== void 0) {
         description = this.getThanksQuote() + description.trim();
       }
-      jQuery(this.currentSiteInfo.description.selector).val(description);
+      jQuery((_d = this.currentSiteInfo.description) == null ? void 0 : _d.selector).val(description);
       this.info = __spreadProps(__spreadValues({}, this.info), {
         description
       });
@@ -15746,9 +15741,11 @@ ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
     jQuery(currentSiteInfo.category.selector).val(currentSiteInfo.category.map[info.category]);
     fillEditionInfo(info);
     fillMediaInfo(info);
-    if (!jQuery(currentSiteInfo.source.selector).val()) {
-      handleNoAutoCheck(info);
-    }
+    setTimeout(() => {
+      if (!jQuery(currentSiteInfo.source.selector).val() || !jQuery(currentSiteInfo.format.selector).val()) {
+        handleNoAutoCheck(info);
+      }
+    }, 0);
     fillScene(info);
     fillProcessing(info);
     fillDescription(info);
@@ -17037,7 +17034,7 @@ ${jQuery(description.selector).val()}`);
         if (descriptionData.match(regOldFormat)) {
           descriptionData = descriptionData.replace(regOldFormat, `[img]${screenshot}[/img]`);
         } else {
-          descriptionData = descriptionData.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "g"), `[img]${screenshot}[/img]`);
+          descriptionData = descriptionData.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "ig"), `[img]${screenshot}[/img]`);
         }
       }
     });
@@ -19816,17 +19813,16 @@ ${screenshotsBBCode.join("")}`;
     const imdbUrl = `https://www.imdb.com/title${imdbId}`;
     const doubanUrl = `https://movie.douban.com/subject/${doubanId}`;
     const area = getAreaCode(region);
-    let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos } = torrent;
+    let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos, remasterTitle } = torrent;
     fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, "");
     const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, "") || fileList);
     const category = getCategory6(releaseType);
     const torrentHeaderDom = jQuery(`#torrent${torrentId}`);
-    const infoArray = torrentHeaderDom.find(".specs").text().trim().split(" / ").slice(4);
+    const infoArray = remasterTitle.split(" / ");
     const isRemux = processing.includes("Remux");
     const videoType = source === "WEB" ? "web" : getVideoType13(container, isRemux, source, resolution, processing);
     source = getSource2(source, processing, resolution);
-    const { knownTags, otherTags } = getTags2(infoArray, ["\u53EF\u66FF\u4EE3", "\u7279\u8272"]);
-    const tags = __spreadValues({}, knownTags);
+    const tags = getTags2(infoArray);
     const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     const torrentDom = jQuery(`#torrent_detail_${torrentId}`).find("#subtitles_box").next("blockquote");
@@ -19862,8 +19858,7 @@ ${screenshotsBBCode.join("")}`;
       mediaInfo,
       mediaInfos,
       description: descriptionData,
-      tags: __spreadValues(__spreadValues({}, tags), mediaTags),
-      otherTags
+      tags: __spreadValues(__spreadValues({}, tags), mediaTags)
     };
   };
   var getCategory6 = (releaseType) => {
@@ -19975,23 +19970,12 @@ ${descriptionData}`;
     }
     return descriptionData;
   };
-  function getTags2(rawTags, exclude = []) {
+  function getTags2(rawTags) {
     const knownTags = {};
-    const otherTags = {};
-    const { editionTags } = PT_SITE.GPW.sourceInfo;
     for (const rawTag of rawTags) {
-      const tag = editionTags[rawTag];
-      if (tag) {
-        knownTags[tag] = true;
-      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/(-\d+%)|免费|DVD|BD/i)) {
-      } else {
-        otherTags[rawTag] = true;
-      }
+      knownTags[rawTag] = true;
     }
-    return {
-      knownTags,
-      otherTags
-    };
+    return knownTags;
   }
 
   // src/source/emp.ts
