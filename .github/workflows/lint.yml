@@ -17,5 +17,5 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run lint-staged
-        run: yarn run lint-staged
+      - name: Run lint
+        run: yarn run lint
