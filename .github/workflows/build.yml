@@ -4,20 +4,20 @@ on:
     paths:
       - 'src/**'
       - 'scripts/**'
-    branches: [ master ]
+    branches: [master]
   pull_request:
     paths:
       - 'src/**'
       - 'scripts/**'
-    branches: [ master ]
+    branches: [master]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: 
-           node-version: '14'
+        with:
+          node-version: '14'
       - run: yarn install
       - run: yarn build
       - uses: actions/upload-artifact@v2
