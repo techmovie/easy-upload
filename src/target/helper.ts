@@ -261,7 +261,7 @@ export default class ExportHelper {
     if (!thanksQuoteClosed && this.info.sourceSite !== undefined) {
       description = this.getThanksQuote() + description.trim();
     }
-    $(this.currentSiteInfo.description.selector).val(description);
+    $(this.currentSiteInfo.description?.selector).val(description);
 
     this.info = {
       ...this.info,

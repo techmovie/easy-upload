@@ -31,9 +31,11 @@ export default async (info:TorrentInfo.Info) => {
   fillMediaInfo(info);
 
   // 2. 自动填充失败后脚本填充
-  if (!$(currentSiteInfo.source.selector).val()) {
-    handleNoAutoCheck(info);
-  }
+  setTimeout(() => {
+    if (!$(currentSiteInfo.source.selector).val() || !$(currentSiteInfo.format.selector).val()) {
+      handleNoAutoCheck(info);
+    }
+  }, 0);
 
   fillScene(info);
 

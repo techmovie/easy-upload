@@ -1,4 +1,4 @@
-import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO, PT_SITE } from '../const';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
@@ -23,20 +23,18 @@ const getTorrentInfo = async (torrentId:string) => {
   const doubanUrl = `https://movie.douban.com/subject/${doubanId}`;
   const area = getAreaCode(region);
 
-  let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos } = torrent;
+  let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos, remasterTitle } = torrent;
 
   fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, '');
   const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, '') || fileList);
   const category = getCategory(releaseType);
 
   const torrentHeaderDom = $(`#torrent${torrentId}`);
-  const infoArray = torrentHeaderDom.find('.specs').text().trim().split(' / ').slice(4);
+  const infoArray = remasterTitle.split(' / ');
   const isRemux = processing.includes('Remux');
   const videoType = source === 'WEB' ? 'web' : getVideoType(container, isRemux, source, resolution, processing);
   source = getSource(source, processing, resolution);
-  const { knownTags, otherTags } = getTags(infoArray, ['可替代', '特色']);
-  const tags = { ...knownTags };
-
+  const tags = getTags(infoArray);
   const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr('href');
   CURRENT_SITE_INFO.torrentLink = torrentLink;
 
@@ -78,7 +76,6 @@ const getTorrentInfo = async (torrentId:string) => {
     mediaInfos,
     description: descriptionData,
     tags: { ...tags, ...mediaTags },
-    otherTags,
   };
 };
 const getCategory = (releaseType:string) => {
@@ -197,22 +194,10 @@ const formatDescriptionData = (data:string, screenshots:string[], mediaInfoArray
   return descriptionData;
 };
 
-function getTags (rawTags:string[], exclude:string[] = []) {
+function getTags (rawTags:string[]) {
   const knownTags:TorrentInfo.MediaTags = {};
-  const otherTags:TorrentInfo.MediaTags = {};
-  const { editionTags } = PT_SITE.GPW.sourceInfo;
   for (const rawTag of rawTags) {
-    const tag = editionTags[rawTag as keyof typeof editionTags];
-    if (tag) {
-      knownTags[tag] = true;
-    } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/(-\d+%)|免费|DVD|BD/i)) {
-      // skip
-    } else {
-      otherTags[rawTag] = true;
-    }
+    knownTags[rawTag] = true;
   }
-  return {
-    knownTags,
-    otherTags,
-  };
+  return knownTags;
 }
