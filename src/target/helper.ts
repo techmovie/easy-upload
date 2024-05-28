@@ -263,6 +263,10 @@ export default class ExportHelper {
     }
     $(this.currentSiteInfo.description?.selector).val(description);
 
+    if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_INFO.description.selector === '#bbcode-description') {
+      $(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(new Event('input'));
+    }
+
     this.info = {
       ...this.info,
       description,
