@@ -1,3 +1,19 @@
+# [5.1.0](https://github.com/techmovie/easy-upload/compare/5.0.2...5.1.0) (2024-05-28)
+
+
+### Bug Fixes
+
+* regex fix ([68696f6](https://github.com/techmovie/easy-upload/commit/68696f6275460a0faa2164988c5f4315a4d02861))
+* **unit3d:** preview description ([6b2c266](https://github.com/techmovie/easy-upload/commit/6b2c2665ddf4a341502916d5c7997b71125ab6ae)), closes [#196](https://github.com/techmovie/easy-upload/issues/196)
+
+
+### Features
+
+* **dicmusic:** support to transfer to dic ([95ca202](https://github.com/techmovie/easy-upload/commit/95ca2028bc372f21d643834ce0fa87249f7ab37c)), closes [#127](https://github.com/techmovie/easy-upload/issues/127) [#277](https://github.com/techmovie/easy-upload/issues/277)
+* **red:** support to transfer to red ([122ebf7](https://github.com/techmovie/easy-upload/commit/122ebf7bfdbc88cfc9581fbe282c9938f829e600)), closes [#127](https://github.com/techmovie/easy-upload/issues/127)
+
+
+
 ## [5.0.2](https://github.com/techmovie/easy-upload/compare/5.0.1...5.0.2) (2024-05-27)
 
 
