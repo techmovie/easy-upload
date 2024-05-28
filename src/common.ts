@@ -1188,7 +1188,18 @@ const htmlToBBCode = (node:Element) => {
           }
           break;
         }
-        case 'SPAN': { pp(null, null); break; }
+        case 'SPAN': {
+          const { className } = node;
+          if (className.match(/size)/)) {
+            const matchSize = className.match(/size(\d)/)?.[1] ?? '';
+            if (matchSize) {
+              pp(`[size=${matchSize}]`, '[/size]');
+            }
+          } else {
+            pp(null, null);
+          }
+          break;
+        }
         case 'BLOCKQUOTE':
         case 'PRE':
         case 'FIELDSET': {
@@ -1260,6 +1271,7 @@ const htmlToBBCode = (node:Element) => {
         case 'H2': { pp('[b][size="6"]', '[/size][/b]\n'); break; }
         case 'H3': { pp('[b][size="5"]', '[/size][/b]\n'); break; }
         case 'H4': { pp('[b][size="4"]', '[/size][/b]\n'); break; }
+        case 'STRONG': { pp('[b]', '[/b]'); break; }
       }
       const { textAlign, fontWeight, fontStyle, textDecoration, color } = (node as HTMLElement).style;
       if (textAlign) {

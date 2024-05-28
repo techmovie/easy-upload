@@ -18,6 +18,12 @@ export default async () => {
 
 async function getTorrentInfo (torrentId:string) {
   const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
+  if (CURRENT_SITE_NAME === 'DicMusic' && response.group) {
+    response.group.name = getUTF8String(response.group.name);
+    const div = document.createElement('div');
+    div.innerHTML = response.group.wikiBody;
+    response.group.bbBody = htmlToBBCode(div);
+  }
   const { torrent, group } = response as MusicJson.Info;
   const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
   const { format, media, encoding } = torrent;
@@ -45,6 +51,7 @@ async function getTorrentInfo (torrentId:string) {
   logDiv.innerHTML = log;
   const logBBcode = htmlToBBCode(logDiv);
   CURRENT_SITE_INFO.torrentLink = $(`#torrent${torrentId} a[href*="action=download"]`).attr('href');
+
   return {
     title: $('.header h2').text(),
     subtitle: `${$(`#torrent${torrentId}`).prev().find('strong').contents().last().text().trim()} / ${$(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
@@ -64,4 +71,11 @@ async function getTorrentInfo (torrentId:string) {
     },
     musicJson: response,
   };
+}
+
+function getUTF8String (entityString:string) {
+  const tempElement = document.createElement('textarea');
+  tempElement.innerHTML = entityString;
+  const utf8String = tempElement.value;
+  return utf8String;
 }

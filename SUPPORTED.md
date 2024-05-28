@@ -16,7 +16,7 @@
 |  CHDBits   |            ✅             |           ✅            |
 | Cinematik  |            ✅             |           ❌            |
 |  CinemaZ   |            ✅             |           ❌            |
-|  DicMusic  |            ✅             |           ❌            |
+|  DicMusic  |            ✅             |           ✅            |
 |  DiscFan   |            ✅             |           ✅            |
 |    EMP     |            ✅             |           ❌            |
 | fearnopeer |            ✅             |           ✅            |

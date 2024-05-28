@@ -17,7 +17,7 @@ import getHDSpaceInfo from './hdspace';
 import getGPWInfo from './gpw';
 import getEMPInfo from './emp';
 import getBdcInfo from './bdc';
-import getRedInfo from './red';
+import getGazelleMusicInfo from './gazelle-music';
 import getMTVInfo from './mtv';
 import getSpeedAppInfo from './speedapp';
 import getHHInfo from './hh';
@@ -38,8 +38,8 @@ const siteNameMap = {
   GPW: getGPWInfo,
   EMP: getEMPInfo,
   Bdc: getBdcInfo,
-  RED: getRedInfo,
-  DicMusic: getRedInfo,
+  RED: getGazelleMusicInfo,
+  DicMusic: getGazelleMusicInfo,
   MTV: getMTVInfo,
   SpeedApp: getSpeedAppInfo,
   HH: getHHInfo,
