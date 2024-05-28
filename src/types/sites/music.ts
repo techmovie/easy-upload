@@ -1,7 +1,7 @@
 
-export interface Info {
+export interface MusicJson {
   group: GroupInfo
-  torrent: TorrentInfo
+  torrent: Torrent
 }
 export interface GroupInfo{
   bbBody: string
@@ -15,7 +15,7 @@ export interface GroupInfo{
   wikiImage: string
   year: number
 }
-export interface TorrentInfo{
+export interface Torrent{
   description: string
   encoding: '192'| 'APS (VBR)' | 'V2 (VBR)' | 'V1 (VBR)' | 'APX (VBR)' | 'V0 (VBR)' | '320' | 'Lossless' | '24bit Lossless'
   format: 'MP3' | 'FLAC'| 'AAC'| 'AC3'| 'DTS'
@@ -23,6 +23,7 @@ export interface TorrentInfo{
   id: number
   media: 'CD'| 'DVD' | 'Vinyl' | 'Soundboard' |' SACD' | 'DAT' | 'Cassette' | 'WEB' | 'Blu-Ray'
   size: number
+  remasterYear: number
 }
 export interface MusicInfo{
   artists: People[]

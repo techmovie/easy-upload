@@ -1,6 +1,5 @@
 import { getUrlParam, fetch, htmlToBBCode } from '../common';
 import { CURRENT_SITE_INFO, TORRENT_INFO, CURRENT_SITE_NAME } from '../const';
-import type { Info as RedInfo } from '../types/sites/red';
 
 export default async () => {
   const torrentId = getUrlParam('torrentid');
@@ -19,7 +18,7 @@ export default async () => {
 
 async function getTorrentInfo (torrentId:string) {
   const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-  const { torrent, group } = response as RedInfo;
+  const { torrent, group } = response as MusicJson.Info;
   const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
   const { format, media, encoding } = torrent;
   const catMap = {
@@ -45,6 +44,7 @@ async function getTorrentInfo (torrentId:string) {
   const logDiv = document.createElement('div');
   logDiv.innerHTML = log;
   const logBBcode = htmlToBBCode(logDiv);
+  CURRENT_SITE_INFO.torrentLink = $(`#torrent${torrentId} a[href*="action=download"]`).attr('href');
   return {
     title: $('.header h2').text(),
     subtitle: `${$(`#torrent${torrentId}`).prev().find('strong').contents().last().text().trim()} / ${$(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
@@ -62,5 +62,6 @@ async function getTorrentInfo (torrentId:string) {
       encoding,
       log: logBBcode,
     },
+    musicJson: response,
   };
 }

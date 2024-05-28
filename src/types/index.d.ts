@@ -54,6 +54,7 @@ declare namespace TorrentInfo {
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
     torrentData?: string
+    musicJson?: MusicJson.Info
   }
 
   interface TargetTorrentInfo extends Info {
@@ -276,6 +277,55 @@ declare namespace IMDB {
   }
 }
 
+declare namespace MusicJson {
+  interface Info {
+    group: GroupInfo
+    torrent: Torrent
+  }
+  interface GroupInfo{
+    bbBody: string
+    categoryId: 1|2|3|4|5|6|7
+    categoryName: 'Music'|'Applications'|'E-Books'|'Audiobooks'|'E-Learning Videos'|'Comedy'|'Comics'
+    id: number
+    musicInfo: MusicInfo
+    name: string
+    tags: string[]
+    wikiBody: string
+    wikiImage: string
+    year: number
+    releaseType: 1|3|5|6|7|9|11|13|14|15|16|17|18|19|21
+  }
+  interface Torrent{
+    description: string
+    encoding: '192'| 'APS (VBR)' | 'V2 (VBR)' | 'V1 (VBR)' | 'APX (VBR)' | 'V0 (VBR)' | '320' | 'Lossless' | '24bit Lossless'
+    format: 'MP3' | 'FLAC'| 'AAC'| 'AC3'| 'DTS'
+    categoryName: string
+    id: number
+    media: 'CD'| 'DVD' | 'Vinyl' | 'Soundboard' |' SACD' | 'DAT' | 'Cassette' | 'WEB' | 'Blu-Ray'
+    size: number
+    remasterYear: number
+    remasterRecordLabel: string
+    remasterCatalogueNumber: string
+    scene: Boolean
+
+  }
+  interface MusicInfo{
+    artists: People[]
+    with: People[]
+    composers: People[]
+    conductor: People[]
+    dj: People[]
+    producer: People[]
+    remixedBy: People[]
+  }
+  interface People{
+    id: number
+    name: string
+    type?: string
+  }
+
+}
+
 declare module '*.svg';
 
 declare function Remaster(): void;
@@ -285,6 +335,7 @@ declare function add_screenshot(): void;
 declare function fillField(selector:string, value: string): void;
 declare function getcheckboxvalue(selector:string): void;
 declare function getradiovalue(selector:string): void;
+declare function AddArtistField(): void;
 declare let CKEDITOR: any;
 declare let layui: any;
 declare let tinymce: any;

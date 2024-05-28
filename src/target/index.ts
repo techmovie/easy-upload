@@ -12,6 +12,7 @@ import handleBdc from './bdc';
 import handleZQ from './zhuque';
 import autoFill from './autofill';
 import handleMT from './mt';
+import handleRED from './red';
 
 const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   PTP: handlePTP,
@@ -24,6 +25,7 @@ const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   Bdc: handleBdc,
   ZHUQUE: handleZQ,
   MTeam: handleMT,
+  RED: handleRED,
 };
 
 const fillTargetForm = (info: TorrentInfo.Info) => {
