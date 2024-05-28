@@ -1190,7 +1190,7 @@ const htmlToBBCode = (node:Element) => {
         }
         case 'SPAN': {
           const { className } = node;
-          if (className.match(/size)/)) {
+          if (className.match(/size/)) {
             const matchSize = className.match(/size(\d)/)?.[1] ?? '';
             if (matchSize) {
               pp(`[size=${matchSize}]`, '[/size]');
