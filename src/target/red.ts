@@ -61,7 +61,7 @@ function fillArtistsForm (musicInfo:MusicJson.GroupInfo['musicInfo']) {
 }
 
 function fillReleaseInfo (info: MusicJson.Info['torrent']) {
-  const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene } = info;
+  const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene, remasterTitle } = info;
   $('#remaster_record_label').val(remasterRecordLabel);
   $('#remaster_catalogue_number').val(remasterCatalogueNumber);
   $('#format').val(format);
@@ -71,5 +71,8 @@ function fillReleaseInfo (info: MusicJson.Info['torrent']) {
   $('#release_desc').val(description);
   if (scene) {
     $('#scene').attr('checked', 'true');
+  }
+  if (remasterTitle) {
+    $('#remaster_title').val(remasterTitle);
   }
 }

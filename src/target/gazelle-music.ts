@@ -1,7 +1,7 @@
 
 import { base64ToBlob } from './common';
 import { Buffer } from 'buffer/index';
-import { CURRENT_SITE_INFO } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
 import { getUrlParam, fetch } from '../common';
 
 export default async (info:TorrentInfo.Info) => {
@@ -9,7 +9,8 @@ export default async (info:TorrentInfo.Info) => {
   if (!musicJson) {
     return;
   }
-  const { name, year } = musicJson.group;
+  const { name, year, recordLabel, catalogueNumber } = musicJson.group;
+  const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
   const groupId = getUrlParam('groupid');
   if (!groupId) {
     const searchResult = await fetch(`/ajax.php?action=browse&searchstr=${name} ${year}`);
@@ -21,6 +22,11 @@ export default async (info:TorrentInfo.Info) => {
       return;
     }
   }
+  if (CURRENT_SITE_NAME === 'Orpheus') {
+    if (!remasterCatalogueNumber && !remasterRecordLabel && remasterTitle && !recordLabel && !catalogueNumber) {
+      musicJson.torrent.remastered = false;
+    }
+  }
   fillJsonToUploadTable(musicJson, name);
 };
 function fillJsonToUploadTable (musicJson:MusicJson.Info, name:string) {
@@ -28,12 +34,16 @@ function fillJsonToUploadTable (musicJson:MusicJson.Info, name:string) {
     status: 'success',
     response: musicJson,
   }));
-  const jsonData = buf.toString('base64');
-  const fileInput = $('#torrent-json-file');
-  if (jsonData && fileInput.length > 0) {
-    const blob = base64ToBlob(jsonData, 'application/json');
-    const torrentFileName = name?.replace(/\s/g, '.');
-    const file = new File([blob], `${torrentFileName}.json`, { type: 'application/json' });
+  attachFile(buf, '#torrent-json-file', 'application/json', name, 'json');
+}
+
+function attachFile (data:any, selector:string, contentType:string, fileName:string, format:string, charset:string = 'UTF-8') {
+  const buf = Buffer.from(data, charset);
+  const base64Data = buf.toString('base64');
+  const fileInput = $(selector);
+  if (base64Data && fileInput.length > 0) {
+    const blob = base64ToBlob(base64Data, contentType);
+    const file = new File([blob], `${fileName}.${format}`, { type: contentType });
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     const uploadInput = fileInput[0] as HTMLInputElement;

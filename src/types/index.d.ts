@@ -294,6 +294,8 @@ declare namespace MusicJson {
     wikiImage: string
     year: number
     releaseType: 1|3|5|6|7|9|11|13|14|15|16|17|18|19|21
+    recordLabel: string
+    catalogueNumber: string
   }
   interface Torrent{
     description: string
@@ -307,7 +309,11 @@ declare namespace MusicJson {
     remasterRecordLabel: string
     remasterCatalogueNumber: string
     scene: Boolean
-
+    remastered: Boolean
+    remasterTitle: string
+    logScore: number
+    log: string[]
+    ripLogIds: string[]
   }
   interface MusicInfo{
     artists: People[]
@@ -336,6 +342,7 @@ declare function fillField(selector:string, value: string): void;
 declare function getcheckboxvalue(selector:string): void;
 declare function getradiovalue(selector:string): void;
 declare function AddArtistField(): void;
+declare function AddLogField(formats:string): void;
 declare let CKEDITOR: any;
 declare let layui: any;
 declare let tinymce: any;

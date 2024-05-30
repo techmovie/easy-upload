@@ -44,6 +44,7 @@ const siteNameMap = {
   SpeedApp: getSpeedAppInfo,
   HH: getHHInfo,
   MTeam: getMTInfo,
+  Orpheus: getGazelleMusicInfo,
 };
 
 const siteTypeInfoMap = {

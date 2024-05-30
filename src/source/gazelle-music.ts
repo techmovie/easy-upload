@@ -18,15 +18,19 @@ export default async () => {
 
 async function getTorrentInfo (torrentId:string) {
   const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-  if (CURRENT_SITE_NAME === 'DicMusic' && response.group) {
-    response.group.name = getUTF8String(response.group.name);
-    const div = document.createElement('div');
-    div.innerHTML = response.group.wikiBody;
-    response.group.bbBody = htmlToBBCode(div);
+  if (response.group) {
+    if (CURRENT_SITE_NAME === 'DicMusic') {
+      response.group.name = getUTF8String(response.group.name);
+      const div = document.createElement('div');
+      div.innerHTML = response.group.wikiBody;
+      response.group.bbBody = htmlToBBCode(div);
+    } else if (CURRENT_SITE_NAME === 'Orpheus') {
+      response.group.bbBody = response.group.wikiBBcode;
+    }
   }
   const { torrent, group } = response as MusicJson.Info;
   const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
-  const { format, media, encoding } = torrent;
+  const { format, media, encoding, logScore, ripLogIds = [] } = torrent;
   const catMap = {
     Applications: 'app',
     'E-Books': 'ebook',
@@ -44,12 +48,19 @@ async function getTorrentInfo (torrentId:string) {
   if (descSource.documentElement.textContent) {
     description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, '').replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, '').replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');
   }
-  const log = await fetch(`/torrents.php?action=loglist&torrentid=${torrentId}`, {
-    responseType: undefined,
-  });
-  const logDiv = document.createElement('div');
-  logDiv.innerHTML = log;
-  const logBBcode = htmlToBBCode(logDiv);
+  const log = [];
+  if (ripLogIds.length > 0) {
+    for (let i = 1; i < ripLogIds.length; i++) {
+      log.push(await getLog(logScore, torrentId, ripLogIds[i]));
+    }
+  } else if (media === 'CD') {
+    const logData = await getLog(logScore, torrentId, '0');
+    if (logData) {
+      log.push(logData);
+    }
+  }
+  response.torrent.log = log;
+
   CURRENT_SITE_INFO.torrentLink = $(`#torrent${torrentId} a[href*="action=download"]`).attr('href');
 
   return {
@@ -67,7 +78,7 @@ async function getTorrentInfo (torrentId:string) {
       artists: musicInfo.artists.map(item => item.name),
       media,
       encoding,
-      log: logBBcode,
+      log,
     },
     musicJson: response,
   };
@@ -78,4 +89,25 @@ function getUTF8String (entityString:string) {
   tempElement.innerHTML = entityString;
   const utf8String = tempElement.value;
   return utf8String;
+}
+
+async function getLog (logScore:number, torrentId:string, ripLogId:string) {
+  let url = `/torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
+  if (CURRENT_SITE_NAME === 'RED') {
+    url = `/torrents.php?action=loglist&torrentid=${torrentId}`;
+  } else if (CURRENT_SITE_NAME === 'Orpheus') {
+    url = `/view.php?type=riplog&id=${torrentId}.${ripLogId}`;
+  } else if (CURRENT_SITE_NAME === 'DicMusic') {
+    url = `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
+  }
+  const response = await fetch(url, {
+    responseType: undefined,
+  });
+  if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
+    const div = document.createElement('div');
+    div.innerHTML = response;
+    return $(div).find('pre').text() || '';
+  } else if (CURRENT_SITE_NAME.match(/Orpheus|/)) {
+    return response;
+  }
 }

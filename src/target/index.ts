@@ -13,7 +13,7 @@ import handleZQ from './zhuque';
 import autoFill from './autofill';
 import handleMT from './mt';
 import handleRED from './red';
-import handleDic from './dicmusic';
+import handleGazelleMusic from './gazelle-music';
 
 const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   PTP: handlePTP,
@@ -27,7 +27,8 @@ const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   ZHUQUE: handleZQ,
   MTeam: handleMT,
   RED: handleRED,
-  DicMusic: handleDic,
+  DicMusic: handleGazelleMusic,
+  Orpheus: handleGazelleMusic,
 };
 
 const fillTargetForm = (info: TorrentInfo.Info) => {

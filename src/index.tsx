@@ -41,7 +41,7 @@ if (CURRENT_SITE_NAME) {
     let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
     const app = document.createElement('div');
     render(<App />, app);
-    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV'].includes(CURRENT_SITE_NAME)) {
+    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV', 'Orpheus'].includes(CURRENT_SITE_NAME)) {
       const torrentId = getUrlParam('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
         refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
