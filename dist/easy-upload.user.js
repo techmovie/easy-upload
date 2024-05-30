@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.0
+// @version      5.1.1
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -8394,6 +8394,24 @@
       asTarget: false,
       search: {
         path: "/en/search/sublanguageid-all/imdbid-{name}"
+      }
+    },
+    Orpheus: {
+      url: "https://orpheus.network",
+      host: "orpheus.network",
+      siteType: "gazelle",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAEiklEQVR4nI2UbUhbVxjHr93Y6MdROhDcJzW5MfdeE6/Re5leJSYkYTeSqPElxiiKJjfxbSjXi0i00RhqR1EWNEaR+JJ2idmsqXOz0+lstZ1Yna2tq1q1Gxu1K4V1bF8dR1SiW6EPPJzz4Zwf53nO8/9D0OmIgCDoHPSW0dzcfO7ozv/GCYwgiPN8Pj8xMjKyUCAQlBoMhmyPx6OYnJzMmJqa+nhmZiY6EAi8B84eHBxEgDwLOwRFRUWdFwgEZh6Pt8Dn8/dpmt602+3fe73eG36/PxgIBIKjo6OjwWBwxO/3fzY8PPxJOPgUDEXRqLi4uAkYhv9GUXS/qqpqdmho6JrX6/X19vYG+vr6/AMDA9fA6na7g93d3aHe3t5vXC7X5StXrnx4CioSiS4iCDKPIMhrFEV3LBbLXGdn543W1tYJu90+63A4Jurr66dNJtNybW3ttN1un+zo6Ag5HI5Qe3v7nMPh6OM47oOTejEM88THx/8pFAp3tFrtalNT0636+voZlmUXOY7raG1tjcYwDEEQ5DqGYS9JktzU6/VLHMdNsyw7xbLsEsuylw5hOI6n4Dj+e0JCwg5Jktsmk2mBYZh5hmFWGIZpOdPwiISEhM9FItFLDMN2MzMz16xW67zZbL5tNpuXysvLJVBycvJVgiD2JRLJlkKheGQ0Gu/p9fqfDAbDhF6vPyxDp9O9AxLsJRLJBZIk7xAE8UtSUtJ2dnb2alFR0d3CwsLHBoPBDlEUtUBR1E5qauoTmqYfZmVlLWs0mqdarfbTY9jx89LS0t4FK0VRDRRFPU9JSflZLpc/zsrKWtVoNOtarXYakslkj2Qy2QZI8EKFQrGmVCp3VSoVfRZ4vJdKpWq5XP5MJpOtA6BSqVw/yocQTdNrNE0/ACmVSjcoitpIT0//laKozDcB1Wo1TdP0tlqtXlWpVOtpaWlPQKanp29Aubm5t3Q63YO8vLzljIyMDYIgNkmSfEGSJBdeZjgwJyenVqfTbeXl5S2BhyQnJ28TBLFHEMRdyGg0XiopKVkvLS1d0Ol0K2KxeBfH8d9wHF+EYfjC2U8BH1VSUnKzuLh4paysbBG0SSwWP01MTPwDx/FOiGEYSWVl5T2LxTJfXV39A2iBUCh8hqLoKwzDXOHiByNktVpbLBbLfavVOscwzB2JRLKDouhefHz8cxRFUw8PNjQ0tHAc9yPHcd82NjZ+V1BQsATGSCgUvoJh+AsYhhEw3BzHXeY4boFl2WmbzTal0WhWYRjeQ1H0NYIgfSfTCmQD5ON0OoGMxoGsgLxqampmKioq7tfV1U07nc6bbW1thzIEsjSbzXNxcXG7MAz/JRAIbsfExFw8KQOsQOBA6N3d3VNA+D09PcFjQ/B4PAG32z0K9sAwLBbLrFAofMHj8f6BYfjr6Ojoj8KN5gQKrGhwcJD2+XxXR0ZGrvt8vi99Pt9XIPv7+0M2m21OpVJt8Xi8/djYWGBxJmB5p2DhDT8Gd3V1vT8+Ph4TCoVSxsbGMlwulzI/Pz+Hz+eXAtMF5gtMOAz0Ztc+svW3jf/A/gVj2wYRcKPv6wAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        params: {
+          searchstr: "{name}"
+        }
+      },
+      torrent: {
+        selector: "#file"
       }
     },
     OurBits: {
@@ -16909,7 +16927,7 @@ ${jQuery(description.selector).val()}`);
     });
   }
   function fillReleaseInfo(info) {
-    const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene } = info;
+    const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene, remasterTitle } = info;
     jQuery("#remaster_record_label").val(remasterRecordLabel);
     jQuery("#remaster_catalogue_number").val(remasterCatalogueNumber);
     jQuery("#format").val(format);
@@ -16920,18 +16938,22 @@ ${jQuery(description.selector).val()}`);
     if (scene) {
       jQuery("#scene").attr("checked", "true");
     }
+    if (remasterTitle) {
+      jQuery("#remaster_title").val(remasterTitle);
+    }
   }
 
-  // src/target/dicmusic.ts
+  // src/target/gazelle-music.ts
   init_preact_shim();
   var import_buffer = __toESM(require_buffer(), 1);
-  var dicmusic_default = async (info) => {
+  var gazelle_music_default = async (info) => {
     var _a3;
     const { musicJson } = info;
     if (!musicJson) {
       return;
     }
-    const { name, year } = musicJson.group;
+    const { name, year, recordLabel, catalogueNumber } = musicJson.group;
+    const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
     const groupId = getUrlParam("groupid");
     if (!groupId) {
       const searchResult = await fetch(`/ajax.php?action=browse&searchstr=${name} ${year}`);
@@ -16943,6 +16965,11 @@ ${jQuery(description.selector).val()}`);
         return;
       }
     }
+    if (CURRENT_SITE_NAME === "Orpheus") {
+      if (!remasterCatalogueNumber && !remasterRecordLabel && remasterTitle && !recordLabel && !catalogueNumber) {
+        musicJson.torrent.remastered = false;
+      }
+    }
     fillJsonToUploadTable(musicJson, name);
   };
   function fillJsonToUploadTable(musicJson, name) {
@@ -16950,12 +16977,15 @@ ${jQuery(description.selector).val()}`);
       status: "success",
       response: musicJson
     }));
-    const jsonData = buf.toString("base64");
-    const fileInput = jQuery("#torrent-json-file");
-    if (jsonData && fileInput.length > 0) {
-      const blob = base64ToBlob(jsonData, "application/json");
-      const torrentFileName = name == null ? void 0 : name.replace(/\s/g, ".");
-      const file = new File([blob], `${torrentFileName}.json`, { type: "application/json" });
+    attachFile(buf, "#torrent-json-file", "application/json", name, "json");
+  }
+  function attachFile(data, selector, contentType, fileName, format, charset = "UTF-8") {
+    const buf = import_buffer.Buffer.from(data, charset);
+    const base64Data = buf.toString("base64");
+    const fileInput = jQuery(selector);
+    if (base64Data && fileInput.length > 0) {
+      const blob = base64ToBlob(base64Data, contentType);
+      const file = new File([blob], `${fileName}.${format}`, { type: contentType });
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
       const uploadInput = fileInput[0];
@@ -16977,7 +17007,8 @@ ${jQuery(description.selector).val()}`);
     ZHUQUE: zhuque_default,
     MTeam: mt_default,
     RED: red_default,
-    DicMusic: dicmusic_default
+    DicMusic: gazelle_music_default,
+    Orpheus: gazelle_music_default
   };
   var fillTargetForm = (info) => {
     var _a3;
@@ -20222,7 +20253,7 @@ ${descriptionData}`;
 
   // src/source/gazelle-music.ts
   init_preact_shim();
-  var gazelle_music_default = async () => {
+  var gazelle_music_default2 = async () => {
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
@@ -20238,15 +20269,19 @@ ${descriptionData}`;
   };
   async function getTorrentInfo6(torrentId) {
     const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-    if (CURRENT_SITE_NAME === "DicMusic" && response.group) {
-      response.group.name = getUTF8String(response.group.name);
-      const div2 = document.createElement("div");
-      div2.innerHTML = response.group.wikiBody;
-      response.group.bbBody = htmlToBBCode(div2);
+    if (response.group) {
+      if (CURRENT_SITE_NAME === "DicMusic") {
+        response.group.name = getUTF8String(response.group.name);
+        const div2 = document.createElement("div");
+        div2.innerHTML = response.group.wikiBody;
+        response.group.bbBody = htmlToBBCode(div2);
+      } else if (CURRENT_SITE_NAME === "Orpheus") {
+        response.group.bbBody = response.group.wikiBBcode;
+      }
     }
     const { torrent, group } = response;
     const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
-    const { format, media, encoding } = torrent;
+    const { format, media, encoding, logScore, ripLogIds = [] } = torrent;
     const catMap = {
       Applications: "app",
       "E-Books": "ebook",
@@ -20265,12 +20300,18 @@ ${description}`;
     if (descSource.documentElement.textContent) {
       description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, "").replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, "").replace(new RegExp("(?<=(\\[\\/b\\]|,)[\\s\\\\.a-zA-Z]*)\\[\\/url\\]", "g"), "");
     }
-    const log = await fetch(`/torrents.php?action=loglist&torrentid=${torrentId}`, {
-      responseType: void 0
-    });
-    const logDiv = document.createElement("div");
-    logDiv.innerHTML = log;
-    const logBBcode = htmlToBBCode(logDiv);
+    const log = [];
+    if (ripLogIds.length > 0) {
+      for (let i3 = 1; i3 < ripLogIds.length; i3++) {
+        log.push(await getLog(logScore, torrentId, ripLogIds[i3]));
+      }
+    } else if (media === "CD") {
+      const logData = await getLog(logScore, torrentId, "0");
+      if (logData) {
+        log.push(logData);
+      }
+    }
+    response.torrent.log = log;
     CURRENT_SITE_INFO.torrentLink = jQuery(`#torrent${torrentId} a[href*="action=download"]`).attr("href");
     return {
       title: jQuery(".header h2").text(),
@@ -20287,7 +20328,7 @@ ${description}`;
         artists: musicInfo.artists.map((item) => item.name),
         media,
         encoding,
-        log: logBBcode
+        log
       },
       musicJson: response
     };
@@ -20297,6 +20338,26 @@ ${description}`;
     tempElement.innerHTML = entityString;
     const utf8String = tempElement.value;
     return utf8String;
+  }
+  async function getLog(logScore, torrentId, ripLogId) {
+    let url = `/torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
+    if (CURRENT_SITE_NAME === "RED") {
+      url = `/torrents.php?action=loglist&torrentid=${torrentId}`;
+    } else if (CURRENT_SITE_NAME === "Orpheus") {
+      url = `/view.php?type=riplog&id=${torrentId}.${ripLogId}`;
+    } else if (CURRENT_SITE_NAME === "DicMusic") {
+      url = `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
+    }
+    const response = await fetch(url, {
+      responseType: void 0
+    });
+    if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
+      const div = document.createElement("div");
+      div.innerHTML = response;
+      return jQuery(div).find("pre").text() || "";
+    } else if (CURRENT_SITE_NAME.match(/Orpheus|/)) {
+      return response;
+    }
   }
 
   // src/source/mtv.ts
@@ -20720,12 +20781,13 @@ ${description}`;
     GPW: gpw_default2,
     EMP: emp_default,
     Bdc: bdc_default2,
-    RED: gazelle_music_default,
-    DicMusic: gazelle_music_default,
+    RED: gazelle_music_default2,
+    DicMusic: gazelle_music_default2,
     MTV: mtv_default,
     SpeedApp: speedapp_default,
     HH: hh_default,
-    MTeam: mt_default2
+    MTeam: mt_default2,
+    Orpheus: gazelle_music_default2
   };
   var siteTypeInfoMap = {
     NexusPHP: nexusphp_default,
@@ -22509,7 +22571,7 @@ ${screenBBcodeArray.join("")}`;
       let refNode = jQuery(CURRENT_SITE_INFO.seedDomSelector)[0];
       const app = document.createElement("div");
       S(/* @__PURE__ */ e3(Container_default, {}), app);
-      if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV"].includes(CURRENT_SITE_NAME)) {
+      if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV", "Orpheus"].includes(CURRENT_SITE_NAME)) {
         const torrentId = getUrlParam("torrentid");
         if (CURRENT_SITE_NAME === "GPW") {
           refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
