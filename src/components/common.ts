@@ -1,5 +1,6 @@
 
 import {
+  CURRENT_SITE_NAME,
   PT_SITE, TORRENT_INFO,
 } from '../const';
 import {
@@ -11,7 +12,7 @@ const getQuickSearchUrl = (siteName:string) => {
   const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
   let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl as string);
   let searchKeyWord = '';
-  const { movieAkaName, movieName, title } = TORRENT_INFO;
+  const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
   if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
   siteInfo.siteType !== 'AvistaZ') {
     if (replaceKey) {
@@ -19,6 +20,9 @@ const getQuickSearchUrl = (siteName:string) => {
     } else {
       searchKeyWord = imdbId;
     }
+  } else if (CURRENT_SITE_NAME.match(/RED|DicMusic|Orpheus/)) {
+    const { year = '', name = '' } = musicJson?.group ?? {};
+    searchKeyWord = `${name} ${year}`;
   } else {
     searchKeyWord = movieAkaName || movieName || title;
     imdbId = '';
