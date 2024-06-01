@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.1
+// @version      5.1.2
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -16970,6 +16970,9 @@ ${jQuery(description.selector).val()}`);
         musicJson.torrent.remastered = false;
       }
     }
+    if (CURRENT_SITE_NAME === "DicMusic") {
+      musicJson.group.wikiBody = toUnicodeEntities(`${musicJson.group.wikiBody}()`);
+    }
     fillJsonToUploadTable(musicJson, name);
   };
   function fillJsonToUploadTable(musicJson, name) {
@@ -16992,6 +16995,17 @@ ${jQuery(description.selector).val()}`);
       uploadInput.files = dataTransfer.files;
       uploadInput.dispatchEvent(new Event("change", { bubbles: true }));
     }
+  }
+  function toUnicodeEntities(str) {
+    const excludedChars = ["<", ">", "&", ";", "/"];
+    return str.split("").map((char) => {
+      const code = char.charCodeAt(0);
+      if (code > 127 && !excludedChars.includes(char)) {
+        const hexCode = code.toString(16);
+        return `&#${parseInt(hexCode, 16)};`;
+      }
+      return char;
+    }).join("");
   }
 
   // src/target/index.ts
@@ -21849,18 +21863,22 @@ ${screenBBcodeArray.join("")}`;
   // src/components/common.ts
   init_preact_shim();
   var getQuickSearchUrl = (siteName) => {
+    var _a3;
     const siteInfo = PT_SITE[siteName];
     const searchConfig = siteInfo.search;
     const { params = {}, imdbOptionKey, nameOptionKey, path: path2, replaceKey } = searchConfig;
     let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
     let searchKeyWord = "";
-    const { movieAkaName, movieName, title } = TORRENT_INFO;
+    const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
     if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) && siteInfo.siteType !== "AvistaZ") {
       if (replaceKey) {
         searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
       } else {
         searchKeyWord = imdbId;
       }
+    } else if (CURRENT_SITE_NAME.match(/RED|DicMusic|Orpheus/)) {
+      const { year = "", name = "" } = (_a3 = musicJson == null ? void 0 : musicJson.group) != null ? _a3 : {};
+      searchKeyWord = `${name} ${year}`;
     } else {
       searchKeyWord = movieAkaName || movieName || title;
       imdbId = "";
