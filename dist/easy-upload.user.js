@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.2
+// @version      5.1.3
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -16971,7 +16971,7 @@ ${jQuery(description.selector).val()}`);
       }
     }
     if (CURRENT_SITE_NAME === "DicMusic") {
-      musicJson.group.wikiBody = toUnicodeEntities(`${musicJson.group.wikiBody}()`);
+      musicJson.group.wikiBody = toUnicodeEntities(musicJson.group.wikiBody);
     }
     fillJsonToUploadTable(musicJson, name);
   };

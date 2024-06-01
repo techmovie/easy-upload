@@ -1,3 +1,12 @@
+## [5.1.3](https://github.com/techmovie/easy-upload/compare/5.1.2...5.1.3) (2024-06-01)
+
+
+### Bug Fixes
+
+* **dicmusic:** remove extra string ([6c5df5c](https://github.com/techmovie/easy-upload/commit/6c5df5cce235fd982402032775ad3ee00e18585d))
+
+
+
 ## [5.1.2](https://github.com/techmovie/easy-upload/compare/5.1.1...5.1.2) (2024-06-01)
 
 
