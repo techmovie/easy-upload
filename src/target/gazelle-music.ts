@@ -28,7 +28,7 @@ export default async (info:TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'DicMusic') {
-    musicJson.group.wikiBody = toUnicodeEntities(`${musicJson.group.wikiBody}()`);
+    musicJson.group.wikiBody = toUnicodeEntities(musicJson.group.wikiBody);
   }
   fillJsonToUploadTable(musicJson, name);
 };
