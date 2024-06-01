@@ -27,6 +27,9 @@ export default async (info:TorrentInfo.Info) => {
       musicJson.torrent.remastered = false;
     }
   }
+  if (CURRENT_SITE_NAME === 'DicMusic') {
+    musicJson.group.wikiBody = toUnicodeEntities(`${musicJson.group.wikiBody}()`);
+  }
   fillJsonToUploadTable(musicJson, name);
 };
 function fillJsonToUploadTable (musicJson:MusicJson.Info, name:string) {
@@ -50,4 +53,16 @@ function attachFile (data:any, selector:string, contentType:string, fileName:str
     uploadInput.files = dataTransfer.files;
     uploadInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
+}
+
+function toUnicodeEntities (str:string) {
+  const excludedChars = ['<', '>', '&', ';', '/'];
+  return str.split('').map(char => {
+    const code = char.charCodeAt(0);
+    if (code > 127 && !excludedChars.includes(char)) {
+      const hexCode = code.toString(16);
+      return `&#${parseInt(hexCode, 16)};`;
+    }
+    return char;
+  }).join('');
 }
