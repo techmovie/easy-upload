@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.3
+// @version      5.1.4
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -16927,12 +16927,16 @@ ${jQuery(description.selector).val()}`);
     });
   }
   function fillReleaseInfo(info) {
+    var _a3;
     const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene, remasterTitle } = info;
     jQuery("#remaster_record_label").val(remasterRecordLabel);
     jQuery("#remaster_catalogue_number").val(remasterCatalogueNumber);
     jQuery("#format").val(format);
     jQuery("#bitrate").val(encoding);
     jQuery("#media").val(media);
+    if (media === "CD" && format === "FLAC") {
+      (_a3 = document.querySelector("#format")) == null ? void 0 : _a3.dispatchEvent(new Event("change"));
+    }
     jQuery("#remaster_year").val(remasterYear);
     jQuery("#release_desc").val(description);
     if (scene) {
@@ -16966,7 +16970,7 @@ ${jQuery(description.selector).val()}`);
       }
     }
     if (CURRENT_SITE_NAME === "Orpheus") {
-      if (!remasterCatalogueNumber && !remasterRecordLabel && remasterTitle && !recordLabel && !catalogueNumber) {
+      if (!remasterCatalogueNumber && !remasterRecordLabel && !remasterTitle && !recordLabel && !catalogueNumber) {
         musicJson.torrent.remastered = false;
       }
     }

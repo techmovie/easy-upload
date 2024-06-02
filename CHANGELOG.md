@@ -1,3 +1,12 @@
+## [5.1.4](https://github.com/techmovie/easy-upload/compare/5.1.3...5.1.4) (2024-06-02)
+
+
+### Bug Fixes
+
+* bugfix for red and ops ([2e39a5a](https://github.com/techmovie/easy-upload/commit/2e39a5aa6d595d9718414b0317ecce4035297554))
+
+
+
 ## [5.1.3](https://github.com/techmovie/easy-upload/compare/5.1.2...5.1.3) (2024-06-01)
 
 
