@@ -67,6 +67,9 @@ function fillReleaseInfo (info: MusicJson.Info['torrent']) {
   $('#format').val(format);
   $('#bitrate').val(encoding);
   $('#media').val(media);
+  if (media === 'CD' && format === 'FLAC') {
+    document.querySelector('#format')?.dispatchEvent(new Event('change'));
+  }
   $('#remaster_year').val(remasterYear);
   $('#release_desc').val(description);
   if (scene) {

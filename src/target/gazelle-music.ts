@@ -23,7 +23,7 @@ export default async (info:TorrentInfo.Info) => {
     }
   }
   if (CURRENT_SITE_NAME === 'Orpheus') {
-    if (!remasterCatalogueNumber && !remasterRecordLabel && remasterTitle && !recordLabel && !catalogueNumber) {
+    if (!remasterCatalogueNumber && !remasterRecordLabel && !remasterTitle && !recordLabel && !catalogueNumber) {
       musicJson.torrent.remastered = false;
     }
   }
