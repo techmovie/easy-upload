@@ -13,5 +13,5 @@ export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   TORRENT_INFO.title = title;
-  TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, '[color=#000]');
+  TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, '[color=#000]').replace(/\n\n*/g, '\n');
 };
