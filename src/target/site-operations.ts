@@ -117,7 +117,7 @@ export const SITE_OPERATIONS = {
         }
       });
 
-      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
+      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`(?!\\[mediainfo\\])${mediaInfo}(?<!\\[\\/mediainfo\\])`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
 
       return description;
     },
