@@ -8,7 +8,7 @@ export default async () => {
   if (!torrentId) {
     return false;
   }
-  const title = $('.details h2').text().trim();
+  const title = $('#content > .details > h2').text().trim();
   const descriptionBBCode = getFilterBBCode($(`#content${torrentId}`)[0]);
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
