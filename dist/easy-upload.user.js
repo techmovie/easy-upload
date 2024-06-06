@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool 
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.4
+// @version      5.1.5
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -14775,109 +14775,115 @@ $1`);
   // src/target/tjupt.ts
   init_preact_shim();
   var tjupt_default = (info) => {
-    const domTimeout = setTimeout(() => {
-      var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
-      if (jQuery("#ename")) {
-        const { title, description, doubanInfo, category, resolution, tags } = info;
-        jQuery("#ename").val(title);
-        const fullDescription = description + doubanInfo;
-        let area = (_b2 = (_a3 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
-        area = area.replace(/\[\/?.+?\]/g, "");
-        const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
-        const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
-        const castArray = (_l = (_k = (_j = (_i = fullDescription.match(/(主\s+演)\s+([^◎]+)/)) == null ? void 0 : _i[2]) == null ? void 0 : _j.split("\n")) == null ? void 0 : _k.filter((item) => !!item)) != null ? _l : [];
-        const language = (_n = (_m = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _m[2]) != null ? _n : "";
-        const castStr = castArray.map((item) => {
-          var _a4;
-          return (_a4 = item.trim().split(/\s+/)) == null ? void 0 : _a4[0];
-        }).join("/");
-        if (area) {
-          if (category === "movie") {
-            jQuery("#district").val(area.replace(/,/g, "/").replace(/中国/, ""));
-          } else if (category.match(/tv/)) {
-            let selector = "";
-            if (area.match(/大陆/)) {
-              selector = "#specificcat1";
-            } else if (area.match(/台|港/)) {
-              selector = "#specificcat2";
-            } else if (area.match(/美国/)) {
-              selector = "#specificcat3";
-            } else if (area.match(/英国/)) {
-              selector = "#specificcat7";
-            } else if (area.match(/日本/)) {
-              selector = "#specificcat4";
-            } else if (area.match(/韩国/)) {
-              selector = "#specificcat5";
-            } else {
-              selector = "#specificcat6";
-            }
-            jQuery(selector).attr("checked", "true");
-            getcheckboxvalue("specificcat");
-          } else if (category.match(/variety/)) {
-            const districtMap = {
-              CN: "#district1",
-              HK: "#district2",
-              TW: "#district2",
-              JP: "#district4",
-              KR: "#district4",
-              US: "#district3",
-              EU: "#district3",
-              OT: "#district5"
-            };
-            jQuery(districtMap[info.area]).attr("checked", "true");
-            getcheckboxvalue("district");
-          }
-        }
-        if (jQuery("#format")) {
-          if (category.match(/variety/)) {
-            if (resolution.match(/720/)) {
-              jQuery("#format3").attr("checked", "true");
-            } else if (resolution.match(/1080/)) {
-              jQuery("#format5").attr("checked", "true");
-            }
-            getcheckboxvalue("format");
-          } else if (category.match(/documentary/)) {
-            if (resolution.match(/720/)) {
-              jQuery("#format2").attr("checked", "true");
-            } else if (resolution.match(/1080/)) {
-              jQuery("#format1").attr("checked", "true");
-            }
-            getradiovalue("format");
-          }
-        }
-        if (jQuery("#language")) {
-          let selector = "";
-          if (language) {
-            if (language.match(/汉语/)) {
-              selector = "#language1";
-            } else if (language.match(/粤/)) {
-              selector = "#language2";
-            } else if (language.match(/英语/)) {
-              selector = "#language3";
-            } else if (language.match(/日语/)) {
-              selector = "#language4";
-            } else if (language.match(/韩语/)) {
-              selector = "#language5";
-            }
-            jQuery(selector).attr("checked", "true");
-            getcheckboxvalue("language");
-          }
-        }
-        if (category.match(/variety/)) {
-          jQuery("#tvshowsguest").val(castStr);
-        }
-        let chineseName = originalName;
-        if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-          chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
-        }
-        jQuery("#cname").val(chineseName);
-        clearTimeout(domTimeout);
-        if (tags.chinese_subtitle && !tags.chinese_audio) {
-          jQuery('input[name="chinese"]').attr("checked", "true");
-        }
+    const observer = new MutationObserver(() => {
+      if (jQuery("#ename").length) {
+        fillInfo(info);
+        observer.disconnect();
       }
-    }, 2e3);
+    });
+    observer.observe(document.body, {
+      childList: true
+    });
   };
+  function fillInfo(info) {
+    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+    const { title, description, doubanInfo, category, resolution, tags } = info;
+    jQuery("#ename").val(title);
+    const fullDescription = description + doubanInfo;
+    let area = (_b2 = (_a3 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    area = area.replace(/\[\/?.+?\]/g, "");
+    const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
+    const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    const castArray = (_l = (_k = (_j = (_i = fullDescription.match(/(主\s+演)\s+([^◎]+)/)) == null ? void 0 : _i[2]) == null ? void 0 : _j.split("\n")) == null ? void 0 : _k.filter((item) => !!item)) != null ? _l : [];
+    const language = (_n = (_m = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _m[2]) != null ? _n : "";
+    const castStr = castArray.map((item) => {
+      var _a4;
+      return (_a4 = item.trim().split(/\s+/)) == null ? void 0 : _a4[0];
+    }).join("/");
+    if (area) {
+      if (category === "movie") {
+        jQuery("#district").val(area.replace(/,/g, "/").replace(/中国/, ""));
+      } else if (category.match(/tv/)) {
+        let selector = "";
+        if (area.match(/大陆/)) {
+          selector = "#specificcat1";
+        } else if (area.match(/台|港/)) {
+          selector = "#specificcat2";
+        } else if (area.match(/美国/)) {
+          selector = "#specificcat3";
+        } else if (area.match(/英国/)) {
+          selector = "#specificcat7";
+        } else if (area.match(/日本/)) {
+          selector = "#specificcat4";
+        } else if (area.match(/韩国/)) {
+          selector = "#specificcat5";
+        } else {
+          selector = "#specificcat6";
+        }
+        jQuery(selector).attr("checked", "true");
+        getcheckboxvalue("specificcat");
+      } else if (category.match(/variety/)) {
+        const districtMap = {
+          CN: "#district1",
+          HK: "#district2",
+          TW: "#district2",
+          JP: "#district4",
+          KR: "#district4",
+          US: "#district3",
+          EU: "#district3",
+          OT: "#district5"
+        };
+        jQuery(districtMap[info.area]).attr("checked", "true");
+        getcheckboxvalue("district");
+      }
+    }
+    if (jQuery("#format")) {
+      if (category.match(/variety/)) {
+        if (resolution.match(/720/)) {
+          jQuery("#format3").attr("checked", "true");
+        } else if (resolution.match(/1080/)) {
+          jQuery("#format5").attr("checked", "true");
+        }
+        getcheckboxvalue("format");
+      } else if (category.match(/documentary/)) {
+        if (resolution.match(/720/)) {
+          jQuery("#format2").attr("checked", "true");
+        } else if (resolution.match(/1080/)) {
+          jQuery("#format1").attr("checked", "true");
+        }
+        getradiovalue("format");
+      }
+    }
+    if (jQuery("#language")) {
+      let selector = "";
+      if (language) {
+        if (language.match(/汉语/)) {
+          selector = "#language1";
+        } else if (language.match(/粤/)) {
+          selector = "#language2";
+        } else if (language.match(/英语/)) {
+          selector = "#language3";
+        } else if (language.match(/日语/)) {
+          selector = "#language4";
+        } else if (language.match(/韩语/)) {
+          selector = "#language5";
+        }
+        jQuery(selector).attr("checked", "true");
+        getcheckboxvalue("language");
+      }
+    }
+    if (category.match(/variety/)) {
+      jQuery("#tvshowsguest").val(castStr);
+    }
+    let chineseName = originalName;
+    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+    }
+    jQuery("#cname").val(chineseName);
+    if (tags.chinese_subtitle && !tags.chinese_audio) {
+      jQuery('input[name="chinese"]').attr("checked", "true");
+    }
+  }
 
   // src/target/hdr.ts
   init_preact_shim();
@@ -15055,7 +15061,7 @@ $1`);
           }
         });
         (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
-          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`(?!\\[mediainfo\\])${mediaInfo}(?<!\\[\\/mediainfo\\])`, `[mediainfo]${mediaInfo}[/mediainfo]`);
         });
         return description;
       }
@@ -16824,7 +16830,6 @@ ${jQuery(description.selector).val()}`);
       }
     });
     fillDescription5(targetHelper.info.description);
-    targetHelper.fillTorrentFile();
   };
   function setInputValue(selector, value, isCheckbox = false) {
     const input = document.querySelector(selector);
@@ -17025,8 +17030,11 @@ ${jQuery(description.selector).val()}`);
     ZHUQUE: zhuque_default,
     MTeam: mt_default,
     RED: red_default,
+    HDRoute: hdr_default,
     DicMusic: gazelle_music_default,
-    Orpheus: gazelle_music_default
+    Orpheus: gazelle_music_default,
+    iTS: its_default,
+    PTN: ptn_default
   };
   var fillTargetForm = (info) => {
     var _a3;
@@ -17039,23 +17047,23 @@ ${jQuery(description.selector).val()}`);
     if (handler) {
       handler(info);
     }
-    if (CURRENT_SITE_NAME === "MTeam") {
-      return;
-    }
     const targetTorrentInfo = __spreadValues({}, info);
     const isBluray = !!((_a3 = info == null ? void 0 : info.videoType) == null ? void 0 : _a3.match(/bluray/i));
     targetTorrentInfo.isBluray = isBluray;
     const targetHelper = new ExportHelper(targetTorrentInfo);
+    targetHelper.disableTorrentChange();
+    targetHelper.fillTorrentFile();
+    if (!!handler && !CURRENT_SITE_NAME.match(/TJUPT|HDRoute|PTN|iTS/)) {
+      return;
+    }
     targetHelper.prepareToFillInfo();
     targetHelper.torrentTitleHandler();
     targetHelper.imdbHandler();
     targetHelper.descriptionHandler();
-    targetHelper.disableTorrentChange();
     targetHelper.fillBasicAttributes();
     targetHelper.categoryHandler();
     targetHelper.fillRemainingInfo();
     targetHelper.dealWithMoreSites();
-    targetHelper.fillTorrentFile();
   };
 
   // src/source/index.ts
@@ -20174,12 +20182,12 @@ ${descriptionData}`;
     if (!torrentId) {
       return false;
     }
-    const title = jQuery(".details h2").text().trim();
+    const title = jQuery("#content > .details > h2").text().trim();
     const descriptionBBCode = getFilterBBCode(jQuery(`#content${torrentId}`)[0]);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     TORRENT_INFO.title = title;
-    TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, "[color=#000]");
+    TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, "[color=#000]").replace(/\n\n*/g, "\n");
   };
 
   // src/source/bdc.ts

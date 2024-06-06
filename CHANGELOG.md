@@ -1,3 +1,16 @@
+## [5.1.5](https://github.com/techmovie/easy-upload/compare/5.1.4...5.1.5) (2024-06-06)
+
+
+### Bug Fixes
+
+* change to observer for tjupt ([cd03c44](https://github.com/techmovie/easy-upload/commit/cd03c441fff5199c96f6c06748cf52f7e10a238f))
+* **emp:** title ([#279](https://github.com/techmovie/easy-upload/issues/279)) ([d029c93](https://github.com/techmovie/easy-upload/commit/d029c9380d231d77f25c7a3fab9813cd85f83392))
+* **emp:** too many empty line ([#278](https://github.com/techmovie/easy-upload/issues/278)) ([075e845](https://github.com/techmovie/easy-upload/commit/075e845eb83f8f89c9db0cc312d6faa23d3f46d2))
+* **frds:** avoid get two mediainfo bbcode ([#280](https://github.com/techmovie/easy-upload/issues/280)) ([28c002a](https://github.com/techmovie/easy-upload/commit/28c002aa8dad0ca3bd242f7c7af66153c4fc59f8))
+* some sites can be handled target info more than one time ([f10a654](https://github.com/techmovie/easy-upload/commit/f10a654a29588a887b4fef4ff86b1f86a89e52f3))
+
+
+
 ## [5.1.4](https://github.com/techmovie/easy-upload/compare/5.1.3...5.1.4) (2024-06-02)
 
 
