@@ -14,6 +14,9 @@ import autoFill from './autofill';
 import handleMT from './mt';
 import handleRED from './red';
 import handleGazelleMusic from './gazelle-music';
+import handleHDRoute from './hdr';
+import handleITS from './its';
+import handlePTN from './ptn';
 
 const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   PTP: handlePTP,
@@ -27,8 +30,11 @@ const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   ZHUQUE: handleZQ,
   MTeam: handleMT,
   RED: handleRED,
+  HDRoute: handleHDRoute,
   DicMusic: handleGazelleMusic,
   Orpheus: handleGazelleMusic,
+  iTS: handleITS,
+  PTN: handlePTN,
 };
 
 const fillTargetForm = (info: TorrentInfo.Info) => {
@@ -41,27 +47,25 @@ const fillTargetForm = (info: TorrentInfo.Info) => {
   if (handler) {
     handler(info);
   }
-  if (CURRENT_SITE_NAME === 'MTeam') {
-    return;
-  }
-
   const targetTorrentInfo: TorrentInfo.TargetTorrentInfo = { ...info };
   const isBluray = !!info?.videoType?.match(/bluray/i);
   targetTorrentInfo.isBluray = isBluray;
   const targetHelper = new TargetHelper(targetTorrentInfo);
+  // 避免选择种子文件后自动改变种子名称
+  targetHelper.disableTorrentChange();
+  targetHelper.fillTorrentFile();
+
+  if (!!handler && !CURRENT_SITE_NAME.match(/TJUPT|HDRoute|PTN|iTS/)) {
+    return;
+  }
   targetHelper.prepareToFillInfo();
   targetHelper.torrentTitleHandler();
   targetHelper.imdbHandler();
   targetHelper.descriptionHandler();
-
-  // 避免选择种子文件后自动改变种子名称
-  targetHelper.disableTorrentChange();
   targetHelper.fillBasicAttributes();
-
   targetHelper.categoryHandler();
   targetHelper.fillRemainingInfo();
   targetHelper.dealWithMoreSites();
-  targetHelper.fillTorrentFile();
 };
 
 export {
