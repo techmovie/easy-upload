@@ -16,7 +16,7 @@ search:
     imdbId: '{imdb}'
     sortField: size
 name:
-  selector: '#title'
+  selector: 'input[name="name"][class="form__text"]'
 description:
   selector: '#bbcode-description'
 imdb:
