@@ -41,7 +41,6 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 
 - **PLEASE CHECK OVER YOUR TORRENT UPLOAD FOR ANY ERRORS, EASY UPLOAD IS NOT ALWAYS PERFECT FOR EVERY SITE**
 - For now, transfer of music, MV and anime is not supported. The type info may not be automatically filled.
-- Upload page in LemonHD only supports reproduction of movie, episode, documentary and MV types.
 - Irrelevant pictures to screenshots may still be retained when reproduced from Chinese sites to international ones, though filtering work has been done. They need to be deleted manually.
 - Most international sites require full MediaInfo data while even some official resources in Chinese sites fail to provide it. In this case, MediaInfo data needs a manual extraction.
 - For the image loading strategy of ToTheGlory, wait and click the reproduce button only after the page fully loaded, otherwise resource info will be obtained partially.
