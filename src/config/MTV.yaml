@@ -25,8 +25,8 @@ category:
   selector: '#category'
   map:
     movie: '1'
-    tv: '3'
-    tvPack: '3'
+    tv: '5'
+    tvPack: '5'
     documentary: '1'
     concert: '1'
 
