@@ -353,4 +353,11 @@ export const SITE_OPERATIONS = {
       }
     },
   },
+  MTV: {
+    handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
+      let { description } = info;
+      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
+      return description;
+    },
+  },
 };
