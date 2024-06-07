@@ -359,5 +359,32 @@ export const SITE_OPERATIONS = {
       info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
       return description;
     },
+    afterHandler: (info: TorrentInfo.TargetTorrentInfo) => {
+      if (info.resolution !== '') {
+        const resolution = info.resolution.replace('p', '');
+        $(`input[name="Resolution"][value="${resolution}"]`)[0]?.click();
+        $('#taginput').val('1080p');
+      }
+      if (info.videoCodec !== '') {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} ${info.videoCodec}`);
+      }
+      if (info.audioCodec === 'dd+') {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} ddp.audio`);
+      }
+      if (/web-dl/i.test(info.title)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('input[name="source"][value="9"]')[0]?.click();
+        if (/NF|Netflix/i.test(info.title)) {
+          $('#taginput').val(`${tagvalue} web.dl netflix.source`);
+        } else $('#taginput').val(`${tagvalue} web.dl`);
+      }
+      if (/webrip/i.test(info.title)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} webrip`);
+        $('input[name="source"][value="10"]')[0]?.click();
+      }
+    },
   },
 };
