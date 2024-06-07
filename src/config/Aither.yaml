@@ -16,7 +16,7 @@ search:
     imdbId: '{imdb}'
     sortField: size
 name:
-  selector: '#title'
+  selector: 'input[name="name"][class="form__text"]'
 description:
   selector: '#bbcode-description'
 imdb:
@@ -28,7 +28,7 @@ mediaInfo:
 anonymous:
   selector: '.form__group input[type="checkbox"][name="anonymous"]'
 torrent:
-  selector: 'input[name="file"]'
+  selector: 'input[type="file"][accept=".torrent"]'
 category:
   selector: '#browsecat'
   map:
