@@ -1311,7 +1311,7 @@ const getTagsFromSubtitle = (title:string) => {
   if (title.match(/diy/i)) {
     tags.diy = true;
   }
-  if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语言/)) {
+  if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语(言|字幕)/)) {
     tags.chinese_audio = true;
   }
   if (title.match(/Atmos|杜比全景声/i)) {
