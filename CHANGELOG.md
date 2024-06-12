@@ -1,3 +1,15 @@
+## [5.1.6](https://github.com/techmovie/easy-upload/compare/5.1.5...5.1.6) (2024-06-12)
+
+
+### Bug Fixes
+
+* chinese_audio tag ([51b868c](https://github.com/techmovie/easy-upload/commit/51b868c7633ca2d494f188f70a853991d75bc554)), closes [#284](https://github.com/techmovie/easy-upload/issues/284)
+* **mteam:** remove mediainfo from description ([4e30d08](https://github.com/techmovie/easy-upload/commit/4e30d08fac094d37ac3822be71e67fb5eb57b324))
+* **readme:** remove lemon things ([#281](https://github.com/techmovie/easy-upload/issues/281)) ([e2edf53](https://github.com/techmovie/easy-upload/commit/e2edf53e6b7938c68831c930c2eb3602dcb66f33))
+* **u3d:** some thing ([#282](https://github.com/techmovie/easy-upload/issues/282)) ([55c34d4](https://github.com/techmovie/easy-upload/commit/55c34d49fc3ae138e25c44326b62bbe33df8ffb0))
+
+
+
 ## [5.1.5](https://github.com/techmovie/easy-upload/compare/5.1.4...5.1.5) (2024-06-06)
 
 
