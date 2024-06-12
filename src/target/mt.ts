@@ -30,6 +30,7 @@ const fillMTInfo = async (info:TorrentInfo.Info) => {
   setInputValue(currentSiteInfo.imdb.selector, imdbUrl || '');
   setInputValue(currentSiteInfo.mediainfo.selector, mediaInfo);
   setSelectValue(currentSiteInfo.audioCodec.selector, currentSiteInfo.audioCodec.map[audioCodec as keyof typeof currentSiteInfo.audioCodec.map]);
+  info.description = info.description.replace(mediaInfo.trim(), '');
   const targetHelper = new TargetHelper(info);
   targetHelper.descriptionHandler();
 
