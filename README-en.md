@@ -27,6 +27,7 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 - Support quick search of current resource, and the site for searching is configurable.
 - Support batch uploading screenshots to ptpimg, which can solve the problem that screenshots of some sites cannot be displayed on other sites
 - Allows checking whether the target tracker has the current torrent by clicking the quick search button (only supports site based on NexusPHP by now).
+- Supports torrent cleaning, and after transferring to the target site, automatically attaches the cleaned torrent file without the need for manual addition.
 
   ![](https://ptpimg.me/4475d0.gif)
 
