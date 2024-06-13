@@ -51,7 +51,7 @@ const { version, author, description = '' } = JSON.parse(fs.readFileSync(`${__di
 // 油猴前置注释
 const userScriptComment = `// ==UserScript==
 // @name         EasyUpload PT一键转种
-// @name:en      EasyUpload - Trackers Transfer Tool 
+// @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
 // @version      ${version}
 // @description  ${description}
