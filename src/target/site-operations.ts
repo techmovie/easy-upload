@@ -116,8 +116,11 @@ export const SITE_OPERATIONS = {
           if (info.subtitle)$(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
         }
       });
-
-      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`(?!\\[mediainfo\\])${mediaInfo}(?<!\\[\\/mediainfo\\])`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
+      info.mediaInfos?.forEach(mediaInfo => {
+        if (!/\[mediainfo\]/.test(description)) {
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+        }
+      });
 
       return description;
     },
