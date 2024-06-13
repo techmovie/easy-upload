@@ -363,7 +363,7 @@ export const SITE_OPERATIONS = {
       if (info.resolution !== '') {
         const resolution = info.resolution.replace('p', '');
         $(`input[name="Resolution"][value="${resolution}"]`)[0]?.click();
-        $('#taginput').val('1080p');
+        $('#taginput').val(info.resolution);
       }
       if (info.videoCodec !== '') {
         const tagvalue = $('#taginput').attr('value');
