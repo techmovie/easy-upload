@@ -220,20 +220,7 @@ export default async () => {
       }
     }
   }
-  if (CURRENT_SITE_NAME.match(/beitai/i)) {
-    // 从简略mediainfo中获取videoCodes
-    if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
-      const matchCodec = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)?.[2];
-      if (matchCodec) {
-        let videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
-        videoCodec = videoCodec.match(/hevc/i) ? 'x265' : videoCodec;
-        videoCodec = videoCodec.match(/mpeg4/i) ? 'x264' : videoCodec;
-        TORRENT_INFO.videoCodec = videoCodec;
-      }
-    }
-  } else {
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
-  }
+  TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
   TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
 
