@@ -16,7 +16,7 @@ export default async () => {
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
-
+  descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, ' ');
   // 站点自定义数据覆盖 开始
   if (CURRENT_SITE_NAME === 'MTeam') {
     descriptionBBCode = descriptionBBCode
