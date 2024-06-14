@@ -98,7 +98,7 @@ export default class ExportHelper {
     }
     // 北洋站没有配置name
     if (this.currentSiteInfo.name) {
-      if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
+      if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
         fixedTitle = fixedTitle.replace(/\s/ig, '.');
       } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
         fixedTitle = `[${this.getChineseName()}]${fixedTitle}`;

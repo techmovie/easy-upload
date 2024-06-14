@@ -99,6 +99,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://lst.gg/torrents/*
 // @match        https://lst.gg/torrents?*
 // @match        https://*.m-team.cc/detail/*
+// @match        https://www.morethantv.me/upload.php
 
 // @run-at       document-end
 // @grant        GM_addStyle
