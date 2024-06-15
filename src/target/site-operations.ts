@@ -368,13 +368,31 @@ export const SITE_OPERATIONS = {
         $(`input[name="Resolution"][value="${resolution}"]`)[0]?.click();
         $('#taginput').val(info.resolution);
       }
+
       if (info.videoCodec !== '') {
         const tagvalue = $('#taginput').attr('value');
         $('#taginput').val(`${tagvalue} ${info.videoCodec}`);
       }
+
       if (info.audioCodec === 'dd+') {
         const tagvalue = $('#taginput').attr('value');
         $('#taginput').val(`${tagvalue} ddp.audio`);
+      } else if (info.audioCodec?.match(/dd|ac3/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} dd.audio`);
+      } else if (info.audioCodec?.match(/dtshd/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} dts.hd.audio`);
+      } else if (info.audioCodec?.match(/dtsx/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} dts.x.audio`);
+      } else {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} ${info.audioCodec}.audio`);
+      }
+      if (info.title.match(/(\s|.)hybrid(\s|.)/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} hybrid`);
       }
       if (/web-dl/i.test(info.title)) {
         const tagvalue = $('#taginput').attr('value');
@@ -382,11 +400,46 @@ export const SITE_OPERATIONS = {
         if (/NF|Netflix/i.test(info.title)) {
           $('#taginput').val(`${tagvalue} web.dl netflix.source`);
         } else $('#taginput').val(`${tagvalue} web.dl`);
-      }
-      if (/webrip/i.test(info.title)) {
+      } else if (/webrip/i.test(info.title)) {
         const tagvalue = $('#taginput').attr('value');
         $('#taginput').val(`${tagvalue} webrip`);
         $('input[name="source"][value="10"]')[0]?.click();
+      } else if (info.videoType.match(/bluray/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} bluray`);
+        $('input[name="source"][value="7"]')[0]?.click();
+      } else if (info.videoType.match(/remux/i)) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} ${info.videoType}`);
+        $('input[name="source"][value="7"]')[0]?.click();
+      } else {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} ${info.videoType}`);
+      }
+
+      if (info.tags.cantonese_audio === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} cantonese.audio.track`);
+      }
+      if (info.tags.chinese_audio === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} chinese.audio.track`);
+      }
+      if (info.tags.chinese_subtitle === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} chinese.subs`);
+      }
+      if (info.tags.hdr === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} hdr`);
+      }
+      if (info.tags.dolby_vision === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} dovi`);
+      }
+      if (info.tags.hdr10_plus === true) {
+        const tagvalue = $('#taginput').attr('value');
+        $('#taginput').val(`${tagvalue} hdr10plus`);
       }
     },
   },
