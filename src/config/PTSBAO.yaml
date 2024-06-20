@@ -23,7 +23,7 @@ search:
     name: '.torrentname td a[href*="details.php?id="]'
     size: 'td:nth-child(7)'
 name:
-  selector: '#name'
+  selector: 'input[name="name"]'
 subtitle:
   selector: '#small_descr'
 description:
