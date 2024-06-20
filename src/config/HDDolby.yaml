@@ -18,7 +18,7 @@ search:
     sort: '5'
     type: desc
 name:
-  selector: '#name'
+  selector: 'input[name="name"]'
 subtitle:
   selector: 'input[name="small_descr"]'
 description:
