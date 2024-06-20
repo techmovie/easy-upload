@@ -143,7 +143,7 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
   const buf = toTorrentFile({
     ...result,
     comment: '',
-    announce: [],
+    announce: ['tracker.com'],
     info: {
       ...result.info,
       source: '',
