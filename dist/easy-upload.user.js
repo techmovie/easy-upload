@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         EasyUpload PT一键转种
-// @name:en      EasyUpload - Trackers Transfer Tool 
+// @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.6
+// @version      5.1.7
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -48,6 +48,7 @@
 // @match        https://lst.gg/torrents/*
 // @match        https://lst.gg/torrents?*
 // @match        https://*.m-team.cc/detail/*
+// @match        https://www.morethantv.me/upload.php
 
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -3207,7 +3208,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -3820,7 +3821,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -4507,7 +4508,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -5151,7 +5152,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -5850,7 +5851,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -7001,7 +7002,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -7163,7 +7164,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -7960,7 +7961,7 @@
       host: "morethantv.me",
       siteType: "gazelle",
       asSource: true,
-      asTarget: false,
+      asTarget: true,
       needDoubanInfo: true,
       uploadPath: "/upload.php",
       search: {
@@ -7970,7 +7971,31 @@
           title: "{name}"
         }
       },
-      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw=="
+      icon: "data:image/png;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAiHaEEIh2hYCIdoaEiHaGaIh2hmCIdoZgiHaGYIh2hmCIdoZgiHaGYIh2hlyIdoZUiHaHAIh2htiIdoUEAAAAAIh2hJyIdoW0iHaFsIh2hbCIdoWsiHaFrIh2hayIdoWsiHaFrIh2hayIdoWoiHaFbIh2hsyIdof8iHaH7Ih2hQSIdoQciHaEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaG8Ih2h/yIdoZgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2hIiIdoZkiHaGZIh2hIiIdoSIiHaGZIh2hiAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdoaoiHaH/Ih2h/yIdoUQiHaF3Ih2h/yIdof8iHaFEAAAAAAAAAAAiHaGiIh2h/yIdoZ4AAAAAAAAAAAAAAAAiHaG7Ih2h/yIdoREAAAAAIh2h7iIdof8iHaH/Ih2hqgAAAAAAAAAAIh2hoiIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAIh2hVSIdof8iHaGZIh2hzCIdof8iHaERAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAIh2hZiIdod0iHaH/Ih2hmSIdobsiHaH/Ih2hVSIdoXciHaH/Ih2hdwAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAACIdoZkiHaH/Ih2h/yIdof8iHaH/Ih2h7gAAAAAiHaEzIh2h/yIdobsAAAAAIh2hoSIdof8iHaGeAAAAAAAAAAAAAAAAIh2huyIdof8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdoaEiHaH/Ih2hngAAAAAAAAAAAAAAACIdobsiHaH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiHaGhIh2h/yIdoZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIh2hoSIdof8iHaGeIh2hCyIdoQYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIdocUiHaH/Ih2hlSIdoSMiHaFwIh2hfSIdoXEiHaF3Ih2heiIdoXkiHaF5Ih2heSIdoXoiHaFzIh2hYiIdocIiHaH/Ih2h5yIdoS4AAAAAIh2hLyIdoXoiHaGMIh2hcyIdoXMiHaFzIh2hcyIdoXMiHaFyIh2heSIdoY0iHaFsIh2hSSIdoQoAAAAAAAEgNgAAb2Q/+CA1//hTdOA4cGngGCA54hhHZeQIaW7ACG50wIgAUOf4Q0Xn+E9S//hFVj/4PTYAAFJPgAFTUw==",
+      seedDomSelector: "#descbox",
+      torrentDownloadLinkSelector: 'a[href*="/torrents.php"][title="Download Torrent"]',
+      name: {
+        selector: 'input[name="title"][class="long"]'
+      },
+      description: {
+        selector: "#desc"
+      },
+      anonymous: {
+        selector: 'input[name="anonymous"][value="1"]'
+      },
+      torrent: {
+        selector: "#file"
+      },
+      category: {
+        selector: "#category",
+        map: {
+          movie: "1",
+          tv: "5",
+          tvPack: "5",
+          documentary: "1",
+          concert: "1"
+        }
+      }
     },
     MTeam: {
       url: "https://kp.m-team.cc",
@@ -8584,7 +8609,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -8880,7 +8905,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: "#small_descr"
@@ -9033,7 +9058,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -9146,7 +9171,7 @@
         }
       },
       name: {
-        selector: "#name"
+        selector: 'input[name="name"]'
       },
       subtitle: {
         selector: 'input[name="small_descr"]'
@@ -14274,7 +14299,7 @@ ${"\xA0".repeat(6)}`)}
       bdinfo = (_c = (_b2 = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)) == null ? void 0 : _b2[0]) != null ? _c : "";
     }
     if (bdinfo) {
-      bdinfo = bdinfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, "");
+      bdinfo = bdinfo.replace(/[\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f]/g, "");
     }
     if (mediaInfo) {
       mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, "");
@@ -15061,7 +15086,9 @@ $1`);
           }
         });
         (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
-          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`(?!\\[mediainfo\\])${mediaInfo}(?<!\\[\\/mediainfo\\])`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+          if (!/\[mediainfo\]/.test(description)) {
+            description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+          }
         });
         return description;
       }
@@ -15291,6 +15318,94 @@ ${description}`;
           jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
         }
       }
+    },
+    MTV: {
+      handleDescription: (info) => {
+        var _a3;
+        let { description } = info;
+        (_a3 = info.mediaInfos) == null ? void 0 : _a3.forEach((mediaInfo) => {
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+        });
+        return description;
+      },
+      afterHandler: (info) => {
+        var _a3, _b2, _c, _d, _e, _f, _g, _h;
+        if (info.resolution !== "") {
+          const resolution = info.resolution.replace("p", "");
+          (_a3 = jQuery(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a3.click();
+          jQuery("#taginput").val(info.resolution);
+        }
+        if (info.videoCodec !== "") {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} ${info.videoCodec}`);
+        }
+        if (info.audioCodec === "dd+") {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} ddp.audio`);
+        } else if ((_b2 = info.audioCodec) == null ? void 0 : _b2.match(/dd|ac3/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} dd.audio`);
+        } else if ((_c = info.audioCodec) == null ? void 0 : _c.match(/dtshd/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} dts.hd.audio`);
+        } else if ((_d = info.audioCodec) == null ? void 0 : _d.match(/dtsx/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} dts.x.audio`);
+        } else {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} ${info.audioCodec}.audio`);
+        }
+        if (info.title.match(/(\s|.)hybrid(\s|.)/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} hybrid`);
+        }
+        if (/web-dl/i.test(info.title)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          (_e = jQuery('input[name="source"][value="9"]')[0]) == null ? void 0 : _e.click();
+          if (/NF|Netflix/i.test(info.title)) {
+            jQuery("#taginput").val(`${tagvalue} web.dl netflix.source`);
+          } else jQuery("#taginput").val(`${tagvalue} web.dl`);
+        } else if (/webrip/i.test(info.title)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} webrip`);
+          (_f = jQuery('input[name="source"][value="10"]')[0]) == null ? void 0 : _f.click();
+        } else if (info.videoType.match(/bluray/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} bluray`);
+          (_g = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _g.click();
+        } else if (info.videoType.match(/remux/i)) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} ${info.videoType}`);
+          (_h = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _h.click();
+        } else {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} ${info.videoType}`);
+        }
+        if (info.tags.cantonese_audio === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} cantonese.audio.track`);
+        }
+        if (info.tags.chinese_audio === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} chinese.audio.track`);
+        }
+        if (info.tags.chinese_subtitle === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} chinese.subs`);
+        }
+        if (info.tags.hdr === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} hdr`);
+        }
+        if (info.tags.dolby_vision === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} dovi`);
+        }
+        if (info.tags.hdr10_plus === true) {
+          const tagvalue = jQuery("#taginput").attr("value");
+          jQuery("#taginput").val(`${tagvalue} hdr10plus`);
+        }
+      }
     }
   };
 
@@ -15367,7 +15482,7 @@ All thanks to the original uploader\uFF01`;
         this.info = this.operation.titleHandler(this.info);
       }
       if (this.currentSiteInfo.name) {
-        if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina/)) {
+        if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
           fixedTitle = fixedTitle.replace(/\s/ig, ".");
         } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
           fixedTitle = `[${this.getChineseName()}]${fixedTitle}`;
@@ -18909,7 +19024,7 @@ ${doubanPart}`);
     const result = await parse_torrent_default(import_buffer2.Buffer.from(file));
     const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
       comment: "",
-      announce: [],
+      announce: ["tracker.com"],
       info: __spreadProps(__spreadValues({}, result.info), {
         source: ""
       })
@@ -18921,12 +19036,13 @@ ${doubanPart}`);
 
   // src/source/nexusphp.ts
   var nexusphp_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
+    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C;
     let title = formatTorrentTitle((_b2 = (_a3 = jQuery("#top").text().split(/\s{3,}/)) == null ? void 0 : _a3[0]) == null ? void 0 : _b2.trim());
     let metaInfo = jQuery("td.rowhead:contains('\u57FA\u672C\u4FE1\u606F'), td.rowhead:contains('\u57FA\u672C\u8CC7\u8A0A'),.layui-table td:contains('\u57FA\u672C\u4FE1\u606F')").next().text().replace(/：/g, ":");
     let subtitle = jQuery("td.rowhead:contains('\u526F\u6807\u9898'), td.rowhead:contains('\u526F\u6A19\u984C')").next().text();
     let siteImdbUrl = jQuery("#kimdb>a").attr("href");
     let descriptionBBCode = getFilterBBCode(jQuery("#kdescr")[0]);
+    descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, " ");
     if (CURRENT_SITE_NAME === "MTeam") {
       descriptionBBCode = descriptionBBCode.replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, "").replace(/(http(s)?)%3A/g, "$1:").replace(/%2F/g, "/");
     }
@@ -19122,19 +19238,7 @@ ${extraScreenshot}`;
         }
       }
     }
-    if (CURRENT_SITE_NAME.match(/beitai/i)) {
-      if (descriptionBBCode.match(/VIDEO\s*(\.)?CODEC/i)) {
-        const matchCodec = (_D = descriptionBBCode.match(/VIDEO\s*(\.)?CODEC\.*:?\s*([^\s_,]+)?/i)) == null ? void 0 : _D[2];
-        if (matchCodec) {
-          let videoCodec2 = matchCodec.replace(/\.|-/g, "").toLowerCase();
-          videoCodec2 = videoCodec2.match(/hevc/i) ? "x265" : videoCodec2;
-          videoCodec2 = videoCodec2.match(/mpeg4/i) ? "x264" : videoCodec2;
-          TORRENT_INFO.videoCodec = videoCodec2;
-        }
-      }
-    } else {
-      TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
-    }
+    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
     TORRENT_INFO.resolution = getResolution3(resolution || TORRENT_INFO.title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
     const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);

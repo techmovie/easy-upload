@@ -1,3 +1,22 @@
+## [5.1.7](https://github.com/techmovie/easy-upload/compare/5.1.6...5.1.7) (2024-06-21)
+
+
+### Bug Fixes
+
+* add placeholder for torrent file ([1fa59ce](https://github.com/techmovie/easy-upload/commit/1fa59ce1e4999c7dc8a79c6a7de6fc5b3efbab2c)), closes [#291](https://github.com/techmovie/easy-upload/issues/291)
+* disc info not remove ([#288](https://github.com/techmovie/easy-upload/issues/288)) ([ee1d568](https://github.com/techmovie/easy-upload/commit/ee1d568c04e9771cb401ae6142edd097bb331a55))
+* **frds:** error mediainfo replace ([#285](https://github.com/techmovie/easy-upload/issues/285)) ([0d3fa35](https://github.com/techmovie/easy-upload/commit/0d3fa357bfd13810ff05f1873863346e5b6774e7))
+* remove unneed code ([#287](https://github.com/techmovie/easy-upload/issues/287)) ([cc653eb](https://github.com/techmovie/easy-upload/commit/cc653eb785be2a63d715621ccfe9d4a1f2590963))
+* some np site name selector error ([#290](https://github.com/techmovie/easy-upload/issues/290)) ([a6e8176](https://github.com/techmovie/easy-upload/commit/a6e817690278924a9085f86350dafe25b6ee5de3))
+
+
+### Features
+
+* **mtv:** support more tag ([#289](https://github.com/techmovie/easy-upload/issues/289)) ([b6edb73](https://github.com/techmovie/easy-upload/commit/b6edb73341990d7f07d09c5593ec84968a8c63fd))
+* support upload to mtv ([#283](https://github.com/techmovie/easy-upload/issues/283)) ([2ab8f8f](https://github.com/techmovie/easy-upload/commit/2ab8f8fc357bbd50db1839e9ce08b3bdd9317932))
+
+
+
 ## [5.1.6](https://github.com/techmovie/easy-upload/compare/5.1.5...5.1.6) (2024-06-12)
 
 
