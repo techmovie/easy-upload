@@ -99,13 +99,13 @@ export default class ExportHelper {
     // 北洋站没有配置name
     if (this.currentSiteInfo.name) {
       if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
-        fixedTitle = fixedTitle.replace(/\s/ig, '.');
+        fixedTitle = this.info.title.replace(/\s/ig, '.');
       } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
-        fixedTitle = `[${this.getChineseName()}]${fixedTitle}`;
+        fixedTitle = `[${this.getChineseName()}]${this.info.title}`;
       }
-      $(this.currentSiteInfo.name.selector).val(fixedTitle);
+      $(this.currentSiteInfo.name.selector).val(this.info.title);
     }
-    this.info.title = fixedTitle;
+    // this.info.title = fixedTitle;
     return this.info;
   }
 
