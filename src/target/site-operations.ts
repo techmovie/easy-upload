@@ -124,6 +124,14 @@ export const SITE_OPERATIONS = {
 
       return description;
     },
+    titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+      if (info.category === 'music') {
+        const subtitle = info.title;
+        if (info.subtitle !== undefined) info.title = info.subtitle;
+        info.subtitle = subtitle;
+        return info;
+      }
+    },
   },
   SpeedApp: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
