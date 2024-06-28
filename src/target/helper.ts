@@ -91,7 +91,7 @@ export default class ExportHelper {
   }
 
   torrentTitleHandler () {
-    let fixedTitle = this.info.title.replace('H 265', 'H.265').replace('H 264', 'H.264');
+    const fixedTitle = this.info.title.replace('H 265', 'H.265').replace('H 264', 'H.264');
     this.info.title = fixedTitle;
     if (this.operation?.titleHandler) {
       this.info = this.operation.titleHandler(this.info);
