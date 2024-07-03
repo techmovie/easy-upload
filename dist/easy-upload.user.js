@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.7
+// @version      5.1.8
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -15091,6 +15091,14 @@ $1`);
           }
         });
         return description;
+      },
+      titleHandler: (info) => {
+        if (info.category === "music") {
+          const subtitle = info.title;
+          if (info.subtitle !== void 0) info.title = info.subtitle;
+          info.subtitle = subtitle;
+          return info;
+        }
       }
     },
     SpeedApp: {
@@ -15476,20 +15484,19 @@ All thanks to the original uploader\uFF01`;
     }
     torrentTitleHandler() {
       var _a3;
-      let fixedTitle = this.info.title.replace("H 265", "H.265").replace("H 264", "H.264");
+      const fixedTitle = this.info.title.replace("H 265", "H.265").replace("H 264", "H.264");
       this.info.title = fixedTitle;
       if ((_a3 = this.operation) == null ? void 0 : _a3.titleHandler) {
         this.info = this.operation.titleHandler(this.info);
       }
       if (this.currentSiteInfo.name) {
         if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
-          fixedTitle = fixedTitle.replace(/\s/ig, ".");
+          this.info.title = this.info.title.replace(/\s/ig, ".");
         } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
-          fixedTitle = `[${this.getChineseName()}]${fixedTitle}`;
+          this.info.title = `[${this.getChineseName()}]${this.info.title}`;
         }
-        jQuery(this.currentSiteInfo.name.selector).val(fixedTitle);
+        jQuery(this.currentSiteInfo.name.selector).val(this.info.title);
       }
-      this.info.title = fixedTitle;
       return this.info;
     }
     imdbHandler() {
