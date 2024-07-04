@@ -129,8 +129,10 @@ export const SITE_OPERATIONS = {
         const subtitle = info.title;
         if (info.subtitle !== undefined) info.title = info.subtitle;
         info.subtitle = subtitle;
-        return info;
+      } else if (info.subtitle === '') {
+        info.subtitle = info.title;
       }
+      return info;
     },
   },
   SpeedApp: {
