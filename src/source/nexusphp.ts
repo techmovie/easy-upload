@@ -252,7 +252,7 @@ const getMetaInfo = (metaInfo:string) => {
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
     videoTypeKey = 'encode';
   }
-  if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDFun/i)) {
+  if (CURRENT_SITE_NAME.match(/TLF|HDHome/i)) {
     videoTypeKey = '媒介';
   }
   if (CURRENT_SITE_NAME.match(/HDFans/)) {
