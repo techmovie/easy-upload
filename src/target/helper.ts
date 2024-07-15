@@ -336,7 +336,7 @@ export default class ExportHelper {
     // 填入制作组
     this.fillTeamName();
 
-    if (CURRENT_SITE_NAME.match(/HDHome|HDFun|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
       setTimeout(() => {
         const event = new Event('change');
         document.querySelector(this.currentSiteInfo.category.selector)?.dispatchEvent(event);
@@ -370,7 +370,7 @@ export default class ExportHelper {
       $('#episode_number').val(episode);
     }
     // 处理HDH iPad
-    if (CURRENT_SITE_NAME.match(/HDHome|HDFun/)) {
+    if (CURRENT_SITE_NAME.match(/HDHome/)) {
       if (this.info.title.match(/iPad/i)) {
         const categoryMap = {
           movie: '412',

@@ -29,9 +29,7 @@
 |  HDChina   |            ✅             |           ✅            |
 |  HDDolby   |            ✅             |           ✅            |
 |   HDFans   |            ✅             |           ✅            |
-|   HDFun    |            ✅             |           ✅            |
 |   HDHome   |            ✅             |           ✅            |
-|   HDMaYi   |            ✅             |           ✅            |
 |   HDPOST   |            ✅             |           ✅            |
 |  HDRoute   |            ❌             |           ✅            |
 |  HDSpace   |            ✅             |           ✅            |
