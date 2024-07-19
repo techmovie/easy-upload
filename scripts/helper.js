@@ -57,7 +57,7 @@ const userScriptComment = `// ==UserScript==
 // @description  ${description}
 // @description:en ${description}
 // @author       ${author}
-// @require      https://cdn.staticfile.org/jquery/1.7.1/jquery.min.js
+// @require      https://s4.zstatic.net/ajax/libs/jquery/1.7.1/jquery.min.js
 // @match        https://*/torrents.php?id=*
 // @match        http://*/torrents.php?id=*
 // @match        https://broadcasthe.net/torrents.php?torrentid=*
