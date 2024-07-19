@@ -1,3 +1,12 @@
+## [5.1.10](https://github.com/techmovie/easy-upload/compare/5.1.9...5.1.10) (2024-07-19)
+
+
+### Bug Fixes
+
+* replace jquery cdn ([ae22b17](https://github.com/techmovie/easy-upload/commit/ae22b17e3e0f87fc6cb5215927487335b4aac0f5))
+
+
+
 ## [5.1.9](https://github.com/techmovie/easy-upload/compare/5.1.8...5.1.9) (2024-07-19)
 
 
