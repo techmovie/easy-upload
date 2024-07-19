@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.8
+// @version      5.1.9
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -5474,354 +5474,6 @@
         }
       }
     },
-    HDFun: {
-      url: "https://hdfun.me",
-      host: "hdfun.me",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrents>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      torrent: {
-        selector: 'input[name="file"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: [
-            "411",
-            "412",
-            "413",
-            "414",
-            "415",
-            "450",
-            "499",
-            "416"
-          ],
-          tv: [
-            "425",
-            "426",
-            "471",
-            "427",
-            "428",
-            "429",
-            "430",
-            "452",
-            "431"
-          ],
-          tvPack: [
-            "432",
-            "433",
-            "434",
-            "435",
-            "436",
-            "437",
-            "438"
-          ],
-          documentary: [
-            "417",
-            "418",
-            "419",
-            "420",
-            "421",
-            "451",
-            "500",
-            "422"
-          ],
-          concert: "441",
-          sport: [
-            "442",
-            "443"
-          ],
-          cartoon: [
-            "444",
-            "445",
-            "446",
-            "447",
-            "448",
-            "454",
-            "449",
-            "501"
-          ],
-          variety: ""
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "12",
-          x264: "1",
-          x265: "2",
-          h265: "2",
-          mpeg2: "4",
-          mpeg4: "1",
-          vc1: "3",
-          xvid: "5",
-          dvd: "5"
-        }
-      },
-      source: {
-        selector: 'select[name="source_sel"]',
-        map: {
-          uhdbluray: "9",
-          bluray: "1",
-          hdtv: "4",
-          dvd: "3",
-          web: "7",
-          vhs: "8",
-          hddvd: "8"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "15",
-          dd: "15",
-          "dd+": "15",
-          dts: "3",
-          truehd: "13",
-          lpcm: "14",
-          dtshdma: "11",
-          atmos: "11",
-          dtsx: "3"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: [
-            "10",
-            "499",
-            "500",
-            "502",
-            "501"
-          ],
-          bluray: [
-            "1",
-            "450",
-            "451",
-            "452",
-            "453",
-            "454"
-          ],
-          remux: [
-            "3",
-            "415",
-            "421",
-            "430",
-            "437",
-            "448"
-          ],
-          encode: [
-            "7",
-            "411",
-            "412",
-            "413",
-            "414",
-            "416",
-            "417",
-            "418",
-            "419",
-            "420",
-            "422",
-            "425",
-            "426",
-            "471",
-            "427",
-            "428",
-            "429",
-            "431",
-            "432",
-            "433",
-            "434",
-            "435",
-            "436",
-            "438",
-            "444",
-            "445",
-            "446",
-            "447",
-            "449"
-          ],
-          web: [
-            "11",
-            "411",
-            "412",
-            "413",
-            "414",
-            "416",
-            "417",
-            "418",
-            "419",
-            "420",
-            "422",
-            "425",
-            "426",
-            "471",
-            "427",
-            "429",
-            "431",
-            "432",
-            "433",
-            "434",
-            "436",
-            "438",
-            "444",
-            "445",
-            "446",
-            "447",
-            "449"
-          ],
-          hdtv: [
-            "5",
-            "412",
-            "413",
-            "416",
-            "418",
-            "419",
-            "422",
-            "424",
-            "426",
-            "471",
-            "427",
-            "428",
-            "431",
-            "433",
-            "434",
-            "435",
-            "438",
-            "442",
-            "443",
-            "445",
-            "446",
-            "449"
-          ],
-          dvd: [
-            "",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          dvdrip: [
-            "7",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          other: ""
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": [
-            "1",
-            "499",
-            "416",
-            "500",
-            "422",
-            "431",
-            "438",
-            "502",
-            "449",
-            "501"
-          ],
-          "1080p": [
-            "2",
-            "414",
-            "420",
-            "429",
-            "436",
-            "447"
-          ],
-          "1080i": [
-            "3",
-            "424",
-            "428",
-            "435",
-            "443"
-          ],
-          "720p": [
-            "4",
-            "413",
-            "419",
-            "423",
-            "427",
-            "434",
-            "442",
-            "446"
-          ],
-          "576p": [
-            "5",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ],
-          "480p": [
-            "5",
-            "411",
-            "417",
-            "425",
-            "432",
-            "444"
-          ]
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hdzone: "1",
-          hdz: "2",
-          hdztv: "3",
-          ttg: "6",
-          mteam: "7",
-          other: "11"
-        }
-      }
-    },
     HDHome: {
       url: "https://hdhome.org",
       host: "hdhome.org",
@@ -6187,113 +5839,6 @@
           ttg: "6",
           mteam: "7",
           other: "11"
-        }
-      }
-    },
-    HDMaYi: {
-      url: "http://hdmayi.com",
-      host: "hdmayi.com",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBykVPLQLsAAABCVJREFUOMuVlctvVVUYxX97n3PPvb0t0BZKSKW0FdpSDCAkViMmjU9kAImaMDVGnOo/4IApGo0xccLQmYkgJhhfCSA4sgUJjz5JsbVwS/q6lN7bc/brc3AanGiiO9mjb+1k7d/KXlvxP9ax04tsfyKmMucatGYrsAysnHln82ON+rfDB967RXU+Zc/hroZSSTeXErVNKfq0Ym8cq6cizQ7rZKyeyYdxxFQ9Fc69u5kYYLxi8Q4aSiq5Mp2VhmZse93SGxS7g7BHK/qiiO44Ui1xRBxppZUC6+TpWMvVjw4WP/n6QeAcoE58s8xCVXZtKKmXTwyUD+/cHHWlTppTK80La7Lxh8ksWloLaKUoFWCwK+HJlhgBRIRI8WtXS3S8oFWlIdHElYWwt6msT0UFdeTStGEpjTnSWySJQIBqKpwfz/AiiFWMzjs2FTWD3QUmFz0/T2StFzxxMcrpxcAhYJ8XmJh3LNQCg90J09VAZ3PEoc4CN+Ys4wsOreBmxZFZ2L8t5uo9y6W7ZkOtJluBPwG0dVzNrCxlRjAOjBVEYHjWMjRr2VLWvNidUECRGcE6wTjBeGGpFgieFgV9CnjliwW0MWHEmjBjTMCagLUCwKO1wPmRlPlVz0BHgYPtMcYEjBXcusYHwXtpEpE9v99ew3tBX3x/S81YGXEu4HzA+wDrwEcrhh/HUwoaXu8t0lZWWJtrRCB4wftACNK/qzPZGIKgj56ex1q5YYxYawRrBRHBeyHNhJ9GUkYfOHraYl7aVUS84JyAgPe52+ClVylpQQT9qBbwPoxZEx46G3A2dxg8eBe4v+w4c61O3QRe6yuye0uMMYIA3gnWBLwLHRJkByLoNBMyIxVj5K5ZZygCzkvOzAhXJte4OJbS2hjxxv4GmhIIQXKNDTgnjc5Jf6wCsXMQhCpaJpSSZx4Dd4I1gkJYyeCroRr7ticMdBWp1sPfmkxQSmIvau9vS41o74VStlZzVkZsFoIxOXDvBJMFjMkxjM4azg7XiDS82l9iY0njbH5lawLehv7u0mqLvn6ynVUSrJMxa+WRMzlw5/OArMl3lga+HV5leCqjIdEkETgnmPW5s7IteGnXkKflvUxYK8utZU0hgnKs8OshORvwLlBZcnx5eYVq3aOUwjtZnwvOyR8SWIwBerYWKBfV7As9xeXne0pdm8qa48810dEa8fn3Ve4vO7TK3+rlkTX57lotvPVsky4X9YzzXItidV0JZ0Pq52KAYwfKbGiMaosP7egvt+sHLt6s5Q6CSGokeE8mmorSTNaMjF0YSWfeHGgqHT3YePnkmepQT2diAZn8uD0v2Ia3p+hrU9xbkcGCklME2kQxh2IyKeibkeIWSk2pSC8prR4iuDufdvxjMT9u7O4PpkGhEXYi0opS0yjmAX/3s87//E38BWXDuj9j0ViVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA3OjQxOjIxKzAwOjAws0DWvgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNzo0MToyMSswMDowMMIdbgIAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
-      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      torrent: {
-        selector: 'input[name="file"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "2",
-          x264: "6",
-          hevc: "3",
-          x265: "5",
-          h265: "1",
-          mpeg2: "7",
-          mpeg4: "4",
-          vc1: "7",
-          xvid: "7",
-          dvd: "7"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "2",
-          encode: "4",
-          web: "5",
-          hdtv: "6",
-          dvd: "7",
-          dvdrip: "4",
-          other: "0",
-          cd: "8"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": "1",
-          "1080p": "2",
-          "1080i": "3",
-          "720p": "4",
-          "576p": "5",
-          "480p": "5"
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hds: "1",
-          chd: "2",
-          mt: "3",
-          wiki: "4",
-          cmct: "5",
-          cnxp: "6",
-          hdh: "7",
-          fgt: "8",
-          mz: "9",
-          other: "10"
         }
       }
     },
@@ -15097,8 +14642,10 @@ $1`);
           const subtitle = info.title;
           if (info.subtitle !== void 0) info.title = info.subtitle;
           info.subtitle = subtitle;
-          return info;
+        } else if (info.subtitle === "") {
+          info.subtitle = info.title;
         }
+        return info;
       }
     },
     SpeedApp: {
@@ -15700,7 +15247,7 @@ ${description}`;
         });
       }
       this.fillTeamName();
-      if (CURRENT_SITE_NAME.match(/HDHome|HDFun|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+      if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
         setTimeout(() => {
           var _a3;
           const event = new Event("change");
@@ -15732,7 +15279,7 @@ ${description}`;
         jQuery("#season_number").val(season);
         jQuery("#episode_number").val(episode);
       }
-      if (CURRENT_SITE_NAME.match(/HDHome|HDFun/)) {
+      if (CURRENT_SITE_NAME.match(/HDHome/)) {
         if (this.info.title.match(/iPad/i)) {
           const categoryMap = {
             movie: "412",
@@ -19275,7 +18822,7 @@ ${extraScreenshot}`;
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       videoTypeKey = "encode";
     }
-    if (CURRENT_SITE_NAME.match(/TLF|HDHome|HDFun/i)) {
+    if (CURRENT_SITE_NAME.match(/TLF|HDHome/i)) {
       videoTypeKey = "\u5A92\u4ECB";
     }
     if (CURRENT_SITE_NAME.match(/HDFans/)) {
