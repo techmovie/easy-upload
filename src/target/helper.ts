@@ -160,6 +160,9 @@ export default class ExportHelper {
     // 内站直接填写完整简介
     if (description) {
       // 去简介前的空格和换行
+      if (this.currentSiteInfo.siteType.match(/NexusPHP|TTG|MTeam/)) {
+        description = description.replace(/\[(right|left|center)\]/gi, '[quote]').replace(/\[\/(right|left|center)\]/gi, '[/quote]');
+      }
       description = description.replace(/^(\s+)/g, '');
       if (isChineseTacker(this.currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD') {
         // 需要拼接豆瓣信息的内站
