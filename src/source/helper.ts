@@ -132,8 +132,10 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
     console.warn('Failed to get torrent file download link');
     return null;
   }
-  if (!downloadLink.startsWith('http')) {
+  if (!downloadLink.startsWith('http') && !downloadLink.startsWith('/')) {
     downloadLink = `${CURRENT_SITE_INFO.url}/${downloadLink}`;
+  } else if (downloadLink.startsWith('/')) {
+    downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
   }
   const file = await fetch(downloadLink, {
     method: 'GET',
