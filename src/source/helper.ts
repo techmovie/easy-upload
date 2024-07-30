@@ -1,7 +1,8 @@
 import parseTorrent, { toTorrentFile } from 'parse-torrent';
-import { fetch } from '../common';
+import { fetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
 import { CURRENT_SITE_INFO } from '../const';
+import Notification from '../components/Notification';
 
 /**
  * 格式化视频类型
@@ -137,23 +138,33 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
   } else if (downloadLink.startsWith('/')) {
     downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
   }
-  const file = await fetch(downloadLink, {
-    method: 'GET',
-    responseType: 'arraybuffer',
-  });
-  const result = await parseTorrent(Buffer.from(file));
-  const buf = toTorrentFile({
-    ...result,
-    comment: '',
-    announce: ['tracker.com'],
-    info: {
-      ...result.info,
-      source: '',
-    },
-  });
-  const blob = new Blob([buf], { type: 'application/x-bittorrent' });
-  const base64 = await blobToBase64(blob);
-  return base64;
+  try {
+    const file = await fetch(downloadLink, {
+      method: 'GET',
+      responseType: 'arraybuffer',
+      timeout: 10000,
+    });
+    const result = await parseTorrent(Buffer.from(file));
+    const buf = toTorrentFile({
+      ...result,
+      comment: '',
+      announce: ['tracker.com'],
+      info: {
+        ...result.info,
+        source: '',
+      },
+    });
+    const blob = new Blob([buf], { type: 'application/x-bittorrent' });
+    const base64 = await blobToBase64(blob);
+    return base64;
+  } catch (error) {
+    Notification.open({
+      message: $t('种子文件下载失败'),
+      description: $t('请手动下载'),
+    });
+    console.log(error);
+    return '';
+  }
 };
 export {
   getVideoType,
