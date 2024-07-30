@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.1.10
+// @version      5.1.11
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -10462,7 +10462,9 @@
       \u8C46\u74E3\u914D\u7F6E: "Douban Config",
       \u8C46\u74E3Cookie: "Douban Cookie",
       \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch"
+      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch",
+      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "Failed to download torrent file",
+      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "Please download it manually"
     },
     ko: {
       \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uC5BB\uAE30 \uC2E4\uD328",
@@ -10522,7 +10524,9 @@
       \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\uC5EC\uB7EC \uAC80\uC0C9 \uD0ED \uB3D9\uC2DC\uC5D0 \uC5F4\uAE30",
       \u8C46\u74E3\u914D\u7F6E: "\uB354\uC6B0\uBC18 \uAD6C\uC131",
       \u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4 \uAD6C\uC131\uD558\uC138\uC694."
+      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4 \uAD6C\uC131\uD558\uC138\uC694.",
+      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "\uD1A0\uB80C\uD2B8 \uD30C\uC77C \uB2E4\uC6B4\uB85C\uB4DC \uC2E4\uD328",
+      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "\uC218\uB3D9\uC73C\uB85C \uB2E4\uC6B4\uB85C\uB4DC\uD574\uC8FC\uC138\uC694"
     },
     zh: {
       \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
@@ -10583,7 +10587,9 @@
       \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
       \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
       \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22"
+      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22",
+      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "\u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25",
+      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "\u8BF7\u624B\u52A8\u4E0B\u8F7D"
     }
   };
 
@@ -15094,6 +15100,9 @@ All thanks to the original uploader\uFF01`;
       var _a3, _b2, _c, _d;
       let { mediaInfo, isBluray, screenshots = [], description = "", doubanInfo, poster } = this.info;
       if (description) {
+        if (this.currentSiteInfo.siteType.match(/NexusPHP|TTG|MTeam/)) {
+          description = description.replace(/\[(right|left|center)\]/gi, "[quote]").replace(/\[\/(right|left|center)\]/gi, "[/quote]");
+        }
         description = description.replace(/^(\s+)/g, "");
         if (isChineseTacker(this.currentSiteInfo.siteType) && CURRENT_SITE_NAME !== "SSD") {
           if (doubanInfo) {
@@ -18568,24 +18577,36 @@ ${doubanPart}`);
       console.warn("Failed to get torrent file download link");
       return null;
     }
-    if (!downloadLink.startsWith("http")) {
+    if (!downloadLink.startsWith("http") && !downloadLink.startsWith("/")) {
       downloadLink = `${CURRENT_SITE_INFO.url}/${downloadLink}`;
+    } else if (downloadLink.startsWith("/")) {
+      downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
     }
-    const file = await fetch(downloadLink, {
-      method: "GET",
-      responseType: "arraybuffer"
-    });
-    const result = await parse_torrent_default(import_buffer2.Buffer.from(file));
-    const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
-      comment: "",
-      announce: ["tracker.com"],
-      info: __spreadProps(__spreadValues({}, result.info), {
-        source: ""
-      })
-    }));
-    const blob = new Blob([buf], { type: "application/x-bittorrent" });
-    const base64 = await blobToBase64(blob);
-    return base64;
+    try {
+      const file = await fetch(downloadLink, {
+        method: "GET",
+        responseType: "arraybuffer",
+        timeout: 1e4
+      });
+      const result = await parse_torrent_default(import_buffer2.Buffer.from(file));
+      const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
+        comment: "",
+        announce: ["tracker.com"],
+        info: __spreadProps(__spreadValues({}, result.info), {
+          source: ""
+        })
+      }));
+      const blob = new Blob([buf], { type: "application/x-bittorrent" });
+      const base64 = await blobToBase64(blob);
+      return base64;
+    } catch (error) {
+      Notification_default2.open({
+        message: $t("\u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25"),
+        description: $t("\u8BF7\u624B\u52A8\u4E0B\u8F7D")
+      });
+      console.log(error);
+      return "";
+    }
   };
 
   // src/source/nexusphp.ts

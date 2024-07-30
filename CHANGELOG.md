@@ -1,3 +1,14 @@
+## [5.1.11](https://github.com/techmovie/easy-upload/compare/5.1.10...5.1.11) (2024-07-30)
+
+
+### Bug Fixes
+
+* catch error when fail to download torrent ([86b3a22](https://github.com/techmovie/easy-upload/commit/86b3a221a073cbdb3179789aa5d04b1d260bd7bc)), closes [#296](https://github.com/techmovie/easy-upload/issues/296)
+* np type site use quote instead of align things ([#297](https://github.com/techmovie/easy-upload/issues/297)) ([f73c541](https://github.com/techmovie/easy-upload/commit/f73c54156539385eca4b525a0630274acf224ba7))
+* torrent download link ([#298](https://github.com/techmovie/easy-upload/issues/298)) ([ce70c28](https://github.com/techmovie/easy-upload/commit/ce70c283a4eb89052ea6618e66724bc3b4fd0143))
+
+
+
 ## [5.1.10](https://github.com/techmovie/easy-upload/compare/5.1.9...5.1.10) (2024-07-19)
 
 
