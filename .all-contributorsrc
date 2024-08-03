@@ -127,7 +127,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jiang925",
+      "name": "Tian J.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6193639?v=4",
+      "profile": "https://github.com/jiang925",
+      "contributions": [
+        "code"
+      ]
     }
   ],
-  "contributorsPerLine": 5
+  "contributorsPerLine": 5,
+  "commitType": "docs"
 }
