@@ -29,7 +29,7 @@ if (CURRENT_SITE_NAME) {
     fillTargetForm(torrentInfo as TorrentInfo.Info);
   }
   if (CURRENT_SITE_INFO.asSource &&
-    (!location.href.match(/upload/ig)) &&
+    (!location.href.match(/upload|offer/ig)) &&
     !(CURRENT_SITE_INFO.search &&
       location.pathname.match(CURRENT_SITE_INFO.search.path) &&
       (getUrlParam('imdb') || getUrlParam('name')))) {

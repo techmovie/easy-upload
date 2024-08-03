@@ -27,7 +27,7 @@ name:
 subtitle:
   selector: 'input[name="small_descr"]'
 description:
-  selector: "#descr,#body"
+  selector: '#descr,#body'
 imdb:
   selector: 'input[name="url"][type="text"]'
 douban:
@@ -77,4 +77,3 @@ area:
     KR: '5'
     IND: '7'
     OT: '8'
-
