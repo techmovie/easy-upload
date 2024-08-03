@@ -68,24 +68,6 @@ Greasemonkey 4 与以上两种脚本管理器的 API 严重不一致且只能在
 
 [SUPPORTED](SUPPORTED.md)
 
-## 捐赠
-
-如果本项目对你有帮助，不妨通过微信或者支付宝进行小额捐赠，以支持该项目的持续维护和发展。
-
-微信:
-
-<img alt="wechat.png" src="https://ptpimg.me/6zq3va.jpg" width="200">
-
-支付宝:
-
-<img alt="alipay.png" src="https://ptpimg.me/3dw5k6.jpg" width="200">
-
-BTC:
-
-**`3GtDDerL86ydyujq9uTounWXgLZ1hVFGPY`**
-
-<img alt="btc.png" src="https://ptpimg.me/i63q23.jpg" width="200">
-
 ## 致谢
 
 ### 协作者
