@@ -77,6 +77,7 @@ const userScriptComment = `// ==UserScript==
 // @match        https://ptpimg.me/*
 // @match        https://*/upload*
 // @match        http://*/upload*
+// @match        https://*/offers.php*
 // @match        https://broadcity.in/browse.php?imdb=*
 // @match        https://privatehd.to/torrent/*
 // @match        https://avistaz.to/torrent/*
@@ -100,7 +101,6 @@ const userScriptComment = `// ==UserScript==
 // @match        https://lst.gg/torrents?*
 // @match        https://*.m-team.cc/detail/*
 // @match        https://www.morethantv.me/upload.php
-// @match        https://pterclub.com/offers.php*
 
 // @run-at       document-end
 // @grant        GM_addStyle
