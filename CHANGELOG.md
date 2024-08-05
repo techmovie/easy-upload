@@ -1,3 +1,18 @@
+## [5.1.12](https://github.com/techmovie/easy-upload/compare/5.1.11...5.1.12) (2024-08-05)
+
+
+### Bug Fixes
+
+* exclude offer page for retriving source ([1c4bee1](https://github.com/techmovie/easy-upload/commit/1c4bee1784dd8ecf7f912ff49c5d4b509e55b2f8))
+
+
+### Features
+
+* 适配猪猪 ([#301](https://github.com/techmovie/easy-upload/issues/301)) ([5c36fd1](https://github.com/techmovie/easy-upload/commit/5c36fd156cd6b1ce86187728cf7c5db0b991ce80))
+* support the offer page on the pter site ([#299](https://github.com/techmovie/easy-upload/issues/299)) ([59565fb](https://github.com/techmovie/easy-upload/commit/59565fb9985a55685ffa26991dbe990d9734f67c))
+
+
+
 ## [5.1.11](https://github.com/techmovie/easy-upload/compare/5.1.10...5.1.11) (2024-07-30)
 
 
