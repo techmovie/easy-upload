@@ -96,6 +96,7 @@ Greasemonkey 4 与以上两种脚本管理器的 API 严重不一致且只能在
       <td align="center" valign="top" width="20%"><a href="https://github.com/LostRager"><img src="https://avatars.githubusercontent.com/u/5929772?v=4?s=75" width="75px;" alt="LostRager"/><br /><sub><b>LostRager</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=LostRager" title="Code">💻</a></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/KesaubeEire"><img src="https://avatars.githubusercontent.com/u/20382002?v=4?s=75" width="75px;" alt="KesaubeEire"/><br /><sub><b>KesaubeEire</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=KesaubeEire" title="Code">💻</a></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/jiang925"><img src="https://avatars.githubusercontent.com/u/6193639?v=4?s=75" width="75px;" alt="Tian J."/><br /><sub><b>Tian J.</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=jiang925" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/DDinghoya"><img src="https://avatars.githubusercontent.com/u/19677686?v=4?s=75" width="75px;" alt="DDinghoya"/><br /><sub><b>DDinghoya</b></sub></a><br /><a href="https://github.com/techmovie/easy-upload/commits?author=DDinghoya" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
