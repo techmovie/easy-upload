@@ -182,7 +182,7 @@ const getDataFromDoubanPage = async (domString:string): Promise<Douban.DoubanDat
   };
 };
 const getDoubanAwards = async (doubanId:string) => {
-  const data = await fetch(`https://movie.douban.com/subject/${doubanId}/awards`, {
+  const data = await fetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
     responseType: undefined,
   });
   const doc = new DOMParser().parseFromString(data, 'text/html');
@@ -212,7 +212,7 @@ const getMobileDoubanInfo = async (doubanUrl:string, imdbLink?:string): Promise<
       if (!doubanId) {
         throw $t('豆瓣ID获取失败');
       }
-      const url = `${DOUBAN_MOBILE_API}/movie/${doubanId}/`;
+      const url = `${DOUBAN_MOBILE_API}/movie/${doubanId}`;
       const options = {
         headers: {
           Referer: `https://m.douban.com/movie/subject/${doubanId}`,
