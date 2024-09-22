@@ -27,6 +27,10 @@ export default async () => {
   if (CURRENT_SITE_NAME === 'HDArea') {
     title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
   }
+
+  if (CURRENT_SITE_NAME === 'SSD') {
+    title = formatTorrentTitle($('#torrent-name').text());
+  }
   if (CURRENT_SITE_NAME === 'PuTao') {
     title = formatTorrentTitle($('h1').text().replace(/\[.+?\]|\(.+?\)/g, '')?.trim());
   }
