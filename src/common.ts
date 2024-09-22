@@ -274,7 +274,7 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
   }
   const imdbRate = await getIMDBRating(imdbId);
   let foreignTitle = '';
-  if (title !== original_title) {
+  if (original_title && title !== original_title) {
     foreignTitle = original_title;
   }
   let poster = cover_url;
@@ -286,12 +286,12 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
     imdbLink: `https://www.imdb.com/title/${imdbRate.id}/`,
     imdbAverageRating: imdbRate.value,
     imdbVotes: imdbRate.count,
-    imdbRating: `${imdbRate.value}/10 from ${imdbRate.count} users`,
+    imdbRating: `${imdbRate?.value ?? 0}/10 from ${imdbRate?.count ?? 0} users`,
     chineseTitle: title,
     foreignTitle,
     aka,
     transTitle: Array.from(new Set([original_title ? title : '', ...aka])).filter(Boolean),
-    thisTitle: [original_title || title],
+    thisTitle: [original_title || title], // original_title
     year,
     playDate: pubdate,
     region: countries.join(' / '),

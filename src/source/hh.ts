@@ -1,20 +1,23 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
-import { formatTorrentTitle, getSize, getSpecsFromMediainfo, getSourceFromTitle } from '../common';
+import {
+  formatTorrentTitle, getSize, getSpecsFromMediainfo,
+  getSourceFromTitle, getMobileDoubanInfo, getAreaCode,
+} from '../common';
 import { getVideoType, getCategory } from './helper';
 
 export default async () => {
   const title = formatTorrentTitle(document.title.match(/"(.+)"/)?.[1] || '');
   const subTitle = $("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ':');
-  const imbdDom = $('#kimdb a[href*="imdb.com/title"]');
-  const siteImdbUrl = imbdDom?.attr('href') ?? '';
-  const movieName = imbdDom?.text()?.replace(/\n|\s/g, '') ?? '';
   const metaInfo = getMetaInfo();
-  const isBluray = !!metaInfo.videoType?.match(/bluray/i);
+  const isBluray = !!metaInfo.videoType?.match(/bluray|Blu-ray/i);
   const mediaInfo = $('#mediainfo-raw code').text() || '';
   const specs = getSpecsFromMediainfo(isBluray, mediaInfo);
   if (Object.keys(specs).length > 0) {
     Object.assign(metaInfo, specs);
   }
+  const imbdDom = $('#kimdb a[href*="imdb.com/title"]');
+  const siteImdbUrl = imbdDom?.attr('href') ?? '';
+  let movieName = imbdDom?.text()?.replace(/\n/g, '').trim() ?? '';
   const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
 
   const formatSize = getSize(size);
@@ -24,7 +27,15 @@ export default async () => {
     .toArray().map((el) => $(el).attr('src')).filter(url => url && url !== '') as string[];
 
   const doubanUrl = $('#douban_info-content').prev().find('a[href*="douban.com"]').attr('href') ?? '';
-  let description = `
+  const doubanInfo = await getMobileDoubanInfo(doubanUrl);
+  if (!movieName) {
+    movieName = [doubanInfo?.foreignTitle].concat(doubanInfo?.aka).filter((name) => name?.match(/^(\w|\s|:)+$/i))?.shift() ?? '';
+  }
+  let description = '';
+  if (doubanInfo) {
+    description += doubanInfo.format;
+  }
+  description += `
     [quote]${mediaInfo}[/quote]
   `;
   screenshots.forEach((url) => {
@@ -35,7 +46,7 @@ export default async () => {
   Object.assign(TORRENT_INFO, {
     title,
     subtitle: subTitle,
-    imdbUrl: siteImdbUrl,
+    imdbUrl: siteImdbUrl || doubanInfo?.imdbLink,
     description,
     year: year.length > 0 ? year.pop() as string : '',
     source: getSourceFromTitle(title),
@@ -53,6 +64,7 @@ export default async () => {
     resolution,
     doubanUrl,
     poster: $('#cover-content')?.attr('src') ?? '',
+    area: getAreaCode(doubanInfo?.region ?? ''),
   });
 };
 
