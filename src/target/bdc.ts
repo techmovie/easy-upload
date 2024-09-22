@@ -44,7 +44,7 @@ async function fillDescription (info:TorrentInfo.Info) {
   
   [img]https://images.broadcity.eu/images/87704049718067240949.png[/img]
   
-  [php]${info.mediaInfo}[/php][/align]
+  [php]${info.mediaInfos?.[0]}[/php][/align]
   
   [align=center][img]https://images.broadcity.eu/images/11622644009097018297.png[/img] 
   $screenshots$

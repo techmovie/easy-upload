@@ -23,10 +23,12 @@ export const SITE_OPERATIONS = {
   },
   Concertos: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
-      let { description, mediaInfo } = info;
+      let { description, mediaInfos } = info;
       $('#add').trigger('click');
       $('.sceditor-button.sceditor-button-source.has-icon')[0].click();
-      description = description.replace(mediaInfo.trim(), '');
+      mediaInfos.forEach(mediaInfo => {
+        description = description.replace(mediaInfo.trim(), '');
+      });
       return description;
     },
   },
@@ -34,8 +36,12 @@ export const SITE_OPERATIONS = {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let description = info.description;
       const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
-      description = description.replace(`[quote]${mediaInfo}[/quote]`, `[hide=mediainfo]${mediaInfo}[/hide]`);
-      description = description.replace(`[quote]${bdinfo}[/quote]`, `[hide=BDInfo]${bdinfo}[/hide]`);
+      mediaInfo.forEach(info => {
+        description = description.replace(`[quote]${info}[/quote]`, `[hide=mediainfo]${info}[/hide]`);
+      });
+      bdinfo.forEach(info => {
+        description = description.replace(`[quote]${info}[/quote]`, `[hide=BDInfo]${info}[/hide]`);
+      });
       if (info.comparisons?.length) {
         for (const comparison of info.comparisons) {
           const { title, imgs } = comparison;
@@ -118,7 +124,7 @@ export const SITE_OPERATIONS = {
       });
       info.mediaInfos?.forEach(mediaInfo => {
         if (!/\[mediainfo\]/.test(description)) {
-          description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
         }
       });
 
@@ -236,7 +242,10 @@ export const SITE_OPERATIONS = {
   TJUPT: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let { description } = info;
-      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
+      const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+      [...mediaInfo, ...bdinfo].forEach(info => {
+        description = description.replace(`[quote]${info}[/quote]`, `[mediainfo]${info}[/mediainfo]`);
+      });
       return description;
     },
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
@@ -369,7 +378,9 @@ export const SITE_OPERATIONS = {
   MTV: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let { description } = info;
-      info.mediaInfos?.forEach(mediaInfo => { description = description.replace(`[quote]${mediaInfo}[/quote]`, `${mediaInfo}`).replace(`${mediaInfo}`, `[mediainfo]${mediaInfo}[/mediainfo]`); });
+      info.mediaInfos?.forEach(mediaInfo => {
+        description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
+      });
       return description;
     },
     afterHandler: (info: TorrentInfo.TargetTorrentInfo) => {

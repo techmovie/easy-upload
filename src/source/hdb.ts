@@ -42,10 +42,10 @@ export default async () => {
   if (!isBluray) {
     getMediaInfo(torrentId).then(data => {
       if (data) {
-        TORRENT_INFO.mediaInfo = data;
+        TORRENT_INFO.mediaInfos = [data];
         descriptionBBCode += `\n[quote]${data}[/quote]`;
         TORRENT_INFO.description = descriptionBBCode;
-        const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+        const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(data);
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         TORRENT_INFO.resolution = resolution || '';
@@ -53,8 +53,8 @@ export default async () => {
       }
     });
   } else {
-    TORRENT_INFO.mediaInfo = bdinfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(bdinfo || descriptionBBCode);
+    TORRENT_INFO.mediaInfos = bdinfo;
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(bdinfo?.[0] || descriptionBBCode);
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution || '';

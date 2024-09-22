@@ -25,7 +25,7 @@ async function getTorrentInfo () {
   const description = getFilterBBCode(containerDom.find('table').eq(4).find('tr:last-child td')[0]);
   const isBluray = videoType.match(/bluray/i);
   const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
-  const mediaInfo = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
+  const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
   const screenshots = await getScreenshotsFromBBCode(description);
   const tags = getTagsFromSubtitle(torrentName);
   const year = torrentName.match(/(18|19|20)\d{2}/g) ?? [];
@@ -37,7 +37,7 @@ async function getTorrentInfo () {
     audioCodec,
     videoType,
     description,
-    mediaInfo,
+    mediaInfos,
     resolution: getResolution(torrentName),
     tags,
     screenshots,

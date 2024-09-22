@@ -36,7 +36,6 @@ export default async () => {
   TORRENT_INFO.videoType = getVideoType(Source, Type);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
-  TORRENT_INFO.mediaInfo = mediaInfo;
   TORRENT_INFO.mediaInfos = [mediaInfo];
   TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
   TORRENT_INFO.originalDescription = `${descriptionBBCode}`;

@@ -1,51 +1,51 @@
 export default (info:TorrentInfo.Info) => {
   const observer = new MutationObserver(() => {
-    if ($('#ename').length) {
+    if ($('#ename')[0] && $('#cname')[0]) {
       fillInfo(info);
       observer.disconnect();
     }
   });
-  observer.observe(document.body, {
-    childList: true,
-  });
+  const config = { childList: true, subtree: true };
+  observer.observe(document.body, config);
 };
 
 function fillInfo (info:TorrentInfo.Info) {
-  const { title, description, doubanInfo, category, resolution, tags } = info;
+  const { title, description, doubanInfo, category, tags } = info;
   $('#ename').val(title);
   const fullDescription = description + doubanInfo;
   let area = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
   area = area.replace(/\[\/?.+?\]/g, '');
   const originalName = fullDescription.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
   const translateName = fullDescription.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
-  const castArray = fullDescription.match(/(主\s+演)\s+([^◎]+)/)?.[2]?.split('\n')?.filter(item => !!item) ?? [];
   const language = fullDescription.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
-  const castStr = castArray.map(item => {
-    return item.trim().split(/\s+/)?.[0];
-  }).join('/');
   if (area) {
+    const areaString = area.replace(/,/g, '/').replace(/\s|中国/g, '');
     if (category === 'movie') {
-      $('#district').val(area.replace(/,/g, '/').replace(/中国/, ''));
+      $('#district').val(areaString);
     } else if (category.match(/tv/)) {
+      const areaToSelectorMap = {
+        大陆: '#specificcat1',
+        '台|港': '#specificcat2',
+        美国: '#specificcat3',
+        日本: '#specificcat4',
+        韩国: '#specificcat5',
+        英国: '#specificcat6',
+        泰剧: '#specificcat7',
+      };
       let selector = '';
-      if (area.match(/大陆/)) {
-        selector = '#specificcat1';
-      } else if (area.match(/台|港/)) {
-        selector = '#specificcat2';
-      } else if (area.match(/美国/)) {
-        selector = '#specificcat3';
-      } else if (area.match(/英国/)) {
-        selector = '#specificcat7';
-      } else if (area.match(/日本/)) {
-        selector = '#specificcat4';
-      } else if (area.match(/韩国/)) {
-        selector = '#specificcat5';
-      } else {
-        selector = '#specificcat6';
+      for (const [key, value] of Object.entries(areaToSelectorMap)) {
+        if (area.match(new RegExp(key))) {
+          selector = value;
+          break;
+        }
       }
-      $(selector).attr('checked', 'true');
-      // eslint-disable-next-line no-undef
-      getcheckboxvalue('specificcat');
+      if (selector) {
+        $(selector).attr('checked', 'true');
+        // eslint-disable-next-line no-undef
+        getcheckboxvalue('specificcat');
+      } else {
+        $('#specificcat').val(areaString);
+      }
     } else if (category.match(/variety/)) {
       const districtMap = {
         CN: '#district1',
@@ -60,26 +60,6 @@ function fillInfo (info:TorrentInfo.Info) {
       $(districtMap[info.area as keyof typeof districtMap]).attr('checked', 'true');
       // eslint-disable-next-line no-undef
       getcheckboxvalue('district');
-    }
-  }
-  if ($('#format')) {
-    if (category.match(/variety/)) {
-      if (resolution.match(/720/)) {
-        $('#format3').attr('checked', 'true');
-      } else if (resolution.match(/1080/)) {
-        $('#format5').attr('checked', 'true');
-      }
-      // eslint-disable-next-line no-undef
-      getcheckboxvalue('format');
-    } else if (category.match(/documentary/)) {
-      // 这里的单选很不合理 同时是BDRip和1080p的该如何选？
-      if (resolution.match(/720/)) {
-        $('#format2').attr('checked', 'true');
-      } else if (resolution.match(/1080/)) {
-        $('#format1').attr('checked', 'true');
-      }
-      // eslint-disable-next-line no-undef
-      getradiovalue('format');
     }
   }
   if ($('#language')) {
@@ -100,9 +80,6 @@ function fillInfo (info:TorrentInfo.Info) {
       // eslint-disable-next-line no-undef
       getcheckboxvalue('language');
     }
-  }
-  if (category.match(/variety/)) {
-    $('#tvshowsguest').val(castStr);
   }
   let chineseName = originalName;
   if (!originalName.match(/[\u4e00-\u9fa5]+/)) {

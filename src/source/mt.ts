@@ -78,15 +78,15 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
   const audioCodec = getAudioCodecFromTitle(title);
   const screenshots = await getScreenshotsFromBBCode(descr);
   let mediaTags = {};
-  let mediaInfoOrBDInfo = mediainfo;
+  let mediaInfoOrBDInfo = [mediainfo];
   const isBluray = !!videoType?.match(/bluray/i);
   if (!mediaInfoOrBDInfo) {
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descr);
     mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
   }
   if (mediaInfoOrBDInfo) {
-    mediaInfoOrBDInfo = mediaInfoOrBDInfo.replace(/\n{1,}/g, '\n');
-    const specs = await getSpecsFromMediainfo(isBluray, mediaInfoOrBDInfo);
+    const infoString = mediaInfoOrBDInfo?.[0].replace(/\n{1,}/g, '\n');
+    const specs = await getSpecsFromMediainfo(isBluray, infoString);
     videoCodec = specs.videoCodec ? specs.videoCodec : videoCodec;
     resolution = specs.resolution ? specs.resolution as resolution : resolution;
     mediaTags = specs.mediaTags || {};
@@ -114,8 +114,7 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
     videoCodec,
     audioCodec,
     screenshots,
-    mediaInfo: mediaInfoOrBDInfo,
-    mediaInfos: [mediaInfoOrBDInfo],
+    mediaInfos: mediaInfoOrBDInfo,
     description: descr,
     year: year.length > 0 ? year.pop() as string : '',
     movieName: '',

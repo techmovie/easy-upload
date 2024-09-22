@@ -35,11 +35,11 @@ export default async () => {
   });
   const isBluray = videoType.match(/bluray/i);
   const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-  const mediaInfoOrBDInfo = isBluray ? bdinfo : (TORRENT_INFO.mediaInfo || mediaInfo);
+  const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
   if (mediaInfoOrBDInfo) {
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
+    TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution: mediaResolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+    const { videoCodec, audioCodec, resolution: mediaResolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo?.[0]);
     if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;

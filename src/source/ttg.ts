@@ -56,8 +56,8 @@ export default async () => {
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(bbCodes);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo;
-      const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
+      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
+      const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo?.[0]);
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.resolution = resolution || '';

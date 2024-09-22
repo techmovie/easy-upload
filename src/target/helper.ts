@@ -156,7 +156,7 @@ export default class ExportHelper {
   }
 
   descriptionHandler () {
-    let { mediaInfo, isBluray, screenshots = [], description = '', doubanInfo, poster } = this.info;
+    let { mediaInfos, isBluray, screenshots = [], description = '', doubanInfo, poster } = this.info;
     // 内站直接填写完整简介
     if (description) {
       // 去简介前的空格和换行
@@ -181,14 +181,14 @@ export default class ExportHelper {
     if (this.currentSiteInfo.mediaInfo) {
       if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU)/)) {
         const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
-        $(selector).val(mediaInfo);
-        description = description.replace(mediaInfo.trim(), '');
+        $(selector).val(mediaInfos[0]);
+        description = description.replace(mediaInfos[0].trim(), '');
       } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
-        $(this.currentSiteInfo.bdinfo.selector).val(mediaInfo);
-        this.info.mediaInfo = '';
+        $(this.currentSiteInfo.bdinfo.selector).val(mediaInfos[0]);
+        this.info.mediaInfos = [];
       } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) { // HDB只填入mediainfo bdinfo放在简介里
-        $(this.currentSiteInfo.mediaInfo.selector).val(mediaInfo);
-        description = description.replace(mediaInfo.trim(), '');
+        $(this.currentSiteInfo.mediaInfo.selector).val(mediaInfos[0]);
+        description = description.replace(mediaInfos[0].trim(), '');
       }
     }
     // 删除简介中的截图

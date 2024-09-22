@@ -63,7 +63,6 @@ const getTorrentInfo = async () => {
     videoCodec,
     audioCodec,
     screenshots,
-    mediaInfo: mediaInfoOrBDInfo,
     mediaInfos: [mediaInfoOrBDInfo],
     description,
     tags: { ...tags, ...mediaTags },

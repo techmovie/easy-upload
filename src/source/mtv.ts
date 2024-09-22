@@ -50,7 +50,7 @@ async function getTorrentInfo (torrentId:string) {
     movieName: showName.replace(/\n/g, '').trim(),
     description,
     videoType,
-    mediaInfo,
+    mediaInfos: [mediaInfo],
     videoCodec,
     audioCodec,
     tags,

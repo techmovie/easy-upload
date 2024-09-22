@@ -54,9 +54,8 @@ export default async () => {
       return TORRENT_INFO.videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
     });
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    TORRENT_INFO.mediaInfo = mediaInfoOrBDInfo.join('\n\n').trim();
     TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map(v => v.trim());
-    const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfo);
+    const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos[0]);
     if (infoFromMediaInfoinfo.subtitles) {
       for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
         if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {

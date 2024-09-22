@@ -1342,25 +1342,23 @@ const getTagsFromSubtitle = (title:string) => {
   return tags;
 };
 const getBDInfoOrMediaInfo = (bbcode:string) => {
+  bbcode = bbcode.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, '');
   const quoteList = bbcode?.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
-  let bdinfo = ''; let mediaInfo = '';
+  const bdinfo:string[] = []; const mediaInfo:string[] = [];
   quoteList.forEach(quote => {
     const quoteContent = quote.replace(/\[\/?quote\]/g, '').replace(/\u200D/g, '');
     if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-      bdinfo += quoteContent;
+      bdinfo.push(quoteContent);
     }
     if (quoteContent.match(/(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i)) {
-      mediaInfo += quoteContent;
+      mediaInfo.push(quoteContent);
     }
   });
-  if (!bdinfo) {
-    bdinfo = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)?.[0] ?? '';
-  }
-  if (bdinfo) {
-    bdinfo = bdinfo.replace(/[\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f]/g, '');
-  }
-  if (mediaInfo) {
-    mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, '');
+  if (!bdinfo.length) {
+    const bdinfoMatch = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)?.[0] ?? '';
+    if (bdinfoMatch) {
+      bdinfo.push(bdinfoMatch);
+    }
   }
   return {
     bdinfo,

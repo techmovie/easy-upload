@@ -72,7 +72,6 @@ export default async () => {
     descriptionBBCode = descriptionBBCode.replace('  [url=', '\n  [url=').replace(/\[\/img\]\[\/url\]\n/g, '[/img][/url]');
     const mediainfo = $("div.codemain > pre:contains('Unique ID')");
     if (mediainfo[0]) {
-      TORRENT_INFO.mediaInfo = mediainfo.text();
       mediainfo.each(function () {
         TORRENT_INFO.mediaInfos?.push($(this).text());
       });
@@ -128,7 +127,7 @@ export default async () => {
       const extraScreenshot = imgs.join('');
       const mediaInfo = $("section[data-group='mediainfo'] .codemain").text();
       const extraMediaInfo = `\n[quote]${mediaInfo}[/quote]\n`;
-      TORRENT_INFO.mediaInfo = mediaInfo;
+      TORRENT_INFO.mediaInfos = [mediaInfo];
       descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
     }
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
@@ -148,7 +147,7 @@ export default async () => {
     const extraMediaInfo = $('#kfmedia').html()?.replace(/<br>/g, '\n') ?? '';
     descriptionBBCode = `${descriptionBBCode}\n[quote]${extraMediaInfo}[/quote]\n${extraScreenshot}`;
     TORRENT_INFO.doubanUrl = $('.layui-interval a[href*="douban.com/subject"]').attr('href');
-    TORRENT_INFO.mediaInfo = extraMediaInfo;
+    TORRENT_INFO.mediaInfos = [extraMediaInfo];
     siteImdbUrl = $('.layui-interval a[href*="imdb.com/title"]').attr('href');
   }
 
@@ -211,7 +210,7 @@ export default async () => {
     TORRENT_INFO.isForbidden = true;
   }
 
-  const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfo);
+  const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos?.[0]);
   if (infoFromMediaInfoinfo.subtitles) {
     for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
       if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
@@ -225,13 +224,13 @@ export default async () => {
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
 
   const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
-  if (TORRENT_INFO.mediaInfo) {
+  if (TORRENT_INFO.mediaInfos.length === 0) {
     getSpecsFromMediainfo(isBluray);
   } else {
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
     const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
     if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfo = CURRENT_SITE_NAME === 'HaresClub' ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
+      TORRENT_INFO.mediaInfos = CURRENT_SITE_NAME === 'HaresClub' ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
       getSpecsFromMediainfo(isBluray);
     }
   }
@@ -339,7 +338,7 @@ const getTagsFromPage = () => {
 };
 function getSpecsFromMediainfo (isBluray:boolean) {
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfo);
+  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfos?.[0] ?? '');
   if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;

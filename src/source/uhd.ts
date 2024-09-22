@@ -40,7 +40,7 @@ export default async () => {
 
   getMediaInfo(torrentId).then(async data => {
     if (data) {
-      TORRENT_INFO.mediaInfo = data;
+      TORRENT_INFO.mediaInfos = [data];
       TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${data}[/quote]`;
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);

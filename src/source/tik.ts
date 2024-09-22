@@ -23,8 +23,8 @@ export default async () => {
   const descContainer = $('td.heading:contains(Description)').eq(0).next();
   const desc = descContainer.text();
   const rawDesc = descContainer.html();
-  TORRENT_INFO.mediaInfo = $('td[style~=dotted]').text();
-  const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFromBDInfo(TORRENT_INFO.mediaInfo);
+  TORRENT_INFO.mediaInfos = [$('td[style~=dotted]').text()];
+  const { videoCodec, audioCodec, resolution = '', mediaTags = {} } = getInfoFromBDInfo(TORRENT_INFO.mediaInfos[0]);
   TORRENT_INFO.size = parseInt(size, 10);
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.description = desc;

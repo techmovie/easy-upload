@@ -61,7 +61,7 @@ function fillTMDBId (info:TorrentInfo.Info) {
   });
 }
 function fillMediaInfo (info:TorrentInfo.Info) {
-  $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
+  $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfos?.[0] ?? '');
 }
 function fillSpecs (info:TorrentInfo.Info) {
   const { category, videoType } = info;
@@ -142,7 +142,7 @@ function buildDescription (info:TorrentInfo.Info) {
   if (isChineseTacker(sourceSiteType)) {
     description = filterNexusDescription(info);
   }
-  description = description.replace(`[quote]${info.mediaInfo}[/quote]`, '').replace(/\[url.*\[\/url\]/g, '').replace(/\[img.*\[\/img\]/g, '');
+  description = description.replace(`[quote]${info.mediaInfos?.[0] ?? ''}[/quote]`, '').replace(/\[url.*\[\/url\]/g, '').replace(/\[img.*\[\/img\]/g, '');
   const { comparisons, screenshots } = info;
   if (comparisons && comparisons.length > 0) {
     for (const comparison of comparisons) {
@@ -155,7 +155,8 @@ function buildDescription (info:TorrentInfo.Info) {
   return description.trim();
 }
 function buildDVDTitle (info:TorrentInfo.Info) {
-  const { movieName, movieAkaName, year, mediaInfo, size, audioCodec } = info;
+  const { movieName, movieAkaName, year, mediaInfos, size, audioCodec } = info;
+  const mediaInfo = mediaInfos?.[0] ?? '';
   const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
   const dvdType = getBDType(size);
   const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';

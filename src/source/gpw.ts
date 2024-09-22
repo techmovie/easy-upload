@@ -37,8 +37,7 @@ const getTorrentInfo = async (torrentId:string) => {
   const tags = getTags(infoArray);
   const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr('href');
   CURRENT_SITE_INFO.torrentLink = torrentLink;
-
-  const torrentDom = $(`#torrent_detail_${torrentId}`).find('#subtitles_box').next('blockquote');
+  const torrentDom = $(`#torrent${torrentId}`).next('.TableTorrent-rowDetail');
   const screenshots = getScreenshots(torrentDom);
   const mediaInfoArray:string[] = (mediainfos as string[]).map(info => info.replace(/\r\n/g, '\n'));
   const isBluray = videoType.match(/bluray/i);
@@ -47,7 +46,6 @@ const getTorrentInfo = async (torrentId:string) => {
     return videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
   });
 
-  const mediaInfo = mediaInfoOrBDInfo.join('\n\n').trim();
   const mediaInfos = mediaInfoOrBDInfo.map(v => v.trim());
 
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -72,7 +70,6 @@ const getTorrentInfo = async (torrentId:string) => {
     videoCodec,
     audioCodec,
     screenshots,
-    mediaInfo,
     mediaInfos,
     description: descriptionData,
     tags: { ...tags, ...mediaTags },

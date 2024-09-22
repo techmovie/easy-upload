@@ -27,7 +27,6 @@ const TORRENT_INFO: TorrentInfo.Info = {
     dolby_vision: false,
   },
   otherTags: {},
-  mediaInfo: '',
   mediaInfos: [],
   screenshots: [],
   comparisons: [],

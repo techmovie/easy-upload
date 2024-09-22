@@ -71,11 +71,11 @@ export default (info: TorrentInfo.Info) => {
   insert.observe(targetNode, { attributes: false, childList: false, subtree: true, characterDataOldValue: false });
 };
 function fillMediaInfo (info: TorrentInfo.Info) {
-  $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfo);
+  $(currentSiteInfo.mediaInfo.selector).val(info.mediaInfos?.[0] ?? '');
   $(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event('input'));
 }
 function fillDescription (info: TorrentInfo.Info) {
-  let description = info.description.replace(`[quote]${info.mediaInfo}[/quote]`, '').trim();
+  let description = info.description.replace(`[quote]${info.mediaInfos?.[0] ?? ''}[/quote]`, '').trim();
   if (info.mediaInfos && info.mediaInfos[1]) {
     info.mediaInfos.forEach(mediaInfo => {
       description = description.replace(`[quote]${mediaInfo}[/quote]`, '');

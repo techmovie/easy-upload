@@ -34,7 +34,7 @@ export default async () => {
   const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
 
   // const category = getCategory(torrentName);
-  TORRENT_INFO.mediaInfo = '';
+  TORRENT_INFO.mediaInfos = [mediaInfo];
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.description =

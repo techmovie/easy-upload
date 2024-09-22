@@ -23,7 +23,8 @@ export default async (info:TorrentInfo.Info) => {
 
 const fillMTInfo = async (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.MTeam;
-  const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfo, tags } = info;
+  const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfos, tags } = info;
+  const mediaInfo = mediaInfos?.[0] ?? '';
   setInputValue(currentSiteInfo.name.selector, title);
   setInputValue(currentSiteInfo.subtitle.selector, subtitle || '');
   setInputValue(currentSiteInfo.douban.selector, doubanUrl || '');

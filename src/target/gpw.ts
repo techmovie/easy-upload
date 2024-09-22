@@ -126,8 +126,9 @@ function fillProcessing (info:TorrentInfo.Info) {
 // 兼容自动检测失败的情况
 function handleNoAutoCheck (info:TorrentInfo.Info) {
   const {
-    mediaInfo, videoType,
+    mediaInfos, videoType,
   } = info;
+  const mediaInfo = mediaInfos?.[0] || '';
   const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
@@ -179,11 +180,6 @@ const getFormat = (format:string, videoType:string) => {
 };
 
 function transformInfo (info:TorrentInfo.Info) {
-  // mediainfo -> mediainfos
-  if (info.mediaInfos && info.mediaInfos.length === 0 && info.mediaInfo) {
-    info.mediaInfos = [info.mediaInfo];
-  }
-
   // mediainfos contains both mediainfo and bdinfo
   if (['encode', 'remux'].includes(info.videoType) && info.mediaInfos) {
     const newMediaInfos = [];

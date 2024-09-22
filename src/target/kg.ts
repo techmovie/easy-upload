@@ -6,8 +6,9 @@ import {
 import { PT_SITE } from '../const';
 
 export default async (info:TorrentInfo.Info) => {
-  const { imdbUrl, screenshots, mediaInfo, resolution, source, videoType } = info;
+  const { imdbUrl, screenshots, mediaInfos, resolution, source, videoType } = info;
   const siteInfo = PT_SITE.KG;
+  const mediaInfo = mediaInfos?.[0] ?? '';
   if (imdbUrl) {
     $('input[type="submit"][value="next >>"]').hide().after('<p>loading...</p>');
     $('input[name="title"]').val(imdbUrl);
@@ -72,12 +73,13 @@ export default async (info:TorrentInfo.Info) => {
   }
 };
 function buildDvdSpecs (info:TorrentInfo.Info) {
-  const { mediaInfo, size, audioCodec } = info;
+  const { mediaInfos, size, audioCodec } = info;
+  const mediaInfo = mediaInfos?.[0] ?? '';
   const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
   const dvdType = getBDType(size);
   const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';
   const audioName = `${audioCodec?.toUpperCase()} ${audioChannelNumber === '6' ? '5.1' : `${audioChannelNumber}.0`}`;
-  const IFOMediaInfo = info.mediaInfos?.find(info => info.includes('.IFO')) || info.mediaInfo;
+  const IFOMediaInfo = info.mediaInfos?.find(info => info.includes('.IFO')) ?? '';
   const runtime = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)?.[1]?.replace(/\s/g, '') ?? '';
   const hour = runtime.match(/(\d)+h/)?.[1] ?? '00';
   const minute = runtime.match(/(\d+)(mn|min)/)?.[1] ?? '';

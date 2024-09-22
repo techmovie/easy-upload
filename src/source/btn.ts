@@ -33,9 +33,9 @@ function getTorrentInfo (torrentId:string) {
   const videoType = getVideoType({ torrentName, source });
   const isBluray = videoType.match(/bluray/i);
   const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
-  const mediaInfo = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
+  const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-  const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfo);
+  const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfos?.[0]);
   const category = getCategory(season);
   const sourceFrom = getSourceFromTitle(torrentName);
 
@@ -52,7 +52,7 @@ function getTorrentInfo (torrentId:string) {
     movieName,
     description,
     videoType,
-    mediaInfo,
+    mediaInfos,
     videoCodec,
     audioCodec,
     tags,

@@ -30,8 +30,13 @@ export default async (info:TorrentInfo.Info) => {
       $(selector).val(info[key as Key] as MapKey);
     }
   });
-  const description = getDescription(info);
-  $(currentSiteInfo.description.selector).val(description);
+  if (info.sourceSite.match(/PTP/i)) {
+    $(currentSiteInfo.description.selector).val(info.originalDescription || '');
+  } else {
+    const description = getDescription(info);
+    $(currentSiteInfo.description.selector).val(description);
+  }
+
   const editionInfo = getEditionInfo(videoType, tags);
   if (editionInfo.length > 0) {
     $('#remaster').attr('checked', 'true');
@@ -39,14 +44,19 @@ export default async (info:TorrentInfo.Info) => {
     Remaster();
     editionInfo.forEach(edition => {
       const event = new Event('click');
-      $(`#remaster_tags a:contains("${edition}")`)[0].dispatchEvent(event);
+      $('#remaster_tags a').filter(function () {
+        return new RegExp(edition).test($(this).text());
+      })[0].dispatchEvent(event);
     });
   }
-  const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfo);
+  const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfos[0]);
   if (infoFromMediaInfoinfo.subtitles && infoFromMediaInfoinfo.subtitles[0]) {
     infoFromMediaInfoinfo.subtitles.forEach(subtitle => {
-      if (subtitle !== 'English' && $(`.languageselector li:contains(${subtitle})`)[0]) {
-        $(`.languageselector li:contains(${subtitle}) input`).attr('checked', 'true');
+      const subtitleSelector = $('.languageselector li').filter(function () {
+        return new RegExp(subtitle).test($(this).text());
+      });
+      if (subtitle !== 'English' && subtitleSelector[0]) {
+        subtitleSelector.find('input').attr('checked', 'true');
       }
     });
   }
@@ -94,10 +104,12 @@ const getResolution = (resolution:string, videoType:string, title:string) => {
   return resolution;
 };
 const getDescription = (info: TorrentInfo.Info) => {
-  const { mediaInfo, comparisons, screenshots } = info;
+  const { mediaInfos, comparisons, screenshots } = info;
   let filterDescription = '';
-  if (mediaInfo) {
-    filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]`;
+  if (mediaInfos.length > 0) {
+    mediaInfos.forEach(mediaInfo => {
+      filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]\n`;
+    });
   }
   if (comparisons && comparisons.length > 0) {
     for (const comparison of comparisons) {

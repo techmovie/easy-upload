@@ -38,8 +38,7 @@ declare namespace TorrentInfo {
     doubanUrl?: string, // 豆瓣地址
     doubanInfo?: string, // 豆瓣简介
     imdbUrl?: string, // imdb地址
-    mediaInfo: string // mediainfo或者bdInfo
-    mediaInfos?: Array<string>, // 多个mediainfo
+    mediaInfos: Array<string>, // 多个mediainfo
     screenshots: Array<string>,
     comparisons?: Array<comparison>, // 对比图
     movieAkaName?: string, // 别名一般为电影英文名称
