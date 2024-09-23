@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getSize, getSpecsFromMediainfo,
-  getSourceFromTitle, getMobileDoubanInfo, getAreaCode,
+  getSourceFromTitle, getAreaCode, getDoubanInfo,
 } from '../common';
 import { getVideoType, getCategory } from './helper';
 
@@ -20,6 +20,7 @@ export default async () => {
   let movieName = imbdDom?.text()?.replace(/\n/g, '').trim() ?? '';
   const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
 
+  const categoryResult = getCategory(category);
   const formatSize = getSize(size);
   const year = title?.match(/(19|20)\d{2}/g) ?? [];
 
@@ -27,7 +28,9 @@ export default async () => {
     .toArray().map((el) => $(el).attr('src')).filter(url => url && url !== '') as string[];
 
   const doubanUrl = $('#douban_info-content').prev().find('a[href*="douban.com"]').attr('href') ?? '';
-  const doubanInfo = await getMobileDoubanInfo(doubanUrl);
+  const isTVCategory = !!categoryResult.match(/tv/);
+  const doubanInfo = await getDoubanInfo(doubanUrl, isTVCategory);
+
   if (!movieName) {
     movieName = [doubanInfo?.foreignTitle].concat(doubanInfo?.aka).filter((name) => name?.match(/^(\w|\s|:)+$/i))?.shift() ?? '';
   }
@@ -50,12 +53,12 @@ export default async () => {
     description,
     year: year.length > 0 ? year.pop() as string : '',
     source: getSourceFromTitle(title),
-    mediaInfo,
+    mediaInfos: [mediaInfo],
     screenshots,
     movieName,
     sourceSite: CURRENT_SITE_NAME,
     sourceSiteType: TORRENT_INFO.sourceSiteType,
-    category: getCategory(category),
+    category: categoryResult,
     size: formatSize,
     tags: { ...specs.mediaTags, ...tags },
     videoType: getVideoType(videoType),

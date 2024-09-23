@@ -72,7 +72,8 @@ const Douban = () => {
         TORRENT_INFO.doubanUrl = doubanUrl;
         setSearchValue(doubanUrl);
         if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
-          const movieData = await getDoubanInfo(doubanUrl);
+          const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
+          const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
           if (movieData) {
             Notification.open({
               message: $t('成功'),

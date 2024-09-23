@@ -25,10 +25,10 @@ const handleError = (error:any) => {
     description: error.message || error,
   });
 };
-const getDoubanInfo = async (doubanUrl:string) => {
+const getDoubanInfo = async (doubanUrl:string, isTV?: boolean) => {
   try {
     if (doubanUrl) {
-      const doubanInfo = await getMobileDoubanInfo(doubanUrl);
+      const doubanInfo = await getMobileDoubanInfo(doubanUrl, isTV);
       return doubanInfo;
     }
     throw $t('豆瓣链接获取失败');
@@ -205,17 +205,18 @@ const getIMDBFromDouban = async (doubanLink:string) => {
   const imdbId = $('#info span.pl:contains("IMDb")', dom)[0]?.nextSibling?.nodeValue?.trim() ?? '';
   return imdbId;
 };
-const getMobileDoubanInfo = async (doubanUrl:string, imdbLink?:string): Promise<Douban.DoubanData|void> => {
+const getMobileDoubanInfo = async (doubanUrl:string, isTV?:boolean): Promise<Douban.DoubanData|void> => {
   try {
     if (doubanUrl) {
       const doubanId = doubanUrl.match(/subject\/(\d+)/)?.[1] ?? '';
       if (!doubanId) {
         throw $t('豆瓣ID获取失败');
       }
-      const url = `${DOUBAN_MOBILE_API}/movie/${doubanId}`;
+      const catPath = isTV ? 'tv' : 'movie';
+      const url = `${DOUBAN_MOBILE_API}/${catPath}/${doubanId}`;
       const options = {
         headers: {
-          Referer: `https://m.douban.com/movie/subject/${doubanId}`,
+          Referer: `https://m.douban.com/${catPath}/subject/${doubanId}`,
         },
         cookie: '',
         anonymous: false,
