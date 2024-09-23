@@ -1,3 +1,13 @@
+## [5.2.1](https://github.com/techmovie/easy-upload/compare/5.2.0...5.2.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* **fnp:** update fnp config ([77a377d](https://github.com/techmovie/easy-upload/commit/77a377de51422045a1c6b9b4a4e2a4e1ad8f56b9))
+* **ssd:** torrent titile is missing ([db6f30e](https://github.com/techmovie/easy-upload/commit/db6f30e56c3f89a4b5435ef456de57c41627934b))
+
+
+
 # [5.2.0](https://github.com/techmovie/easy-upload/compare/5.1.12...5.2.0) (2024-09-22)
 
 

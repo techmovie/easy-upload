@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.2.0
+// @version      5.2.1
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -17,6 +17,8 @@
 // @match        https://blutopia.cc/torrents/*
 // @match        https://blutopia.cc/torrents?*
 // @match        https://blutopia.cc/upload/*
+// @match        https://fearnopeer.com/torrents/*
+// @match        https://fearnopeer.com/torrents?*
 // @match        https://pt.hdpost.top/torrents?*
 // @match        https://pt.hdpost.top/torrents/*
 // @match        https://asiancinema.me/torrents/*
@@ -10288,7 +10290,7 @@
         selector: '.form__group input[type="checkbox"][name="anon"]'
       },
       torrent: {
-        selector: 'input[name="file"]'
+        selector: 'input[type="file"][accept=".torrent"]'
       },
       category: {
         selector: "#browsecat",
@@ -18744,6 +18746,9 @@ ${doubanPart}`);
     }
     if (CURRENT_SITE_NAME === "HDArea") {
       title = (_d = (_c = jQuery("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d.trim();
+    }
+    if (CURRENT_SITE_NAME === "SSD") {
+      title = formatTorrentTitle(jQuery("#torrent-name").text());
     }
     if (CURRENT_SITE_NAME === "PuTao") {
       title = formatTorrentTitle((_e = jQuery("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _e.trim());
