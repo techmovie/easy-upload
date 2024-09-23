@@ -30,7 +30,7 @@ mediaInfo:
 anonymous:
   selector: .form__group input[type="checkbox"][name="anon"]
 torrent:
-  selector: 'input[name="file"]'
+  selector: input[type="file"][accept=".torrent"]
 category:
   selector: '#browsecat'
   map:
