@@ -1,3 +1,12 @@
+## [5.2.2](https://github.com/techmovie/easy-upload/compare/5.2.1...5.2.2) (2024-09-24)
+
+
+### Bug Fixes
+
+* **douban:** avoid redirects ([3636862](https://github.com/techmovie/easy-upload/commit/363686240194696c2a74ea848fe107b935a81df3)), closes [#306](https://github.com/techmovie/easy-upload/issues/306)
+
+
+
 ## [5.2.1](https://github.com/techmovie/easy-upload/compare/5.2.0...5.2.1) (2024-09-23)
 
 

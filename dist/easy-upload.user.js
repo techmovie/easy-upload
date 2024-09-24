@@ -2,7 +2,7 @@
 // @name         EasyUpload PT一键转种
 // @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.2.1
+// @version      5.2.2
 // @description  easy uploading torrents to other trackers
 // @description:en easy uploading torrents to other trackers
 // @author       birdplane
@@ -12706,10 +12706,10 @@
       description: error.message || error
     });
   };
-  var getDoubanInfo = async (doubanUrl) => {
+  var getDoubanInfo = async (doubanUrl, isTV) => {
     try {
       if (doubanUrl) {
-        const doubanInfo = await getMobileDoubanInfo(doubanUrl);
+        const doubanInfo = await getMobileDoubanInfo(doubanUrl, isTV);
         return doubanInfo;
       }
       throw $t("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25");
@@ -12751,7 +12751,7 @@
     const imdbId = (_d = (_c = (_b2 = (_a3 = jQuery('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a3.nextSibling) == null ? void 0 : _b2.nodeValue) == null ? void 0 : _c.trim()) != null ? _d : "";
     return imdbId;
   };
-  var getMobileDoubanInfo = async (doubanUrl, imdbLink) => {
+  var getMobileDoubanInfo = async (doubanUrl, isTV) => {
     var _a3, _b2, _c, _d;
     try {
       if (doubanUrl) {
@@ -12759,10 +12759,11 @@
         if (!doubanId) {
           throw $t("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25");
         }
-        const url = `${DOUBAN_MOBILE_API}/movie/${doubanId}`;
+        const catPath = isTV ? "tv" : "movie";
+        const url = `${DOUBAN_MOBILE_API}/${catPath}/${doubanId}`;
         const options = {
           headers: {
-            Referer: `https://m.douban.com/movie/subject/${doubanId}`
+            Referer: `https://m.douban.com/${catPath}/subject/${doubanId}`
           },
           cookie: "",
           anonymous: false
@@ -20331,11 +20332,13 @@ ${description}`;
     const siteImdbUrl = (_c = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _c : "";
     let movieName = (_e = (_d = imbdDom == null ? void 0 : imbdDom.text()) == null ? void 0 : _d.replace(/\n/g, "").trim()) != null ? _e : "";
     const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
+    const categoryResult = getCategory2(category);
     const formatSize = getSize(size);
     const year = (_f = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f : [];
     const screenshots = jQuery("#screenshot-content img").toArray().map((el) => jQuery(el).attr("src")).filter((url) => url && url !== "");
     const doubanUrl = (_g = jQuery("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
-    const doubanInfo = await getMobileDoubanInfo(doubanUrl);
+    const isTVCategory = !!categoryResult.match(/tv/);
+    const doubanInfo = await getDoubanInfo(doubanUrl, isTVCategory);
     if (!movieName) {
       movieName = (_i = (_h = [doubanInfo == null ? void 0 : doubanInfo.foreignTitle].concat(doubanInfo == null ? void 0 : doubanInfo.aka).filter((name) => name == null ? void 0 : name.match(/^(\w|\s|:)+$/i))) == null ? void 0 : _h.shift()) != null ? _i : "";
     }
@@ -20357,12 +20360,12 @@ ${description}`;
       description,
       year: year.length > 0 ? year.pop() : "",
       source: getSourceFromTitle(title),
-      mediaInfo,
+      mediaInfos: [mediaInfo],
       screenshots,
       movieName,
       sourceSite: CURRENT_SITE_NAME,
       sourceSiteType: TORRENT_INFO.sourceSiteType,
-      category: getCategory2(category),
+      category: categoryResult,
       size: formatSize,
       tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags),
       videoType: getVideoType5(videoType),
@@ -21319,7 +21322,8 @@ tr.pad[id*="torrent_"]{
           TORRENT_INFO.doubanUrl = doubanUrl;
           setSearchValue(doubanUrl);
           if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
-            const movieData = await getDoubanInfo(doubanUrl);
+            const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
+            const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
             if (movieData) {
               Notification_default2.open({
                 message: $t("\u6210\u529F"),
