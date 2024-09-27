@@ -46,78 +46,7 @@ const yamlToJSON = () => {
   }
 };
 
-const { version, author, description = '' } = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`));
-
-// 油猴前置注释
-const userScriptComment = `// ==UserScript==
-// @name         EasyUpload PT一键转种
-// @name:en      EasyUpload - Trackers Transfer Tool
-// @namespace    https://github.com/techmovie/easy-upload
-// @version      ${version}
-// @description  ${description}
-// @description:en ${description}
-// @author       ${author}
-// @require      https://s4.zstatic.net/ajax/libs/jquery/1.7.1/jquery.min.js
-// @match        https://*/torrents.php?id=*
-// @match        http://*/torrents.php?id=*
-// @match        https://broadcasthe.net/torrents.php?torrentid=*
-// @match        http://*/details.php?id=*
-// @match        https://*/details.php?id=*
-// @match        https://totheglory.im/t/*
-// @match        https://beyond-hd.me/torrents/*
-// @match        https://blutopia.cc/torrents/*
-// @match        https://blutopia.cc/torrents?*
-// @match        https://blutopia.cc/upload/*
-// @match        https://fearnopeer.com/torrents/*
-// @match        https://fearnopeer.com/torrents?*
-// @match        https://pt.hdpost.top/torrents?*
-// @match        https://pt.hdpost.top/torrents/*
-// @match        https://asiancinema.me/torrents/*
-// @match        https://asiancinema.me/torrents?*
-// @match        https://aither.cc/torrents/*
-// @match        https://aither.cc/torrents?*
-// @match        https://ptpimg.me/*
-// @match        https://*/upload*
-// @match        http://*/upload*
-// @match        https://*/offers.php*
-// @match        https://broadcity.in/browse.php?imdb=*
-// @match        https://privatehd.to/torrent/*
-// @match        https://avistaz.to/torrent/*
-// @exclude      https://privatehd.to/torrent/peers*
-// @exclude      https://avistaz.to/torrent/peers*
-// @exclude      https://privatehd.to/torrent/history*
-// @exclude      https://avistaz.to/torrent/history*
-// @match        https://cinemaz.to/torrent/*
-// @exclude      https://cinemaz.to/torrent/peers*
-// @exclude      https://cinemaz.to/torrent/history*
-// @match        https://piratethenet.org/browse.php?*
-// @match        https://teamhd.org/details/id*
-// @match        https://hd-space.org/index.php?page=upload
-// @match        https://hd-space.org/index.php?page=torrent-details&id=*
-// @match        https://speedapp.io/browse/*
-// @match        https://zhuque.in/torrent/upload
-// @match        https://monikadesign.uk/torrents/*
-// @match        https://monikadesign.uk/torrents?*
-// @match        https://monikadesign.uk/upload/*
-// @match        https://lst.gg/torrents/*
-// @match        https://lst.gg/torrents?*
-// @match        https://*.m-team.cc/detail/*
-// @match        https://www.morethantv.me/upload.php
-
-// @run-at       document-end
-// @grant        GM_addStyle
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @grant        GM_openInTab
-// @grant        GM_xmlhttpRequest
-// @grant        GM_setClipboard
-// @downloadURL  https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
-// @updateURL    https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
-// @license      MIT
-// ==/UserScript==`;
-
 export {
-  userScriptComment,
   yamlToJSON,
   notify,
 };

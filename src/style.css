@@ -1,4 +1,3 @@
-export default GM_addStyle(`
 td.title-td{
   min-width: 80px;
   vertical-align: middle !important;
@@ -222,7 +221,7 @@ svg.setting-svg{
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
-  };
+  }
 }
 .easy-seed-setting-panel{
   position: fixed;
@@ -547,4 +546,3 @@ tr.pad[id*="torrent_"]{
   height: 100px;
   margin-left: 6px;
 }
-`);
