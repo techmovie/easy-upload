@@ -12,19 +12,19 @@ export default defineConfig({
   plugins: [
     {
       name: 'watch-yaml',
-      buildStart() {
+      buildStart () {
         yamlToJSON();
-        if(!isDev) return;
+        if (!isDev) return;
         chokidar.watch(
           ['src/config/*.yaml', 'src/i18n/*.yaml'],
-          { 
+          {
             awaitWriteFinish: {
               stabilityThreshold: 200,
               pollInterval: 100,
             },
             ignoreInitial: true,
-            
-          }
+
+          },
         ).on('all', (eventName, path) => {
           console.log(`${path}:${eventName}`);
           yamlToJSON();
@@ -93,7 +93,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      path: 'path-browserify'
+      path: 'path-browserify',
     },
   },
 });
