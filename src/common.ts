@@ -662,8 +662,11 @@ const getOriginalImgUrl = async (urlBBcode:string) => {
   if (urlBBcode.match(/\[url=http(s)*:.+/)) {
     imgUrl = urlBBcode.match(/=(([^\]])+)/)?.[1] ?? '';
     if (imgUrl.match(/img\.hdbits\.org/)) {
-      const imgId = urlBBcode.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)?.[1] ?? '';
-      imgUrl = `https://i.hdbits.org/${imgId}.png`;
+      const res = await fetch(imgUrl, {
+        responseType: undefined,
+      });
+      const doc = new DOMParser().parseFromString(res, 'text/html');
+      imgUrl = $('#viewimage', doc).attr('src') as string;
     } else if (urlBBcode.match(/img\.pterclub\.com/)) {
       imgUrl = urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
       imgUrl = imgUrl.replace(/\.th/g, '');
