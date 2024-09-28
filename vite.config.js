@@ -41,7 +41,7 @@ export default defineConfig({
       userscript: {
         name: {
           '': ' EasyUpload PT一键转种',
-          EN: 'EasyUpload - Trackers Transfer Tool',
+          en: 'EasyUpload - Trackers Transfer Tool',
         },
         namespace: 'https://github.com/techmovie/easy-upload',
         match: [
