@@ -40,8 +40,12 @@ export default defineConfig({
       entry: 'src/index.tsx',
       userscript: {
         name: {
-          '': ' EasyUpload PT一键转种',
+          '': 'EasyUpload PT一键转种',
           en: 'EasyUpload - Trackers Transfer Tool',
+        },
+        description: {
+          '': '一键转种，支持PT站点之间的种子转移。',
+          en: 'Transfer torrents between trackers with one click.',
         },
         namespace: 'https://github.com/techmovie/easy-upload',
         match: [
