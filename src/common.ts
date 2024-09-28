@@ -503,41 +503,22 @@ const uploadToHDB = async (screenshots: string[], galleryName: string) => {
     const promiseArray = screenshots.map(item => {
       return urlToFile(item);
     });
-    const files = await Promise.all(promiseArray);
-    const firstFile = files.shift();
+    const fileArray = await Promise.all(promiseArray);
     const formData = new FormData();
     formData.append('galleryoption', '1');
     formData.append('galleryname', galleryName);
-    // @ts-ignore
-    formData.append('images_files[]', firstFile);
-    const firstResp = await fetch(apiUrl, {
+    fileArray.forEach(file => {
+      formData.append('images_files[]', file);
+    });
+    const data = await fetch(apiUrl, {
       data: formData,
       method: 'POST',
       responseType: undefined,
     });
-    if (firstResp.includes('error')) {
-      throw firstResp;
+    if (data.includes('error')) {
+      throw data;
     }
-
-    const reqs = files.map(file => {
-      const formData = new FormData();
-      formData.append('galleryoption', '2');
-      formData.append('galleryname', galleryName);
-      formData.append('images_files[]', file);
-      return fetch(apiUrl, {
-        data: formData,
-        method: 'POST',
-        responseType: undefined,
-      });
-    });
-
-    const resp: string[] = await Promise.all(reqs);
-    const respStr = resp.join('');
-    if (respStr.includes('error')) {
-      throw respStr;
-    }
-
-    return firstResp + respStr;
+    return data;
   } catch (error) {
     handleError(error);
   }
