@@ -1,3 +1,7 @@
+## [6.0.1](https://github.com/techmovie/easy-upload/compare/6.0.0...6.0.1) (2024-09-28)
+
+
+
 # [6.0.0](https://github.com/techmovie/easy-upload/compare/5.2.2...6.0.0) (2024-09-28)
 
 

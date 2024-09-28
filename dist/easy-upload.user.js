@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name          EasyUpload PT一键转种
-// @name:EN      EasyUpload - Trackers Transfer Tool
+// @name:en      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      6.0.0
+// @version      6.0.1
 // @author       birdplane
 // @description  easy uploading torrents to other trackers
 // @license      MIT
