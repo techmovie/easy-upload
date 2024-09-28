@@ -5,7 +5,7 @@ export default (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.BYR;
   const {
     title, description, doubanInfo,
-    category, videoType, mediaInfo, subtitle, imdbUrl, doubanUrl,
+    category, videoType, mediaInfos, subtitle, imdbUrl, doubanUrl,
   } = info;
   $(currentSiteInfo.subtitle.selector).val(subtitle || '');
   $(currentSiteInfo.imdb.selector).val(imdbUrl || '');
@@ -81,7 +81,7 @@ export default (info:TorrentInfo.Info) => {
     $('#tv_season').val(episode);
     const isBluray = videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { format } = getInfoFunc(mediaInfo);
+    const { format } = getInfoFunc(mediaInfos?.[0]);
     fillField(format?.toUpperCase() || 'MKV', 'tv_filetype');
   } else if (category.match(/variety/)) {
     let selector = '';

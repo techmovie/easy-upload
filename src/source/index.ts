@@ -53,7 +53,7 @@ const siteTypeInfoMap = {
   AvistaZ: getAvistaZInfo,
 };
 
-let getTorrentInfo = (): any => Promise.resolve();
+let getTorrentInfo = (): Promise<unknown> => Promise.resolve();
 
 if (!CURRENT_SITE_INFO) {
   console.log('do nothing');

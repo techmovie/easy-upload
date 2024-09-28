@@ -37,11 +37,26 @@ function fillJsonToUploadTable (musicJson:MusicJson.Info, name:string) {
     status: 'success',
     response: musicJson,
   }));
-  attachFile(buf, '#torrent-json-file', 'application/json', name, 'json');
+  attachFile({
+    data: buf,
+    selector: '#torrent-json-file',
+    contentType: 'application/json',
+    fileName: name,
+    format: 'json',
+  });
 }
 
-function attachFile (data:any, selector:string, contentType:string, fileName:string, format:string, charset:string = 'UTF-8') {
-  const buf = Buffer.from(data, charset);
+interface AttachFileOptions {
+  data: string | Buffer;
+  selector: string;
+  contentType: string;
+  fileName: string;
+  format: string;
+  charset?: string;
+}
+
+function attachFile ({ data, selector, contentType, fileName, format, charset = 'UTF-8' }: AttachFileOptions): void {
+  const buf = Buffer.isBuffer(data) ? data : Buffer.from(data, charset);
   const base64Data = buf.toString('base64');
   const fileInput = $(selector);
   if (base64Data && fileInput.length > 0) {

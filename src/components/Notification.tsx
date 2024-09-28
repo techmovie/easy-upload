@@ -1,14 +1,15 @@
 import Notification from 'rc-notification';
 import CloseSVG from '../assets/close.svg';
+import { NotificationInstance } from 'rc-notification/lib/Notification';
 
 interface Options {
-  duration?: Number,
+  duration?: number,
   description?:string,
   message?: string,
 }
 
 const defaultDuration = 3;
-let notification: any = null;
+let notification : NotificationInstance;
 const getNoticeProps = (args:Options) => {
   const {
     duration: durationArg,

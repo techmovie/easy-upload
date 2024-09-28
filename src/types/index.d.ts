@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 
 declare namespace TorrentInfo {
   interface MediaTags {
-    [key: string]: Boolean
+    [key: string]: boolean
   }
   interface comparison {
     title?: string
@@ -49,7 +50,7 @@ declare namespace TorrentInfo {
     isForbidden?: boolean, // 是否禁转
     poster?: string, // 海报
     tags: MediaTags,
-    otherTags?: any,
+    otherTags?: MediaTags,
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
     torrentData?: string
@@ -57,7 +58,7 @@ declare namespace TorrentInfo {
   }
 
   interface TargetTorrentInfo extends Info {
-    isBluray?: Boolean
+    isBluray?: boolean
     imdbId?: string
     image?: string
   }
@@ -307,8 +308,8 @@ declare namespace MusicJson {
     remasterYear: number
     remasterRecordLabel: string
     remasterCatalogueNumber: string
-    scene: Boolean
-    remastered: Boolean
+    scene: boolean
+    remastered: boolean
     remasterTitle: string
     logScore: number
     log: string[]

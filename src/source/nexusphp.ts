@@ -94,7 +94,7 @@ export default async () => {
         if (img.href) imgs.push(img.href);
       });
       const title = $(item).find('legend').text().replace(' 截图对比(点击空白处展开):', '').trim();
-      const reason: string = '';
+      const reason = '';
       comparisons.push({
         title,
         imgs,

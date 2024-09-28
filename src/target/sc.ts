@@ -12,15 +12,17 @@ export default async (info:TorrentInfo.Info) => {
 };
 
 function buildDescription (info:TorrentInfo.Info) {
-  const { screenshots, mediaInfo } = info;
+  const { screenshots, mediaInfos } = info;
   let description = '';
   if (screenshots.length > 0) {
     description = screenshots.slice(0, 3)
       .map(img => { return `[img]${img}[/img]`; })
       .join('');
   }
-  if (mediaInfo) {
-    description += `\n\n[hide=MediaInfo]${mediaInfo}[/hide]`;
+  if (mediaInfos.length > 0) {
+    mediaInfos.forEach(mediaInfo => {
+      description += `\n\n[hide=MediaInfo]${mediaInfo}[/hide]`;
+    });
   }
   return description;
 }

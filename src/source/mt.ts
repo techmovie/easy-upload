@@ -6,7 +6,7 @@ import {
   getBDInfoOrMediaInfo, fetch,
 } from '../common';
 
-import type { TorrentDetailInfo, IMDbInfo } from '../types/sites/mt';
+import type { TorrentDetailInfo, IMDbInfo } from '../types/mt';
 
 const MT_SPECS_MAP = {
   source: {

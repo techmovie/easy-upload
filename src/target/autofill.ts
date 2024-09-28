@@ -16,7 +16,7 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
     if (!imdbUrl && !doubanUrl) {
       throw new Error($t('请填写正确链接'));
     }
-    let doubanLink: string = '';
+    let doubanLink = '';
     if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
       doubanLink = doubanUrl;
     } else {
@@ -92,7 +92,7 @@ export default (info: TorrentInfo.Info) => {
     if (selector) {
       selector.after(`<span id="auto-fill-douban">${$t('获取豆瓣简介')}</span>`);
     }
-    $('#auto-fill-douban').on('click', (e) => {
+    $('#auto-fill-douban').on('click', () => {
       const url = <string>selector.val();
       if (url.match(/subject\/(\d+)/)) {
         info.doubanUrl = url;

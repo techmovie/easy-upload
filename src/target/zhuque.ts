@@ -9,7 +9,7 @@ const currentSiteInfo = PT_SITE.ZHUQUE;
 export default (info: TorrentInfo.Info) => {
   const targetNode = document;
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
-  const insert = new MutationObserver(mutationRecords => {
+  const insert = new MutationObserver(() => {
     $('input.ant-select-selection-search-input[id]').each(function () { this.dispatchEvent(new Event('keydown')); });
     $(currentSiteInfo.name.selector).val(info.title);
     $(currentSiteInfo.name.selector)[0].dispatchEvent(new Event('input'));
@@ -34,7 +34,7 @@ export default (info: TorrentInfo.Info) => {
     fillMediaInfo(info);
     fillDescription(info);
     const selectNodeParent = document.querySelector('form');
-    const select = new MutationObserver(async mutationRecords => {
+    const select = new MutationObserver(async () => {
       const { category: categoryConfig } = currentSiteInfo;
       $(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category as keyof typeof categoryConfig.map]})`).click();
       const keyArray = ['videoType', 'videoCodec', 'audioCodec'] as const;
@@ -46,7 +46,7 @@ export default (info: TorrentInfo.Info) => {
       };
       const { tags } = currentSiteInfo;
       for (const tag in info.tags) {
-        if (tags[tag as keyof typeof tags]) { await sleep(100).then((v) => $(tags[tag as keyof typeof tags])[0].click()); }
+        if (tags[tag as keyof typeof tags]) { await sleep(100).then(() => $(tags[tag as keyof typeof tags])[0].click()); }
       }
       keyArray.forEach(key => {
         const { map } = currentSiteInfo[key as Key];

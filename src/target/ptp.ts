@@ -105,13 +105,11 @@ const getResolution = (resolution:string, videoType:string, title:string) => {
 };
 const getDescription = (info: TorrentInfo.Info) => {
   const { mediaInfos, comparisons, screenshots } = info;
-  mediaInfos.forEach(mediaInfo => {
-    /* eslint-disable no-irregular-whitespace */
-    mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, '');
-  });
   let filterDescription = '';
   if (mediaInfos.length > 0) {
     mediaInfos.forEach(mediaInfo => {
+      /* eslint-disable no-irregular-whitespace */
+      mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, '');
       filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]\n`;
     });
   }

@@ -12,6 +12,9 @@ import { fillSearchImdb } from './site-dom/quick-search';
 import './site-dom/ptpimg';
 import './style.css';
 import App from './components/Container';
+import $ from 'jquery';
+
+window.jQuery = $;
 
 const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);

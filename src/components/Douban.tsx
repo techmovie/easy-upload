@@ -51,7 +51,7 @@ const Douban = () => {
       const doubanLink = $('.page__title>a').attr('href') ||
         scriptDoubanLink ||
         TORRENT_INFO.doubanUrl || searchValue;
-      let doubanUrl: string = '';
+      let doubanUrl = '';
       if (doubanLink && doubanLink.match(/movie\.douban\.com/)) {
         doubanUrl = doubanLink;
       } else {

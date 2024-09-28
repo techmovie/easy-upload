@@ -71,11 +71,11 @@ export default defineConfig({
         downloadURL: 'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
         updateURL: 'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
         license: 'MIT',
-        require: ['https://s4.zstatic.net/ajax/libs/jquery/1.7.1/jquery.min.js'],
       },
       build: {
         externalGlobals: {
           preact: cdn.jsdelivr('preact', 'dist/preact.min.js'),
+          jquery: cdn.jsdelivr('jQuery', 'dist/jquery.min.js'),
         },
       },
       server: {

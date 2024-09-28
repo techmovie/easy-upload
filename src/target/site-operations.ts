@@ -320,7 +320,7 @@ export const SITE_OPERATIONS = {
     },
   },
   RedLeaves: {
-    afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+    afterHandler: () => {
       try {
         $(CURRENT_SITE_INFO.category.selector).trigger('change');
       } catch (err) {

@@ -12,6 +12,7 @@ interface RequestOptions {
   method?: 'GET' | 'POST'
   responseType?: 'json' | 'blob' | 'arraybuffer' | undefined
   headers?: Tampermonkey.RequestHeaders
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any
   timeout?: number
 }
@@ -20,6 +21,7 @@ const formatTorrentTitle = (title:string) => {
   return title.replace(/\.(?!(\d+))/ig, ' ')
     .replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, ' ').trim();
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleError = (error:any) => {
   Notification.open({
     description: error.message || error,
@@ -55,7 +57,7 @@ const getDoubanBookInfo = async (doubanUrl:string):Promise<Douban.BookData|undef
   }
 };
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getDataFromDoubanPage = async (domString:string): Promise<Douban.DoubanData> => {
   const dom = new DOMParser().parseFromString(domString, 'text/html');
   const fetchAnchor = function (anchor:JQuery) {
@@ -1427,7 +1429,7 @@ const getRtIdFromTitle = async (title:string, tv:boolean, year:string) => {
   return {};
 };
 
-const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles: boolean = false) => {
+const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles = false) => {
   try {
     const apiKey = getValue('easy-seed.ptp-img-api-key', false);
     if (!apiKey) {
@@ -1518,6 +1520,7 @@ const getValue = (key: string, needParse = true) => {
   }
   return data;
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fetch = (url: string, options?: RequestOptions): Promise<any> => {
   return new Promise((resolve, reject) => {
     GM_xmlhttpRequest({
