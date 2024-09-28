@@ -1,2430 +1,91 @@
 // ==UserScript==
-// @name         EasyUpload PT一键转种
-// @name:en      EasyUpload - Trackers Transfer Tool
+// @name          EasyUpload PT一键转种
+// @name:EN      EasyUpload - Trackers Transfer Tool
 // @namespace    https://github.com/techmovie/easy-upload
-// @version      5.2.2
-// @description  easy uploading torrents to other trackers
-// @description:en easy uploading torrents to other trackers
+// @version      6.0.0
 // @author       birdplane
-// @require      https://s4.zstatic.net/ajax/libs/jquery/1.7.1/jquery.min.js
-// @match        https://*/torrents.php?id=*
-// @match        http://*/torrents.php?id=*
-// @match        https://broadcasthe.net/torrents.php?torrentid=*
-// @match        http://*/details.php?id=*
-// @match        https://*/details.php?id=*
+// @description  easy uploading torrents to other trackers
+// @license      MIT
+// @source       git@github.com:techmovie/easy-upload.git
+// @downloadURL  https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
+// @updateURL    https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
+// @match        http*://*/torrents.php?id=*
+// @match        http*://*/torrents.php?torrentid=*
+// @match        http*://*/details.php?id=*
 // @match        https://totheglory.im/t/*
-// @match        https://beyond-hd.me/torrents/*
-// @match        https://blutopia.cc/torrents/*
-// @match        https://blutopia.cc/torrents?*
-// @match        https://blutopia.cc/upload/*
-// @match        https://fearnopeer.com/torrents/*
-// @match        https://fearnopeer.com/torrents?*
-// @match        https://pt.hdpost.top/torrents?*
-// @match        https://pt.hdpost.top/torrents/*
-// @match        https://asiancinema.me/torrents/*
-// @match        https://asiancinema.me/torrents?*
-// @match        https://aither.cc/torrents/*
-// @match        https://aither.cc/torrents?*
+// @match        http*://*/torrents/*
+// @match        http*://*/torrents?*
 // @match        https://ptpimg.me/*
-// @match        https://*/upload*
-// @match        http://*/upload*
+// @match        http*://*/upload*
 // @match        https://*/offers.php*
 // @match        https://broadcity.in/browse.php?imdb=*
-// @match        https://privatehd.to/torrent/*
-// @match        https://avistaz.to/torrent/*
-// @exclude      https://privatehd.to/torrent/peers*
-// @exclude      https://avistaz.to/torrent/peers*
-// @exclude      https://privatehd.to/torrent/history*
-// @exclude      https://avistaz.to/torrent/history*
-// @match        https://cinemaz.to/torrent/*
-// @exclude      https://cinemaz.to/torrent/peers*
-// @exclude      https://cinemaz.to/torrent/history*
+// @match        https://*/torrent/*
 // @match        https://piratethenet.org/browse.php?*
 // @match        https://teamhd.org/details/id*
 // @match        https://hd-space.org/index.php?page=upload
 // @match        https://hd-space.org/index.php?page=torrent-details&id=*
 // @match        https://speedapp.io/browse/*
-// @match        https://zhuque.in/torrent/upload
-// @match        https://monikadesign.uk/torrents/*
-// @match        https://monikadesign.uk/torrents?*
-// @match        https://monikadesign.uk/upload/*
-// @match        https://lst.gg/torrents/*
-// @match        https://lst.gg/torrents?*
 // @match        https://*.m-team.cc/detail/*
-// @match        https://www.morethantv.me/upload.php
-
-// @run-at       document-end
+// @exclude      https://*/torrent/peers*
+// @exclude      https://*/torrent/leechers*
+// @exclude      https://*/torrent/history*
+// @require      https://cdn.jsdelivr.net/npm/preact@10.24.1/dist/preact.min.js
+// @require      https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 // @grant        GM_addStyle
 // @grant        GM_getValue
-// @grant        GM_setValue
 // @grant        GM_openInTab
-// @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
-// @downloadURL  https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
-// @updateURL    https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js
-// @license      MIT
+// @grant        GM_setValue
+// @grant        GM_xmlhttpRequest
 // ==/UserScript==
-(() => {
-  var __create = Object.create;
+
+(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(" td.title-td{min-width:80px;vertical-align:middle!important}td.title-td h4{text-align:right;margin:0;font-size:13px;font-weight:500;height:100%;display:flex;align-items:center;justify-content:flex-end}#seed-dom button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:6px 16px;font-size:13px;border-radius:4px;margin:0 5px 0 0}#seed-dom button:hover{background:#fff;border-color:#409eff;color:#409eff}#seed-dom button.is-disabled,#seed-dom button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.site-list,.search-list{margin:0;padding:0;list-style:none;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.site-list .site-icon,.search-list .site-icon{width:12px;margin-right:5px}.ptp-search-list{display:flex;align-items:center;padding-top:10px;justify-content:center}.ptp-search-list h4{margin:0 15px 0 0;min-width:60px}#seed-dom li,.search-list li,.site-list li{font-weight:600;line-height:24px;margin:0 5px 0 0;padding:0;display:flex;align-items:center}#seed-dom li a,.search-list li a,.site-list li a{padding-right:3px;display:inline-flex;align-items:center;cursor:pointer}.search-list li:last-child span{display:none}.easy-seed-function-list{display:flex;justify-content:space-around;padding:6px 20px;flex-wrap:wrap}.easy-seed-function-list button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 0 0}.easy-seed-function-list button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-seed-function-list button.is-disabled,.easy-seed-function-list button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.function-list-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.function-list-item input{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.function-list-item select{border:0;font-family:inherit;padding:5px;font-size:14px;border-radius:3px;text-transform:none}.function-list-item input::placeholder{color:#c0c4cc}.function-list-item input:hover{border-color:#c0c4cc}.function-list-item input:focus{outline:none;border-color:#409eff}.hdb-tr{display:flex}.hdb-tr td:last-child{flex:1}.hdb-tr td:first-child>h4{width:100px}.function-list-item h4{margin:0 10px 0 0;padding:0;font-weight:600;font-size:14px}.upload-section,.douban-section,.douban-book-section{display:flex;justify-content:center;align-items:center}.upload-section #nsfw{margin-left:0;position:static}.upload-section label{padding-left:0}#kdescr img{max-width:100%}.easy-seed-setting-btn{display:inline-flex;align-items:center;margin-left:3px}svg.setting-svg{height:20px;width:20px;vertical-align:middle;animation:5s linear rotate infinite;cursor:pointer}@keyframes rotate{to{transform:rotate(360deg)}}.easy-seed-setting-panel{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2000;background:rgba(0,0,0,.5);color:#000}#batch-seed-btn,#auto-fill-douban{border-color:transparent;color:#409eff;background:transparent;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}#batch-seed-btn:hover,#auto-fill-douban:hover{color:#66b1ff;border-color:transparent;background-color:transparent}#batch-seed-btn:active,#auto-fill-douban:active{color:#3a8ee6;background-color:transparent}#auto-fill-douban{font-size:14px;display:inline-block}.easy-seed-setting-panel *{padding:0;margin:0}.easy-seed-setting-panel input[type=text]{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.easy-seed-setting-panel input[type=text]::placeholder{color:#c0c4cc}.easy-seed-setting-panel input[type=text]:hover{border-color:#c0c4cc}.easy-seed-setting-panel input[type=text]:focus{outline:none;border-color:#409eff}.easy-seed-setting-panel h3,.easy-seed-setting-panel h1{color:#000;margin-bottom:15px}.easy-seed-setting-panel .panel-content-wrap{max-width:800px;box-sizing:border-box;margin:50px auto;border-radius:8px;background:#fff;position:relative;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.3);padding:20px 10px 10px 20px}.easy-seed-setting-panel .panel-content{height:500px;overflow-y:auto}.easy-seed-setting-panel .panel-content ul{list-style:none;display:flex;flex-direction:row;flex-wrap:wrap;margin:0 auto;padding:0 10px}.easy-seed-setting-panel .panel-content li{width:90px;text-align:left;margin-bottom:10px}.easy-seed-setting-panel .panel-content label{cursor:pointer;color:#000!important;font-size:12px;display:flex;align-items:center}.easy-seed-setting-panel .panel-content label input{margin:0 3px 0 0;padding:0}.panel-content p{display:block;margin-bottom:10px;font-size:12px}.easy-seed-setting-panel button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 10px 0}.easy-seed-setting-panel button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-seed-setting-panel .confirm-btns{padding-top:15px}.easy-seed-setting-panel .img-upload-setting{margin-bottom:10px}.easy-seed-setting-panel .img-upload-setting label{justify-content:center}.easy-seed-setting-panel .img-upload-setting label input{margin-left:8px;margin-right:8px}.easy-seed-setting-panel .img-upload-setting label a{color:#000;font-weight:500}.easy-seed-setting-panel .img-upload-setting label a:hover{color:#f7d584}.feature-list{display:flex;flex-wrap:wrap;justify-content:space-between;padding:0 50px}.feature-list .site-enable-setting{width:250px;padding-top:5px;margin-bottom:8px;text-align:center}.easy-seed-setting-panel .save-setting-btn{background-color:#007bff;border-color:#007bff;color:#fff}.easy-seed-setting-panel .save-setting-btn:hover{background:#66b1ff;border-color:#66b1ff;color:#fff}.ptp-api-key-btn{text-align:center}.easy-notification{box-sizing:border-box;position:fixed;transition:opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;overflow:hidden;right:0;margin:0 24px 0 0;color:rgba(0,0,0,.85);font-size:14px;line-height:1.5715;z-index:2010}.easy-notification-enter{right:16px;transform:translate(0)}.easy-notification-notice{position:relative;width:300px;max-width:calc(100vw - 48px);margin-bottom:16px;margin-left:auto;padding:16px 24px;overflow:hidden;line-height:1.5715;word-wrap:break-word;background:#fff;border-radius:2px;box-sizing:border-box;box-shadow:0 2px 12px rgba(0,0,0,.1)}.notification-message{margin-bottom:8px;color:rgba(0,0,0,.85);font-size:16px;line-height:24px}.notification-description{font-size:14px;line-height:21px;margin:6px 0 0;text-align:justify;padding-right:10px}.notification-description p{margin:0}.easy-notification-notice-close svg{height:14px;width:14px;font-size:14px}.easy-notification-notice-close{position:absolute;top:13px;right:15px;cursor:pointer;color:#909399;font-size:16px}.easy-notification-notice-close:hover{color:#606266}#transfer-progress{display:none}.custom-site{display:flex;align-items:center;width:100%}.custom-site h4{flex-shrink:0;margin:0 10px 0 0;line-height:initial}.custom-site .easy-seed-function-list{flex:1}.custom-site img{border-radius:0}tr.pad[id*=torrent_]{font-family:Proxima Nova,Lato,Segoe UI,sans-serif}.easy-seed-function-list .copy-img{margin-left:5px}.quick-search{cursor:pointer;color:#409eff;font-weight:600}.ptp-title-wrapper{position:relative}#seed-dom .ptp-title-wrapper h4{position:absolute;left:0;top:0;margin:0!important;display:flex!important;align-items:center;line-height:24px}#seed-dom .ptp-title-wrapper .site-list li:first-child{padding:0 0 0 95px}#seed-dom .ptp-title-wrapper .search-list li:first-child{padding-left:65px}#seed-dom.use-eng .ptp-title-wrapper .search-list li:first-child{padding-left:85px}#batch-search-btn{color:#409eff;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}.douban-config{display:flex;justify-content:center}.douban-config textarea{resize:none;width:300px;height:100px;margin-left:6px} ");
+
+(function (preact, $$1) {
+  'use strict';
+
   var __defProp = Object.defineProperty;
   var __defProps = Object.defineProperties;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-  var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a3, b3) => {
-    for (var prop in b3 || (b3 = {}))
-      if (__hasOwnProp.call(b3, prop))
-        __defNormalProp(a3, prop, b3[prop]);
+  var __spreadValues = (a2, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a2, prop, b[prop]);
     if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b3)) {
-        if (__propIsEnum.call(b3, prop))
-          __defNormalProp(a3, prop, b3[prop]);
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a2, prop, b[prop]);
       }
-    return a3;
+    return a2;
   };
-  var __spreadProps = (a3, b3) => __defProps(a3, __getOwnPropDescs(b3));
-  var __esm = (fn2, res) => function __init() {
-    return fn2 && (res = (0, fn2[__getOwnPropNames(fn2)[0]])(fn2 = 0)), res;
+  var __spreadProps = (a2, b) => __defProps(a2, __getOwnPropDescs(b));
+  var __objRest = (source, exclude) => {
+    var target = {};
+    for (var prop in source)
+      if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+        target[prop] = source[prop];
+    if (source != null && __getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(source)) {
+        if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+          target[prop] = source[prop];
+      }
+    return target;
   };
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-
-  // node_modules/preact/dist/preact.module.js
-  function a(n2, l3) {
-    for (var u3 in l3) n2[u3] = l3[u3];
-    return n2;
+  var _c, _f, _g;
+  var f$1 = 0;
+  function u$1(e2, t2, n2, o2, i2, u2) {
+    t2 || (t2 = {});
+    var a2, c2, p2 = t2;
+    if ("ref" in p2) for (c2 in p2 = {}, t2) "ref" == c2 ? a2 = t2[c2] : p2[c2] = t2[c2];
+    var l2 = { type: e2, props: p2, key: n2, ref: a2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: --f$1, __i: -1, __u: 0, __source: i2, __self: u2 };
+    if ("function" == typeof e2 && (a2 = e2.defaultProps)) for (c2 in a2) void 0 === p2[c2] && (p2[c2] = a2[c2]);
+    return preact.options.vnode && preact.options.vnode(l2), l2;
   }
-  function h(n2) {
-    var l3 = n2.parentNode;
-    l3 && l3.removeChild(n2);
-  }
-  function v(l3, u3, i3) {
-    var t3, o4, r3, f3 = {};
-    for (r3 in u3) "key" == r3 ? t3 = u3[r3] : "ref" == r3 ? o4 = u3[r3] : f3[r3] = u3[r3];
-    if (arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), "function" == typeof l3 && null != l3.defaultProps) for (r3 in l3.defaultProps) void 0 === f3[r3] && (f3[r3] = l3.defaultProps[r3]);
-    return y(l3, f3, t3, o4, null);
-  }
-  function y(n2, i3, t3, o4, r3) {
-    var f3 = { type: n2, props: i3, key: t3, ref: o4, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: null == r3 ? ++u : r3 };
-    return null == r3 && null != l.vnode && l.vnode(f3), f3;
-  }
-  function p() {
-    return { current: null };
-  }
-  function d(n2) {
-    return n2.children;
-  }
-  function _(n2, l3) {
-    this.props = n2, this.context = l3;
-  }
-  function k(n2, l3) {
-    if (null == l3) return n2.__ ? k(n2.__, n2.__.__k.indexOf(n2) + 1) : null;
-    for (var u3; l3 < n2.__k.length; l3++) if (null != (u3 = n2.__k[l3]) && null != u3.__e) return u3.__e;
-    return "function" == typeof n2.type ? k(n2) : null;
-  }
-  function b(n2) {
-    var l3, u3;
-    if (null != (n2 = n2.__) && null != n2.__c) {
-      for (n2.__e = n2.__c.base = null, l3 = 0; l3 < n2.__k.length; l3++) if (null != (u3 = n2.__k[l3]) && null != u3.__e) {
-        n2.__e = n2.__c.base = u3.__e;
-        break;
-      }
-      return b(n2);
-    }
-  }
-  function m(n2) {
-    (!n2.__d && (n2.__d = true) && t.push(n2) && !g.__r++ || r !== l.debounceRendering) && ((r = l.debounceRendering) || o)(g);
-  }
-  function g() {
-    for (var n2; g.__r = t.length; ) n2 = t.sort(function(n3, l3) {
-      return n3.__v.__b - l3.__v.__b;
-    }), t = [], n2.some(function(n3) {
-      var l3, u3, i3, t3, o4, r3;
-      n3.__d && (o4 = (t3 = (l3 = n3).__v).__e, (r3 = l3.__P) && (u3 = [], (i3 = a({}, t3)).__v = t3.__v + 1, j(r3, t3, i3, l3.__n, void 0 !== r3.ownerSVGElement, null != t3.__h ? [o4] : null, u3, null == o4 ? k(t3) : o4, t3.__h), z(u3, t3), t3.__e != o4 && b(t3)));
-    });
-  }
-  function w(n2, l3, u3, i3, t3, o4, r3, f3, s3, a3) {
-    var h3, v3, p3, _3, b3, m3, g4, w4 = i3 && i3.__k || c, A4 = w4.length;
-    for (u3.__k = [], h3 = 0; h3 < l3.length; h3++) if (null != (_3 = u3.__k[h3] = null == (_3 = l3[h3]) || "boolean" == typeof _3 ? null : "string" == typeof _3 || "number" == typeof _3 || "bigint" == typeof _3 ? y(null, _3, null, null, _3) : Array.isArray(_3) ? y(d, { children: _3 }, null, null, null) : _3.__b > 0 ? y(_3.type, _3.props, _3.key, null, _3.__v) : _3)) {
-      if (_3.__ = u3, _3.__b = u3.__b + 1, null === (p3 = w4[h3]) || p3 && _3.key == p3.key && _3.type === p3.type) w4[h3] = void 0;
-      else for (v3 = 0; v3 < A4; v3++) {
-        if ((p3 = w4[v3]) && _3.key == p3.key && _3.type === p3.type) {
-          w4[v3] = void 0;
-          break;
-        }
-        p3 = null;
-      }
-      j(n2, _3, p3 = p3 || e, t3, o4, r3, f3, s3, a3), b3 = _3.__e, (v3 = _3.ref) && p3.ref != v3 && (g4 || (g4 = []), p3.ref && g4.push(p3.ref, null, _3), g4.push(v3, _3.__c || b3, _3)), null != b3 ? (null == m3 && (m3 = b3), "function" == typeof _3.type && _3.__k === p3.__k ? _3.__d = s3 = x(_3, s3, n2) : s3 = P(n2, _3, p3, w4, b3, s3), "function" == typeof u3.type && (u3.__d = s3)) : s3 && p3.__e == s3 && s3.parentNode != n2 && (s3 = k(p3));
-    }
-    for (u3.__e = m3, h3 = A4; h3--; ) null != w4[h3] && ("function" == typeof u3.type && null != w4[h3].__e && w4[h3].__e == u3.__d && (u3.__d = k(i3, h3 + 1)), N(w4[h3], w4[h3]));
-    if (g4) for (h3 = 0; h3 < g4.length; h3++) M(g4[h3], g4[++h3], g4[++h3]);
-  }
-  function x(n2, l3, u3) {
-    for (var i3, t3 = n2.__k, o4 = 0; t3 && o4 < t3.length; o4++) (i3 = t3[o4]) && (i3.__ = n2, l3 = "function" == typeof i3.type ? x(i3, l3, u3) : P(u3, i3, i3, t3, i3.__e, l3));
-    return l3;
-  }
-  function A(n2, l3) {
-    return l3 = l3 || [], null == n2 || "boolean" == typeof n2 || (Array.isArray(n2) ? n2.some(function(n3) {
-      A(n3, l3);
-    }) : l3.push(n2)), l3;
-  }
-  function P(n2, l3, u3, i3, t3, o4) {
-    var r3, f3, e4;
-    if (void 0 !== l3.__d) r3 = l3.__d, l3.__d = void 0;
-    else if (null == u3 || t3 != o4 || null == t3.parentNode) n: if (null == o4 || o4.parentNode !== n2) n2.appendChild(t3), r3 = null;
-    else {
-      for (f3 = o4, e4 = 0; (f3 = f3.nextSibling) && e4 < i3.length; e4 += 2) if (f3 == t3) break n;
-      n2.insertBefore(t3, o4), r3 = o4;
-    }
-    return void 0 !== r3 ? r3 : t3.nextSibling;
-  }
-  function C(n2, l3, u3, i3, t3) {
-    var o4;
-    for (o4 in u3) "children" === o4 || "key" === o4 || o4 in l3 || H(n2, o4, null, u3[o4], i3);
-    for (o4 in l3) t3 && "function" != typeof l3[o4] || "children" === o4 || "key" === o4 || "value" === o4 || "checked" === o4 || u3[o4] === l3[o4] || H(n2, o4, l3[o4], u3[o4], i3);
-  }
-  function $2(n2, l3, u3) {
-    "-" === l3[0] ? n2.setProperty(l3, u3) : n2[l3] = null == u3 ? "" : "number" != typeof u3 || s.test(l3) ? u3 : u3 + "px";
-  }
-  function H(n2, l3, u3, i3, t3) {
-    var o4;
-    n: if ("style" === l3) if ("string" == typeof u3) n2.style.cssText = u3;
-    else {
-      if ("string" == typeof i3 && (n2.style.cssText = i3 = ""), i3) for (l3 in i3) u3 && l3 in u3 || $2(n2.style, l3, "");
-      if (u3) for (l3 in u3) i3 && u3[l3] === i3[l3] || $2(n2.style, l3, u3[l3]);
-    }
-    else if ("o" === l3[0] && "n" === l3[1]) o4 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + o4] = u3, u3 ? i3 || n2.addEventListener(l3, o4 ? T : I, o4) : n2.removeEventListener(l3, o4 ? T : I, o4);
-    else if ("dangerouslySetInnerHTML" !== l3) {
-      if (t3) l3 = l3.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
-      else if ("href" !== l3 && "list" !== l3 && "form" !== l3 && "tabIndex" !== l3 && "download" !== l3 && l3 in n2) try {
-        n2[l3] = null == u3 ? "" : u3;
-        break n;
-      } catch (n3) {
-      }
-      "function" == typeof u3 || (null != u3 && (false !== u3 || "a" === l3[0] && "r" === l3[1]) ? n2.setAttribute(l3, u3) : n2.removeAttribute(l3));
-    }
-  }
-  function I(n2) {
-    this.l[n2.type + false](l.event ? l.event(n2) : n2);
-  }
-  function T(n2) {
-    this.l[n2.type + true](l.event ? l.event(n2) : n2);
-  }
-  function j(n2, u3, i3, t3, o4, r3, f3, e4, c3) {
-    var s3, h3, v3, y3, p3, k4, b3, m3, g4, x3, A4, P3, C3, $4 = u3.type;
-    if (void 0 !== u3.constructor) return null;
-    null != i3.__h && (c3 = i3.__h, e4 = u3.__e = i3.__e, u3.__h = null, r3 = [e4]), (s3 = l.__b) && s3(u3);
-    try {
-      n: if ("function" == typeof $4) {
-        if (m3 = u3.props, g4 = (s3 = $4.contextType) && t3[s3.__c], x3 = s3 ? g4 ? g4.props.value : s3.__ : t3, i3.__c ? b3 = (h3 = u3.__c = i3.__c).__ = h3.__E : ("prototype" in $4 && $4.prototype.render ? u3.__c = h3 = new $4(m3, x3) : (u3.__c = h3 = new _(m3, x3), h3.constructor = $4, h3.render = O), g4 && g4.sub(h3), h3.props = m3, h3.state || (h3.state = {}), h3.context = x3, h3.__n = t3, v3 = h3.__d = true, h3.__h = []), null == h3.__s && (h3.__s = h3.state), null != $4.getDerivedStateFromProps && (h3.__s == h3.state && (h3.__s = a({}, h3.__s)), a(h3.__s, $4.getDerivedStateFromProps(m3, h3.__s))), y3 = h3.props, p3 = h3.state, v3) null == $4.getDerivedStateFromProps && null != h3.componentWillMount && h3.componentWillMount(), null != h3.componentDidMount && h3.__h.push(h3.componentDidMount);
-        else {
-          if (null == $4.getDerivedStateFromProps && m3 !== y3 && null != h3.componentWillReceiveProps && h3.componentWillReceiveProps(m3, x3), !h3.__e && null != h3.shouldComponentUpdate && false === h3.shouldComponentUpdate(m3, h3.__s, x3) || u3.__v === i3.__v) {
-            h3.props = m3, h3.state = h3.__s, u3.__v !== i3.__v && (h3.__d = false), h3.__v = u3, u3.__e = i3.__e, u3.__k = i3.__k, u3.__k.forEach(function(n3) {
-              n3 && (n3.__ = u3);
-            }), h3.__h.length && f3.push(h3);
-            break n;
-          }
-          null != h3.componentWillUpdate && h3.componentWillUpdate(m3, h3.__s, x3), null != h3.componentDidUpdate && h3.__h.push(function() {
-            h3.componentDidUpdate(y3, p3, k4);
-          });
-        }
-        if (h3.context = x3, h3.props = m3, h3.__v = u3, h3.__P = n2, A4 = l.__r, P3 = 0, "prototype" in $4 && $4.prototype.render) h3.state = h3.__s, h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context);
-        else do {
-          h3.__d = false, A4 && A4(u3), s3 = h3.render(h3.props, h3.state, h3.context), h3.state = h3.__s;
-        } while (h3.__d && ++P3 < 25);
-        h3.state = h3.__s, null != h3.getChildContext && (t3 = a(a({}, t3), h3.getChildContext())), v3 || null == h3.getSnapshotBeforeUpdate || (k4 = h3.getSnapshotBeforeUpdate(y3, p3)), C3 = null != s3 && s3.type === d && null == s3.key ? s3.props.children : s3, w(n2, Array.isArray(C3) ? C3 : [C3], u3, i3, t3, o4, r3, f3, e4, c3), h3.base = u3.__e, u3.__h = null, h3.__h.length && f3.push(h3), b3 && (h3.__E = h3.__ = null), h3.__e = false;
-      } else null == r3 && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = L(i3.__e, u3, i3, t3, o4, r3, f3, c3);
-      (s3 = l.diffed) && s3(u3);
-    } catch (n3) {
-      u3.__v = null, (c3 || null != r3) && (u3.__e = e4, u3.__h = !!c3, r3[r3.indexOf(e4)] = null), l.__e(n3, u3, i3);
-    }
-  }
-  function z(n2, u3) {
-    l.__c && l.__c(u3, n2), n2.some(function(u4) {
-      try {
-        n2 = u4.__h, u4.__h = [], n2.some(function(n3) {
-          n3.call(u4);
-        });
-      } catch (n3) {
-        l.__e(n3, u4.__v);
-      }
-    });
-  }
-  function L(l3, u3, i3, t3, o4, r3, f3, c3) {
-    var s3, a3, v3, y3 = i3.props, p3 = u3.props, d3 = u3.type, _3 = 0;
-    if ("svg" === d3 && (o4 = true), null != r3) {
-      for (; _3 < r3.length; _3++) if ((s3 = r3[_3]) && "setAttribute" in s3 == !!d3 && (d3 ? s3.localName === d3 : 3 === s3.nodeType)) {
-        l3 = s3, r3[_3] = null;
-        break;
-      }
-    }
-    if (null == l3) {
-      if (null === d3) return document.createTextNode(p3);
-      l3 = o4 ? document.createElementNS("http://www.w3.org/2000/svg", d3) : document.createElement(d3, p3.is && p3), r3 = null, c3 = false;
-    }
-    if (null === d3) y3 === p3 || c3 && l3.data === p3 || (l3.data = p3);
-    else {
-      if (r3 = r3 && n.call(l3.childNodes), a3 = (y3 = i3.props || e).dangerouslySetInnerHTML, v3 = p3.dangerouslySetInnerHTML, !c3) {
-        if (null != r3) for (y3 = {}, _3 = 0; _3 < l3.attributes.length; _3++) y3[l3.attributes[_3].name] = l3.attributes[_3].value;
-        (v3 || a3) && (v3 && (a3 && v3.__html == a3.__html || v3.__html === l3.innerHTML) || (l3.innerHTML = v3 && v3.__html || ""));
-      }
-      if (C(l3, p3, y3, o4, c3), v3) u3.__k = [];
-      else if (_3 = u3.props.children, w(l3, Array.isArray(_3) ? _3 : [_3], u3, i3, t3, o4 && "foreignObject" !== d3, r3, f3, r3 ? r3[0] : i3.__k && k(i3, 0), c3), null != r3) for (_3 = r3.length; _3--; ) null != r3[_3] && h(r3[_3]);
-      c3 || ("value" in p3 && void 0 !== (_3 = p3.value) && (_3 !== l3.value || "progress" === d3 && !_3 || "option" === d3 && _3 !== y3.value) && H(l3, "value", _3, y3.value, false), "checked" in p3 && void 0 !== (_3 = p3.checked) && _3 !== l3.checked && H(l3, "checked", _3, y3.checked, false));
-    }
-    return l3;
-  }
-  function M(n2, u3, i3) {
-    try {
-      "function" == typeof n2 ? n2(u3) : n2.current = u3;
-    } catch (n3) {
-      l.__e(n3, i3);
-    }
-  }
-  function N(n2, u3, i3) {
-    var t3, o4;
-    if (l.unmount && l.unmount(n2), (t3 = n2.ref) && (t3.current && t3.current !== n2.__e || M(t3, null, u3)), null != (t3 = n2.__c)) {
-      if (t3.componentWillUnmount) try {
-        t3.componentWillUnmount();
-      } catch (n3) {
-        l.__e(n3, u3);
-      }
-      t3.base = t3.__P = null;
-    }
-    if (t3 = n2.__k) for (o4 = 0; o4 < t3.length; o4++) t3[o4] && N(t3[o4], u3, "function" != typeof n2.type);
-    i3 || null == n2.__e || h(n2.__e), n2.__e = n2.__d = void 0;
-  }
-  function O(n2, l3, u3) {
-    return this.constructor(n2, u3);
-  }
-  function S(u3, i3, t3) {
-    var o4, r3, f3;
-    l.__ && l.__(u3, i3), r3 = (o4 = "function" == typeof t3) ? null : t3 && t3.__k || i3.__k, f3 = [], j(i3, u3 = (!o4 && t3 || i3).__k = v(d, null, [u3]), r3 || e, e, void 0 !== i3.ownerSVGElement, !o4 && t3 ? [t3] : r3 ? null : i3.firstChild ? n.call(i3.childNodes) : null, f3, !o4 && t3 ? t3 : r3 ? r3.__e : i3.firstChild, o4), z(f3, u3);
-  }
-  function q(n2, l3) {
-    S(n2, l3, q);
-  }
-  function B(l3, u3, i3) {
-    var t3, o4, r3, f3 = a({}, l3.props);
-    for (r3 in u3) "key" == r3 ? t3 = u3[r3] : "ref" == r3 ? o4 = u3[r3] : f3[r3] = u3[r3];
-    return arguments.length > 2 && (f3.children = arguments.length > 3 ? n.call(arguments, 2) : i3), y(l3.type, f3, t3 || l3.key, o4 || l3.ref, null);
-  }
-  function D(n2, l3) {
-    var u3 = { __c: l3 = "__cC" + f++, __: n2, Consumer: function(n3, l4) {
-      return n3.children(l4);
-    }, Provider: function(n3) {
-      var u4, i3;
-      return this.getChildContext || (u4 = [], (i3 = {})[l3] = this, this.getChildContext = function() {
-        return i3;
-      }, this.shouldComponentUpdate = function(n4) {
-        this.props.value !== n4.value && u4.some(m);
-      }, this.sub = function(n4) {
-        u4.push(n4);
-        var l4 = n4.componentWillUnmount;
-        n4.componentWillUnmount = function() {
-          u4.splice(u4.indexOf(n4), 1), l4 && l4.call(n4);
-        };
-      }), n3.children;
-    } };
-    return u3.Provider.__ = u3.Consumer.contextType = u3;
-  }
-  var n, l, u, i, t, o, r, f, e, c, s;
-  var init_preact_module = __esm({
-    "node_modules/preact/dist/preact.module.js"() {
-      init_preact_shim();
-      e = {};
-      c = [];
-      s = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
-      n = c.slice, l = { __e: function(n2, l3, u3, i3) {
-        for (var t3, o4, r3; l3 = l3.__; ) if ((t3 = l3.__c) && !t3.__) try {
-          if ((o4 = t3.constructor) && null != o4.getDerivedStateFromError && (t3.setState(o4.getDerivedStateFromError(n2)), r3 = t3.__d), null != t3.componentDidCatch && (t3.componentDidCatch(n2, i3 || {}), r3 = t3.__d), r3) return t3.__E = t3;
-        } catch (l4) {
-          n2 = l4;
-        }
-        throw n2;
-      } }, u = 0, i = function(n2) {
-        return null != n2 && void 0 === n2.constructor;
-      }, _.prototype.setState = function(n2, l3) {
-        var u3;
-        u3 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = a({}, this.state), "function" == typeof n2 && (n2 = n2(a({}, u3), this.props)), n2 && a(u3, n2), null != n2 && this.__v && (l3 && this.__h.push(l3), m(this));
-      }, _.prototype.forceUpdate = function(n2) {
-        this.__v && (this.__e = true, n2 && this.__h.push(n2), m(this));
-      }, _.prototype.render = d, t = [], o = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, g.__r = 0, f = 0;
-    }
-  });
-
-  // scripts/preact-shim.ts
-  var init_preact_shim = __esm({
-    "scripts/preact-shim.ts"() {
-      init_preact_module();
-    }
-  });
-
-  // node_modules/classnames/index.js
-  var require_classnames = __commonJS({
-    "node_modules/classnames/index.js"(exports, module) {
-      init_preact_shim();
-      (function() {
-        "use strict";
-        var hasOwn = {}.hasOwnProperty;
-        function classNames2() {
-          var classes = [];
-          for (var i3 = 0; i3 < arguments.length; i3++) {
-            var arg = arguments[i3];
-            if (!arg) continue;
-            var argType = typeof arg;
-            if (argType === "string" || argType === "number") {
-              classes.push(arg);
-            } else if (Array.isArray(arg)) {
-              if (arg.length) {
-                var inner = classNames2.apply(null, arg);
-                if (inner) {
-                  classes.push(inner);
-                }
-              }
-            } else if (argType === "object") {
-              if (arg.toString === Object.prototype.toString) {
-                for (var key in arg) {
-                  if (hasOwn.call(arg, key) && arg[key]) {
-                    classes.push(key);
-                  }
-                }
-              } else {
-                classes.push(arg.toString());
-              }
-            }
-          }
-          return classes.join(" ");
-        }
-        if (typeof module !== "undefined" && module.exports) {
-          classNames2.default = classNames2;
-          module.exports = classNames2;
-        } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
-          define("classnames", [], function() {
-            return classNames2;
-          });
-        } else {
-          window.classNames = classNames2;
-        }
-      })();
-    }
-  });
-
-  // node_modules/base64-js/index.js
-  var require_base64_js = __commonJS({
-    "node_modules/base64-js/index.js"(exports) {
-      "use strict";
-      init_preact_shim();
-      exports.byteLength = byteLength;
-      exports.toByteArray = toByteArray;
-      exports.fromByteArray = fromByteArray;
-      var lookup2 = [];
-      var revLookup = [];
-      var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
-      var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-      for (i3 = 0, len = code.length; i3 < len; ++i3) {
-        lookup2[i3] = code[i3];
-        revLookup[code.charCodeAt(i3)] = i3;
-      }
-      var i3;
-      var len;
-      revLookup["-".charCodeAt(0)] = 62;
-      revLookup["_".charCodeAt(0)] = 63;
-      function getLens(b64) {
-        var len2 = b64.length;
-        if (len2 % 4 > 0) {
-          throw new Error("Invalid string. Length must be a multiple of 4");
-        }
-        var validLen = b64.indexOf("=");
-        if (validLen === -1) validLen = len2;
-        var placeHoldersLen = validLen === len2 ? 0 : 4 - validLen % 4;
-        return [validLen, placeHoldersLen];
-      }
-      function byteLength(b64) {
-        var lens = getLens(b64);
-        var validLen = lens[0];
-        var placeHoldersLen = lens[1];
-        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-      }
-      function _byteLength(b64, validLen, placeHoldersLen) {
-        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-      }
-      function toByteArray(b64) {
-        var tmp;
-        var lens = getLens(b64);
-        var validLen = lens[0];
-        var placeHoldersLen = lens[1];
-        var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
-        var curByte = 0;
-        var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-        var i4;
-        for (i4 = 0; i4 < len2; i4 += 4) {
-          tmp = revLookup[b64.charCodeAt(i4)] << 18 | revLookup[b64.charCodeAt(i4 + 1)] << 12 | revLookup[b64.charCodeAt(i4 + 2)] << 6 | revLookup[b64.charCodeAt(i4 + 3)];
-          arr[curByte++] = tmp >> 16 & 255;
-          arr[curByte++] = tmp >> 8 & 255;
-          arr[curByte++] = tmp & 255;
-        }
-        if (placeHoldersLen === 2) {
-          tmp = revLookup[b64.charCodeAt(i4)] << 2 | revLookup[b64.charCodeAt(i4 + 1)] >> 4;
-          arr[curByte++] = tmp & 255;
-        }
-        if (placeHoldersLen === 1) {
-          tmp = revLookup[b64.charCodeAt(i4)] << 10 | revLookup[b64.charCodeAt(i4 + 1)] << 4 | revLookup[b64.charCodeAt(i4 + 2)] >> 2;
-          arr[curByte++] = tmp >> 8 & 255;
-          arr[curByte++] = tmp & 255;
-        }
-        return arr;
-      }
-      function tripletToBase64(num) {
-        return lookup2[num >> 18 & 63] + lookup2[num >> 12 & 63] + lookup2[num >> 6 & 63] + lookup2[num & 63];
-      }
-      function encodeChunk(uint8, start, end) {
-        var tmp;
-        var output = [];
-        for (var i4 = start; i4 < end; i4 += 3) {
-          tmp = (uint8[i4] << 16 & 16711680) + (uint8[i4 + 1] << 8 & 65280) + (uint8[i4 + 2] & 255);
-          output.push(tripletToBase64(tmp));
-        }
-        return output.join("");
-      }
-      function fromByteArray(uint8) {
-        var tmp;
-        var len2 = uint8.length;
-        var extraBytes = len2 % 3;
-        var parts = [];
-        var maxChunkLength = 16383;
-        for (var i4 = 0, len22 = len2 - extraBytes; i4 < len22; i4 += maxChunkLength) {
-          parts.push(encodeChunk(uint8, i4, i4 + maxChunkLength > len22 ? len22 : i4 + maxChunkLength));
-        }
-        if (extraBytes === 1) {
-          tmp = uint8[len2 - 1];
-          parts.push(
-            lookup2[tmp >> 2] + lookup2[tmp << 4 & 63] + "=="
-          );
-        } else if (extraBytes === 2) {
-          tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
-          parts.push(
-            lookup2[tmp >> 10] + lookup2[tmp >> 4 & 63] + lookup2[tmp << 2 & 63] + "="
-          );
-        }
-        return parts.join("");
-      }
-    }
-  });
-
-  // node_modules/ieee754/index.js
-  var require_ieee754 = __commonJS({
-    "node_modules/ieee754/index.js"(exports) {
-      init_preact_shim();
-      exports.read = function(buffer, offset, isLE, mLen, nBytes) {
-        var e4, m3;
-        var eLen = nBytes * 8 - mLen - 1;
-        var eMax = (1 << eLen) - 1;
-        var eBias = eMax >> 1;
-        var nBits = -7;
-        var i3 = isLE ? nBytes - 1 : 0;
-        var d3 = isLE ? -1 : 1;
-        var s3 = buffer[offset + i3];
-        i3 += d3;
-        e4 = s3 & (1 << -nBits) - 1;
-        s3 >>= -nBits;
-        nBits += eLen;
-        for (; nBits > 0; e4 = e4 * 256 + buffer[offset + i3], i3 += d3, nBits -= 8) {
-        }
-        m3 = e4 & (1 << -nBits) - 1;
-        e4 >>= -nBits;
-        nBits += mLen;
-        for (; nBits > 0; m3 = m3 * 256 + buffer[offset + i3], i3 += d3, nBits -= 8) {
-        }
-        if (e4 === 0) {
-          e4 = 1 - eBias;
-        } else if (e4 === eMax) {
-          return m3 ? NaN : (s3 ? -1 : 1) * Infinity;
-        } else {
-          m3 = m3 + Math.pow(2, mLen);
-          e4 = e4 - eBias;
-        }
-        return (s3 ? -1 : 1) * m3 * Math.pow(2, e4 - mLen);
-      };
-      exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-        var e4, m3, c3;
-        var eLen = nBytes * 8 - mLen - 1;
-        var eMax = (1 << eLen) - 1;
-        var eBias = eMax >> 1;
-        var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
-        var i3 = isLE ? 0 : nBytes - 1;
-        var d3 = isLE ? 1 : -1;
-        var s3 = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
-        value = Math.abs(value);
-        if (isNaN(value) || value === Infinity) {
-          m3 = isNaN(value) ? 1 : 0;
-          e4 = eMax;
-        } else {
-          e4 = Math.floor(Math.log(value) / Math.LN2);
-          if (value * (c3 = Math.pow(2, -e4)) < 1) {
-            e4--;
-            c3 *= 2;
-          }
-          if (e4 + eBias >= 1) {
-            value += rt / c3;
-          } else {
-            value += rt * Math.pow(2, 1 - eBias);
-          }
-          if (value * c3 >= 2) {
-            e4++;
-            c3 /= 2;
-          }
-          if (e4 + eBias >= eMax) {
-            m3 = 0;
-            e4 = eMax;
-          } else if (e4 + eBias >= 1) {
-            m3 = (value * c3 - 1) * Math.pow(2, mLen);
-            e4 = e4 + eBias;
-          } else {
-            m3 = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
-            e4 = 0;
-          }
-        }
-        for (; mLen >= 8; buffer[offset + i3] = m3 & 255, i3 += d3, m3 /= 256, mLen -= 8) {
-        }
-        e4 = e4 << mLen | m3;
-        eLen += mLen;
-        for (; eLen > 0; buffer[offset + i3] = e4 & 255, i3 += d3, e4 /= 256, eLen -= 8) {
-        }
-        buffer[offset + i3 - d3] |= s3 * 128;
-      };
-    }
-  });
-
-  // node_modules/buffer/index.js
-  var require_buffer = __commonJS({
-    "node_modules/buffer/index.js"(exports) {
-      "use strict";
-      init_preact_shim();
-      var base64 = require_base64_js();
-      var ieee754 = require_ieee754();
-      var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
-      exports.Buffer = Buffer4;
-      exports.SlowBuffer = SlowBuffer;
-      exports.INSPECT_MAX_BYTES = 50;
-      var K_MAX_LENGTH = 2147483647;
-      exports.kMaxLength = K_MAX_LENGTH;
-      Buffer4.TYPED_ARRAY_SUPPORT = typedArraySupport();
-      if (!Buffer4.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
-        console.error(
-          "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
-        );
-      }
-      function typedArraySupport() {
-        try {
-          var arr = new Uint8Array(1);
-          var proto = { foo: function() {
-            return 42;
-          } };
-          Object.setPrototypeOf(proto, Uint8Array.prototype);
-          Object.setPrototypeOf(arr, proto);
-          return arr.foo() === 42;
-        } catch (e4) {
-          return false;
-        }
-      }
-      Object.defineProperty(Buffer4.prototype, "parent", {
-        enumerable: true,
-        get: function() {
-          if (!Buffer4.isBuffer(this)) return void 0;
-          return this.buffer;
-        }
-      });
-      Object.defineProperty(Buffer4.prototype, "offset", {
-        enumerable: true,
-        get: function() {
-          if (!Buffer4.isBuffer(this)) return void 0;
-          return this.byteOffset;
-        }
-      });
-      function createBuffer(length) {
-        if (length > K_MAX_LENGTH) {
-          throw new RangeError('The value "' + length + '" is invalid for option "size"');
-        }
-        var buf = new Uint8Array(length);
-        Object.setPrototypeOf(buf, Buffer4.prototype);
-        return buf;
-      }
-      function Buffer4(arg, encodingOrOffset, length) {
-        if (typeof arg === "number") {
-          if (typeof encodingOrOffset === "string") {
-            throw new TypeError(
-              'The "string" argument must be of type string. Received type number'
-            );
-          }
-          return allocUnsafe(arg);
-        }
-        return from(arg, encodingOrOffset, length);
-      }
-      Buffer4.poolSize = 8192;
-      function from(value, encodingOrOffset, length) {
-        if (typeof value === "string") {
-          return fromString(value, encodingOrOffset);
-        }
-        if (ArrayBuffer.isView(value)) {
-          return fromArrayView(value);
-        }
-        if (value == null) {
-          throw new TypeError(
-            "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-          );
-        }
-        if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
-          return fromArrayBuffer(value, encodingOrOffset, length);
-        }
-        if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
-          return fromArrayBuffer(value, encodingOrOffset, length);
-        }
-        if (typeof value === "number") {
-          throw new TypeError(
-            'The "value" argument must not be of type number. Received type number'
-          );
-        }
-        var valueOf = value.valueOf && value.valueOf();
-        if (valueOf != null && valueOf !== value) {
-          return Buffer4.from(valueOf, encodingOrOffset, length);
-        }
-        var b3 = fromObject(value);
-        if (b3) return b3;
-        if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
-          return Buffer4.from(
-            value[Symbol.toPrimitive]("string"),
-            encodingOrOffset,
-            length
-          );
-        }
-        throw new TypeError(
-          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-        );
-      }
-      Buffer4.from = function(value, encodingOrOffset, length) {
-        return from(value, encodingOrOffset, length);
-      };
-      Object.setPrototypeOf(Buffer4.prototype, Uint8Array.prototype);
-      Object.setPrototypeOf(Buffer4, Uint8Array);
-      function assertSize(size) {
-        if (typeof size !== "number") {
-          throw new TypeError('"size" argument must be of type number');
-        } else if (size < 0) {
-          throw new RangeError('The value "' + size + '" is invalid for option "size"');
-        }
-      }
-      function alloc(size, fill, encoding) {
-        assertSize(size);
-        if (size <= 0) {
-          return createBuffer(size);
-        }
-        if (fill !== void 0) {
-          return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
-        }
-        return createBuffer(size);
-      }
-      Buffer4.alloc = function(size, fill, encoding) {
-        return alloc(size, fill, encoding);
-      };
-      function allocUnsafe(size) {
-        assertSize(size);
-        return createBuffer(size < 0 ? 0 : checked(size) | 0);
-      }
-      Buffer4.allocUnsafe = function(size) {
-        return allocUnsafe(size);
-      };
-      Buffer4.allocUnsafeSlow = function(size) {
-        return allocUnsafe(size);
-      };
-      function fromString(string, encoding) {
-        if (typeof encoding !== "string" || encoding === "") {
-          encoding = "utf8";
-        }
-        if (!Buffer4.isEncoding(encoding)) {
-          throw new TypeError("Unknown encoding: " + encoding);
-        }
-        var length = byteLength(string, encoding) | 0;
-        var buf = createBuffer(length);
-        var actual = buf.write(string, encoding);
-        if (actual !== length) {
-          buf = buf.slice(0, actual);
-        }
-        return buf;
-      }
-      function fromArrayLike(array) {
-        var length = array.length < 0 ? 0 : checked(array.length) | 0;
-        var buf = createBuffer(length);
-        for (var i3 = 0; i3 < length; i3 += 1) {
-          buf[i3] = array[i3] & 255;
-        }
-        return buf;
-      }
-      function fromArrayView(arrayView) {
-        if (isInstance(arrayView, Uint8Array)) {
-          var copy = new Uint8Array(arrayView);
-          return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
-        }
-        return fromArrayLike(arrayView);
-      }
-      function fromArrayBuffer(array, byteOffset, length) {
-        if (byteOffset < 0 || array.byteLength < byteOffset) {
-          throw new RangeError('"offset" is outside of buffer bounds');
-        }
-        if (array.byteLength < byteOffset + (length || 0)) {
-          throw new RangeError('"length" is outside of buffer bounds');
-        }
-        var buf;
-        if (byteOffset === void 0 && length === void 0) {
-          buf = new Uint8Array(array);
-        } else if (length === void 0) {
-          buf = new Uint8Array(array, byteOffset);
-        } else {
-          buf = new Uint8Array(array, byteOffset, length);
-        }
-        Object.setPrototypeOf(buf, Buffer4.prototype);
-        return buf;
-      }
-      function fromObject(obj) {
-        if (Buffer4.isBuffer(obj)) {
-          var len = checked(obj.length) | 0;
-          var buf = createBuffer(len);
-          if (buf.length === 0) {
-            return buf;
-          }
-          obj.copy(buf, 0, 0, len);
-          return buf;
-        }
-        if (obj.length !== void 0) {
-          if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
-            return createBuffer(0);
-          }
-          return fromArrayLike(obj);
-        }
-        if (obj.type === "Buffer" && Array.isArray(obj.data)) {
-          return fromArrayLike(obj.data);
-        }
-      }
-      function checked(length) {
-        if (length >= K_MAX_LENGTH) {
-          throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
-        }
-        return length | 0;
-      }
-      function SlowBuffer(length) {
-        if (+length != length) {
-          length = 0;
-        }
-        return Buffer4.alloc(+length);
-      }
-      Buffer4.isBuffer = function isBuffer(b3) {
-        return b3 != null && b3._isBuffer === true && b3 !== Buffer4.prototype;
-      };
-      Buffer4.compare = function compare(a3, b3) {
-        if (isInstance(a3, Uint8Array)) a3 = Buffer4.from(a3, a3.offset, a3.byteLength);
-        if (isInstance(b3, Uint8Array)) b3 = Buffer4.from(b3, b3.offset, b3.byteLength);
-        if (!Buffer4.isBuffer(a3) || !Buffer4.isBuffer(b3)) {
-          throw new TypeError(
-            'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
-          );
-        }
-        if (a3 === b3) return 0;
-        var x3 = a3.length;
-        var y3 = b3.length;
-        for (var i3 = 0, len = Math.min(x3, y3); i3 < len; ++i3) {
-          if (a3[i3] !== b3[i3]) {
-            x3 = a3[i3];
-            y3 = b3[i3];
-            break;
-          }
-        }
-        if (x3 < y3) return -1;
-        if (y3 < x3) return 1;
-        return 0;
-      };
-      Buffer4.isEncoding = function isEncoding(encoding) {
-        switch (String(encoding).toLowerCase()) {
-          case "hex":
-          case "utf8":
-          case "utf-8":
-          case "ascii":
-          case "latin1":
-          case "binary":
-          case "base64":
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return true;
-          default:
-            return false;
-        }
-      };
-      Buffer4.concat = function concat2(list, length) {
-        if (!Array.isArray(list)) {
-          throw new TypeError('"list" argument must be an Array of Buffers');
-        }
-        if (list.length === 0) {
-          return Buffer4.alloc(0);
-        }
-        var i3;
-        if (length === void 0) {
-          length = 0;
-          for (i3 = 0; i3 < list.length; ++i3) {
-            length += list[i3].length;
-          }
-        }
-        var buffer = Buffer4.allocUnsafe(length);
-        var pos = 0;
-        for (i3 = 0; i3 < list.length; ++i3) {
-          var buf = list[i3];
-          if (isInstance(buf, Uint8Array)) {
-            if (pos + buf.length > buffer.length) {
-              Buffer4.from(buf).copy(buffer, pos);
-            } else {
-              Uint8Array.prototype.set.call(
-                buffer,
-                buf,
-                pos
-              );
-            }
-          } else if (!Buffer4.isBuffer(buf)) {
-            throw new TypeError('"list" argument must be an Array of Buffers');
-          } else {
-            buf.copy(buffer, pos);
-          }
-          pos += buf.length;
-        }
-        return buffer;
-      };
-      function byteLength(string, encoding) {
-        if (Buffer4.isBuffer(string)) {
-          return string.length;
-        }
-        if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
-          return string.byteLength;
-        }
-        if (typeof string !== "string") {
-          throw new TypeError(
-            'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
-          );
-        }
-        var len = string.length;
-        var mustMatch = arguments.length > 2 && arguments[2] === true;
-        if (!mustMatch && len === 0) return 0;
-        var loweredCase = false;
-        for (; ; ) {
-          switch (encoding) {
-            case "ascii":
-            case "latin1":
-            case "binary":
-              return len;
-            case "utf8":
-            case "utf-8":
-              return utf8ToBytes(string).length;
-            case "ucs2":
-            case "ucs-2":
-            case "utf16le":
-            case "utf-16le":
-              return len * 2;
-            case "hex":
-              return len >>> 1;
-            case "base64":
-              return base64ToBytes(string).length;
-            default:
-              if (loweredCase) {
-                return mustMatch ? -1 : utf8ToBytes(string).length;
-              }
-              encoding = ("" + encoding).toLowerCase();
-              loweredCase = true;
-          }
-        }
-      }
-      Buffer4.byteLength = byteLength;
-      function slowToString(encoding, start, end) {
-        var loweredCase = false;
-        if (start === void 0 || start < 0) {
-          start = 0;
-        }
-        if (start > this.length) {
-          return "";
-        }
-        if (end === void 0 || end > this.length) {
-          end = this.length;
-        }
-        if (end <= 0) {
-          return "";
-        }
-        end >>>= 0;
-        start >>>= 0;
-        if (end <= start) {
-          return "";
-        }
-        if (!encoding) encoding = "utf8";
-        while (true) {
-          switch (encoding) {
-            case "hex":
-              return hexSlice(this, start, end);
-            case "utf8":
-            case "utf-8":
-              return utf8Slice(this, start, end);
-            case "ascii":
-              return asciiSlice(this, start, end);
-            case "latin1":
-            case "binary":
-              return latin1Slice(this, start, end);
-            case "base64":
-              return base64Slice(this, start, end);
-            case "ucs2":
-            case "ucs-2":
-            case "utf16le":
-            case "utf-16le":
-              return utf16leSlice(this, start, end);
-            default:
-              if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-              encoding = (encoding + "").toLowerCase();
-              loweredCase = true;
-          }
-        }
-      }
-      Buffer4.prototype._isBuffer = true;
-      function swap(b3, n2, m3) {
-        var i3 = b3[n2];
-        b3[n2] = b3[m3];
-        b3[m3] = i3;
-      }
-      Buffer4.prototype.swap16 = function swap16() {
-        var len = this.length;
-        if (len % 2 !== 0) {
-          throw new RangeError("Buffer size must be a multiple of 16-bits");
-        }
-        for (var i3 = 0; i3 < len; i3 += 2) {
-          swap(this, i3, i3 + 1);
-        }
-        return this;
-      };
-      Buffer4.prototype.swap32 = function swap32() {
-        var len = this.length;
-        if (len % 4 !== 0) {
-          throw new RangeError("Buffer size must be a multiple of 32-bits");
-        }
-        for (var i3 = 0; i3 < len; i3 += 4) {
-          swap(this, i3, i3 + 3);
-          swap(this, i3 + 1, i3 + 2);
-        }
-        return this;
-      };
-      Buffer4.prototype.swap64 = function swap64() {
-        var len = this.length;
-        if (len % 8 !== 0) {
-          throw new RangeError("Buffer size must be a multiple of 64-bits");
-        }
-        for (var i3 = 0; i3 < len; i3 += 8) {
-          swap(this, i3, i3 + 7);
-          swap(this, i3 + 1, i3 + 6);
-          swap(this, i3 + 2, i3 + 5);
-          swap(this, i3 + 3, i3 + 4);
-        }
-        return this;
-      };
-      Buffer4.prototype.toString = function toString() {
-        var length = this.length;
-        if (length === 0) return "";
-        if (arguments.length === 0) return utf8Slice(this, 0, length);
-        return slowToString.apply(this, arguments);
-      };
-      Buffer4.prototype.toLocaleString = Buffer4.prototype.toString;
-      Buffer4.prototype.equals = function equals(b3) {
-        if (!Buffer4.isBuffer(b3)) throw new TypeError("Argument must be a Buffer");
-        if (this === b3) return true;
-        return Buffer4.compare(this, b3) === 0;
-      };
-      Buffer4.prototype.inspect = function inspect() {
-        var str = "";
-        var max = exports.INSPECT_MAX_BYTES;
-        str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
-        if (this.length > max) str += " ... ";
-        return "<Buffer " + str + ">";
-      };
-      if (customInspectSymbol) {
-        Buffer4.prototype[customInspectSymbol] = Buffer4.prototype.inspect;
-      }
-      Buffer4.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
-        if (isInstance(target, Uint8Array)) {
-          target = Buffer4.from(target, target.offset, target.byteLength);
-        }
-        if (!Buffer4.isBuffer(target)) {
-          throw new TypeError(
-            'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
-          );
-        }
-        if (start === void 0) {
-          start = 0;
-        }
-        if (end === void 0) {
-          end = target ? target.length : 0;
-        }
-        if (thisStart === void 0) {
-          thisStart = 0;
-        }
-        if (thisEnd === void 0) {
-          thisEnd = this.length;
-        }
-        if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-          throw new RangeError("out of range index");
-        }
-        if (thisStart >= thisEnd && start >= end) {
-          return 0;
-        }
-        if (thisStart >= thisEnd) {
-          return -1;
-        }
-        if (start >= end) {
-          return 1;
-        }
-        start >>>= 0;
-        end >>>= 0;
-        thisStart >>>= 0;
-        thisEnd >>>= 0;
-        if (this === target) return 0;
-        var x3 = thisEnd - thisStart;
-        var y3 = end - start;
-        var len = Math.min(x3, y3);
-        var thisCopy = this.slice(thisStart, thisEnd);
-        var targetCopy = target.slice(start, end);
-        for (var i3 = 0; i3 < len; ++i3) {
-          if (thisCopy[i3] !== targetCopy[i3]) {
-            x3 = thisCopy[i3];
-            y3 = targetCopy[i3];
-            break;
-          }
-        }
-        if (x3 < y3) return -1;
-        if (y3 < x3) return 1;
-        return 0;
-      };
-      function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
-        if (buffer.length === 0) return -1;
-        if (typeof byteOffset === "string") {
-          encoding = byteOffset;
-          byteOffset = 0;
-        } else if (byteOffset > 2147483647) {
-          byteOffset = 2147483647;
-        } else if (byteOffset < -2147483648) {
-          byteOffset = -2147483648;
-        }
-        byteOffset = +byteOffset;
-        if (numberIsNaN(byteOffset)) {
-          byteOffset = dir ? 0 : buffer.length - 1;
-        }
-        if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
-        if (byteOffset >= buffer.length) {
-          if (dir) return -1;
-          else byteOffset = buffer.length - 1;
-        } else if (byteOffset < 0) {
-          if (dir) byteOffset = 0;
-          else return -1;
-        }
-        if (typeof val === "string") {
-          val = Buffer4.from(val, encoding);
-        }
-        if (Buffer4.isBuffer(val)) {
-          if (val.length === 0) {
-            return -1;
-          }
-          return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
-        } else if (typeof val === "number") {
-          val = val & 255;
-          if (typeof Uint8Array.prototype.indexOf === "function") {
-            if (dir) {
-              return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-            } else {
-              return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-            }
-          }
-          return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
-        }
-        throw new TypeError("val must be string, number or Buffer");
-      }
-      function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-        var indexSize = 1;
-        var arrLength = arr.length;
-        var valLength = val.length;
-        if (encoding !== void 0) {
-          encoding = String(encoding).toLowerCase();
-          if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
-            if (arr.length < 2 || val.length < 2) {
-              return -1;
-            }
-            indexSize = 2;
-            arrLength /= 2;
-            valLength /= 2;
-            byteOffset /= 2;
-          }
-        }
-        function read(buf, i4) {
-          if (indexSize === 1) {
-            return buf[i4];
-          } else {
-            return buf.readUInt16BE(i4 * indexSize);
-          }
-        }
-        var i3;
-        if (dir) {
-          var foundIndex = -1;
-          for (i3 = byteOffset; i3 < arrLength; i3++) {
-            if (read(arr, i3) === read(val, foundIndex === -1 ? 0 : i3 - foundIndex)) {
-              if (foundIndex === -1) foundIndex = i3;
-              if (i3 - foundIndex + 1 === valLength) return foundIndex * indexSize;
-            } else {
-              if (foundIndex !== -1) i3 -= i3 - foundIndex;
-              foundIndex = -1;
-            }
-          }
-        } else {
-          if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
-          for (i3 = byteOffset; i3 >= 0; i3--) {
-            var found = true;
-            for (var j4 = 0; j4 < valLength; j4++) {
-              if (read(arr, i3 + j4) !== read(val, j4)) {
-                found = false;
-                break;
-              }
-            }
-            if (found) return i3;
-          }
-        }
-        return -1;
-      }
-      Buffer4.prototype.includes = function includes(val, byteOffset, encoding) {
-        return this.indexOf(val, byteOffset, encoding) !== -1;
-      };
-      Buffer4.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
-        return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
-      };
-      Buffer4.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
-        return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
-      };
-      function hexWrite(buf, string, offset, length) {
-        offset = Number(offset) || 0;
-        var remaining = buf.length - offset;
-        if (!length) {
-          length = remaining;
-        } else {
-          length = Number(length);
-          if (length > remaining) {
-            length = remaining;
-          }
-        }
-        var strLen = string.length;
-        if (length > strLen / 2) {
-          length = strLen / 2;
-        }
-        for (var i3 = 0; i3 < length; ++i3) {
-          var parsed = parseInt(string.substr(i3 * 2, 2), 16);
-          if (numberIsNaN(parsed)) return i3;
-          buf[offset + i3] = parsed;
-        }
-        return i3;
-      }
-      function utf8Write(buf, string, offset, length) {
-        return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
-      }
-      function asciiWrite(buf, string, offset, length) {
-        return blitBuffer(asciiToBytes(string), buf, offset, length);
-      }
-      function base64Write(buf, string, offset, length) {
-        return blitBuffer(base64ToBytes(string), buf, offset, length);
-      }
-      function ucs2Write(buf, string, offset, length) {
-        return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
-      }
-      Buffer4.prototype.write = function write(string, offset, length, encoding) {
-        if (offset === void 0) {
-          encoding = "utf8";
-          length = this.length;
-          offset = 0;
-        } else if (length === void 0 && typeof offset === "string") {
-          encoding = offset;
-          length = this.length;
-          offset = 0;
-        } else if (isFinite(offset)) {
-          offset = offset >>> 0;
-          if (isFinite(length)) {
-            length = length >>> 0;
-            if (encoding === void 0) encoding = "utf8";
-          } else {
-            encoding = length;
-            length = void 0;
-          }
-        } else {
-          throw new Error(
-            "Buffer.write(string, encoding, offset[, length]) is no longer supported"
-          );
-        }
-        var remaining = this.length - offset;
-        if (length === void 0 || length > remaining) length = remaining;
-        if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
-          throw new RangeError("Attempt to write outside buffer bounds");
-        }
-        if (!encoding) encoding = "utf8";
-        var loweredCase = false;
-        for (; ; ) {
-          switch (encoding) {
-            case "hex":
-              return hexWrite(this, string, offset, length);
-            case "utf8":
-            case "utf-8":
-              return utf8Write(this, string, offset, length);
-            case "ascii":
-            case "latin1":
-            case "binary":
-              return asciiWrite(this, string, offset, length);
-            case "base64":
-              return base64Write(this, string, offset, length);
-            case "ucs2":
-            case "ucs-2":
-            case "utf16le":
-            case "utf-16le":
-              return ucs2Write(this, string, offset, length);
-            default:
-              if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-              encoding = ("" + encoding).toLowerCase();
-              loweredCase = true;
-          }
-        }
-      };
-      Buffer4.prototype.toJSON = function toJSON() {
-        return {
-          type: "Buffer",
-          data: Array.prototype.slice.call(this._arr || this, 0)
-        };
-      };
-      function base64Slice(buf, start, end) {
-        if (start === 0 && end === buf.length) {
-          return base64.fromByteArray(buf);
-        } else {
-          return base64.fromByteArray(buf.slice(start, end));
-        }
-      }
-      function utf8Slice(buf, start, end) {
-        end = Math.min(buf.length, end);
-        var res = [];
-        var i3 = start;
-        while (i3 < end) {
-          var firstByte = buf[i3];
-          var codePoint = null;
-          var bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
-          if (i3 + bytesPerSequence <= end) {
-            var secondByte, thirdByte, fourthByte, tempCodePoint;
-            switch (bytesPerSequence) {
-              case 1:
-                if (firstByte < 128) {
-                  codePoint = firstByte;
-                }
-                break;
-              case 2:
-                secondByte = buf[i3 + 1];
-                if ((secondByte & 192) === 128) {
-                  tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
-                  if (tempCodePoint > 127) {
-                    codePoint = tempCodePoint;
-                  }
-                }
-                break;
-              case 3:
-                secondByte = buf[i3 + 1];
-                thirdByte = buf[i3 + 2];
-                if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
-                  tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
-                  if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
-                    codePoint = tempCodePoint;
-                  }
-                }
-                break;
-              case 4:
-                secondByte = buf[i3 + 1];
-                thirdByte = buf[i3 + 2];
-                fourthByte = buf[i3 + 3];
-                if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
-                  tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
-                  if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
-                    codePoint = tempCodePoint;
-                  }
-                }
-            }
-          }
-          if (codePoint === null) {
-            codePoint = 65533;
-            bytesPerSequence = 1;
-          } else if (codePoint > 65535) {
-            codePoint -= 65536;
-            res.push(codePoint >>> 10 & 1023 | 55296);
-            codePoint = 56320 | codePoint & 1023;
-          }
-          res.push(codePoint);
-          i3 += bytesPerSequence;
-        }
-        return decodeCodePointsArray(res);
-      }
-      var MAX_ARGUMENTS_LENGTH = 4096;
-      function decodeCodePointsArray(codePoints) {
-        var len = codePoints.length;
-        if (len <= MAX_ARGUMENTS_LENGTH) {
-          return String.fromCharCode.apply(String, codePoints);
-        }
-        var res = "";
-        var i3 = 0;
-        while (i3 < len) {
-          res += String.fromCharCode.apply(
-            String,
-            codePoints.slice(i3, i3 += MAX_ARGUMENTS_LENGTH)
-          );
-        }
-        return res;
-      }
-      function asciiSlice(buf, start, end) {
-        var ret = "";
-        end = Math.min(buf.length, end);
-        for (var i3 = start; i3 < end; ++i3) {
-          ret += String.fromCharCode(buf[i3] & 127);
-        }
-        return ret;
-      }
-      function latin1Slice(buf, start, end) {
-        var ret = "";
-        end = Math.min(buf.length, end);
-        for (var i3 = start; i3 < end; ++i3) {
-          ret += String.fromCharCode(buf[i3]);
-        }
-        return ret;
-      }
-      function hexSlice(buf, start, end) {
-        var len = buf.length;
-        if (!start || start < 0) start = 0;
-        if (!end || end < 0 || end > len) end = len;
-        var out = "";
-        for (var i3 = start; i3 < end; ++i3) {
-          out += hexSliceLookupTable[buf[i3]];
-        }
-        return out;
-      }
-      function utf16leSlice(buf, start, end) {
-        var bytes = buf.slice(start, end);
-        var res = "";
-        for (var i3 = 0; i3 < bytes.length - 1; i3 += 2) {
-          res += String.fromCharCode(bytes[i3] + bytes[i3 + 1] * 256);
-        }
-        return res;
-      }
-      Buffer4.prototype.slice = function slice(start, end) {
-        var len = this.length;
-        start = ~~start;
-        end = end === void 0 ? len : ~~end;
-        if (start < 0) {
-          start += len;
-          if (start < 0) start = 0;
-        } else if (start > len) {
-          start = len;
-        }
-        if (end < 0) {
-          end += len;
-          if (end < 0) end = 0;
-        } else if (end > len) {
-          end = len;
-        }
-        if (end < start) end = start;
-        var newBuf = this.subarray(start, end);
-        Object.setPrototypeOf(newBuf, Buffer4.prototype);
-        return newBuf;
-      };
-      function checkOffset(offset, ext, length) {
-        if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
-        if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
-      }
-      Buffer4.prototype.readUintLE = Buffer4.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) checkOffset(offset, byteLength2, this.length);
-        var val = this[offset];
-        var mul = 1;
-        var i3 = 0;
-        while (++i3 < byteLength2 && (mul *= 256)) {
-          val += this[offset + i3] * mul;
-        }
-        return val;
-      };
-      Buffer4.prototype.readUintBE = Buffer4.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) {
-          checkOffset(offset, byteLength2, this.length);
-        }
-        var val = this[offset + --byteLength2];
-        var mul = 1;
-        while (byteLength2 > 0 && (mul *= 256)) {
-          val += this[offset + --byteLength2] * mul;
-        }
-        return val;
-      };
-      Buffer4.prototype.readUint8 = Buffer4.prototype.readUInt8 = function readUInt8(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 1, this.length);
-        return this[offset];
-      };
-      Buffer4.prototype.readUint16LE = Buffer4.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 2, this.length);
-        return this[offset] | this[offset + 1] << 8;
-      };
-      Buffer4.prototype.readUint16BE = Buffer4.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 2, this.length);
-        return this[offset] << 8 | this[offset + 1];
-      };
-      Buffer4.prototype.readUint32LE = Buffer4.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
-      };
-      Buffer4.prototype.readUint32BE = Buffer4.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
-      };
-      Buffer4.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) checkOffset(offset, byteLength2, this.length);
-        var val = this[offset];
-        var mul = 1;
-        var i3 = 0;
-        while (++i3 < byteLength2 && (mul *= 256)) {
-          val += this[offset + i3] * mul;
-        }
-        mul *= 128;
-        if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-        return val;
-      };
-      Buffer4.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) checkOffset(offset, byteLength2, this.length);
-        var i3 = byteLength2;
-        var mul = 1;
-        var val = this[offset + --i3];
-        while (i3 > 0 && (mul *= 256)) {
-          val += this[offset + --i3] * mul;
-        }
-        mul *= 128;
-        if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-        return val;
-      };
-      Buffer4.prototype.readInt8 = function readInt8(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 1, this.length);
-        if (!(this[offset] & 128)) return this[offset];
-        return (255 - this[offset] + 1) * -1;
-      };
-      Buffer4.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 2, this.length);
-        var val = this[offset] | this[offset + 1] << 8;
-        return val & 32768 ? val | 4294901760 : val;
-      };
-      Buffer4.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 2, this.length);
-        var val = this[offset + 1] | this[offset] << 8;
-        return val & 32768 ? val | 4294901760 : val;
-      };
-      Buffer4.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
-      };
-      Buffer4.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
-      };
-      Buffer4.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return ieee754.read(this, offset, true, 23, 4);
-      };
-      Buffer4.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 4, this.length);
-        return ieee754.read(this, offset, false, 23, 4);
-      };
-      Buffer4.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 8, this.length);
-        return ieee754.read(this, offset, true, 52, 8);
-      };
-      Buffer4.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
-        offset = offset >>> 0;
-        if (!noAssert) checkOffset(offset, 8, this.length);
-        return ieee754.read(this, offset, false, 52, 8);
-      };
-      function checkInt(buf, value, offset, ext, max, min) {
-        if (!Buffer4.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
-        if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-        if (offset + ext > buf.length) throw new RangeError("Index out of range");
-      }
-      Buffer4.prototype.writeUintLE = Buffer4.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) {
-          var maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-          checkInt(this, value, offset, byteLength2, maxBytes, 0);
-        }
-        var mul = 1;
-        var i3 = 0;
-        this[offset] = value & 255;
-        while (++i3 < byteLength2 && (mul *= 256)) {
-          this[offset + i3] = value / mul & 255;
-        }
-        return offset + byteLength2;
-      };
-      Buffer4.prototype.writeUintBE = Buffer4.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        byteLength2 = byteLength2 >>> 0;
-        if (!noAssert) {
-          var maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-          checkInt(this, value, offset, byteLength2, maxBytes, 0);
-        }
-        var i3 = byteLength2 - 1;
-        var mul = 1;
-        this[offset + i3] = value & 255;
-        while (--i3 >= 0 && (mul *= 256)) {
-          this[offset + i3] = value / mul & 255;
-        }
-        return offset + byteLength2;
-      };
-      Buffer4.prototype.writeUint8 = Buffer4.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
-        this[offset] = value & 255;
-        return offset + 1;
-      };
-      Buffer4.prototype.writeUint16LE = Buffer4.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-        this[offset] = value & 255;
-        this[offset + 1] = value >>> 8;
-        return offset + 2;
-      };
-      Buffer4.prototype.writeUint16BE = Buffer4.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-        this[offset] = value >>> 8;
-        this[offset + 1] = value & 255;
-        return offset + 2;
-      };
-      Buffer4.prototype.writeUint32LE = Buffer4.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-        this[offset + 3] = value >>> 24;
-        this[offset + 2] = value >>> 16;
-        this[offset + 1] = value >>> 8;
-        this[offset] = value & 255;
-        return offset + 4;
-      };
-      Buffer4.prototype.writeUint32BE = Buffer4.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-        this[offset] = value >>> 24;
-        this[offset + 1] = value >>> 16;
-        this[offset + 2] = value >>> 8;
-        this[offset + 3] = value & 255;
-        return offset + 4;
-      };
-      Buffer4.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) {
-          var limit = Math.pow(2, 8 * byteLength2 - 1);
-          checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-        }
-        var i3 = 0;
-        var mul = 1;
-        var sub = 0;
-        this[offset] = value & 255;
-        while (++i3 < byteLength2 && (mul *= 256)) {
-          if (value < 0 && sub === 0 && this[offset + i3 - 1] !== 0) {
-            sub = 1;
-          }
-          this[offset + i3] = (value / mul >> 0) - sub & 255;
-        }
-        return offset + byteLength2;
-      };
-      Buffer4.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) {
-          var limit = Math.pow(2, 8 * byteLength2 - 1);
-          checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-        }
-        var i3 = byteLength2 - 1;
-        var mul = 1;
-        var sub = 0;
-        this[offset + i3] = value & 255;
-        while (--i3 >= 0 && (mul *= 256)) {
-          if (value < 0 && sub === 0 && this[offset + i3 + 1] !== 0) {
-            sub = 1;
-          }
-          this[offset + i3] = (value / mul >> 0) - sub & 255;
-        }
-        return offset + byteLength2;
-      };
-      Buffer4.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
-        if (value < 0) value = 255 + value + 1;
-        this[offset] = value & 255;
-        return offset + 1;
-      };
-      Buffer4.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-        this[offset] = value & 255;
-        this[offset + 1] = value >>> 8;
-        return offset + 2;
-      };
-      Buffer4.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-        this[offset] = value >>> 8;
-        this[offset + 1] = value & 255;
-        return offset + 2;
-      };
-      Buffer4.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-        this[offset] = value & 255;
-        this[offset + 1] = value >>> 8;
-        this[offset + 2] = value >>> 16;
-        this[offset + 3] = value >>> 24;
-        return offset + 4;
-      };
-      Buffer4.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-        if (value < 0) value = 4294967295 + value + 1;
-        this[offset] = value >>> 24;
-        this[offset + 1] = value >>> 16;
-        this[offset + 2] = value >>> 8;
-        this[offset + 3] = value & 255;
-        return offset + 4;
-      };
-      function checkIEEE754(buf, value, offset, ext, max, min) {
-        if (offset + ext > buf.length) throw new RangeError("Index out of range");
-        if (offset < 0) throw new RangeError("Index out of range");
-      }
-      function writeFloat(buf, value, offset, littleEndian, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) {
-          checkIEEE754(buf, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
-        }
-        ieee754.write(buf, value, offset, littleEndian, 23, 4);
-        return offset + 4;
-      }
-      Buffer4.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
-        return writeFloat(this, value, offset, true, noAssert);
-      };
-      Buffer4.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
-        return writeFloat(this, value, offset, false, noAssert);
-      };
-      function writeDouble(buf, value, offset, littleEndian, noAssert) {
-        value = +value;
-        offset = offset >>> 0;
-        if (!noAssert) {
-          checkIEEE754(buf, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
-        }
-        ieee754.write(buf, value, offset, littleEndian, 52, 8);
-        return offset + 8;
-      }
-      Buffer4.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
-        return writeDouble(this, value, offset, true, noAssert);
-      };
-      Buffer4.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
-        return writeDouble(this, value, offset, false, noAssert);
-      };
-      Buffer4.prototype.copy = function copy(target, targetStart, start, end) {
-        if (!Buffer4.isBuffer(target)) throw new TypeError("argument should be a Buffer");
-        if (!start) start = 0;
-        if (!end && end !== 0) end = this.length;
-        if (targetStart >= target.length) targetStart = target.length;
-        if (!targetStart) targetStart = 0;
-        if (end > 0 && end < start) end = start;
-        if (end === start) return 0;
-        if (target.length === 0 || this.length === 0) return 0;
-        if (targetStart < 0) {
-          throw new RangeError("targetStart out of bounds");
-        }
-        if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-        if (end < 0) throw new RangeError("sourceEnd out of bounds");
-        if (end > this.length) end = this.length;
-        if (target.length - targetStart < end - start) {
-          end = target.length - targetStart + start;
-        }
-        var len = end - start;
-        if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
-          this.copyWithin(targetStart, start, end);
-        } else {
-          Uint8Array.prototype.set.call(
-            target,
-            this.subarray(start, end),
-            targetStart
-          );
-        }
-        return len;
-      };
-      Buffer4.prototype.fill = function fill(val, start, end, encoding) {
-        if (typeof val === "string") {
-          if (typeof start === "string") {
-            encoding = start;
-            start = 0;
-            end = this.length;
-          } else if (typeof end === "string") {
-            encoding = end;
-            end = this.length;
-          }
-          if (encoding !== void 0 && typeof encoding !== "string") {
-            throw new TypeError("encoding must be a string");
-          }
-          if (typeof encoding === "string" && !Buffer4.isEncoding(encoding)) {
-            throw new TypeError("Unknown encoding: " + encoding);
-          }
-          if (val.length === 1) {
-            var code = val.charCodeAt(0);
-            if (encoding === "utf8" && code < 128 || encoding === "latin1") {
-              val = code;
-            }
-          }
-        } else if (typeof val === "number") {
-          val = val & 255;
-        } else if (typeof val === "boolean") {
-          val = Number(val);
-        }
-        if (start < 0 || this.length < start || this.length < end) {
-          throw new RangeError("Out of range index");
-        }
-        if (end <= start) {
-          return this;
-        }
-        start = start >>> 0;
-        end = end === void 0 ? this.length : end >>> 0;
-        if (!val) val = 0;
-        var i3;
-        if (typeof val === "number") {
-          for (i3 = start; i3 < end; ++i3) {
-            this[i3] = val;
-          }
-        } else {
-          var bytes = Buffer4.isBuffer(val) ? val : Buffer4.from(val, encoding);
-          var len = bytes.length;
-          if (len === 0) {
-            throw new TypeError('The value "' + val + '" is invalid for argument "value"');
-          }
-          for (i3 = 0; i3 < end - start; ++i3) {
-            this[i3 + start] = bytes[i3 % len];
-          }
-        }
-        return this;
-      };
-      var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
-      function base64clean(str) {
-        str = str.split("=")[0];
-        str = str.trim().replace(INVALID_BASE64_RE, "");
-        if (str.length < 2) return "";
-        while (str.length % 4 !== 0) {
-          str = str + "=";
-        }
-        return str;
-      }
-      function utf8ToBytes(string, units) {
-        units = units || Infinity;
-        var codePoint;
-        var length = string.length;
-        var leadSurrogate = null;
-        var bytes = [];
-        for (var i3 = 0; i3 < length; ++i3) {
-          codePoint = string.charCodeAt(i3);
-          if (codePoint > 55295 && codePoint < 57344) {
-            if (!leadSurrogate) {
-              if (codePoint > 56319) {
-                if ((units -= 3) > -1) bytes.push(239, 191, 189);
-                continue;
-              } else if (i3 + 1 === length) {
-                if ((units -= 3) > -1) bytes.push(239, 191, 189);
-                continue;
-              }
-              leadSurrogate = codePoint;
-              continue;
-            }
-            if (codePoint < 56320) {
-              if ((units -= 3) > -1) bytes.push(239, 191, 189);
-              leadSurrogate = codePoint;
-              continue;
-            }
-            codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
-          } else if (leadSurrogate) {
-            if ((units -= 3) > -1) bytes.push(239, 191, 189);
-          }
-          leadSurrogate = null;
-          if (codePoint < 128) {
-            if ((units -= 1) < 0) break;
-            bytes.push(codePoint);
-          } else if (codePoint < 2048) {
-            if ((units -= 2) < 0) break;
-            bytes.push(
-              codePoint >> 6 | 192,
-              codePoint & 63 | 128
-            );
-          } else if (codePoint < 65536) {
-            if ((units -= 3) < 0) break;
-            bytes.push(
-              codePoint >> 12 | 224,
-              codePoint >> 6 & 63 | 128,
-              codePoint & 63 | 128
-            );
-          } else if (codePoint < 1114112) {
-            if ((units -= 4) < 0) break;
-            bytes.push(
-              codePoint >> 18 | 240,
-              codePoint >> 12 & 63 | 128,
-              codePoint >> 6 & 63 | 128,
-              codePoint & 63 | 128
-            );
-          } else {
-            throw new Error("Invalid code point");
-          }
-        }
-        return bytes;
-      }
-      function asciiToBytes(str) {
-        var byteArray = [];
-        for (var i3 = 0; i3 < str.length; ++i3) {
-          byteArray.push(str.charCodeAt(i3) & 255);
-        }
-        return byteArray;
-      }
-      function utf16leToBytes(str, units) {
-        var c3, hi, lo;
-        var byteArray = [];
-        for (var i3 = 0; i3 < str.length; ++i3) {
-          if ((units -= 2) < 0) break;
-          c3 = str.charCodeAt(i3);
-          hi = c3 >> 8;
-          lo = c3 % 256;
-          byteArray.push(lo);
-          byteArray.push(hi);
-        }
-        return byteArray;
-      }
-      function base64ToBytes(str) {
-        return base64.toByteArray(base64clean(str));
-      }
-      function blitBuffer(src, dst, offset, length) {
-        for (var i3 = 0; i3 < length; ++i3) {
-          if (i3 + offset >= dst.length || i3 >= src.length) break;
-          dst[i3 + offset] = src[i3];
-        }
-        return i3;
-      }
-      function isInstance(obj, type) {
-        return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
-      }
-      function numberIsNaN(obj) {
-        return obj !== obj;
-      }
-      var hexSliceLookupTable = function() {
-        var alphabet2 = "0123456789abcdef";
-        var table = new Array(256);
-        for (var i3 = 0; i3 < 16; ++i3) {
-          var i16 = i3 * 16;
-          for (var j4 = 0; j4 < 16; ++j4) {
-            table[i16 + j4] = alphabet2[i3] + alphabet2[j4];
-          }
-        }
-        return table;
-      }();
-    }
-  });
-
-  // (disabled):fs
-  var require_fs = __commonJS({
-    "(disabled):fs"() {
-      init_preact_shim();
-    }
-  });
-
-  // node_modules/path-browserify/index.js
-  var require_path_browserify = __commonJS({
-    "node_modules/path-browserify/index.js"(exports, module) {
-      "use strict";
-      init_preact_shim();
-      function assertPath(path2) {
-        if (typeof path2 !== "string") {
-          throw new TypeError("Path must be a string. Received " + JSON.stringify(path2));
-        }
-      }
-      function normalizeStringPosix(path2, allowAboveRoot) {
-        var res = "";
-        var lastSegmentLength = 0;
-        var lastSlash = -1;
-        var dots = 0;
-        var code;
-        for (var i3 = 0; i3 <= path2.length; ++i3) {
-          if (i3 < path2.length)
-            code = path2.charCodeAt(i3);
-          else if (code === 47)
-            break;
-          else
-            code = 47;
-          if (code === 47) {
-            if (lastSlash === i3 - 1 || dots === 1) {
-            } else if (lastSlash !== i3 - 1 && dots === 2) {
-              if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
-                if (res.length > 2) {
-                  var lastSlashIndex = res.lastIndexOf("/");
-                  if (lastSlashIndex !== res.length - 1) {
-                    if (lastSlashIndex === -1) {
-                      res = "";
-                      lastSegmentLength = 0;
-                    } else {
-                      res = res.slice(0, lastSlashIndex);
-                      lastSegmentLength = res.length - 1 - res.lastIndexOf("/");
-                    }
-                    lastSlash = i3;
-                    dots = 0;
-                    continue;
-                  }
-                } else if (res.length === 2 || res.length === 1) {
-                  res = "";
-                  lastSegmentLength = 0;
-                  lastSlash = i3;
-                  dots = 0;
-                  continue;
-                }
-              }
-              if (allowAboveRoot) {
-                if (res.length > 0)
-                  res += "/..";
-                else
-                  res = "..";
-                lastSegmentLength = 2;
-              }
-            } else {
-              if (res.length > 0)
-                res += "/" + path2.slice(lastSlash + 1, i3);
-              else
-                res = path2.slice(lastSlash + 1, i3);
-              lastSegmentLength = i3 - lastSlash - 1;
-            }
-            lastSlash = i3;
-            dots = 0;
-          } else if (code === 46 && dots !== -1) {
-            ++dots;
-          } else {
-            dots = -1;
-          }
-        }
-        return res;
-      }
-      function _format(sep, pathObject) {
-        var dir = pathObject.dir || pathObject.root;
-        var base = pathObject.base || (pathObject.name || "") + (pathObject.ext || "");
-        if (!dir) {
-          return base;
-        }
-        if (dir === pathObject.root) {
-          return dir + base;
-        }
-        return dir + sep + base;
-      }
-      var posix = {
-        // path.resolve([from ...], to)
-        resolve: function resolve() {
-          var resolvedPath = "";
-          var resolvedAbsolute = false;
-          var cwd;
-          for (var i3 = arguments.length - 1; i3 >= -1 && !resolvedAbsolute; i3--) {
-            var path2;
-            if (i3 >= 0)
-              path2 = arguments[i3];
-            else {
-              if (cwd === void 0)
-                cwd = process.cwd();
-              path2 = cwd;
-            }
-            assertPath(path2);
-            if (path2.length === 0) {
-              continue;
-            }
-            resolvedPath = path2 + "/" + resolvedPath;
-            resolvedAbsolute = path2.charCodeAt(0) === 47;
-          }
-          resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
-          if (resolvedAbsolute) {
-            if (resolvedPath.length > 0)
-              return "/" + resolvedPath;
-            else
-              return "/";
-          } else if (resolvedPath.length > 0) {
-            return resolvedPath;
-          } else {
-            return ".";
-          }
-        },
-        normalize: function normalize(path2) {
-          assertPath(path2);
-          if (path2.length === 0) return ".";
-          var isAbsolute = path2.charCodeAt(0) === 47;
-          var trailingSeparator = path2.charCodeAt(path2.length - 1) === 47;
-          path2 = normalizeStringPosix(path2, !isAbsolute);
-          if (path2.length === 0 && !isAbsolute) path2 = ".";
-          if (path2.length > 0 && trailingSeparator) path2 += "/";
-          if (isAbsolute) return "/" + path2;
-          return path2;
-        },
-        isAbsolute: function isAbsolute(path2) {
-          assertPath(path2);
-          return path2.length > 0 && path2.charCodeAt(0) === 47;
-        },
-        join: function join() {
-          if (arguments.length === 0)
-            return ".";
-          var joined;
-          for (var i3 = 0; i3 < arguments.length; ++i3) {
-            var arg = arguments[i3];
-            assertPath(arg);
-            if (arg.length > 0) {
-              if (joined === void 0)
-                joined = arg;
-              else
-                joined += "/" + arg;
-            }
-          }
-          if (joined === void 0)
-            return ".";
-          return posix.normalize(joined);
-        },
-        relative: function relative(from, to) {
-          assertPath(from);
-          assertPath(to);
-          if (from === to) return "";
-          from = posix.resolve(from);
-          to = posix.resolve(to);
-          if (from === to) return "";
-          var fromStart = 1;
-          for (; fromStart < from.length; ++fromStart) {
-            if (from.charCodeAt(fromStart) !== 47)
-              break;
-          }
-          var fromEnd = from.length;
-          var fromLen = fromEnd - fromStart;
-          var toStart = 1;
-          for (; toStart < to.length; ++toStart) {
-            if (to.charCodeAt(toStart) !== 47)
-              break;
-          }
-          var toEnd = to.length;
-          var toLen = toEnd - toStart;
-          var length = fromLen < toLen ? fromLen : toLen;
-          var lastCommonSep = -1;
-          var i3 = 0;
-          for (; i3 <= length; ++i3) {
-            if (i3 === length) {
-              if (toLen > length) {
-                if (to.charCodeAt(toStart + i3) === 47) {
-                  return to.slice(toStart + i3 + 1);
-                } else if (i3 === 0) {
-                  return to.slice(toStart + i3);
-                }
-              } else if (fromLen > length) {
-                if (from.charCodeAt(fromStart + i3) === 47) {
-                  lastCommonSep = i3;
-                } else if (i3 === 0) {
-                  lastCommonSep = 0;
-                }
-              }
-              break;
-            }
-            var fromCode = from.charCodeAt(fromStart + i3);
-            var toCode = to.charCodeAt(toStart + i3);
-            if (fromCode !== toCode)
-              break;
-            else if (fromCode === 47)
-              lastCommonSep = i3;
-          }
-          var out = "";
-          for (i3 = fromStart + lastCommonSep + 1; i3 <= fromEnd; ++i3) {
-            if (i3 === fromEnd || from.charCodeAt(i3) === 47) {
-              if (out.length === 0)
-                out += "..";
-              else
-                out += "/..";
-            }
-          }
-          if (out.length > 0)
-            return out + to.slice(toStart + lastCommonSep);
-          else {
-            toStart += lastCommonSep;
-            if (to.charCodeAt(toStart) === 47)
-              ++toStart;
-            return to.slice(toStart);
-          }
-        },
-        _makeLong: function _makeLong(path2) {
-          return path2;
-        },
-        dirname: function dirname(path2) {
-          assertPath(path2);
-          if (path2.length === 0) return ".";
-          var code = path2.charCodeAt(0);
-          var hasRoot = code === 47;
-          var end = -1;
-          var matchedSlash = true;
-          for (var i3 = path2.length - 1; i3 >= 1; --i3) {
-            code = path2.charCodeAt(i3);
-            if (code === 47) {
-              if (!matchedSlash) {
-                end = i3;
-                break;
-              }
-            } else {
-              matchedSlash = false;
-            }
-          }
-          if (end === -1) return hasRoot ? "/" : ".";
-          if (hasRoot && end === 1) return "//";
-          return path2.slice(0, end);
-        },
-        basename: function basename(path2, ext) {
-          if (ext !== void 0 && typeof ext !== "string") throw new TypeError('"ext" argument must be a string');
-          assertPath(path2);
-          var start = 0;
-          var end = -1;
-          var matchedSlash = true;
-          var i3;
-          if (ext !== void 0 && ext.length > 0 && ext.length <= path2.length) {
-            if (ext.length === path2.length && ext === path2) return "";
-            var extIdx = ext.length - 1;
-            var firstNonSlashEnd = -1;
-            for (i3 = path2.length - 1; i3 >= 0; --i3) {
-              var code = path2.charCodeAt(i3);
-              if (code === 47) {
-                if (!matchedSlash) {
-                  start = i3 + 1;
-                  break;
-                }
-              } else {
-                if (firstNonSlashEnd === -1) {
-                  matchedSlash = false;
-                  firstNonSlashEnd = i3 + 1;
-                }
-                if (extIdx >= 0) {
-                  if (code === ext.charCodeAt(extIdx)) {
-                    if (--extIdx === -1) {
-                      end = i3;
-                    }
-                  } else {
-                    extIdx = -1;
-                    end = firstNonSlashEnd;
-                  }
-                }
-              }
-            }
-            if (start === end) end = firstNonSlashEnd;
-            else if (end === -1) end = path2.length;
-            return path2.slice(start, end);
-          } else {
-            for (i3 = path2.length - 1; i3 >= 0; --i3) {
-              if (path2.charCodeAt(i3) === 47) {
-                if (!matchedSlash) {
-                  start = i3 + 1;
-                  break;
-                }
-              } else if (end === -1) {
-                matchedSlash = false;
-                end = i3 + 1;
-              }
-            }
-            if (end === -1) return "";
-            return path2.slice(start, end);
-          }
-        },
-        extname: function extname(path2) {
-          assertPath(path2);
-          var startDot = -1;
-          var startPart = 0;
-          var end = -1;
-          var matchedSlash = true;
-          var preDotState = 0;
-          for (var i3 = path2.length - 1; i3 >= 0; --i3) {
-            var code = path2.charCodeAt(i3);
-            if (code === 47) {
-              if (!matchedSlash) {
-                startPart = i3 + 1;
-                break;
-              }
-              continue;
-            }
-            if (end === -1) {
-              matchedSlash = false;
-              end = i3 + 1;
-            }
-            if (code === 46) {
-              if (startDot === -1)
-                startDot = i3;
-              else if (preDotState !== 1)
-                preDotState = 1;
-            } else if (startDot !== -1) {
-              preDotState = -1;
-            }
-          }
-          if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
-          preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
-          preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-            return "";
-          }
-          return path2.slice(startDot, end);
-        },
-        format: function format(pathObject) {
-          if (pathObject === null || typeof pathObject !== "object") {
-            throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
-          }
-          return _format("/", pathObject);
-        },
-        parse: function parse(path2) {
-          assertPath(path2);
-          var ret = { root: "", dir: "", base: "", ext: "", name: "" };
-          if (path2.length === 0) return ret;
-          var code = path2.charCodeAt(0);
-          var isAbsolute = code === 47;
-          var start;
-          if (isAbsolute) {
-            ret.root = "/";
-            start = 1;
-          } else {
-            start = 0;
-          }
-          var startDot = -1;
-          var startPart = 0;
-          var end = -1;
-          var matchedSlash = true;
-          var i3 = path2.length - 1;
-          var preDotState = 0;
-          for (; i3 >= start; --i3) {
-            code = path2.charCodeAt(i3);
-            if (code === 47) {
-              if (!matchedSlash) {
-                startPart = i3 + 1;
-                break;
-              }
-              continue;
-            }
-            if (end === -1) {
-              matchedSlash = false;
-              end = i3 + 1;
-            }
-            if (code === 46) {
-              if (startDot === -1) startDot = i3;
-              else if (preDotState !== 1) preDotState = 1;
-            } else if (startDot !== -1) {
-              preDotState = -1;
-            }
-          }
-          if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
-          preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
-          preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-            if (end !== -1) {
-              if (startPart === 0 && isAbsolute) ret.base = ret.name = path2.slice(1, end);
-              else ret.base = ret.name = path2.slice(startPart, end);
-            }
-          } else {
-            if (startPart === 0 && isAbsolute) {
-              ret.name = path2.slice(1, startDot);
-              ret.base = path2.slice(1, end);
-            } else {
-              ret.name = path2.slice(startPart, startDot);
-              ret.base = path2.slice(startPart, end);
-            }
-            ret.ext = path2.slice(startDot, end);
-          }
-          if (startPart > 0) ret.dir = path2.slice(0, startPart - 1);
-          else if (isAbsolute) ret.dir = "/";
-          return ret;
-        },
-        sep: "/",
-        delimiter: ":",
-        win32: null,
-        posix: null
-      };
-      posix.posix = posix;
-      module.exports = posix;
-    }
-  });
-
-  // node_modules/queue-microtask/index.js
-  var require_queue_microtask = __commonJS({
-    "node_modules/queue-microtask/index.js"(exports, module) {
-      init_preact_shim();
-      var promise;
-      module.exports = typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : global) : (cb) => (promise || (promise = Promise.resolve())).then(cb).catch((err) => setTimeout(() => {
-        throw err;
-      }, 0));
-    }
-  });
-
-  // src/index.tsx
-  init_preact_shim();
-  init_preact_module();
-
-  // src/const.ts
-  init_preact_shim();
-
-  // src/config.json
-  var PT_SITE = {
+  const PT_SITE = {
     "1PTBA": {
       url: "https://1ptba.com",
       host: "1ptba.com",
@@ -3140,7 +801,7 @@
         path: "/torrents",
         params: {
           search: "{imdb}",
-          in: "1",
+          "in": "1",
           order: "size",
           sort: "desc"
         }
@@ -3979,7 +1640,7 @@
         path: "/torrents",
         params: {
           search: "{imdb}",
-          in: "1",
+          "in": "1",
           order: "size",
           sort: "desc"
         }
@@ -4225,37 +1886,37 @@
       sourceInfo: {
         editionTags: {
           "10-bit": "10_bit",
-          "2D/3D\u7248": "2d_3d_edition",
-          "4K\u4FEE\u590D\u7248": "4k_restoration",
-          "4K\u91CD\u5236\u7248": "4k_remaster",
+          "2D/3D版": "2d_3d_edition",
+          "4K修复版": "4k_restoration",
+          "4K重制版": "4k_remaster",
           DIY: "diy",
           "DTS:X": "dts_x",
           "HDR10+": "hdr10plus",
           HDR10: "hdr10",
           Remux: "remux",
           Rifftrax: "rifftrax",
-          \u534A\u9AD83D: "3d_half_ou",
-          \u534A\u5BBD3D: "3d_half_sbs",
-          \u6807\u51C6\u6536\u85CF: "the_criterion_collection",
-          \u91CD\u5236\u7248: "remaster",
-          \u5BFC\u6F14\u526A\u8F91\u7248: "director_s_cut",
-          \u7535\u5F71\u5927\u5E08: "masters_of_cinema",
-          \u675C\u6BD4\u5168\u666F\u58F0: "dolby_atmos",
-          \u675C\u6BD4\u89C6\u754C: "dolby_vision",
-          \u989D\u5916\u5185\u5BB9: "extras",
-          \u4E8C\u5408\u4E00: "2_in_1",
-          \u7EA2\u84DD3D: "3d_anaglyph",
-          \u534E\u7EB3\u6863\u6848\u9986: "warner_archive_collection",
-          \u52A0\u957F\u7248: "extended_edition",
-          \u8BC4\u8BBA\u97F3\u8F68: "with_commentary",
-          \u5168\u5BBD3D: "3d_full_sbs",
-          \u53CC\u789F\u5957\u88C5: "2_disc_set",
-          \u53CC\u97F3\u8F68: "dual_audio",
-          \u672A\u5206\u7EA7\u7248: "unrated",
-          \u672A\u5220\u51CF\u7248: "uncut",
-          \u82F1\u8BED\u914D\u97F3: "english_dub",
-          \u5F71\u9662\u7248: "theatrical_cut",
-          \u4E2D\u5B57: "chinese_subtitle"
+          "半高3D": "3d_half_ou",
+          "半宽3D": "3d_half_sbs",
+          "标准收藏": "the_criterion_collection",
+          "重制版": "remaster",
+          "导演剪辑版": "director_s_cut",
+          "电影大师": "masters_of_cinema",
+          "杜比全景声": "dolby_atmos",
+          "杜比视界": "dolby_vision",
+          "额外内容": "extras",
+          "二合一": "2_in_1",
+          "红蓝3D": "3d_anaglyph",
+          "华纳档案馆": "warner_archive_collection",
+          "加长版": "extended_edition",
+          "评论音轨": "with_commentary",
+          "全宽3D": "3d_full_sbs",
+          "双碟套装": "2_disc_set",
+          "双音轨": "dual_audio",
+          "未分级版": "unrated",
+          "未删减版": "uncut",
+          "英语配音": "english_dub",
+          "影院版": "theatrical_cut",
+          "中字": "chinese_subtitle"
         }
       },
       targetInfo: {
@@ -7222,7 +4883,7 @@
           "Saint-Pierre and Miquelon": "216",
           Samoa: "39",
           "San Marino": "219",
-          "S\xE3o Tom\xE9 and Pr\xEDncipe": "220",
+          "São Tomé and Príncipe": "220",
           "Saudi Arabia": "221",
           Sealand: "258",
           Senegal: "94",
@@ -8807,7 +6468,7 @@
         path: "/browse.php",
         params: {
           search: "{name}",
-          in: "1",
+          "in": "1",
           order: "size",
           sort: "desc"
         }
@@ -10191,13 +7852,13 @@
       category: {
         selector: "#form_item_category",
         map: {
-          movie: "\u7535\u5F71",
-          tv: "\u7535\u89C6\u5267",
-          tvPack: "\u7535\u89C6\u5267",
-          cartoon: "\u52A8\u753B",
-          concert: "\u5176\u5B83",
-          documentary: "\u5176\u5B83",
-          variety: "\u5176\u5B83"
+          movie: "电影",
+          tv: "电视剧",
+          tvPack: "电视剧",
+          cartoon: "动画",
+          concert: "其它",
+          documentary: "其它",
+          variety: "其它"
         }
       },
       videoType: {
@@ -10407,7 +8068,7 @@
         }
       }
     },
-    \u8C46\u74E3\u7535\u5F71: {
+    "豆瓣电影": {
       url: "https://search.douban.com",
       host: "search.douban.com",
       siteType: "douban",
@@ -10421,7 +8082,7 @@
         }
       }
     },
-    \u8C46\u74E3\u8BFB\u4E66: {
+    "豆瓣读书": {
       url: "https://search.douban.com",
       host: "search.douban.com",
       siteType: "doubanBook",
@@ -10433,9 +8094,7 @@
       }
     }
   };
-
-  // src/const.ts
-  var TORRENT_INFO = {
+  const TORRENT_INFO = {
     title: "",
     subtitle: "",
     description: "",
@@ -10474,13 +8133,13 @@
     isForbidden: false,
     poster: ""
   };
-  var DOUBAN_SUGGEST_API = "https://www.douban.com/search?cat=1002&q={query}";
-  var DOUBAN_MOBILE_API = "https://m.douban.com/rexxar/api/v2";
-  var PT_GEN_API = "https://media.pttool.workers.dev";
-  var TMDB_API_URL = "https://api.tmdb.org";
-  var TMDB_API_KEY = "3d62cb1443c6b34b61262ab332aaf78c";
-  var BROWSER_LANGUAGE = navigator.language.toLowerCase().split("-")[0];
-  var getSiteName = (host) => {
+  const DOUBAN_SUGGEST_API = "https://www.douban.com/search?cat=1002&q={query}";
+  const DOUBAN_MOBILE_API = "https://m.douban.com/rexxar/api/v2";
+  const PT_GEN_API = "https://media.pttool.workers.dev";
+  const TMDB_API_URL = "https://api.tmdb.org";
+  const TMDB_API_KEY = "3d62cb1443c6b34b61262ab332aaf78c";
+  const BROWSER_LANGUAGE = navigator.language.toLowerCase().split("-")[0];
+  const getSiteName = (host) => {
     let siteName = "";
     try {
       Object.keys(PT_SITE).forEach((key) => {
@@ -10499,808 +8158,776 @@
       return "";
     }
   };
-  var getSortedSiteKeys = () => {
-    return Object.keys(PT_SITE).sort((a3, b3) => {
+  const getSortedSiteKeys = () => {
+    return Object.keys(PT_SITE).sort((a2, b) => {
       const isChineseReg = /[\u4e00-\u9fa5]+/;
-      if (isChineseReg.test(a3) && !isChineseReg.test(b3)) {
+      if (isChineseReg.test(a2) && !isChineseReg.test(b)) {
         return 1;
       }
-      if (!isChineseReg.test(a3) && isChineseReg.test(b3)) {
+      if (!isChineseReg.test(a2) && isChineseReg.test(b)) {
         return -1;
       }
-      return a3.toLowerCase().localeCompare(b3.toLowerCase());
+      return a2.toLowerCase().localeCompare(b.toLowerCase());
     });
   };
-  var SORTED_SITE_KEYS = getSortedSiteKeys();
-  var EUROPE_LIST = ["Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kazakhstan", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "UK", "Vatican City"];
-  var CURRENT_SITE_NAME = getSiteName(location.host);
-  var CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
-  var HDB_TEAM = ["Chotab", "CRiSC", "CtrlHD", "DON", "EA", "EbP", "Geek", "LolHD", "NTb", "RightSiZE", "SA89", "SbR", "TayTo", "VietHD"];
-
-  // src/common.ts
-  init_preact_shim();
-
-  // src/i18n.json
-  var i18n_default = {
-    en: {
-      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "Failed to get Douban link",
-      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "Failed to get Douban ID",
-      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "Failed to get Douban data",
-      \u7F3A\u5C11IMDB\u4FE1\u606F: "Missing IMDB information",
-      \u83B7\u53D6\u5931\u8D25: "Request failed",
-      \u83B7\u53D6\u6210\u529F: "Data request successful",
-      \u8BF7\u6C42\u5931\u8D25: "Request failed",
-      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "Upload failed, please try again",
-      ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg upload failed",
-      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "Please enter the API_KEY of ptpimg in the setting panel",
-      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "Failed to upload poster",
-      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "Loading data...",
-      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "Failed to get list of images",
-      "\u8F6C\u6362\u4E2D...": "Converting...",
-      "\u8F6C\u6362\u6210\u529F\uFF01": "Converted!",
-      "\u83B7\u53D6\u4E2D...": "Requesting...",
-      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "Missing Douban link",
-      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "Transfer of this torrent may be prohibited, are you sure to continue?",
-      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "Please wait for the page to load",
-      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "Enter the Douban link",
-      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "Get data of Douban",
-      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "Get data of Douban Book",
-      \u8F6C\u7F29\u7565\u56FE: "Convert to thumbnails",
-      \u5FEB\u901F\u68C0\u7D22: "Quick search",
-      \u4E00\u952E\u7FA4\u8F6C: "Batch transfer",
-      \u5FEB\u6377\u64CD\u4F5C: "Quick operation",
-      \u4E00\u952E\u8F6C\u79CD: "Transfer to",
-      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "Select sites for the 'Transfer to' section",
-      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "Select sites for the 'Batch transfer' button",
-      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "One-click batch transfer to the selected sites below",
-      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "Select sites for the 'Quick search' section",
-      \u56FE\u5E8A\u914D\u7F6E: "Image Host Settings",
-      "\u5982\u4F55\u83B7\u53D6\uFF1F": "How to get it?",
-      \u989D\u5916\u529F\u80FD\u5173\u95ED: "Turn off extra features",
-      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "Remove the 'Convert to thumbnails' button",
-      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "Remove the icons",
-      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "Remove the 'Upload screenshots to ptpimg' button",
-      \u4FDD\u5B58: "Save",
-      \u53D6\u6D88: "Cancel",
-      \u9519\u8BEF: "Error",
-      \u6210\u529F: "Success",
-      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "Failed to save local site settings",
-      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "Please set up the batch transfer list first",
-      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "The transfer pages have been opened, please go to the corresponding page to operate",
-      \u63D0\u793A: "Hint",
-      \u8F6C\u5B58\u622A\u56FE: "Upload screenshots to another host",
-      \u65E0\u9700\u8F6C\u5B58: "No need to upload",
-      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "Uploading, be patient",
-      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "Do not include thanks",
-      \u62F7\u8D1D: "Copy",
-      \u5DF2\u62F7\u8D1D: "Copied",
-      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "Hide Douban button & link field",
-      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "Please fill the correct link",
-      \u6279\u91CF\u68C0\u7D22: "Batch search",
-      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "Open multiple search tabs at the same time",
-      \u8C46\u74E3\u914D\u7F6E: "Douban Config",
-      \u8C46\u74E3Cookie: "Douban Cookie",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "Please configure douban cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "Disable QuickSearch",
-      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "Failed to download torrent file",
-      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "Please download it manually"
-    },
-    ko: {
-      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uC5BB\uAE30 \uC2E4\uD328",
-      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\uB354\uC6B0\uBC18 ID \uC544\uC774\uB514 \uC5BB\uAE30 \uC2E4\uD328",
-      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\uB354\uC6B0\uBC18 \uB370\uC774\uD130 \uC5BB\uAE30 \uC2E4\uD328",
-      \u7F3A\u5C11IMDB\u4FE1\u606F: "\uB204\uB77D\uB41C IMDB \uC815\uBCF4",
-      \u83B7\u53D6\u5931\u8D25: "\uC694\uCCAD \uC2E4\uD328",
-      \u83B7\u53D6\u6210\u529F: "\uB370\uC774\uD130 \uC694\uCCAD \uC131\uACF5",
-      \u8BF7\u6C42\u5931\u8D25: "\uC694\uCCAD \uC2E4\uD328",
-      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\uC5C5\uB85C\uB4DC \uC2E4\uD328, \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694.",
-      ptpimg\u4E0A\u4F20\u5931\u8D25: "PtpImg \uC5C5\uB85C\uB4DC \uC2E4\uD328",
-      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\uC124\uC815 \uD328\uB110\uC5D0 ptpimg\uC758 API_KEY\uB97C \uC785\uB825\uD558\uC138\uC694.",
-      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\uD3EC\uC2A4\uD130 \uC5C5\uB85C\uB4DC \uC2E4\uD328",
-      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\uB370\uC774\uD130 \uBD88\uB7EC\uC624\uAE30 \uC911...",
-      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\uC774\uBBF8\uC9C0 \uBAA9\uB85D \uC5BB\uAE30 \uC2E4\uD328",
-      "\u8F6C\u6362\u4E2D...": "\uBCC0\uD658 \uC911...",
-      "\u8F6C\u6362\u6210\u529F\uFF01": "\uBCC0\uD658\uB428!",
-      "\u83B7\u53D6\u4E2D...": "\uC694\uCCAD \uC911...",
-      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uB204\uB77D",
-      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\uC774 \uD1A0\uB80C\uD2B8\uC758 \uC804\uC1A1\uC774 \uAE08\uC9C0\uB420 \uC218 \uC788\uC2B5\uB2C8\uB2E4, \uACC4\uC18D\uD558\uACA0\uC2B5\uB2C8\uAE4C?",
-      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\uD398\uC774\uC9C0\uAC00 \uBD88\uB7EC\uC62C \uB54C\uAE4C\uC9C0 \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.",
-      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uB9C1\uD06C \uC785\uB825",
-      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\uB354\uC6B0\uBC18\uC758 \uB370\uC774\uD130 \uC5BB\uAE30",
-      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\uB354\uC6B0\uBC18 \uB3C4\uC11C \uB370\uC774\uD130 \uC5BB\uAE30",
-      \u8F6C\u7F29\u7565\u56FE: "\uC378\uB124\uC77C\uB85C \uBCC0\uD658",
-      \u5FEB\u901F\u68C0\u7D22: "\uBE60\uB978 \uAC80\uC0C9",
-      \u4E00\u952E\u7FA4\u8F6C: "\uC77C\uAD04 \uC804\uC1A1",
-      \u5FEB\u6377\u64CD\u4F5C: "\uBE60\uB978 \uC791\uC5C5",
-      \u4E00\u952E\u8F6C\u79CD: "\uC804\uC1A1 \uB300\uC0C1",
-      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\uC804\uC1A1 \uB300\uC0C1 \uC139\uC158\uC758 \uC0AC\uC774\uD2B8 \uC120\uD0DD",
-      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\uC77C\uAD04 \uC804\uC1A1 \uBC84\uD2BC\uC744 \uC0AC\uC6A9\uD560 \uC0AC\uC774\uD2B8 \uC120\uD0DD",
-      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\uC544\uB798\uC5D0\uC11C \uC120\uD0DD\uD55C \uC0AC\uC774\uD2B8\uB85C \uC6D0\uD074\uB9AD \uC77C\uAD04 \uC804\uC1A1\uD558\uAE30",
-      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\uBE60\uB978 \uAC80\uC0C9 \uC139\uC158\uC5D0\uC11C \uC0AC\uC774\uD2B8 \uC120\uD0DD",
-      \u56FE\u5E8A\u914D\u7F6E: "\uC774\uBBF8\uC9C0 \uD638\uC2A4\uD2B8 \uC124\uC815",
-      "\u5982\u4F55\u83B7\u53D6\uFF1F": "\uC5B4\uB5BB\uAC8C \uC5BB\uB098\uC694?",
-      \u989D\u5916\u529F\u80FD\u5173\u95ED: "\uCD94\uAC00 \uAE30\uB2A5 \uB044\uAE30",
-      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\uC378\uB124\uC77C\uB85C \uBCC0\uD658 \uBC84\uD2BC \uC81C\uAC70\uD558\uAE30",
-      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\uC544\uC774\uCF58 \uC81C\uAC70\uD558\uAE30",
-      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\uC2A4\uD06C\uB9B0\uC0F7\uC744 ptpimg\uC5D0 \uC5C5\uB85C\uB4DC \uBC84\uD2BC \uC81C\uAC70\uD558\uAE30",
-      \u4FDD\u5B58: "\uC800\uC7A5",
-      \u53D6\u6D88: "\uCDE8\uC18C",
-      \u9519\u8BEF: "\uC624\uB958",
-      \u6210\u529F: "\uC131\uACF5",
-      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\uB85C\uCEEC \uC0AC\uC774\uD2B8 \uC124\uC815 \uC800\uC7A5 \uC2E4\uD328",
-      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\uBA3C\uC800 \uC77C\uAD04 \uC804\uC1A1 \uBAA9\uB85D \uC124\uC815",
-      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\uC804\uC1A1 \uD398\uC774\uC9C0\uAC00 \uC5F4\uB838\uACE0, \uD574\uB2F9 \uD398\uC774\uC9C0\uB85C \uC774\uB3D9\uD558\uC5EC \uC791\uC5C5",
-      \u63D0\u793A: "\uD78C\uD2B8",
-      \u8F6C\u5B58\u622A\u56FE: "\uB2E4\uB978 \uD638\uC2A4\uD2B8\uC5D0 \uC2A4\uD06C\uB9B0\uC0F7 \uC5C5\uB85C\uB4DC",
-      \u65E0\u9700\u8F6C\u5B58: "\uC5C5\uB85C\uB4DC\uD560 \uD544\uC694 \uC5C6\uC74C",
-      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\uC5C5\uB85C\uB4DC \uC911, \uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824\uC8FC\uC138\uC694.",
-      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\uAC10\uC0AC \uB0B4\uC6A9\uC744 \uD3EC\uD568\uD558\uC9C0 \uC54A\uC74C",
-      \u62F7\u8D1D: "\uBCF5\uC0AC",
-      \u5DF2\u62F7\u8D1D: "\uBCF5\uC0AC\uB428",
-      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\uB354\uC6B0\uBC18 \uBC84\uD2BC \uBC0F \uB9C1\uD06C \uD544\uB4DC \uC228\uAE30\uAE30",
-      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\uC62C\uBC14\uB978 \uB9C1\uD06C\uB97C \uC785\uB825\uD558\uC138\uC694.",
-      \u6279\u91CF\u68C0\u7D22: "\uC77C\uAD04 \uAC80\uC0C9",
-      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\uC5EC\uB7EC \uAC80\uC0C9 \uD0ED \uB3D9\uC2DC\uC5D0 \uC5F4\uAE30",
-      \u8C46\u74E3\u914D\u7F6E: "\uB354\uC6B0\uBC18 \uAD6C\uC131",
-      \u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\uB354\uC6B0\uBC18 \uCFE0\uD0A4\uB97C \uAD6C\uC131\uD558\uC138\uC694.",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\uBE60\uB978\uAC80\uC0C9 \uBE44\uD65C\uC131\uD654",
-      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "\uD1A0\uB80C\uD2B8 \uD30C\uC77C \uB2E4\uC6B4\uB85C\uB4DC \uC2E4\uD328",
-      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "\uC218\uB3D9\uC73C\uB85C \uB2E4\uC6B4\uB85C\uB4DC\uD574\uC8FC\uC138\uC694"
-    },
-    zh: {
-      \u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25",
-      \u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25: "\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25",
-      \u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25: "\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25",
-      \u7F3A\u5C11IMDB\u4FE1\u606F: "\u7F3A\u5C11IMDB\u4FE1\u606F",
-      \u83B7\u53D6\u5931\u8D25: "\u83B7\u53D6\u5931\u8D25",
-      \u83B7\u53D6\u6210\u529F: "\u83B7\u53D6\u6210\u529F",
-      \u8BF7\u6C42\u5931\u8D25: "\u8BF7\u6C42\u5931\u8D25",
-      "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5": "\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5",
-      ptpimg\u4E0A\u4F20\u5931\u8D25: "ptpimg\u4E0A\u4F20\u5931\u8D25",
-      \u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key: "\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key",
-      \u5C01\u9762\u4E0A\u4F20\u5931\u8D25: "\u5C01\u9762\u4E0A\u4F20\u5931\u8D25",
-      "\u6570\u636E\u52A0\u8F7D\u4E2D...": "\u6570\u636E\u52A0\u8F7D\u4E2D...",
-      \u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25: "\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25",
-      "\u8F6C\u6362\u4E2D...": "\u8F6C\u6362\u4E2D...",
-      "\u8F6C\u6362\u6210\u529F\uFF01": "\u8F6C\u6362\u6210\u529F\uFF01",
-      "\u83B7\u53D6\u4E2D...": "\u83B7\u53D6\u4E2D...",
-      \u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5: "\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5",
-      "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F": "\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F",
-      \u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210: "\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210",
-      \u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5: "\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5",
-      \u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB",
-      \u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB: "\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB",
-      \u8F6C\u7F29\u7565\u56FE: "\u8F6C\u7F29\u7565\u56FE",
-      \u5FEB\u901F\u68C0\u7D22: "\u5FEB\u901F\u68C0\u7D22",
-      \u4E00\u952E\u7FA4\u8F6C: "\u4E00\u952E\u7FA4\u8F6C",
-      \u5FEB\u6377\u64CD\u4F5C: "\u5FEB\u6377\u64CD\u4F5C",
-      \u4E00\u952E\u8F6C\u79CD: "\u4E00\u952E\u8F6C\u79CD",
-      \u8F6C\u79CD\u7AD9\u70B9\u542F\u7528: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
-      \u6279\u91CF\u8F6C\u79CD\u542F\u7528: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
-      \u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9",
-      \u7AD9\u70B9\u641C\u7D22\u542F\u7528: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
-      \u56FE\u5E8A\u914D\u7F6E: "\u56FE\u5E8A\u914D\u7F6E",
-      "\u5982\u4F55\u83B7\u53D6\uFF1F": "\u5982\u4F55\u83B7\u53D6\uFF1F",
-      \u989D\u5916\u529F\u80FD\u5173\u95ED: "\u989D\u5916\u529F\u80FD\u5173\u95ED",
-      \u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
-      \u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
-      \u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
-      \u4FDD\u5B58: "\u4FDD\u5B58",
-      \u53D6\u6D88: "\u53D6\u6D88",
-      \u9519\u8BEF: "\u9519\u8BEF",
-      \u6210\u529F: "\u6210\u529F",
-      \u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25: "\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25",
-      \u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868: "\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868",
-      "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C": "\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C",
-      \u63D0\u793A: "\u63D0\u793A",
-      \u8F6C\u5B58\u622A\u56FE: "\u8F6C\u5B58\u622A\u56FE",
-      \u65E0\u9700\u8F6C\u5B58: "\u65E0\u9700\u8F6C\u5B58",
-      "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...": "\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...",
-      \u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
-      \u62F7\u8D1D: "\u62F7\u8D1D",
-      \u5DF2\u62F7\u8D1D: "\u5DF2\u62F7\u8D1D",
-      \u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
-      \u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5: "\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5",
-      \u6279\u91CF\u68C0\u7D22: "\u6279\u91CF\u68C0\u7D22",
-      \u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875: "\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875",
-      \u8C46\u74E3\u914D\u7F6E: "\u8C46\u74E3\u914D\u7F6E",
-      \u8C46\u74E3Cookie: "\u8C46\u74E3Cookie",
-      \u8BF7\u914D\u7F6E\u8C46\u74E3Cookie: "\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie",
-      \u5173\u95ED\u5FEB\u901F\u68C0\u7D22: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22",
-      \u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25: "\u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25",
-      \u8BF7\u624B\u52A8\u4E0B\u8F7D: "\u8BF7\u624B\u52A8\u4E0B\u8F7D"
-    }
+  const SORTED_SITE_KEYS = getSortedSiteKeys();
+  const EUROPE_LIST = ["Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kazakhstan", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "UK", "Vatican City"];
+  const CURRENT_SITE_NAME = getSiteName(location.host);
+  const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
+  const HDB_TEAM = ["Chotab", "CRiSC", "CtrlHD", "DON", "EA", "EbP", "Geek", "LolHD", "NTb", "RightSiZE", "SA89", "SbR", "TayTo", "VietHD"];
+  const en$1 = {
+    "豆瓣链接获取失败": "Failed to get Douban link",
+    "豆瓣ID获取失败": "Failed to get Douban ID",
+    "获取豆瓣信息失败": "Failed to get Douban data",
+    "缺少IMDB信息": "Missing IMDB information",
+    "获取失败": "Request failed",
+    "获取成功": "Data request successful",
+    "请求失败": "Request failed",
+    "上传失败，请重试": "Upload failed, please try again",
+    "ptpimg上传失败": "PtpImg upload failed",
+    "请到配置面板中填入ptpimg的api_key": "Please enter the API_KEY of ptpimg in the setting panel",
+    "封面上传失败": "Failed to upload poster",
+    "数据加载中...": "Loading data...",
+    "获取图片列表失败": "Failed to get list of images",
+    "转换中...": "Converting...",
+    "转换成功！": "Converted!",
+    "获取中...": "Requesting...",
+    "缺少豆瓣链接": "Missing Douban link",
+    "本种子可能禁止转载，确定要继续转载么？": "Transfer of this torrent may be prohibited, are you sure to continue?",
+    "请等待页面加载完成": "Please wait for the page to load",
+    "手动输入豆瓣链接": "Enter the Douban link",
+    "获取豆瓣简介": "Get data of Douban",
+    "获取豆瓣读书简介": "Get data of Douban Book",
+    "转缩略图": "Convert to thumbnails",
+    "快速检索": "Quick search",
+    "一键群转": "Batch transfer",
+    "快捷操作": "Quick operation",
+    "一键转种": "Transfer to",
+    "转种站点启用": "Select sites for the 'Transfer to' section",
+    "批量转种启用": "Select sites for the 'Batch transfer' button",
+    "一键批量转发到以下选中的站点": "One-click batch transfer to the selected sites below",
+    "站点搜索启用": "Select sites for the 'Quick search' section",
+    "图床配置": "Image Host Settings",
+    "如何获取？": "How to get it?",
+    "额外功能关闭": "Turn off extra features",
+    "关闭转缩略图功能": "Remove the 'Convert to thumbnails' button",
+    "关闭站点图标显示": "Remove the icons",
+    "关闭转存ptpimg功能": "Remove the 'Upload screenshots to ptpimg' button",
+    "保存": "Save",
+    "取消": "Cancel",
+    "错误": "Error",
+    "成功": "Success",
+    "保存本地站点设置失败": "Failed to save local site settings",
+    "请先设置群转列表": "Please set up the batch transfer list first",
+    "转种页面已打开，请前往对应页面操作": "The transfer pages have been opened, please go to the corresponding page to operate",
+    "提示": "Hint",
+    "转存截图": "Upload screenshots to another host",
+    "无需转存": "No need to upload",
+    "上传中，请稍候...": "Uploading, be patient",
+    "不显示致谢内容": "Do not include thanks",
+    "拷贝": "Copy",
+    "已拷贝": "Copied",
+    "不显示豆瓣按钮和豆瓣链接": "Hide Douban button & link field",
+    "请填写正确链接": "Please fill the correct link",
+    "批量检索": "Batch search",
+    "同时打开多个搜索标签页": "Open multiple search tabs at the same time",
+    "豆瓣配置": "Douban Config",
+    "豆瓣Cookie": "Douban Cookie",
+    "请配置豆瓣Cookie": "Please configure douban cookie",
+    "关闭快速检索": "Disable QuickSearch",
+    "种子文件下载失败": "Failed to download torrent file",
+    "请手动下载": "Please download it manually"
   };
-
-  // src/components/Notification.tsx
-  init_preact_shim();
-
-  // node_modules/rc-notification/es/index.js
-  init_preact_shim();
-
-  // node_modules/rc-notification/es/Notification.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
-  init_preact_shim();
-  function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i3;
-    for (i3 = 0; i3 < sourceKeys.length; i3++) {
-      key = sourceKeys[i3];
-      if (excluded.indexOf(key) >= 0) continue;
-      target[key] = source[key];
+  const ko = {
+    "豆瓣链接获取失败": "더우반 링크 얻기 실패",
+    "豆瓣ID获取失败": "더우반 ID 아이디 얻기 실패",
+    "获取豆瓣信息失败": "더우반 데이터 얻기 실패",
+    "缺少IMDB信息": "누락된 IMDB 정보",
+    "获取失败": "요청 실패",
+    "获取成功": "데이터 요청 성공",
+    "请求失败": "요청 실패",
+    "上传失败，请重试": "업로드 실패, 다시 시도하세요.",
+    "ptpimg上传失败": "PtpImg 업로드 실패",
+    "请到配置面板中填入ptpimg的api_key": "설정 패널에 ptpimg의 API_KEY를 입력하세요.",
+    "封面上传失败": "포스터 업로드 실패",
+    "数据加载中...": "데이터 불러오기 중...",
+    "获取图片列表失败": "이미지 목록 얻기 실패",
+    "转换中...": "변환 중...",
+    "转换成功！": "변환됨!",
+    "获取中...": "요청 중...",
+    "缺少豆瓣链接": "더우반 링크 누락",
+    "本种子可能禁止转载，确定要继续转载么？": "이 토렌트의 전송이 금지될 수 있습니다, 계속하겠습니까?",
+    "请等待页面加载完成": "페이지가 불러올 때까지 기다려주세요.",
+    "手动输入豆瓣链接": "더우반 링크 입력",
+    "获取豆瓣简介": "더우반의 데이터 얻기",
+    "获取豆瓣读书简介": "더우반 도서 데이터 얻기",
+    "转缩略图": "썸네일로 변환",
+    "快速检索": "빠른 검색",
+    "一键群转": "일괄 전송",
+    "快捷操作": "빠른 작업",
+    "一键转种": "전송 대상",
+    "转种站点启用": "전송 대상 섹션의 사이트 선택",
+    "批量转种启用": "일괄 전송 버튼을 사용할 사이트 선택",
+    "一键批量转发到以下选中的站点": "아래에서 선택한 사이트로 원클릭 일괄 전송하기",
+    "站点搜索启用": "빠른 검색 섹션에서 사이트 선택",
+    "图床配置": "이미지 호스트 설정",
+    "如何获取？": "어떻게 얻나요?",
+    "额外功能关闭": "추가 기능 끄기",
+    "关闭转缩略图功能": "썸네일로 변환 버튼 제거하기",
+    "关闭站点图标显示": "아이콘 제거하기",
+    "关闭转存ptpimg功能": "스크린샷을 ptpimg에 업로드 버튼 제거하기",
+    "保存": "저장",
+    "取消": "취소",
+    "错误": "오류",
+    "成功": "성공",
+    "保存本地站点设置失败": "로컬 사이트 설정 저장 실패",
+    "请先设置群转列表": "먼저 일괄 전송 목록 설정",
+    "转种页面已打开，请前往对应页面操作": "전송 페이지가 열렸고, 해당 페이지로 이동하여 작업",
+    "提示": "힌트",
+    "转存截图": "다른 호스트에 스크린샷 업로드",
+    "无需转存": "업로드할 필요 없음",
+    "上传中，请稍候...": "업로드 중, 잠시만 기다려주세요.",
+    "不显示致谢内容": "감사 내용을 포함하지 않음",
+    "拷贝": "복사",
+    "已拷贝": "복사됨",
+    "不显示豆瓣按钮和豆瓣链接": "더우반 버튼 및 링크 필드 숨기기",
+    "请填写正确链接": "올바른 링크를 입력하세요.",
+    "批量检索": "일괄 검색",
+    "同时打开多个搜索标签页": "여러 검색 탭 동시에 열기",
+    "豆瓣配置": "더우반 구성",
+    "豆瓣Cookie": "더우반 쿠키",
+    "请配置豆瓣Cookie": "더우반 쿠키를 구성하세요.",
+    "关闭快速检索": "빠른검색 비활성화",
+    "种子文件下载失败": "토렌트 파일 다운로드 실패",
+    "请手动下载": "수동으로 다운로드해주세요"
+  };
+  const zh = {
+    "豆瓣链接获取失败": "豆瓣链接获取失败",
+    "豆瓣ID获取失败": "豆瓣ID获取失败",
+    "获取豆瓣信息失败": "获取豆瓣信息失败",
+    "缺少IMDB信息": "缺少IMDB信息",
+    "获取失败": "获取失败",
+    "获取成功": "获取成功",
+    "请求失败": "请求失败",
+    "上传失败，请重试": "上传失败，请重试",
+    "ptpimg上传失败": "ptpimg上传失败",
+    "请到配置面板中填入ptpimg的api_key": "请到配置面板中填入ptpimg的api_key",
+    "封面上传失败": "封面上传失败",
+    "数据加载中...": "数据加载中...",
+    "获取图片列表失败": "获取图片列表失败",
+    "转换中...": "转换中...",
+    "转换成功！": "转换成功！",
+    "获取中...": "获取中...",
+    "缺少豆瓣链接": "缺少豆瓣链接",
+    "本种子可能禁止转载，确定要继续转载么？": "本种子可能禁止转载，确定要继续转载么？",
+    "请等待页面加载完成": "请等待页面加载完成",
+    "手动输入豆瓣链接": "手动输入豆瓣链接",
+    "获取豆瓣简介": "获取豆瓣简介",
+    "获取豆瓣读书简介": "获取豆瓣读书简介",
+    "转缩略图": "转缩略图",
+    "快速检索": "快速检索",
+    "一键群转": "一键群转",
+    "快捷操作": "快捷操作",
+    "一键转种": "一键转种",
+    "转种站点启用": "转种站点启用",
+    "批量转种启用": "批量转种启用",
+    "一键批量转发到以下选中的站点": "一键批量转发到以下选中的站点",
+    "站点搜索启用": "站点搜索启用",
+    "图床配置": "图床配置",
+    "如何获取？": "如何获取？",
+    "额外功能关闭": "额外功能关闭",
+    "关闭转缩略图功能": "关闭转缩略图功能",
+    "关闭站点图标显示": "关闭站点图标显示",
+    "关闭转存ptpimg功能": "关闭转存ptpimg功能",
+    "保存": "保存",
+    "取消": "取消",
+    "错误": "错误",
+    "成功": "成功",
+    "保存本地站点设置失败": "保存本地站点设置失败",
+    "请先设置群转列表": "请先设置群转列表",
+    "转种页面已打开，请前往对应页面操作": "转种页面已打开，请前往对应页面操作",
+    "提示": "提示",
+    "转存截图": "转存截图",
+    "无需转存": "无需转存",
+    "上传中，请稍候...": "上传中，请稍候...",
+    "不显示致谢内容": "不显示致谢内容",
+    "拷贝": "拷贝",
+    "已拷贝": "已拷贝",
+    "不显示豆瓣按钮和豆瓣链接": "不显示豆瓣按钮和豆瓣链接",
+    "请填写正确链接": "请填写正确链接",
+    "批量检索": "批量检索",
+    "同时打开多个搜索标签页": "同时打开多个搜索标签页",
+    "豆瓣配置": "豆瓣配置",
+    "豆瓣Cookie": "豆瓣Cookie",
+    "请配置豆瓣Cookie": "请配置豆瓣Cookie",
+    "关闭快速检索": "关闭快速检索",
+    "种子文件下载失败": "种子文件下载失败",
+    "请手动下载": "请手动下载"
+  };
+  const i18nConfig = {
+    en: en$1,
+    ko,
+    zh
+  };
+  function _objectWithoutPropertiesLoose(r2, e2) {
+    if (null == r2) return {};
+    var t2 = {};
+    for (var n in r2) if ({}.hasOwnProperty.call(r2, n)) {
+      if (e2.includes(n)) continue;
+      t2[n] = r2[n];
     }
-    return target;
+    return t2;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-  function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
-    var target = _objectWithoutPropertiesLoose(source, excluded);
-    var key, i3;
+  function _objectWithoutProperties(e2, t2) {
+    if (null == e2) return {};
+    var o2, r2, i = _objectWithoutPropertiesLoose(e2, t2);
     if (Object.getOwnPropertySymbols) {
-      var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-      for (i3 = 0; i3 < sourceSymbolKeys.length; i3++) {
-        key = sourceSymbolKeys[i3];
-        if (excluded.indexOf(key) >= 0) continue;
-        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-        target[key] = source[key];
-      }
+      var s2 = Object.getOwnPropertySymbols(e2);
+      for (r2 = 0; r2 < s2.length; r2++) o2 = s2[r2], t2.includes(o2) || {}.propertyIsEnumerable.call(e2, o2) && (i[o2] = e2[o2]);
     }
-    return target;
+    return i;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/defineProperty.js
-  init_preact_shim();
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
+  function _typeof$1(o2) {
+    "@babel/helpers - typeof";
+    return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+      return typeof o3;
+    } : function(o3) {
+      return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
+    }, _typeof$1(o2);
+  }
+  function toPrimitive(t2, r2) {
+    if ("object" != _typeof$1(t2) || !t2) return t2;
+    var e2 = t2[Symbol.toPrimitive];
+    if (void 0 !== e2) {
+      var i = e2.call(t2, r2 || "default");
+      if ("object" != _typeof$1(i)) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    return obj;
+    return ("string" === r2 ? String : Number)(t2);
   }
-
-  // node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-  init_preact_shim();
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
+  function toPropertyKey(t2) {
+    var i = toPrimitive(t2, "string");
+    return "symbol" == _typeof$1(i) ? i : i + "";
   }
-
-  // node_modules/@babel/runtime/helpers/esm/createClass.js
-  init_preact_shim();
-  function _defineProperties(target, props) {
-    for (var i3 = 0; i3 < props.length; i3++) {
-      var descriptor = props[i3];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+  function _defineProperty$1(e2, r2, t2) {
+    return (r2 = toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, {
+      value: t2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    }) : e2[r2] = t2, e2;
+  }
+  function _classCallCheck$2(a2, n) {
+    if (!(a2 instanceof n)) throw new TypeError("Cannot call a class as a function");
+  }
+  function _defineProperties(e2, r2) {
+    for (var t2 = 0; t2 < r2.length; t2++) {
+      var o2 = r2[t2];
+      o2.enumerable = o2.enumerable || false, o2.configurable = true, "value" in o2 && (o2.writable = true), Object.defineProperty(e2, toPropertyKey(o2.key), o2);
     }
   }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    Object.defineProperty(Constructor, "prototype", {
+  function _createClass$2(e2, r2, t2) {
+    return r2 && _defineProperties(e2.prototype, r2), Object.defineProperty(e2, "prototype", {
       writable: false
-    });
-    return Constructor;
+    }), e2;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/inherits.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-  init_preact_shim();
-  function _setPrototypeOf(o4, p3) {
-    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o5, p4) {
-      o5.__proto__ = p4;
-      return o5;
-    };
-    return _setPrototypeOf(o4, p3);
+  function _setPrototypeOf(t2, e2) {
+    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e3) {
+      return t3.__proto__ = e3, t3;
+    }, _setPrototypeOf(t2, e2);
   }
-
-  // node_modules/@babel/runtime/helpers/esm/inherits.js
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
+  function _inherits$2(t2, e2) {
+    if ("function" != typeof e2 && null !== e2) throw new TypeError("Super expression must either be null or a function");
+    t2.prototype = Object.create(e2 && e2.prototype, {
       constructor: {
-        value: subClass,
+        value: t2,
         writable: true,
         configurable: true
       }
-    });
-    Object.defineProperty(subClass, "prototype", {
+    }), Object.defineProperty(t2, "prototype", {
       writable: false
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
+    }), e2 && _setPrototypeOf(t2, e2);
   }
-
-  // node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/typeof.js
-  init_preact_shim();
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj2) {
-      return typeof obj2;
-    } : function(obj2) {
-      return obj2 && "function" == typeof Symbol && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
-    }, _typeof(obj);
+  function _assertThisInitialized(e2) {
+    if (void 0 === e2) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    return e2;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-  init_preact_shim();
-  function _assertThisInitialized(self2) {
-    if (self2 === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  function _possibleConstructorReturn$2(t2, e2) {
+    if (e2 && ("object" == _typeof$1(e2) || "function" == typeof e2)) return e2;
+    if (void 0 !== e2) throw new TypeError("Derived constructors may only return object or undefined");
+    return _assertThisInitialized(t2);
+  }
+  function _getPrototypeOf(t2) {
+    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t3) {
+      return t3.__proto__ || Object.getPrototypeOf(t3);
+    }, _getPrototypeOf(t2);
+  }
+  var t, r, u, i$2, o = 0, f = [], c = preact.options, e = c.__b, a = c.__r, v = c.diffed, l = c.__c, m = c.unmount, s = c.__;
+  function d(n, t2) {
+    c.__h && c.__h(r, n, o || t2), o = 0;
+    var u2 = r.__H || (r.__H = { __: [], __h: [] });
+    return n >= u2.__.length && u2.__.push({}), u2.__[n];
+  }
+  function h(n) {
+    return o = 1, p(D$1, n);
+  }
+  function p(n, u2, i) {
+    var o2 = d(t++, 2);
+    if (o2.t = n, !o2.__c && (o2.__ = [i ? i(u2) : D$1(void 0, u2), function(n2) {
+      var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n2);
+      t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
+    }], o2.__c = r, !r.u)) {
+      var f2 = function(n2, t2, r2) {
+        if (!o2.__c.__H) return true;
+        var u3 = o2.__c.__H.__.filter(function(n3) {
+          return !!n3.__c;
+        });
+        if (u3.every(function(n3) {
+          return !n3.__N;
+        })) return !c2 || c2.call(this, n2, t2, r2);
+        var i2 = false;
+        return u3.forEach(function(n3) {
+          if (n3.__N) {
+            var t3 = n3.__[0];
+            n3.__ = n3.__N, n3.__N = void 0, t3 !== n3.__[0] && (i2 = true);
+          }
+        }), !(!i2 && o2.__c.props === n2) && (!c2 || c2.call(this, n2, t2, r2));
+      };
+      r.u = true;
+      var c2 = r.shouldComponentUpdate, e2 = r.componentWillUpdate;
+      r.componentWillUpdate = function(n2, t2, r2) {
+        if (this.__e) {
+          var u3 = c2;
+          c2 = void 0, f2(n2, t2, r2), c2 = u3;
+        }
+        e2 && e2.call(this, n2, t2, r2);
+      }, r.shouldComponentUpdate = f2;
     }
-    return self2;
+    return o2.__N || o2.__;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-  function _possibleConstructorReturn(self2, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-      return call;
-    } else if (call !== void 0) {
-      throw new TypeError("Derived constructors may only return object or undefined");
-    }
-    return _assertThisInitialized(self2);
+  function y(n, u2) {
+    var i = d(t++, 3);
+    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__H.__h.push(i));
   }
-
-  // node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-  init_preact_shim();
-  function _getPrototypeOf(o4) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf2(o5) {
-      return o5.__proto__ || Object.getPrototypeOf(o5);
-    };
-    return _getPrototypeOf(o4);
+  function _(n, u2) {
+    var i = d(t++, 4);
+    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__h.push(i));
   }
-
-  // node_modules/react/index.mjs
-  init_preact_shim();
-
-  // node_modules/preact/compat/dist/compat.module.js
-  init_preact_shim();
-
-  // node_modules/preact/hooks/dist/hooks.module.js
-  init_preact_shim();
-  init_preact_module();
-  var t2;
-  var u2;
-  var r2;
-  var o2;
-  var i2 = 0;
-  var c2 = [];
-  var f2 = l.__b;
-  var e2 = l.__r;
-  var a2 = l.diffed;
-  var v2 = l.__c;
-  var l2 = l.unmount;
-  function m2(t3, r3) {
-    l.__h && l.__h(u2, t3, i2 || r3), i2 = 0;
-    var o4 = u2.__H || (u2.__H = { __: [], __h: [] });
-    return t3 >= o4.__.length && o4.__.push({}), o4.__[t3];
-  }
-  function d2(n2) {
-    return i2 = 1, p2(z2, n2);
-  }
-  function p2(n2, r3, o4) {
-    var i3 = m2(t2++, 2);
-    return i3.t = n2, i3.__c || (i3.__ = [o4 ? o4(r3) : z2(void 0, r3), function(n3) {
-      var t3 = i3.t(i3.__[0], n3);
-      i3.__[0] !== t3 && (i3.__ = [t3, i3.__[1]], i3.__c.setState({}));
-    }], i3.__c = u2), i3.__;
-  }
-  function y2(r3, o4) {
-    var i3 = m2(t2++, 3);
-    !l.__s && w2(i3.__H, o4) && (i3.__ = r3, i3.u = o4, u2.__H.__h.push(i3));
-  }
-  function h2(r3, o4) {
-    var i3 = m2(t2++, 4);
-    !l.__s && w2(i3.__H, o4) && (i3.__ = r3, i3.u = o4, u2.__h.push(i3));
-  }
-  function s2(n2) {
-    return i2 = 5, A2(function() {
-      return { current: n2 };
+  function A$1(n) {
+    return o = 5, T$1(function() {
+      return { current: n };
     }, []);
   }
-  function _2(n2, t3, u3) {
-    i2 = 6, h2(function() {
-      return "function" == typeof n2 ? (n2(t3()), function() {
-        return n2(null);
-      }) : n2 ? (n2.current = t3(), function() {
-        return n2.current = null;
+  function F$1(n, t2, r2) {
+    o = 6, _(function() {
+      return "function" == typeof n ? (n(t2()), function() {
+        return n(null);
+      }) : n ? (n.current = t2(), function() {
+        return n.current = null;
       }) : void 0;
-    }, null == u3 ? u3 : u3.concat(n2));
+    }, null == r2 ? r2 : r2.concat(n));
   }
-  function A2(n2, u3) {
-    var r3 = m2(t2++, 7);
-    return w2(r3.__H, u3) ? (r3.o = n2(), r3.u = u3, r3.__h = n2, r3.o) : r3.__;
+  function T$1(n, r2) {
+    var u2 = d(t++, 7);
+    return C$1(u2.__H, r2) && (u2.__ = n(), u2.__H = r2, u2.__h = n), u2.__;
   }
-  function F(n2, t3) {
-    return i2 = 8, A2(function() {
-      return n2;
-    }, t3);
+  function q$1(n, t2) {
+    return o = 8, T$1(function() {
+      return n;
+    }, t2);
   }
-  function T2(n2) {
-    var r3 = u2.context[n2.__c], o4 = m2(t2++, 9);
-    return o4.c = n2, r3 ? (null == o4.__ && (o4.__ = true, r3.sub(u2)), r3.props.value) : n2.__;
+  function x$1(n) {
+    var u2 = r.context[n.__c], i = d(t++, 9);
+    return i.c = n, u2 ? (null == i.__ && (i.__ = true, u2.sub(r)), u2.props.value) : n.__;
   }
-  function q2(t3, u3) {
-    l.useDebugValue && l.useDebugValue(u3 ? u3(t3) : t3);
+  function P$1(n, t2) {
+    c.useDebugValue && c.useDebugValue(t2 ? t2(n) : n);
   }
-  function b2() {
-    for (var t3; t3 = c2.shift(); ) if (t3.__P) try {
-      t3.__H.__h.forEach(j2), t3.__H.__h.forEach(k2), t3.__H.__h = [];
-    } catch (u3) {
-      t3.__H.__h = [], l.__e(u3, t3.__v);
+  function g$1() {
+    var n = d(t++, 11);
+    if (!n.__) {
+      for (var u2 = r.__v; null !== u2 && !u2.__m && null !== u2.__; ) u2 = u2.__;
+      var i = u2.__m || (u2.__m = [0, 0]);
+      n.__ = "P" + i[0] + "-" + i[1]++;
+    }
+    return n.__;
+  }
+  function j$1() {
+    for (var n; n = f.shift(); ) if (n.__P && n.__H) try {
+      n.__H.__h.forEach(z$1), n.__H.__h.forEach(B$1), n.__H.__h = [];
+    } catch (t2) {
+      n.__H.__h = [], c.__e(t2, n.__v);
     }
   }
-  l.__b = function(n2) {
-    u2 = null, f2 && f2(n2);
-  }, l.__r = function(n2) {
-    e2 && e2(n2), t2 = 0;
-    var o4 = (u2 = n2.__c).__H;
-    o4 && (r2 === u2 ? (o4.__h = [], u2.__h = [], o4.__.forEach(function(n3) {
-      n3.o = n3.u = void 0;
-    })) : (o4.__.forEach(function(n3) {
-      n3.u && (n3.__H = n3.u), n3.o && (n3.__ = n3.o), n3.o = n3.u = void 0;
-    }), o4.__h.forEach(j2), o4.__h.forEach(k2), o4.__h = [])), r2 = u2;
-  }, l.diffed = function(t3) {
-    a2 && a2(t3);
-    var i3 = t3.__c;
-    i3 && i3.__H && i3.__H.__h.length && (1 !== c2.push(i3) && o2 === l.requestAnimationFrame || ((o2 = l.requestAnimationFrame) || function(n2) {
-      var t4, u3 = function() {
-        clearTimeout(r3), g2 && cancelAnimationFrame(t4), setTimeout(n2);
-      }, r3 = setTimeout(u3, 100);
-      g2 && (t4 = requestAnimationFrame(u3));
-    })(b2)), u2 = null, r2 = null;
-  }, l.__c = function(t3, u3) {
-    u3.some(function(t4) {
+  c.__b = function(n) {
+    r = null, e && e(n);
+  }, c.__ = function(n, t2) {
+    n && t2.__k && t2.__k.__m && (n.__m = t2.__k.__m), s && s(n, t2);
+  }, c.__r = function(n) {
+    a && a(n), t = 0;
+    var i = (r = n.__c).__H;
+    i && (u === r ? (i.__h = [], r.__h = [], i.__.forEach(function(n2) {
+      n2.__N && (n2.__ = n2.__N), n2.i = n2.__N = void 0;
+    })) : (i.__h.forEach(z$1), i.__h.forEach(B$1), i.__h = [], t = 0)), u = r;
+  }, c.diffed = function(n) {
+    v && v(n);
+    var t2 = n.__c;
+    t2 && t2.__H && (t2.__H.__h.length && (1 !== f.push(t2) && i$2 === c.requestAnimationFrame || ((i$2 = c.requestAnimationFrame) || w$1)(j$1)), t2.__H.__.forEach(function(n2) {
+      n2.i && (n2.__H = n2.i), n2.i = void 0;
+    })), u = r = null;
+  }, c.__c = function(n, t2) {
+    t2.some(function(n2) {
       try {
-        t4.__H && t4.__H.__.forEach(function(n2) {
-          n2.u && (n2.__H = n2.u), n2.o && (n2.__ = n2.o), n2.o = n2.u = void 0;
-        }), t4.__h.forEach(j2), t4.__h = t4.__h.filter(function(n2) {
-          return !n2.__ || k2(n2);
+        n2.__h.forEach(z$1), n2.__h = n2.__h.filter(function(n3) {
+          return !n3.__ || B$1(n3);
         });
-      } catch (r3) {
-        u3.some(function(n2) {
-          n2.__h && (n2.__h = []);
-        }), u3 = [], l.__e(r3, t4.__v);
+      } catch (r2) {
+        t2.some(function(n3) {
+          n3.__h && (n3.__h = []);
+        }), t2 = [], c.__e(r2, n2.__v);
       }
-    }), v2 && v2(t3, u3);
-  }, l.unmount = function(t3) {
-    l2 && l2(t3);
-    var u3, r3 = t3.__c;
-    r3 && r3.__H && (r3.__H.__.forEach(function(n2) {
+    }), l && l(n, t2);
+  }, c.unmount = function(n) {
+    m && m(n);
+    var t2, r2 = n.__c;
+    r2 && r2.__H && (r2.__H.__.forEach(function(n2) {
       try {
-        j2(n2);
+        z$1(n2);
       } catch (n3) {
-        u3 = n3;
+        t2 = n3;
       }
-    }), u3 && l.__e(u3, r3.__v));
+    }), r2.__H = void 0, t2 && c.__e(t2, r2.__v));
   };
-  var g2 = "function" == typeof requestAnimationFrame;
-  function j2(n2) {
-    var t3 = u2, r3 = n2.__c;
-    "function" == typeof r3 && (n2.__c = void 0, r3()), u2 = t3;
+  var k$1 = "function" == typeof requestAnimationFrame;
+  function w$1(n) {
+    var t2, r2 = function() {
+      clearTimeout(u2), k$1 && cancelAnimationFrame(t2), setTimeout(n);
+    }, u2 = setTimeout(r2, 100);
+    k$1 && (t2 = requestAnimationFrame(r2));
   }
-  function k2(n2) {
-    var t3 = u2;
-    n2.__c = n2.__(), u2 = t3;
+  function z$1(n) {
+    var t2 = r, u2 = n.__c;
+    "function" == typeof u2 && (n.__c = void 0, u2()), r = t2;
   }
-  function w2(n2, t3) {
-    return !n2 || n2.length !== t3.length || t3.some(function(t4, u3) {
-      return t4 !== n2[u3];
+  function B$1(n) {
+    var t2 = r;
+    n.__c = n.__(), r = t2;
+  }
+  function C$1(n, t2) {
+    return !n || n.length !== t2.length || t2.some(function(t3, r2) {
+      return t3 !== n[r2];
     });
   }
-  function z2(n2, t3) {
-    return "function" == typeof t3 ? t3(n2) : t3;
+  function D$1(n, t2) {
+    return "function" == typeof t2 ? t2(n) : t2;
   }
-
-  // node_modules/preact/compat/dist/compat.module.js
-  init_preact_module();
-  init_preact_module();
-  function C2(n2, t3) {
-    for (var e4 in t3) n2[e4] = t3[e4];
+  function g(n2, t2) {
+    for (var e2 in t2) n2[e2] = t2[e2];
     return n2;
   }
-  function S2(n2, t3) {
-    for (var e4 in n2) if ("__source" !== e4 && !(e4 in t3)) return true;
-    for (var r3 in t3) if ("__source" !== r3 && n2[r3] !== t3[r3]) return true;
+  function E(n2, t2) {
+    for (var e2 in n2) if ("__source" !== e2 && !(e2 in t2)) return true;
+    for (var r2 in t2) if ("__source" !== r2 && n2[r2] !== t2[r2]) return true;
     return false;
   }
-  function E(n2) {
-    this.props = n2;
+  function C(n2, t2) {
+    this.props = n2, this.context = t2;
   }
-  function g3(n2, t3) {
-    function e4(n3) {
-      var e5 = this.props.ref, r4 = e5 == n3.ref;
-      return !r4 && e5 && (e5.call ? e5(null) : e5.current = null), t3 ? !t3(this.props, n3) || !r4 : S2(this.props, n3);
+  function x(n2, e2) {
+    function r2(n3) {
+      var t2 = this.props.ref, r3 = t2 == n3.ref;
+      return !r3 && t2 && (t2.call ? t2(null) : t2.current = null), e2 ? !e2(this.props, n3) || !r3 : E(this.props, n3);
     }
-    function r3(t4) {
-      return this.shouldComponentUpdate = e4, v(n2, t4);
+    function u2(e3) {
+      return this.shouldComponentUpdate = r2, preact.createElement(n2, e3);
     }
-    return r3.displayName = "Memo(" + (n2.displayName || n2.name) + ")", r3.prototype.isReactComponent = true, r3.__f = true, r3;
+    return u2.displayName = "Memo(" + (n2.displayName || n2.name) + ")", u2.prototype.isReactComponent = true, u2.__f = true, u2;
   }
-  (E.prototype = new _()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n2, t3) {
-    return S2(this.props, n2) || S2(this.state, t3);
+  (C.prototype = new preact.Component()).isPureReactComponent = true, C.prototype.shouldComponentUpdate = function(n2, t2) {
+    return E(this.props, n2) || E(this.state, t2);
   };
-  var w3 = l.__b;
-  l.__b = function(n2) {
-    n2.type && n2.type.__f && n2.ref && (n2.props.ref = n2.ref, n2.ref = null), w3 && w3(n2);
+  var R = preact.options.__b;
+  preact.options.__b = function(n2) {
+    n2.type && n2.type.__f && n2.ref && (n2.props.ref = n2.ref, n2.ref = null), R && R(n2);
   };
-  var R = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function x2(n2) {
-    function t3(t4) {
-      var e4 = C2({}, t4);
-      return delete e4.ref, n2(e4, t4.ref || null);
+  var w = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
+  function k(n2) {
+    function t2(t3) {
+      var e2 = g({}, t3);
+      return delete e2.ref, n2(e2, t3.ref || null);
     }
-    return t3.$$typeof = R, t3.render = t3, t3.prototype.isReactComponent = t3.__f = true, t3.displayName = "ForwardRef(" + (n2.displayName || n2.name) + ")", t3;
+    return t2.$$typeof = w, t2.render = t2, t2.prototype.isReactComponent = t2.__f = true, t2.displayName = "ForwardRef(" + (n2.displayName || n2.name) + ")", t2;
   }
-  var N2 = function(n2, t3) {
-    return null == n2 ? null : A(A(n2).map(t3));
-  };
-  var k3 = { map: N2, forEach: N2, count: function(n2) {
-    return n2 ? A(n2).length : 0;
+  var I = function(n2, t2) {
+    return null == n2 ? null : preact.toChildArray(preact.toChildArray(n2).map(t2));
+  }, N = { map: I, forEach: I, count: function(n2) {
+    return n2 ? preact.toChildArray(n2).length : 0;
   }, only: function(n2) {
-    var t3 = A(n2);
-    if (1 !== t3.length) throw "Children.only";
-    return t3[0];
-  }, toArray: A };
-  var A3 = l.__e;
-  l.__e = function(n2, t3, e4, r3) {
+    var t2 = preact.toChildArray(n2);
+    if (1 !== t2.length) throw "Children.only";
+    return t2[0];
+  }, toArray: preact.toChildArray }, M = preact.options.__e;
+  preact.options.__e = function(n2, t2, e2, r2) {
     if (n2.then) {
-      for (var u3, o4 = t3; o4 = o4.__; ) if ((u3 = o4.__c) && u3.__c) return null == t3.__e && (t3.__e = e4.__e, t3.__k = e4.__k), u3.__c(n2, t3);
+      for (var u2, o2 = t2; o2 = o2.__; ) if ((u2 = o2.__c) && u2.__c) return null == t2.__e && (t2.__e = e2.__e, t2.__k = e2.__k), u2.__c(n2, t2);
     }
-    A3(n2, t3, e4, r3);
+    M(n2, t2, e2, r2);
   };
-  var O2 = l.unmount;
-  function L2() {
+  var T = preact.options.unmount;
+  function A(n2, t2, e2) {
+    return n2 && (n2.__c && n2.__c.__H && (n2.__c.__H.__.forEach(function(n3) {
+      "function" == typeof n3.__c && n3.__c();
+    }), n2.__c.__H = null), null != (n2 = g({}, n2)).__c && (n2.__c.__P === e2 && (n2.__c.__P = t2), n2.__c = null), n2.__k = n2.__k && n2.__k.map(function(n3) {
+      return A(n3, t2, e2);
+    })), n2;
+  }
+  function D(n2, t2, e2) {
+    return n2 && e2 && (n2.__v = null, n2.__k = n2.__k && n2.__k.map(function(n3) {
+      return D(n3, t2, e2);
+    }), n2.__c && n2.__c.__P === t2 && (n2.__e && e2.appendChild(n2.__e), n2.__c.__e = true, n2.__c.__P = e2)), n2;
+  }
+  function L() {
     this.__u = 0, this.t = null, this.__b = null;
   }
-  function U(n2) {
-    var t3 = n2.__.__c;
-    return t3 && t3.__e && t3.__e(n2);
+  function O(n2) {
+    var t2 = n2.__.__c;
+    return t2 && t2.__a && t2.__a(n2);
   }
-  function F2(n2) {
-    var t3, e4, r3;
-    function u3(u4) {
-      if (t3 || (t3 = n2()).then(function(n3) {
-        e4 = n3.default || n3;
+  function F(n2) {
+    var e2, r2, u2;
+    function o2(o3) {
+      if (e2 || (e2 = n2()).then(function(n3) {
+        r2 = n3.default || n3;
       }, function(n3) {
-        r3 = n3;
-      }), r3) throw r3;
-      if (!e4) throw t3;
-      return v(e4, u4);
+        u2 = n3;
+      }), u2) throw u2;
+      if (!r2) throw e2;
+      return preact.createElement(r2, o3);
     }
-    return u3.displayName = "Lazy", u3.__f = true, u3;
+    return o2.displayName = "Lazy", o2.__f = true, o2;
   }
-  function M2() {
+  function U() {
     this.u = null, this.o = null;
   }
-  l.unmount = function(n2) {
-    var t3 = n2.__c;
-    t3 && t3.__R && t3.__R(), t3 && true === n2.__h && (n2.type = null), O2 && O2(n2);
-  }, (L2.prototype = new _()).__c = function(n2, t3) {
-    var e4 = t3.__c, r3 = this;
-    null == r3.t && (r3.t = []), r3.t.push(e4);
-    var u3 = U(r3.__v), o4 = false, i3 = function() {
-      o4 || (o4 = true, e4.__R = null, u3 ? u3(l3) : l3());
+  preact.options.unmount = function(n2) {
+    var t2 = n2.__c;
+    t2 && t2.__R && t2.__R(), t2 && 32 & n2.__u && (n2.type = null), T && T(n2);
+  }, (L.prototype = new preact.Component()).__c = function(n2, t2) {
+    var e2 = t2.__c, r2 = this;
+    null == r2.t && (r2.t = []), r2.t.push(e2);
+    var u2 = O(r2.__v), o2 = false, i2 = function() {
+      o2 || (o2 = true, e2.__R = null, u2 ? u2(c2) : c2());
     };
-    e4.__R = i3;
-    var l3 = function() {
-      if (!--r3.__u) {
-        if (r3.state.__e) {
-          var n3 = r3.state.__e;
-          r3.__v.__k[0] = function n4(t5, e5, r4) {
-            return t5 && (t5.__v = null, t5.__k = t5.__k && t5.__k.map(function(t6) {
-              return n4(t6, e5, r4);
-            }), t5.__c && t5.__c.__P === e5 && (t5.__e && r4.insertBefore(t5.__e, t5.__d), t5.__c.__e = true, t5.__c.__P = r4)), t5;
-          }(n3, n3.__c.__P, n3.__c.__O);
+    e2.__R = i2;
+    var c2 = function() {
+      if (!--r2.__u) {
+        if (r2.state.__a) {
+          var n3 = r2.state.__a;
+          r2.__v.__k[0] = D(n3, n3.__c.__P, n3.__c.__O);
         }
-        var t4;
-        for (r3.setState({ __e: r3.__b = null }); t4 = r3.t.pop(); ) t4.forceUpdate();
+        var t3;
+        for (r2.setState({ __a: r2.__b = null }); t3 = r2.t.pop(); ) t3.forceUpdate();
       }
-    }, f3 = true === t3.__h;
-    r3.__u++ || f3 || r3.setState({ __e: r3.__b = r3.__v.__k[0] }), n2.then(i3, i3);
-  }, L2.prototype.componentWillUnmount = function() {
+    };
+    r2.__u++ || 32 & t2.__u || r2.setState({ __a: r2.__b = r2.__v.__k[0] }), n2.then(i2, i2);
+  }, L.prototype.componentWillUnmount = function() {
     this.t = [];
-  }, L2.prototype.render = function(n2, t3) {
+  }, L.prototype.render = function(n2, e2) {
     if (this.__b) {
       if (this.__v.__k) {
-        var e4 = document.createElement("div"), r3 = this.__v.__k[0].__c;
-        this.__v.__k[0] = function n3(t4, e5, r4) {
-          return t4 && (t4.__c && t4.__c.__H && (t4.__c.__H.__.forEach(function(n4) {
-            "function" == typeof n4.__c && n4.__c();
-          }), t4.__c.__H = null), null != (t4 = C2({}, t4)).__c && (t4.__c.__P === r4 && (t4.__c.__P = e5), t4.__c = null), t4.__k = t4.__k && t4.__k.map(function(t5) {
-            return n3(t5, e5, r4);
-          })), t4;
-        }(this.__b, e4, r3.__O = r3.__P);
+        var r2 = document.createElement("div"), o2 = this.__v.__k[0].__c;
+        this.__v.__k[0] = A(this.__b, r2, o2.__O = o2.__P);
       }
       this.__b = null;
     }
-    var u3 = t3.__e && v(d, null, n2.fallback);
-    return u3 && (u3.__h = null), [v(d, null, t3.__e ? null : n2.children), u3];
+    var i2 = e2.__a && preact.createElement(preact.Fragment, null, n2.fallback);
+    return i2 && (i2.__u &= -33), [preact.createElement(preact.Fragment, null, e2.__a ? null : n2.children), i2];
   };
-  var T3 = function(n2, t3, e4) {
-    if (++e4[1] === e4[0] && n2.o.delete(t3), n2.props.revealOrder && ("t" !== n2.props.revealOrder[0] || !n2.o.size)) for (e4 = n2.u; e4; ) {
-      for (; e4.length > 3; ) e4.pop()();
-      if (e4[1] < e4[0]) break;
-      n2.u = e4 = e4[2];
+  var V = function(n2, t2, e2) {
+    if (++e2[1] === e2[0] && n2.o.delete(t2), n2.props.revealOrder && ("t" !== n2.props.revealOrder[0] || !n2.o.size)) for (e2 = n2.u; e2; ) {
+      for (; e2.length > 3; ) e2.pop()();
+      if (e2[1] < e2[0]) break;
+      n2.u = e2 = e2[2];
     }
   };
-  function D2(n2) {
+  function W(n2) {
     return this.getChildContext = function() {
       return n2.context;
     }, n2.children;
   }
-  function I2(n2) {
-    var t3 = this, e4 = n2.i;
-    t3.componentWillUnmount = function() {
-      S(null, t3.l), t3.l = null, t3.i = null;
-    }, t3.i && t3.i !== e4 && t3.componentWillUnmount(), n2.__v ? (t3.l || (t3.i = e4, t3.l = { nodeType: 1, parentNode: e4, childNodes: [], appendChild: function(n3) {
-      this.childNodes.push(n3), t3.i.appendChild(n3);
-    }, insertBefore: function(n3, e5) {
-      this.childNodes.push(n3), t3.i.appendChild(n3);
+  function P(n2) {
+    var e2 = this, r2 = n2.i;
+    e2.componentWillUnmount = function() {
+      preact.render(null, e2.l), e2.l = null, e2.i = null;
+    }, e2.i && e2.i !== r2 && e2.componentWillUnmount(), e2.l || (e2.i = r2, e2.l = { nodeType: 1, parentNode: r2, childNodes: [], contains: function() {
+      return true;
+    }, appendChild: function(n3) {
+      this.childNodes.push(n3), e2.i.appendChild(n3);
+    }, insertBefore: function(n3, t2) {
+      this.childNodes.push(n3), e2.i.appendChild(n3);
     }, removeChild: function(n3) {
-      this.childNodes.splice(this.childNodes.indexOf(n3) >>> 1, 1), t3.i.removeChild(n3);
-    } }), S(v(D2, { context: t3.context }, n2.__v), t3.l)) : t3.l && t3.componentWillUnmount();
+      this.childNodes.splice(this.childNodes.indexOf(n3) >>> 1, 1), e2.i.removeChild(n3);
+    } }), preact.render(preact.createElement(W, { context: e2.context }, n2.__v), e2.l);
   }
-  function W(n2, t3) {
-    var e4 = v(I2, { __v: n2, i: t3 });
-    return e4.containerInfo = t3, e4;
+  function j(n2, e2) {
+    var r2 = preact.createElement(P, { __v: n2, i: e2 });
+    return r2.containerInfo = e2, r2;
   }
-  (M2.prototype = new _()).__e = function(n2) {
-    var t3 = this, e4 = U(t3.__v), r3 = t3.o.get(n2);
-    return r3[0]++, function(u3) {
-      var o4 = function() {
-        t3.props.revealOrder ? (r3.push(u3), T3(t3, n2, r3)) : u3();
+  (U.prototype = new preact.Component()).__a = function(n2) {
+    var t2 = this, e2 = O(t2.__v), r2 = t2.o.get(n2);
+    return r2[0]++, function(u2) {
+      var o2 = function() {
+        t2.props.revealOrder ? (r2.push(u2), V(t2, n2, r2)) : u2();
       };
-      e4 ? e4(o4) : o4();
+      e2 ? e2(o2) : o2();
     };
-  }, M2.prototype.render = function(n2) {
+  }, U.prototype.render = function(n2) {
     this.u = null, this.o = /* @__PURE__ */ new Map();
-    var t3 = A(n2.children);
-    n2.revealOrder && "b" === n2.revealOrder[0] && t3.reverse();
-    for (var e4 = t3.length; e4--; ) this.o.set(t3[e4], this.u = [1, 0, this.u]);
+    var t2 = preact.toChildArray(n2.children);
+    n2.revealOrder && "b" === n2.revealOrder[0] && t2.reverse();
+    for (var e2 = t2.length; e2--; ) this.o.set(t2[e2], this.u = [1, 0, this.u]);
     return n2.children;
-  }, M2.prototype.componentDidUpdate = M2.prototype.componentDidMount = function() {
+  }, U.prototype.componentDidUpdate = U.prototype.componentDidMount = function() {
     var n2 = this;
-    this.o.forEach(function(t3, e4) {
-      T3(n2, e4, t3);
+    this.o.forEach(function(t2, e2) {
+      V(n2, e2, t2);
     });
   };
-  var P2 = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103;
-  var V = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|marker(?!H|W|U)|overline|paint|stop|strikethrough|stroke|text(?!L)|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
-  var j3 = "undefined" != typeof document;
-  var z3 = function(n2) {
-    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/i : /fil|che|ra/i).test(n2);
+  var z = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103, B = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, H = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, Z = /[A-Z0-9]/g, Y = "undefined" != typeof document, $ = function(n2) {
+    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n2);
   };
-  function B2(n2, t3, e4) {
-    return null == t3.__k && (t3.textContent = ""), S(n2, t3), "function" == typeof e4 && e4(), n2 ? n2.__c : null;
+  function q(n2, t2, e2) {
+    return null == t2.__k && (t2.textContent = ""), preact.render(n2, t2), "function" == typeof e2 && e2(), n2 ? n2.__c : null;
   }
-  function $3(n2, t3, e4) {
-    return q(n2, t3), "function" == typeof e4 && e4(), n2 ? n2.__c : null;
+  function G(n2, t2, e2) {
+    return preact.hydrate(n2, t2), "function" == typeof e2 && e2(), n2 ? n2.__c : null;
   }
-  _.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function(n2) {
-    Object.defineProperty(_.prototype, n2, { configurable: true, get: function() {
-      return this["UNSAFE_" + n2];
-    }, set: function(t3) {
-      Object.defineProperty(this, n2, { configurable: true, writable: true, value: t3 });
+  preact.Component.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function(t2) {
+    Object.defineProperty(preact.Component.prototype, t2, { configurable: true, get: function() {
+      return this["UNSAFE_" + t2];
+    }, set: function(n2) {
+      Object.defineProperty(this, t2, { configurable: true, writable: true, value: n2 });
     } });
   });
-  var H2 = l.event;
-  function Z() {
+  var J = preact.options.event;
+  function K() {
   }
-  function Y() {
+  function Q() {
     return this.cancelBubble;
   }
-  function q3() {
+  function X() {
     return this.defaultPrevented;
   }
-  l.event = function(n2) {
-    return H2 && (n2 = H2(n2)), n2.persist = Z, n2.isPropagationStopped = Y, n2.isDefaultPrevented = q3, n2.nativeEvent = n2;
+  preact.options.event = function(n2) {
+    return J && (n2 = J(n2)), n2.persist = K, n2.isPropagationStopped = Q, n2.isDefaultPrevented = X, n2.nativeEvent = n2;
   };
-  var G;
-  var J = { configurable: true, get: function() {
+  var nn, tn = { enumerable: false, configurable: true, get: function() {
     return this.class;
-  } };
-  var K = l.vnode;
-  l.vnode = function(n2) {
-    var t3 = n2.type, e4 = n2.props, r3 = e4;
-    if ("string" == typeof t3) {
-      var u3 = -1 === t3.indexOf("-");
-      for (var o4 in r3 = {}, e4) {
-        var i3 = e4[o4];
-        j3 && "children" === o4 && "noscript" === t3 || "value" === o4 && "defaultValue" in e4 && null == i3 || ("defaultValue" === o4 && "value" in e4 && null == e4.value ? o4 = "value" : "download" === o4 && true === i3 ? i3 = "" : /ondoubleclick/i.test(o4) ? o4 = "ondblclick" : /^onchange(textarea|input)/i.test(o4 + t3) && !z3(e4.type) ? o4 = "oninput" : /^onfocus$/i.test(o4) ? o4 = "onfocusin" : /^onblur$/i.test(o4) ? o4 = "onfocusout" : /^on(Ani|Tra|Tou|BeforeInp|Compo)/.test(o4) ? o4 = o4.toLowerCase() : u3 && V.test(o4) ? o4 = o4.replace(/[A-Z0-9]/, "-$&").toLowerCase() : null === i3 && (i3 = void 0), /^oninput/i.test(o4) && (o4 = o4.toLowerCase(), r3[o4] && (o4 = "oninputCapture")), r3[o4] = i3);
+  } }, en = preact.options.vnode;
+  preact.options.vnode = function(n2) {
+    "string" == typeof n2.type && function(n3) {
+      var t2 = n3.props, e2 = n3.type, u2 = {}, o2 = -1 === e2.indexOf("-");
+      for (var i2 in t2) {
+        var c2 = t2[i2];
+        if (!("value" === i2 && "defaultValue" in t2 && null == c2 || Y && "children" === i2 && "noscript" === e2 || "class" === i2 || "className" === i2)) {
+          var l2 = i2.toLowerCase();
+          "defaultValue" === i2 && "value" in t2 && null == t2.value ? i2 = "value" : "download" === i2 && true === c2 ? c2 = "" : "translate" === l2 && "no" === c2 ? c2 = false : "o" === l2[0] && "n" === l2[1] ? "ondoubleclick" === l2 ? i2 = "ondblclick" : "onchange" !== l2 || "input" !== e2 && "textarea" !== e2 || $(t2.type) ? "onfocus" === l2 ? i2 = "onfocusin" : "onblur" === l2 ? i2 = "onfocusout" : H.test(i2) && (i2 = l2) : l2 = i2 = "oninput" : o2 && B.test(i2) ? i2 = i2.replace(Z, "-$&").toLowerCase() : null === c2 && (c2 = void 0), "oninput" === l2 && u2[i2 = l2] && (i2 = "oninputCapture"), u2[i2] = c2;
+        }
       }
-      "select" == t3 && r3.multiple && Array.isArray(r3.value) && (r3.value = A(e4.children).forEach(function(n3) {
-        n3.props.selected = -1 != r3.value.indexOf(n3.props.value);
-      })), "select" == t3 && null != r3.defaultValue && (r3.value = A(e4.children).forEach(function(n3) {
-        n3.props.selected = r3.multiple ? -1 != r3.defaultValue.indexOf(n3.props.value) : r3.defaultValue == n3.props.value;
-      })), n2.props = r3, e4.class != e4.className && (J.enumerable = "className" in e4, null != e4.className && (r3.class = e4.className), Object.defineProperty(r3, "className", J));
-    }
-    n2.$$typeof = P2, K && K(n2);
+      "select" == e2 && u2.multiple && Array.isArray(u2.value) && (u2.value = preact.toChildArray(t2.children).forEach(function(n4) {
+        n4.props.selected = -1 != u2.value.indexOf(n4.props.value);
+      })), "select" == e2 && null != u2.defaultValue && (u2.value = preact.toChildArray(t2.children).forEach(function(n4) {
+        n4.props.selected = u2.multiple ? -1 != u2.defaultValue.indexOf(n4.props.value) : u2.defaultValue == n4.props.value;
+      })), t2.class && !t2.className ? (u2.class = t2.class, Object.defineProperty(u2, "className", tn)) : (t2.className && !t2.class || t2.class && t2.className) && (u2.class = u2.className = t2.className), n3.props = u2;
+    }(n2), n2.$$typeof = z, en && en(n2);
   };
-  var Q = l.__r;
-  l.__r = function(n2) {
-    Q && Q(n2), G = n2.__c;
+  var rn = preact.options.__r;
+  preact.options.__r = function(n2) {
+    rn && rn(n2), nn = n2.__c;
   };
-  var X = { ReactCurrentDispatcher: { current: { readContext: function(n2) {
-    return G.__n[n2.__c].props.value;
-  } } } };
-  function tn(n2) {
-    return v.bind(null, n2);
+  var un = preact.options.diffed;
+  preact.options.diffed = function(n2) {
+    un && un(n2);
+    var t2 = n2.props, e2 = n2.__e;
+    null != e2 && "textarea" === n2.type && "value" in t2 && t2.value !== e2.value && (e2.value = null == t2.value ? "" : t2.value), nn = null;
+  };
+  var on = { ReactCurrentDispatcher: { current: { readContext: function(n2) {
+    return nn.__n[n2.__c].props.value;
+  }, useCallback: q$1, useContext: x$1, useDebugValue: P$1, useDeferredValue: bn, useEffect: y, useId: g$1, useImperativeHandle: F$1, useInsertionEffect: gn, useLayoutEffect: _, useMemo: T$1, useReducer: p, useRef: A$1, useState: h, useSyncExternalStore: Cn, useTransition: Sn } } };
+  function ln(n2) {
+    return preact.createElement.bind(null, n2);
   }
-  function en(n2) {
-    return !!n2 && n2.$$typeof === P2;
+  function fn(n2) {
+    return !!n2 && n2.$$typeof === z;
   }
-  function rn(n2) {
-    return en(n2) ? B.apply(null, arguments) : n2;
+  function an(n2) {
+    return fn(n2) && n2.type === preact.Fragment;
   }
-  function un(n2) {
-    return !!n2.__k && (S(null, n2), true);
+  function sn(n2) {
+    return !!n2 && !!n2.displayName && ("string" == typeof n2.displayName || n2.displayName instanceof String) && n2.displayName.startsWith("Memo(");
   }
-  function on(n2) {
+  function hn(n2) {
+    return fn(n2) ? preact.cloneElement.apply(null, arguments) : n2;
+  }
+  function vn(n2) {
+    return !!n2.__k && (preact.render(null, n2), true);
+  }
+  function dn(n2) {
     return n2 && (n2.base || 1 === n2.nodeType && n2) || null;
   }
-  var ln = function(n2, t3) {
-    return n2(t3);
-  };
-  var fn = function(n2, t3) {
-    return n2(t3);
-  };
-  var compat_module_default = { useState: d2, useReducer: p2, useEffect: y2, useLayoutEffect: h2, useRef: s2, useImperativeHandle: _2, useMemo: A2, useCallback: F, useContext: T2, useDebugValue: q2, version: "17.0.2", Children: k3, render: B2, hydrate: $3, unmountComponentAtNode: un, createPortal: W, createElement: v, createContext: D, createFactory: tn, cloneElement: rn, createRef: p, Fragment: d, isValidElement: en, findDOMNode: on, Component: _, PureComponent: E, memo: g3, forwardRef: x2, flushSync: fn, unstable_batchedUpdates: ln, StrictMode: d, Suspense: L2, SuspenseList: M2, lazy: F2, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: X };
-
-  // node_modules/react-dom/index.mjs
-  init_preact_shim();
-
-  // node_modules/rc-animate/es/Animate.js
-  init_preact_shim();
-
-  // node_modules/rc-animate/node_modules/rc-util/es/unsafeLifecyclesPolyfill.js
-  init_preact_shim();
-  var unsafeLifecyclesPolyfill = function unsafeLifecyclesPolyfill2(Component) {
-    var prototype = Component.prototype;
+  var pn = function(n2, t2) {
+    return n2(t2);
+  }, mn = function(n2, t2) {
+    return n2(t2);
+  }, yn = preact.Fragment;
+  function _n(n2) {
+    n2();
+  }
+  function bn(n2) {
+    return n2;
+  }
+  function Sn() {
+    return [false, _n];
+  }
+  var gn = _, En = fn;
+  function Cn(n2, t2) {
+    var e2 = t2(), r2 = h({ h: { __: e2, v: t2 } }), u2 = r2[0].h, o2 = r2[1];
+    return _(function() {
+      u2.__ = e2, u2.v = t2, xn(u2) && o2({ h: u2 });
+    }, [n2, e2, t2]), y(function() {
+      return xn(u2) && o2({ h: u2 }), n2(function() {
+        xn(u2) && o2({ h: u2 });
+      });
+    }, [n2]), e2;
+  }
+  function xn(n2) {
+    var t2, e2, r2 = n2.v, u2 = n2.__;
+    try {
+      var o2 = r2();
+      return !((t2 = u2) === (e2 = o2) && (0 !== t2 || 1 / t2 == 1 / e2) || t2 != t2 && e2 != e2);
+    } catch (n3) {
+      return true;
+    }
+  }
+  var Rn = { useState: h, useId: g$1, useReducer: p, useEffect: y, useLayoutEffect: _, useInsertionEffect: gn, useTransition: Sn, useDeferredValue: bn, useSyncExternalStore: Cn, startTransition: _n, useRef: A$1, useImperativeHandle: F$1, useMemo: T$1, useCallback: q$1, useContext: x$1, useDebugValue: P$1, version: "18.3.1", Children: N, render: q, hydrate: G, unmountComponentAtNode: vn, createPortal: j, createElement: preact.createElement, createContext: preact.createContext, createFactory: ln, cloneElement: hn, createRef: preact.createRef, Fragment: preact.Fragment, isValidElement: fn, isElement: En, isFragment: an, isMemo: sn, findDOMNode: dn, Component: preact.Component, PureComponent: C, memo: x, forwardRef: k, flushSync: mn, unstable_batchedUpdates: pn, StrictMode: yn, Suspense: L, SuspenseList: U, lazy: F, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: on };
+  var unsafeLifecyclesPolyfill = function unsafeLifecyclesPolyfill2(Component2) {
+    var prototype = Component2.prototype;
     if (!prototype || !prototype.isReactComponent) {
       throw new Error("Can only polyfill class components");
     }
     if (typeof prototype.componentWillReceiveProps !== "function") {
-      return Component;
+      return Component2;
     }
-    if (!compat_module_default.Profiler) {
-      return Component;
+    if (!Rn.Profiler) {
+      return Component2;
     }
     prototype.UNSAFE_componentWillReceiveProps = prototype.componentWillReceiveProps;
     delete prototype.componentWillReceiveProps;
-    return Component;
+    return Component2;
   };
-  var unsafeLifecyclesPolyfill_default = unsafeLifecyclesPolyfill;
-
-  // node_modules/rc-animate/es/ChildrenUtils.js
-  init_preact_shim();
   function toArrayChildren(children) {
     var ret = [];
-    compat_module_default.Children.forEach(children, function(child) {
+    Rn.Children.forEach(children, function(child) {
       ret.push(child);
     });
     return ret;
@@ -11333,11 +8960,11 @@
     }
     return ret;
   }
-  function isSameChildren(c1, c22, showProp) {
-    var same = c1.length === c22.length;
+  function isSameChildren(c1, c2, showProp) {
+    var same = c1.length === c2.length;
     if (same) {
       c1.forEach(function(child, index) {
-        var child2 = c22[index];
+        var child2 = c2[index];
         if (child && child2) {
           if (child && !child2 || !child && child2) {
             same = false;
@@ -11374,15 +9001,6 @@
     ret = ret.concat(pendingChildren);
     return ret;
   }
-
-  // node_modules/rc-animate/es/AnimateChild.js
-  init_preact_shim();
-
-  // node_modules/@ant-design/css-animation/es/index.js
-  init_preact_shim();
-
-  // node_modules/@ant-design/css-animation/es/Event.js
-  init_preact_shim();
   var START_EVENT_NAME_MAP = {
     transitionstart: {
       transition: "transitionstart",
@@ -11493,15 +9111,12 @@
       });
     }
   };
-  var Event_default = TransitionEvents;
-
-  // node_modules/@ant-design/css-animation/es/index.js
-  var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) {
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) {
     return typeof obj;
   } : function(obj) {
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
-  var isCssAnimationSupported = Event_default.endEvents.length !== 0;
+  var isCssAnimationSupported = TransitionEvents.endEvents.length !== 0;
   var capitalPrefixes = [
     "Webkit",
     "Moz",
@@ -11513,8 +9128,8 @@
   function getStyleProperty(node, name) {
     var style = window.getComputedStyle(node, null);
     var ret = "";
-    for (var i3 = 0; i3 < prefixes.length; i3++) {
-      ret = style.getPropertyValue(prefixes[i3] + name);
+    for (var i = 0; i < prefixes.length; i++) {
+      ret = style.getPropertyValue(prefixes[i] + name);
       if (ret) {
         break;
       }
@@ -11543,7 +9158,7 @@
     }
   }
   var cssAnimation = function cssAnimation2(node, transitionName, endCallback) {
-    var nameIsObj = (typeof transitionName === "undefined" ? "undefined" : _typeof2(transitionName)) === "object";
+    var nameIsObj = (typeof transitionName === "undefined" ? "undefined" : _typeof(transitionName)) === "object";
     var className = nameIsObj ? transitionName.name : transitionName;
     var activeClassName = nameIsObj ? transitionName.active : transitionName + "-active";
     var end = endCallback;
@@ -11557,8 +9172,8 @@
     if (node.rcEndListener) {
       node.rcEndListener();
     }
-    node.rcEndListener = function(e4) {
-      if (e4 && e4.target !== node) {
+    node.rcEndListener = function(e2) {
+      if (e2 && e2.target !== node) {
         return;
       }
       if (node.rcAnimTimeout) {
@@ -11568,13 +9183,13 @@
       clearBrowserBugTimeout(node);
       node.classList.remove(className);
       node.classList.remove(activeClassName);
-      Event_default.removeEndEventListener(node, node.rcEndListener);
+      TransitionEvents.removeEndEventListener(node, node.rcEndListener);
       node.rcEndListener = null;
       if (end) {
         end();
       }
     };
-    Event_default.addEndEventListener(node, node.rcEndListener);
+    TransitionEvents.addEndEventListener(node, node.rcEndListener);
     if (start) {
       start();
     }
@@ -11599,8 +9214,8 @@
     if (node.rcEndListener) {
       node.rcEndListener();
     }
-    node.rcEndListener = function(e4) {
-      if (e4 && e4.target !== node) {
+    node.rcEndListener = function(e2) {
+      if (e2 && e2.target !== node) {
         return;
       }
       if (node.rcAnimTimeout) {
@@ -11608,40 +9223,36 @@
         node.rcAnimTimeout = null;
       }
       clearBrowserBugTimeout(node);
-      Event_default.removeEndEventListener(node, node.rcEndListener);
+      TransitionEvents.removeEndEventListener(node, node.rcEndListener);
       node.rcEndListener = null;
       if (callback) {
         callback();
       }
     };
-    Event_default.addEndEventListener(node, node.rcEndListener);
+    TransitionEvents.addEndEventListener(node, node.rcEndListener);
     node.rcAnimTimeout = setTimeout(function() {
-      for (var s3 in style) {
-        if (style.hasOwnProperty(s3)) {
-          node.style[s3] = style[s3];
+      for (var s2 in style) {
+        if (style.hasOwnProperty(s2)) {
+          node.style[s2] = style[s2];
         }
       }
       node.rcAnimTimeout = null;
       fixBrowserByTimeout(node);
     }, 0);
   };
-  cssAnimation.setTransition = function(node, p3, value) {
-    var property = p3;
-    var v3 = value;
+  cssAnimation.setTransition = function(node, p2, value) {
+    var property = p2;
+    var v2 = value;
     if (value === void 0) {
-      v3 = property;
+      v2 = property;
       property = "";
     }
     property = property || "";
     capitalPrefixes.forEach(function(prefix) {
-      node.style[prefix + "Transition" + property] = v3;
+      node.style[prefix + "Transition" + property] = v2;
     });
   };
   cssAnimation.isCssAnimationSupported = isCssAnimationSupported;
-  var es_default = cssAnimation;
-
-  // node_modules/rc-animate/es/util/animate.js
-  init_preact_shim();
   var util = {
     isAppearSupported: function isAppearSupported(props) {
       return props.transitionName && props.transitionAppear || props.animation.appear;
@@ -11662,13 +9273,10 @@
       return props.transitionLeave || props.animation.leave;
     }
   };
-  var animate_default = util;
-
-  // node_modules/rc-animate/es/AnimateChild.js
-  var _createClass2 = /* @__PURE__ */ function() {
+  var _createClass$1 = /* @__PURE__ */ function() {
     function defineProperties(target, props) {
-      for (var i3 = 0; i3 < props.length; i3++) {
-        var descriptor = props[i3];
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -11681,18 +9289,18 @@
       return Constructor;
     };
   }();
-  function _classCallCheck2(instance, Constructor) {
+  function _classCallCheck$1(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   }
-  function _possibleConstructorReturn2(self2, call) {
+  function _possibleConstructorReturn$1(self2, call) {
     if (!self2) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
     return call && (typeof call === "object" || typeof call === "function") ? call : self2;
   }
-  function _inherits2(subClass, superClass) {
+  function _inherits$1(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
     }
@@ -11705,12 +9313,12 @@
     leave: "transitionLeave"
   };
   var AnimateChild = function(_React$Component) {
-    _inherits2(AnimateChild2, _React$Component);
+    _inherits$1(AnimateChild2, _React$Component);
     function AnimateChild2() {
-      _classCallCheck2(this, AnimateChild2);
-      return _possibleConstructorReturn2(this, (AnimateChild2.__proto__ || Object.getPrototypeOf(AnimateChild2)).apply(this, arguments));
+      _classCallCheck$1(this, AnimateChild2);
+      return _possibleConstructorReturn$1(this, (AnimateChild2.__proto__ || Object.getPrototypeOf(AnimateChild2)).apply(this, arguments));
     }
-    _createClass2(AnimateChild2, [{
+    _createClass$1(AnimateChild2, [{
       key: "componentWillUnmount",
       value: function componentWillUnmount() {
         this.stop();
@@ -11718,7 +9326,7 @@
     }, {
       key: "componentWillEnter",
       value: function componentWillEnter(done) {
-        if (animate_default.isEnterSupported(this.props)) {
+        if (util.isEnterSupported(this.props)) {
           this.transition("enter", done);
         } else {
           done();
@@ -11727,7 +9335,7 @@
     }, {
       key: "componentWillAppear",
       value: function componentWillAppear(done) {
-        if (animate_default.isAppearSupported(this.props)) {
+        if (util.isAppearSupported(this.props)) {
           this.transition("appear", done);
         } else {
           done();
@@ -11736,7 +9344,7 @@
     }, {
       key: "componentWillLeave",
       value: function componentWillLeave(done) {
-        if (animate_default.isLeaveSupported(this.props)) {
+        if (util.isLeaveSupported(this.props)) {
           this.transition("leave", done);
         } else {
           done();
@@ -11746,7 +9354,7 @@
       key: "transition",
       value: function transition(animationType, finishCallback) {
         var _this2 = this;
-        var node = compat_module_default.findDOMNode(this);
+        var node = Rn.findDOMNode(this);
         var props = this.props;
         var transitionName = props.transitionName;
         var nameIsObj = typeof transitionName === "object";
@@ -11761,7 +9369,7 @@
           if (nameIsObj && transitionName[animationType + "Active"]) {
             activeName = transitionName[animationType + "Active"];
           }
-          this.stopper = es_default(node, {
+          this.stopper = cssAnimation(node, {
             name,
             active: activeName
           }, end);
@@ -11780,18 +9388,15 @@
       }
     }, {
       key: "render",
-      value: function render() {
+      value: function render2() {
         return this.props.children;
       }
     }]);
     return AnimateChild2;
-  }(compat_module_default.Component);
-  var AnimateChild_default = AnimateChild;
-
-  // node_modules/rc-animate/es/Animate.js
+  }(Rn.Component);
   var _extends = Object.assign || function(target) {
-    for (var i3 = 1; i3 < arguments.length; i3++) {
-      var source = arguments[i3];
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
@@ -11800,10 +9405,10 @@
     }
     return target;
   };
-  var _createClass3 = /* @__PURE__ */ function() {
+  var _createClass = /* @__PURE__ */ function() {
     function defineProperties(target, props) {
-      for (var i3 = 0; i3 < props.length; i3++) {
-        var descriptor = props[i3];
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
         if ("value" in descriptor) descriptor.writable = true;
@@ -11816,7 +9421,7 @@
       return Constructor;
     };
   }();
-  function _defineProperty2(obj, key, value) {
+  function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
     } else {
@@ -11824,18 +9429,18 @@
     }
     return obj;
   }
-  function _classCallCheck3(instance, Constructor) {
+  function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   }
-  function _possibleConstructorReturn3(self2, call) {
+  function _possibleConstructorReturn(self2, call) {
     if (!self2) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
     return call && (typeof call === "object" || typeof call === "function") ? call : self2;
   }
-  function _inherits3(subClass, superClass) {
+  function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
     }
@@ -11845,9 +9450,9 @@
   var defaultKey = "rc_animate_" + Date.now();
   function getChildrenFromProps(props) {
     var children = props.children;
-    if (compat_module_default.isValidElement(children)) {
+    if (Rn.isValidElement(children)) {
       if (!children.key) {
-        return compat_module_default.cloneElement(children, {
+        return Rn.cloneElement(children, {
           key: defaultKey
         });
       }
@@ -11857,10 +9462,10 @@
   function noop() {
   }
   var Animate = function(_React$Component) {
-    _inherits3(Animate2, _React$Component);
+    _inherits(Animate2, _React$Component);
     function Animate2(props) {
-      _classCallCheck3(this, Animate2);
-      var _this = _possibleConstructorReturn3(this, (Animate2.__proto__ || Object.getPrototypeOf(Animate2)).call(this, props));
+      _classCallCheck(this, Animate2);
+      var _this = _possibleConstructorReturn(this, (Animate2.__proto__ || Object.getPrototypeOf(Animate2)).call(this, props));
       _initialiseProps.call(_this);
       _this.currentlyAnimatingKeys = {};
       _this.keysToEnter = [];
@@ -11871,7 +9476,7 @@
       _this.childrenRefs = {};
       return _this;
     }
-    _createClass3(Animate2, [{
+    _createClass(Animate2, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         var _this2 = this;
@@ -11909,7 +9514,7 @@
             var nextChild = currentChild && findChildInChildrenByKey(nextChildren, currentChild.key);
             var newChild = void 0;
             if ((!nextChild || !nextChild.props[showProp]) && currentChild.props[showProp]) {
-              newChild = compat_module_default.cloneElement(nextChild || currentChild, _defineProperty2({}, showProp, true));
+              newChild = Rn.cloneElement(nextChild || currentChild, _defineProperty({}, showProp, true));
             } else {
               newChild = nextChild;
             }
@@ -11999,7 +9604,7 @@
       }
     }, {
       key: "render",
-      value: function render() {
+      value: function render2() {
         var _this4 = this;
         var props = this.props;
         this.nextProps = props;
@@ -12013,8 +9618,8 @@
             if (!child.key) {
               throw new Error("must set key for <rc-animate> children");
             }
-            return compat_module_default.createElement(
-              AnimateChild_default,
+            return Rn.createElement(
+              AnimateChild,
               {
                 key: child.key,
                 ref: function ref(node) {
@@ -12030,17 +9635,17 @@
             );
           });
         }
-        var Component = props.component;
-        if (Component) {
+        var Component2 = props.component;
+        if (Component2) {
           var passedProps = props;
-          if (typeof Component === "string") {
+          if (typeof Component2 === "string") {
             passedProps = _extends({
               className: props.className,
               style: props.style
             }, props.componentProps);
           }
-          return compat_module_default.createElement(
-            Component,
+          return Rn.createElement(
+            Component2,
             passedProps,
             children
           );
@@ -12049,7 +9654,7 @@
       }
     }]);
     return Animate2;
-  }(compat_module_default.Component);
+  }(Rn.Component);
   Animate.isAnimate = true;
   Animate.defaultProps = {
     animation: {},
@@ -12087,11 +9692,11 @@
       if (!_this5.isValidChildByKey(currentChildren, key)) {
         _this5.performLeave(key);
       } else if (type === "appear") {
-        if (animate_default.allowAppearCallback(props)) {
+        if (util.allowAppearCallback(props)) {
           props.onAppear(key);
           props.onEnd(key, true);
         }
-      } else if (animate_default.allowEnterCallback(props)) {
+      } else if (util.allowEnterCallback(props)) {
         props.onEnter(key);
         props.onEnd(key, true);
       }
@@ -12113,7 +9718,7 @@
         _this5.performEnter(key);
       } else {
         var end = function end2() {
-          if (animate_default.allowLeaveCallback(props)) {
+          if (util.allowLeaveCallback(props)) {
             props.onLeave(key);
             props.onEnd(key, false);
           }
@@ -12128,32 +9733,85 @@
       }
     };
   };
-  var Animate_default = unsafeLifecyclesPolyfill_default(Animate);
-
-  // node_modules/rc-util/es/createChainedFunction.js
-  init_preact_shim();
+  const Animate$1 = unsafeLifecyclesPolyfill(Animate);
   function createChainedFunction() {
     var args = [].slice.call(arguments, 0);
     if (args.length === 1) {
       return args[0];
     }
     return function chainedFunction() {
-      for (var i3 = 0; i3 < args.length; i3++) {
-        if (args[i3] && args[i3].apply) {
-          args[i3].apply(this, arguments);
+      for (var i = 0; i < args.length; i++) {
+        if (args[i] && args[i].apply) {
+          args[i].apply(this, arguments);
         }
       }
     };
   }
-
-  // node_modules/rc-notification/es/Notification.js
-  var import_classnames2 = __toESM(require_classnames());
-
-  // node_modules/rc-notification/es/Notice.js
-  init_preact_shim();
-  var import_classnames = __toESM(require_classnames());
-  function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
+  function getDefaultExportFromCjs(x2) {
+    return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
+  }
+  var classnames$1 = { exports: {} };
+  /*!
+  	Copyright (c) 2018 Jed Watson.
+  	Licensed under the MIT License (MIT), see
+  	http://jedwatson.github.io/classnames
+  */
+  (function(module) {
+    (function() {
+      var hasOwn = {}.hasOwnProperty;
+      function classNames() {
+        var classes = "";
+        for (var i = 0; i < arguments.length; i++) {
+          var arg = arguments[i];
+          if (arg) {
+            classes = appendClass(classes, parseValue(arg));
+          }
+        }
+        return classes;
+      }
+      function parseValue(arg) {
+        if (typeof arg === "string" || typeof arg === "number") {
+          return arg;
+        }
+        if (typeof arg !== "object") {
+          return "";
+        }
+        if (Array.isArray(arg)) {
+          return classNames.apply(null, arg);
+        }
+        if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
+          return arg.toString();
+        }
+        var classes = "";
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes = appendClass(classes, key);
+          }
+        }
+        return classes;
+      }
+      function appendClass(value, newClass) {
+        if (!newClass) {
+          return value;
+        }
+        if (value) {
+          return value + " " + newClass;
+        }
+        return value + newClass;
+      }
+      if (module.exports) {
+        classNames.default = classNames;
+        module.exports = classNames;
+      } else {
+        window.classNames = classNames;
+      }
+    })();
+  })(classnames$1);
+  var classnamesExports = classnames$1.exports;
+  const classnames = /* @__PURE__ */ getDefaultExportFromCjs(classnamesExports);
+  function _createSuper$1(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct$1();
     return function() {
       var Super = _getPrototypeOf(Derived), result;
       if (hasNativeReflectConstruct) {
@@ -12162,10 +9820,10 @@
       } else {
         result = Super.apply(this, arguments);
       }
-      return _possibleConstructorReturn(this, result);
+      return _possibleConstructorReturn$2(this, result);
     };
   }
-  function _isNativeReflectConstruct() {
+  function _isNativeReflectConstruct$1() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -12173,21 +9831,21 @@
       Date.prototype.toString.call(Reflect.construct(Date, [], function() {
       }));
       return true;
-    } catch (e4) {
+    } catch (e2) {
       return false;
     }
   }
   var Notice = /* @__PURE__ */ function(_Component) {
-    _inherits(Notice2, _Component);
-    var _super = _createSuper(Notice2);
+    _inherits$2(Notice2, _Component);
+    var _super = _createSuper$1(Notice2);
     function Notice2() {
       var _this;
-      _classCallCheck(this, Notice2);
+      _classCallCheck$2(this, Notice2);
       _this = _super.apply(this, arguments);
       _this.closeTimer = null;
-      _this.close = function(e4) {
-        if (e4) {
-          e4.stopPropagation();
+      _this.close = function(e2) {
+        if (e2) {
+          e2.stopPropagation();
         }
         _this.clearCloseTimer();
         var onClose2 = _this.props.onClose;
@@ -12210,7 +9868,7 @@
       };
       return _this;
     }
-    _createClass(Notice2, [{
+    _createClass$2(Notice2, [{
       key: "componentDidMount",
       value: function componentDidMount() {
         this.startCloseTimer();
@@ -12235,7 +9893,7 @@
       }
     }, {
       key: "render",
-      value: function render() {
+      value: function render2() {
         var _this2 = this;
         var _this$props = this.props, prefixCls = _this$props.prefixCls, className = _this$props.className, closable = _this$props.closable, closeIcon = _this$props.closeIcon, style = _this$props.style, onClick = _this$props.onClick, children = _this$props.children, holder = _this$props.holder;
         var componentClass = "".concat(prefixCls, "-notice");
@@ -12245,29 +9903,29 @@
           }
           return acc;
         }, {});
-        var node = compat_module_default.createElement("div", Object.assign({
-          className: (0, import_classnames.default)(componentClass, className, _defineProperty({}, "".concat(componentClass, "-closable"), closable)),
+        var node = Rn.createElement("div", Object.assign({
+          className: classnames(componentClass, className, _defineProperty$1({}, "".concat(componentClass, "-closable"), closable)),
           style,
           onMouseEnter: this.clearCloseTimer,
           onMouseLeave: this.startCloseTimer,
           onClick
-        }, dataOrAriaAttributeProps), compat_module_default.createElement("div", {
+        }, dataOrAriaAttributeProps), Rn.createElement("div", {
           className: "".concat(componentClass, "-content")
-        }, children), closable ? compat_module_default.createElement("a", {
+        }, children), closable ? Rn.createElement("a", {
           tabIndex: 0,
           onClick: this.close,
           className: "".concat(componentClass, "-close")
-        }, closeIcon || compat_module_default.createElement("span", {
+        }, closeIcon || Rn.createElement("span", {
           className: "".concat(componentClass, "-close-x")
         })) : null);
         if (holder) {
-          return compat_module_default.createPortal(node, holder);
+          return Rn.createPortal(node, holder);
         }
         return node;
       }
     }]);
     return Notice2;
-  }(_);
+  }(preact.Component);
   Notice.defaultProps = {
     onClose: function onClose() {
     },
@@ -12276,115 +9934,66 @@
       right: "50%"
     }
   };
-
-  // node_modules/rc-notification/es/useNotification.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-  init_preact_shim();
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for (var i3 = 0, arr2 = new Array(len); i3 < len; i3++) {
-      arr2[i3] = arr[i3];
+  function _arrayLikeToArray(r2, a2) {
+    (null == a2 || a2 > r2.length) && (a2 = r2.length);
+    for (var e2 = 0, n = Array(a2); e2 < a2; e2++) n[e2] = r2[e2];
+    return n;
+  }
+  function _arrayWithoutHoles(r2) {
+    if (Array.isArray(r2)) return _arrayLikeToArray(r2);
+  }
+  function _iterableToArray(r2) {
+    if ("undefined" != typeof Symbol && null != r2[Symbol.iterator] || null != r2["@@iterator"]) return Array.from(r2);
+  }
+  function _unsupportedIterableToArray(r2, a2) {
+    if (r2) {
+      if ("string" == typeof r2) return _arrayLikeToArray(r2, a2);
+      var t2 = {}.toString.call(r2).slice(8, -1);
+      return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r2, a2) : void 0;
     }
-    return arr2;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-  init_preact_shim();
-  function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-  init_preact_shim();
-  function _unsupportedIterableToArray(o4, minLen) {
-    if (!o4) return;
-    if (typeof o4 === "string") return _arrayLikeToArray(o4, minLen);
-    var n2 = Object.prototype.toString.call(o4).slice(8, -1);
-    if (n2 === "Object" && o4.constructor) n2 = o4.constructor.name;
-    if (n2 === "Map" || n2 === "Set") return Array.from(o4);
-    if (n2 === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n2)) return _arrayLikeToArray(o4, minLen);
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-  init_preact_shim();
   function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-
-  // node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-  function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  function _toConsumableArray(r2) {
+    return _arrayWithoutHoles(r2) || _iterableToArray(r2) || _unsupportedIterableToArray(r2) || _nonIterableSpread();
   }
-
-  // node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-  init_preact_shim();
-
-  // node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-  init_preact_shim();
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
+  function _arrayWithHoles(r2) {
+    if (Array.isArray(r2)) return r2;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-  init_preact_shim();
-  function _iterableToArrayLimit(arr, i3) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-        if (i3 && _arr.length === i3) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
+  function _iterableToArrayLimit(r2, l2) {
+    var t2 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
+    if (null != t2) {
+      var e2, n, i, u2, a2 = [], f2 = true, o2 = false;
       try {
-        if (!_n && _i["return"] != null) _i["return"]();
+        if (i = (t2 = t2.call(r2)).next, 0 === l2) ;
+        else for (; !(f2 = (e2 = i.call(t2)).done) && (a2.push(e2.value), a2.length !== l2); f2 = true) ;
+      } catch (r3) {
+        o2 = true, n = r3;
       } finally {
-        if (_d) throw _e;
+        try {
+          if (!f2 && null != t2["return"] && (u2 = t2["return"](), Object(u2) !== u2)) return;
+        } finally {
+          if (o2) throw n;
+        }
       }
+      return a2;
     }
-    return _arr;
   }
-
-  // node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-  init_preact_shim();
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-
-  // node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-  function _slicedToArray(arr, i3) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i3) || _unsupportedIterableToArray(arr, i3) || _nonIterableRest();
+  function _slicedToArray(r2, e2) {
+    return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e2) || _unsupportedIterableToArray(r2, e2) || _nonIterableRest();
   }
-
-  // node_modules/rc-notification/es/useNotification.js
   function useNotification(notificationInstance) {
-    var createdRef = s2({});
-    var _React$useState = d2([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
+    var createdRef = A$1({});
+    var _React$useState = h([]), _React$useState2 = _slicedToArray(_React$useState, 2), elements = _React$useState2[0], setElements = _React$useState2[1];
     function notify(noticeProps) {
       notificationInstance.add(noticeProps, function(div, props) {
         var key = props.key;
         if (div && !createdRef.current[key]) {
-          var noticeEle = v(Notice, Object.assign({}, props, {
+          var noticeEle = preact.createElement(Notice, Object.assign({}, props, {
             holder: div
           }));
           createdRef.current[key] = noticeEle;
@@ -12394,10 +10003,8 @@
         }
       });
     }
-    return [notify, v(d, null, elements)];
+    return [notify, preact.createElement(preact.Fragment, null, elements)];
   }
-
-  // node_modules/rc-notification/es/Notification.js
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
@@ -12410,11 +10017,11 @@
     return keys;
   }
   function _objectSpread(target) {
-    for (var i3 = 1; i3 < arguments.length; i3++) {
-      var source = arguments[i3] != null ? arguments[i3] : {};
-      if (i3 % 2) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      if (i % 2) {
         ownKeys(Object(source), true).forEach(function(key) {
-          _defineProperty(target, key, source[key]);
+          _defineProperty$1(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
@@ -12426,8 +10033,8 @@
     }
     return target;
   }
-  function _createSuper2(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct2();
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function() {
       var Super = _getPrototypeOf(Derived), result;
       if (hasNativeReflectConstruct) {
@@ -12436,10 +10043,10 @@
       } else {
         result = Super.apply(this, arguments);
       }
-      return _possibleConstructorReturn(this, result);
+      return _possibleConstructorReturn$2(this, result);
     };
   }
-  function _isNativeReflectConstruct2() {
+  function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -12447,7 +10054,7 @@
       Date.prototype.toString.call(Reflect.construct(Date, [], function() {
       }));
       return true;
-    } catch (e4) {
+    } catch (e2) {
       return false;
     }
   }
@@ -12459,11 +10066,11 @@
     return "rcNotification_".concat(now, "_").concat(id);
   }
   var Notification = /* @__PURE__ */ function(_Component) {
-    _inherits(Notification2, _Component);
-    var _super = _createSuper2(Notification2);
+    _inherits$2(Notification2, _Component);
+    var _super = _createSuper(Notification2);
     function Notification2() {
       var _this;
-      _classCallCheck(this, Notification2);
+      _classCallCheck$2(this, Notification2);
       _this = _super.apply(this, arguments);
       _this.state = {
         notices: []
@@ -12475,8 +10082,8 @@
         var maxCount = _this.props.maxCount;
         _this.setState(function(previousState) {
           var notices = previousState.notices;
-          var noticeIndex = notices.map(function(v3) {
-            return v3.notice.key;
+          var noticeIndex = notices.map(function(v2) {
+            return v2.notice.key;
           }).indexOf(key);
           var updatedNotices = notices.concat();
           if (noticeIndex !== -1) {
@@ -12511,7 +10118,7 @@
       };
       return _this;
     }
-    _createClass(Notification2, [{
+    _createClass$2(Notification2, [{
       key: "getTransitionName",
       value: function getTransitionName() {
         var _this$props = this.props, prefixCls = _this$props.prefixCls, animation = _this$props.animation;
@@ -12523,7 +10130,7 @@
       }
     }, {
       key: "render",
-      value: function render() {
+      value: function render2() {
         var _this2 = this;
         var notices = this.state.notices;
         var _this$props2 = this.props, prefixCls = _this$props2.prefixCls, className = _this$props2.className, closeIcon = _this$props2.closeIcon, style = _this$props2.style;
@@ -12543,7 +10150,7 @@
             children: notice2.content
           });
           if (holderCallback) {
-            return compat_module_default.createElement("div", {
+            return Rn.createElement("div", {
               key,
               className: "".concat(prefixCls, "-hook-holder"),
               ref: function ref(div) {
@@ -12559,18 +10166,18 @@
               }
             });
           }
-          return compat_module_default.createElement(Notice, Object.assign({}, noticeProps));
+          return Rn.createElement(Notice, Object.assign({}, noticeProps));
         });
-        return compat_module_default.createElement("div", {
-          className: (0, import_classnames2.default)(prefixCls, className),
+        return Rn.createElement("div", {
+          className: classnames(prefixCls, className),
           style
-        }, compat_module_default.createElement(Animate_default, {
+        }, Rn.createElement(Animate$1, {
           transitionName: this.getTransitionName()
         }, noticeNodes));
       }
     }]);
     return Notification2;
-  }(_);
+  }(preact.Component);
   Notification.defaultProps = {
     prefixCls: "rc-notification",
     animation: "fade",
@@ -12603,59 +10210,35 @@
         },
         component: notification2,
         destroy: function destroy() {
-          compat_module_default.unmountComponentAtNode(div);
+          Rn.unmountComponentAtNode(div);
           if (div.parentNode) {
             div.parentNode.removeChild(div);
           }
         },
         // Hooks
-        useNotification: function useNotification2() {
+        useNotification: function useNotification$1() {
           return useNotification(notification2);
         }
       });
     }
-    if (false) {
-      properties.TEST_RENDER(compat_module_default.createElement(Notification, Object.assign({}, props, {
-        ref
-      })));
-      return;
-    }
-    compat_module_default.render(compat_module_default.createElement(Notification, Object.assign({}, props, {
+    Rn.render(Rn.createElement(Notification, Object.assign({}, props, {
       ref
     })), div);
   };
-  var Notification_default = Notification;
-
-  // node_modules/rc-notification/es/index.js
-  var es_default2 = Notification_default;
-
-  // src/assets/close.svg
-  init_preact_shim();
-
-  // node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
-  init_preact_shim();
-  init_preact_module();
-  init_preact_module();
-  var o3 = 0;
-  function e3(_3, e4, n2, t3, f3) {
-    var l3, s3, u3 = {};
-    for (s3 in e4) "ref" == s3 ? l3 = e4[s3] : u3[s3] = e4[s3];
-    var a3 = { type: _3, props: u3, key: n2, ref: l3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: --o3, __source: f3, __self: t3 };
-    if ("function" == typeof _3 && (l3 = _3.defaultProps)) for (s3 in l3) void 0 === u3[s3] && (u3[s3] = l3[s3]);
-    return l.vnode && l.vnode(a3), a3;
-  }
-
-  // src/assets/close.svg
-  var SvgClose = (props) => /* @__PURE__ */ e3("svg", __spreadProps(__spreadValues({ className: "icon", viewBox: "0 0 1024 1024", xmlns: "http://www.w3.org/2000/svg", width: 200, height: 200 }, props), { children: [
-    /* @__PURE__ */ e3("path", { d: "M806.4 172.8 172.8 806.4c-12.8 12.8-12.8 32 0 44.8 12.8 12.8 32 12.8 44.8 0l633.6-633.6c12.8-12.8 12.8-32 0-44.8-12.8-12.8-32-12.8-44.8 0z", fill: "#333" }),
-    /* @__PURE__ */ e3("path", { d: "M172.8 172.8c-12.8 12.8-12.8 32 0 44.8l633.6 633.6c12.8 12.8 32 12.8 44.8 0 12.8-12.8 12.8-32 0-44.8L217.6 172.8c-12.8-12.8-32-12.8-44.8 0z", fill: "#333" })
-  ] }));
-  var close_default = SvgClose;
-
-  // src/components/Notification.tsx
-  var defaultDuration = 3;
-  var notification = null;
-  var getNoticeProps = (args) => {
+  const SvgClose = (_a, ref) => {
+    var _b = _a, {
+      title,
+      titleId
+    } = _b, props = __objRest(_b, [
+      "title",
+      "titleId"
+    ]);
+    return /* @__PURE__ */ preact.createElement("svg", __spreadValues({ t: 1639300274760, className: "icon", viewBox: "0 0 1024 1024", xmlns: "http://www.w3.org/2000/svg", "p-id": 1344, xmlnsXlink: "http://www.w3.org/1999/xlink", width: 200, height: 200, ref, "aria-labelledby": titleId }, props), title ? /* @__PURE__ */ preact.createElement("title", { id: titleId }, title) : null, /* @__PURE__ */ preact.createElement("defs", null, /* @__PURE__ */ preact.createElement("style", { type: "text/css" })), /* @__PURE__ */ preact.createElement("path", { d: "M806.4 172.8l-633.6 633.6c-12.8 12.8-12.8 32 0 44.8 12.8 12.8 32 12.8 44.8 0l633.6-633.6c12.8-12.8 12.8-32 0-44.8-12.8-12.8-32-12.8-44.8 0z", fill: "#333333", "p-id": 1345 }), /* @__PURE__ */ preact.createElement("path", { d: "M172.8 172.8c-12.8 12.8-12.8 32 0 44.8l633.6 633.6c12.8 12.8 32 12.8 44.8 0 12.8-12.8 12.8-32 0-44.8L217.6 172.8c-12.8-12.8-32-12.8-44.8 0z", fill: "#333333", "p-id": 1346 }));
+  };
+  const ForwardRef$1 = k(SvgClose);
+  const defaultDuration = 3;
+  let notification;
+  const getNoticeProps = (args) => {
     const {
       duration: durationArg,
       description,
@@ -12664,14 +10247,14 @@
     const key = `key${Date.now()}`;
     const duration = durationArg === void 0 ? defaultDuration : durationArg;
     return {
-      content: /* @__PURE__ */ e3("div", { children: [
-        /* @__PURE__ */ e3("div", { className: "notification-message", children: message }),
-        /* @__PURE__ */ e3("div", { className: "notification-description", children: description })
+      content: /* @__PURE__ */ u$1("div", { children: [
+        /* @__PURE__ */ u$1("div", { className: "notification-message", children: message }),
+        /* @__PURE__ */ u$1("div", { className: "notification-description", children: description })
       ] }),
       key,
       duration,
       closable: true,
-      closeIcon: /* @__PURE__ */ e3(close_default, {}),
+      closeIcon: /* @__PURE__ */ u$1(ForwardRef$1, {}),
       style: {
         right: 0
       },
@@ -12680,44 +10263,41 @@
       }
     };
   };
-  es_default2.newInstance({
+  Notification.newInstance({
     prefixCls: "easy-notification",
     style: {
       right: "0px",
       top: "24px"
     }
-  }, (n2) => {
-    notification = n2;
+  }, (n) => {
+    notification = n;
   });
-  var notice = (options) => {
-    notification.notice(getNoticeProps(options));
+  const notice = (options2) => {
+    notification.notice(getNoticeProps(options2));
   };
-  var NotificationApi = {
+  const NotificationApi = {
     open: notice
   };
-  var Notification_default2 = NotificationApi;
-
-  // src/common.ts
-  var formatTorrentTitle = (title) => {
+  const formatTorrentTitle = (title) => {
     return title.replace(/\.(?!(\d+))/ig, " ").replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, " ").trim();
   };
-  var handleError = (error) => {
-    Notification_default2.open({
+  const handleError = (error) => {
+    NotificationApi.open({
       description: error.message || error
     });
   };
-  var getDoubanInfo = async (doubanUrl, isTV) => {
+  const getDoubanInfo = async (doubanUrl, isTV) => {
     try {
       if (doubanUrl) {
         const doubanInfo = await getMobileDoubanInfo(doubanUrl, isTV);
         return doubanInfo;
       }
-      throw $t("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25");
+      throw $t("豆瓣链接获取失败");
     } catch (error) {
       handleError(error);
     }
   };
-  var getDoubanBookInfo = async (doubanUrl) => {
+  const getDoubanBookInfo = async (doubanUrl) => {
     const reqUrl = `${PT_GEN_API}?url=${doubanUrl}`;
     const data = await fetch(reqUrl, {
       responseType: "json"
@@ -12734,7 +10314,7 @@
       });
     }
   };
-  var getDoubanAwards = async (doubanId) => {
+  const getDoubanAwards = async (doubanId) => {
     const data = await fetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
       responseType: void 0
     });
@@ -12742,26 +10322,26 @@
     const linkDom = doc.querySelector("#content > div > div.article");
     return linkDom == null ? void 0 : linkDom.innerHTML.replace(/[ \n]/g, "").replace(/<\/li><li>/g, "</li> <li>").replace(/<\/a><span/g, "</a> <span").replace(/<(div|ul)[^>]*>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/ +\n/g, "\n").trim();
   };
-  var getIMDBFromDouban = async (doubanLink) => {
-    var _a3, _b2, _c, _d;
+  const getIMDBFromDouban = async (doubanLink) => {
+    var _a, _b, _c2, _d;
     const doubanPage = await fetch(doubanLink, {
       responseType: void 0
     });
     const dom = new DOMParser().parseFromString(doubanPage, "text/html");
-    const imdbId = (_d = (_c = (_b2 = (_a3 = jQuery('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a3.nextSibling) == null ? void 0 : _b2.nodeValue) == null ? void 0 : _c.trim()) != null ? _d : "";
+    const imdbId = (_d = (_c2 = (_b = (_a = jQuery('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c2.trim()) != null ? _d : "";
     return imdbId;
   };
-  var getMobileDoubanInfo = async (doubanUrl, isTV) => {
-    var _a3, _b2, _c, _d;
+  const getMobileDoubanInfo = async (doubanUrl, isTV) => {
+    var _a, _b, _c2, _d;
     try {
       if (doubanUrl) {
-        const doubanId = (_b2 = (_a3 = doubanUrl.match(/subject\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+        const doubanId = (_b = (_a = doubanUrl.match(/subject\/(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
         if (!doubanId) {
-          throw $t("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25");
+          throw $t("豆瓣ID获取失败");
         }
         const catPath = isTV ? "tv" : "movie";
         const url = `${DOUBAN_MOBILE_API}/${catPath}/${doubanId}`;
-        const options = {
+        const options2 = {
           headers: {
             Referer: `https://m.douban.com/${catPath}/subject/${doubanId}`
           },
@@ -12769,45 +10349,45 @@
           anonymous: false
         };
         const cookie = getValue("easy-seed.douban-cookie", false);
-        const ckValue = (_d = (_c = cookie == null ? void 0 : cookie.match(/ck=([^;]+)?/)) == null ? void 0 : _c[1]) != null ? _d : "";
+        const ckValue = (_d = (_c2 = cookie == null ? void 0 : cookie.match(/ck=([^;]+)?/)) == null ? void 0 : _c2[1]) != null ? _d : "";
         if (cookie) {
-          options.cookie = cookie;
-          options.anonymous = true;
+          options2.cookie = cookie;
+          options2.anonymous = true;
         }
-        const data = await fetch(`${url}?for_mobile=1&ck=${ckValue}`, options);
-        if (data && data.title === "\u672A\u77E5\u7535\u5F71") {
-          throw $t("\u8BF7\u914D\u7F6E\u8C46\u74E3Cookie");
+        const data = await fetch(`${url}?for_mobile=1&ck=${ckValue}`, options2);
+        if (data && data.title === "未知电影") {
+          throw $t("请配置豆瓣Cookie");
         }
         if (data && data.id) {
-          const creditsData = await fetch(`${url}/credits`, options);
+          const creditsData = await fetch(`${url}/credits`, options2);
           data.credits = creditsData.credits;
           const awards = await getDoubanAwards(doubanId);
           data.awards = awards;
           return await formatDoubanInfo(data);
         }
-        throw $t("\u83B7\u53D6\u8C46\u74E3\u4FE1\u606F\u5931\u8D25");
+        throw $t("获取豆瓣信息失败");
       } else {
-        throw $t("\u8C46\u74E3\u94FE\u63A5\u83B7\u53D6\u5931\u8D25");
+        throw $t("豆瓣链接获取失败");
       }
     } catch (error) {
       handleError(error);
     }
   };
-  var getIMDBRating = async (imdbId) => {
-    var _a3, _b2, _c, _d;
+  const getIMDBRating = async (imdbId) => {
+    var _a, _b, _c2, _d;
     const url = `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`;
     const data = await fetch(url, {
       responseType: void 0
     });
-    const { resource } = (_b2 = JSON.parse((_a3 = data.match(/[^(]+\((.+)\)/)) == null ? void 0 : _a3[1])) != null ? _b2 : {};
+    const { resource } = (_b = JSON.parse((_a = data.match(/[^(]+\((.+)\)/)) == null ? void 0 : _a[1])) != null ? _b : {};
     return {
       count: resource.ratingCount,
       value: resource.rating,
-      id: (_d = (_c = resource.id.match(/tt\d+/)) == null ? void 0 : _c[0]) != null ? _d : ""
+      id: (_d = (_c2 = resource.id.match(/tt\d+/)) == null ? void 0 : _c2[0]) != null ? _d : ""
     };
   };
-  var formatDoubanInfo = async (data) => {
-    var _a3, _b2;
+  const formatDoubanInfo = async (data) => {
+    var _a, _b;
     const {
       rating,
       pubdate,
@@ -12849,7 +10429,7 @@
       imdbLink: `https://www.imdb.com/title/${imdbRate.id}/`,
       imdbAverageRating: imdbRate.value,
       imdbVotes: imdbRate.count,
-      imdbRating: `${(_a3 = imdbRate == null ? void 0 : imdbRate.value) != null ? _a3 : 0}/10 from ${(_b2 = imdbRate == null ? void 0 : imdbRate.count) != null ? _b2 : 0} users`,
+      imdbRating: `${(_a = imdbRate == null ? void 0 : imdbRate.value) != null ? _a : 0}/10 from ${(_b = imdbRate == null ? void 0 : imdbRate.count) != null ? _b : 0} users`,
       chineseTitle: title,
       foreignTitle,
       aka,
@@ -12878,7 +10458,7 @@
     formatData.format = getDoubanFormat(formatData);
     return formatData;
   };
-  var getDoubanFormat = (data) => {
+  const getDoubanFormat = (data) => {
     const {
       poster,
       thisTitle,
@@ -12899,7 +10479,7 @@
       tags,
       credits = []
     } = data;
-    const spaceStr = "\xA0".repeat(7);
+    const spaceStr = " ".repeat(7);
     const creditsData = credits.map((credit) => {
       const celebrity = credit.celebrities.map((item) => {
         return `${item.name} ${item.latin_name}`;
@@ -12910,83 +10490,83 @@
         4: 0,
         5: 0
       };
-      const celebrityKey = credit.title.split("").join("\xA0".repeat((repeatMap == null ? void 0 : repeatMap[credit.title.length]) || 0));
+      const celebrityKey = credit.title.split("").join(" ".repeat((repeatMap == null ? void 0 : repeatMap[credit.title.length]) || 0));
       const celebrityValue = celebrity.join(`
-${"\xA0".repeat(24)}`).trim();
-      return `\u25CE${celebrityKey}${spaceStr}${celebrityValue}`;
+${" ".repeat(24)}`).trim();
+      return `◎${celebrityKey}${spaceStr}${celebrityValue}`;
     });
     let descr = poster ? `[img]${poster}[/img]
 
 ` : "";
-    descr += transTitle ? `\u25CE\u8BD1${spaceStr}\u540D${spaceStr}${transTitle.join(" / ")}
+    descr += transTitle ? `◎译${spaceStr}名${spaceStr}${transTitle.join(" / ")}
 ` : "";
-    descr += thisTitle ? `\u25CE\u7247${spaceStr}\u540D${spaceStr}${thisTitle.join(" / ")}
+    descr += thisTitle ? `◎片${spaceStr}名${spaceStr}${thisTitle.join(" / ")}
 ` : "";
-    descr += movieYear ? `\u25CE\u5E74${spaceStr}\u4EE3${spaceStr}${movieYear.trim()}
+    descr += movieYear ? `◎年${spaceStr}代${spaceStr}${movieYear.trim()}
 ` : "";
-    descr += region ? `\u25CE\u4EA7${spaceStr}\u5730${spaceStr}${region}
+    descr += region ? `◎产${spaceStr}地${spaceStr}${region}
 ` : "";
-    descr += genre ? `\u25CE\u7C7B${spaceStr}\u522B${spaceStr}${genre.join(" / ")}
+    descr += genre ? `◎类${spaceStr}别${spaceStr}${genre.join(" / ")}
 ` : "";
-    descr += language ? `\u25CE\u8BED${spaceStr}\u8A00${spaceStr}${language.join(" / ")}
+    descr += language ? `◎语${spaceStr}言${spaceStr}${language.join(" / ")}
 ` : "";
-    descr += playDate ? `\u25CE\u4E0A\u6620\u65E5\u671F${spaceStr} ${playDate.join(" / ")}
+    descr += playDate ? `◎上映日期${spaceStr} ${playDate.join(" / ")}
 ` : "";
-    descr += imdbRating ? `\u25CEIMDb\u8BC4\u5206${spaceStr}${imdbRating}
+    descr += imdbRating ? `◎IMDb评分${spaceStr}${imdbRating}
 ` : "";
-    descr += imdbLink ? `\u25CEIMDb\u94FE\u63A5${spaceStr}${imdbLink}
+    descr += imdbLink ? `◎IMDb链接${spaceStr}${imdbLink}
 ` : "";
-    descr += doubanRating ? `\u25CE\u8C46\u74E3\u8BC4\u5206${spaceStr} ${doubanRating}
+    descr += doubanRating ? `◎豆瓣评分${spaceStr} ${doubanRating}
 ` : "";
-    descr += doubanLink ? `\u25CE\u8C46\u74E3\u94FE\u63A5${spaceStr} ${doubanLink}
+    descr += doubanLink ? `◎豆瓣链接${spaceStr} ${doubanLink}
 ` : "";
-    descr += showEpisodes ? `\u25CE\u96C6${spaceStr}\u6570${spaceStr}${showEpisodes}
+    descr += showEpisodes ? `◎集${spaceStr}数${spaceStr}${showEpisodes}
 ` : "";
-    descr += movieDuration ? `\u25CE\u7247${spaceStr}\u957F${spaceStr}${movieDuration}
+    descr += movieDuration ? `◎片${spaceStr}长${spaceStr}${movieDuration}
 ` : "";
     descr += creditsData.length > 0 ? creditsData.join("\n") : "";
     descr += tags && tags.length > 0 ? `
-\u25CE\u6807${spaceStr}\u7B7E${spaceStr}${tags.join(" | ")} 
+◎标${spaceStr}签${spaceStr}${tags.join(" | ")} 
 ` : "";
     descr += introduction ? `
-\u25CE\u7B80${spaceStr}\u4ECB
+◎简${spaceStr}介
 
   ${introduction.replace(/\n/g, `
-${"\xA0".repeat(2)}`)} 
+${" ".repeat(2)}`)} 
 ` : "";
     descr += awards ? `
-\u25CE\u83B7\u5956\u60C5\u51B5
+◎获奖情况
 
-\u3000\u3000${awards.replace(/\n/g, `
-${"\xA0".repeat(6)}`)} 
+　　${awards.replace(/\n/g, `
+${" ".repeat(6)}`)} 
 ` : "";
     return descr.trim();
   };
-  var getDoubanIdByIMDB = async (query) => {
-    var _a3, _b2, _c, _d;
+  const getDoubanIdByIMDB = async (query) => {
+    var _a, _b, _c2, _d;
     try {
       const imdbId = getIMDBIdByUrl(query);
       const params = imdbId || query;
       const url = DOUBAN_SUGGEST_API.replace("{query}", params);
-      const options = {
+      const options2 = {
         cookie: "",
         anonymous: false,
         responseType: void 0
       };
       const cookie = getValue("easy-seed.douban-cookie", false);
       if (cookie) {
-        options.cookie = cookie;
-        options.anonymous = true;
+        options2.cookie = cookie;
+        options2.anonymous = true;
       }
-      const data = await fetch(url, options);
+      const data = await fetch(url, options2);
       const doc = new DOMParser().parseFromString(data, "text/html");
       const linkDom = doc.querySelector(".result-list .result h3 a");
       if (!linkDom) {
-        throw $t("\u8C46\u74E3ID\u83B7\u53D6\u5931\u8D25");
+        throw $t("豆瓣ID获取失败");
       } else {
         const { href, textContent } = linkDom;
-        const season = (_b2 = (_a3 = textContent == null ? void 0 : textContent.match(/第(.+?)季/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-        const doubanId = (_d = (_c = decodeURIComponent(href).match(/subject\/(\d+)/)) == null ? void 0 : _c[1]) != null ? _d : "";
+        const season = (_b = (_a = textContent == null ? void 0 : textContent.match(/第(.+?)季/)) == null ? void 0 : _a[1]) != null ? _b : "";
+        const doubanId = (_d = (_c2 = decodeURIComponent(href).match(/subject\/(\d+)/)) == null ? void 0 : _c2[1]) != null ? _d : "";
         return {
           id: doubanId,
           season,
@@ -12997,21 +10577,21 @@ ${"\xA0".repeat(6)}`)}
       handleError(error);
     }
   };
-  var getIMDBData = async (imdbUrl) => {
+  const getIMDBData = async (imdbUrl) => {
     try {
       if (!imdbUrl) {
-        throw new Error("$t(\u7F3A\u5C11IMDB\u4FE1\u606F)");
+        throw new Error("$t(缺少IMDB信息)");
       }
       const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
       if (data && data.success) {
         return data;
       }
-      throw data.error || $t("\u8BF7\u6C42\u5931\u8D25");
+      throw data.error || $t("请求失败");
     } catch (error) {
       handleError(error);
     }
   };
-  var transferImgs = async (screenshot, authToken, imgHost = "https://imgbb.com/json") => {
+  const transferImgs = async (screenshot, authToken, imgHost = "https://imgbb.com/json") => {
     try {
       const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
       const formData = new FormData();
@@ -13033,18 +10613,18 @@ ${"\xA0".repeat(6)}`)}
         timeout: 3e5
       });
       if (res.status_txt !== "OK") {
-        throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+        throw $t("上传失败，请重试");
       }
       if (res.image) {
         return res.image;
       }
-      throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+      throw $t("上传失败，请重试");
     } catch (error) {
       console.log("err:", error);
       handleError(error);
     }
   };
-  var uploadToPixhost = async (screenshots) => {
+  const uploadToPixhost = async (screenshots) => {
     try {
       const params = encodeURI(`imgs=${screenshots.join("\n")}&content_type=1&max_th_size=300`);
       const res = await fetch("https://pixhost.to/remote/", {
@@ -13059,25 +10639,25 @@ ${"\xA0".repeat(6)}`)}
       });
       const data = res.match(/(upload_results = )({.*})(;)/);
       if (!data) {
-        throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+        throw $t("上传失败，请重试");
       }
       let imgResultList = [];
       if (data && data.length) {
         imgResultList = JSON.parse(data[2]).images;
         if (imgResultList.length < 1) {
-          throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+          throw new Error($t("上传失败，请重试"));
         }
         return imgResultList;
       }
-      throw new Error($t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5"));
+      throw new Error($t("上传失败，请重试"));
     } catch (error) {
       handleError(error);
     }
   };
-  var uploadToImgbox = async (screenshot, authToken, tokenSecret) => {
+  const uploadToImgbox = async (screenshot, authToken, tokenSecret) => {
     const file = await urlToFile(screenshot);
     const { token_id, token_secret } = tokenSecret;
-    const options = {
+    const options2 = {
       method: "POST",
       headers: {
         "X-CSRF-Token": authToken
@@ -13092,57 +10672,42 @@ ${"\xA0".repeat(6)}`)}
     formData.append("gallery_secret", "null");
     formData.append("comments_enabled", "0");
     formData.append("files[]", file);
-    options.data = formData;
-    const data = await fetch("https://imgbox.com/upload/process", options);
+    options2.data = formData;
+    const data = await fetch("https://imgbox.com/upload/process", options2);
     if (data && data.files && data.files.length) {
       return data.files[0];
     }
   };
-  var uploadToHDB = async (screenshots, galleryName) => {
+  const uploadToHDB = async (screenshots, galleryName) => {
     const apiUrl = "https://img.hdbits.org/upload_api.php";
     try {
       const promiseArray = screenshots.map((item) => {
         return urlToFile(item);
       });
-      const files = await Promise.all(promiseArray);
-      const firstFile = files.shift();
+      const fileArray = await Promise.all(promiseArray);
       const formData = new FormData();
       formData.append("galleryoption", "1");
       formData.append("galleryname", galleryName);
-      formData.append("images_files[]", firstFile);
-      const firstResp = await fetch(apiUrl, {
+      fileArray.forEach((file) => {
+        formData.append("images_files[]", file);
+      });
+      const data = await fetch(apiUrl, {
         data: formData,
         method: "POST",
         responseType: void 0
       });
-      if (firstResp.includes("error")) {
-        throw firstResp;
+      if (data.includes("error")) {
+        throw data;
       }
-      const reqs = files.map((file) => {
-        const formData2 = new FormData();
-        formData2.append("galleryoption", "2");
-        formData2.append("galleryname", galleryName);
-        formData2.append("images_files[]", file);
-        return fetch(apiUrl, {
-          data: formData2,
-          method: "POST",
-          responseType: void 0
-        });
-      });
-      const resp = await Promise.all(reqs);
-      const respStr = resp.join("");
-      if (respStr.includes("error")) {
-        throw respStr;
-      }
-      return firstResp + respStr;
+      return data;
     } catch (error) {
       handleError(error);
     }
   };
-  var getPreciseCategory = (torrentInfo2, category) => {
-    var _a3, _b2;
+  const getPreciseCategory = (torrentInfo2, category) => {
+    var _a, _b;
     const { description, title, subtitle, doubanInfo } = torrentInfo2;
-    const movieGenre = (_b2 = (_a3 = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    const movieGenre = (_b = (_a = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)) == null ? void 0 : _a[2]) != null ? _b : "";
     if (movieGenre.match(/动画/)) {
       return "cartoon";
     } else if (movieGenre.match(/纪录/)) {
@@ -13158,7 +10723,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return category;
   };
-  var getUrlParam = (key) => {
+  const getUrlParam = (key) => {
     const reg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
     const regArray = location.search.substring(1).match(reg);
     if (regArray) {
@@ -13166,7 +10731,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return "";
   };
-  var getAudioCodecFromTitle = (title) => {
+  const getAudioCodecFromTitle = (title) => {
     if (!title) {
       return "";
     }
@@ -13196,7 +10761,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return "";
   };
-  var getVideoCodecFromTitle = (title, videoType = "") => {
+  const getVideoCodecFromTitle = (title, videoType = "") => {
     title = title.replace(/\.|-/g, "");
     if (title.match(/x264/i) || title.match(/h264|avc/i) && videoType === "encode") {
       return "x264";
@@ -13217,12 +10782,12 @@ ${"\xA0".repeat(6)}`)}
     }
     return "";
   };
-  var getFilterImages = (bbcode) => {
-    var _a3;
+  const getFilterImages = (bbcode) => {
+    var _a;
     if (!bbcode) {
       return [];
     }
-    let allImages = Array.from((_a3 = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig)) != null ? _a3 : []);
+    let allImages = Array.from((_a = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig)) != null ? _a : []);
     if (allImages && allImages.length > 0) {
       allImages = allImages.map((img) => {
         if (img.match(/\[url=.+?\]/)) {
@@ -13236,7 +10801,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return [];
   };
-  var getScreenshotsFromBBCode = async (bbcode) => {
+  const getScreenshotsFromBBCode = async (bbcode) => {
     const allImages = getFilterImages(bbcode);
     if (allImages && allImages.length > 0) {
       const result = [];
@@ -13250,19 +10815,22 @@ ${"\xA0".repeat(6)}`)}
     }
     return [];
   };
-  var getOriginalImgUrl = async (urlBBcode) => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+  const getOriginalImgUrl = async (urlBBcode) => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l, _m;
     let imgUrl = urlBBcode;
     if (urlBBcode.match(/\[url=http(s)*:.+/)) {
-      imgUrl = (_b2 = (_a3 = urlBBcode.match(/=(([^\]])+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+      imgUrl = (_b = (_a = urlBBcode.match(/=(([^\]])+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
       if (imgUrl.match(/img\.hdbits\.org/)) {
-        const imgId = (_d = (_c = urlBBcode.match(/\[url=https:\/\/img\.hdbits\.org\/(\w+)?\]/)) == null ? void 0 : _c[1]) != null ? _d : "";
-        imgUrl = `https://i.hdbits.org/${imgId}.png`;
+        const res = await fetch(imgUrl, {
+          responseType: void 0
+        });
+        const doc = new DOMParser().parseFromString(res, "text/html");
+        imgUrl = jQuery("#viewimage", doc).attr("src");
       } else if (urlBBcode.match(/img\.pterclub\.com/)) {
-        imgUrl = (_f = (_e = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _e[1]) != null ? _f : "";
+        imgUrl = (_d = (_c2 = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _c2[1]) != null ? _d : "";
         imgUrl = imgUrl.replace(/\.th/g, "");
       } else if (urlBBcode.match(/https?:\/\/imgbox\.com/)) {
-        imgUrl = (_h = (_g = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _g[1]) != null ? _h : "";
+        imgUrl = (_f2 = (_e = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _e[1]) != null ? _f2 : "";
         imgUrl = imgUrl.replace(/thumbs(\d)/, "images$1").replace(/_t(\.png)/, "_o.png");
       } else if (imgUrl.match(/imagebam\.com/)) {
         const originalPage = await fetch(imgUrl, {
@@ -13271,20 +10839,20 @@ ${"\xA0".repeat(6)}`)}
         const doc = new DOMParser().parseFromString(originalPage, "text/html");
         imgUrl = jQuery(".main-image", doc).attr("src");
       } else if (imgUrl.match(/beyondhd\.co/)) {
-        imgUrl = (_j = (_i = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _i[1]) != null ? _j : "";
+        imgUrl = (_h = (_g2 = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _g2[1]) != null ? _h : "";
         imgUrl = imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, ".$2");
       } else if (!imgUrl.match(/\.(jpg|png|gif|bmp|webp)$/)) {
-        imgUrl = (_l = (_k = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _k[1]) != null ? _l : "";
+        imgUrl = (_j = (_i = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _i[1]) != null ? _j : "";
       } else if (urlBBcode.match(/https:\/\/pixhost\.to/)) {
-        const hostNumber = (_m = urlBBcode.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _m[1];
+        const hostNumber = (_k = urlBBcode.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _k[1];
         imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
       }
     } else if (urlBBcode.match(/\[img\]/)) {
-      imgUrl = (_o = (_n = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _n[1]) != null ? _o : "";
+      imgUrl = (_m = (_l = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _l[1]) != null ? _m : "";
     }
     return imgUrl;
   };
-  var getSourceFromTitle = (title) => {
+  const getSourceFromTitle = (title) => {
     if (title.match(/(uhd|2160|4k).*(blu(-)?ray|remux)/i)) {
       return "uhdbluray";
     } else if (title.match(/blu(-)?ray|remux/i)) {
@@ -13302,21 +10870,21 @@ ${"\xA0".repeat(6)}`)}
     }
     return "other";
   };
-  var getSubTitle = (data) => {
-    var _a3, _b2;
+  const getSubTitle = (data) => {
+    var _a, _b;
     const { chineseTitle, thisTitle: originalTitle, transTitle } = data;
     let title = "";
     if (chineseTitle.match(/[\u4e00-\u9fa5]+/)) {
       title += chineseTitle;
     }
     const moreTitle = originalTitle.concat(transTitle).filter((item) => title !== item);
-    let seasonEpisode = (_b2 = (_a3 = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    let seasonEpisode = (_b = (_a = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : "";
     seasonEpisode = seasonEpisode.replace(/^0/i, "");
-    const episode = seasonEpisode ? ` \u7B2C${seasonEpisode}\u96C6` : "";
-    const hardcodedSub = TORRENT_INFO.hardcodedSub ? "| \u786C\u5B57\u5E55" : "";
+    const episode = seasonEpisode ? ` 第${seasonEpisode}集` : "";
+    const hardcodedSub = TORRENT_INFO.hardcodedSub ? "| 硬字幕" : "";
     return `${title}${moreTitle.length > 0 ? "/" : ""}${moreTitle.join("/")}${episode} ${hardcodedSub}`;
   };
-  var getAreaCode = (area) => {
+  const getAreaCode = (area) => {
     const europeList = EUROPE_LIST;
     if (area) {
       if (area.match(/USA|US|Canada|CA|美国|加拿大|United States/i)) {
@@ -13337,7 +10905,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return "OT";
   };
-  var getBDType = (size) => {
+  const getBDType = (size) => {
     const GBSize = size / 1e9;
     if (GBSize < 5) {
       return "DVD5";
@@ -13353,14 +10921,14 @@ ${"\xA0".repeat(6)}`)}
       return "BD100";
     }
   };
-  var getTMDBIdByIMDBId = async (imdbid) => {
+  const getTMDBIdByIMDBId = async (imdbid) => {
     try {
       const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
       const data = await fetch(url);
       const isMovie = data.movie_results && data.movie_results.length > 0;
       const isTV = data.tv_results && data.tv_results.length > 0;
       if (!isMovie && !isTV) {
-        throw $t("\u8BF7\u6C42\u5931\u8D25");
+        throw $t("请求失败");
       }
       const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
       return tmdbData;
@@ -13368,19 +10936,19 @@ ${"\xA0".repeat(6)}`)}
       return {};
     }
   };
-  var getTMDBVideos = async (tmdbId) => {
+  const getTMDBVideos = async (tmdbId) => {
     const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
     const data = await fetch(url);
     return data.results || [];
   };
-  var getIMDBIdByUrl = (imdbLink) => {
+  const getIMDBIdByUrl = (imdbLink) => {
     const imdbIdArray = /tt\d+/.exec(imdbLink);
     if (imdbIdArray && imdbIdArray[0]) {
       return imdbIdArray[0];
     }
     return "";
   };
-  var getSize = (size) => {
+  const getSize = (size) => {
     if (!size) {
       return 0;
     }
@@ -13395,8 +10963,8 @@ ${"\xA0".repeat(6)}`)}
     }
     return 0;
   };
-  var getInfoFromMediaInfo = (mediaInfo) => {
-    var _a3, _b2, _c;
+  const getInfoFromMediaInfo = (mediaInfo) => {
+    var _a, _b, _c2;
     if (!mediaInfo) {
       return {};
     }
@@ -13406,7 +10974,7 @@ ${"\xA0".repeat(6)}`)}
     const [audioPart, ...otherAudioPart] = mediaArray.filter((item) => item.startsWith("Audio"));
     const textPart = mediaArray.filter((item) => item.startsWith("Text"));
     const completeName = getMediaValueByKey("Complete name", generalPart);
-    const format = (_c = (_b2 = (_a3 = completeName == null ? void 0 : completeName.match(/\.(\w+)$/i)) == null ? void 0 : _a3[1]) == null ? void 0 : _b2.toLowerCase()) != null ? _c : "";
+    const format2 = (_c2 = (_b = (_a = completeName == null ? void 0 : completeName.match(/\.(\w+)$/i)) == null ? void 0 : _a[1]) == null ? void 0 : _b.toLowerCase()) != null ? _c2 : "";
     const fileName = completeName.replace(/\.\w+$/i, "");
     const fileSize = getSize(getMediaValueByKey("File size", generalPart));
     const { videoCodec, hdrFormat, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
@@ -13415,11 +10983,11 @@ ${"\xA0".repeat(6)}`)}
       return getMediaValueByKey("Language", item);
     }).filter((sub) => !!sub);
     const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
-    const resolution = getResolution(videoPart);
+    const resolution = getResolution$4(videoPart);
     return {
       fileName,
       fileSize,
-      format,
+      format: format2,
       subtitles: subtitleLanguageArray,
       videoCodec,
       audioCodec,
@@ -13427,16 +10995,16 @@ ${"\xA0".repeat(6)}`)}
       mediaTags
     };
   };
-  var getMediaValueByKey = (key, mediaInfo) => {
-    var _a3, _b2;
+  const getMediaValueByKey = (key, mediaInfo) => {
+    var _a, _b;
     if (!mediaInfo) {
       return "";
     }
     const keyRegStr = key.replace(/\s/, "\\s*").replace(/(\(|\))/g, "\\$1");
     const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\\n]+)`, "i");
-    return (_b2 = (_a3 = mediaInfo.match(reg)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    return (_b = (_a = mediaInfo.match(reg)) == null ? void 0 : _a[1]) != null ? _b : "";
   };
-  var getResolution = (mediaInfo) => {
+  const getResolution$4 = (mediaInfo) => {
     const height = parseInt(getMediaValueByKey("Height", mediaInfo).replace(/\s/g, ""), 10);
     const width = parseInt(getMediaValueByKey("Width", mediaInfo).replace(/\s/g, ""), 10);
     const ScanType = getMediaValueByKey("Scan type", mediaInfo);
@@ -13457,7 +11025,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return "";
   };
-  var getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {
+  const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {
     const hasChineseAudio = languageArray.includes("Chinese");
     const hasChineseSubtitle = subtitleLanguageArray.includes("Chinese");
     const mediaTags = {};
@@ -13487,7 +11055,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return mediaTags;
   };
-  var getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
+  const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
     const generalFormat = getMediaValueByKey("Format", generalPart);
     const videoFormat = getMediaValueByKey("Format", mainVideo);
     const videoFormatVersion = getMediaValueByKey("Format version", mainVideo);
@@ -13523,7 +11091,7 @@ ${"\xA0".repeat(6)}`)}
       isDV: !!isDV
     };
   };
-  var getAudioCodecByMediaInfo = (mainAudio, otherAudio) => {
+  const getAudioCodecByMediaInfo = (mainAudio, otherAudio) => {
     const audioFormat = getMediaValueByKey("Format", mainAudio);
     const audioChannels = getMediaValueByKey("Channel(s)", mainAudio);
     const commercialName = getMediaValueByKey("Commercial name", mainAudio);
@@ -13570,8 +11138,8 @@ ${"\xA0".repeat(6)}`)}
       languageArray
     };
   };
-  var getInfoFromBDInfo = (bdInfo) => {
-    var _a3, _b2, _c, _d, _e;
+  const getInfoFromBDInfo = (bdInfo) => {
+    var _a, _b, _c2, _d, _e;
     if (!bdInfo) {
       return {};
     }
@@ -13585,21 +11153,21 @@ ${"\xA0".repeat(6)}`)}
     const subtitleMatch = bdInfo.match(subtitleReg);
     const audioReg = new RegExp(`AUDIO:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${subtitleMatch ? "(SUBTITLE(S)?)" : hasFileInfo ? "FILES:" : ""}`, "i");
     const audioMatch = bdInfo.match(audioReg);
-    const fileSize = (_b2 = (_a3 = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)) == null ? void 0 : _a3[1]) == null ? void 0 : _b2.replace(/,/g, "");
+    const fileSize = (_b = (_a = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)) == null ? void 0 : _a[1]) == null ? void 0 : _b.replace(/,/g, "");
     const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i);
     const videoPart = splitBDMediaInfo(videoMatch, 2);
     const [mainVideo = "", otherVideo = ""] = videoPart;
     const videoCodec = mainVideo.match(/2160/) ? "hevc" : "h264";
-    const hdrFormat = (_d = (_c = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)) == null ? void 0 : _c[0]) != null ? _d : "";
+    const hdrFormat = (_d = (_c2 = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)) == null ? void 0 : _c2[0]) != null ? _d : "";
     const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
     const audioPart = splitBDMediaInfo(audioMatch, 2);
     const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
     const resolution = (_e = mainVideo.match(/\d{3,4}(p|i)/)) == null ? void 0 : _e[0];
     const { audioCodec = "", channelName = "", languageArray = [] } = getBDAudioInfo(audioPart, quickSummaryStyle);
     const subtitleLanguageArray = subtitlePart.map((item) => {
-      var _a4, _b3, _c2, _d2;
-      const quickStyleMatch = (_b3 = (_a4 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a4[1]) != null ? _b3 : "";
-      const normalMatch = (_d2 = (_c2 = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)) == null ? void 0 : _c2[1]) != null ? _d2 : "";
+      var _a2, _b2, _c3, _d2;
+      const quickStyleMatch = (_b2 = (_a2 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a2[1]) != null ? _b2 : "";
+      const normalMatch = (_d2 = (_c3 = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)) == null ? void 0 : _c3[1]) != null ? _d2 : "";
       const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
       return language;
     }).filter((sub) => !!sub);
@@ -13614,34 +11182,34 @@ ${"\xA0".repeat(6)}`)}
       format: "m2ts"
     };
   };
-  var splitBDMediaInfo = (matchArray, matchIndex) => {
-    var _a3, _b2;
-    return (_b2 = (_a3 = matchArray == null ? void 0 : matchArray[matchIndex]) == null ? void 0 : _a3.split("\n").filter((item) => !!item)) != null ? _b2 : [];
+  const splitBDMediaInfo = (matchArray, matchIndex) => {
+    var _a, _b;
+    return (_b = (_a = matchArray == null ? void 0 : matchArray[matchIndex]) == null ? void 0 : _a.split("\n").filter((item) => !!item)) != null ? _b : [];
   };
-  var getBDAudioInfo = (audioPart, quickSummaryStyle) => {
-    var _a3, _b2;
+  const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
+    var _a, _b;
     if (audioPart.length < 1) {
       return {};
     }
-    const sortArray = audioPart.sort((a3, b3) => {
-      var _a4, _b3, _c, _d;
-      const firstBitrate = parseInt((_b3 = (_a4 = a3.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _a4[1]) != null ? _b3 : "", 10);
-      const lastBitrate = parseInt((_d = (_c = b3.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _c[1]) != null ? _d : "", 10);
+    const sortArray = audioPart.sort((a2, b) => {
+      var _a2, _b2, _c2, _d;
+      const firstBitrate = parseInt((_b2 = (_a2 = a2.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _a2[1]) != null ? _b2 : "", 10);
+      const lastBitrate = parseInt((_d = (_c2 = b.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _c2[1]) != null ? _d : "", 10);
       return lastBitrate - firstBitrate;
     });
     const [mainAudio, secondAudio] = sortArray;
     const mainAudioCodec = getAudioCodecFromTitle(mainAudio);
     const secondAudioCodec = getAudioCodecFromTitle(secondAudio);
     let audioCodec = mainAudioCodec;
-    let channelName = (_a3 = mainAudio.match(/\d\.\d/)) == null ? void 0 : _a3[0];
+    let channelName = (_a = mainAudio.match(/\d\.\d/)) == null ? void 0 : _a[0];
     if (mainAudioCodec === "lpcm" && secondAudioCodec === "dtshdma") {
       audioCodec = secondAudioCodec;
-      channelName = (_b2 = mainAudio.match(/\d\.\d/)) == null ? void 0 : _b2[0];
+      channelName = (_b = mainAudio.match(/\d\.\d/)) == null ? void 0 : _b[0];
     }
     const languageArray = sortArray.map((item) => {
-      var _a4, _b3, _c, _d;
-      const quickStyleMatch = (_b3 = (_a4 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a4[1]) != null ? _b3 : "";
-      const normalMatch = (_d = (_c = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)) == null ? void 0 : _c[1]) != null ? _d : "";
+      var _a2, _b2, _c2, _d;
+      const quickStyleMatch = (_b2 = (_a2 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a2[1]) != null ? _b2 : "";
+      const normalMatch = (_d = (_c2 = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)) == null ? void 0 : _c2[1]) != null ? _d : "";
       const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
       return language;
     });
@@ -13651,7 +11219,7 @@ ${"\xA0".repeat(6)}`)}
       languageArray
     };
   };
-  var wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
+  const wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
     const isPre = typeof pre !== "undefined" && pre !== null;
     const isPost = typeof post !== "undefined" && post !== null;
     if (isPre) {
@@ -13661,30 +11229,30 @@ ${"\xA0".repeat(6)}`)}
       post.push(poTag);
     }
   };
-  var getFilterBBCode = (content) => {
-    var _a3;
+  const getFilterBBCode = (content) => {
+    var _a;
     if (content) {
       const bbCodes = htmlToBBCode(content);
-      return (_a3 = bbCodes == null ? void 0 : bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
+      return (_a = bbCodes == null ? void 0 : bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
         if (p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|商业用途|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/)) {
           return "";
         }
         return match;
-      })) != null ? _a3 : "";
+      })) != null ? _a : "";
     }
     return "";
   };
-  var rgb2hex = (rgb) => {
-    var _a3;
-    const result = (_a3 = rgb == null ? void 0 : rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i)) != null ? _a3 : [];
+  const rgb2hex = (rgb) => {
+    var _a;
+    const result = (_a = rgb == null ? void 0 : rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i)) != null ? _a : [];
     return result.length === 4 ? `#${`0${parseInt(result[1], 10).toString(16)}`.slice(-2)}${`0${parseInt(result[2], 10).toString(16)}`.slice(-2)}${`0${parseInt(result[3], 10).toString(16)}`.slice(-2)}` : "";
   };
-  var ensureProperColor = (color) => {
+  const ensureProperColor = (color) => {
     if (/rgba?/.test(color)) return rgb2hex(color);
     return color;
   };
-  var htmlToBBCode = (node) => {
-    var _a3, _b2, _c, _d, _e, _f, _g;
+  const htmlToBBCode = (node) => {
+    var _a, _b, _c2, _d, _e;
     const bbCodes = [];
     const pre = [];
     const post = [];
@@ -13706,7 +11274,7 @@ ${"\xA0".repeat(6)}`)}
           case "LI": {
             const { className } = node;
             if (CURRENT_SITE_INFO.siteType === "UNIT3D" && className) {
-              return `[quote]${(_a3 = node == null ? void 0 : node.textContent) == null ? void 0 : _a3.trim()}[/quote]`;
+              return `[quote]${(_a = node == null ? void 0 : node.textContent) == null ? void 0 : _a.trim()}[/quote]`;
             }
             pp("[*]", "\n");
             break;
@@ -13726,8 +11294,8 @@ ${"\xA0".repeat(6)}`)}
           case "DIV": {
             const { className, id } = node;
             if (className === "codemain") {
-              if (node.children[0] && node.children[0].tagName === "PRE") {
-                pp("");
+              if (node.children[0]) {
+                pp("\n[quote]", "[/quote]");
                 break;
               } else {
                 return "";
@@ -13769,7 +11337,7 @@ ${"\xA0".repeat(6)}`)}
             break;
           }
           case "BR": {
-            if (CURRENT_SITE_INFO.siteType === "NexusPHP" && CURRENT_SITE_NAME !== "OurBits" || ((_b2 = CURRENT_SITE_NAME) == null ? void 0 : _b2.match(/^(UHDBits|HDBits|BTN)/))) {
+            if (CURRENT_SITE_INFO.siteType === "NexusPHP" && CURRENT_SITE_NAME !== "OurBits" || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/))) {
               pp("");
             } else {
               pp("\n");
@@ -13779,7 +11347,7 @@ ${"\xA0".repeat(6)}`)}
           case "SPAN": {
             const { className } = node;
             if (className.match(/size/)) {
-              const matchSize = (_d = (_c = className.match(/size(\d)/)) == null ? void 0 : _c[1]) != null ? _d : "";
+              const matchSize = (_c2 = (_b = className.match(/size(\d)/)) == null ? void 0 : _b[1]) != null ? _c2 : "";
               if (matchSize) {
                 pp(`[size=${matchSize}]`, "[/size]");
               }
@@ -13799,11 +11367,14 @@ ${"\xA0".repeat(6)}`)}
             break;
           }
           case "TD": {
-            if (((_e = CURRENT_SITE_NAME) == null ? void 0 : _e.match(/^(TTG|HDBits|KG|HDSpace)/)) || CURRENT_SITE_NAME === "HDT" || CURRENT_SITE_INFO.siteType === "UNIT3D") {
+            if ((CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/)) || CURRENT_SITE_NAME === "HDT" || CURRENT_SITE_INFO.siteType === "UNIT3D") {
               pp("[quote]", "[/quote]");
               break;
             } else if (CURRENT_SITE_NAME.match(/EMP|Bdc/)) {
               pp("");
+              break;
+            } else if (CURRENT_SITE_NAME === "PTer") {
+              pp(null, null);
               break;
             } else {
               return "";
@@ -13877,6 +11448,17 @@ ${"\xA0".repeat(6)}`)}
             pp("[b]", "[/b]");
             break;
           }
+          case "TABLE": {
+            if (CURRENT_SITE_NAME === "PTer" && node.className === "table") {
+              return "";
+            }
+            pp("");
+            break;
+          }
+          case "TH": {
+            pp("");
+            break;
+          }
         }
         const { textAlign, fontWeight, fontStyle, textDecoration, color } = node.style;
         if (textAlign) {
@@ -13904,7 +11486,7 @@ ${"\xA0".repeat(6)}`)}
         break;
       }
       case 3: {
-        if ((_g = (_f = node == null ? void 0 : node.textContent) == null ? void 0 : _f.trim()) == null ? void 0 : _g.match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
+        if ((_e = (_d = node == null ? void 0 : node.textContent) == null ? void 0 : _d.trim()) == null ? void 0 : _e.match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
           return "";
         }
         return node.textContent;
@@ -13913,14 +11495,14 @@ ${"\xA0".repeat(6)}`)}
         return null;
     }
     node.childNodes.forEach((node2) => {
-      const code = htmlToBBCode(node2);
-      if (code) {
-        bbCodes.push(code);
+      const code2 = htmlToBBCode(node2);
+      if (code2) {
+        bbCodes.push(code2);
       }
     });
     return pre.concat(bbCodes).concat(post).join("");
   };
-  var getTagsFromSubtitle = (title) => {
+  const getTagsFromSubtitle = (title) => {
     const tags = {};
     if (title.match(/diy/i)) {
       tags.diy = true;
@@ -13955,10 +11537,9 @@ ${"\xA0".repeat(6)}`)}
     }
     return tags;
   };
-  var getBDInfoOrMediaInfo = (bbcode) => {
-    var _a3, _b2, _c;
-    bbcode = bbcode.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, "");
-    const quoteList = (_a3 = bbcode == null ? void 0 : bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g)) != null ? _a3 : [];
+  const getBDInfoOrMediaInfo = (bbcode) => {
+    var _a, _b, _c2;
+    const quoteList = (_a = bbcode == null ? void 0 : bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g)) != null ? _a : [];
     const bdinfo = [];
     const mediaInfo = [];
     quoteList.forEach((quote) => {
@@ -13971,7 +11552,7 @@ ${"\xA0".repeat(6)}`)}
       }
     });
     if (!bdinfo.length) {
-      const bdinfoMatch = (_c = (_b2 = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)) == null ? void 0 : _b2[0]) != null ? _c : "";
+      const bdinfoMatch = (_c2 = (_b = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)) == null ? void 0 : _b[0]) != null ? _c2 : "";
       if (bdinfoMatch) {
         bdinfo.push(bdinfoMatch);
       }
@@ -13981,11 +11562,11 @@ ${"\xA0".repeat(6)}`)}
       mediaInfo
     };
   };
-  var replaceRegSymbols = (string) => {
+  const replaceRegSymbols = (string) => {
     return string.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
   };
-  var getRtIdFromTitle = async (title, tv, year) => {
-    var _a3;
+  const getRtIdFromTitle = async (title, tv, year) => {
+    var _a;
     console.log("%s", title, year);
     const MAX_YEAR_DIFF = 2;
     tv = tv || false;
@@ -13999,21 +11580,21 @@ ${"\xA0".repeat(6)}`)}
     }
     const sorted = movies.concat();
     if (year && sorted) {
-      sorted.sort((a3, b3) => {
-        if (Math.abs(a3.year - yearVal) !== Math.abs(b3.year - yearVal)) {
-          return Math.abs(a3.year - yearVal) - Math.abs(b3.year - yearVal);
+      sorted.sort((a2, b) => {
+        if (Math.abs(a2.year - yearVal) !== Math.abs(b.year - yearVal)) {
+          return Math.abs(a2.year - yearVal) - Math.abs(b.year - yearVal);
         }
-        return b3.year - a3.year;
+        return b.year - a2.year;
       });
     }
     let bestMatch, closeMatch;
-    for (const m3 of sorted) {
-      m3.title = m3.title || m3.name;
-      if (m3.title.toLowerCase() === title.toLowerCase()) {
-        bestMatch = bestMatch || m3;
+    for (const m2 of sorted) {
+      m2.title = m2.title || m2.name;
+      if (m2.title.toLowerCase() === title.toLowerCase()) {
+        bestMatch = bestMatch || m2;
         console.log("bestMatch", bestMatch);
-      } else if (m3.title.toLowerCase().startsWith(title.toLowerCase())) {
-        closeMatch = closeMatch || m3;
+      } else if (m2.title.toLowerCase().startsWith(title.toLowerCase())) {
+        closeMatch = closeMatch || m2;
         console.log("closeMatch", closeMatch);
       }
       if (bestMatch && closeMatch) {
@@ -14033,7 +11614,7 @@ ${"\xA0".repeat(6)}`)}
     bestMatch = bestMatch || closeMatch || movies[0];
     if (bestMatch) {
       const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, "");
-      const score = (_a3 = bestMatch == null ? void 0 : bestMatch.meterScore) != null ? _a3 : "0";
+      const score = (_a = bestMatch == null ? void 0 : bestMatch.meterScore) != null ? _a : "0";
       return {
         id,
         score
@@ -14042,17 +11623,17 @@ ${"\xA0".repeat(6)}`)}
     console.log("no match found on rt");
     return {};
   };
-  var uploadToPtpImg = async (imgArray, isFiles = false) => {
+  const uploadToPtpImg = async (imgArray, isFiles = false) => {
     try {
       const apiKey = getValue("easy-seed.ptp-img-api-key", false);
       if (!apiKey) {
-        Notification_default2.open({
-          message: $t("ptpimg\u4E0A\u4F20\u5931\u8D25"),
-          description: $t("\u8BF7\u5230\u914D\u7F6E\u9762\u677F\u4E2D\u586B\u5165ptpimg\u7684api_key")
+        NotificationApi.open({
+          message: $t("ptpimg上传失败"),
+          description: $t("请到配置面板中填入ptpimg的api_key")
         });
         return;
       }
-      const options = {
+      const options2 = {
         method: "POST",
         responseType: "json"
       };
@@ -14062,17 +11643,17 @@ ${"\xA0".repeat(6)}`)}
           formData.append(`file-upload[${index}]`, img);
         });
         formData.append("api_key", apiKey);
-        options.data = formData;
+        options2.data = formData;
       } else {
         const data2 = `link-upload=${imgArray.join("\n")}&api_key=${apiKey}`;
-        options.headers = {
+        options2.headers = {
           "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
         };
-        options.data = data2;
+        options2.data = data2;
       }
-      const data = await fetch("https://ptpimg.me/upload.php", options);
+      const data = await fetch("https://ptpimg.me/upload.php", options2);
       if (!data) {
-        throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+        throw $t("上传失败，请重试");
       }
       let imgResultList = [];
       if (data && data.length) {
@@ -14081,30 +11662,30 @@ ${"\xA0".repeat(6)}`)}
         });
         return imgResultList;
       }
-      throw $t("\u4E0A\u4F20\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+      throw $t("上传失败，请重试");
     } catch (error) {
       handleError(error);
     }
   };
-  var $t = (key) => {
+  const $t = (key) => {
     const languageKey = BROWSER_LANGUAGE;
-    return i18n_default[languageKey][key] || key;
+    return i18nConfig[languageKey][key] || key;
   };
-  var urlToFile = async (url) => {
-    var _a3, _b2;
-    const filename = (_b2 = (_a3 = url.match(/\/([^/]+)$/)) == null ? void 0 : _a3[1]) != null ? _b2 : "filename";
+  const urlToFile = async (url) => {
+    var _a, _b;
+    const filename = (_b = (_a = url.match(/\/([^/]+)$/)) == null ? void 0 : _a[1]) != null ? _b : "filename";
     const data = await fetch(url, {
       responseType: "blob"
     });
     const file = new File([data], filename, { type: data.type });
     return file;
   };
-  var saveScreenshotsToPtpimg = async (imgArray) => {
+  const saveScreenshotsToPtpimg = async (imgArray) => {
     try {
       const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
       const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
       if (isPtpHost) {
-        throw $t("\u65E0\u9700\u8F6C\u5B58");
+        throw $t("无需转存");
       } else if (isHdbHost) {
         const promiseArray = imgArray.map((item) => {
           return urlToFile(item);
@@ -14120,26 +11701,26 @@ ${"\xA0".repeat(6)}`)}
       handleError(error);
     }
   };
-  var getValue = (key, needParse = true) => {
+  const getValue = (key, needParse = true) => {
     const data = GM_getValue(key);
     if (data && needParse) {
       return JSON.parse(data);
     }
     return data;
   };
-  var fetch = (url, options) => {
-    return new Promise((resolve, reject) => {
+  const fetch = (url, options2) => {
+    return new Promise((resolve2, reject) => {
       GM_xmlhttpRequest(__spreadProps(__spreadValues({
         method: "GET",
         url,
         responseType: "json"
-      }, options), {
+      }, options2), {
         onload: (res) => {
           const { statusText, status, response } = res;
           if (status !== 200) {
             reject(new Error(statusText || `${status}`));
           } else {
-            resolve(response);
+            resolve2(response);
           }
         },
         ontimeout: () => {
@@ -14151,21 +11732,21 @@ ${"\xA0".repeat(6)}`)}
       }));
     });
   };
-  var getTvSeasonData = async (data) => {
-    var _a3, _b2;
+  const getTvSeasonData$1 = async (data) => {
+    var _a, _b;
     const { title: torrentTitle } = TORRENT_INFO;
     const { season = "", title } = data;
     if (season) {
-      const seasonNumber = (_b2 = (_a3 = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "1";
+      const seasonNumber = (_b = (_a = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : "1";
       if (parseInt(seasonNumber, 10) === 1) {
         return data;
       }
-      const query = title.replace(/第.+?季/, `\u7B2C${seasonNumber}\u5B63`);
+      const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
       const response = await getDoubanIdByIMDB(query);
       return response;
     }
   };
-  var getSpecsFromMediainfo = (isBluray, mediaInfo) => {
+  const getSpecsFromMediainfo$1 = (isBluray, mediaInfo) => {
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
     if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
@@ -14178,16 +11759,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return {};
   };
-
-  // src/target/index.ts
-  init_preact_shim();
-
-  // src/target/helper.ts
-  init_preact_shim();
-
-  // src/target/common.ts
-  init_preact_shim();
-  var getScreenshotsBBCode = (imgArray) => {
+  const getScreenshotsBBCode = (imgArray) => {
     return imgArray.map((img) => {
       if (img.match(/\[url=.+\]/i)) {
         return img;
@@ -14195,10 +11767,10 @@ ${"\xA0".repeat(6)}`)}
       return `[img]${img}[/img]`;
     });
   };
-  var getTeamName = (info) => {
-    var _a3, _b2, _c;
+  const getTeamName = (info) => {
+    var _a, _b, _c2;
     const teamMatch = info.title.match(/-([^-]+)$/);
-    let teamName = (_c = (_b2 = (_a3 = teamMatch == null ? void 0 : teamMatch[1]) == null ? void 0 : _a3.replace(/-/g, "")) == null ? void 0 : _b2.split("@")) != null ? _c : "";
+    let teamName = (_c2 = (_b = (_a = teamMatch == null ? void 0 : teamMatch[1]) == null ? void 0 : _a.replace(/-/g, "")) == null ? void 0 : _b.split("@")) != null ? _c2 : "";
     if (teamName) {
       teamName = teamName.length > 1 ? teamName[1] : teamName[0];
     } else {
@@ -14206,7 +11778,7 @@ ${"\xA0".repeat(6)}`)}
     }
     return teamName;
   };
-  var matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
+  const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
     const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : "";
     if (Array.isArray(valueArray) && selectArray) {
       if (siteInfo[key].selector) {
@@ -14256,13 +11828,13 @@ ${"\xA0".repeat(6)}`)}
       return comparisonText.replace(/\[img\]/g, "").replace(/\[\/img\]/g, "").split("https://ptpimg.me").join("\nhttps://ptpimg.me").replace(/\s*\n\s*/g, "\n");
     });
     text = text.replace(/\[hide(.*)?\]\s*\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\[\/hide\]/gi, (imgText) => {
-      var _a3;
+      var _a;
       const imgs = [];
       for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
         imgs.push(urlMatch[1]);
       }
-      const rawTitle = ((_a3 = imgText.match(/^\[hide=(.*?)\]/)) == null ? void 0 : _a3[1]) || "";
-      const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map((v3) => v3.trim());
+      const rawTitle = ((_a = imgText.match(/^\[hide=(.*?)\]/)) == null ? void 0 : _a[1]) || "";
+      const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map((v2) => v2.trim());
       if (comparisonTitles.length >= 2) {
         return `[comparison=${comparisonTitles.join(", ")}]
 ${imgs.join("\n")}
@@ -14293,10 +11865,10 @@ ${imgs.join("\n")}
     text = text.replace(/\n\s*\n/g, "\n\n");
     return text.trim();
   }
-  var isChineseTacker = (siteType) => {
+  const isChineseTacker = (siteType) => {
     return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
   };
-  var filterNexusDescription = (info) => {
+  const filterNexusDescription = (info) => {
     const { description } = info;
     let filterDescription = "";
     const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
@@ -14313,11 +11885,11 @@ ${imgs.join("\n")}
     return `${filterDescription}
 ${allImages.join("")}`;
   };
-  var filterEmptyTags = (description) => {
+  const filterEmptyTags = (description) => {
     const reg = new RegExp("\\[(?!info)([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
     if (description.match(reg)) {
-      description = description.replace(reg, (_match, p1, p22) => {
-        if (p1 === p22) {
+      description = description.replace(reg, (_match, p1, p2) => {
+        if (p1 === p2) {
           return "";
         }
         return _match;
@@ -14326,34 +11898,28 @@ ${allImages.join("")}`;
     }
     return description;
   };
-  var fixTorrentTitle = (title, isWebSource) => {
+  const fixTorrentTitle = (title, isWebSource) => {
     let fixedTitle = title.replace(" DoVi ", " DV ").replace(" DDP ", " DD+ ");
     if (isWebSource) fixedTitle = fixedTitle.replace(" HEVC", " H.265");
     return fixedTitle;
   };
-  var base64ToBlob = (base64, contentType = "application/x-bittorrent", sliceSize = 512) => {
+  const base64ToBlob = (base64, contentType = "application/x-bittorrent", sliceSize = 512) => {
     const regStr = new RegExp(`data:${contentType};base64,`, "i");
     const byteCharacters = window.atob(base64.replace(regStr, ""));
     const byteArrays = [];
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
       const byteNumbers = new Array(slice.length);
-      for (let i3 = 0; i3 < slice.length; i3++) {
-        byteNumbers[i3] = slice.charCodeAt(i3);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
     return new Blob(byteArrays, { type: contentType });
   };
-
-  // src/target/site-operations.ts
-  init_preact_shim();
-
-  // src/target/its.ts
-  init_preact_shim();
-  var its_default = async (info) => {
-    var _a3, _b2, _c, _d, _e, _f, _g;
+  const handleITS = async (info) => {
+    var _a, _b, _c2, _d, _e, _f2, _g2;
     let template = `[center]
 
   [img]$poster$[/img]
@@ -14361,13 +11927,13 @@ ${allImages.join("")}`;
   [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size]
 
 
-  [color=DarkOrange][size=2]\u25E2 SYNOPSIS \u25E3[/size][/color]
+  [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
   $synopsis$
   
-  [color=DarkOrange][size=2]\u25E2 TRAILER \u25E3[/size][/color]
+  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
   [youtube]$youtubeUrl$[/youtube]
 
-  [color=DarkOrange][size=2]\u25E2 SCREENSHOTS \u25E3[/size][/color]
+  [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
   [box][hide]$SCREENSHOTS$[/hide][/box]
   
   [/center]`;
@@ -14387,10 +11953,10 @@ ${allImages.join("")}`;
     }
     const screenshotsBBCode = getScreenshotsBBCode(screenshots);
     template = template.replace("$SCREENSHOTS$", screenshotsBBCode.join("\n"));
-    const comparisonImgs = comparisons.flatMap((v3) => v3.imgs);
+    const comparisonImgs = comparisons.flatMap((v2) => v2.imgs);
     if (comparisonImgs.length > 0) {
       const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
-      template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]\u25E2 COMPARISONS \u25E3[/size][/color]
+      template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]
 
 
     [box][hide]${comparisonImgsBBCode.join(" ")}[/hide][/box]
@@ -14398,7 +11964,7 @@ ${allImages.join("")}`;
 $1`);
     }
     if (category.match(/tv|movie|cartoon|documentary/)) {
-      jQuery('textarea[name="descr"]').val($t("\u6570\u636E\u52A0\u8F7D\u4E2D..."));
+      jQuery('textarea[name="descr"]').val($t("数据加载中..."));
       try {
         const replaceParams = {
           tmdbUrl: "",
@@ -14423,7 +11989,7 @@ $1`);
             year
           } = imdbData;
           let language = details.Languages || "";
-          language = (_c = (_b2 = (_a3 = language == null ? void 0 : language.split("|")) == null ? void 0 : _a3[0]) == null ? void 0 : _b2.trim()) != null ? _c : "";
+          language = (_c2 = (_b = (_a = language == null ? void 0 : language.split("|")) == null ? void 0 : _a[0]) == null ? void 0 : _b.trim()) != null ? _c2 : "";
           const director = directors.map((item) => item.name)[0];
           if (collectionMap[director]) {
             collectionValueArr.push(collectionMap[director]);
@@ -14454,7 +12020,7 @@ $1`);
           replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
           replaceParams.tmdbScore = tmdbRate;
           const videos = await getTMDBVideos(tmdbId);
-          const youtubeId = (_g = (_f = (_e = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _e[0]) == null ? void 0 : _f.key) != null ? _g : "";
+          const youtubeId = (_g2 = (_f2 = (_e = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _e[0]) == null ? void 0 : _f2.key) != null ? _g2 : "";
           if (youtubeId.length > 0) {
             replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
           }
@@ -14468,10 +12034,7 @@ $1`);
       }
     }
   };
-
-  // src/target/tjupt.ts
-  init_preact_shim();
-  var tjupt_default = (info) => {
+  const handleTJUPT = (info) => {
     const observer = new MutationObserver(() => {
       if (jQuery("#ename")[0] && jQuery("#cname")[0]) {
         fillInfo(info);
@@ -14482,14 +12045,14 @@ $1`);
     observer.observe(document.body, config);
   };
   function fillInfo(info) {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j;
     const { title, description, doubanInfo, category, tags } = info;
     jQuery("#ename").val(title);
     const fullDescription = description + doubanInfo;
-    let area = (_b2 = (_a3 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    let area = (_b = (_a = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2]) != null ? _b : "";
     area = area.replace(/\[\/?.+?\]/g, "");
-    const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
-    const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    const originalName = (_d = (_c2 = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c2[2]) != null ? _d : "";
+    const translateName = (_h = (_g2 = (_f2 = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f2.split("/")) == null ? void 0 : _g2[0]) != null ? _h : "";
     const language = (_j = (_i = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
     if (area) {
       const areaString = area.replace(/,/g, "/").replace(/\s|中国/g, "");
@@ -14497,13 +12060,13 @@ $1`);
         jQuery("#district").val(areaString);
       } else if (category.match(/tv/)) {
         const areaToSelectorMap = {
-          \u5927\u9646: "#specificcat1",
-          "\u53F0|\u6E2F": "#specificcat2",
-          \u7F8E\u56FD: "#specificcat3",
-          \u65E5\u672C: "#specificcat4",
-          \u97E9\u56FD: "#specificcat5",
-          \u82F1\u56FD: "#specificcat6",
-          \u6CF0\u5267: "#specificcat7"
+          大陆: "#specificcat1",
+          "台|港": "#specificcat2",
+          美国: "#specificcat3",
+          日本: "#specificcat4",
+          韩国: "#specificcat5",
+          英国: "#specificcat6",
+          泰剧: "#specificcat7"
         };
         let selector = "";
         for (const [key, value] of Object.entries(areaToSelectorMap)) {
@@ -14560,17 +12123,14 @@ $1`);
       jQuery('input[name="chinese"]').attr("checked", "true");
     }
   }
-
-  // src/target/hdr.ts
-  init_preact_shim();
-  var hdr_default = (info) => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+  const handleHDRoute = (info) => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l;
     const { description, doubanInfo } = info;
     const fullDescription = description + doubanInfo;
-    const imdbRank = (_b2 = (_a3 = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    const imdbRank = (_b = (_a = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _a[1]) != null ? _b : "";
     jQuery("#upload-imdb").val(imdbRank);
-    const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
-    const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    const originalName = (_d = (_c2 = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c2[2]) != null ? _d : "";
+    const translateName = (_h = (_g2 = (_f2 = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f2.split("/")) == null ? void 0 : _g2[0]) != null ? _h : "";
     const summary = (_l = (_k = (_j = (_i = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _i[2]) == null ? void 0 : _j.split("/")) == null ? void 0 : _k[0]) != null ? _l : "";
     let chineseName = originalName;
     if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
@@ -14579,11 +12139,8 @@ $1`);
     jQuery("#title_chs").val(chineseName);
     jQuery("#upload_introduction").val(summary);
   };
-
-  // src/target/bib.ts
-  init_preact_shim();
-  var bib_default = (info) => {
-    var _a3;
+  const handleBib = (info) => {
+    var _a;
     if (!info.doubanBookInfo) {
       return;
     }
@@ -14599,14 +12156,11 @@ $1`);
     jQuery("#DescriptionField").val(intro);
     jQuery("#ImageField").val(poster);
     const event = new Event("change");
-    (_a3 = document.getElementById("DescriptionField")) == null ? void 0 : _a3.dispatchEvent(event);
+    (_a = document.getElementById("DescriptionField")) == null ? void 0 : _a.dispatchEvent(event);
   };
-
-  // src/target/ptn.ts
-  init_preact_shim();
-  var ptn_default = (info) => {
+  const handlePTN = (info) => {
     const { resolution, videoType, source } = info;
-    let format = "";
+    let format2 = "";
     const formatMap2 = {
       remux: "Remux",
       web: "WebRip",
@@ -14617,17 +12171,15 @@ $1`);
       "2160p": "2160P"
     };
     if (videoType.match(/bluray/)) {
-      format = "BluRay";
+      format2 = "BluRay";
     } else if (videoType === "encode" && source === "bluray") {
-      format = formatMap2[resolution];
+      format2 = formatMap2[resolution];
     } else {
-      format = formatMap2[videoType] || "";
+      format2 = formatMap2[videoType] || "";
     }
-    jQuery("#format").val(format);
+    jQuery("#format").val(format2);
   };
-
-  // src/target/site-operations.ts
-  var SITE_OPERATIONS = {
+  const SITE_OPERATIONS = {
     PTSBAO: {
       beforeHandler: () => {
         if (localStorage.getItem("autosave")) {
@@ -14652,7 +12204,7 @@ $1`);
     },
     PTer: {
       handleDescription: (info) => {
-        var _a3, _b2;
+        var _a, _b;
         let description = info.description;
         const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
         mediaInfo.forEach((info2) => {
@@ -14661,10 +12213,10 @@ $1`);
         bdinfo.forEach((info2) => {
           description = description.replace(`[quote]${info2}[/quote]`, `[hide=BDInfo]${info2}[/hide]`);
         });
-        if ((_a3 = info.comparisons) == null ? void 0 : _a3.length) {
+        if ((_a = info.comparisons) == null ? void 0 : _a.length) {
           for (const comparison of info.comparisons) {
             const { title, imgs } = comparison;
-            const titleCount = (_b2 = title == null ? void 0 : title.split(",").length) != null ? _b2 : "";
+            const titleCount = (_b = title == null ? void 0 : title.split(",").length) != null ? _b : "";
             imgs.forEach((img) => {
               description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
             });
@@ -14679,8 +12231,8 @@ $1`);
         return info;
       },
       afterHandler: (info) => {
-        var _a3, _b2;
-        const language = (_b2 = (_a3 = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+        var _a, _b;
+        const language = (_b = (_a = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a[2]) != null ? _b : "";
         if (!language.match(/英语/) && info.area === "EU") {
           jQuery(CURRENT_SITE_INFO.area.selector).val("8");
         }
@@ -14712,11 +12264,11 @@ $1`);
     },
     KEEPFRDS: {
       handleDescription: (info) => {
-        var _a3, _b2, _c;
+        var _a, _b, _c2;
         let { description, screenshots } = info;
         description = description.replace(/\[\/?(center|code)\]/g, "");
         if (info.sourceSite === "PTP") {
-          description = (_b2 = (_a3 = info == null ? void 0 : info.originalDescription) == null ? void 0 : _a3.replace(/^(\s+)/g, "")) != null ? _b2 : "";
+          description = (_b = (_a = info == null ? void 0 : info.originalDescription) == null ? void 0 : _a.replace(/^(\s+)/g, "")) != null ? _b : "";
           description = filterEmptyTags(description);
           description = description.replace(/http:\/\/ptpimg/g, "https://ptpimg");
           screenshots.forEach((screenshot) => {
@@ -14742,7 +12294,7 @@ $1`);
             if (info.subtitle) jQuery(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
           }
         });
-        (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
+        (_c2 = info.mediaInfos) == null ? void 0 : _c2.forEach((mediaInfo) => {
           if (!/\[mediainfo\]/.test(description)) {
             description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
           }
@@ -14781,7 +12333,7 @@ ${description}`;
         return description;
       },
       afterHandler: (info) => {
-        ptn_default(info);
+        handlePTN(info);
       }
     },
     HDT: {
@@ -14801,13 +12353,13 @@ ${description}`;
     },
     HDRoute: {
       afterHandler: (info) => {
-        hdr_default(info);
+        handleHDRoute(info);
       }
     },
     HDBits: {
       titleHandler: (info) => {
-        let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p22) => {
-          return `${info.movieName || info.movieAkaName} ${p22}`;
+        let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
+          return `${info.movieName || info.movieAkaName} ${p2}`;
         });
         if (info.videoType === "remux") {
           mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/ig, "");
@@ -14860,7 +12412,7 @@ ${description}`;
       },
       afterHandler: (info) => {
         jQuery("#browsecat").trigger("change");
-        tjupt_default(info);
+        handleTJUPT(info);
       }
     },
     NYPT: {
@@ -14885,7 +12437,7 @@ ${description}`;
     },
     iTS: {
       afterHandler: (info) => {
-        its_default(info);
+        handleITS(info);
       }
     },
     UHDBits: {
@@ -14915,10 +12467,10 @@ ${description}`;
     },
     BTSCHOOL: {
       afterHandler: (info) => {
-        var _a3, _b2;
+        var _a, _b;
         jQuery(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
         if (info.doubanUrl) {
-          const doubanId = (_b2 = (_a3 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+          const doubanId = (_b = (_a = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
           jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
         }
       }
@@ -14931,7 +12483,7 @@ ${description}`;
       }
     },
     RedLeaves: {
-      afterHandler: (info) => {
+      afterHandler: () => {
         try {
           jQuery(CURRENT_SITE_INFO.category.selector).trigger("change");
         } catch (err) {
@@ -14961,7 +12513,7 @@ ${description}`;
     Bib: {
       afterHandler: (info) => {
         if (info.doubanBookInfo) {
-          bib_default(info);
+          handleBib(info);
         }
       }
     },
@@ -14979,27 +12531,27 @@ ${description}`;
     },
     TTG: {
       afterHandler: (info) => {
-        var _a3, _b2;
+        var _a, _b;
         if (info.doubanUrl) {
-          const doubanId = (_b2 = (_a3 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+          const doubanId = (_b = (_a = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
           jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
         }
       }
     },
     MTV: {
       handleDescription: (info) => {
-        var _a3;
+        var _a;
         let { description } = info;
-        (_a3 = info.mediaInfos) == null ? void 0 : _a3.forEach((mediaInfo) => {
+        (_a = info.mediaInfos) == null ? void 0 : _a.forEach((mediaInfo) => {
           description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
         });
         return description;
       },
       afterHandler: (info) => {
-        var _a3, _b2, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c2, _d, _e, _f2, _g2, _h;
         if (info.resolution !== "") {
           const resolution = info.resolution.replace("p", "");
-          (_a3 = jQuery(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a3.click();
+          (_a = jQuery(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a.click();
           jQuery("#taginput").val(info.resolution);
         }
         if (info.videoCodec !== "") {
@@ -15009,10 +12561,10 @@ ${description}`;
         if (info.audioCodec === "dd+") {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} ddp.audio`);
-        } else if ((_b2 = info.audioCodec) == null ? void 0 : _b2.match(/dd|ac3/i)) {
+        } else if ((_b = info.audioCodec) == null ? void 0 : _b.match(/dd|ac3/i)) {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} dd.audio`);
-        } else if ((_c = info.audioCodec) == null ? void 0 : _c.match(/dtshd/i)) {
+        } else if ((_c2 = info.audioCodec) == null ? void 0 : _c2.match(/dtshd/i)) {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} dts.hd.audio`);
         } else if ((_d = info.audioCodec) == null ? void 0 : _d.match(/dtsx/i)) {
@@ -15035,11 +12587,11 @@ ${description}`;
         } else if (/webrip/i.test(info.title)) {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} webrip`);
-          (_f = jQuery('input[name="source"][value="10"]')[0]) == null ? void 0 : _f.click();
+          (_f2 = jQuery('input[name="source"][value="10"]')[0]) == null ? void 0 : _f2.click();
         } else if (info.videoType.match(/bluray/i)) {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} bluray`);
-          (_g = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _g.click();
+          (_g2 = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _g2.click();
         } else if (info.videoType.match(/remux/i)) {
           const tagvalue = jQuery("#taginput").attr("value");
           jQuery("#taginput").val(`${tagvalue} ${info.videoType}`);
@@ -15075,17 +12627,15 @@ ${description}`;
       }
     }
   };
-
-  // src/target/helper.ts
-  var ExportHelper = class {
+  class ExportHelper {
     constructor(info) {
       this.info = info;
       this.currentSiteInfo = CURRENT_SITE_INFO;
       this.operation = SITE_OPERATIONS[CURRENT_SITE_NAME];
     }
     prepareToFillInfo() {
-      var _a3;
-      if ((_a3 = this.operation) == null ? void 0 : _a3.beforeHandler) {
+      var _a;
+      if ((_a = this.operation) == null ? void 0 : _a.beforeHandler) {
         this.operation.beforeHandler();
       }
     }
@@ -15109,8 +12659,8 @@ ${description}`;
       }
     }
     disableTorrentChange() {
-      var _a3, _b2;
-      const nameSelector = (_b2 = (_a3 = this.currentSiteInfo.name) == null ? void 0 : _a3.selector) != null ? _b2 : "";
+      var _a, _b;
+      const nameSelector = (_b = (_a = this.currentSiteInfo.name) == null ? void 0 : _a.selector) != null ? _b : "";
       if (nameSelector.match(/^#\w+/)) {
         const nameDom = jQuery(nameSelector).clone().attr("name", "").hide();
         jQuery(nameSelector).attr("id", "").after(nameDom);
@@ -15118,34 +12668,34 @@ ${description}`;
     }
     getThanksQuote() {
       const isChineseSite = isChineseTacker(this.currentSiteInfo.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
-      let thanksQuote = `\u8F6C\u81EA[b]${this.info.sourceSite}[/b]\uFF0C\u611F\u8C22\u539F\u53D1\u5E03\u8005\uFF01`;
+      let thanksQuote = `转自[b]${this.info.sourceSite}[/b]，感谢原发布者！`;
       if (!isChineseSite) {
         thanksQuote = `Torrent from [b]${this.info.sourceSite}[/b].
-All thanks to the original uploader\uFF01`;
+All thanks to the original uploader！`;
       }
       return `[quote]${thanksQuote}[/quote]
 
 `;
     }
     getChineseName() {
-      var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
+      var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j;
       const { description, subtitle } = this.info;
-      const originalName = (_b2 = (_a3 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
-      const translateName = (_f = (_e = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
+      const originalName = (_b = (_a = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a[2]) != null ? _b : "";
+      const translateName = (_f2 = (_e = (_d = (_c2 = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c2[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f2 : "";
       let chineseName = originalName;
       if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
         chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
       }
       if (chineseName === "" && subtitle !== "" && subtitle !== void 0) {
-        chineseName = (_j = (_i = (_h = (_g = this.info) == null ? void 0 : _g.subtitle) == null ? void 0 : _h.replace(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
+        chineseName = (_j = (_i = (_h = (_g2 = this.info) == null ? void 0 : _g2.subtitle) == null ? void 0 : _h.replace(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
       }
       return chineseName.trim();
     }
     torrentTitleHandler() {
-      var _a3;
+      var _a;
       const fixedTitle = this.info.title.replace("H 265", "H.265").replace("H 264", "H.264");
       this.info.title = fixedTitle;
-      if ((_a3 = this.operation) == null ? void 0 : _a3.titleHandler) {
+      if ((_a = this.operation) == null ? void 0 : _a.titleHandler) {
         this.info = this.operation.titleHandler(this.info);
       }
       if (this.currentSiteInfo.name) {
@@ -15159,15 +12709,15 @@ All thanks to the original uploader\uFF01`;
       return this.info;
     }
     imdbHandler() {
-      var _a3, _b2, _c;
-      const imdbSelector = (_b2 = (_a3 = this.currentSiteInfo) == null ? void 0 : _a3.imdb) == null ? void 0 : _b2.selector;
+      var _a, _b, _c2;
+      const imdbSelector = (_b = (_a = this.currentSiteInfo) == null ? void 0 : _a.imdb) == null ? void 0 : _b.selector;
       if (!imdbSelector) {
         return;
       }
       const imdbId = getIMDBIdByUrl(this.info.imdbUrl || "");
       this.info.imdbId = imdbId;
       if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
-        jQuery(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
+        jQuery(imdbSelector).val((_c2 = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c2 : "");
       } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
         let tmdbId = "";
         const fillIMDBId = this.currentSiteInfo.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
@@ -15203,7 +12753,7 @@ All thanks to the original uploader\uFF01`;
       });
     }
     descriptionHandler() {
-      var _a3, _b2, _c, _d;
+      var _a, _b, _c2, _d;
       let { mediaInfos, isBluray, screenshots = [], description = "", doubanInfo, poster } = this.info;
       if (description) {
         if (this.currentSiteInfo.siteType.match(/NexusPHP|TTG|MTeam/)) {
@@ -15251,7 +12801,7 @@ ${description}`;
           if (doubanPosterImage && doubanPosterImage[1]) {
             poster = doubanPosterImage[1];
           } else {
-            poster = (_b2 = (_a3 = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+            poster = (_b = (_a = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _a[1]) != null ? _b : "";
           }
         }
         if (poster) {
@@ -15271,8 +12821,8 @@ ${description}`;
             const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
 *)?`);
             if (description.match(regStr)) {
-              description = description.replace(regStr, (p1, p22) => {
-                return `[url=${p22}][img=350x350]${p22}[/img][/url]`;
+              description = description.replace(regStr, (p1, p2) => {
+                return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
               });
             }
           });
@@ -15283,12 +12833,12 @@ ${description}`;
       }
       if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither/)) {
         description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
-        description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
+        description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
           const slash = p1 || "";
-          return p22 ? `${p22}: [${slash}spoiler]` : `[${slash}spoiler]`;
+          return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
         });
       }
-      if ((_c = this.operation) == null ? void 0 : _c.handleDescription) {
+      if ((_c2 = this.operation) == null ? void 0 : _c2.handleDescription) {
         description = this.operation.handleDescription(__spreadProps(__spreadValues({}, this.info), {
           description
         }));
@@ -15364,15 +12914,15 @@ ${description}`;
       this.fillTeamName();
       if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
         setTimeout(() => {
-          var _a3;
+          var _a;
           const event = new Event("change");
-          (_a3 = document.querySelector(this.currentSiteInfo.category.selector)) == null ? void 0 : _a3.dispatchEvent(event);
+          (_a = document.querySelector(this.currentSiteInfo.category.selector)) == null ? void 0 : _a.dispatchEvent(event);
         }, 1e3);
       }
     }
     dealWithMoreSites() {
-      var _a3, _b2, _c, _d, _e;
-      if ((_a3 = this.operation) == null ? void 0 : _a3.afterHandler) {
+      var _a, _b, _c2, _d, _e;
+      if ((_a = this.operation) == null ? void 0 : _a.afterHandler) {
         this.operation.afterHandler(this.info);
       }
       if (CURRENT_SITE_NAME.match(/PTHome|1PTBA|52pt|Audiences/i)) {
@@ -15389,7 +12939,7 @@ ${description}`;
         }
       }
       if (this.currentSiteInfo.siteType === "UNIT3D" && this.info.category.match(/tv/)) {
-        const season = (_c = (_b2 = this.info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _b2[1]) != null ? _c : 1;
+        const season = (_c2 = (_b = this.info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _b[1]) != null ? _c2 : 1;
         const episode = (_e = (_d = this.info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _d[1]) != null ? _e : 0;
         jQuery("#season_number").val(season);
         jQuery("#episode_number").val(episode);
@@ -15410,13 +12960,13 @@ ${description}`;
       }
     }
     fillTorrentFile() {
-      var _a3;
+      var _a;
       const { torrentData } = this.info;
       if (CURRENT_SITE_INFO.torrent) {
         const fileInput = jQuery(CURRENT_SITE_INFO.torrent.selector);
         if (torrentData && fileInput.length > 0) {
           const blob = base64ToBlob(torrentData);
-          const torrentFileName = (_a3 = this.info.title) == null ? void 0 : _a3.replace(/\s/g, ".");
+          const torrentFileName = (_a = this.info.title) == null ? void 0 : _a.replace(/\s/g, ".");
           const file = new File([blob], `${torrentFileName}.torrent`, { type: "application/x-bittorrent" });
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(file);
@@ -15438,12 +12988,9 @@ ${description}`;
         }
       }
     }
-  };
-
-  // src/target/ptp.ts
-  init_preact_shim();
-  var ptp_default = async (info) => {
-    const currentSiteInfo5 = PT_SITE.PTP;
+  }
+  const handlePTP = async (info) => {
+    const currentSiteInfo2 = PT_SITE.PTP;
     const {
       title,
       imdbUrl,
@@ -15455,14 +13002,14 @@ ${description}`;
     } = info;
     const groupId = getUrlParam("groupid");
     if (!groupId) {
-      jQuery(currentSiteInfo5.imdb.selector).val(imdbUrl || 0);
+      jQuery(currentSiteInfo2.imdb.selector).val(imdbUrl || 0);
       AutoFill();
     }
-    info.resolution = getResolution2(resolution, videoType, title);
+    info.resolution = getResolution$3(resolution, videoType, title);
     info.videoCodec = getVideoCodec(videoCodec, videoType, size);
     const keyArray = ["category", "source", "videoCodec", "resolution"];
     keyArray.forEach((key) => {
-      const { selector = "", map } = currentSiteInfo5[key];
+      const { selector = "", map } = currentSiteInfo2[key];
       if (map) {
         const mapValue = map[info[key]];
         jQuery(selector).val(mapValue);
@@ -15471,10 +13018,10 @@ ${description}`;
       }
     });
     if (info.sourceSite.match(/PTP/i)) {
-      jQuery(currentSiteInfo5.description.selector).val(info.originalDescription || "");
+      jQuery(currentSiteInfo2.description.selector).val(info.originalDescription || "");
     } else {
-      const description = getDescription(info);
-      jQuery(currentSiteInfo5.description.selector).val(description);
+      const description = getDescription$2(info);
+      jQuery(currentSiteInfo2.description.selector).val(description);
     }
     const editionInfo = getEditionInfo(videoType, tags);
     if (editionInfo.length > 0) {
@@ -15499,7 +13046,7 @@ ${description}`;
       });
     }
   };
-  var getEditionInfo = (videoType, tags) => {
+  const getEditionInfo = (videoType, tags) => {
     const editionInfo = [];
     if (videoType === "remux") {
       editionInfo.push("Remux");
@@ -15521,7 +13068,7 @@ ${description}`;
     }
     return editionInfo;
   };
-  var getVideoCodec = (videoCodec, videoType, size) => {
+  const getVideoCodec = (videoCodec, videoType, size) => {
     if (videoType === "bluray") {
       return getBDType(size);
     } else if (videoType === "dvd") {
@@ -15533,7 +13080,7 @@ ${description}`;
     }
     return videoCodec;
   };
-  var getResolution2 = (resolution, videoType, title) => {
+  const getResolution$3 = (resolution, videoType, title) => {
     if (videoType === "DVD" && title.match(/NTSC/i)) {
       return "NTSC";
     } else if (videoType === "DVD" && title.match(/PAL/i)) {
@@ -15541,11 +13088,12 @@ ${description}`;
     }
     return resolution;
   };
-  var getDescription = (info) => {
+  const getDescription$2 = (info) => {
     const { mediaInfos, comparisons, screenshots } = info;
     let filterDescription = "";
     if (mediaInfos.length > 0) {
       mediaInfos.forEach((mediaInfo) => {
+        mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, "");
         filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]
 `;
       });
@@ -15563,11 +13111,8 @@ ${comparison.imgs.join("\n")}
     return `${filterDescription}
 ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
   };
-
-  // src/target/gpw.ts
-  init_preact_shim();
-  var currentSiteInfo = PT_SITE.GPW;
-  var gpw_default = async (info) => {
+  const currentSiteInfo$3 = PT_SITE.GPW;
+  const handleGPW = async (info) => {
     const isUploadSuccess = !jQuery("#mediainfo")[0];
     if (isUploadSuccess) {
       return;
@@ -15575,24 +13120,24 @@ ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
     transformInfo(info);
     const isAddFormat = getUrlParam("groupid");
     if (!isAddFormat) {
-      jQuery(currentSiteInfo.imdb.selector).val(info.imdbUrl || 0);
+      jQuery(currentSiteInfo$3.imdb.selector).val(info.imdbUrl || 0);
       jQuery("#imdb_button").trigger("click");
       jQuery("#upload .collapse").show();
     }
-    jQuery(currentSiteInfo.category.selector).val(currentSiteInfo.category.map[info.category]);
+    jQuery(currentSiteInfo$3.category.selector).val(currentSiteInfo$3.category.map[info.category]);
     fillEditionInfo(info);
-    fillMediaInfo(info);
+    fillMediaInfo$2(info);
     setTimeout(() => {
-      if (!jQuery(currentSiteInfo.source.selector).val() || !jQuery(currentSiteInfo.format.selector).val()) {
+      if (!jQuery(currentSiteInfo$3.source.selector).val() || !jQuery(currentSiteInfo$3.format.selector).val()) {
         handleNoAutoCheck(info);
       }
     }, 0);
     fillScene(info);
     fillProcessing(info);
-    fillDescription(info);
+    fillDescription$4(info);
     jQuery(".u-bbcodePreview-button").trigger("click");
   };
-  function buildDescription(info) {
+  function buildDescription$2(info) {
     let description = "";
     if (info.comparisons && info.comparisons.length > 0) {
       for (const comparison of info.comparisons) {
@@ -15604,14 +13149,14 @@ ${comparison.imgs.join("\n")}
       }
     }
     if (info.screenshots.length > 0) {
-      description += `${info.screenshots.map((v3) => `[img]${v3}[/img]`).join("\n")}
+      description += `${info.screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
 
 `;
     }
     return description.trim();
   }
   function fillEditionInfo(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo.targetInfo.editionTags[tag]).filter(Boolean);
+    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo$3.targetInfo.editionTags[tag]).filter(Boolean);
     let otherTag;
     if (Object.keys(info.otherTags).length > 0) {
       otherTag = Object.keys(info.otherTags).join(", ");
@@ -15629,11 +13174,11 @@ ${comparison.imgs.join("\n")}
       jQuery("[name=remaster_custom_title]").val(otherTag);
     }
   }
-  function fillMediaInfo(info) {
+  function fillMediaInfo$2(info) {
     if (!info.mediaInfos) {
       return;
     }
-    for (let i3 = 1; i3 < info.mediaInfos.length; i3++) {
+    for (let i = 1; i < info.mediaInfos.length; i++) {
       jQuery("#add-mediainfo")[0].click();
     }
     const textareas = Array.from(jQuery('[name="mediainfo[]"]'));
@@ -15654,7 +13199,7 @@ ${comparison.imgs.join("\n")}
       if (tags.diy) {
         videoType = "DIY";
       }
-      const videoTypeConfig = currentSiteInfo.videoType;
+      const videoTypeConfig = currentSiteInfo$3.videoType;
       const { selector, map } = videoTypeConfig;
       jQuery(selector).val(map[videoType]);
       jQuery(selector)[0].dispatchEvent(new Event("change"));
@@ -15666,7 +13211,7 @@ ${comparison.imgs.join("\n")}
     }
   }
   function handleNoAutoCheck(info) {
-    var _a3;
+    var _a;
     const {
       mediaInfos,
       videoType
@@ -15674,18 +13219,18 @@ ${comparison.imgs.join("\n")}
     const mediaInfo = (mediaInfos == null ? void 0 : mediaInfos[0]) || "";
     const isBluray = videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { format = "", subtitles = [] } = getInfoFunc(mediaInfo);
-    info.format = getFormat(format, videoType);
+    const { format: format2 = "", subtitles = [] } = getInfoFunc(mediaInfo);
+    info.format = getFormat$1(format2, videoType);
     const keyArray = ["source", "videoCodec", "format", "resolution"];
     keyArray.forEach((key) => {
-      var _a4, _b2;
-      const { selector = "", map } = currentSiteInfo[key];
+      var _a2, _b;
+      const { selector = "", map } = currentSiteInfo$3[key];
       if (map) {
         const mapValue = map[info[key]];
         jQuery(selector).val(mapValue);
         if (key === "videoCodec" && mapValue === "Other") {
           document.querySelector(selector).dispatchEvent(new Event("change"));
-          jQuery('input[name="codec_other"]').val((_b2 = (_a4 = info[key]) == null ? void 0 : _a4.toUpperCase()) != null ? _b2 : "");
+          jQuery('input[name="codec_other"]').val((_b = (_a2 = info[key]) == null ? void 0 : _a2.toUpperCase()) != null ? _b : "");
         }
       } else {
         jQuery(selector).val(info[key] || "");
@@ -15694,14 +13239,14 @@ ${comparison.imgs.join("\n")}
     if (subtitles.length > 0) {
       jQuery("#mixed_subtitles").attr("checked", "true");
       jQuery('input[name="subtitles[]"][type="checkbox"]').each(function() {
-        var _a4, _b2;
-        const language = (_b2 = (_a4 = jQuery(this).attr("id")) == null ? void 0 : _a4.replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase())) != null ? _b2 : "";
+        var _a2, _b;
+        const language = (_b = (_a2 = jQuery(this).attr("id")) == null ? void 0 : _a2.replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase())) != null ? _b : "";
         if (subtitles.includes(language)) {
           jQuery(this).attr("checked", "true");
         }
       });
       const event = new Event("change");
-      (_a3 = document.querySelector("#mixed_subtitles")) == null ? void 0 : _a3.dispatchEvent(event);
+      (_a = document.querySelector("#mixed_subtitles")) == null ? void 0 : _a.dispatchEvent(event);
       const chineseLanguages = subtitles.filter((item) => item.match(/Chinese|Traditional|Simplified/i));
       if (chineseLanguages.length === 1 && chineseLanguages[0] === "Chinese") {
         const selector = chineseLanguages[0].match(/Traditional/i) ? "#chinese_traditional" : "#chinese_simplified";
@@ -15711,13 +13256,13 @@ ${comparison.imgs.join("\n")}
       }
     }
   }
-  var getFormat = (format, videoType) => {
-    if (videoType.match(/bluray/) && format !== "iso") {
-      format = "m2ts";
+  const getFormat$1 = (format2, videoType) => {
+    if (videoType.match(/bluray/) && format2 !== "iso") {
+      format2 = "m2ts";
     } else if (videoType.match(/dvd/)) {
-      format = "vob";
+      format2 = "vob";
     }
-    return format || "mkv";
+    return format2 || "mkv";
   };
   function transformInfo(info) {
     if (["encode", "remux"].includes(info.videoType) && info.mediaInfos) {
@@ -15731,37 +13276,34 @@ ${comparison.imgs.join("\n")}
       info.mediaInfos = newMediaInfos;
     }
   }
-  function fillDescription(info) {
+  function fillDescription$4(info) {
     let description = "";
     if (info.sourceSite === "PTP") {
       description = buildPTPDescription(info);
     } else if (info.sourceSite === "BeyondHD") {
       description = info.originalDescription || "";
     } else {
-      description = buildDescription(info);
+      description = buildDescription$2(info);
     }
-    jQuery(currentSiteInfo.description.selector).val(description);
-    jQuery(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo$3.description.selector).val(description);
+    jQuery(currentSiteInfo$3.description.selector)[0].dispatchEvent(new Event("input"));
   }
-
-  // src/target/npubits.ts
-  init_preact_shim();
-  var npubits_default = (info) => {
-    var _a3, _b2;
-    const currentSiteInfo5 = PT_SITE.NPUBits;
+  const handleNPU = (info) => {
+    var _a, _b;
+    const currentSiteInfo2 = PT_SITE.NPUBits;
     let { title, year, movieName, category, doubanInfo, description, subtitle } = info;
-    jQuery(currentSiteInfo5.subtitle.selector).val(subtitle || "");
+    jQuery(currentSiteInfo2.subtitle.selector).val(subtitle || "");
     if (doubanInfo) {
       description = `${doubanInfo}
 ${description}`;
     }
-    jQuery(currentSiteInfo5.description.selector).val(description);
+    jQuery(currentSiteInfo2.description.selector).val(description);
     jQuery("#torrent_name_checkbox").attr("checked", "true");
-    jQuery(currentSiteInfo5.name.selector).val(title);
-    jQuery(currentSiteInfo5.category.selector).val(
-      currentSiteInfo5.category.map[category]
+    jQuery(currentSiteInfo2.name.selector).val(title);
+    jQuery(currentSiteInfo2.category.selector).val(
+      currentSiteInfo2.category.map[category]
     );
-    jQuery(currentSiteInfo5.category.selector)[0].dispatchEvent(new Event("change"));
+    jQuery(currentSiteInfo2.category.selector)[0].dispatchEvent(new Event("change"));
     if (category.match(/tv/)) {
       const districtMap = {
         CN: "23",
@@ -15773,60 +13315,57 @@ ${description}`;
         EU: "65",
         OT: "63"
       };
-      jQuery(currentSiteInfo5.area.selector).val(districtMap[info.area]);
+      jQuery(currentSiteInfo2.area.selector).val(districtMap[info.area]);
     } else if (category.match(/movie/)) {
-      jQuery(currentSiteInfo5.area.selector).val(currentSiteInfo5.area.map[info.area]);
+      jQuery(currentSiteInfo2.area.selector).val(currentSiteInfo2.area.map[info.area]);
     }
-    jQuery(currentSiteInfo5.area.selector)[0].dispatchEvent(new Event("change"));
+    jQuery(currentSiteInfo2.area.selector)[0].dispatchEvent(new Event("change"));
     const keyArray = ["videoCodec", "videoType", "resolution"];
     keyArray.forEach((key) => {
-      const { selector, map } = currentSiteInfo5[key];
+      const { selector, map } = currentSiteInfo2[key];
       fill_field(
         selector,
         map[info[key]]
       );
     });
     const teamName = getTeamName(info);
-    const teamConfig = currentSiteInfo5.team;
+    const teamConfig = currentSiteInfo2.team;
     jQuery(`${teamConfig.selector}`).val(teamConfig.map[teamName]);
     jQuery("#torrent_name_field0").val(movieName);
     if (category === "movie") {
       jQuery("#torrent_name_field1").val(year);
     } else if (category.match(/tv/)) {
-      const episode = (_b2 = (_a3 = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a3[0]) != null ? _b2 : "";
+      const episode = (_b = (_a = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a[0]) != null ? _b : "";
       jQuery("#torrent_name_field1").val(episode);
     }
     jQuery('input[name="uplver"]').attr("checked", "true");
   };
-
-  // src/target/byr.ts
-  init_preact_shim();
-  var byr_default = (info) => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
-    const currentSiteInfo5 = PT_SITE.BYR;
+  const handleBYR = (info) => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l, _m, _n2;
+    const currentSiteInfo2 = PT_SITE.BYR;
     const {
       title,
       description,
       doubanInfo,
       category,
       videoType,
-      mediaInfo,
+      mediaInfos,
       subtitle,
       imdbUrl,
       doubanUrl
     } = info;
-    jQuery(currentSiteInfo5.subtitle.selector).val(subtitle || "");
-    jQuery(currentSiteInfo5.imdb.selector).val(imdbUrl || "");
-    jQuery(currentSiteInfo5.douban.selector).val(doubanUrl || "");
+    jQuery(currentSiteInfo2.subtitle.selector).val(subtitle || "");
+    jQuery(currentSiteInfo2.imdb.selector).val(imdbUrl || "");
+    jQuery(currentSiteInfo2.douban.selector).val(doubanUrl || "");
     CKEDITOR.on("instanceReady", () => {
       CKEDITOR.instances.descr.setData(bbcode2Html(description));
     });
     jQuery("#ename0day").val(title);
     const fullDescription = description + doubanInfo;
-    let area = (_b2 = (_a3 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    let area = (_b = (_a = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2]) != null ? _b : "";
     area = area.replace(/\[\/?.+?\]/g, "");
-    const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
-    const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    const originalName = (_d = (_c2 = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c2[2]) != null ? _d : "";
+    const translateName = (_h = (_g2 = (_f2 = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f2.split("/")) == null ? void 0 : _g2[0]) != null ? _h : "";
     const movieType = (_j = (_i = fullDescription.match(/(类\s+别)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
     const language = (_l = (_k = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _k[2]) != null ? _l : "";
     let chineseName = originalName;
@@ -15836,22 +13375,22 @@ ${description}`;
     if (category.match(/movie/)) {
       let selector = "";
       if (area.match(/华语|台|港/)) {
-        selector = "\u534E\u8BED";
+        selector = "华语";
       } else if (area.match(/日本|韩国|泰国/)) {
-        selector = "\u4E9A\u6D32";
+        selector = "亚洲";
       } else if (area.match(/美国|加拿大/)) {
-        selector = "\u5317\u7F8E";
+        selector = "北美";
       } else if (area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "\u6B27\u6D32";
+        selector = "欧洲";
       } else {
-        selector = "\u5176\u4ED6";
+        selector = "其他";
       }
       const typeMap = {
-        \u534E\u8BED: "11",
-        \u6B27\u6D32: "12",
-        \u5317\u7F8E: "13",
-        \u4E9A\u6D32: "14",
-        \u5176\u4ED6: "1"
+        华语: "11",
+        欧洲: "12",
+        北美: "13",
+        亚洲: "14",
+        其他: "1"
       };
       jQuery('select[name="second_type"]').val(typeMap[selector]);
       jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
@@ -15862,53 +13401,53 @@ ${description}`;
     } else if (category.match(/tv/)) {
       let selector = "movie_country";
       if (area.match(/大陆/)) {
-        selector = "\u5927\u9646";
+        selector = "大陆";
       } else if (area.match(/台|港/)) {
-        selector = "\u6E2F\u53F0";
+        selector = "港台";
       } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "\u6B27\u7F8E";
+        selector = "欧美";
       } else if (area.match(/日本|韩国/)) {
-        selector = "\u65E5\u97E9";
+        selector = "日韩";
       } else {
-        selector = "\u5176\u4ED6";
+        selector = "其他";
       }
       const typeMap = {
-        \u5927\u9646: "15",
-        \u6E2F\u53F0: "16",
-        \u6B27\u7F8E: "17",
-        \u65E5\u97E9: "18",
-        \u5176\u4ED6: "2"
+        大陆: "15",
+        港台: "16",
+        欧美: "17",
+        日韩: "18",
+        其他: "2"
       };
       jQuery('select[name="second_type"]').val(typeMap[selector]);
       jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
       fillField(selector, "tv_type");
       jQuery("#tv_ename").val(title);
       jQuery("#cname").val(chineseName);
-      const episode = (_n = (_m = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _m[0]) != null ? _n : "";
+      const episode = (_n2 = (_m = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _m[0]) != null ? _n2 : "";
       jQuery("#tv_season").val(episode);
       const isBluray = videoType.match(/bluray/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { format } = getInfoFunc(mediaInfo);
-      fillField((format == null ? void 0 : format.toUpperCase()) || "MKV", "tv_filetype");
+      const { format: format2 } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
+      fillField((format2 == null ? void 0 : format2.toUpperCase()) || "MKV", "tv_filetype");
     } else if (category.match(/variety/)) {
       let selector = "";
       if (area.match(/大陆/)) {
-        selector = "\u5927\u9646";
+        selector = "大陆";
       } else if (area.match(/台|港/)) {
-        selector = "\u6E2F\u53F0";
+        selector = "港台";
       } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "\u6B27\u7F8E";
+        selector = "欧美";
       } else if (area.match(/日本|韩国/)) {
-        selector = "\u65E5\u97E9";
+        selector = "日韩";
       } else {
-        selector = "\u5176\u4ED6";
+        selector = "其他";
       }
       const typeMap = {
-        \u5927\u9646: "27",
-        \u6E2F\u53F0: "29",
-        \u6B27\u7F8E: "30",
-        \u65E5\u97E9: "28",
-        \u5176\u4ED6: "5"
+        大陆: "27",
+        港台: "29",
+        欧美: "30",
+        日韩: "28",
+        其他: "5"
       };
       jQuery('select[name="second_type"]').val(typeMap[selector]);
       jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
@@ -15917,22 +13456,22 @@ ${description}`;
       jQuery("#show_ename").val(title);
       let languageVal = "";
       if (language.match(/汉语/)) {
-        languageVal = "\u56FD\u8BED";
+        languageVal = "国语";
       } else if (language.match(/粤/)) {
-        languageVal = "\u7CA4\u8BED";
+        languageVal = "粤语";
       } else if (language.match(/英语/)) {
-        languageVal = "\u82F1\u8BED";
+        languageVal = "英语";
       } else if (language.match(/日语/)) {
-        languageVal = "\u65E5\u8BED";
+        languageVal = "日语";
       } else if (language.match(/韩语/)) {
-        languageVal = "\u97E9\u8BED";
+        languageVal = "韩语";
       }
       fillField(languageVal, "show_language");
     }
     function bbcode2Html(bbcode) {
       let html = bbcode.replace(/\[\*\]([^\n]+)/ig, "<li>$1</li>");
       html = html.replace(/(\r\n)|\n/g, "<br>");
-      html = html.replace(/\[(quote|hide=.+?)\]/ig, "<fieldset><legend>\u5F15\u7528</legend>");
+      html = html.replace(/\[(quote|hide=.+?)\]/ig, "<fieldset><legend>引用</legend>");
       html = html.replace(/\[(\/)(quote|hide)\]/ig, "<$1fieldset>");
       html = html.replace(/(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g, '<a href="$1"><img src="$2"/></a>');
       html = html.replace(/\[img\](.+?)\[\/img]/g, '<img src="$1"/>');
@@ -15944,31 +13483,30 @@ ${description}`;
       return html;
     }
   };
-
-  // src/target/sc.ts
-  init_preact_shim();
-  var sc_default = async (info) => {
+  const handleSC = async (info) => {
     const { imdbUrl = "" } = info;
     const imdbId = getIMDBIdByUrl(imdbUrl);
     jQuery("#catalogue_number").val(imdbId);
     jQuery("#imdb_autofill").trigger("click");
     fillMedia(info);
     jQuery(".modesw").trigger("click");
-    jQuery("#release_desc").val(buildDescription2(info));
+    jQuery("#release_desc").val(buildDescription$1(info));
     await fillIMDb(imdbUrl);
   };
-  function buildDescription2(info) {
-    const { screenshots, mediaInfo } = info;
+  function buildDescription$1(info) {
+    const { screenshots, mediaInfos } = info;
     let description = "";
     if (screenshots.length > 0) {
       description = screenshots.slice(0, 3).map((img) => {
         return `[img]${img}[/img]`;
       }).join("");
     }
-    if (mediaInfo) {
-      description += `
+    if (mediaInfos.length > 0) {
+      mediaInfos.forEach((mediaInfo) => {
+        description += `
 
 [hide=MediaInfo]${mediaInfo}[/hide]`;
+      });
     }
     return description;
   }
@@ -15987,14 +13525,14 @@ ${description}`;
     jQuery("#media").val(value);
   }
   async function fillIMDb(imdbUrl) {
-    var _a3, _b2, _c, _d;
+    var _a, _b, _c2, _d;
     if (imdbUrl) {
       const imdbData = await getIMDBData(imdbUrl);
-      if (imdbData && ((_a3 = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a3.country)) {
+      if (imdbData && ((_a = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a.country)) {
         jQuery("#country").val(imdbData.details.country);
       }
-      const akaName = imdbData && ((_b2 = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b2["Also known as"]);
-      const originalName = (_c = imdbData == null ? void 0 : imdbData.name) != null ? _c : "";
+      const akaName = imdbData && ((_b = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b["Also known as"]);
+      const originalName = (_c2 = imdbData == null ? void 0 : imdbData.name) != null ? _c2 : "";
       if (akaName && akaName !== originalName) {
         jQuery("#alternate_title").val(imdbData.details["Also known as"]);
         jQuery("#title").val(originalName);
@@ -16016,14 +13554,11 @@ ${description}`;
       }
     }
   }
-
-  // src/target/kg.ts
-  init_preact_shim();
-  var kg_default = async (info) => {
-    var _a3;
+  const handleKG = async (info) => {
+    var _a;
     const { imdbUrl, screenshots, mediaInfos, resolution, source, videoType } = info;
     const siteInfo = PT_SITE.KG;
-    const mediaInfo = (_a3 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a3 : "";
+    const mediaInfo = (_a = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a : "";
     if (imdbUrl) {
       jQuery('input[type="submit"][value="next >>"]').hide().after("<p>loading...</p>");
       jQuery('input[name="title"]').val(imdbUrl);
@@ -16090,15 +13625,15 @@ ${screenshots.map((img) => `[img]${encodeURI(img)}[/img]`).join("")}`;
     }
   };
   function buildDvdSpecs(info) {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k;
     const { mediaInfos, size, audioCodec } = info;
-    const mediaInfo = (_a3 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a3 : "";
+    const mediaInfo = (_a = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a : "";
     const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
     const dvdType = getBDType(size);
-    const audioChannelNumber = ((_b2 = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b2[1]) || "2";
+    const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
     const audioName = `${audioCodec == null ? void 0 : audioCodec.toUpperCase()} ${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
-    const IFOMediaInfo = (_d = (_c = info.mediaInfos) == null ? void 0 : _c.find((info2) => info2.includes(".IFO"))) != null ? _d : "";
-    const runtime = (_g = (_f = (_e = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)) == null ? void 0 : _e[1]) == null ? void 0 : _f.replace(/\s/g, "")) != null ? _g : "";
+    const IFOMediaInfo = (_d = (_c2 = info.mediaInfos) == null ? void 0 : _c2.find((info2) => info2.includes(".IFO"))) != null ? _d : "";
+    const runtime = (_g2 = (_f2 = (_e = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)) == null ? void 0 : _e[1]) == null ? void 0 : _f2.replace(/\s/g, "")) != null ? _g2 : "";
     const hour = (_i = (_h = runtime.match(/(\d)+h/)) == null ? void 0 : _h[1]) != null ? _i : "00";
     const minute = (_k = (_j = runtime.match(/(\d+)(mn|min)/)) == null ? void 0 : _j[1]) != null ? _k : "";
     return `DVD Label:
@@ -16112,22 +13647,19 @@ DVD extras: Untouched
 Extras contain: 
 DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
   }
-
-  // src/target/bhd.ts
-  init_preact_shim();
-  var currentSiteInfo2 = PT_SITE.BeyondHD;
-  var bhd_default = (info) => {
+  const currentSiteInfo$2 = PT_SITE.BeyondHD;
+  const handleBHD = (info) => {
     let title = info.title;
     if (info.videoType === "dvd") {
       title = buildDVDTitle(info);
     }
-    jQuery(currentSiteInfo2.name.selector).val(title);
+    jQuery(currentSiteInfo$2.name.selector).val(title);
     fillSpecs(info);
     fillTMDBId(info);
-    fillMediaInfo2(info);
+    fillMediaInfo$1(info);
     selectTag(info);
-    fillDescription2(info);
-    jQuery(currentSiteInfo2.anonymous.selector).attr("checked", "true");
+    fillDescription$3(info);
+    jQuery(currentSiteInfo$2.anonymous.selector).attr("checked", "true");
     if (info.videoType === "tvPack") {
       jQuery('input[name="pack"]').attr("checked", "true");
     }
@@ -16136,37 +13668,37 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       if (info.videoType === "dvd") {
         title2 = buildDVDTitle(info);
       }
-      jQuery(currentSiteInfo2.name.selector).val(title2);
-      const categoryMap = currentSiteInfo2.category.map;
+      jQuery(currentSiteInfo$2.name.selector).val(title2);
+      const categoryMap = currentSiteInfo$2.category.map;
       const categoryValueArr = categoryMap[info.category];
       const keyArray = ["resolution"];
       let finalSelectArray = [];
       if (Array.isArray(categoryValueArr)) {
         finalSelectArray = [...categoryValueArr];
         keyArray.forEach((key) => {
-          finalSelectArray = matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+          finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
           console.log(finalSelectArray);
           if (finalSelectArray.length === 1) {
-            jQuery(currentSiteInfo2.category.selector).val(finalSelectArray[0]);
+            jQuery(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
           }
         });
       } else {
         [...keyArray, "category"].forEach((key) => {
-          matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+          matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
         });
       }
     });
   };
   function fillTMDBId(info) {
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    jQuery(currentSiteInfo2.imdb.selector).val(imdbId);
+    jQuery(currentSiteInfo$2.imdb.selector).val(imdbId);
     getTMDBIdByIMDBId(imdbId).then((data) => {
-      jQuery(currentSiteInfo2.tmdb.selector).val(data.id);
+      jQuery(currentSiteInfo$2.tmdb.selector).val(data.id);
     });
   }
-  function fillMediaInfo2(info) {
-    var _a3, _b2;
-    jQuery(currentSiteInfo2.mediaInfo.selector).val((_b2 = (_a3 = info.mediaInfos) == null ? void 0 : _a3[0]) != null ? _b2 : "");
+  function fillMediaInfo$1(info) {
+    var _a, _b;
+    jQuery(currentSiteInfo$2.mediaInfo.selector).val((_b = (_a = info.mediaInfos) == null ? void 0 : _a[0]) != null ? _b : "");
   }
   function fillSpecs(info) {
     const { category, videoType } = info;
@@ -16180,32 +13712,32 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       }
       info.category = bdType || "";
     }
-    const categoryMap = currentSiteInfo2.category.map;
+    const categoryMap = currentSiteInfo$2.category.map;
     const categoryValueArr = categoryMap[info.category];
     const keyArray = ["videoType", "resolution", "source", "category"];
     let finalSelectArray = [];
     if (Array.isArray(categoryValueArr)) {
       finalSelectArray = [...categoryValueArr];
       keyArray.forEach((key) => {
-        finalSelectArray = matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+        finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
         if (finalSelectArray.length === 1) {
-          jQuery(currentSiteInfo2.category.selector).val(finalSelectArray[0]);
+          jQuery(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
         }
       });
     } else {
       [...keyArray, "category"].forEach((key) => {
-        matchSelectForm(currentSiteInfo2, info, key, finalSelectArray);
+        matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
       });
     }
   }
   function selectTag(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo2.targetInfo.editionTags[tag]).filter(Boolean);
+    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo$2.targetInfo.editionTags[tag]).filter(Boolean);
     const editionOption = Array.from(jQuery('select[name="edition"] option')).map((opt) => jQuery(opt).attr("value"));
     if (editionTags.length > 0) {
       for (const tag of editionTags) {
         setTimeout(() => {
-          var _a3;
-          (_a3 = document.querySelector(`.bhd-tag #${tag}`)) == null ? void 0 : _a3.dispatchEvent(new Event("click"));
+          var _a;
+          (_a = document.querySelector(`.bhd-tag #${tag}`)) == null ? void 0 : _a.dispatchEvent(new Event("click"));
         }, 0);
         if (editionOption.includes(tag)) {
           jQuery('select[name="edition"]').val(tag);
@@ -16213,37 +13745,37 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       }
     }
   }
-  function fillDescription2(info) {
+  function fillDescription$3(info) {
     let description = info.description;
     if (info.sourceSite === "PTP") {
       description = buildPTPDescription(info);
     } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
       description = info.originalDescription || "";
     } else {
-      description = buildDescription3(info);
+      description = buildDescription(info);
     }
     if (info.screenshots.length > 0) {
       info.screenshots.forEach((img) => {
         const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
 *)?`);
         if (description.match(regStr)) {
-          description = description.replace(regStr, (p1, p22) => {
-            return `[url=${p22}][img=350x350]${p22}[/img][/url]`;
+          description = description.replace(regStr, (p1, p2) => {
+            return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
           });
         }
       });
     }
-    jQuery(currentSiteInfo2.description.selector).val(description);
-    jQuery(currentSiteInfo2.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo$2.description.selector).val(description);
+    jQuery(currentSiteInfo$2.description.selector)[0].dispatchEvent(new Event("input"));
   }
-  function buildDescription3(info) {
-    var _a3, _b2;
+  function buildDescription(info) {
+    var _a, _b;
     let description = info.description;
     const { sourceSiteType } = info;
     if (isChineseTacker(sourceSiteType)) {
       description = filterNexusDescription(info);
     }
-    description = description.replace(`[quote]${(_b2 = (_a3 = info.mediaInfos) == null ? void 0 : _a3[0]) != null ? _b2 : ""}[/quote]`, "").replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "");
+    description = description.replace(`[quote]${(_b = (_a = info.mediaInfos) == null ? void 0 : _a[0]) != null ? _b : ""}[/quote]`, "").replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "");
     const { comparisons, screenshots } = info;
     if (comparisons && comparisons.length > 0) {
       for (const comparison of comparisons) {
@@ -16256,34 +13788,31 @@ ${comparison.imgs.join("\n")}
       }
     }
     if (screenshots.length > 0) {
-      description += `${screenshots.map((v3) => `[img]${v3}[/img]`).join("\n")}
+      description += `${screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
 
 `;
     }
     return description.trim();
   }
   function buildDVDTitle(info) {
-    var _a3, _b2;
+    var _a, _b;
     const { movieName, movieAkaName, year, mediaInfos, size, audioCodec } = info;
-    const mediaInfo = (_a3 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a3 : "";
+    const mediaInfo = (_a = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a : "";
     const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
     const dvdType = getBDType(size);
-    const audioChannelNumber = ((_b2 = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b2[1]) || "2";
+    const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
     const audio = audioCodec === "ac3" ? "dd" : audioCodec;
     const audioName = `${audio == null ? void 0 : audio.toUpperCase()}${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
     const akaName = movieAkaName ? ` AKA ${movieAkaName} ` : " ";
     return `${movieName}${akaName}${year} ${scanType} ${dvdType} ${audioName}`;
   }
-
-  // src/target/bdc.ts
-  init_preact_shim();
-  var currentSiteInfo3 = PT_SITE.Bdc;
-  var bdc_default = async (info) => {
-    jQuery(currentSiteInfo3.name.selector).val(info.title);
-    jQuery(currentSiteInfo3.imdb.selector).val(info.imdbUrl || "");
-    jQuery(currentSiteInfo3.anonymous.selector).attr("checked", "true");
+  const currentSiteInfo$1 = PT_SITE.Bdc;
+  const handleBdc = async (info) => {
+    jQuery(currentSiteInfo$1.name.selector).val(info.title);
+    jQuery(currentSiteInfo$1.imdb.selector).val(info.imdbUrl || "");
+    jQuery(currentSiteInfo$1.anonymous.selector).attr("checked", "true");
     fillCategory(info);
-    fillDescription3(info);
+    fillDescription$2(info);
   };
   function fillCategory(info) {
     const { resolution, videoType, category } = info;
@@ -16296,13 +13825,13 @@ ${comparison.imgs.join("\n")}
     } else if (category.match(/tv/)) {
       categoryValue = "19";
     } else {
-      categoryValue = `${currentSiteInfo3.resolution.map[resolution][videoType]}`;
+      categoryValue = `${currentSiteInfo$1.resolution.map[resolution][videoType]}`;
     }
     jQuery('select[name="category"]').val(categoryValue);
   }
-  async function fillDescription3(info) {
-    var _a3, _b2, _c, _d;
-    jQuery(currentSiteInfo3.description.selector).val($t("\u6570\u636E\u52A0\u8F7D\u4E2D..."));
+  async function fillDescription$2(info) {
+    var _a, _b, _c2, _d;
+    jQuery(currentSiteInfo$1.description.selector).val($t("数据加载中..."));
     let template = `
   [align=center][color=#FF0000][size=large][font=Trebuchet MS][b]${info.title}[/b][/font][/size][/color]
   
@@ -16314,7 +13843,7 @@ ${comparison.imgs.join("\n")}
   
   [img]https://images.broadcity.eu/images/87704049718067240949.png[/img]
   
-  [php]${(_a3 = info.mediaInfos) == null ? void 0 : _a3[0]}[/php][/align]
+  [php]${(_a = info.mediaInfos) == null ? void 0 : _a[0]}[/php][/align]
   
   [align=center][img]https://images.broadcity.eu/images/11622644009097018297.png[/img] 
   $screenshots$
@@ -16345,7 +13874,7 @@ ${comparison.imgs.join("\n")}
         replaceParams.originalPoster = originalPoster;
         jQuery('input[name="t_image_url"]').val(poster);
         const videos = await getTMDBVideos(tmdbId);
-        const youtubeId = (_d = (_c = (_b2 = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _b2[0]) == null ? void 0 : _c.key) != null ? _d : "";
+        const youtubeId = (_d = (_c2 = (_b = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _b[0]) == null ? void 0 : _c2.key) != null ? _d : "";
         if (youtubeId.length > 0) {
           replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
         }
@@ -16357,27 +13886,24 @@ ${comparison.imgs.join("\n")}
         }, 0);
       }
     } catch (error) {
-      jQuery(currentSiteInfo3.description.selector).val(error.message);
+      jQuery(currentSiteInfo$1.description.selector).val(error.message);
     }
   }
-
-  // src/target/zhuque.ts
-  init_preact_shim();
-  var currentSiteInfo4 = PT_SITE.ZHUQUE;
-  var zhuque_default = (info) => {
+  const currentSiteInfo = PT_SITE.ZHUQUE;
+  const handleZQ = (info) => {
     const targetNode = document;
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    const insert = new MutationObserver((mutationRecords) => {
+    const insert = new MutationObserver(() => {
       jQuery("input.ant-select-selection-search-input[id]").each(function() {
         this.dispatchEvent(new Event("keydown"));
       });
-      jQuery(currentSiteInfo4.name.selector).val(info.title);
-      jQuery(currentSiteInfo4.name.selector)[0].dispatchEvent(new Event("input"));
-      jQuery(currentSiteInfo4.imdb.selector).val(imdbId);
-      jQuery(currentSiteInfo4.imdb.selector)[0].dispatchEvent(new Event("input"));
+      jQuery(currentSiteInfo.name.selector).val(info.title);
+      jQuery(currentSiteInfo.name.selector)[0].dispatchEvent(new Event("input"));
+      jQuery(currentSiteInfo.imdb.selector).val(imdbId);
+      jQuery(currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event("input"));
       if (info.subtitle) {
-        jQuery(currentSiteInfo4.subtitle.selector).val(info.subtitle);
-        jQuery(currentSiteInfo4.subtitle.selector)[0].dispatchEvent(new Event("input"));
+        jQuery(currentSiteInfo.subtitle.selector).val(info.subtitle);
+        jQuery(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event("input"));
       }
       let screenshotStr = "";
       if (info.screenshots.length > 0) {
@@ -16386,28 +13912,28 @@ ${comparison.imgs.join("\n")}
 `;
         });
       }
-      jQuery(currentSiteInfo4.screenshots.selector).val(screenshotStr);
-      jQuery(currentSiteInfo4.screenshots.selector)[0].dispatchEvent(new Event("input"));
-      fillMediaInfo3(info);
-      fillDescription4(info);
+      jQuery(currentSiteInfo.screenshots.selector).val(screenshotStr);
+      jQuery(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event("input"));
+      fillMediaInfo(info);
+      fillDescription$1(info);
       const selectNodeParent = document.querySelector("form");
-      const select = new MutationObserver(async (mutationRecords2) => {
-        var _a3;
-        const { category: categoryConfig } = currentSiteInfo4;
+      const select = new MutationObserver(async () => {
+        var _a;
+        const { category: categoryConfig } = currentSiteInfo;
         jQuery(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category]})`).click();
         const keyArray = ["videoType", "videoCodec", "audioCodec"];
         select.disconnect();
         const sleep = (ms) => {
-          return new Promise((resolve) => setTimeout(resolve, ms));
+          return new Promise((resolve2) => setTimeout(resolve2, ms));
         };
-        const { tags } = currentSiteInfo4;
+        const { tags } = currentSiteInfo;
         for (const tag in info.tags) {
           if (tags[tag]) {
-            await sleep(100).then((v3) => jQuery(tags[tag])[0].click());
+            await sleep(100).then(() => jQuery(tags[tag])[0].click());
           }
         }
         keyArray.forEach((key) => {
-          const { map } = currentSiteInfo4[key];
+          const { map } = currentSiteInfo[key];
           if (map) {
             const mapValue = map[info[key]];
             if (mapValue) {
@@ -16421,7 +13947,7 @@ ${comparison.imgs.join("\n")}
             }
           }
         });
-        if (info.resolution !== "") (_a3 = jQuery(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]) == null ? void 0 : _a3.click();
+        if (info.resolution !== "") (_a = jQuery(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]) == null ? void 0 : _a.click();
       });
       if (selectNodeParent) {
         select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false });
@@ -16430,14 +13956,14 @@ ${comparison.imgs.join("\n")}
     });
     insert.observe(targetNode, { attributes: false, childList: false, subtree: true, characterDataOldValue: false });
   };
-  function fillMediaInfo3(info) {
-    var _a3, _b2;
-    jQuery(currentSiteInfo4.mediaInfo.selector).val((_b2 = (_a3 = info.mediaInfos) == null ? void 0 : _a3[0]) != null ? _b2 : "");
-    jQuery(currentSiteInfo4.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
+  function fillMediaInfo(info) {
+    var _a, _b;
+    jQuery(currentSiteInfo.mediaInfo.selector).val((_b = (_a = info.mediaInfos) == null ? void 0 : _a[0]) != null ? _b : "");
+    jQuery(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
   }
-  function fillDescription4(info) {
-    var _a3, _b2;
-    let description = info.description.replace(`[quote]${(_b2 = (_a3 = info.mediaInfos) == null ? void 0 : _a3[0]) != null ? _b2 : ""}[/quote]`, "").trim();
+  function fillDescription$1(info) {
+    var _a, _b;
+    let description = info.description.replace(`[quote]${(_b = (_a = info.mediaInfos) == null ? void 0 : _a[0]) != null ? _b : ""}[/quote]`, "").trim();
     if (info.mediaInfos && info.mediaInfos[1]) {
       info.mediaInfos.forEach((mediaInfo) => {
         description = description.replace(`[quote]${mediaInfo}[/quote]`, "");
@@ -16460,7 +13986,7 @@ ${description}
     if (info.comparisons && info.comparisons[0]) {
       for (const comparison in info.comparisons) {
         description += `
-\u5BF9\u6BD4\u56FE ${info.comparisons[comparison].title}
+对比图 ${info.comparisons[comparison].title}
 
 `;
         for (const img in info.comparisons[comparison].imgs) {
@@ -16473,19 +13999,16 @@ ${description}
     const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
     if (!thanksQuoteClosed && info.sourceSite !== void 0) {
       description = `\`\`\`
-\u8F6C\u81EA ${info.sourceSite} \uFF0C\u611F\u8C22\u539F\u53D1\u5E03\u8005\uFF01
+转自 ${info.sourceSite} ，感谢原发布者！
 \`\`\`
 ${description}`;
     }
-    jQuery(currentSiteInfo4.description.selector).val(description);
-    jQuery(currentSiteInfo4.description.selector)[0].dispatchEvent(new Event("input"));
+    jQuery(currentSiteInfo.description.selector).val(description);
+    jQuery(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
   }
-
-  // src/target/autofill.ts
-  init_preact_shim();
   async function autoFillDoubanInfo(selfDom, info) {
     try {
-      jQuery(selfDom).text($t("\u83B7\u53D6\u4E2D..."));
+      jQuery(selfDom).text($t("获取中..."));
       const {
         imdbUrl,
         movieName,
@@ -16494,7 +14017,7 @@ ${description}`;
         title: torrentTitle
       } = info;
       if (!imdbUrl && !doubanUrl) {
-        throw new Error($t("\u8BF7\u586B\u5199\u6B63\u786E\u94FE\u63A5"));
+        throw new Error($t("请填写正确链接"));
       }
       let doubanLink = "";
       if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
@@ -16503,7 +14026,7 @@ ${description}`;
         const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
         if (doubanData) {
           let { id, season = "" } = doubanData;
-          const tvData = await getTvSeasonData(doubanData);
+          const tvData = await getTvSeasonData$1(doubanData);
           if (season && tvData) {
             id = tvData && tvData.id;
           }
@@ -16526,9 +14049,9 @@ ${description}`;
         if (!(descriptionData == null ? void 0 : descriptionData.match(/(片|译)\s*名/))) {
           const movieData = await getDoubanInfo(doubanLink);
           if (movieData) {
-            Notification_default2.open({
-              message: $t("\u6210\u529F"),
-              description: $t("\u83B7\u53D6\u6210\u529F")
+            NotificationApi.open({
+              message: $t("成功"),
+              description: $t("获取成功")
             });
             const imdbLink = movieData.imdbLink;
             if (jQuery(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
@@ -16546,22 +14069,22 @@ ${jQuery(description.selector).val()}`);
             }
           }
         } else {
-          Notification_default2.open({
-            message: $t("\u6210\u529F"),
-            description: $t("\u83B7\u53D6\u6210\u529F")
+          NotificationApi.open({
+            message: $t("成功"),
+            description: $t("获取成功")
           });
         }
       }
     } catch (error) {
-      Notification_default2.open({
-        message: $t("\u9519\u8BEF"),
+      NotificationApi.open({
+        message: $t("错误"),
         description: error.message
       });
     } finally {
-      jQuery(selfDom).text($t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB"));
+      jQuery(selfDom).text($t("获取豆瓣简介"));
     }
   }
-  var autofill_default = (info) => {
+  const autoFill = (info) => {
     if (info.doubanInfo) {
       return;
     }
@@ -16574,9 +14097,9 @@ ${jQuery(description.selector).val()}`);
         selector = jQuery(imdb.selector);
       }
       if (selector) {
-        selector.after(`<span id="auto-fill-douban">${$t("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB")}</span>`);
+        selector.after(`<span id="auto-fill-douban">${$t("获取豆瓣简介")}</span>`);
       }
-      jQuery("#auto-fill-douban").on("click", (e4) => {
+      jQuery("#auto-fill-douban").on("click", () => {
         const url = selector.val();
         if (url.match(/subject\/(\d+)/)) {
           info.doubanUrl = url;
@@ -16587,10 +14110,7 @@ ${jQuery(description.selector).val()}`);
       });
     }
   };
-
-  // src/target/mt.ts
-  init_preact_shim();
-  var mt_default = async (info) => {
+  const handleMT = async (info) => {
     const targetNode = document.getElementById("root");
     const config = { childList: true, subtree: true };
     const observer = new MutationObserver((mutationsList, observer2) => {
@@ -16608,17 +14128,17 @@ ${jQuery(description.selector).val()}`);
     });
     observer.observe(targetNode, config);
   };
-  var fillMTInfo = async (info) => {
-    var _a3;
-    const currentSiteInfo5 = PT_SITE.MTeam;
+  const fillMTInfo = async (info) => {
+    var _a;
+    const currentSiteInfo2 = PT_SITE.MTeam;
     const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfos, tags } = info;
-    const mediaInfo = (_a3 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a3 : "";
-    setInputValue(currentSiteInfo5.name.selector, title);
-    setInputValue(currentSiteInfo5.subtitle.selector, subtitle || "");
-    setInputValue(currentSiteInfo5.douban.selector, doubanUrl || "");
-    setInputValue(currentSiteInfo5.imdb.selector, imdbUrl || "");
-    setInputValue(currentSiteInfo5.mediainfo.selector, mediaInfo);
-    setSelectValue(currentSiteInfo5.audioCodec.selector, currentSiteInfo5.audioCodec.map[audioCodec]);
+    const mediaInfo = (_a = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a : "";
+    setInputValue(currentSiteInfo2.name.selector, title);
+    setInputValue(currentSiteInfo2.subtitle.selector, subtitle || "");
+    setInputValue(currentSiteInfo2.douban.selector, doubanUrl || "");
+    setInputValue(currentSiteInfo2.imdb.selector, imdbUrl || "");
+    setInputValue(currentSiteInfo2.mediainfo.selector, mediaInfo);
+    setSelectValue(currentSiteInfo2.audioCodec.selector, currentSiteInfo2.audioCodec.map[audioCodec]);
     info.description = info.description.replace(mediaInfo.trim(), "");
     const targetHelper = new ExportHelper(info);
     targetHelper.descriptionHandler();
@@ -16626,7 +14146,7 @@ ${jQuery(description.selector).val()}`);
     targetHelper.categoryHandler();
     let timeout = 0;
     Object.keys(tags).forEach((key) => {
-      const siteTagMap = currentSiteInfo5.tags[key];
+      const siteTagMap = currentSiteInfo2.tags[key];
       if (tags[key] && siteTagMap) {
         setTimeout(() => {
           setInputValue(siteTagMap, "", true);
@@ -16634,7 +14154,7 @@ ${jQuery(description.selector).val()}`);
         timeout += 100;
       }
     });
-    fillDescription5(targetHelper.info.description);
+    fillDescription(targetHelper.info.description);
   };
   function setInputValue(selector, value, isCheckbox = false) {
     const input = document.querySelector(selector);
@@ -16649,9 +14169,9 @@ ${jQuery(description.selector).val()}`);
       input.dispatchEvent(event);
     }
   }
-  function fillDescription5(description) {
-    var _a3;
-    const editor = (_a3 = document.querySelector(".editor-input")) == null ? void 0 : _a3.__lexicalEditor;
+  function fillDescription(description) {
+    var _a;
+    const editor = (_a = document.querySelector(".editor-input")) == null ? void 0 : _a.__lexicalEditor;
     const descriptionArray = description.split("\n").map((line) => {
       return {
         type: "paragraph",
@@ -16674,11 +14194,8 @@ ${jQuery(description.selector).val()}`);
       editor.setEditorState(editorState);
     });
   }
-
-  // src/target/red.ts
-  init_preact_shim();
-  var red_default = async (info) => {
-    var _a3;
+  const handleRED = async (info) => {
+    var _a;
     const { musicJson } = info;
     if (!musicJson) {
       return;
@@ -16693,7 +14210,7 @@ ${jQuery(description.selector).val()}`);
       if (searchResult.status === "success" && searchResult.response.results.length > 0) {
         const groupId2 = searchResult.response.results[0].groupId;
         const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp = (_a3 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a3 : "";
+        const timestamp = (_a = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a : "";
         location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp}`;
         return;
       }
@@ -16728,7 +14245,7 @@ ${jQuery(description.selector).val()}`);
       });
       artists.push(...values);
     });
-    for (let i3 = 1; i3 < artists.length; i3++) {
+    for (let i = 1; i < artists.length; i++) {
       AddArtistField();
     }
     artists.forEach((artist, index) => {
@@ -16737,15 +14254,15 @@ ${jQuery(description.selector).val()}`);
     });
   }
   function fillReleaseInfo(info) {
-    var _a3;
-    const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format, encoding, media, description, scene, remasterTitle } = info;
+    var _a;
+    const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format: format2, encoding, media, description, scene, remasterTitle } = info;
     jQuery("#remaster_record_label").val(remasterRecordLabel);
     jQuery("#remaster_catalogue_number").val(remasterCatalogueNumber);
-    jQuery("#format").val(format);
+    jQuery("#format").val(format2);
     jQuery("#bitrate").val(encoding);
     jQuery("#media").val(media);
-    if (media === "CD" && format === "FLAC") {
-      (_a3 = document.querySelector("#format")) == null ? void 0 : _a3.dispatchEvent(new Event("change"));
+    if (media === "CD" && format2 === "FLAC") {
+      (_a = document.querySelector("#format")) == null ? void 0 : _a.dispatchEvent(new Event("change"));
     }
     jQuery("#remaster_year").val(remasterYear);
     jQuery("#release_desc").val(description);
@@ -16756,12 +14273,1553 @@ ${jQuery(description.selector).val()}`);
       jQuery("#remaster_title").val(remasterTitle);
     }
   }
-
-  // src/target/gazelle-music.ts
-  init_preact_shim();
-  var import_buffer = __toESM(require_buffer(), 1);
-  var gazelle_music_default = async (info) => {
-    var _a3;
+  var buffer = {};
+  var base64Js = {};
+  base64Js.byteLength = byteLength;
+  base64Js.toByteArray = toByteArray;
+  base64Js.fromByteArray = fromByteArray;
+  var lookup$1 = [];
+  var revLookup = [];
+  var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
+  var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  for (var i$1 = 0, len = code.length; i$1 < len; ++i$1) {
+    lookup$1[i$1] = code[i$1];
+    revLookup[code.charCodeAt(i$1)] = i$1;
+  }
+  revLookup["-".charCodeAt(0)] = 62;
+  revLookup["_".charCodeAt(0)] = 63;
+  function getLens(b64) {
+    var len = b64.length;
+    if (len % 4 > 0) {
+      throw new Error("Invalid string. Length must be a multiple of 4");
+    }
+    var validLen = b64.indexOf("=");
+    if (validLen === -1) validLen = len;
+    var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
+    return [validLen, placeHoldersLen];
+  }
+  function byteLength(b64) {
+    var lens = getLens(b64);
+    var validLen = lens[0];
+    var placeHoldersLen = lens[1];
+    return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+  }
+  function _byteLength(b64, validLen, placeHoldersLen) {
+    return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+  }
+  function toByteArray(b64) {
+    var tmp;
+    var lens = getLens(b64);
+    var validLen = lens[0];
+    var placeHoldersLen = lens[1];
+    var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
+    var curByte = 0;
+    var len = placeHoldersLen > 0 ? validLen - 4 : validLen;
+    var i;
+    for (i = 0; i < len; i += 4) {
+      tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)];
+      arr[curByte++] = tmp >> 16 & 255;
+      arr[curByte++] = tmp >> 8 & 255;
+      arr[curByte++] = tmp & 255;
+    }
+    if (placeHoldersLen === 2) {
+      tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4;
+      arr[curByte++] = tmp & 255;
+    }
+    if (placeHoldersLen === 1) {
+      tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2;
+      arr[curByte++] = tmp >> 8 & 255;
+      arr[curByte++] = tmp & 255;
+    }
+    return arr;
+  }
+  function tripletToBase64(num) {
+    return lookup$1[num >> 18 & 63] + lookup$1[num >> 12 & 63] + lookup$1[num >> 6 & 63] + lookup$1[num & 63];
+  }
+  function encodeChunk(uint8, start, end) {
+    var tmp;
+    var output = [];
+    for (var i = start; i < end; i += 3) {
+      tmp = (uint8[i] << 16 & 16711680) + (uint8[i + 1] << 8 & 65280) + (uint8[i + 2] & 255);
+      output.push(tripletToBase64(tmp));
+    }
+    return output.join("");
+  }
+  function fromByteArray(uint8) {
+    var tmp;
+    var len = uint8.length;
+    var extraBytes = len % 3;
+    var parts = [];
+    var maxChunkLength = 16383;
+    for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+      parts.push(encodeChunk(uint8, i, i + maxChunkLength > len2 ? len2 : i + maxChunkLength));
+    }
+    if (extraBytes === 1) {
+      tmp = uint8[len - 1];
+      parts.push(
+        lookup$1[tmp >> 2] + lookup$1[tmp << 4 & 63] + "=="
+      );
+    } else if (extraBytes === 2) {
+      tmp = (uint8[len - 2] << 8) + uint8[len - 1];
+      parts.push(
+        lookup$1[tmp >> 10] + lookup$1[tmp >> 4 & 63] + lookup$1[tmp << 2 & 63] + "="
+      );
+    }
+    return parts.join("");
+  }
+  var ieee754 = {};
+  /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+  ieee754.read = function(buffer2, offset, isLE, mLen, nBytes) {
+    var e2, m2;
+    var eLen = nBytes * 8 - mLen - 1;
+    var eMax = (1 << eLen) - 1;
+    var eBias = eMax >> 1;
+    var nBits = -7;
+    var i = isLE ? nBytes - 1 : 0;
+    var d2 = isLE ? -1 : 1;
+    var s2 = buffer2[offset + i];
+    i += d2;
+    e2 = s2 & (1 << -nBits) - 1;
+    s2 >>= -nBits;
+    nBits += eLen;
+    for (; nBits > 0; e2 = e2 * 256 + buffer2[offset + i], i += d2, nBits -= 8) {
+    }
+    m2 = e2 & (1 << -nBits) - 1;
+    e2 >>= -nBits;
+    nBits += mLen;
+    for (; nBits > 0; m2 = m2 * 256 + buffer2[offset + i], i += d2, nBits -= 8) {
+    }
+    if (e2 === 0) {
+      e2 = 1 - eBias;
+    } else if (e2 === eMax) {
+      return m2 ? NaN : (s2 ? -1 : 1) * Infinity;
+    } else {
+      m2 = m2 + Math.pow(2, mLen);
+      e2 = e2 - eBias;
+    }
+    return (s2 ? -1 : 1) * m2 * Math.pow(2, e2 - mLen);
+  };
+  ieee754.write = function(buffer2, value, offset, isLE, mLen, nBytes) {
+    var e2, m2, c2;
+    var eLen = nBytes * 8 - mLen - 1;
+    var eMax = (1 << eLen) - 1;
+    var eBias = eMax >> 1;
+    var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
+    var i = isLE ? 0 : nBytes - 1;
+    var d2 = isLE ? 1 : -1;
+    var s2 = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
+    value = Math.abs(value);
+    if (isNaN(value) || value === Infinity) {
+      m2 = isNaN(value) ? 1 : 0;
+      e2 = eMax;
+    } else {
+      e2 = Math.floor(Math.log(value) / Math.LN2);
+      if (value * (c2 = Math.pow(2, -e2)) < 1) {
+        e2--;
+        c2 *= 2;
+      }
+      if (e2 + eBias >= 1) {
+        value += rt / c2;
+      } else {
+        value += rt * Math.pow(2, 1 - eBias);
+      }
+      if (value * c2 >= 2) {
+        e2++;
+        c2 /= 2;
+      }
+      if (e2 + eBias >= eMax) {
+        m2 = 0;
+        e2 = eMax;
+      } else if (e2 + eBias >= 1) {
+        m2 = (value * c2 - 1) * Math.pow(2, mLen);
+        e2 = e2 + eBias;
+      } else {
+        m2 = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+        e2 = 0;
+      }
+    }
+    for (; mLen >= 8; buffer2[offset + i] = m2 & 255, i += d2, m2 /= 256, mLen -= 8) {
+    }
+    e2 = e2 << mLen | m2;
+    eLen += mLen;
+    for (; eLen > 0; buffer2[offset + i] = e2 & 255, i += d2, e2 /= 256, eLen -= 8) {
+    }
+    buffer2[offset + i - d2] |= s2 * 128;
+  };
+  (function(exports) {
+    /*!
+     * The buffer module from node.js, for the browser.
+     *
+     * @author   Feross Aboukhadijeh <https://feross.org>
+     * @license  MIT
+     */
+    var base64 = base64Js;
+    var ieee754$1 = ieee754;
+    var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
+    exports.Buffer = Buffer2;
+    exports.SlowBuffer = SlowBuffer;
+    exports.INSPECT_MAX_BYTES = 50;
+    var K_MAX_LENGTH = 2147483647;
+    exports.kMaxLength = K_MAX_LENGTH;
+    Buffer2.TYPED_ARRAY_SUPPORT = typedArraySupport();
+    if (!Buffer2.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
+      console.error(
+        "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
+      );
+    }
+    function typedArraySupport() {
+      try {
+        var arr = new Uint8Array(1);
+        var proto = { foo: function() {
+          return 42;
+        } };
+        Object.setPrototypeOf(proto, Uint8Array.prototype);
+        Object.setPrototypeOf(arr, proto);
+        return arr.foo() === 42;
+      } catch (e2) {
+        return false;
+      }
+    }
+    Object.defineProperty(Buffer2.prototype, "parent", {
+      enumerable: true,
+      get: function() {
+        if (!Buffer2.isBuffer(this)) return void 0;
+        return this.buffer;
+      }
+    });
+    Object.defineProperty(Buffer2.prototype, "offset", {
+      enumerable: true,
+      get: function() {
+        if (!Buffer2.isBuffer(this)) return void 0;
+        return this.byteOffset;
+      }
+    });
+    function createBuffer(length) {
+      if (length > K_MAX_LENGTH) {
+        throw new RangeError('The value "' + length + '" is invalid for option "size"');
+      }
+      var buf = new Uint8Array(length);
+      Object.setPrototypeOf(buf, Buffer2.prototype);
+      return buf;
+    }
+    function Buffer2(arg, encodingOrOffset, length) {
+      if (typeof arg === "number") {
+        if (typeof encodingOrOffset === "string") {
+          throw new TypeError(
+            'The "string" argument must be of type string. Received type number'
+          );
+        }
+        return allocUnsafe(arg);
+      }
+      return from(arg, encodingOrOffset, length);
+    }
+    Buffer2.poolSize = 8192;
+    function from(value, encodingOrOffset, length) {
+      if (typeof value === "string") {
+        return fromString(value, encodingOrOffset);
+      }
+      if (ArrayBuffer.isView(value)) {
+        return fromArrayView(value);
+      }
+      if (value == null) {
+        throw new TypeError(
+          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
+        );
+      }
+      if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
+        return fromArrayBuffer(value, encodingOrOffset, length);
+      }
+      if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+        return fromArrayBuffer(value, encodingOrOffset, length);
+      }
+      if (typeof value === "number") {
+        throw new TypeError(
+          'The "value" argument must not be of type number. Received type number'
+        );
+      }
+      var valueOf = value.valueOf && value.valueOf();
+      if (valueOf != null && valueOf !== value) {
+        return Buffer2.from(valueOf, encodingOrOffset, length);
+      }
+      var b = fromObject(value);
+      if (b) return b;
+      if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
+        return Buffer2.from(
+          value[Symbol.toPrimitive]("string"),
+          encodingOrOffset,
+          length
+        );
+      }
+      throw new TypeError(
+        "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
+      );
+    }
+    Buffer2.from = function(value, encodingOrOffset, length) {
+      return from(value, encodingOrOffset, length);
+    };
+    Object.setPrototypeOf(Buffer2.prototype, Uint8Array.prototype);
+    Object.setPrototypeOf(Buffer2, Uint8Array);
+    function assertSize(size) {
+      if (typeof size !== "number") {
+        throw new TypeError('"size" argument must be of type number');
+      } else if (size < 0) {
+        throw new RangeError('The value "' + size + '" is invalid for option "size"');
+      }
+    }
+    function alloc(size, fill2, encoding) {
+      assertSize(size);
+      if (size <= 0) {
+        return createBuffer(size);
+      }
+      if (fill2 !== void 0) {
+        return typeof encoding === "string" ? createBuffer(size).fill(fill2, encoding) : createBuffer(size).fill(fill2);
+      }
+      return createBuffer(size);
+    }
+    Buffer2.alloc = function(size, fill2, encoding) {
+      return alloc(size, fill2, encoding);
+    };
+    function allocUnsafe(size) {
+      assertSize(size);
+      return createBuffer(size < 0 ? 0 : checked(size) | 0);
+    }
+    Buffer2.allocUnsafe = function(size) {
+      return allocUnsafe(size);
+    };
+    Buffer2.allocUnsafeSlow = function(size) {
+      return allocUnsafe(size);
+    };
+    function fromString(string, encoding) {
+      if (typeof encoding !== "string" || encoding === "") {
+        encoding = "utf8";
+      }
+      if (!Buffer2.isEncoding(encoding)) {
+        throw new TypeError("Unknown encoding: " + encoding);
+      }
+      var length = byteLength2(string, encoding) | 0;
+      var buf = createBuffer(length);
+      var actual = buf.write(string, encoding);
+      if (actual !== length) {
+        buf = buf.slice(0, actual);
+      }
+      return buf;
+    }
+    function fromArrayLike(array) {
+      var length = array.length < 0 ? 0 : checked(array.length) | 0;
+      var buf = createBuffer(length);
+      for (var i = 0; i < length; i += 1) {
+        buf[i] = array[i] & 255;
+      }
+      return buf;
+    }
+    function fromArrayView(arrayView) {
+      if (isInstance(arrayView, Uint8Array)) {
+        var copy2 = new Uint8Array(arrayView);
+        return fromArrayBuffer(copy2.buffer, copy2.byteOffset, copy2.byteLength);
+      }
+      return fromArrayLike(arrayView);
+    }
+    function fromArrayBuffer(array, byteOffset, length) {
+      if (byteOffset < 0 || array.byteLength < byteOffset) {
+        throw new RangeError('"offset" is outside of buffer bounds');
+      }
+      if (array.byteLength < byteOffset + (length || 0)) {
+        throw new RangeError('"length" is outside of buffer bounds');
+      }
+      var buf;
+      if (byteOffset === void 0 && length === void 0) {
+        buf = new Uint8Array(array);
+      } else if (length === void 0) {
+        buf = new Uint8Array(array, byteOffset);
+      } else {
+        buf = new Uint8Array(array, byteOffset, length);
+      }
+      Object.setPrototypeOf(buf, Buffer2.prototype);
+      return buf;
+    }
+    function fromObject(obj) {
+      if (Buffer2.isBuffer(obj)) {
+        var len = checked(obj.length) | 0;
+        var buf = createBuffer(len);
+        if (buf.length === 0) {
+          return buf;
+        }
+        obj.copy(buf, 0, 0, len);
+        return buf;
+      }
+      if (obj.length !== void 0) {
+        if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
+          return createBuffer(0);
+        }
+        return fromArrayLike(obj);
+      }
+      if (obj.type === "Buffer" && Array.isArray(obj.data)) {
+        return fromArrayLike(obj.data);
+      }
+    }
+    function checked(length) {
+      if (length >= K_MAX_LENGTH) {
+        throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
+      }
+      return length | 0;
+    }
+    function SlowBuffer(length) {
+      if (+length != length) {
+        length = 0;
+      }
+      return Buffer2.alloc(+length);
+    }
+    Buffer2.isBuffer = function isBuffer(b) {
+      return b != null && b._isBuffer === true && b !== Buffer2.prototype;
+    };
+    Buffer2.compare = function compare(a2, b) {
+      if (isInstance(a2, Uint8Array)) a2 = Buffer2.from(a2, a2.offset, a2.byteLength);
+      if (isInstance(b, Uint8Array)) b = Buffer2.from(b, b.offset, b.byteLength);
+      if (!Buffer2.isBuffer(a2) || !Buffer2.isBuffer(b)) {
+        throw new TypeError(
+          'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
+        );
+      }
+      if (a2 === b) return 0;
+      var x2 = a2.length;
+      var y2 = b.length;
+      for (var i = 0, len = Math.min(x2, y2); i < len; ++i) {
+        if (a2[i] !== b[i]) {
+          x2 = a2[i];
+          y2 = b[i];
+          break;
+        }
+      }
+      if (x2 < y2) return -1;
+      if (y2 < x2) return 1;
+      return 0;
+    };
+    Buffer2.isEncoding = function isEncoding(encoding) {
+      switch (String(encoding).toLowerCase()) {
+        case "hex":
+        case "utf8":
+        case "utf-8":
+        case "ascii":
+        case "latin1":
+        case "binary":
+        case "base64":
+        case "ucs2":
+        case "ucs-2":
+        case "utf16le":
+        case "utf-16le":
+          return true;
+        default:
+          return false;
+      }
+    };
+    Buffer2.concat = function concat2(list, length) {
+      if (!Array.isArray(list)) {
+        throw new TypeError('"list" argument must be an Array of Buffers');
+      }
+      if (list.length === 0) {
+        return Buffer2.alloc(0);
+      }
+      var i;
+      if (length === void 0) {
+        length = 0;
+        for (i = 0; i < list.length; ++i) {
+          length += list[i].length;
+        }
+      }
+      var buffer2 = Buffer2.allocUnsafe(length);
+      var pos = 0;
+      for (i = 0; i < list.length; ++i) {
+        var buf = list[i];
+        if (isInstance(buf, Uint8Array)) {
+          if (pos + buf.length > buffer2.length) {
+            Buffer2.from(buf).copy(buffer2, pos);
+          } else {
+            Uint8Array.prototype.set.call(
+              buffer2,
+              buf,
+              pos
+            );
+          }
+        } else if (!Buffer2.isBuffer(buf)) {
+          throw new TypeError('"list" argument must be an Array of Buffers');
+        } else {
+          buf.copy(buffer2, pos);
+        }
+        pos += buf.length;
+      }
+      return buffer2;
+    };
+    function byteLength2(string, encoding) {
+      if (Buffer2.isBuffer(string)) {
+        return string.length;
+      }
+      if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
+        return string.byteLength;
+      }
+      if (typeof string !== "string") {
+        throw new TypeError(
+          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
+        );
+      }
+      var len = string.length;
+      var mustMatch = arguments.length > 2 && arguments[2] === true;
+      if (!mustMatch && len === 0) return 0;
+      var loweredCase = false;
+      for (; ; ) {
+        switch (encoding) {
+          case "ascii":
+          case "latin1":
+          case "binary":
+            return len;
+          case "utf8":
+          case "utf-8":
+            return utf8ToBytes(string).length;
+          case "ucs2":
+          case "ucs-2":
+          case "utf16le":
+          case "utf-16le":
+            return len * 2;
+          case "hex":
+            return len >>> 1;
+          case "base64":
+            return base64ToBytes(string).length;
+          default:
+            if (loweredCase) {
+              return mustMatch ? -1 : utf8ToBytes(string).length;
+            }
+            encoding = ("" + encoding).toLowerCase();
+            loweredCase = true;
+        }
+      }
+    }
+    Buffer2.byteLength = byteLength2;
+    function slowToString(encoding, start, end) {
+      var loweredCase = false;
+      if (start === void 0 || start < 0) {
+        start = 0;
+      }
+      if (start > this.length) {
+        return "";
+      }
+      if (end === void 0 || end > this.length) {
+        end = this.length;
+      }
+      if (end <= 0) {
+        return "";
+      }
+      end >>>= 0;
+      start >>>= 0;
+      if (end <= start) {
+        return "";
+      }
+      if (!encoding) encoding = "utf8";
+      while (true) {
+        switch (encoding) {
+          case "hex":
+            return hexSlice(this, start, end);
+          case "utf8":
+          case "utf-8":
+            return utf8Slice(this, start, end);
+          case "ascii":
+            return asciiSlice(this, start, end);
+          case "latin1":
+          case "binary":
+            return latin1Slice(this, start, end);
+          case "base64":
+            return base64Slice(this, start, end);
+          case "ucs2":
+          case "ucs-2":
+          case "utf16le":
+          case "utf-16le":
+            return utf16leSlice(this, start, end);
+          default:
+            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+            encoding = (encoding + "").toLowerCase();
+            loweredCase = true;
+        }
+      }
+    }
+    Buffer2.prototype._isBuffer = true;
+    function swap(b, n, m2) {
+      var i = b[n];
+      b[n] = b[m2];
+      b[m2] = i;
+    }
+    Buffer2.prototype.swap16 = function swap16() {
+      var len = this.length;
+      if (len % 2 !== 0) {
+        throw new RangeError("Buffer size must be a multiple of 16-bits");
+      }
+      for (var i = 0; i < len; i += 2) {
+        swap(this, i, i + 1);
+      }
+      return this;
+    };
+    Buffer2.prototype.swap32 = function swap32() {
+      var len = this.length;
+      if (len % 4 !== 0) {
+        throw new RangeError("Buffer size must be a multiple of 32-bits");
+      }
+      for (var i = 0; i < len; i += 4) {
+        swap(this, i, i + 3);
+        swap(this, i + 1, i + 2);
+      }
+      return this;
+    };
+    Buffer2.prototype.swap64 = function swap64() {
+      var len = this.length;
+      if (len % 8 !== 0) {
+        throw new RangeError("Buffer size must be a multiple of 64-bits");
+      }
+      for (var i = 0; i < len; i += 8) {
+        swap(this, i, i + 7);
+        swap(this, i + 1, i + 6);
+        swap(this, i + 2, i + 5);
+        swap(this, i + 3, i + 4);
+      }
+      return this;
+    };
+    Buffer2.prototype.toString = function toString() {
+      var length = this.length;
+      if (length === 0) return "";
+      if (arguments.length === 0) return utf8Slice(this, 0, length);
+      return slowToString.apply(this, arguments);
+    };
+    Buffer2.prototype.toLocaleString = Buffer2.prototype.toString;
+    Buffer2.prototype.equals = function equals(b) {
+      if (!Buffer2.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
+      if (this === b) return true;
+      return Buffer2.compare(this, b) === 0;
+    };
+    Buffer2.prototype.inspect = function inspect() {
+      var str = "";
+      var max = exports.INSPECT_MAX_BYTES;
+      str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
+      if (this.length > max) str += " ... ";
+      return "<Buffer " + str + ">";
+    };
+    if (customInspectSymbol) {
+      Buffer2.prototype[customInspectSymbol] = Buffer2.prototype.inspect;
+    }
+    Buffer2.prototype.compare = function compare2(target, start, end, thisStart, thisEnd) {
+      if (isInstance(target, Uint8Array)) {
+        target = Buffer2.from(target, target.offset, target.byteLength);
+      }
+      if (!Buffer2.isBuffer(target)) {
+        throw new TypeError(
+          'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
+        );
+      }
+      if (start === void 0) {
+        start = 0;
+      }
+      if (end === void 0) {
+        end = target ? target.length : 0;
+      }
+      if (thisStart === void 0) {
+        thisStart = 0;
+      }
+      if (thisEnd === void 0) {
+        thisEnd = this.length;
+      }
+      if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+        throw new RangeError("out of range index");
+      }
+      if (thisStart >= thisEnd && start >= end) {
+        return 0;
+      }
+      if (thisStart >= thisEnd) {
+        return -1;
+      }
+      if (start >= end) {
+        return 1;
+      }
+      start >>>= 0;
+      end >>>= 0;
+      thisStart >>>= 0;
+      thisEnd >>>= 0;
+      if (this === target) return 0;
+      var x2 = thisEnd - thisStart;
+      var y2 = end - start;
+      var len = Math.min(x2, y2);
+      var thisCopy = this.slice(thisStart, thisEnd);
+      var targetCopy = target.slice(start, end);
+      for (var i = 0; i < len; ++i) {
+        if (thisCopy[i] !== targetCopy[i]) {
+          x2 = thisCopy[i];
+          y2 = targetCopy[i];
+          break;
+        }
+      }
+      if (x2 < y2) return -1;
+      if (y2 < x2) return 1;
+      return 0;
+    };
+    function bidirectionalIndexOf(buffer2, val, byteOffset, encoding, dir) {
+      if (buffer2.length === 0) return -1;
+      if (typeof byteOffset === "string") {
+        encoding = byteOffset;
+        byteOffset = 0;
+      } else if (byteOffset > 2147483647) {
+        byteOffset = 2147483647;
+      } else if (byteOffset < -2147483648) {
+        byteOffset = -2147483648;
+      }
+      byteOffset = +byteOffset;
+      if (numberIsNaN(byteOffset)) {
+        byteOffset = dir ? 0 : buffer2.length - 1;
+      }
+      if (byteOffset < 0) byteOffset = buffer2.length + byteOffset;
+      if (byteOffset >= buffer2.length) {
+        if (dir) return -1;
+        else byteOffset = buffer2.length - 1;
+      } else if (byteOffset < 0) {
+        if (dir) byteOffset = 0;
+        else return -1;
+      }
+      if (typeof val === "string") {
+        val = Buffer2.from(val, encoding);
+      }
+      if (Buffer2.isBuffer(val)) {
+        if (val.length === 0) {
+          return -1;
+        }
+        return arrayIndexOf(buffer2, val, byteOffset, encoding, dir);
+      } else if (typeof val === "number") {
+        val = val & 255;
+        if (typeof Uint8Array.prototype.indexOf === "function") {
+          if (dir) {
+            return Uint8Array.prototype.indexOf.call(buffer2, val, byteOffset);
+          } else {
+            return Uint8Array.prototype.lastIndexOf.call(buffer2, val, byteOffset);
+          }
+        }
+        return arrayIndexOf(buffer2, [val], byteOffset, encoding, dir);
+      }
+      throw new TypeError("val must be string, number or Buffer");
+    }
+    function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
+      var indexSize = 1;
+      var arrLength = arr.length;
+      var valLength = val.length;
+      if (encoding !== void 0) {
+        encoding = String(encoding).toLowerCase();
+        if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
+          if (arr.length < 2 || val.length < 2) {
+            return -1;
+          }
+          indexSize = 2;
+          arrLength /= 2;
+          valLength /= 2;
+          byteOffset /= 2;
+        }
+      }
+      function read(buf, i2) {
+        if (indexSize === 1) {
+          return buf[i2];
+        } else {
+          return buf.readUInt16BE(i2 * indexSize);
+        }
+      }
+      var i;
+      if (dir) {
+        var foundIndex = -1;
+        for (i = byteOffset; i < arrLength; i++) {
+          if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+            if (foundIndex === -1) foundIndex = i;
+            if (i - foundIndex + 1 === valLength) return foundIndex * indexSize;
+          } else {
+            if (foundIndex !== -1) i -= i - foundIndex;
+            foundIndex = -1;
+          }
+        }
+      } else {
+        if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
+        for (i = byteOffset; i >= 0; i--) {
+          var found = true;
+          for (var j2 = 0; j2 < valLength; j2++) {
+            if (read(arr, i + j2) !== read(val, j2)) {
+              found = false;
+              break;
+            }
+          }
+          if (found) return i;
+        }
+      }
+      return -1;
+    }
+    Buffer2.prototype.includes = function includes(val, byteOffset, encoding) {
+      return this.indexOf(val, byteOffset, encoding) !== -1;
+    };
+    Buffer2.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
+      return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+    };
+    Buffer2.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
+      return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+    };
+    function hexWrite(buf, string, offset, length) {
+      offset = Number(offset) || 0;
+      var remaining = buf.length - offset;
+      if (!length) {
+        length = remaining;
+      } else {
+        length = Number(length);
+        if (length > remaining) {
+          length = remaining;
+        }
+      }
+      var strLen = string.length;
+      if (length > strLen / 2) {
+        length = strLen / 2;
+      }
+      for (var i = 0; i < length; ++i) {
+        var parsed = parseInt(string.substr(i * 2, 2), 16);
+        if (numberIsNaN(parsed)) return i;
+        buf[offset + i] = parsed;
+      }
+      return i;
+    }
+    function utf8Write(buf, string, offset, length) {
+      return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
+    }
+    function asciiWrite(buf, string, offset, length) {
+      return blitBuffer(asciiToBytes(string), buf, offset, length);
+    }
+    function base64Write(buf, string, offset, length) {
+      return blitBuffer(base64ToBytes(string), buf, offset, length);
+    }
+    function ucs2Write(buf, string, offset, length) {
+      return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
+    }
+    Buffer2.prototype.write = function write(string, offset, length, encoding) {
+      if (offset === void 0) {
+        encoding = "utf8";
+        length = this.length;
+        offset = 0;
+      } else if (length === void 0 && typeof offset === "string") {
+        encoding = offset;
+        length = this.length;
+        offset = 0;
+      } else if (isFinite(offset)) {
+        offset = offset >>> 0;
+        if (isFinite(length)) {
+          length = length >>> 0;
+          if (encoding === void 0) encoding = "utf8";
+        } else {
+          encoding = length;
+          length = void 0;
+        }
+      } else {
+        throw new Error(
+          "Buffer.write(string, encoding, offset[, length]) is no longer supported"
+        );
+      }
+      var remaining = this.length - offset;
+      if (length === void 0 || length > remaining) length = remaining;
+      if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
+        throw new RangeError("Attempt to write outside buffer bounds");
+      }
+      if (!encoding) encoding = "utf8";
+      var loweredCase = false;
+      for (; ; ) {
+        switch (encoding) {
+          case "hex":
+            return hexWrite(this, string, offset, length);
+          case "utf8":
+          case "utf-8":
+            return utf8Write(this, string, offset, length);
+          case "ascii":
+          case "latin1":
+          case "binary":
+            return asciiWrite(this, string, offset, length);
+          case "base64":
+            return base64Write(this, string, offset, length);
+          case "ucs2":
+          case "ucs-2":
+          case "utf16le":
+          case "utf-16le":
+            return ucs2Write(this, string, offset, length);
+          default:
+            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+            encoding = ("" + encoding).toLowerCase();
+            loweredCase = true;
+        }
+      }
+    };
+    Buffer2.prototype.toJSON = function toJSON() {
+      return {
+        type: "Buffer",
+        data: Array.prototype.slice.call(this._arr || this, 0)
+      };
+    };
+    function base64Slice(buf, start, end) {
+      if (start === 0 && end === buf.length) {
+        return base64.fromByteArray(buf);
+      } else {
+        return base64.fromByteArray(buf.slice(start, end));
+      }
+    }
+    function utf8Slice(buf, start, end) {
+      end = Math.min(buf.length, end);
+      var res = [];
+      var i = start;
+      while (i < end) {
+        var firstByte = buf[i];
+        var codePoint = null;
+        var bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
+        if (i + bytesPerSequence <= end) {
+          var secondByte, thirdByte, fourthByte, tempCodePoint;
+          switch (bytesPerSequence) {
+            case 1:
+              if (firstByte < 128) {
+                codePoint = firstByte;
+              }
+              break;
+            case 2:
+              secondByte = buf[i + 1];
+              if ((secondByte & 192) === 128) {
+                tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
+                if (tempCodePoint > 127) {
+                  codePoint = tempCodePoint;
+                }
+              }
+              break;
+            case 3:
+              secondByte = buf[i + 1];
+              thirdByte = buf[i + 2];
+              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
+                tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
+                if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
+                  codePoint = tempCodePoint;
+                }
+              }
+              break;
+            case 4:
+              secondByte = buf[i + 1];
+              thirdByte = buf[i + 2];
+              fourthByte = buf[i + 3];
+              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
+                tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
+                if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
+                  codePoint = tempCodePoint;
+                }
+              }
+          }
+        }
+        if (codePoint === null) {
+          codePoint = 65533;
+          bytesPerSequence = 1;
+        } else if (codePoint > 65535) {
+          codePoint -= 65536;
+          res.push(codePoint >>> 10 & 1023 | 55296);
+          codePoint = 56320 | codePoint & 1023;
+        }
+        res.push(codePoint);
+        i += bytesPerSequence;
+      }
+      return decodeCodePointsArray(res);
+    }
+    var MAX_ARGUMENTS_LENGTH = 4096;
+    function decodeCodePointsArray(codePoints) {
+      var len = codePoints.length;
+      if (len <= MAX_ARGUMENTS_LENGTH) {
+        return String.fromCharCode.apply(String, codePoints);
+      }
+      var res = "";
+      var i = 0;
+      while (i < len) {
+        res += String.fromCharCode.apply(
+          String,
+          codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+        );
+      }
+      return res;
+    }
+    function asciiSlice(buf, start, end) {
+      var ret = "";
+      end = Math.min(buf.length, end);
+      for (var i = start; i < end; ++i) {
+        ret += String.fromCharCode(buf[i] & 127);
+      }
+      return ret;
+    }
+    function latin1Slice(buf, start, end) {
+      var ret = "";
+      end = Math.min(buf.length, end);
+      for (var i = start; i < end; ++i) {
+        ret += String.fromCharCode(buf[i]);
+      }
+      return ret;
+    }
+    function hexSlice(buf, start, end) {
+      var len = buf.length;
+      if (!start || start < 0) start = 0;
+      if (!end || end < 0 || end > len) end = len;
+      var out = "";
+      for (var i = start; i < end; ++i) {
+        out += hexSliceLookupTable[buf[i]];
+      }
+      return out;
+    }
+    function utf16leSlice(buf, start, end) {
+      var bytes = buf.slice(start, end);
+      var res = "";
+      for (var i = 0; i < bytes.length - 1; i += 2) {
+        res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
+      }
+      return res;
+    }
+    Buffer2.prototype.slice = function slice(start, end) {
+      var len = this.length;
+      start = ~~start;
+      end = end === void 0 ? len : ~~end;
+      if (start < 0) {
+        start += len;
+        if (start < 0) start = 0;
+      } else if (start > len) {
+        start = len;
+      }
+      if (end < 0) {
+        end += len;
+        if (end < 0) end = 0;
+      } else if (end > len) {
+        end = len;
+      }
+      if (end < start) end = start;
+      var newBuf = this.subarray(start, end);
+      Object.setPrototypeOf(newBuf, Buffer2.prototype);
+      return newBuf;
+    };
+    function checkOffset(offset, ext, length) {
+      if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
+      if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
+    }
+    Buffer2.prototype.readUintLE = Buffer2.prototype.readUIntLE = function readUIntLE(offset, byteLength22, noAssert) {
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength22, this.length);
+      var val = this[offset];
+      var mul = 1;
+      var i = 0;
+      while (++i < byteLength22 && (mul *= 256)) {
+        val += this[offset + i] * mul;
+      }
+      return val;
+    };
+    Buffer2.prototype.readUintBE = Buffer2.prototype.readUIntBE = function readUIntBE(offset, byteLength22, noAssert) {
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) {
+        checkOffset(offset, byteLength22, this.length);
+      }
+      var val = this[offset + --byteLength22];
+      var mul = 1;
+      while (byteLength22 > 0 && (mul *= 256)) {
+        val += this[offset + --byteLength22] * mul;
+      }
+      return val;
+    };
+    Buffer2.prototype.readUint8 = Buffer2.prototype.readUInt8 = function readUInt8(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 1, this.length);
+      return this[offset];
+    };
+    Buffer2.prototype.readUint16LE = Buffer2.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 2, this.length);
+      return this[offset] | this[offset + 1] << 8;
+    };
+    Buffer2.prototype.readUint16BE = Buffer2.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 2, this.length);
+      return this[offset] << 8 | this[offset + 1];
+    };
+    Buffer2.prototype.readUint32LE = Buffer2.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
+    };
+    Buffer2.prototype.readUint32BE = Buffer2.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+    };
+    Buffer2.prototype.readIntLE = function readIntLE(offset, byteLength22, noAssert) {
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength22, this.length);
+      var val = this[offset];
+      var mul = 1;
+      var i = 0;
+      while (++i < byteLength22 && (mul *= 256)) {
+        val += this[offset + i] * mul;
+      }
+      mul *= 128;
+      if (val >= mul) val -= Math.pow(2, 8 * byteLength22);
+      return val;
+    };
+    Buffer2.prototype.readIntBE = function readIntBE(offset, byteLength22, noAssert) {
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength22, this.length);
+      var i = byteLength22;
+      var mul = 1;
+      var val = this[offset + --i];
+      while (i > 0 && (mul *= 256)) {
+        val += this[offset + --i] * mul;
+      }
+      mul *= 128;
+      if (val >= mul) val -= Math.pow(2, 8 * byteLength22);
+      return val;
+    };
+    Buffer2.prototype.readInt8 = function readInt8(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 1, this.length);
+      if (!(this[offset] & 128)) return this[offset];
+      return (255 - this[offset] + 1) * -1;
+    };
+    Buffer2.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 2, this.length);
+      var val = this[offset] | this[offset + 1] << 8;
+      return val & 32768 ? val | 4294901760 : val;
+    };
+    Buffer2.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 2, this.length);
+      var val = this[offset + 1] | this[offset] << 8;
+      return val & 32768 ? val | 4294901760 : val;
+    };
+    Buffer2.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
+    };
+    Buffer2.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
+    };
+    Buffer2.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return ieee754$1.read(this, offset, true, 23, 4);
+    };
+    Buffer2.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 4, this.length);
+      return ieee754$1.read(this, offset, false, 23, 4);
+    };
+    Buffer2.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 8, this.length);
+      return ieee754$1.read(this, offset, true, 52, 8);
+    };
+    Buffer2.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
+      offset = offset >>> 0;
+      if (!noAssert) checkOffset(offset, 8, this.length);
+      return ieee754$1.read(this, offset, false, 52, 8);
+    };
+    function checkInt(buf, value, offset, ext, max, min) {
+      if (!Buffer2.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
+      if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
+      if (offset + ext > buf.length) throw new RangeError("Index out of range");
+    }
+    Buffer2.prototype.writeUintLE = Buffer2.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength22, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) {
+        var maxBytes = Math.pow(2, 8 * byteLength22) - 1;
+        checkInt(this, value, offset, byteLength22, maxBytes, 0);
+      }
+      var mul = 1;
+      var i = 0;
+      this[offset] = value & 255;
+      while (++i < byteLength22 && (mul *= 256)) {
+        this[offset + i] = value / mul & 255;
+      }
+      return offset + byteLength22;
+    };
+    Buffer2.prototype.writeUintBE = Buffer2.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength22, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      byteLength22 = byteLength22 >>> 0;
+      if (!noAssert) {
+        var maxBytes = Math.pow(2, 8 * byteLength22) - 1;
+        checkInt(this, value, offset, byteLength22, maxBytes, 0);
+      }
+      var i = byteLength22 - 1;
+      var mul = 1;
+      this[offset + i] = value & 255;
+      while (--i >= 0 && (mul *= 256)) {
+        this[offset + i] = value / mul & 255;
+      }
+      return offset + byteLength22;
+    };
+    Buffer2.prototype.writeUint8 = Buffer2.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
+      this[offset] = value & 255;
+      return offset + 1;
+    };
+    Buffer2.prototype.writeUint16LE = Buffer2.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
+      this[offset] = value & 255;
+      this[offset + 1] = value >>> 8;
+      return offset + 2;
+    };
+    Buffer2.prototype.writeUint16BE = Buffer2.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
+      this[offset] = value >>> 8;
+      this[offset + 1] = value & 255;
+      return offset + 2;
+    };
+    Buffer2.prototype.writeUint32LE = Buffer2.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
+      this[offset + 3] = value >>> 24;
+      this[offset + 2] = value >>> 16;
+      this[offset + 1] = value >>> 8;
+      this[offset] = value & 255;
+      return offset + 4;
+    };
+    Buffer2.prototype.writeUint32BE = Buffer2.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
+      this[offset] = value >>> 24;
+      this[offset + 1] = value >>> 16;
+      this[offset + 2] = value >>> 8;
+      this[offset + 3] = value & 255;
+      return offset + 4;
+    };
+    Buffer2.prototype.writeIntLE = function writeIntLE(value, offset, byteLength22, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) {
+        var limit = Math.pow(2, 8 * byteLength22 - 1);
+        checkInt(this, value, offset, byteLength22, limit - 1, -limit);
+      }
+      var i = 0;
+      var mul = 1;
+      var sub = 0;
+      this[offset] = value & 255;
+      while (++i < byteLength22 && (mul *= 256)) {
+        if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+          sub = 1;
+        }
+        this[offset + i] = (value / mul >> 0) - sub & 255;
+      }
+      return offset + byteLength22;
+    };
+    Buffer2.prototype.writeIntBE = function writeIntBE(value, offset, byteLength22, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) {
+        var limit = Math.pow(2, 8 * byteLength22 - 1);
+        checkInt(this, value, offset, byteLength22, limit - 1, -limit);
+      }
+      var i = byteLength22 - 1;
+      var mul = 1;
+      var sub = 0;
+      this[offset + i] = value & 255;
+      while (--i >= 0 && (mul *= 256)) {
+        if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+          sub = 1;
+        }
+        this[offset + i] = (value / mul >> 0) - sub & 255;
+      }
+      return offset + byteLength22;
+    };
+    Buffer2.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
+      if (value < 0) value = 255 + value + 1;
+      this[offset] = value & 255;
+      return offset + 1;
+    };
+    Buffer2.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
+      this[offset] = value & 255;
+      this[offset + 1] = value >>> 8;
+      return offset + 2;
+    };
+    Buffer2.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
+      this[offset] = value >>> 8;
+      this[offset + 1] = value & 255;
+      return offset + 2;
+    };
+    Buffer2.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
+      this[offset] = value & 255;
+      this[offset + 1] = value >>> 8;
+      this[offset + 2] = value >>> 16;
+      this[offset + 3] = value >>> 24;
+      return offset + 4;
+    };
+    Buffer2.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
+      if (value < 0) value = 4294967295 + value + 1;
+      this[offset] = value >>> 24;
+      this[offset + 1] = value >>> 16;
+      this[offset + 2] = value >>> 8;
+      this[offset + 3] = value & 255;
+      return offset + 4;
+    };
+    function checkIEEE754(buf, value, offset, ext, max, min) {
+      if (offset + ext > buf.length) throw new RangeError("Index out of range");
+      if (offset < 0) throw new RangeError("Index out of range");
+    }
+    function writeFloat(buf, value, offset, littleEndian, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) {
+        checkIEEE754(buf, value, offset, 4);
+      }
+      ieee754$1.write(buf, value, offset, littleEndian, 23, 4);
+      return offset + 4;
+    }
+    Buffer2.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
+      return writeFloat(this, value, offset, true, noAssert);
+    };
+    Buffer2.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
+      return writeFloat(this, value, offset, false, noAssert);
+    };
+    function writeDouble(buf, value, offset, littleEndian, noAssert) {
+      value = +value;
+      offset = offset >>> 0;
+      if (!noAssert) {
+        checkIEEE754(buf, value, offset, 8);
+      }
+      ieee754$1.write(buf, value, offset, littleEndian, 52, 8);
+      return offset + 8;
+    }
+    Buffer2.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
+      return writeDouble(this, value, offset, true, noAssert);
+    };
+    Buffer2.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
+      return writeDouble(this, value, offset, false, noAssert);
+    };
+    Buffer2.prototype.copy = function copy(target, targetStart, start, end) {
+      if (!Buffer2.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+      if (!start) start = 0;
+      if (!end && end !== 0) end = this.length;
+      if (targetStart >= target.length) targetStart = target.length;
+      if (!targetStart) targetStart = 0;
+      if (end > 0 && end < start) end = start;
+      if (end === start) return 0;
+      if (target.length === 0 || this.length === 0) return 0;
+      if (targetStart < 0) {
+        throw new RangeError("targetStart out of bounds");
+      }
+      if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
+      if (end < 0) throw new RangeError("sourceEnd out of bounds");
+      if (end > this.length) end = this.length;
+      if (target.length - targetStart < end - start) {
+        end = target.length - targetStart + start;
+      }
+      var len = end - start;
+      if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
+        this.copyWithin(targetStart, start, end);
+      } else {
+        Uint8Array.prototype.set.call(
+          target,
+          this.subarray(start, end),
+          targetStart
+        );
+      }
+      return len;
+    };
+    Buffer2.prototype.fill = function fill(val, start, end, encoding) {
+      if (typeof val === "string") {
+        if (typeof start === "string") {
+          encoding = start;
+          start = 0;
+          end = this.length;
+        } else if (typeof end === "string") {
+          encoding = end;
+          end = this.length;
+        }
+        if (encoding !== void 0 && typeof encoding !== "string") {
+          throw new TypeError("encoding must be a string");
+        }
+        if (typeof encoding === "string" && !Buffer2.isEncoding(encoding)) {
+          throw new TypeError("Unknown encoding: " + encoding);
+        }
+        if (val.length === 1) {
+          var code2 = val.charCodeAt(0);
+          if (encoding === "utf8" && code2 < 128 || encoding === "latin1") {
+            val = code2;
+          }
+        }
+      } else if (typeof val === "number") {
+        val = val & 255;
+      } else if (typeof val === "boolean") {
+        val = Number(val);
+      }
+      if (start < 0 || this.length < start || this.length < end) {
+        throw new RangeError("Out of range index");
+      }
+      if (end <= start) {
+        return this;
+      }
+      start = start >>> 0;
+      end = end === void 0 ? this.length : end >>> 0;
+      if (!val) val = 0;
+      var i;
+      if (typeof val === "number") {
+        for (i = start; i < end; ++i) {
+          this[i] = val;
+        }
+      } else {
+        var bytes = Buffer2.isBuffer(val) ? val : Buffer2.from(val, encoding);
+        var len = bytes.length;
+        if (len === 0) {
+          throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+        }
+        for (i = 0; i < end - start; ++i) {
+          this[i + start] = bytes[i % len];
+        }
+      }
+      return this;
+    };
+    var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
+    function base64clean(str) {
+      str = str.split("=")[0];
+      str = str.trim().replace(INVALID_BASE64_RE, "");
+      if (str.length < 2) return "";
+      while (str.length % 4 !== 0) {
+        str = str + "=";
+      }
+      return str;
+    }
+    function utf8ToBytes(string, units) {
+      units = units || Infinity;
+      var codePoint;
+      var length = string.length;
+      var leadSurrogate = null;
+      var bytes = [];
+      for (var i = 0; i < length; ++i) {
+        codePoint = string.charCodeAt(i);
+        if (codePoint > 55295 && codePoint < 57344) {
+          if (!leadSurrogate) {
+            if (codePoint > 56319) {
+              if ((units -= 3) > -1) bytes.push(239, 191, 189);
+              continue;
+            } else if (i + 1 === length) {
+              if ((units -= 3) > -1) bytes.push(239, 191, 189);
+              continue;
+            }
+            leadSurrogate = codePoint;
+            continue;
+          }
+          if (codePoint < 56320) {
+            if ((units -= 3) > -1) bytes.push(239, 191, 189);
+            leadSurrogate = codePoint;
+            continue;
+          }
+          codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
+        } else if (leadSurrogate) {
+          if ((units -= 3) > -1) bytes.push(239, 191, 189);
+        }
+        leadSurrogate = null;
+        if (codePoint < 128) {
+          if ((units -= 1) < 0) break;
+          bytes.push(codePoint);
+        } else if (codePoint < 2048) {
+          if ((units -= 2) < 0) break;
+          bytes.push(
+            codePoint >> 6 | 192,
+            codePoint & 63 | 128
+          );
+        } else if (codePoint < 65536) {
+          if ((units -= 3) < 0) break;
+          bytes.push(
+            codePoint >> 12 | 224,
+            codePoint >> 6 & 63 | 128,
+            codePoint & 63 | 128
+          );
+        } else if (codePoint < 1114112) {
+          if ((units -= 4) < 0) break;
+          bytes.push(
+            codePoint >> 18 | 240,
+            codePoint >> 12 & 63 | 128,
+            codePoint >> 6 & 63 | 128,
+            codePoint & 63 | 128
+          );
+        } else {
+          throw new Error("Invalid code point");
+        }
+      }
+      return bytes;
+    }
+    function asciiToBytes(str) {
+      var byteArray = [];
+      for (var i = 0; i < str.length; ++i) {
+        byteArray.push(str.charCodeAt(i) & 255);
+      }
+      return byteArray;
+    }
+    function utf16leToBytes(str, units) {
+      var c2, hi, lo;
+      var byteArray = [];
+      for (var i = 0; i < str.length; ++i) {
+        if ((units -= 2) < 0) break;
+        c2 = str.charCodeAt(i);
+        hi = c2 >> 8;
+        lo = c2 % 256;
+        byteArray.push(lo);
+        byteArray.push(hi);
+      }
+      return byteArray;
+    }
+    function base64ToBytes(str) {
+      return base64.toByteArray(base64clean(str));
+    }
+    function blitBuffer(src, dst, offset, length) {
+      for (var i = 0; i < length; ++i) {
+        if (i + offset >= dst.length || i >= src.length) break;
+        dst[i + offset] = src[i];
+      }
+      return i;
+    }
+    function isInstance(obj, type) {
+      return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
+    }
+    function numberIsNaN(obj) {
+      return obj !== obj;
+    }
+    var hexSliceLookupTable = function() {
+      var alphabet2 = "0123456789abcdef";
+      var table = new Array(256);
+      for (var i = 0; i < 16; ++i) {
+        var i16 = i * 16;
+        for (var j2 = 0; j2 < 16; ++j2) {
+          table[i16 + j2] = alphabet2[i] + alphabet2[j2];
+        }
+      }
+      return table;
+    }();
+  })(buffer);
+  const handleGazelleMusic = async (info) => {
+    var _a;
     const { musicJson } = info;
     if (!musicJson) {
       return;
@@ -16774,7 +15832,7 @@ ${jQuery(description.selector).val()}`);
       if (searchResult.status === "success" && searchResult.response.results.length > 0) {
         const groupId2 = searchResult.response.results[0].groupId;
         const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp = (_a3 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a3 : "";
+        const timestamp = (_a = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a : "";
         location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp}`;
         return;
       }
@@ -16790,19 +15848,25 @@ ${jQuery(description.selector).val()}`);
     fillJsonToUploadTable(musicJson, name);
   };
   function fillJsonToUploadTable(musicJson, name) {
-    const buf = import_buffer.Buffer.from(JSON.stringify({
+    const buf = buffer.Buffer.from(JSON.stringify({
       status: "success",
       response: musicJson
     }));
-    attachFile(buf, "#torrent-json-file", "application/json", name, "json");
+    attachFile({
+      data: buf,
+      selector: "#torrent-json-file",
+      contentType: "application/json",
+      fileName: name,
+      format: "json"
+    });
   }
-  function attachFile(data, selector, contentType, fileName, format, charset = "UTF-8") {
-    const buf = import_buffer.Buffer.from(data, charset);
+  function attachFile({ data, selector, contentType, fileName, format: format2, charset = "UTF-8" }) {
+    const buf = buffer.Buffer.isBuffer(data) ? data : buffer.Buffer.from(data, charset);
     const base64Data = buf.toString("base64");
     const fileInput = jQuery(selector);
     if (base64Data && fileInput.length > 0) {
       const blob = base64ToBlob(base64Data, contentType);
-      const file = new File([blob], `${fileName}.${format}`, { type: contentType });
+      const file = new File([blob], `${fileName}.${format2}`, { type: contentType });
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
       const uploadInput = fileInput[0];
@@ -16813,37 +15877,35 @@ ${jQuery(description.selector).val()}`);
   function toUnicodeEntities(str) {
     const excludedChars = ["<", ">", "&", ";", "/"];
     return str.split("").map((char) => {
-      const code = char.charCodeAt(0);
-      if (code > 127 && !excludedChars.includes(char)) {
-        const hexCode = code.toString(16);
+      const code2 = char.charCodeAt(0);
+      if (code2 > 127 && !excludedChars.includes(char)) {
+        const hexCode = code2.toString(16);
         return `&#${parseInt(hexCode, 16)};`;
       }
       return char;
     }).join("");
   }
-
-  // src/target/index.ts
-  var siteHandlers = {
-    PTP: ptp_default,
-    GPW: gpw_default,
-    NPUBits: npubits_default,
-    BYR: byr_default,
-    SC: sc_default,
-    KG: kg_default,
-    BeyondHD: bhd_default,
-    Bdc: bdc_default,
-    ZHUQUE: zhuque_default,
-    MTeam: mt_default,
-    RED: red_default,
-    HDRoute: hdr_default,
-    DicMusic: gazelle_music_default,
-    Orpheus: gazelle_music_default,
-    iTS: its_default,
-    PTN: ptn_default
+  const siteHandlers = {
+    PTP: handlePTP,
+    GPW: handleGPW,
+    NPUBits: handleNPU,
+    BYR: handleBYR,
+    SC: handleSC,
+    KG: handleKG,
+    BeyondHD: handleBHD,
+    Bdc: handleBdc,
+    ZHUQUE: handleZQ,
+    MTeam: handleMT,
+    RED: handleRED,
+    HDRoute: handleHDRoute,
+    DicMusic: handleGazelleMusic,
+    Orpheus: handleGazelleMusic,
+    iTS: handleITS,
+    PTN: handlePTN
   };
-  var fillTargetForm = (info) => {
-    var _a3;
-    autofill_default(info || {});
+  const fillTargetForm = (info) => {
+    var _a;
+    autoFill(info || {});
     if (!info) {
       return;
     }
@@ -16853,7 +15915,7 @@ ${jQuery(description.selector).val()}`);
       handler(info);
     }
     const targetTorrentInfo = __spreadValues({}, info);
-    const isBluray = !!((_a3 = info == null ? void 0 : info.videoType) == null ? void 0 : _a3.match(/bluray/i));
+    const isBluray = !!((_a = info == null ? void 0 : info.videoType) == null ? void 0 : _a.match(/bluray/i));
     targetTorrentInfo.isBluray = isBluray;
     const targetHelper = new ExportHelper(targetTorrentInfo);
     targetHelper.disableTorrentChange();
@@ -16870,14 +15932,8 @@ ${jQuery(description.selector).val()}`);
     targetHelper.fillRemainingInfo();
     targetHelper.dealWithMoreSites();
   };
-
-  // src/source/index.ts
-  init_preact_shim();
-
-  // src/source/ptp.ts
-  init_preact_shim();
-  var ptp_default2 = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h;
+  const getPTPInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h;
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
@@ -16885,7 +15941,7 @@ ${jQuery(description.selector).val()}`);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const torrentDom = jQuery(`#torrent_${torrentId}`);
-    const ptpMovieTitle = (_d = (_c = (_b2 = (_a3 = jQuery(".page__title").text()) == null ? void 0 : _a3.match(/]?([^[]+)/)) == null ? void 0 : _b2[1]) == null ? void 0 : _c.trim()) != null ? _d : "";
+    const ptpMovieTitle = (_d = (_c2 = (_b = (_a = jQuery(".page__title").text()) == null ? void 0 : _a.match(/]?([^[]+)/)) == null ? void 0 : _b[1]) == null ? void 0 : _c2.trim()) != null ? _d : "";
     const [movieName, movieAkaName = ""] = ptpMovieTitle.split(" AKA ");
     const mediaInfoArray = [];
     torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote").each(function() {
@@ -16896,24 +15952,24 @@ ${jQuery(description.selector).val()}`);
     });
     TORRENT_INFO.movieName = movieName;
     TORRENT_INFO.movieAkaName = movieAkaName;
-    TORRENT_INFO.imdbUrl = (_f = (_e = jQuery("#imdb-title-link")) == null ? void 0 : _e.attr("href")) != null ? _f : "";
-    TORRENT_INFO.year = (_h = (_g = jQuery(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _g[1]) != null ? _h : "";
+    TORRENT_INFO.imdbUrl = (_f2 = (_e = jQuery("#imdb-title-link")) == null ? void 0 : _e.attr("href")) != null ? _f2 : "";
+    TORRENT_INFO.year = (_h = (_g2 = jQuery(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _g2[1]) != null ? _h : "";
     const torrentHeaderDom = jQuery(`#group_torrent_header_${torrentId}`);
     const torrentLink = torrentHeaderDom.find('a[title="Download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     TORRENT_INFO.category = getPTPType();
     const screenshots = getPTPImage();
-    getDescription2(torrentId).then((res) => {
-      var _a4, _b3, _c2;
+    getDescription$1(torrentId).then((res) => {
+      var _a2, _b2, _c3;
       const releaseName = torrentHeaderDom.data("releasename");
       const releaseGroup = getReleaseGroup(releaseName);
-      const descriptionData = formatDescriptionData(res, screenshots, mediaInfoArray);
+      const descriptionData = formatDescriptionData$1(res, screenshots, mediaInfoArray);
       TORRENT_INFO.description = descriptionData;
       const infoArray = torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().trim().split(" / ");
       const [codes, container, source, resolution, ...otherInfo] = infoArray;
       const isRemux = otherInfo.includes("Remux");
-      const { knownTags, otherTags } = getTags(otherInfo, [releaseGroup]);
-      TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType(container, isRemux, codes, source);
+      const { knownTags, otherTags } = getTags$1(otherInfo, [releaseGroup]);
+      TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType$g(container, isRemux, codes, source);
       const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
       TORRENT_INFO.tags = __spreadValues({}, knownTags);
       TORRENT_INFO.otherTags = otherTags;
@@ -16922,11 +15978,11 @@ ${jQuery(description.selector).val()}`);
         return TORRENT_INFO.videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
       });
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map((v3) => v3.trim());
+      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map((v2) => v2.trim());
       const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos[0]);
       if (infoFromMediaInfoinfo.subtitles) {
-        for (let i3 = 0; i3 < ((_a4 = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _a4.length); i3++) {
-          if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i3])) {
+        for (let i = 0; i < ((_a2 = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _a2.length); i++) {
+          if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
             TORRENT_INFO.tags.chinese_subtitle = true;
             break;
           }
@@ -16939,7 +15995,7 @@ ${jQuery(description.selector).val()}`);
       const torrentName = formatTorrentTitle(releaseName);
       TORRENT_INFO.title = torrentName;
       TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-      const size = (_c2 = (_b3 = torrentHeaderDom.find(".nobr span").attr("title")) == null ? void 0 : _b3.replace(/[^\d]/g, "")) != null ? _c2 : "";
+      const size = (_c3 = (_b2 = torrentHeaderDom.find(".nobr span").attr("title")) == null ? void 0 : _b2.replace(/[^\d]/g, "")) != null ? _c3 : "";
       TORRENT_INFO.size = parseFloat(size);
       TORRENT_INFO.screenshots = screenshots;
       TORRENT_INFO.poster = jQuery(".sidebar-cover-image").attr("src") || "";
@@ -16955,7 +16011,7 @@ ${jQuery(description.selector).val()}`);
     TORRENT_INFO.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
     return TORRENT_INFO;
   };
-  var getPTPType = () => {
+  const getPTPType = () => {
     const typeMap = {
       "Feature Film": "movie",
       "Short Film": "movie",
@@ -16967,24 +16023,24 @@ ${jQuery(description.selector).val()}`);
     const ptpType = jQuery("#torrent-table .basic-movie-list__torrent-edition__main").eq(0).text();
     return typeMap[ptpType];
   };
-  var getPTPImage = () => {
-    var _a3;
+  const getPTPImage = () => {
+    var _a;
     const imgList = [];
     const torrentInfoPanel = jQuery(".movie-page__torrent__panel");
     const imageDom = torrentInfoPanel.find(".bbcode__image");
-    for (let i3 = 0; i3 < imageDom.length; i3++) {
-      const parent = imageDom[i3].parentElement;
-      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a3 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a3.match(/\.png$/))) {
+    for (let i = 0; i < imageDom.length; i++) {
+      const parent = imageDom[i].parentElement;
+      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a.match(/\.png$/))) {
         imgList.push(parent.getAttribute("href") || "");
       } else {
-        const imgDom = imageDom[i3];
+        const imgDom = imageDom[i];
         const imgSrc = imgDom.getAttribute("src") || imgDom.getAttribute("alt");
         imgList.push(imgSrc || "");
       }
     }
     return imgList;
   };
-  var getPTPSource = (source, codes, resolution) => {
+  const getPTPSource = (source, codes, resolution) => {
     if (codes.match(/BD100|BD66/i)) {
       return "uhdbluray";
     }
@@ -16993,7 +16049,7 @@ ${jQuery(description.selector).val()}`);
     }
     return source.replace(/-/g, "").toLowerCase();
   };
-  var getVideoType = (container, isRemux, codes, source) => {
+  const getVideoType$g = (container, isRemux, codes, source) => {
     let type = "";
     if (isRemux) {
       type = "remux";
@@ -17010,7 +16066,7 @@ ${jQuery(description.selector).val()}`);
     }
     return type;
   };
-  var getDescription2 = async (id) => {
+  const getDescription$1 = async (id) => {
     const url = `${PT_SITE.PTP.url}/torrents.php?action=get_description&id=${id}`;
     const data = await fetch(url, {
       responseType: void 0
@@ -17022,7 +16078,7 @@ ${jQuery(description.selector).val()}`);
     }
     return "";
   };
-  var formatDescriptionData = (data, screenshots, mediaInfoArray) => {
+  const formatDescriptionData$1 = (data, screenshots, mediaInfoArray) => {
     let descriptionData = data.replace(/\r\n/g, "\n");
     descriptionData = descriptionData.split("\n").map((line) => {
       return line.trim();
@@ -17040,19 +16096,19 @@ ${jQuery(description.selector).val()}`);
       }
     });
     descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, "[$1quote]");
-    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
+    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
       const slash = p1 || "";
-      return p22 ? `${p22}: [${slash}quote]` : `[${slash}quote]`;
+      return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
     });
     descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
     descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[quote][$2]$3[/$2][/quote]");
     const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/ig) || [];
     const comparisons = [];
     comparisonArray.forEach((item) => {
-      var _a3, _b2, _c, _d;
+      var _a, _b, _c2, _d;
       descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
-      const reason = (_b2 = (_a3 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-      const title = (_d = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d : "";
+      const reason = (_b = (_a = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a[1]) != null ? _b : "";
+      const title = (_d = (_c2 = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c2[1]) != null ? _d : "";
       const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
       const imgs = [];
       Array.from(new Set(comparisonImgArray)).forEach((item2) => {
@@ -17084,7 +16140,7 @@ ${descriptionData}`;
     }
     return descriptionData;
   };
-  function getTags(rawTags, exclude = []) {
+  function getTags$1(rawTags, exclude = []) {
     const { editionTags } = PT_SITE.PTP.sourceInfo;
     const knownTags = {};
     const otherTags = {};
@@ -17092,8 +16148,8 @@ ${descriptionData}`;
       const tag = editionTags[rawTag];
       if (tag) {
         knownTags[tag] = true;
-      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) {
-      } else {
+      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) ;
+      else {
         otherTags[rawTag] = true;
       }
     }
@@ -17103,16 +16159,13 @@ ${descriptionData}`;
     };
   }
   function getReleaseGroup(releasename) {
-    var _a3, _b2;
-    return (_b2 = (_a3 = releasename.match(/-(\w+?)$/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    var _a, _b;
+    return (_b = (_a = releasename.match(/-(\w+?)$/)) == null ? void 0 : _a[1]) != null ? _b : "";
   }
-
-  // src/source/bhd.ts
-  init_preact_shim();
-  var bhd_default2 = async () => {
+  const getBHDInfo = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const basicInfo = getBasicInfo();
+    const basicInfo = getBasicInfo$6();
     const editionTags = getEditionTags(basicInfo);
     const { Category, Name, Source, Type, Size } = basicInfo;
     TORRENT_INFO.size = getSize(Size);
@@ -17128,15 +16181,15 @@ ${descriptionData}`;
     }
     const descriptionDom = jQuery(".panel-heading:contains(Description)").next(".panel-body").find(".forced-nfo");
     const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    TORRENT_INFO.comparisons = getComparisonImgs();
+    TORRENT_INFO.comparisons = getComparisonImgs$1();
     const { category: movieCat, countries, imdbUrl } = getMovieDetails();
     TORRENT_INFO.movieName = movieName;
     let category = Category.toLowerCase().replace(/s/, "");
     category = movieCat === "Animation" ? "cartoon" : category;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.source = getSource(Source, Type);
+    TORRENT_INFO.source = getSource$2(Source, Type);
     TORRENT_INFO.area = getAreaCode(countries);
-    TORRENT_INFO.videoType = getVideoType2(Source, Type);
+    TORRENT_INFO.videoType = getVideoType$f(Source, Type);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const mediaInfo = jQuery("#stats-full code").text();
     TORRENT_INFO.mediaInfos = [mediaInfo];
@@ -17154,7 +16207,7 @@ ${descriptionBBCode}`;
     TORRENT_INFO.otherTags = editionTags.otherTags;
     TORRENT_INFO.imdbUrl = imdbUrl;
   };
-  var getBasicInfo = () => {
+  const getBasicInfo$6 = () => {
     const basicInfo = {
       Category: "",
       Name: "",
@@ -17176,7 +16229,7 @@ ${descriptionBBCode}`;
     console.log(basicInfo);
     return basicInfo;
   };
-  var getMovieDetails = () => {
+  const getMovieDetails = () => {
     const infoList = jQuery(".movie-details a");
     const movieDetail = {
       category: "",
@@ -17185,8 +16238,8 @@ ${descriptionBBCode}`;
     };
     movieDetail.imdbUrl = jQuery('span.badge-meta[title*="IMDb"] > a').attr("href") || "";
     infoList.each((index, element) => {
-      var _a3, _b2;
-      const urlParams = (_b2 = (_a3 = jQuery(element).attr("href")) == null ? void 0 : _a3.replace(/.+\//g, "").split("=")) != null ? _b2 : "";
+      var _a, _b;
+      const urlParams = (_b = (_a = jQuery(element).attr("href")) == null ? void 0 : _a.replace(/.+\//g, "").split("=")) != null ? _b : "";
       if (urlParams.length > 1) {
         let key = decodeURI(urlParams[0]);
         const value = urlParams[1];
@@ -17198,7 +16251,7 @@ ${descriptionBBCode}`;
     });
     return movieDetail;
   };
-  var getSource = (source, resolution) => {
+  const getSource$2 = (source, resolution) => {
     if (resolution.match(/BD100|BD66/i)) {
       return "uhdbluray";
     }
@@ -17210,7 +16263,7 @@ ${descriptionBBCode}`;
     }
     return source.replace(/-/g, "").toLowerCase();
   };
-  var getVideoType2 = (source, type) => {
+  const getVideoType$f = (source, type) => {
     type = type.replace(/\s/g, "");
     if (type.match(/Remux/i)) {
       return "remux";
@@ -17227,14 +16280,14 @@ ${descriptionBBCode}`;
     }
     return type;
   };
-  var getEditionTags = (basicInfo) => {
+  const getEditionTags = (basicInfo) => {
     const editionTags = PT_SITE.BeyondHD.sourceInfo.editionTags;
     const knownTags = {};
     const otherTags = {
       Hybrid: false
     };
     const { Video, Audio, Edition, Extras, Hybrid } = basicInfo;
-    const text = [Video, Audio, Edition, Extras].filter((v3) => Boolean(v3)).join(" / ");
+    const text = [Video, Audio, Edition, Extras].filter((v2) => Boolean(v2)).join(" / ");
     const mediaTags = Object.entries(editionTags);
     for (const [source, target] of mediaTags) {
       if (text.includes(source)) {
@@ -17252,12 +16305,12 @@ ${descriptionBBCode}`;
       otherTags
     };
   };
-  function getComparisonImgs() {
-    var _a3, _b2;
-    const title = (_b2 = (_a3 = jQuery("#screenMain .screenParent").text()) == null ? void 0 : _a3.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b2.trim();
+  function getComparisonImgs$1() {
+    var _a, _b;
+    const title = (_b = (_a = jQuery("#screenMain .screenParent").text()) == null ? void 0 : _a.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b.trim();
     const imgs = Array.from(jQuery(".screenComparison img")).map((img) => {
-      var _a4, _b3;
-      return (_b3 = (_a4 = jQuery(img)) == null ? void 0 : _a4.attr("src")) != null ? _b3 : "";
+      var _a2, _b2;
+      return (_b2 = (_a2 = jQuery(img)) == null ? void 0 : _a2.attr("src")) != null ? _b2 : "";
     });
     if (title !== "") {
       return [
@@ -17269,20 +16322,17 @@ ${descriptionBBCode}`;
       ];
     }
   }
-
-  // src/source/hdb.ts
-  init_preact_shim();
-  var hdb_default = async () => {
-    var _a3, _b2;
+  const getHDBInfo = async () => {
+    var _a, _b;
     const torrentId = getUrlParam("id");
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const editDom = jQuery("#details tr").has("a:contains(Edit torrent)");
     const descriptionDom = editDom.length > 0 ? editDom.prev() : jQuery("#details >tbody >tr:contains(tags) + tr");
     let descriptionBBCode = getFilterBBCode(descriptionDom.find(">td")[0]);
-    descriptionBBCode = (_b2 = (_a3 = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+    descriptionBBCode = (_b = (_a = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)) == null ? void 0 : _a[1]) != null ? _b : "";
     TORRENT_INFO.description = descriptionBBCode;
-    const { size, category, videoType } = getBasicInfo2();
+    const { size, category, videoType } = getBasicInfo$5();
     const title = jQuery("h1").eq(0).text();
     TORRENT_INFO.title = formatTorrentTitle(title);
     const tags = getTagsFromSubtitle(title);
@@ -17307,7 +16357,7 @@ ${descriptionBBCode}`;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
     if (!isBluray) {
-      getMediaInfo(torrentId).then((data) => {
+      getMediaInfo$1(torrentId).then((data) => {
         if (data) {
           TORRENT_INFO.mediaInfos = [data];
           descriptionBBCode += `
@@ -17329,9 +16379,9 @@ ${descriptionBBCode}`;
       TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), mediaTags);
     }
     TORRENT_INFO.size = size;
-    TORRENT_INFO.screenshots = await getImages(descriptionBBCode);
+    TORRENT_INFO.screenshots = await getImages$1(descriptionBBCode);
   };
-  var getBasicInfo2 = () => {
+  const getBasicInfo$5 = () => {
     const videoTypeMap = {
       "Blu-ray/HD DVD": "bluray",
       Capture: "hdtv",
@@ -17352,30 +16402,27 @@ ${descriptionBBCode}`;
       videoType: videoTypeMap[videoType]
     };
   };
-  var getMediaInfo = async (torrentId) => {
+  const getMediaInfo$1 = async (torrentId) => {
     const res = await fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
       responseType: void 0
     });
     const data = res.replace(/\r\n/g, "\n");
     return data || "";
   };
-  var getImages = async (description) => {
+  const getImages$1 = async (description) => {
     const screenshots = await getScreenshotsFromBBCode(description);
     return screenshots;
   };
-
-  // src/source/tik.ts
-  init_preact_shim();
-  var tik_default = async () => {
+  const getTikInfo = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const typeText = jQuery("td.heading:contains(Type)").eq(0).next().text();
     const isMovie = typeText !== "TV-Series";
     const tags = [];
-    jQuery("td.heading:contains(Tags)").eq(0).next().children().each((_3, child) => {
+    jQuery("td.heading:contains(Tags)").eq(0).next().children().each((_2, child) => {
       tags.push(child.textContent);
     });
-    const size = jQuery("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_3, size2) => size2.replace(/,/g, ""));
+    const size = jQuery("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_2, size2) => size2.replace(/,/g, ""));
     const title = jQuery("h1").eq(0).text();
     const imdbNumber = jQuery('span:contains("IMDB id:") a').text();
     const descContainer = jQuery("td.heading:contains(Description)").eq(0).next();
@@ -17407,54 +16454,51 @@ ${descriptionBBCode}`;
     if (!matches) {
       return screenshots;
     }
-    for (const m3 of matches) {
-      screenshots.push(`https://hostik.cinematik.net/gal/ori/${m3[0]}/${m3[1]}/${m3}.jpg`);
+    for (const m2 of matches) {
+      screenshots.push(`https://hostik.cinematik.net/gal/ori/${m2[0]}/${m2[1]}/${m2}.jpg`);
     }
     return screenshots;
   }
-
-  // src/source/ttg.ts
-  init_preact_shim();
-  var ttg_default = async () => {
-    var _a3, _b2, _c, _d, _e;
+  const getTTGInfo = async () => {
+    var _a, _b, _c2, _d, _e;
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const headTitle = jQuery("#main_table h1").eq(0).text();
-    const title = formatTorrentTitle((_b2 = (_a3 = headTitle.match(/[^[]+/)) == null ? void 0 : _a3[0]) != null ? _b2 : "");
+    const title = formatTorrentTitle((_b = (_a = headTitle.match(/[^[]+/)) == null ? void 0 : _a[0]) != null ? _b : "");
     TORRENT_INFO.title = title;
     TORRENT_INFO.subtitle = headTitle.replace(title, "").replace(/\[|\]/g, "");
     const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
-    const mediaTecInfo = getTorrentValueDom("\u7C7B\u578B").text();
+    const mediaTecInfo = getTorrentValueDom("类型").text();
     const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
     TORRENT_INFO.area = area;
-    TORRENT_INFO.videoType = getVideoType3(title, videoType);
-    const year = (_c = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g)) != null ? _c : [];
+    TORRENT_INFO.videoType = getVideoType$e(title, videoType);
+    const year = (_c2 = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g)) != null ? _c2 : [];
     TORRENT_INFO.year = year ? year.pop() : "";
     const imdbUrl = getTorrentValueDom("IMDb").find("a").attr("href");
     TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    const sizeStr = (_e = (_d = getTorrentValueDom("\u5C3A\u5BF8").text().match(/\(((\d|,)+)\s*字节\)/i)) == null ? void 0 : _d[1]) != null ? _e : "";
+    const sizeStr = (_e = (_d = getTorrentValueDom("尺寸").text().match(/\(((\d|,)+)\s*字节\)/i)) == null ? void 0 : _d[1]) != null ? _e : "";
     TORRENT_INFO.size = parseInt(sizeStr.replace(/,/g, ""), 10);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     TORRENT_INFO.isForbidden = !!jQuery("#kt_d").text().match(/禁转/);
     window.onload = async () => {
-      var _a4, _b3, _c2, _d2, _e2, _f, _g;
+      var _a2, _b2, _c3, _d2, _e2, _f2, _g2;
       const descriptionDom = jQuery("#kt_d");
       const bbCodes = getFilterBBCode(descriptionDom[0]);
       if (!imdbUrl) {
-        TORRENT_INFO.imdbUrl = (_a4 = bbCodes.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a4[0];
+        TORRENT_INFO.imdbUrl = (_a2 = bbCodes.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a2[0];
       } else {
         TORRENT_INFO.imdbUrl = imdbUrl;
       }
-      const description = getDescription3(bbCodes, title);
+      const description = getDescription(bbCodes, title);
       TORRENT_INFO.description = description;
-      const comparisons = getComparisonImgs2(description);
+      const comparisons = getComparisonImgs(description);
       TORRENT_INFO.comparisons = comparisons;
-      const doubanUrl = (_b3 = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)) == null ? void 0 : _b3[0];
+      const doubanUrl = (_b2 = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)) == null ? void 0 : _b2[0];
       if (doubanUrl) {
         TORRENT_INFO.doubanUrl = doubanUrl;
       }
-      const areaMatch = (_c2 = bbCodes.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _c2[2];
+      const areaMatch = (_c3 = bbCodes.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _c3[2];
       if (areaMatch) {
         TORRENT_INFO.area = getAreaCode(areaMatch);
       }
@@ -17480,7 +16524,7 @@ ${descriptionBBCode}`;
         TORRENT_INFO.resolution = resolution;
         TORRENT_INFO.audioCodec = getAudioCodecFromTitle(TORRENT_INFO.title);
         if (bbCodes.match(/VIDEO(\.| )*CODEC/i)) {
-          const matchCodec = (_f = bbCodes.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)) == null ? void 0 : _f[2];
+          const matchCodec = (_f2 = bbCodes.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)) == null ? void 0 : _f2[2];
           if (matchCodec) {
             TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, "").toLowerCase();
           } else {
@@ -17489,20 +16533,20 @@ ${descriptionBBCode}`;
           }
         }
         if (bbCodes.match(/AUDIO\s*CODEC/i)) {
-          const matchCodec = (_g = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)) == null ? void 0 : _g[1];
+          const matchCodec = (_g2 = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)) == null ? void 0 : _g2[1];
           if (matchCodec) {
             TORRENT_INFO.audioCodec = getAudioCodecFromTitle(matchCodec);
           }
         }
       }
-      let screenshots = await getImages2(bbCodes);
+      let screenshots = await getImages(bbCodes);
       comparisons.forEach((comparison) => {
         screenshots = screenshots.filter((img) => !comparison.imgs.includes(img));
       });
       TORRENT_INFO.screenshots = screenshots;
     };
   };
-  var getCategoryAndArea = (mediaInfo) => {
+  const getCategoryAndArea = (mediaInfo) => {
     let category = "";
     let area = "";
     let videoType = "";
@@ -17545,15 +16589,15 @@ ${descriptionBBCode}`;
       videoType
     };
   };
-  var getImages2 = (bbcode) => {
-    var _a3, _b2;
+  const getImages = (bbcode) => {
+    var _a, _b;
     if (bbcode.match(/More\.Screens/i)) {
-      const moreScreen = (_b2 = (_a3 = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+      const moreScreen = (_b = (_a = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)) == null ? void 0 : _a[1]) != null ? _b : "";
       return getScreenshotsFromBBCode(moreScreen);
     }
     return getScreenshotsFromBBCode(bbcode);
   };
-  var getVideoType3 = (title, videoType) => {
+  const getVideoType$e = (title, videoType) => {
     if (title.match(/HDTV/i)) {
       return "hdtv";
     } else if (title.match(/web(-)*(dl|rip)/i)) {
@@ -17567,10 +16611,10 @@ ${descriptionBBCode}`;
     }
     return videoType;
   };
-  var getTorrentValueDom = (key) => {
+  const getTorrentValueDom = (key) => {
     return jQuery(`#main_table td.heading:contains(${key})`).next();
   };
-  var getCategoryFromDesc = (desc) => {
+  const getCategoryFromDesc = (desc) => {
     let category = "movie";
     const { title, subtitle } = TORRENT_INFO;
     if (title.match(/s0?\d{1,2}/i) || desc.match(/集\s*数/)) {
@@ -17586,18 +16630,18 @@ ${descriptionBBCode}`;
     }
     return category;
   };
-  function getDescription3(bbcode, title) {
-    var _a3, _b2, _c, _d, _e, _f;
-    const discountMatch = (_b2 = (_a3 = bbcode.match(/\[color=\w+\]本种子.+?\[\/color\]/)) == null ? void 0 : _a3[0]) != null ? _b2 : "";
+  function getDescription(bbcode, title) {
+    var _a, _b, _c2, _d, _e, _f2;
+    const discountMatch = (_b = (_a = bbcode.match(/\[color=\w+\]本种子.+?\[\/color\]/)) == null ? void 0 : _a[0]) != null ? _b : "";
     if (discountMatch) {
       bbcode = bbcode.replace(discountMatch, "");
     }
-    const noneSenseNumberMatch = (_d = (_c = bbcode.match(/@\d+?\(\d+?\)/)) == null ? void 0 : _c[0]) != null ? _d : "";
+    const noneSenseNumberMatch = (_d = (_c2 = bbcode.match(/@\d+?\(\d+?\)/)) == null ? void 0 : _c2[0]) != null ? _d : "";
     if (noneSenseNumberMatch) {
       bbcode = bbcode.replace(noneSenseNumberMatch, "");
     }
     if (title.match(/-WiKi$/)) {
-      const doubanPart = (_f = (_e = bbcode.match(/◎译\s+名(.|\n)+/)) == null ? void 0 : _e[0]) != null ? _f : "";
+      const doubanPart = (_f2 = (_e = bbcode.match(/◎译\s+名(.|\n)+/)) == null ? void 0 : _e[0]) != null ? _f2 : "";
       bbcode = bbcode.replace(doubanPart, "");
       bbcode = bbcode.replace(/(\[img\].+?\[\/img\])/, `$1
 
@@ -17605,22 +16649,22 @@ ${doubanPart}`);
     }
     return bbcode;
   }
-  function getComparisonImgs2(description) {
-    var _a3, _b2, _c;
-    const comparisonPart = (_a3 = description.match(/\.Comparisons(.|\n)+\[\/img\]\[\/url\]/)) == null ? void 0 : _a3[0];
+  function getComparisonImgs(description) {
+    var _a, _b, _c2;
+    const comparisonPart = (_a = description.match(/\.Comparisons(.|\n)+\[\/img\]\[\/url\]/)) == null ? void 0 : _a[0];
     if (!comparisonPart) {
       return [];
     }
-    const title = (_c = (_b2 = comparisonPart.match(/(\[color=.+?\])(.+?)\[\/color\]/g)) == null ? void 0 : _b2.map((item) => {
-      var _a4, _b3;
-      return (_b3 = (_a4 = item.match(/\[color=.+?\](.+?)\[\/color\]/)) == null ? void 0 : _a4[1]) != null ? _b3 : "";
-    })) != null ? _c : [];
+    const title = (_c2 = (_b = comparisonPart.match(/(\[color=.+?\])(.+?)\[\/color\]/g)) == null ? void 0 : _b.map((item) => {
+      var _a2, _b2;
+      return (_b2 = (_a2 = item.match(/\[color=.+?\](.+?)\[\/color\]/)) == null ? void 0 : _a2[1]) != null ? _b2 : "";
+    })) != null ? _c2 : [];
     const comparisonImgArray = [];
     const allImages = comparisonPart == null ? void 0 : comparisonPart.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
     if (allImages && allImages.length > 0) {
       allImages.forEach((img) => {
-        var _a4;
-        const matchUrl = (_a4 = img.match(/\[url=(.+?)\]/)) == null ? void 0 : _a4[1];
+        var _a2;
+        const matchUrl = (_a2 = img.match(/\[url=(.+?)\]/)) == null ? void 0 : _a2[1];
         if (matchUrl) {
           comparisonImgArray.push(matchUrl);
         }
@@ -17632,26 +16676,23 @@ ${doubanPart}`);
       reason: ""
     }];
   }
-
-  // src/source/unit3d.ts
-  init_preact_shim();
-  var unit3d_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h;
+  const getUNIT3DInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h;
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const { Category, Name, Type, Size, Resolution } = getBasicInfo3();
+    const { Category, Name, Type, Size, Resolution } = getBasicInfo$4();
     TORRENT_INFO.size = getSize(Size);
     let title = formatTorrentTitle(Name);
     const tags = getTagsFromSubtitle(TORRENT_INFO.title);
-    const category = getCategory(Category);
-    const videoType = getVideoType4(Type, Resolution);
+    const category = getCategory$7(Category);
+    const videoType = getVideoType$d(Type, Resolution);
     let IMDBYear = jQuery(".movie-heading span:last").text();
     let movieName = jQuery(".movie-heading span:first").text();
     let imdbUrl = jQuery(".movie-details a:contains(IMDB)").attr("href");
     let poster = jQuery(".movie-poster").attr("src");
     if (CURRENT_SITE_NAME === "HDPOST") {
-      const englishTitle = (_b2 = (_a3 = title.match(/[\s\W\d]+(.+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-      TORRENT_INFO.subtitle = (_c = title.replace(englishTitle, "")) == null ? void 0 : _c.trim();
+      const englishTitle = (_b = (_a = title.match(/[\s\W\d]+(.+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
+      TORRENT_INFO.subtitle = (_c2 = title.replace(englishTitle, "")) == null ? void 0 : _c2.trim();
       title = englishTitle;
     }
     if (CURRENT_SITE_NAME === "ACM") {
@@ -17667,14 +16708,14 @@ ${doubanPart}`);
     } else {
       IMDBYear = IMDBYear.replace(/\(|\)|\s/g, "");
     }
-    const resolution = (_f = (_e = Resolution.match(/\d+(i|p)/i)) == null ? void 0 : _e[0]) != null ? _f : "";
+    const resolution = (_f2 = (_e = Resolution.match(/\d+(i|p)/i)) == null ? void 0 : _e[0]) != null ? _f2 : "";
     let descriptionDom = jQuery(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
     descriptionDom.find("#collection_waypoint").remove();
     let mediaInfoOrBDInfo = jQuery(".decoda-code code").text();
     if (CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
       const title2 = jQuery(".meta__title").text().trim();
       movieName = title2.replace(/\(.+\)/g, "");
-      IMDBYear = (_h = (_g = title2.match(/\((\d{4})\)/)) == null ? void 0 : _g[1]) != null ? _h : "";
+      IMDBYear = (_h = (_g2 = title2.match(/\((\d{4})\)/)) == null ? void 0 : _g2[1]) != null ? _h : "";
       imdbUrl = jQuery(".meta__imdb a").attr("href");
       descriptionDom = jQuery(".panel__body.bbcode-rendered");
       mediaInfoOrBDInfo = jQuery(".bbcode-rendered code").text();
@@ -17707,7 +16748,7 @@ ${doubanPart}`);
     const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|请勿转载|禁止转载|exclusive/);
     TORRENT_INFO.isForbidden = !!isForbidden;
   };
-  var getBasicInfo3 = () => {
+  const getBasicInfo$4 = () => {
     const basicInfo = {
       Category: "",
       Name: "",
@@ -17717,19 +16758,19 @@ ${doubanPart}`);
     };
     const keyMap = {
       Name: "Name",
-      \u540D\u79F0: "Name",
-      \u540D\u7A31: "Name",
+      名称: "Name",
+      名稱: "Name",
       Size: "Size",
-      \u4F53\u79EF: "Size",
-      \u9AD4\u7A4D: "Size",
+      体积: "Size",
+      體積: "Size",
       size: "Size",
       Category: "Category",
-      \u7C7B\u522B: "Category",
-      \u985E\u5225: "Category",
+      类别: "Category",
+      類別: "Category",
       category: "Category",
       Type: "Type",
-      \u89C4\u683C: "Type",
-      \u898F\u683C: "Type",
+      规格: "Type",
+      規格: "Type",
       type: "Type",
       Resolution: "Resolution",
       resolution: "Resolution"
@@ -17737,13 +16778,13 @@ ${doubanPart}`);
     if (!CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
       const lineSelector = jQuery('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
       lineSelector.each((index, element) => {
-        var _a3, _b2, _c;
+        var _a, _b, _c2;
         const key = jQuery(element).find("td:first").text().replace(/\s|\n/g, "");
         const basicKey = keyMap[key];
         if (basicKey) {
           let value = jQuery(element).find("td:last").text();
           if (basicKey === "Name") {
-            value = (_c = (_b2 = (_a3 = jQuery(element).find("td:last")[0]) == null ? void 0 : _a3.firstChild) == null ? void 0 : _b2.textContent) != null ? _c : "";
+            value = (_c2 = (_b = (_a = jQuery(element).find("td:last")[0]) == null ? void 0 : _a.firstChild) == null ? void 0 : _b.textContent) != null ? _c2 : "";
           }
           basicInfo[basicKey] = value.replace(/\n/g, "").trim();
         }
@@ -17751,8 +16792,8 @@ ${doubanPart}`);
     } else {
       const formats = jQuery(".torrent__tags li");
       formats.each((index, item) => {
-        var _a3;
-        const className = (_a3 = jQuery(item).attr("class")) == null ? void 0 : _a3.replace("torrent__", "");
+        var _a;
+        const className = (_a = jQuery(item).attr("class")) == null ? void 0 : _a.replace("torrent__", "");
         basicInfo[keyMap[className]] = jQuery(item).text().trim();
       });
       const title = jQuery("h1.torrent__name").text().trim();
@@ -17761,7 +16802,7 @@ ${doubanPart}`);
     }
     return basicInfo;
   };
-  var getCategory = (key) => {
+  const getCategory$7 = (key) => {
     if (!key) {
       return "";
     }
@@ -17772,7 +16813,7 @@ ${doubanPart}`);
     }
     return "";
   };
-  var getVideoType4 = (type, resolution) => {
+  const getVideoType$d = (type, resolution) => {
     type = type.replace(/\s/g, "");
     if (type.match(/FullDisc|BD/g)) {
       if (resolution.match(/2160p/i)) {
@@ -17792,91 +16833,71 @@ ${doubanPart}`);
     }
     return type;
   };
-
-  // src/source/nexusphp.ts
-  init_preact_shim();
-
-  // src/source/helper.ts
-  init_preact_shim();
-
-  // node_modules/parse-torrent/index.js
-  init_preact_shim();
-
-  // node_modules/bencode/index.js
-  init_preact_shim();
-
-  // node_modules/bencode/lib/encode.js
-  init_preact_shim();
-
-  // node_modules/uint8-util/browser.js
-  init_preact_shim();
-
-  // node_modules/uint8-util/util.js
-  init_preact_shim();
-  var alphabet = "0123456789abcdef";
-  var encodeLookup = [];
-  var decodeLookup = [];
-  for (let i3 = 0; i3 < 256; i3++) {
-    encodeLookup[i3] = alphabet[i3 >> 4 & 15] + alphabet[i3 & 15];
-    if (i3 < 16) {
-      if (i3 < 10) {
-        decodeLookup[48 + i3] = i3;
+  /* Common package for dealing with hex/string/uint8 conversions (and sha1 hashing)
+  *
+  * @author   Jimmy Wärting <jimmy@warting.se> (https://jimmy.warting.se/opensource)
+  * @license  MIT
+  */
+  const alphabet = "0123456789abcdef";
+  const encodeLookup = [];
+  const decodeLookup = [];
+  for (let i = 0; i < 256; i++) {
+    encodeLookup[i] = alphabet[i >> 4 & 15] + alphabet[i & 15];
+    if (i < 16) {
+      if (i < 10) {
+        decodeLookup[48 + i] = i;
       } else {
-        decodeLookup[97 - 10 + i3] = i3;
+        decodeLookup[97 - 10 + i] = i;
       }
     }
   }
-  var arr2hex = (data) => {
+  const arr2hex = (data) => {
     const length = data.length;
     let string = "";
-    let i3 = 0;
-    while (i3 < length) {
-      string += encodeLookup[data[i3++]];
+    let i = 0;
+    while (i < length) {
+      string += encodeLookup[data[i++]];
     }
     return string;
   };
-  var hex2arr = (str) => {
+  const hex2arr = (str) => {
     const sizeof = str.length >> 1;
     const length = sizeof << 1;
     const array = new Uint8Array(sizeof);
-    let n2 = 0;
-    let i3 = 0;
-    while (i3 < length) {
-      array[n2++] = decodeLookup[str.charCodeAt(i3++)] << 4 | decodeLookup[str.charCodeAt(i3++)];
+    let n = 0;
+    let i = 0;
+    while (i < length) {
+      array[n++] = decodeLookup[str.charCodeAt(i++)] << 4 | decodeLookup[str.charCodeAt(i++)];
     }
     return array;
   };
-  var concat = (chunks, size = 0) => {
+  const concat = (chunks, size = 0) => {
     const length = chunks.length || 0;
     if (!size) {
-      let i4 = length;
-      while (i4--) size += chunks[i4].length;
+      let i2 = length;
+      while (i2--) size += chunks[i2].length;
     }
-    const b3 = new Uint8Array(size);
+    const b = new Uint8Array(size);
     let offset = size;
-    let i3 = length;
-    while (i3--) {
-      offset -= chunks[i3].length;
-      b3.set(chunks[i3], offset);
+    let i = length;
+    while (i--) {
+      offset -= chunks[i].length;
+      b.set(chunks[i], offset);
     }
-    return b3;
+    return b;
   };
-
-  // node_modules/base64-arraybuffer/dist/base64-arraybuffer.es5.js
-  init_preact_shim();
   var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var lookup = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
-  for (i3 = 0; i3 < chars.length; i3++) {
-    lookup[chars.charCodeAt(i3)] = i3;
+  for (var i = 0; i < chars.length; i++) {
+    lookup[chars.charCodeAt(i)] = i;
   }
-  var i3;
-  var encode = function(arraybuffer) {
-    var bytes = new Uint8Array(arraybuffer), i3, len = bytes.length, base64 = "";
-    for (i3 = 0; i3 < len; i3 += 3) {
-      base64 += chars[bytes[i3] >> 2];
-      base64 += chars[(bytes[i3] & 3) << 4 | bytes[i3 + 1] >> 4];
-      base64 += chars[(bytes[i3 + 1] & 15) << 2 | bytes[i3 + 2] >> 6];
-      base64 += chars[bytes[i3 + 2] & 63];
+  var encode$1 = function(arraybuffer) {
+    var bytes = new Uint8Array(arraybuffer), i, len = bytes.length, base64 = "";
+    for (i = 0; i < len; i += 3) {
+      base64 += chars[bytes[i] >> 2];
+      base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
+      base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
+      base64 += chars[bytes[i + 2] & 63];
     }
     if (len % 3 === 2) {
       base64 = base64.substring(0, base64.length - 1) + "=";
@@ -17885,33 +16906,26 @@ ${doubanPart}`);
     }
     return base64;
   };
-
-  // node_modules/uint8-util/browser.js
-  var decoder = new TextDecoder();
-  var arr2text = (data, enc) => {
-    if (!enc) return decoder.decode(data);
-    const dec = new TextDecoder(enc);
-    return dec.decode(data);
+  const decoder = new TextDecoder();
+  const arr2text = (data, enc) => {
+    return decoder.decode(data);
   };
-  var encoder = new TextEncoder();
-  var text2arr = (str) => encoder.encode(str);
-  var arr2base = (data) => encode(data);
-  var scope = typeof window !== "undefined" ? window : self;
-  var crypto = scope.crypto || scope.msCrypto || {};
-  var subtle = crypto.subtle || crypto.webkitSubtle;
-  var formatMap = {
+  const encoder = new TextEncoder();
+  const text2arr = (str) => encoder.encode(str);
+  const arr2base = (data) => encode$1(data);
+  const scope = typeof window !== "undefined" ? window : self;
+  const crypto = scope.crypto || scope.msCrypto || {};
+  const subtle = crypto.subtle || crypto.webkitSubtle;
+  const formatMap = {
     hex: arr2hex,
     base64: arr2base
   };
-  var hash = async (data, format, algo = "sha-1") => {
+  const hash = async (data, format2, algo = "sha-1") => {
     if (!subtle) throw new Error("no web crypto support");
     if (typeof data === "string") data = text2arr(data);
     const out = new Uint8Array(await subtle.digest(algo, data));
-    return format ? formatMap[format](out) : out;
+    return format2 ? formatMap[format2](out) : out;
   };
-
-  // node_modules/bencode/lib/util.js
-  init_preact_shim();
   function digitCount(value) {
     const sign = value < 0 ? 1 : 0;
     value = Math.abs(Number(value || 1));
@@ -17928,74 +16942,72 @@ ${doubanPart}`);
     if (value instanceof ArrayBuffer) return "arraybuffer";
     return typeof value;
   }
-
-  // node_modules/bencode/lib/encode.js
-  function encode2(data, buffer, offset) {
+  function encode(data, buffer2, offset) {
     const buffers = [];
     let result = null;
-    encode2._encode(buffers, data);
+    encode._encode(buffers, data);
     result = concat(buffers);
-    encode2.bytes = result.length;
-    if (ArrayBuffer.isView(buffer)) {
-      buffer.set(result, offset);
-      return buffer;
+    encode.bytes = result.length;
+    if (ArrayBuffer.isView(buffer2)) {
+      buffer2.set(result, offset);
+      return buffer2;
     }
     return result;
   }
-  encode2.bytes = -1;
-  encode2._floatConversionDetected = false;
-  encode2._encode = function(buffers, data) {
+  encode.bytes = -1;
+  encode._floatConversionDetected = false;
+  encode._encode = function(buffers, data) {
     if (data == null) {
       return;
     }
     switch (getType(data)) {
       case "object":
-        encode2.dict(buffers, data);
+        encode.dict(buffers, data);
         break;
       case "map":
-        encode2.dictMap(buffers, data);
+        encode.dictMap(buffers, data);
         break;
       case "array":
-        encode2.list(buffers, data);
+        encode.list(buffers, data);
         break;
       case "set":
-        encode2.listSet(buffers, data);
+        encode.listSet(buffers, data);
         break;
       case "string":
-        encode2.string(buffers, data);
+        encode.string(buffers, data);
         break;
       case "number":
-        encode2.number(buffers, data);
+        encode.number(buffers, data);
         break;
       case "boolean":
-        encode2.number(buffers, data);
+        encode.number(buffers, data);
         break;
       case "arraybufferview":
-        encode2.buffer(buffers, new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+        encode.buffer(buffers, new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
         break;
       case "arraybuffer":
-        encode2.buffer(buffers, new Uint8Array(data));
+        encode.buffer(buffers, new Uint8Array(data));
         break;
     }
   };
-  var buffE = new Uint8Array([101]);
-  var buffD = new Uint8Array([100]);
-  var buffL = new Uint8Array([108]);
-  encode2.buffer = function(buffers, data) {
+  const buffE = new Uint8Array([101]);
+  const buffD = new Uint8Array([100]);
+  const buffL = new Uint8Array([108]);
+  encode.buffer = function(buffers, data) {
     buffers.push(text2arr(data.length + ":"), data);
   };
-  encode2.string = function(buffers, data) {
+  encode.string = function(buffers, data) {
     buffers.push(text2arr(text2arr(data).byteLength + ":" + data));
   };
-  encode2.number = function(buffers, data) {
+  encode.number = function(buffers, data) {
     if (Number.isInteger(data)) return buffers.push(text2arr("i" + BigInt(data) + "e"));
     const maxLo = 2147483648;
     const hi = data / maxLo << 0;
     const lo = data % maxLo << 0;
     const val = hi * maxLo + lo;
     buffers.push(text2arr("i" + val + "e"));
-    if (val !== data && !encode2._floatConversionDetected) {
-      encode2._floatConversionDetected = true;
+    if (val !== data && !encode._floatConversionDetected) {
+      encode._floatConversionDetected = true;
       console.warn(
         'WARNING: Possible data corruption detected with value "' + data + '":',
         'Bencoding only defines support for integers, value was converted to "' + val + '"'
@@ -18003,81 +17015,77 @@ ${doubanPart}`);
       console.trace();
     }
   };
-  encode2.dict = function(buffers, data) {
+  encode.dict = function(buffers, data) {
     buffers.push(buffD);
-    let j4 = 0;
-    let k4;
+    let j2 = 0;
+    let k2;
     const keys = Object.keys(data).sort();
     const kl = keys.length;
-    for (; j4 < kl; j4++) {
-      k4 = keys[j4];
-      if (data[k4] == null) continue;
-      encode2.string(buffers, k4);
-      encode2._encode(buffers, data[k4]);
+    for (; j2 < kl; j2++) {
+      k2 = keys[j2];
+      if (data[k2] == null) continue;
+      encode.string(buffers, k2);
+      encode._encode(buffers, data[k2]);
     }
     buffers.push(buffE);
   };
-  encode2.dictMap = function(buffers, data) {
+  encode.dictMap = function(buffers, data) {
     buffers.push(buffD);
     const keys = Array.from(data.keys()).sort();
     for (const key of keys) {
       if (data.get(key) == null) continue;
-      ArrayBuffer.isView(key) ? encode2._encode(buffers, key) : encode2.string(buffers, String(key));
-      encode2._encode(buffers, data.get(key));
+      ArrayBuffer.isView(key) ? encode._encode(buffers, key) : encode.string(buffers, String(key));
+      encode._encode(buffers, data.get(key));
     }
     buffers.push(buffE);
   };
-  encode2.list = function(buffers, data) {
-    let i3 = 0;
-    const c3 = data.length;
+  encode.list = function(buffers, data) {
+    let i = 0;
+    const c2 = data.length;
     buffers.push(buffL);
-    for (; i3 < c3; i3++) {
-      if (data[i3] == null) continue;
-      encode2._encode(buffers, data[i3]);
+    for (; i < c2; i++) {
+      if (data[i] == null) continue;
+      encode._encode(buffers, data[i]);
     }
     buffers.push(buffE);
   };
-  encode2.listSet = function(buffers, data) {
+  encode.listSet = function(buffers, data) {
     buffers.push(buffL);
     for (const item of data) {
       if (item == null) continue;
-      encode2._encode(buffers, item);
+      encode._encode(buffers, item);
     }
     buffers.push(buffE);
   };
-  var encode_default = encode2;
-
-  // node_modules/bencode/lib/decode.js
-  init_preact_shim();
-  var INTEGER_START = 105;
-  var STRING_DELIM = 58;
-  var DICTIONARY_START = 100;
-  var LIST_START = 108;
-  var END_OF_TYPE = 101;
-  function getIntFromBuffer(buffer, start, end) {
+  const INTEGER_START = 105;
+  const STRING_DELIM = 58;
+  const DICTIONARY_START = 100;
+  const LIST_START = 108;
+  const END_OF_TYPE = 101;
+  function getIntFromBuffer(buffer2, start, end) {
     let sum = 0;
     let sign = 1;
-    for (let i3 = start; i3 < end; i3++) {
-      const num = buffer[i3];
+    for (let i = start; i < end; i++) {
+      const num = buffer2[i];
       if (num < 58 && num >= 48) {
         sum = sum * 10 + (num - 48);
         continue;
       }
-      if (i3 === start && num === 43) {
+      if (i === start && num === 43) {
         continue;
       }
-      if (i3 === start && num === 45) {
+      if (i === start && num === 45) {
         sign = -1;
         continue;
       }
       if (num === 46) {
         break;
       }
-      throw new Error("not a number: buffer[" + i3 + "] = " + num);
+      throw new Error("not a number: buffer[" + i + "] = " + num);
     }
     return sum * sign;
   }
-  function decode2(data, start, end, encoding) {
+  function decode$1(data, start, end, encoding) {
     if (data == null || data.length === 0) {
       return null;
     }
@@ -18089,82 +17097,78 @@ ${doubanPart}`);
       encoding = end;
       end = void 0;
     }
-    decode2.position = 0;
-    decode2.encoding = encoding || null;
-    decode2.data = !ArrayBuffer.isView(data) ? text2arr(data) : new Uint8Array(data.slice(start, end));
-    decode2.bytes = decode2.data.length;
-    return decode2.next();
+    decode$1.position = 0;
+    decode$1.encoding = encoding || null;
+    decode$1.data = !ArrayBuffer.isView(data) ? text2arr(data) : new Uint8Array(data.slice(start, end));
+    decode$1.bytes = decode$1.data.length;
+    return decode$1.next();
   }
-  decode2.bytes = 0;
-  decode2.position = 0;
-  decode2.data = null;
-  decode2.encoding = null;
-  decode2.next = function() {
-    switch (decode2.data[decode2.position]) {
+  decode$1.bytes = 0;
+  decode$1.position = 0;
+  decode$1.data = null;
+  decode$1.encoding = null;
+  decode$1.next = function() {
+    switch (decode$1.data[decode$1.position]) {
       case DICTIONARY_START:
-        return decode2.dictionary();
+        return decode$1.dictionary();
       case LIST_START:
-        return decode2.list();
+        return decode$1.list();
       case INTEGER_START:
-        return decode2.integer();
+        return decode$1.integer();
       default:
-        return decode2.buffer();
+        return decode$1.buffer();
     }
   };
-  decode2.find = function(chr) {
-    let i3 = decode2.position;
-    const c3 = decode2.data.length;
-    const d3 = decode2.data;
-    while (i3 < c3) {
-      if (d3[i3] === chr) return i3;
-      i3++;
+  decode$1.find = function(chr) {
+    let i = decode$1.position;
+    const c2 = decode$1.data.length;
+    const d2 = decode$1.data;
+    while (i < c2) {
+      if (d2[i] === chr) return i;
+      i++;
     }
     throw new Error(
       'Invalid data: Missing delimiter "' + String.fromCharCode(chr) + '" [0x' + chr.toString(16) + "]"
     );
   };
-  decode2.dictionary = function() {
-    decode2.position++;
+  decode$1.dictionary = function() {
+    decode$1.position++;
     const dict = {};
-    while (decode2.data[decode2.position] !== END_OF_TYPE) {
-      const buffer = decode2.buffer();
-      let key = arr2text(buffer);
-      if (key.includes("\uFFFD")) key = arr2hex(buffer);
-      dict[key] = decode2.next();
+    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
+      const buffer2 = decode$1.buffer();
+      let key = arr2text(buffer2);
+      if (key.includes("�")) key = arr2hex(buffer2);
+      dict[key] = decode$1.next();
     }
-    decode2.position++;
+    decode$1.position++;
     return dict;
   };
-  decode2.list = function() {
-    decode2.position++;
+  decode$1.list = function() {
+    decode$1.position++;
     const lst = [];
-    while (decode2.data[decode2.position] !== END_OF_TYPE) {
-      lst.push(decode2.next());
+    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
+      lst.push(decode$1.next());
     }
-    decode2.position++;
+    decode$1.position++;
     return lst;
   };
-  decode2.integer = function() {
-    const end = decode2.find(END_OF_TYPE);
-    const number = getIntFromBuffer(decode2.data, decode2.position + 1, end);
-    decode2.position += end + 1 - decode2.position;
+  decode$1.integer = function() {
+    const end = decode$1.find(END_OF_TYPE);
+    const number = getIntFromBuffer(decode$1.data, decode$1.position + 1, end);
+    decode$1.position += end + 1 - decode$1.position;
     return number;
   };
-  decode2.buffer = function() {
-    let sep = decode2.find(STRING_DELIM);
-    const length = getIntFromBuffer(decode2.data, decode2.position, sep);
+  decode$1.buffer = function() {
+    let sep = decode$1.find(STRING_DELIM);
+    const length = getIntFromBuffer(decode$1.data, decode$1.position, sep);
     const end = ++sep + length;
-    decode2.position = end;
-    return decode2.encoding ? arr2text(decode2.data.slice(sep, end)) : decode2.data.slice(sep, end);
+    decode$1.position = end;
+    return decode$1.encoding ? arr2text(decode$1.data.slice(sep, end)) : decode$1.data.slice(sep, end);
   };
-  var decode_default = decode2;
-
-  // node_modules/bencode/lib/encoding-length.js
-  init_preact_shim();
   function listLength(list) {
     let length = 1 + 1;
     for (const value of list) {
-      length += encodingLength(value);
+      length += encodingLength$1(value);
     }
     return length;
   }
@@ -18173,17 +17177,17 @@ ${doubanPart}`);
     for (const [key, value] of map) {
       const keyLength = text2arr(key).byteLength;
       length += digitCount(keyLength) + 1 + keyLength;
-      length += encodingLength(value);
+      length += encodingLength$1(value);
     }
     return length;
   }
   function objectLength(value) {
     let length = 1 + 1;
     const keys = Object.keys(value);
-    for (let i3 = 0; i3 < keys.length; i3++) {
-      const keyLength = text2arr(keys[i3]).byteLength;
+    for (let i = 0; i < keys.length; i++) {
+      const keyLength = text2arr(keys[i]).byteLength;
       length += digitCount(keyLength) + 1 + keyLength;
-      length += encodingLength(value[keys[i3]]);
+      length += encodingLength$1(value[keys[i]]);
     }
     return length;
   }
@@ -18195,7 +17199,7 @@ ${doubanPart}`);
     const length = value.byteLength - value.byteOffset;
     return digitCount(length) + 1 + length;
   }
-  function encodingLength(value) {
+  function encodingLength$1(value) {
     const length = 0;
     if (value == null) return length;
     const type = getType(value);
@@ -18219,35 +17223,9 @@ ${doubanPart}`);
         throw new TypeError(`Unsupported value of type "${type}"`);
     }
   }
-  var encoding_length_default = encodingLength;
-
-  // node_modules/bencode/index.js
-  var encodingLength2 = encoding_length_default;
-  var bencode_default = { encode: encode_default, decode: decode_default, byteLength: encoding_length_default, encodingLength: encodingLength2 };
-
-  // node_modules/parse-torrent/index.js
-  var import_fs = __toESM(require_fs(), 1);
-
-  // node_modules/cross-fetch-ponyfill/browser.js
-  init_preact_shim();
-  var Blob2 = self.Blob;
-  var File2 = self.File;
-  var FormData2 = self.FormData;
-  var Headers = self.Headers;
-  var Request = self.Request;
-  var Response = self.Response;
-  var AbortController = self.AbortController;
-  var AbortSignal2 = self.AbortSignal;
-  var fetch2 = self.fetch || (() => {
-    throw new Error("global fetch is not available!");
-  });
-
-  // node_modules/magnet-uri/index.js
-  init_preact_shim();
-
-  // node_modules/@thaunknown/thirty-two/lib/thirty-two/index.js
-  init_preact_shim();
-  var byteTable = [
+  const encodingLength = encodingLength$1;
+  const bencode = { encode, decode: decode$1, byteLength: encodingLength$1, encodingLength };
+  const byteTable = [
     255,
     255,
     26,
@@ -18329,7 +17307,7 @@ ${doubanPart}`);
     255,
     255
   ];
-  var decode3 = function(encoded) {
+  const decode = function(encoded) {
     if (!ArrayBuffer.isView(encoded) && typeof encoded !== "string") {
       throw new TypeError("base32.decode only takes Buffer or string as parameter");
     }
@@ -18341,11 +17319,11 @@ ${doubanPart}`);
       encoded = text2arr(encoded);
     }
     const decoded = new Uint8Array(Math.ceil(encoded.length * 5 / 8));
-    for (let i3 = 0; i3 < encoded.length; i3++) {
-      if (encoded[i3] === 61) {
+    for (let i = 0; i < encoded.length; i++) {
+      if (encoded[i] === 61) {
         break;
       }
-      const encodedByte = encoded[i3] - 48;
+      const encodedByte = encoded[i] - 48;
       if (encodedByte < byteTable.length) {
         plainDigit = byteTable[encodedByte];
         if (shiftIndex <= 3) {
@@ -18371,18 +17349,14 @@ ${doubanPart}`);
     }
     return decoded.subarray(0, plainPos);
   };
-
-  // node_modules/bep53-range/index.js
-  init_preact_shim();
   function parseRange(range) {
     const generateRange = (start, end = start) => Array.from({ length: end - start + 1 }, (cur, idx) => idx + start);
     return range.reduce((acc, cur, idx, arr) => {
-      const r3 = cur.split("-").map((cur2) => parseInt(cur2));
-      return acc.concat(generateRange(...r3));
+      const r2 = cur.split("-").map((cur2) => parseInt(cur2));
+      return acc.concat(generateRange(...r2));
     }, []);
   }
-
-  // node_modules/magnet-uri/index.js
+  /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
   function magnetURIDecode(uri) {
     const result = {};
     const data = uri.split("magnet:?")[1];
@@ -18408,24 +17382,24 @@ ${doubanPart}`);
         result[key] = val;
       }
     });
-    let m3;
+    let m2;
     if (result.xt) {
       const xts = Array.isArray(result.xt) ? result.xt : [result.xt];
       xts.forEach((xt) => {
-        if (m3 = xt.match(/^urn:btih:(.{40})/)) {
-          result.infoHash = m3[1].toLowerCase();
-        } else if (m3 = xt.match(/^urn:btih:(.{32})/)) {
-          result.infoHash = arr2hex(decode3(m3[1]));
-        } else if (m3 = xt.match(/^urn:btmh:1220(.{64})/)) {
-          result.infoHashV2 = m3[1].toLowerCase();
+        if (m2 = xt.match(/^urn:btih:(.{40})/)) {
+          result.infoHash = m2[1].toLowerCase();
+        } else if (m2 = xt.match(/^urn:btih:(.{32})/)) {
+          result.infoHash = arr2hex(decode(m2[1]));
+        } else if (m2 = xt.match(/^urn:btmh:1220(.{64})/)) {
+          result.infoHashV2 = m2[1].toLowerCase();
         }
       });
     }
     if (result.xs) {
       const xss = Array.isArray(result.xs) ? result.xs : [result.xs];
       xss.forEach((xs) => {
-        if (m3 = xs.match(/^urn:btpk:(.{64})/)) {
-          result.publicKey = m3[1].toLowerCase();
+        if (m2 = xs.match(/^urn:btpk:(.{64})/)) {
+          result.publicKey = m2[1].toLowerCase();
         }
       });
     }
@@ -18454,22 +17428,424 @@ ${doubanPart}`);
     result.peerAddresses = Array.from(new Set(result.peerAddresses));
     return result;
   }
-  var magnet_uri_default = magnetURIDecode;
-
-  // node_modules/parse-torrent/index.js
-  var import_path = __toESM(require_path_browserify(), 1);
-  var import_queue_microtask = __toESM(require_queue_microtask(), 1);
+  function assertPath(path2) {
+    if (typeof path2 !== "string") {
+      throw new TypeError("Path must be a string. Received " + JSON.stringify(path2));
+    }
+  }
+  function normalizeStringPosix(path2, allowAboveRoot) {
+    var res = "";
+    var lastSegmentLength = 0;
+    var lastSlash = -1;
+    var dots = 0;
+    var code2;
+    for (var i = 0; i <= path2.length; ++i) {
+      if (i < path2.length)
+        code2 = path2.charCodeAt(i);
+      else if (code2 === 47)
+        break;
+      else
+        code2 = 47;
+      if (code2 === 47) {
+        if (lastSlash === i - 1 || dots === 1) ;
+        else if (lastSlash !== i - 1 && dots === 2) {
+          if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
+            if (res.length > 2) {
+              var lastSlashIndex = res.lastIndexOf("/");
+              if (lastSlashIndex !== res.length - 1) {
+                if (lastSlashIndex === -1) {
+                  res = "";
+                  lastSegmentLength = 0;
+                } else {
+                  res = res.slice(0, lastSlashIndex);
+                  lastSegmentLength = res.length - 1 - res.lastIndexOf("/");
+                }
+                lastSlash = i;
+                dots = 0;
+                continue;
+              }
+            } else if (res.length === 2 || res.length === 1) {
+              res = "";
+              lastSegmentLength = 0;
+              lastSlash = i;
+              dots = 0;
+              continue;
+            }
+          }
+          if (allowAboveRoot) {
+            if (res.length > 0)
+              res += "/..";
+            else
+              res = "..";
+            lastSegmentLength = 2;
+          }
+        } else {
+          if (res.length > 0)
+            res += "/" + path2.slice(lastSlash + 1, i);
+          else
+            res = path2.slice(lastSlash + 1, i);
+          lastSegmentLength = i - lastSlash - 1;
+        }
+        lastSlash = i;
+        dots = 0;
+      } else if (code2 === 46 && dots !== -1) {
+        ++dots;
+      } else {
+        dots = -1;
+      }
+    }
+    return res;
+  }
+  function _format(sep, pathObject) {
+    var dir = pathObject.dir || pathObject.root;
+    var base = pathObject.base || (pathObject.name || "") + (pathObject.ext || "");
+    if (!dir) {
+      return base;
+    }
+    if (dir === pathObject.root) {
+      return dir + base;
+    }
+    return dir + sep + base;
+  }
+  var posix = {
+    // path.resolve([from ...], to)
+    resolve: function resolve() {
+      var resolvedPath = "";
+      var resolvedAbsolute = false;
+      var cwd;
+      for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+        var path2;
+        if (i >= 0)
+          path2 = arguments[i];
+        else {
+          if (cwd === void 0)
+            cwd = process.cwd();
+          path2 = cwd;
+        }
+        assertPath(path2);
+        if (path2.length === 0) {
+          continue;
+        }
+        resolvedPath = path2 + "/" + resolvedPath;
+        resolvedAbsolute = path2.charCodeAt(0) === 47;
+      }
+      resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
+      if (resolvedAbsolute) {
+        if (resolvedPath.length > 0)
+          return "/" + resolvedPath;
+        else
+          return "/";
+      } else if (resolvedPath.length > 0) {
+        return resolvedPath;
+      } else {
+        return ".";
+      }
+    },
+    normalize: function normalize(path2) {
+      assertPath(path2);
+      if (path2.length === 0) return ".";
+      var isAbsolute2 = path2.charCodeAt(0) === 47;
+      var trailingSeparator = path2.charCodeAt(path2.length - 1) === 47;
+      path2 = normalizeStringPosix(path2, !isAbsolute2);
+      if (path2.length === 0 && !isAbsolute2) path2 = ".";
+      if (path2.length > 0 && trailingSeparator) path2 += "/";
+      if (isAbsolute2) return "/" + path2;
+      return path2;
+    },
+    isAbsolute: function isAbsolute(path2) {
+      assertPath(path2);
+      return path2.length > 0 && path2.charCodeAt(0) === 47;
+    },
+    join: function join() {
+      if (arguments.length === 0)
+        return ".";
+      var joined;
+      for (var i = 0; i < arguments.length; ++i) {
+        var arg = arguments[i];
+        assertPath(arg);
+        if (arg.length > 0) {
+          if (joined === void 0)
+            joined = arg;
+          else
+            joined += "/" + arg;
+        }
+      }
+      if (joined === void 0)
+        return ".";
+      return posix.normalize(joined);
+    },
+    relative: function relative(from, to) {
+      assertPath(from);
+      assertPath(to);
+      if (from === to) return "";
+      from = posix.resolve(from);
+      to = posix.resolve(to);
+      if (from === to) return "";
+      var fromStart = 1;
+      for (; fromStart < from.length; ++fromStart) {
+        if (from.charCodeAt(fromStart) !== 47)
+          break;
+      }
+      var fromEnd = from.length;
+      var fromLen = fromEnd - fromStart;
+      var toStart = 1;
+      for (; toStart < to.length; ++toStart) {
+        if (to.charCodeAt(toStart) !== 47)
+          break;
+      }
+      var toEnd = to.length;
+      var toLen = toEnd - toStart;
+      var length = fromLen < toLen ? fromLen : toLen;
+      var lastCommonSep = -1;
+      var i = 0;
+      for (; i <= length; ++i) {
+        if (i === length) {
+          if (toLen > length) {
+            if (to.charCodeAt(toStart + i) === 47) {
+              return to.slice(toStart + i + 1);
+            } else if (i === 0) {
+              return to.slice(toStart + i);
+            }
+          } else if (fromLen > length) {
+            if (from.charCodeAt(fromStart + i) === 47) {
+              lastCommonSep = i;
+            } else if (i === 0) {
+              lastCommonSep = 0;
+            }
+          }
+          break;
+        }
+        var fromCode = from.charCodeAt(fromStart + i);
+        var toCode = to.charCodeAt(toStart + i);
+        if (fromCode !== toCode)
+          break;
+        else if (fromCode === 47)
+          lastCommonSep = i;
+      }
+      var out = "";
+      for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
+        if (i === fromEnd || from.charCodeAt(i) === 47) {
+          if (out.length === 0)
+            out += "..";
+          else
+            out += "/..";
+        }
+      }
+      if (out.length > 0)
+        return out + to.slice(toStart + lastCommonSep);
+      else {
+        toStart += lastCommonSep;
+        if (to.charCodeAt(toStart) === 47)
+          ++toStart;
+        return to.slice(toStart);
+      }
+    },
+    _makeLong: function _makeLong(path2) {
+      return path2;
+    },
+    dirname: function dirname(path2) {
+      assertPath(path2);
+      if (path2.length === 0) return ".";
+      var code2 = path2.charCodeAt(0);
+      var hasRoot = code2 === 47;
+      var end = -1;
+      var matchedSlash = true;
+      for (var i = path2.length - 1; i >= 1; --i) {
+        code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            end = i;
+            break;
+          }
+        } else {
+          matchedSlash = false;
+        }
+      }
+      if (end === -1) return hasRoot ? "/" : ".";
+      if (hasRoot && end === 1) return "//";
+      return path2.slice(0, end);
+    },
+    basename: function basename(path2, ext) {
+      if (ext !== void 0 && typeof ext !== "string") throw new TypeError('"ext" argument must be a string');
+      assertPath(path2);
+      var start = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var i;
+      if (ext !== void 0 && ext.length > 0 && ext.length <= path2.length) {
+        if (ext.length === path2.length && ext === path2) return "";
+        var extIdx = ext.length - 1;
+        var firstNonSlashEnd = -1;
+        for (i = path2.length - 1; i >= 0; --i) {
+          var code2 = path2.charCodeAt(i);
+          if (code2 === 47) {
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else {
+            if (firstNonSlashEnd === -1) {
+              matchedSlash = false;
+              firstNonSlashEnd = i + 1;
+            }
+            if (extIdx >= 0) {
+              if (code2 === ext.charCodeAt(extIdx)) {
+                if (--extIdx === -1) {
+                  end = i;
+                }
+              } else {
+                extIdx = -1;
+                end = firstNonSlashEnd;
+              }
+            }
+          }
+        }
+        if (start === end) end = firstNonSlashEnd;
+        else if (end === -1) end = path2.length;
+        return path2.slice(start, end);
+      } else {
+        for (i = path2.length - 1; i >= 0; --i) {
+          if (path2.charCodeAt(i) === 47) {
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else if (end === -1) {
+            matchedSlash = false;
+            end = i + 1;
+          }
+        }
+        if (end === -1) return "";
+        return path2.slice(start, end);
+      }
+    },
+    extname: function extname(path2) {
+      assertPath(path2);
+      var startDot = -1;
+      var startPart = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var preDotState = 0;
+      for (var i = path2.length - 1; i >= 0; --i) {
+        var code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+        if (end === -1) {
+          matchedSlash = false;
+          end = i + 1;
+        }
+        if (code2 === 46) {
+          if (startDot === -1)
+            startDot = i;
+          else if (preDotState !== 1)
+            preDotState = 1;
+        } else if (startDot !== -1) {
+          preDotState = -1;
+        }
+      }
+      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
+      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+        return "";
+      }
+      return path2.slice(startDot, end);
+    },
+    format: function format(pathObject) {
+      if (pathObject === null || typeof pathObject !== "object") {
+        throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
+      }
+      return _format("/", pathObject);
+    },
+    parse: function parse(path2) {
+      assertPath(path2);
+      var ret = { root: "", dir: "", base: "", ext: "", name: "" };
+      if (path2.length === 0) return ret;
+      var code2 = path2.charCodeAt(0);
+      var isAbsolute2 = code2 === 47;
+      var start;
+      if (isAbsolute2) {
+        ret.root = "/";
+        start = 1;
+      } else {
+        start = 0;
+      }
+      var startDot = -1;
+      var startPart = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var i = path2.length - 1;
+      var preDotState = 0;
+      for (; i >= start; --i) {
+        code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+        if (end === -1) {
+          matchedSlash = false;
+          end = i + 1;
+        }
+        if (code2 === 46) {
+          if (startDot === -1) startDot = i;
+          else if (preDotState !== 1) preDotState = 1;
+        } else if (startDot !== -1) {
+          preDotState = -1;
+        }
+      }
+      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
+      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+        if (end !== -1) {
+          if (startPart === 0 && isAbsolute2) ret.base = ret.name = path2.slice(1, end);
+          else ret.base = ret.name = path2.slice(startPart, end);
+        }
+      } else {
+        if (startPart === 0 && isAbsolute2) {
+          ret.name = path2.slice(1, startDot);
+          ret.base = path2.slice(1, end);
+        } else {
+          ret.name = path2.slice(startPart, startDot);
+          ret.base = path2.slice(startPart, end);
+        }
+        ret.ext = path2.slice(startDot, end);
+      }
+      if (startPart > 0) ret.dir = path2.slice(0, startPart - 1);
+      else if (isAbsolute2) ret.dir = "/";
+      return ret;
+    },
+    sep: "/",
+    delimiter: ":",
+    win32: null,
+    posix: null
+  };
+  posix.posix = posix;
+  var pathBrowserify = posix;
+  const path = /* @__PURE__ */ getDefaultExportFromCjs(pathBrowserify);
+  /*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+  let promise;
+  typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : commonjsGlobal) : (cb) => (promise || (promise = Promise.resolve())).then(cb).catch((err) => setTimeout(() => {
+    throw err;
+  }, 0));
+  /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
   async function parseTorrent(torrentId) {
     if (typeof torrentId === "string" && /^(stream-)?magnet:/.test(torrentId)) {
-      const torrentObj = magnet_uri_default(torrentId);
+      const torrentObj = magnetURIDecode(torrentId);
       if (!torrentObj.infoHash) {
         throw new Error("Invalid torrent identifier");
       }
       return torrentObj;
     } else if (typeof torrentId === "string" && (/^[a-f0-9]{40}$/i.test(torrentId) || /^[a-z2-7]{32}$/i.test(torrentId))) {
-      return magnet_uri_default(`magnet:?xt=urn:btih:${torrentId}`);
+      return magnetURIDecode(`magnet:?xt=urn:btih:${torrentId}`);
     } else if (ArrayBuffer.isView(torrentId) && torrentId.length === 20) {
-      return magnet_uri_default(`magnet:?xt=urn:btih:${arr2hex(torrentId)}`);
+      return magnetURIDecode(`magnet:?xt=urn:btih:${arr2hex(torrentId)}`);
     } else if (ArrayBuffer.isView(torrentId)) {
       return await decodeTorrentFile(torrentId);
     } else if (torrentId && torrentId.infoHash) {
@@ -18486,7 +17862,7 @@ ${doubanPart}`);
   }
   async function decodeTorrentFile(torrent) {
     if (ArrayBuffer.isView(torrent)) {
-      torrent = bencode_default.decode(torrent);
+      torrent = bencode.decode(torrent);
     }
     ensure(torrent.info, "info");
     ensure(torrent.info["name.utf-8"] || torrent.info.name, "info.name");
@@ -18502,7 +17878,7 @@ ${doubanPart}`);
     }
     const result = {
       info: torrent.info,
-      infoBuffer: bencode_default.encode(torrent.info),
+      infoBuffer: bencode.encode(torrent.info),
       name: arr2text(torrent.info["name.utf-8"] || torrent.info.name),
       announce: []
     };
@@ -18528,13 +17904,13 @@ ${doubanPart}`);
     result.announce = Array.from(new Set(result.announce));
     result.urlList = Array.from(new Set(result.urlList));
     const files = torrent.info.files || [torrent.info];
-    result.files = files.map((file, i3) => {
-      const parts = [].concat(result.name, file["path.utf-8"] || file.path || []).map((p3) => ArrayBuffer.isView(p3) ? arr2text(p3) : p3);
+    result.files = files.map((file, i) => {
+      const parts = [].concat(result.name, file["path.utf-8"] || file.path || []).map((p2) => ArrayBuffer.isView(p2) ? arr2text(p2) : p2);
       return {
-        path: import_path.default.join.apply(null, [import_path.default.sep].concat(parts)).slice(1),
+        path: path.join.apply(null, [path.sep].concat(parts)).slice(1),
         name: parts[parts.length - 1],
         length: file.length,
-        offset: files.slice(0, i3).reduce(sumLength, 0)
+        offset: files.slice(0, i).reduce(sumLength, 0)
       };
     });
     result.length = files.reduce(sumLength, 0);
@@ -18563,29 +17939,22 @@ ${doubanPart}`);
     if (parsed.createdBy) {
       torrent["created by"] = parsed.createdBy;
     }
-    if (parsed.comment) {
-      torrent.comment = parsed.comment;
-    }
-    return bencode_default.encode(torrent);
+    return bencode.encode(torrent);
   }
   function sumLength(sum, file) {
     return sum + file.length;
   }
   function splitPieces(buf) {
     const pieces = [];
-    for (let i3 = 0; i3 < buf.length; i3 += 20) {
-      pieces.push(arr2hex(buf.slice(i3, i3 + 20)));
+    for (let i = 0; i < buf.length; i += 20) {
+      pieces.push(arr2hex(buf.slice(i, i + 20)));
     }
     return pieces;
   }
   function ensure(bool, fieldName) {
     if (!bool) throw new Error(`Torrent is missing required field: ${fieldName}`);
   }
-  var parse_torrent_default = parseTorrent;
-
-  // src/source/helper.ts
-  var import_buffer2 = __toESM(require_buffer(), 1);
-  var getVideoType5 = (videoType) => {
+  const getVideoType$c = (videoType) => {
     if (!videoType) {
       return "";
     }
@@ -18609,7 +17978,7 @@ ${doubanPart}`);
     }
     return "";
   };
-  var getCategory2 = (category) => {
+  const getCategory$6 = (category) => {
     if (!category) {
       return "";
     }
@@ -18647,7 +18016,7 @@ ${doubanPart}`);
     }
     return "";
   };
-  var getResolution3 = (resolution) => {
+  const getResolution$2 = (resolution) => {
     resolution = resolution.toLowerCase();
     if (resolution.match(/4k|2160|UHD/ig)) {
       return "2160p";
@@ -18662,7 +18031,7 @@ ${doubanPart}`);
     }
     return resolution;
   };
-  var getFormat2 = (data) => {
+  const getFormat = (data) => {
     if (data.match(/pdf/i)) {
       return "pdf";
     } else if (data.match(/EPUB/i)) {
@@ -18682,12 +18051,12 @@ ${doubanPart}`);
     }
     return "other";
   };
-  var blobToBase64 = (blob) => {
-    return new Promise((resolve, reject) => {
+  const blobToBase64 = (blob) => {
+    return new Promise((resolve2, reject) => {
       const fileReader = new FileReader();
-      fileReader.onload = (e4) => {
-        var _a3;
-        resolve((_a3 = e4.target) == null ? void 0 : _a3.result);
+      fileReader.onload = (e2) => {
+        var _a;
+        resolve2((_a = e2.target) == null ? void 0 : _a.result);
       };
       fileReader.readAsDataURL(blob);
       fileReader.onerror = () => {
@@ -18695,7 +18064,7 @@ ${doubanPart}`);
       };
     });
   };
-  var getTorrentFileData = async (selector = "", torrentLink = "") => {
+  const getTorrentFileData = async (selector = "", torrentLink = "") => {
     let downloadLink = torrentLink || jQuery(selector).attr("href");
     if (!downloadLink) {
       console.warn("Failed to get torrent file download link");
@@ -18712,7 +18081,7 @@ ${doubanPart}`);
         responseType: "arraybuffer",
         timeout: 1e4
       });
-      const result = await parse_torrent_default(import_buffer2.Buffer.from(file));
+      const result = await parseTorrent(buffer.Buffer.from(file));
       const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
         comment: "",
         announce: ["tracker.com"],
@@ -18724,21 +18093,19 @@ ${doubanPart}`);
       const base64 = await blobToBase64(blob);
       return base64;
     } catch (error) {
-      Notification_default2.open({
-        message: $t("\u79CD\u5B50\u6587\u4EF6\u4E0B\u8F7D\u5931\u8D25"),
-        description: $t("\u8BF7\u624B\u52A8\u4E0B\u8F7D")
+      NotificationApi.open({
+        message: $t("种子文件下载失败"),
+        description: $t("请手动下载")
       });
       console.log(error);
       return "";
     }
   };
-
-  // src/source/nexusphp.ts
-  var nexusphp_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
-    let title = formatTorrentTitle((_b2 = (_a3 = jQuery("#top").text().split(/\s{3,}/)) == null ? void 0 : _a3[0]) == null ? void 0 : _b2.trim());
-    let metaInfo = jQuery("td.rowhead:contains('\u57FA\u672C\u4FE1\u606F'), td.rowhead:contains('\u57FA\u672C\u8CC7\u8A0A'),.layui-table td:contains('\u57FA\u672C\u4FE1\u606F')").next().text().replace(/：/g, ":");
-    let subtitle = jQuery("td.rowhead:contains('\u526F\u6807\u9898'), td.rowhead:contains('\u526F\u6A19\u984C')").next().text();
+  const getNexusPHPInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l, _m, _n2, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
+    let title = formatTorrentTitle((_b = (_a = jQuery("#top").text().split(/\s{3,}/)) == null ? void 0 : _a[0]) == null ? void 0 : _b.trim());
+    let metaInfo = jQuery("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ":");
+    let subtitle = jQuery("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
     let siteImdbUrl = jQuery("#kimdb>a").attr("href");
     let descriptionBBCode = getFilterBBCode(jQuery("#kdescr")[0]);
     descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, " ");
@@ -18746,7 +18113,7 @@ ${doubanPart}`);
       descriptionBBCode = descriptionBBCode.replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, "").replace(/(http(s)?)%3A/g, "$1:").replace(/%2F/g, "/");
     }
     if (CURRENT_SITE_NAME === "HDArea") {
-      title = (_d = (_c = jQuery("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d.trim();
+      title = (_d = (_c2 = jQuery("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c2[0]) == null ? void 0 : _d.trim();
     }
     if (CURRENT_SITE_NAME === "SSD") {
       title = formatTorrentTitle(jQuery("#torrent-name").text());
@@ -18756,7 +18123,7 @@ ${doubanPart}`);
     }
     if (CURRENT_SITE_NAME === "TJUPT") {
       const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-      const realTitle = (_g = (_f = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _f[0]) != null ? _g : "";
+      const realTitle = (_g2 = (_f2 = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _f2[0]) != null ? _g2 : "";
       title = realTitle.replace(/\[|\]/g, "");
     }
     if (CURRENT_SITE_NAME === "PTer") {
@@ -18769,10 +18136,10 @@ ${doubanPart}`);
     }
     if (CURRENT_SITE_NAME === "HDChina") {
       const meta = [];
-      jQuery("li:contains('\u57FA\u672C\u4FE1\u606F'):last").next("li").children("i").each(function() {
-        meta.push(jQuery(this).text().replace("\uFF1A", ":"));
+      jQuery("li:contains('基本信息'):last").next("li").children("i").each(function() {
+        meta.push(jQuery(this).text().replace("：", ":"));
       });
-      metaInfo = meta.join("\xA0\xA0\xA0");
+      metaInfo = meta.join("   ");
       subtitle = jQuery("#top").next("h3").text();
     }
     if (CURRENT_SITE_NAME === "OurBits") {
@@ -18796,11 +18163,11 @@ ${doubanPart}`);
       const mediainfo = jQuery("div.codemain > pre:contains('Unique ID')");
       if (mediainfo[0]) {
         mediainfo.each(function() {
-          var _a4;
-          (_a4 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a4.push(jQuery(this).text());
+          var _a2;
+          (_a2 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a2.push(jQuery(this).text());
         });
       }
-      descriptionBBCode = descriptionBBCode.replace(/ 截图对比\(点击空白处展开\)/g, "\u622A\u56FE\u5BF9\u6BD4");
+      descriptionBBCode = descriptionBBCode.replace(/ 截图对比\(点击空白处展开\)/g, "截图对比");
       const comparisonArray = jQuery("fieldset[onclick]").toArray() || [];
       const comparisons = [];
       comparisonArray.forEach((item) => {
@@ -18808,7 +18175,7 @@ ${doubanPart}`);
         jQuery(item).find("a").toArray().forEach((img) => {
           if (img.href) imgs.push(img.href);
         });
-        const title2 = jQuery(item).find("legend").text().replace(" \u622A\u56FE\u5BF9\u6BD4(\u70B9\u51FB\u7A7A\u767D\u5904\u5C55\u5F00):", "").trim();
+        const title2 = jQuery(item).find("legend").text().replace(" 截图对比(点击空白处展开):", "").trim();
         const reason = "";
         comparisons.push({
           title: title2,
@@ -18817,12 +18184,12 @@ ${doubanPart}`);
         });
       });
       TORRENT_INFO.comparisons = comparisons;
-      if (!descriptionBBCode.match("\u8C46\u74E3\u8BC4\u5206")) {
+      if (!descriptionBBCode.match("豆瓣评分")) {
         const imdbRate = jQuery("#kimdb span.imdbwp__rating").text().replace("\nRating: ", "");
-        const doubanInfo = jQuery("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n\u25CE").replace(/\n◎$/, "\n").replace("\u25CERating:", `\u25CEIMDb\u94FE\u63A5:${siteImdbUrl}
-\u25CEIMDb\u8BC4\u5206: ${imdbRate}
-\u25CE\u8C46\u74E3\u94FE\u63A5: ${TORRENT_INFO.doubanUrl}
-\u25CE\u8C46\u74E3\u8BC4\u5206:`);
+        const doubanInfo = jQuery("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n◎").replace(/\n◎$/, "\n").replace("◎Rating:", `◎IMDb链接:${siteImdbUrl}
+◎IMDb评分: ${imdbRate}
+◎豆瓣链接: ${TORRENT_INFO.doubanUrl}
+◎豆瓣评分:`);
         const postUrl = (_k = (_j = jQuery("#kimdb img.imdbwp__img")) == null ? void 0 : _j.attr("src")) != null ? _k : "";
         const doubanPoster = postUrl ? `[img]${postUrl}[/img]
 ` : "";
@@ -18833,7 +18200,7 @@ ${doubanPart}`);
     if (CURRENT_SITE_NAME === "SSD") {
       TORRENT_INFO.doubanUrl = jQuery(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
       const doubanInfo = getFilterBBCode((_l = jQuery(".douban-info artical")) == null ? void 0 : _l[0]);
-      const postUrl = (_n = (_m = jQuery("#kposter").find("img")) == null ? void 0 : _m.attr("src")) != null ? _n : "";
+      const postUrl = (_n2 = (_m = jQuery("#kposter").find("img")) == null ? void 0 : _m.attr("src")) != null ? _n2 : "";
       const doubanPoster = postUrl ? `[img]${postUrl}[/img]
 ` : "";
       TORRENT_INFO.doubanInfo = doubanPoster + (doubanInfo == null ? void 0 : doubanInfo.replace(/\n{2,}/g, "\n")) || "";
@@ -18846,8 +18213,8 @@ ${doubanPart}`);
         const imgs = [];
         if (extraScreenshotDom) {
           extraScreenshotDom.each((index, item) => {
-            var _a4, _b3;
-            imgs.push(`[img]${(_b3 = (_a4 = jQuery(item).attr("src")) == null ? void 0 : _a4.trim()) != null ? _b3 : ""}[/img]`);
+            var _a2, _b2;
+            imgs.push(`[img]${(_b2 = (_a2 = jQuery(item).attr("src")) == null ? void 0 : _a2.trim()) != null ? _b2 : ""}[/img]`);
           });
         }
         const extraScreenshot = imgs.join("");
@@ -18866,8 +18233,8 @@ ${doubanPart}`);
       const imgs = [];
       if (extraScreenshotDom) {
         extraScreenshotDom.each((index, item) => {
-          var _a4, _b3;
-          imgs.push(`[img]${(_b3 = (_a4 = jQuery(item).attr("src")) == null ? void 0 : _a4.trim()) != null ? _b3 : ""}[/img]`);
+          var _a2, _b2;
+          imgs.push(`[img]${(_b2 = (_a2 = jQuery(item).attr("src")) == null ? void 0 : _a2.trim()) != null ? _b2 : ""}[/img]`);
         });
       }
       const extraScreenshot = imgs.join("");
@@ -18881,7 +18248,7 @@ ${extraScreenshot}`;
       siteImdbUrl = jQuery('.layui-interval a[href*="imdb.com/title"]').attr("href");
     }
     const year = (_r = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _r : [];
-    const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo(metaInfo);
+    const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo$1(metaInfo);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const doubanUrl = (_s = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/)) == null ? void 0 : _s[0];
@@ -18916,72 +18283,72 @@ ${extraScreenshot}`;
     } else {
       TORRENT_INFO.area = getAreaCode(processing);
     }
-    const specificCategory = getPreciseCategory(TORRENT_INFO, getCategory2(category || descriptionBBCode));
+    const specificCategory = getPreciseCategory(TORRENT_INFO, getCategory$6(category || descriptionBBCode));
     TORRENT_INFO.category = specificCategory;
-    TORRENT_INFO.videoType = getVideoType5(videoType || TORRENT_INFO.title);
+    TORRENT_INFO.videoType = getVideoType$c(videoType || TORRENT_INFO.title);
     TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
     TORRENT_INFO.size = size ? getSize(size) : 0;
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ""));
     } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
     const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
-    const pageTags = getTagsFromPage();
+    const pageTags = getTagsFromPage$1();
     TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), pageTags);
     if (!TORRENT_INFO.isForbidden && TORRENT_INFO.tags.exclusive) {
       TORRENT_INFO.isForbidden = true;
     }
+    const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
+    if (TORRENT_INFO.mediaInfos.length > 0) {
+      getSpecsFromMediainfo(isBluray);
+    } else {
+      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
+      const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
+      if (mediaInfoOrBDInfo) {
+        TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
+        getSpecsFromMediainfo(isBluray);
+      }
+    }
     const infoFromMediaInfoinfo = getInfoFromMediaInfo((_C = TORRENT_INFO.mediaInfos) == null ? void 0 : _C[0]);
     if (infoFromMediaInfoinfo.subtitles) {
-      for (let i3 = 0; i3 < ((_D = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _D.length); i3++) {
-        if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i3])) {
+      for (let i = 0; i < ((_D = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _D.length); i++) {
+        if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
           TORRENT_INFO.tags.chinese_subtitle = true;
           break;
         }
       }
     }
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
-    TORRENT_INFO.resolution = getResolution3(resolution || TORRENT_INFO.title);
+    TORRENT_INFO.resolution = getResolution$2(resolution || TORRENT_INFO.title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
-    const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
-    if (TORRENT_INFO.mediaInfos.length === 0) {
-      getSpecsFromMediainfo2(isBluray);
-    } else {
-      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-      const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-      if (mediaInfoOrBDInfo) {
-        TORRENT_INFO.mediaInfos = CURRENT_SITE_NAME === "HaresClub" ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
-        getSpecsFromMediainfo2(isBluray);
-      }
-    }
     if (CURRENT_SITE_NAME === "TCCF") {
-      TORRENT_INFO.format = getFormat2(videoType);
+      TORRENT_INFO.format = getFormat(videoType);
     } else {
-      TORRENT_INFO.format = getFormat2(jQuery("#top").text() + subtitle);
+      TORRENT_INFO.format = getFormat(jQuery("#top").text() + subtitle);
     }
   };
-  var getMetaInfo = (metaInfo) => {
-    let resolutionKey = "\u5206\u8FA8\u7387|\u89E3\u6790\u5EA6|\u683C\u5F0F";
-    let videoTypeKey = "\u5A92\u4ECB|\u6765\u6E90|\u8D28\u91CF";
+  const getMetaInfo$1 = (metaInfo) => {
+    let resolutionKey = "分辨率|解析度|格式";
+    let videoTypeKey = "媒介|来源|质量";
     if (CURRENT_SITE_NAME === "SSD") {
-      resolutionKey = "\u5206\u8FA8\u7387|\u89E3\u6790\u5EA6";
-      videoTypeKey = "\u683C\u5F0F";
+      resolutionKey = "分辨率|解析度";
+      videoTypeKey = "格式";
     }
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       videoTypeKey = "encode";
     }
     if (CURRENT_SITE_NAME.match(/TLF|HDHome/i)) {
-      videoTypeKey = "\u5A92\u4ECB";
+      videoTypeKey = "媒介";
     }
     if (CURRENT_SITE_NAME.match(/HDFans/)) {
-      videoTypeKey = "\u6765\u6E90";
+      videoTypeKey = "来源";
     }
-    const category = getMetaValue("\u7C7B\u578B|\u5206\u7C7B|\u985E\u5225", metaInfo);
-    const videoType = getMetaValue(videoTypeKey, metaInfo);
-    const videoCodec = getMetaValue("\u7F16\u7801|\u7DE8\u78BC", metaInfo);
-    const audioCodec = getMetaValue("\u97F3\u9891|\u97F3\u9891\u7F16\u7801", metaInfo);
-    const resolution = getMetaValue(resolutionKey, metaInfo);
-    const processing = getMetaValue("\u5904\u7406|\u8655\u7406|\u5730\u533A", metaInfo);
-    const size = getMetaValue("\u5927\u5C0F", metaInfo);
+    const category = getMetaValue$1("类型|分类|類別", metaInfo);
+    const videoType = getMetaValue$1(videoTypeKey, metaInfo);
+    const videoCodec = getMetaValue$1("编码|編碼", metaInfo);
+    const audioCodec = getMetaValue$1("音频|音频编码", metaInfo);
+    const resolution = getMetaValue$1(resolutionKey, metaInfo);
+    const processing = getMetaValue$1("处理|處理|地区", metaInfo);
+    const size = getMetaValue$1("大小", metaInfo);
     console.log({
       category,
       videoType,
@@ -19001,9 +18368,9 @@ ${extraScreenshot}`;
       size
     };
   };
-  var getMetaValue = (key, metaInfo) => {
-    var _a3, _b2;
-    let regStr = `(${key}):\\s?([^\u4E00-\u9FA5]+)?`;
+  const getMetaValue$1 = (key, metaInfo) => {
+    var _a, _b;
+    let regStr = `(${key}):\\s?([^一-龥]+)?`;
     if (key.match(/大小/)) {
       regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
     }
@@ -19020,22 +18387,22 @@ ${extraScreenshot}`;
       regStr = `(${key}):(.+?)\\s{2,}`;
     }
     if (CURRENT_SITE_NAME === "HDChina" && key.match(/类型/)) {
-      regStr = `(${key}):.+?([^\u4E00-\u9FA5]+)`;
+      regStr = `(${key}):.+?([^一-龥]+)`;
     }
     const reg = new RegExp(regStr, "i");
-    const matchValue = (_b2 = (_a3 = metaInfo.match(reg)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    const matchValue = (_b = (_a = metaInfo.match(reg)) == null ? void 0 : _a[2]) != null ? _b : "";
     if (matchValue) {
       return matchValue.replace(/\s/g, "").trim().toLowerCase();
     }
     return "";
   };
-  var getTagsFromPage = () => {
+  const getTagsFromPage$1 = () => {
     let tags = {};
     if (CURRENT_SITE_NAME === "PTer") {
-      const tagImgs = jQuery("td.rowhead:contains('\u7C7B\u522B\u4E0E\u6807\u7B7E')").next().find("img");
+      const tagImgs = jQuery("td.rowhead:contains('类别与标签')").next().find("img");
       const links = Array.from(tagImgs.map((index, item) => {
-        var _a3, _b2;
-        return (_b2 = (_a3 = jQuery(item).attr("src")) == null ? void 0 : _a3.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b2 : "";
+        var _a, _b;
+        return (_b = (_a = jQuery(item).attr("src")) == null ? void 0 : _a.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b : "";
       }));
       if (links.includes("pter-zz")) {
         tags.chinese_subtitle = true;
@@ -19050,15 +18417,15 @@ ${extraScreenshot}`;
         tags.diy = true;
       }
     } else {
-      const tagText = jQuery("td.rowhead:contains('\u6807\u7B7E')").next().text();
+      const tagText = jQuery("td.rowhead:contains('标签')").next().text();
       tags = getTagsFromSubtitle(tagText);
     }
     return tags;
   };
-  function getSpecsFromMediainfo2(isBluray) {
-    var _a3, _b2;
+  function getSpecsFromMediainfo(isBluray) {
+    var _a, _b;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc((_b2 = (_a3 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a3[0]) != null ? _b2 : "");
+    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc((_b = (_a = TORRENT_INFO.mediaInfos) == null ? void 0 : _a[0]) != null ? _b : "");
     if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
@@ -19066,25 +18433,22 @@ ${extraScreenshot}`;
       TORRENT_INFO.tags = __spreadValues(__spreadValues({}, TORRENT_INFO.tags), mediaTags);
     }
   }
-
-  // src/source/hdt.ts
-  init_preact_shim();
-  var hdt_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f;
+  const getHDTInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2;
     const title = document.title.replace(/HD-Torrents.org\s*-/ig, "").trim();
     const imdbInfoDom = jQuery("#IMDBDetailsInfoHideShowTR .imdbnew2");
     const imdbUlrDom = imdbInfoDom.find(">a");
     const imdbUrl = imdbUlrDom.attr("href") || "";
     const movieName = imdbUlrDom.text();
-    const year = (_b2 = (_a3 = imdbInfoDom.text().match(/Year:\s*(\d{4})/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-    const country = (_d = (_c = imdbInfoDom.text().match(/Country:\s*([^\n]+)/)) == null ? void 0 : _c[1]) != null ? _d : "";
-    const { Category, Size, Genre } = getBasicInfo4();
+    const year = (_b = (_a = imdbInfoDom.text().match(/Year:\s*(\d{4})/)) == null ? void 0 : _a[1]) != null ? _b : "";
+    const country = (_d = (_c2 = imdbInfoDom.text().match(/Country:\s*([^\n]+)/)) == null ? void 0 : _c2[1]) != null ? _d : "";
+    const { Category, Size, Genre } = getBasicInfo$3();
     let tags = getTagsFromSubtitle(title);
     let category = Category.toLowerCase().split(/\s|\//)[0];
     category = Genre.match(/Animation/i) ? "cartoon" : category;
-    const videoType = getVideoType6(Category, title);
+    const videoType = getVideoType$b(Category, title);
     const source = getSourceFromTitle(title);
-    let resolution = (_f = (_e = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _e[0]) != null ? _f : "";
+    let resolution = (_f2 = (_e = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _e[0]) != null ? _f2 : "";
     if (!resolution && (resolution == null ? void 0 : resolution.match(/4k|uhd/i))) {
       resolution = "2160p";
     }
@@ -19128,7 +18492,7 @@ ${extraScreenshot}`;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
     TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
   };
-  var getBasicInfo4 = () => {
+  const getBasicInfo$3 = () => {
     const basicInfo = {
       Category: "",
       Size: "",
@@ -19144,7 +18508,7 @@ ${extraScreenshot}`;
     });
     return basicInfo;
   };
-  var getVideoType6 = (type, title) => {
+  const getVideoType$b = (type, title) => {
     if (type.match(/Remux/i)) {
       return "remux";
     } else if (type.match(/UHD\/Blu-Ray/i)) {
@@ -19163,11 +18527,8 @@ ${extraScreenshot}`;
     }
     return "";
   };
-
-  // src/source/kg.ts
-  init_preact_shim();
-  var kg_default2 = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
+  const getKGInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j;
     const {
       InternetLink,
       Year,
@@ -19179,16 +18540,16 @@ ${extraScreenshot}`;
       RipSpecs = "",
       Subtitles,
       "Language(s)": language
-    } = getBasicInfo5();
+    } = getBasicInfo$2();
     const torrentFileDom = getBasicInfoDom("Download").find("a.index");
     const torrentFileName = torrentFileDom.text().replace(/\.torrent$/, "");
     const fileName = Filename.replace(/\.\w+$/, "");
     const title = formatTorrentTitle(fileName || torrentFileName);
     const imdbUrl = (InternetLink == null ? void 0 : InternetLink.match(/imdb/)) ? InternetLink : "";
-    const [movieName, movieAkaName = ""] = (_a3 = jQuery(".outer h1").text().split("- ")) == null ? void 0 : _a3[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
+    const [movieName, movieAkaName = ""] = (_a = jQuery(".outer h1").text().split("- ")) == null ? void 0 : _a[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
     const country = jQuery(".outer h1 img").attr("alt") || "";
     const year = Year;
-    const size = (_c = (_b2 = Size.match(/\((.+?)\)/)) == null ? void 0 : _b2[1].replace(/,|(bytes)/g, "")) != null ? _c : "";
+    const size = (_c2 = (_b = Size.match(/\((.+?)\)/)) == null ? void 0 : _b[1].replace(/,|(bytes)/g, "")) != null ? _c2 : "";
     let tags = getTagsFromSubtitle(title);
     if (Subtitles.match(/Chinese/i)) {
       tags.chinese_subtitle = true;
@@ -19206,10 +18567,10 @@ ${extraScreenshot}`;
     if (source === "tv") {
       source = "hdtv";
     }
-    let genreVideoType = (_f = (_e = (_d = getBasicInfoDom("Genres").find("tr td>img").attr("src")) == null ? void 0 : _d.match(/genreimages\/(\w+)\.\w+/)) == null ? void 0 : _e[1]) != null ? _f : "";
+    let genreVideoType = (_f2 = (_e = (_d = getBasicInfoDom("Genres").find("tr td>img").attr("src")) == null ? void 0 : _d.match(/genreimages\/(\w+)\.\w+/)) == null ? void 0 : _e[1]) != null ? _f2 : "";
     genreVideoType = RipSpecs.match(/DVD\sFormat/) ? "dvdr" : genreVideoType;
-    const videoType = getVideoType7(title, source, genreVideoType, !!mediaInfo);
-    let resolution = (_h = (_g = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _g[0]) != null ? _h : "";
+    const videoType = getVideoType$a(title, source, genreVideoType, !!mediaInfo);
+    let resolution = (_h = (_g2 = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _g2[0]) != null ? _h : "";
     if (!resolution && resolution.match(/4k|uhd/i)) {
       resolution = "2160p";
     }
@@ -19255,7 +18616,7 @@ ${extraScreenshot}`;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
     TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
   };
-  var getBasicInfo5 = () => {
+  const getBasicInfo$2 = () => {
     const basicInfo = {};
     jQuery(".outer h1~table:first>tbody>tr").each((index, element) => {
       const key = jQuery(element).find("td.heading").text().replace(/\s/g, "");
@@ -19266,7 +18627,7 @@ ${extraScreenshot}`;
     });
     return basicInfo;
   };
-  var getVideoType7 = (title, source, genreVideoType, hasMediainfo) => {
+  const getVideoType$a = (title, source, genreVideoType, hasMediainfo) => {
     if (source) {
       if (source === "bluray") {
         const blurayFlag = genreVideoType === "bluray" || !hasMediainfo;
@@ -19292,26 +18653,23 @@ ${extraScreenshot}`;
     }
     return "";
   };
-  var getBasicInfoDom = (key) => {
+  const getBasicInfoDom = (key) => {
     return jQuery(`.outer h1~table:first>tbody>tr td:contains(${key})`).next("td");
   };
-
-  // src/source/uhd.ts
-  init_preact_shim();
-  var uhd_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f;
+  const getUHDInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2;
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
     }
     const torrentFilePathDom = jQuery(`#files_${torrentId} .filelist_path`);
     const torrentFileDom = jQuery(`#files_${torrentId} .filelist_table>tbody>tr:nth-child(2) td`).eq(0);
-    const torrentFileName = ((_a3 = torrentFilePathDom.text()) == null ? void 0 : _a3.replace(/\//g, "")) || ((_b2 = torrentFileDom.text()) == null ? void 0 : _b2.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, ""));
+    const torrentFileName = ((_a = torrentFilePathDom.text()) == null ? void 0 : _a.replace(/\//g, "")) || ((_b = torrentFileDom.text()) == null ? void 0 : _b.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, ""));
     const title = formatTorrentTitle(torrentFileName);
     const imdbUrl = jQuery(".imovie_title .tooltip.imdb_icon").attr("href") || "";
     const titleText = jQuery("#scontent h2").text();
-    const [movieName = "", movieAkaName = ""] = (_d = (_c = titleText.match(/(.+?)\[/)) == null ? void 0 : _c[1].split("/")) != null ? _d : [];
-    const year = (_f = (_e = titleText.match(/\[(\d+)\]/)) == null ? void 0 : _e[1]) != null ? _f : "";
+    const [movieName = "", movieAkaName = ""] = (_d = (_c2 = titleText.match(/(.+?)\[/)) == null ? void 0 : _c2[1].split("/")) != null ? _d : [];
+    const year = (_f2 = (_e = titleText.match(/\[(\d+)\]/)) == null ? void 0 : _e[1]) != null ? _f2 : "";
     const torrentLink = jQuery(`#torrent${torrentId}`).find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     let tags = getTagsFromSubtitle(title);
@@ -19321,14 +18679,14 @@ ${extraScreenshot}`;
     const infoArray = jQuery(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, "").split("/");
     let [resolution, ...specArray] = infoArray;
     let videoType = specArray.join("|");
-    videoType = getVideoType8(videoType, resolution);
+    videoType = getVideoType$9(videoType, resolution);
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
     const descriptionDom = jQuery(`#torrent_${torrentId} #description`);
     let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, "");
     TORRENT_INFO.originalDescription = descriptionBBCode;
-    getMediaInfo2(torrentId).then(async (data) => {
+    getMediaInfo(torrentId).then(async (data) => {
       if (data) {
         TORRENT_INFO.mediaInfos = [data];
         TORRENT_INFO.description = `${descriptionBBCode}
@@ -19361,14 +18719,14 @@ ${extraScreenshot}`;
     TORRENT_INFO.imdbUrl = imdbUrl;
     TORRENT_INFO.videoType = videoType;
   };
-  var getMediaInfo2 = async (torrentId) => {
+  const getMediaInfo = async (torrentId) => {
     const url = `/torrents.php?action=mediainfo&id=${torrentId}`;
     const data = await fetch(url, {
       responseType: void 0
     });
     return data || "";
   };
-  var getVideoType8 = (videoType, resolution) => {
+  const getVideoType$9 = (videoType, resolution) => {
     videoType = videoType.replace("-", "").toLowerCase();
     if (videoType.match(/bluray/)) {
       if (resolution === "2160p") {
@@ -19384,15 +18742,12 @@ ${extraScreenshot}`;
     }
     return videoType;
   };
-
-  // src/source/btn.ts
-  init_preact_shim();
-  var btn_default = async () => {
+  const getBTNInfo = async () => {
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
     }
-    const torrentInfo2 = getTorrentInfo(torrentId);
+    const torrentInfo2 = getTorrentInfo$9(torrentId);
     const showInfo = await getShowInfo();
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
@@ -19400,21 +18755,21 @@ ${extraScreenshot}`;
     Object.assign(TORRENT_INFO, showInfo);
     return TORRENT_INFO;
   };
-  function getTorrentInfo(torrentId) {
-    var _a3, _b2, _c;
+  function getTorrentInfo$9(torrentId) {
+    var _a, _b, _c2;
     const torrentName = jQuery(`#torrent_${torrentId}`).prev().find("> td").text().replace(/»/, "").trim();
     const { container, source, size } = getSpecs(torrentId);
     const seasonTitle = jQuery("#content > div > h2").contents().last().text().trim();
-    const [season = "", year = ""] = (_b2 = (_a3 = seasonTitle == null ? void 0 : seasonTitle.match(/(.*) \[(\d+)\]/)) == null ? void 0 : _a3.slice(1)) != null ? _b2 : [];
-    const movieName = (_c = jQuery("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _c.replace(/\(\d+\)/, "").trim();
+    const [season = "", year = ""] = (_b = (_a = seasonTitle == null ? void 0 : seasonTitle.match(/(.*) \[(\d+)\]/)) == null ? void 0 : _a.slice(1)) != null ? _b : [];
+    const movieName = (_c2 = jQuery("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _c2.replace(/\(\d+\)/, "").trim();
     const description = getFilterBBCode(jQuery(`#torrent_${torrentId} > td > blockquote`).last()[0]);
-    const videoType = getVideoType9({ torrentName, source });
+    const videoType = getVideoType$8({ torrentName, source });
     const isBluray = videoType.match(/bluray/i);
     const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
     const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
-    const category = getCategory3(season);
+    const category = getCategory$5(season);
     const sourceFrom = getSourceFromTitle(torrentName);
     const torrentLink = jQuery(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
@@ -19436,7 +18791,7 @@ ${extraScreenshot}`;
     };
   }
   async function getShowInfo() {
-    var _a3;
+    var _a;
     const seriesUrl = jQuery("#content > .thin > h2 > a").prop("href");
     const html = await fetch(seriesUrl, {
       responseType: void 0
@@ -19448,13 +18803,13 @@ ${extraScreenshot}`;
       return [tds[0].innerText.trim(), tds[1]];
     }));
     const country = info["Country:"].innerText;
-    const imdbUrl = (_a3 = info["External Links:"].innerHTML.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a3[0];
+    const imdbUrl = (_a = info["External Links:"].innerHTML.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a[0];
     return {
       area: getAreaCode(country),
       imdbUrl
     };
   }
-  var getVideoType9 = ({ torrentName = "", source = "" }) => {
+  const getVideoType$8 = ({ torrentName = "", source = "" }) => {
     if (torrentName.match(/remux/i)) {
       return "remux";
     } else if (["BD50", "BD25"].includes(source)) {
@@ -19468,13 +18823,13 @@ ${extraScreenshot}`;
     }
     return "";
   };
-  function getCategory3(season) {
+  function getCategory$5(season) {
     return season.match(/season/i) ? "tvPack" : "tv";
   }
   function getSpecs(torrentId) {
     const specsDom = jQuery(`#torrent_${torrentId}`).prev().prev();
-    const rawSpecs = specsDom.find("> td > a").text().replace(/»/, "").split("/").map((v3) => v3.trim());
-    const specs = rawSpecs.filter((v3) => !["NFO"].includes(v3));
+    const rawSpecs = specsDom.find("> td > a").text().replace(/»/, "").split("/").map((v2) => v2.trim());
+    const specs = rawSpecs.filter((v2) => !["NFO"].includes(v2));
     const size = specsDom.find("> td").next("td").text().replace(/\s/g, "");
     const [container, videoCodec, source, resolution, group] = specs;
     return {
@@ -19486,24 +18841,21 @@ ${extraScreenshot}`;
       size
     };
   }
-
-  // src/source/avistaz.ts
-  init_preact_shim();
-  var avistaz_default = async () => {
-    const torrentInfo2 = await getTorrentInfo2();
+  const getAvistaZInfo = async () => {
+    const torrentInfo2 = await getTorrentInfo$8();
     torrentInfo2.category = getPreciseCategory(torrentInfo2, torrentInfo2.category);
     Object.assign(TORRENT_INFO, torrentInfo2);
   };
-  var getTorrentInfo2 = async () => {
-    var _a3, _b2, _c, _d, _e;
-    const imdbUrl = (_c = (_b2 = (_a3 = jQuery('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a3.split("?")) == null ? void 0 : _b2[1]) != null ? _c : "";
+  const getTorrentInfo$8 = async () => {
+    var _a, _b, _c2, _d, _e;
+    const imdbUrl = (_c2 = (_b = (_a = jQuery('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a.split("?")) == null ? void 0 : _b[1]) != null ? _c2 : "";
     const movieTitle = jQuery(".block-titled h3 a").text();
     const movieName = movieTitle.split("(")[0].trim();
     const year = (_e = (_d = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _d[1]) != null ? _e : "";
-    let { Type, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo6();
+    let { Type, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo$1();
     const category = Type == null ? void 0 : Type.toLowerCase().replace("-", "");
     const title = formatTorrentTitle(Title);
-    videoType = getVideoType10(videoType, resolution);
+    videoType = getVideoType$7(videoType, resolution);
     const country = jQuery(".fa-flag~.badge-extra:first a").text();
     const area = getAreaCode(country);
     const source = getSourceFromTitle(title);
@@ -19543,7 +18895,7 @@ ${screenshotsBBCode.join("")}`;
       tags: __spreadValues(__spreadValues({}, tags), mediaTags)
     };
   };
-  var getBasicInfo6 = () => {
+  const getBasicInfo$1 = () => {
     const basicInfo = {
       Type: "",
       "File Size": "",
@@ -19559,7 +18911,7 @@ ${screenshotsBBCode.join("")}`;
     });
     return basicInfo;
   };
-  var getVideoType10 = (type, resolution) => {
+  const getVideoType$7 = (type, resolution) => {
     if (type.match(/Remux/i)) {
       return "remux";
     } else if (type.match(/BluRay\s*Raw/i)) {
@@ -19580,11 +18932,8 @@ ${screenshotsBBCode.join("")}`;
     }
     return "";
   };
-
-  // src/source/teamhd.ts
-  init_preact_shim();
-  var teamhd_default = async () => {
-    const torrentInfo2 = await getTorrentInfo3();
+  const getTeamHDInfo = async () => {
+    const torrentInfo2 = await getTorrentInfo$7();
     torrentInfo2.category = getPreciseCategory(torrentInfo2, torrentInfo2.category);
     try {
       let { movieName = "", year } = torrentInfo2;
@@ -19599,15 +18948,15 @@ ${screenshotsBBCode.join("")}`;
     }
     Object.assign(TORRENT_INFO, torrentInfo2);
   };
-  var getTorrentInfo3 = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+  const getTorrentInfo$7 = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l;
     const basicInfoText = jQuery(".download").text().replace(/.+?\//g, "").trim();
-    const year = (_b2 = (_a3 = basicInfoText.match(/\((\d{4})\)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-    const movieName = (_d = (_c = basicInfoText.match(/(.+)\(\d{4}\)/)) == null ? void 0 : _c[1].trim()) != null ? _d : "";
-    const resolution = (_f = (_e = basicInfoText.match(/(\s*(\d+(p|i)))$/i)) == null ? void 0 : _e[2]) != null ? _f : "";
-    const videoType = getVideoType11(basicInfoText, resolution);
-    const size = getSize((_h = (_g = jQuery("#details_hop").text().match(/-\s*(.+?GB)/)) == null ? void 0 : _g[1]) != null ? _h : "");
-    const category = getCategory4(jQuery('#details_hop a[href*="browse/cat"]').attr("href") || "");
+    const year = (_b = (_a = basicInfoText.match(/\((\d{4})\)/)) == null ? void 0 : _a[1]) != null ? _b : "";
+    const movieName = (_d = (_c2 = basicInfoText.match(/(.+)\(\d{4}\)/)) == null ? void 0 : _c2[1].trim()) != null ? _d : "";
+    const resolution = (_f2 = (_e = basicInfoText.match(/(\s*(\d+(p|i)))$/i)) == null ? void 0 : _e[2]) != null ? _f2 : "";
+    const videoType = getVideoType$6(basicInfoText, resolution);
+    const size = getSize((_h = (_g2 = jQuery("#details_hop").text().match(/-\s*(.+?GB)/)) == null ? void 0 : _g2[1]) != null ? _h : "");
+    const category = getCategory$4(jQuery('#details_hop a[href*="browse/cat"]').attr("href") || "");
     const fileName = (_l = (_k = (_j = (_i = jQuery(".download").attr("href")) == null ? void 0 : _i.match(/name=(.+)/)) == null ? void 0 : _j[1].replace(/\.torrent/g, "")) == null ? void 0 : _k.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "")) != null ? _l : "";
     const title = formatTorrentTitle(fileName);
     const source = getSourceFromTitle(title);
@@ -19618,8 +18967,8 @@ ${screenshotsBBCode.join("")}`;
     const eacLogs = jQuery('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
     const mediaInfoOrBDInfo = isBluray ? bdInfo : mediaInfo;
     const screenshotsBBCode = jQuery('#details a[href*="teamhd.org/redirector.php"]').map(function() {
-      var _a4;
-      const url = (_a4 = jQuery(this).attr("href")) == null ? void 0 : _a4.replace(/.+?url=/g, "");
+      var _a2;
+      const url = (_a2 = jQuery(this).attr("href")) == null ? void 0 : _a2.replace(/.+?url=/g, "");
       return `[url=${url}][img]${jQuery(this).find("img").attr("src")}[/img][/url]`;
     }).get();
     const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
@@ -19650,9 +18999,9 @@ ${screenshotsBBCode.join("")}`;
       imdbUrl: ""
     };
   };
-  var getCategory4 = (link) => {
-    var _a3, _b2;
-    const catNum = (_b2 = (_a3 = link == null ? void 0 : link.match(/cat(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+  const getCategory$4 = (link) => {
+    var _a, _b;
+    const catNum = (_b = (_a = link == null ? void 0 : link.match(/cat(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
     const map = {
       29: "movie",
       25: "cartoon",
@@ -19663,7 +19012,7 @@ ${screenshotsBBCode.join("")}`;
     };
     return map[parseInt(catNum, 10)] || "";
   };
-  var getVideoType11 = (type, resolution) => {
+  const getVideoType$6 = (type, resolution) => {
     if (type.match(/Remux/i)) {
       return "remux";
     } else if (type.match(/Blu-Ray.+?Disc/i)) {
@@ -19680,20 +19029,17 @@ ${screenshotsBBCode.join("")}`;
     }
     return "";
   };
-
-  // src/source/hdspace.ts
-  init_preact_shim();
-  var hdspace_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f;
-    const { Name, Category, Size, Description } = getBasicInfo7();
+  const getHDSpaceInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2;
+    const { Name, Category, Size, Description } = getBasicInfo();
     const title = formatTorrentTitle(Name);
     let tags = getTagsFromSubtitle(title);
-    const category = getCategory5(Category, title);
-    let resolution = (_a3 = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _a3[0];
+    const category = getCategory$3(Category, title);
+    let resolution = (_a = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _a[0];
     if (!resolution && title.match(/4k|uhd/i)) {
       resolution = "2160p";
     }
-    const videoType = getVideoType12(Category, title);
+    const videoType = getVideoType$5(Category, title);
     const source = getSourceFromTitle(title);
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
@@ -19715,7 +19061,7 @@ ${screenshotsBBCode.join("")}`;
         tags = __spreadValues(__spreadValues({}, tags), mediaTags);
       }
     }
-    const imdbId = (_d = (_c = (_b2 = jQuery("#imdb").next("script").text()) == null ? void 0 : _b2.match(/mid=(\d+)/)) == null ? void 0 : _c[1]) != null ? _d : "";
+    const imdbId = (_d = (_c2 = (_b = jQuery("#imdb").next("script").text()) == null ? void 0 : _b.match(/mid=(\d+)/)) == null ? void 0 : _c2[1]) != null ? _d : "";
     const imdbData = await fetch(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
       responseType: void 0
     });
@@ -19723,7 +19069,7 @@ ${screenshotsBBCode.join("")}`;
     const imdbUlrDom = jQuery('a[href*="imdb.com/title"]', imdbDom);
     const imdbUrl = imdbUlrDom.attr("href");
     const movieName = imdbUlrDom.text().replace(/\(\d+\)/g, "");
-    const year = (_f = (_e = imdbUlrDom.text().match(/\((\d{4})\)/)) == null ? void 0 : _e[1]) != null ? _f : "";
+    const year = (_f2 = (_e = imdbUlrDom.text().match(/\((\d{4})\)/)) == null ? void 0 : _e[1]) != null ? _f2 : "";
     const country = jQuery('td:contains("Country")', imdbDom).next("td").text();
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
@@ -19741,7 +19087,7 @@ ${screenshotsBBCode.join("")}`;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
     TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
   };
-  var getBasicInfo7 = () => {
+  const getBasicInfo = () => {
     const basicInfo = {
       Name: "",
       Category: "",
@@ -19749,19 +19095,19 @@ ${screenshotsBBCode.join("")}`;
       Description: jQuery("")
     };
     jQuery("#mcol .header").each(function() {
-      var _a3;
+      var _a;
       const key = jQuery(this).text().trim();
       if (!basicInfo[key]) {
         if (key === "Description") {
           basicInfo.Description = jQuery(this).next("td");
         } else {
-          basicInfo[key] = (_a3 = jQuery(this).next("td").text()) == null ? void 0 : _a3.replace(/\n/g, "").trim();
+          basicInfo[key] = (_a = jQuery(this).next("td").text()) == null ? void 0 : _a.replace(/\n/g, "").trim();
         }
       }
     });
     return basicInfo;
   };
-  var getCategory5 = (cat, title) => {
+  const getCategory$3 = (cat, title) => {
     if (cat.match(/movie/i)) {
       return "movie";
     } else if (cat.match(/hdtv/i)) {
@@ -19777,7 +19123,7 @@ ${screenshotsBBCode.join("")}`;
     }
     return "movie";
   };
-  var getVideoType12 = (type, title) => {
+  const getVideoType$5 = (type, title) => {
     if (type.match(/Remux/i)) {
       return "remux";
     } else if (type.match(/Blu-Ray/i) && title.match(/2160p|4k|uhd/i)) {
@@ -19796,20 +19142,17 @@ ${screenshotsBBCode.join("")}`;
     }
     return "";
   };
-
-  // src/source/gpw.ts
-  init_preact_shim();
-  var gpw_default2 = async () => {
+  const getGPWInfo = async () => {
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
     }
-    const data = await getTorrentInfo4(torrentId);
+    const data = await getTorrentInfo$6(torrentId);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     Object.assign(TORRENT_INFO, data);
   };
-  var getTorrentInfo4 = async (torrentId) => {
+  const getTorrentInfo$6 = async (torrentId) => {
     const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
     const { torrent, group } = response;
     const { name: movieName, year, conver: poster, releaseType, region, imdbId, doubanId } = group;
@@ -19819,13 +19162,13 @@ ${screenshotsBBCode.join("")}`;
     let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos, remasterTitle } = torrent;
     fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, "");
     const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, "") || fileList);
-    const category = getCategory6(releaseType);
+    const category = getCategory$2(releaseType);
     const torrentHeaderDom = jQuery(`#torrent${torrentId}`);
     const infoArray = remasterTitle.split(" / ");
     const isRemux = processing.includes("Remux");
-    const videoType = source === "WEB" ? "web" : getVideoType13(container, isRemux, source, resolution, processing);
-    source = getSource2(source, processing, resolution);
-    const tags = getTags2(infoArray);
+    const videoType = source === "WEB" ? "web" : getVideoType$4(container, isRemux, source, resolution, processing);
+    source = getSource$1(source, processing, resolution);
+    const tags = getTags(infoArray);
     const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     const torrentDom = jQuery(`#torrent${torrentId}`).next(".TableTorrent-rowDetail");
@@ -19835,10 +19178,10 @@ ${screenshotsBBCode.join("")}`;
     const mediaInfoOrBDInfo = mediaInfoArray.filter((media) => {
       return videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
     });
-    const mediaInfos = mediaInfoOrBDInfo.map((v3) => v3.trim());
+    const mediaInfos = mediaInfoOrBDInfo.map((v2) => v2.trim());
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo.join("\n\n"));
-    const descriptionData = formatDescriptionData2(description, screenshots, mediaInfoArray);
+    const descriptionData = formatDescriptionData(description, screenshots, mediaInfoArray);
     return {
       sourceSite: CURRENT_SITE_NAME,
       sourceSiteType: CURRENT_SITE_INFO.siteType,
@@ -19862,32 +19205,32 @@ ${screenshotsBBCode.join("")}`;
       tags: __spreadValues(__spreadValues({}, tags), mediaTags)
     };
   };
-  var getCategory6 = (releaseType) => {
+  const getCategory$2 = (releaseType) => {
     const typeMap = {
-      \u957F\u7247: "movie",
-      \u77ED\u7247: "movie",
-      \u5355\u53E3\u559C\u5267: "other",
-      \u8FF7\u4F60\u5267: "tvPack",
-      \u73B0\u573A\u6F14\u51FA: "concert",
-      \u7535\u5F71\u96C6: "movie"
+      长片: "movie",
+      短片: "movie",
+      单口喜剧: "other",
+      迷你剧: "tvPack",
+      现场演出: "concert",
+      电影集: "movie"
     };
     return typeMap[releaseType];
   };
-  var getScreenshots = (torrentDom) => {
-    var _a3;
+  const getScreenshots = (torrentDom) => {
+    var _a;
     const imgList = [];
     const imageDom = torrentDom.find(".scale_image");
-    for (let i3 = 0; i3 < imageDom.length; i3++) {
-      const parent = imageDom[i3].parentElement;
-      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a3 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a3.match(/\.png$/))) {
+    for (let i = 0; i < imageDom.length; i++) {
+      const parent = imageDom[i].parentElement;
+      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a.match(/\.png$/))) {
         imgList.push(parent.getAttribute("href") || "");
       } else {
-        imgList.push(imageDom[i3].getAttribute("src") || "");
+        imgList.push(imageDom[i].getAttribute("src") || "");
       }
     }
     return imgList;
   };
-  var getSource2 = (source, codes, resolution) => {
+  const getSource$1 = (source, codes, resolution) => {
     if (codes.match(/BD100|BD66/i)) {
       return "uhdbluray";
     }
@@ -19896,7 +19239,7 @@ ${screenshotsBBCode.join("")}`;
     }
     return source.replace(/-/g, "").toLowerCase();
   };
-  var getVideoType13 = (container, isRemux, source, resolution, processing) => {
+  const getVideoType$4 = (container, isRemux, source, resolution, processing) => {
     let type = "";
     if (isRemux) {
       type = "remux";
@@ -19915,7 +19258,7 @@ ${screenshotsBBCode.join("")}`;
     }
     return type;
   };
-  var formatDescriptionData2 = (data, screenshots, mediaInfoArray) => {
+  const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
     const element = document.createElement("span");
     element.innerHTML = data;
     let descriptionData = element.textContent || "";
@@ -19930,19 +19273,19 @@ ${screenshotsBBCode.join("")}`;
         descriptionData = descriptionData.replace(new RegExp(screenshot, "g"), `[img]${screenshot}[/img]`);
       }
     });
-    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p22) => {
+    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
       const slash = p1 || "";
-      return p22 ? `${p22}: [${slash}quote]` : `[${slash}quote]`;
+      return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
     });
     descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
     descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
     const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/ig) || [];
     const comparisons = [];
     comparisonArray.forEach((item) => {
-      var _a3, _b2, _c, _d;
+      var _a, _b, _c2, _d;
       descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
-      const reason = (_b2 = (_a3 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-      const title = (_d = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d : "";
+      const reason = (_b = (_a = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a[1]) != null ? _b : "";
+      const title = (_d = (_c2 = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c2[1]) != null ? _d : "";
       const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
       const imgs = [];
       Array.from(new Set(comparisonImgArray)).forEach((item2) => {
@@ -19971,17 +19314,14 @@ ${descriptionData}`;
     }
     return descriptionData;
   };
-  function getTags2(rawTags) {
+  function getTags(rawTags) {
     const knownTags = {};
     for (const rawTag of rawTags) {
       knownTags[rawTag] = true;
     }
     return knownTags;
   }
-
-  // src/source/emp.ts
-  init_preact_shim();
-  var emp_default = async () => {
+  const getEMPInfo = async () => {
     const torrentId = getUrlParam("id");
     if (!torrentId) {
       return false;
@@ -19993,34 +19333,31 @@ ${descriptionData}`;
     TORRENT_INFO.title = title;
     TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, "[color=#000]").replace(/\n\n*/g, "\n");
   };
-
-  // src/source/bdc.ts
-  init_preact_shim();
-  var bdc_default2 = async () => {
-    const torrentInfo2 = await getTorrentInfo5();
+  const getBdcInfo = async () => {
+    const torrentInfo2 = await getTorrentInfo$5();
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = PT_SITE.Bdc.siteType;
     const imdbInfo = getIMDBInfo();
     Object.assign(TORRENT_INFO, torrentInfo2, imdbInfo);
     return TORRENT_INFO;
   };
-  async function getTorrentInfo5() {
-    var _a3, _b2;
+  async function getTorrentInfo$5() {
+    var _a, _b;
     const containerDom = jQuery(".yui-content #details");
     const torrentName = containerDom.find(">table>tbody>tr:first").text();
     const size = containerDom.find(">table:first-child>tbody>tr:nth-child(5) td:last").text();
-    const isTV = (_a3 = containerDom.find(">table:first-child>tbody>tr:nth-child(4) td:last").text()) == null ? void 0 : _a3.includes("TV");
+    const isTV = (_a = containerDom.find(">table:first-child>tbody>tr:nth-child(4) td:last").text()) == null ? void 0 : _a.includes("TV");
     const source = getSourceFromTitle(torrentName);
     const videoCodec = getVideoCodecFromTitle(torrentName);
     const audioCodec = getAudioCodecFromTitle(torrentName);
-    const videoType = getVideoType14({ torrentName, source });
+    const videoType = getVideoType$3({ torrentName, source });
     const description = getFilterBBCode(containerDom.find("table").eq(4).find("tr:last-child td")[0]);
     const isBluray = videoType.match(/bluray/i);
     const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
     const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
     const screenshots = await getScreenshotsFromBBCode(description);
     const tags = getTagsFromSubtitle(torrentName);
-    const year = (_b2 = torrentName.match(/(18|19|20)\d{2}/g)) != null ? _b2 : [];
+    const year = (_b = torrentName.match(/(18|19|20)\d{2}/g)) != null ? _b : [];
     return {
       title: formatTorrentTitle(torrentName),
       size: getSize(size),
@@ -20030,14 +19367,14 @@ ${descriptionData}`;
       videoType,
       description,
       mediaInfos,
-      resolution: getResolution4(torrentName),
+      resolution: getResolution$1(torrentName),
       tags,
       screenshots,
       category: isTV ? "tv" : "movie",
       year: year.pop() || ""
     };
   }
-  function getVideoType14({ torrentName = "", source = "" }) {
+  function getVideoType$3({ torrentName = "", source = "" }) {
     if (torrentName.match(/remux/i)) {
       return "remux";
     } else if (["BD50", "BD25"].includes(source)) {
@@ -20051,7 +19388,7 @@ ${descriptionData}`;
     }
     return "encode";
   }
-  function getResolution4(title) {
+  function getResolution$1(title) {
     title = title.toLowerCase();
     if (title.match(/4k|2160|UHD/ig)) {
       return "2160p";
@@ -20070,8 +19407,8 @@ ${descriptionData}`;
     const infoDom = jQuery("#imdbdetails tr td").last();
     const imdbUrl = infoDom.find('a[href*="imdb.com/title"]').attr("href");
     const info = Object.fromEntries(Array.from(infoDom.find("b")).map((text) => {
-      var _a3, _b2, _c;
-      return [jQuery(text).text().replace(":", ""), (_c = (_b2 = (_a3 = jQuery(text)[0]) == null ? void 0 : _a3.nextSibling) == null ? void 0 : _b2.nodeValue) == null ? void 0 : _c.trim()];
+      var _a, _b, _c2;
+      return [jQuery(text).text().replace(":", ""), (_c2 = (_b = (_a = jQuery(text)[0]) == null ? void 0 : _a.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c2.trim()];
     }));
     const movieName = jQuery("#imdbdetails tr").first().text();
     return {
@@ -20080,10 +19417,7 @@ ${descriptionData}`;
       area: getAreaCode(info.Country)
     };
   }
-
-  // src/source/gazelle-music.ts
-  init_preact_shim();
-  var gazelle_music_default2 = async () => {
+  const getGazelleMusicInfo = async () => {
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
@@ -20091,13 +19425,13 @@ ${descriptionData}`;
     try {
       TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
       TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-      const torrentInfo2 = await getTorrentInfo6(torrentId);
+      const torrentInfo2 = await getTorrentInfo$4(torrentId);
       Object.assign(TORRENT_INFO, torrentInfo2);
     } catch (error) {
       console.log(error);
     }
   };
-  async function getTorrentInfo6(torrentId) {
+  async function getTorrentInfo$4(torrentId) {
     const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
     if (response.group) {
       if (CURRENT_SITE_NAME === "DicMusic") {
@@ -20111,7 +19445,7 @@ ${descriptionData}`;
     }
     const { torrent, group } = response;
     const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
-    const { format, media, encoding, logScore, ripLogIds = [] } = torrent;
+    const { format: format2, media, encoding, logScore, ripLogIds = [] } = torrent;
     const catMap = {
       Applications: "app",
       "E-Books": "ebook",
@@ -20132,8 +19466,8 @@ ${description}`;
     }
     const log = [];
     if (ripLogIds.length > 0) {
-      for (let i3 = 1; i3 < ripLogIds.length; i3++) {
-        log.push(await getLog(logScore, torrentId, ripLogIds[i3]));
+      for (let i = 1; i < ripLogIds.length; i++) {
+        log.push(await getLog(logScore, torrentId, ripLogIds[i]));
       }
     } else if (media === "CD") {
       const logData = await getLog(logScore, torrentId, "0");
@@ -20150,7 +19484,7 @@ ${description}`;
       poster: wikiImage,
       description,
       category: catMap[categoryName] || "other",
-      audioCodec: format.toLowerCase(),
+      audioCodec: format2.toLowerCase(),
       videoType: media.toLowerCase().replace("-", ""),
       musicInfo: {
         name,
@@ -20189,25 +19523,22 @@ ${description}`;
       return response;
     }
   }
-
-  // src/source/mtv.ts
-  init_preact_shim();
-  var mtv_default = async () => {
+  const getMTVInfo = async () => {
     const torrentId = getUrlParam("torrentid");
     if (!torrentId) {
       return false;
     }
-    const torrentInfo2 = await getTorrentInfo7(torrentId);
+    const torrentInfo2 = await getTorrentInfo$3(torrentId);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     Object.assign(TORRENT_INFO, torrentInfo2);
     return TORRENT_INFO;
   };
-  async function getTorrentInfo7(torrentId) {
-    var _a3, _b2;
+  async function getTorrentInfo$3(torrentId) {
+    var _a, _b;
     const imdbUrl = jQuery('.metalinks a[href*="imdb.com/title"]').attr("href");
     const torrentContainer = jQuery(`#torrent${torrentId}`);
-    const [showName] = (_b2 = (_a3 = jQuery(".details>h2").text()) == null ? void 0 : _a3.split("-")) != null ? _b2 : [];
+    const [showName] = (_b = (_a = jQuery(".details>h2").text()) == null ? void 0 : _a.split("-")) != null ? _b : [];
     const torrentName = torrentContainer.find(".permalink").text().trim();
     const size = torrentContainer.find(">td").eq(1).text().trim();
     const source = getSourceFromTitle(torrentName);
@@ -20216,11 +19547,11 @@ ${description}`;
     const description = getFilterBBCode(descriptionContainer[0]);
     const screenshots = await getScreenshotsFromBBCode(description);
     const isBluray = !!jQuery(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
-    const videoType = getVideoType15({ torrentName, source, isBluray });
+    const videoType = getVideoType$2({ torrentName, source, isBluray });
     const mediaInfo = jQuery("div.mediainfo").text();
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec, mediaTags: tags } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
-    const category = getCategory7(torrentName);
+    const { resolution, videoCodec, audioCodec, mediaTags: tags } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle$1(torrentName);
+    const category = getCategory$1(torrentName);
     return {
       title: formatTorrentTitle(torrentName),
       imdbUrl,
@@ -20238,7 +19569,7 @@ ${description}`;
       category
     };
   }
-  var getVideoType15 = ({ torrentName = "", source = "", isBluray = false }) => {
+  const getVideoType$2 = ({ torrentName = "", source = "", isBluray = false }) => {
     if (torrentName.match(/remux/i)) {
       return "remux";
     } else if (source.match(/bluray/) && !isBluray) {
@@ -20246,22 +19577,19 @@ ${description}`;
     }
     return source;
   };
-  function getCategory7(season) {
+  function getCategory$1(season) {
     return season.match(/S\d+E(P)\d+/i) ? "tv" : "tvPack";
   }
-  function getSpecsFromTitle(torrentName) {
-    var _a3;
+  function getSpecsFromTitle$1(torrentName) {
+    var _a;
     return {
       videoCodec: getVideoCodecFromTitle(torrentName),
       audioCodec: getAudioCodecFromTitle(torrentName),
       mediaTags: getTagsFromSubtitle(torrentName),
-      resolution: (_a3 = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a3[0]
+      resolution: (_a = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a[0]
     };
   }
-
-  // src/source/speedapp.ts
-  init_preact_shim();
-  var speedapp_default = async () => {
+  const getSpeedAppInfo = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const imdbUrl = jQuery('a[href*="imdb.com/title"]').attr("href");
@@ -20274,17 +19602,17 @@ ${description}`;
     const imgs = [];
     if (extraScreenshotDom) {
       extraScreenshotDom.each((index, item) => {
-        var _a3, _b2;
-        if (!/\.svg/.test(jQuery(item).attr("src") || "")) imgs.push(`[img]${(_b2 = (_a3 = jQuery(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
+        var _a, _b;
+        if (!/\.svg/.test(jQuery(item).attr("src") || "")) imgs.push(`[img]${(_b = (_a = jQuery(item).attr("src")) == null ? void 0 : _a.trim()) != null ? _b : ""}[/img]`);
       });
     }
     const extraScreenshot = imgs.join("");
     const screenshots = await getScreenshotsFromBBCode(extraScreenshot);
     const isBluray = !!jQuery('span.nav-text:contains("BD Info")');
-    const videoType = getVideoType16({ torrentName, source, isBluray });
+    const videoType = getVideoType$1({ torrentName, source, isBluray });
     const mediaInfo = jQuery("div.mediainfo").text();
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle2(torrentName);
+    const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
     TORRENT_INFO.mediaInfos = [mediaInfo];
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
@@ -20297,7 +19625,7 @@ ${description}`;
     TORRENT_INFO.poster = jQuery(".movie-poster").attr("src");
     TORRENT_INFO.videoType = videoType.toLowerCase();
   };
-  var getVideoType16 = ({ torrentName = "", source = "", isBluray = false }) => {
+  const getVideoType$1 = ({ torrentName = "", source = "", isBluray = false }) => {
     if (torrentName.match(/remux/i)) {
       return "remux";
     } else if (source.match(/bluray/) && !isBluray) {
@@ -20305,38 +19633,35 @@ ${description}`;
     }
     return source;
   };
-  function getSpecsFromTitle2(torrentName) {
-    var _a3;
+  function getSpecsFromTitle(torrentName) {
+    var _a;
     return {
       videoCodec: getVideoCodecFromTitle(torrentName),
       audioCodec: getAudioCodecFromTitle(torrentName),
       mediaTags: getTagsFromSubtitle(torrentName),
-      resolution: (_a3 = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a3[0]
+      resolution: (_a = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a[0]
     };
   }
-
-  // src/source/hh.ts
-  init_preact_shim();
-  var hh_default = async () => {
-    var _a3, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
-    const title = formatTorrentTitle(((_a3 = document.title.match(/"(.+)"/)) == null ? void 0 : _a3[1]) || "");
-    const subTitle = jQuery("div.font-bold.leading-6:contains('\u526F\u6807\u9898')").next().text().replace(/：/g, ":");
-    const metaInfo = getMetaInfo2();
-    const isBluray = !!((_b2 = metaInfo.videoType) == null ? void 0 : _b2.match(/bluray|Blu-ray/i));
+  const getHHInfo = async () => {
+    var _a, _b, _c2, _d, _e, _f2, _g2, _h, _i, _j, _k, _l;
+    const title = formatTorrentTitle(((_a = document.title.match(/"(.+)"/)) == null ? void 0 : _a[1]) || "");
+    const subTitle = jQuery("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ":");
+    const metaInfo = getMetaInfo();
+    const isBluray = !!((_b = metaInfo.videoType) == null ? void 0 : _b.match(/bluray|Blu-ray/i));
     const mediaInfo = jQuery("#mediainfo-raw code").text() || "";
-    const specs = getSpecsFromMediainfo(isBluray, mediaInfo);
+    const specs = getSpecsFromMediainfo$1(isBluray, mediaInfo);
     if (Object.keys(specs).length > 0) {
       Object.assign(metaInfo, specs);
     }
     const imbdDom = jQuery('#kimdb a[href*="imdb.com/title"]');
-    const siteImdbUrl = (_c = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _c : "";
+    const siteImdbUrl = (_c2 = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _c2 : "";
     let movieName = (_e = (_d = imbdDom == null ? void 0 : imbdDom.text()) == null ? void 0 : _d.replace(/\n/g, "").trim()) != null ? _e : "";
     const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
-    const categoryResult = getCategory2(category);
+    const categoryResult = getCategory$6(category);
     const formatSize = getSize(size);
-    const year = (_f = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f : [];
+    const year = (_f2 = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f2 : [];
     const screenshots = jQuery("#screenshot-content img").toArray().map((el) => jQuery(el).attr("src")).filter((url) => url && url !== "");
-    const doubanUrl = (_g = jQuery("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
+    const doubanUrl = (_g2 = jQuery("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g2 : "";
     const isTVCategory = !!categoryResult.match(/tv/);
     const doubanInfo = await getDoubanInfo(doubanUrl, isTVCategory);
     if (!movieName) {
@@ -20352,7 +19677,7 @@ ${description}`;
     screenshots.forEach((url) => {
       description += `[img]${url}[/img]`;
     });
-    const tags = getTagsFromPage2();
+    const tags = getTagsFromPage();
     Object.assign(TORRENT_INFO, {
       title,
       subtitle: subTitle,
@@ -20368,7 +19693,7 @@ ${description}`;
       category: categoryResult,
       size: formatSize,
       tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags),
-      videoType: getVideoType5(videoType),
+      videoType: getVideoType$c(videoType),
       videoCodec,
       audioCodec,
       resolution,
@@ -20377,15 +19702,15 @@ ${description}`;
       area: getAreaCode((_l = doubanInfo == null ? void 0 : doubanInfo.region) != null ? _l : "")
     });
   };
-  var getMetaInfo2 = () => {
-    const meta = getMetaValue2();
-    const category = meta["\u7C7B\u578B"];
-    const videoType = meta["\u6765\u6E90"];
-    const videoCodec = meta["\u7F16\u7801"];
-    const audioCodec = meta["\u97F3\u9891\u7F16\u7801"];
-    const resolution = meta["\u5206\u8FA8\u7387"];
-    const processing = meta["\u5904\u7406"];
-    const size = meta["\u5927\u5C0F"];
+  const getMetaInfo = () => {
+    const meta = getMetaValue();
+    const category = meta["类型"];
+    const videoType = meta["来源"];
+    const videoCodec = meta["编码"];
+    const audioCodec = meta["音频编码"];
+    const resolution = meta["分辨率"];
+    const processing = meta["处理"];
+    const size = meta["大小"];
     console.log({
       category,
       videoType,
@@ -20404,9 +19729,9 @@ ${description}`;
       size
     };
   };
-  var getMetaValue2 = () => {
+  const getMetaValue = () => {
     const result = {};
-    jQuery("div.font-bold.leading-6:contains('\u57FA\u672C\u4FE1\u606F')").next().find("div span").each((index, el) => {
+    jQuery("div.font-bold.leading-6:contains('基本信息')").next().find("div span").each((index, el) => {
       if (index % 2 === 0) {
         const key = jQuery(el).text().replace(/:|：/g, "").trim();
         result[key] = jQuery(el).next().text();
@@ -20414,22 +19739,22 @@ ${description}`;
     });
     return result;
   };
-  var getTagsFromPage2 = () => {
+  const getTagsFromPage = () => {
     const tags = {};
-    const tagText = jQuery("div.font-bold.leading-6:contains('\u6807\u7B7E')").next().text();
-    if (tagText.includes("\u4E2D\u5B57")) {
+    const tagText = jQuery("div.font-bold.leading-6:contains('标签')").next().text();
+    if (tagText.includes("中字")) {
       tags.chinese_subtitle = true;
     }
-    if (tagText.includes("\u56FD\u8BED")) {
+    if (tagText.includes("国语")) {
       tags.chinese_audio = true;
     }
-    if (tagText.includes("\u7CA4\u8BED")) {
+    if (tagText.includes("粤语")) {
       tags.cantonese_audio = true;
     }
     if (tagText.includes("DIY")) {
       tags.diy = true;
     }
-    if (tagText.includes("\u675C\u6BD4\u89C6\u754C")) {
+    if (tagText.includes("杜比视界")) {
       tags.dolbyVision = true;
     }
     if (tagText.includes("HDR")) {
@@ -20437,10 +19762,7 @@ ${description}`;
     }
     return tags;
   };
-
-  // src/source/mt.ts
-  init_preact_shim();
-  var MT_SPECS_MAP = {
+  const MT_SPECS_MAP = {
     source: {
       8: "web",
       1: "bluray",
@@ -20469,7 +19791,7 @@ ${description}`;
       6: "2160p"
     }
   };
-  var mt_default2 = async () => {
+  const getMTInfo = async () => {
     const originalOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function(method, url) {
       this.addEventListener("readystatechange", async function() {
@@ -20477,7 +19799,7 @@ ${description}`;
           if (url.includes("/api/torrent/detail")) {
             const detailData = JSON.parse(this.responseText);
             if (detailData.code === "0") {
-              const info = await getTorrentInfo8(detailData.data);
+              const info = await getTorrentInfo$2(detailData.data);
               Object.assign(TORRENT_INFO, info);
             }
           }
@@ -20493,14 +19815,14 @@ ${description}`;
       originalOpen.apply(this, arguments);
     };
   };
-  var getTorrentInfo8 = async (info) => {
-    var _a3, _b2;
+  const getTorrentInfo$2 = async (info) => {
+    var _a, _b;
     const { name, imdb, douban, category, source, medium, standard, size, mediainfo, descr, smallDescr } = info;
     const title = formatTorrentTitle(name);
-    const year = (_a3 = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _a3 : [];
-    let resolution = getResolution5(standard);
-    const videoType = getVideoType17(medium, title, resolution);
-    let sourceName = getSource3(source, resolution);
+    const year = (_a = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _a : [];
+    let resolution = getResolution(standard);
+    const videoType = getVideoType(medium, title, resolution);
+    let sourceName = getSource(source, resolution);
     if (!sourceName) {
       sourceName = getSourceFromTitle(title);
     }
@@ -20516,13 +19838,13 @@ ${description}`;
     }
     if (mediaInfoOrBDInfo) {
       const infoString = mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0].replace(/\n{1,}/g, "\n");
-      const specs = await getSpecsFromMediainfo(isBluray, infoString);
+      const specs = await getSpecsFromMediainfo$1(isBluray, infoString);
       videoCodec = specs.videoCodec ? specs.videoCodec : videoCodec;
       resolution = specs.resolution ? specs.resolution : resolution;
       mediaTags = specs.mediaTags || {};
     }
     let area = "";
-    const areaMatch = (_b2 = descr.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _b2[2];
+    const areaMatch = (_b = descr.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _b[2];
     if (areaMatch) {
       area = getAreaCode(areaMatch);
     }
@@ -20536,7 +19858,7 @@ ${description}`;
       imdbUrl: imdb,
       doubanUrl: douban,
       size: parseInt(size, 10),
-      category: getCategory8(category),
+      category: getCategory(category),
       videoType,
       resolution,
       source: sourceName,
@@ -20550,7 +19872,7 @@ ${description}`;
       tags: __spreadValues({}, mediaTags)
     };
   };
-  var getCategory8 = (id) => {
+  const getCategory = (id) => {
     const catMap = PT_SITE.MTeam.category.map;
     for (const [key, value] of Object.entries(catMap)) {
       if (value.includes(id)) {
@@ -20559,17 +19881,17 @@ ${description}`;
     }
     return "";
   };
-  var getSource3 = (id, resolution) => {
+  const getSource = (id, resolution) => {
     const sourceName = MT_SPECS_MAP.source[id];
     if (sourceName === "bluray" && resolution === "2160p") {
       return "uhdbluray";
     }
     return sourceName;
   };
-  var getResolution5 = (id) => {
+  const getResolution = (id) => {
     return MT_SPECS_MAP.standard[id];
   };
-  var getVideoType17 = (id, title, resolution) => {
+  const getVideoType = (id, title, resolution) => {
     const videoType = MT_SPECS_MAP.medium[id];
     if (videoType === "bluray" && resolution === "2160p") {
       return "uhdbluray";
@@ -20578,7 +19900,7 @@ ${description}`;
     }
     return videoType;
   };
-  var getMovieInfo = (data) => {
+  const getMovieInfo = (data) => {
     const { year, title, photo } = data;
     return {
       year,
@@ -20586,9 +19908,9 @@ ${description}`;
       poster: photo.full || photo.thumb
     };
   };
-  var getTorrentURL = async () => {
-    var _a3, _b2, _c;
-    const torrentId = (_b2 = (_a3 = location.pathname.match(/detail\/(\d+)/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+  const getTorrentURL = async () => {
+    var _a, _b, _c2;
+    const torrentId = (_b = (_a = location.pathname.match(/detail\/(\d+)/)) == null ? void 0 : _a[1]) != null ? _b : "";
     if (!torrentId) {
       return "";
     }
@@ -20602,51 +19924,46 @@ ${description}`;
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
       }
     });
-    CURRENT_SITE_INFO.torrentLink = (_c = response == null ? void 0 : response.data) != null ? _c : "";
+    CURRENT_SITE_INFO.torrentLink = (_c2 = response == null ? void 0 : response.data) != null ? _c2 : "";
   };
-
-  // src/source/index.ts
-  var siteNameMap = {
-    BeyondHD: bhd_default2,
-    HDBits: hdb_default,
-    Cinematik: tik_default,
-    TTG: ttg_default,
-    HDT: hdt_default,
-    KG: kg_default2,
-    UHDBits: uhd_default,
-    PTP: ptp_default2,
-    BTN: btn_default,
-    TeamHD: teamhd_default,
-    HDSpace: hdspace_default,
-    GPW: gpw_default2,
-    EMP: emp_default,
-    Bdc: bdc_default2,
-    RED: gazelle_music_default2,
-    DicMusic: gazelle_music_default2,
-    MTV: mtv_default,
-    SpeedApp: speedapp_default,
-    HH: hh_default,
-    MTeam: mt_default2,
-    Orpheus: gazelle_music_default2
+  const siteNameMap = {
+    BeyondHD: getBHDInfo,
+    HDBits: getHDBInfo,
+    Cinematik: getTikInfo,
+    TTG: getTTGInfo,
+    HDT: getHDTInfo,
+    KG: getKGInfo,
+    UHDBits: getUHDInfo,
+    PTP: getPTPInfo,
+    BTN: getBTNInfo,
+    TeamHD: getTeamHDInfo,
+    HDSpace: getHDSpaceInfo,
+    GPW: getGPWInfo,
+    EMP: getEMPInfo,
+    Bdc: getBdcInfo,
+    RED: getGazelleMusicInfo,
+    DicMusic: getGazelleMusicInfo,
+    MTV: getMTVInfo,
+    SpeedApp: getSpeedAppInfo,
+    HH: getHHInfo,
+    MTeam: getMTInfo,
+    Orpheus: getGazelleMusicInfo
   };
-  var siteTypeInfoMap = {
-    NexusPHP: nexusphp_default,
-    UNIT3D: unit3d_default,
-    AvistaZ: avistaz_default
+  const siteTypeInfoMap = {
+    NexusPHP: getNexusPHPInfo,
+    UNIT3D: getUNIT3DInfo,
+    AvistaZ: getAvistaZInfo
   };
-  var getTorrentInfo9 = () => Promise.resolve();
+  let getTorrentInfo = () => Promise.resolve();
   if (!CURRENT_SITE_INFO) {
     console.log("do nothing");
   } else if (siteNameMap[CURRENT_SITE_NAME]) {
-    getTorrentInfo9 = siteNameMap[CURRENT_SITE_NAME];
+    getTorrentInfo = siteNameMap[CURRENT_SITE_NAME];
   } else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType]) {
-    getTorrentInfo9 = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
+    getTorrentInfo = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
   }
-  var source_default = getTorrentInfo9;
-
-  // src/site-dom/quick-search.ts
-  init_preact_shim();
-  var filterBluTorrent = (imdb = "", name = "") => {
+  const getTorrentInfo$1 = getTorrentInfo;
+  const filterBluTorrent = (imdb = "", name = "") => {
     if (imdb) {
       jQuery("#imdb").val(imdb);
     } else if (name) {
@@ -20660,7 +19977,7 @@ ${description}`;
       jQuery("#facetedSearch").html(data);
     });
   };
-  var fillSearchImdb = () => {
+  const fillSearchImdb = () => {
     const imdbParam = getUrlParam("imdb");
     const nameParam = getUrlParam("name");
     const searchType = getUrlParam("search_area");
@@ -20676,628 +19993,61 @@ ${description}`;
       }
     }
   };
-
-  // src/site-dom/ptpimg.tsx
-  init_preact_shim();
-  init_preact_module();
-  var _a;
   if (location.host === "ptpimg.me") {
     const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") || "";
     if (!ptpImgApiKey) {
       const div = document.createElement("div");
-      S(/* @__PURE__ */ e3("div", { class: "ptp-api-key-btn", children: /* @__PURE__ */ e3("button", { class: "btn btn-info", onClick: () => {
+      preact.render(/* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: /* @__PURE__ */ u$1("button", { class: "btn btn-info", onClick: () => {
         const apiKey = jQuery("#api_key").val();
         GM_setValue("easy-seed.ptp-img-api-key", apiKey);
-        Notification_default2.open({
+        NotificationApi.open({
           message: "Success!",
           description: "Saved to EasyUpload."
         });
       }, children: [
-        /* @__PURE__ */ e3("i", { class: "glyphicon glyphicon-floppy-saved" }),
-        /* @__PURE__ */ e3("span", { children: "Save ApiKey" })
+        /* @__PURE__ */ u$1("i", { class: "glyphicon glyphicon-floppy-saved" }),
+        /* @__PURE__ */ u$1("span", { children: "Save ApiKey" })
       ] }) }), div);
-      (_a = document.querySelector("#form_file_upload")) == null ? void 0 : _a.appendChild(div);
+      (_c = document.querySelector("#form_file_upload")) == null ? void 0 : _c.appendChild(div);
     }
   }
-
-  // src/style.ts
-  init_preact_shim();
-  var style_default = GM_addStyle(`
-td.title-td{
-  min-width: 80px;
-  vertical-align: middle !important;
-}
-td.title-td h4{
-  text-align: right;
-  margin: 0;
-  font-size: 13px;
-  font-weight: 500;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-#seed-dom button{
-  line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid #dcdfe6;
-  color: #606266;
-  -webkit-appearance: none;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  transition: .1s;
-  font-weight: 500;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  padding: 6px 16px;
-  font-size: 13px;
-  border-radius: 4px;
-  margin:0;
-  margin-right: 5px;
-}
-#seed-dom button:hover {
-  background: #fff;
-  border-color: #409eff;
-  color: #409eff
-}
-#seed-dom button.is-disabled, #seed-dom button.is-disabled:hover {
-  color: #c0c4cc;
-  cursor: not-allowed;
-  background-image: none;
-  background-color: #fff;
-  border-color: #ebeef5;
-}
-.site-list,.search-list{
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.site-list .site-icon{
-  width: 12px;
-  margin-right: 5px;
-}
-.search-list .site-icon{
-  width: 12px;
-  margin-right: 5px;
-}
-.ptp-search-list{
-  display: flex;
-  align-items: center;
-  padding-top:10px;
-  justify-content: center;
-}
-.ptp-search-list h4{
-  margin: 0;
-  min-width: 60px;
-  margin-right: 15px;
-}
-#seed-dom li,.search-list li,.site-list li {
-  font-weight: 600;
-  line-height: 24px;
-  margin-right: 5px;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  padding: 0px;
-  display: flex;
-  align-items: center;
-}
-#seed-dom li a,.search-list li a,.site-list li a {
-  padding-right: 3px;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-.search-list li:last-child span{
-  display: none;
-}
-.easy-seed-function-list{
-  display: flex;
-  justify-content: space-around; 
-  padding: 6px 20px;
-  flex-wrap: wrap;
-}
-.easy-seed-function-list button{
-  line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid #dcdfe6;
-  color: #606266;
-  -webkit-appearance: none;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  transition: .1s;
-  font-weight: 500;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  padding: 8px 20px;
-  font-size: 14px;
-  border-radius: 4px;
-  margin:0;
-  margin-right: 5px;
-}
-.easy-seed-function-list button:hover {
-  background: #fff;
-  border-color: #409eff;
-  color: #409eff
-}
-.easy-seed-function-list button.is-disabled, .easy-seed-function-list button.is-disabled:hover {
-  color: #c0c4cc;
-  cursor: not-allowed;
-  background-image: none;
-  background-color: #fff;
-  border-color: #ebeef5;
-}
-.function-list-item{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.function-list-item input{
-    -webkit-appearance: none;
-    background-color: #fff;
-    background-image: none;
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
-    color: #606266;
-    display: inline-block;
-    font-size: inherit;
-    height: 34px;
-    line-height: 40px;
-    outline: none;
-    width: 200px;
-    padding: 0 12px;
-    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-}
-.function-list-item select{
-  border: 0;
-  font-family: inherit;
-  padding: 5px;
-  font-size: 14px;
-  border-radius: 3px;
-  text-transform: none;
-}
-.function-list-item input::placeholder {
-  color: #c0c4cc
-}
-.function-list-item input:hover {
-  border-color: #c0c4cc
-}
-.function-list-item input:focus {
-    outline: none;
-    border-color: #409eff
-}
-.hdb-tr{
-  display: flex;
-}
-.hdb-tr td:last-child{
-  flex: 1;
-}
-.hdb-tr td:first-child>h4{
-  width:100px;
-}
-.function-list-item h4{
-  margin: 0;
-  padding: 0;
-  margin-right: 10px;
-  font-weight: 600;
-  font-size: 14px;
-}
-.upload-section,.douban-section,.douban-book-section{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.upload-section #nsfw{
-  margin-left: 0;
-  position: static;
-}
-.upload-section label{
-  padding-left: 0;
-}
-#kdescr img{
-  max-width: 100%;
-}
-.easy-seed-setting-btn{
-  display: inline-flex;
-  align-items: center;
-  margin-left: 3px;
-}
-svg.setting-svg{
-  height: 20px;
-  width: 20px;
-  vertical-align: middle;
-  animation: 5s linear rotate infinite;
-  cursor: pointer;
-}
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  };
-}
-.easy-seed-setting-panel{
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2000;
-  background: rgba(0,0,0,0.5);
-  color: #000;
-}
-#batch-seed-btn,#auto-fill-douban{
-  border-color: transparent;
-  color: #409eff;
-  background: transparent;
-  padding-left: 0;
-  padding-right: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-#batch-seed-btn:hover,#auto-fill-douban:hover {
-  color: #66b1ff;
-  border-color: transparent;
-  background-color: transparent
-}
-#batch-seed-btn:active,#auto-fill-douban:active {
-  color: #3a8ee6;
-  background-color: transparent
-}
-#auto-fill-douban{
-  font-size: 14px;
-  display:inline-block;
-}
-.easy-seed-setting-panel *{
-  padding: 0;
-  margin: 0;
-}
-.easy-seed-setting-panel input[type="text"]{
-  -webkit-appearance: none;
-  background-color: #fff;
-  background-image: none;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
-  color: #606266;
-  display: inline-block;
-  font-size: inherit;
-  height: 34px;
-  line-height: 40px;
-  outline: none;
-  width: 200px;
-  padding: 0 12px;
-  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-}
-.easy-seed-setting-panel input[type="text"]::placeholder {
-  color: #c0c4cc
-}
-.easy-seed-setting-panel input[type="text"]:hover {
-  border-color: #c0c4cc
-}
-.easy-seed-setting-panel input[type="text"]:focus {
-    outline: none;
-    border-color: #409eff
-}
-.easy-seed-setting-panel h3,.easy-seed-setting-panel h1{ 
-  color: #000;
-  margin-bottom: 15px;
-}
-.easy-seed-setting-panel .panel-content-wrap{
-  margin-top: 200px;
-  max-width: 800px;
-  box-sizing: border-box;
-  margin: 50px auto;
-  border-radius: 8px;
-  background: #fff;
-  position: relative;
-  text-align:center;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
-  padding: 20px 10px 10px 20px;
-}
-.easy-seed-setting-panel .panel-content{
-  height: 500px;
-  overflow-y: auto;
-}
-.easy-seed-setting-panel .panel-content ul{
-  list-style: none;
-  display: flex;
-  flex-direction:row;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  padding: 0 10px;
-}
-.easy-seed-setting-panel .panel-content li{
-  width: 90px;
-  text-align: left;
-  margin-bottom: 10px;
-}
-.easy-seed-setting-panel .panel-content label{
-  cursor: pointer;
-  color: #000 !important;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-}
-.easy-seed-setting-panel .panel-content label input{
-  margin: 0;
-  margin-right: 3px;
-  padding:0;
-}
-.panel-content p{
-  display: block;
-  margin-bottom: 10px;
-  font-size: 12px;
-}
-.easy-seed-setting-panel button{
-  line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid #dcdfe6;
-  color: #606266;
-  -webkit-appearance: none;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  transition: .1s;
-  font-weight: 500;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  padding: 8px 20px;
-  font-size: 14px;
-  border-radius: 4px;
-  margin:0;
-  margin-right: 5px;
-  margin-bottom: 10px;
-}
-.easy-seed-setting-panel button:hover {
-  background: #fff;
-  border-color: #409eff;
-  color: #409eff
-}
-.easy-seed-setting-panel .confirm-btns {
-  padding-top: 15px;
-}
-.easy-seed-setting-panel .img-upload-setting{
-  margin-bottom: 10px;
-}
-.easy-seed-setting-panel .img-upload-setting label{
-  justify-content: center;
-}
-.easy-seed-setting-panel .img-upload-setting label input{
-  margin-left: 8px;
-  margin-right: 8px;
-}
-.easy-seed-setting-panel .img-upload-setting label a{
-  color: #000;
-  font-weight: 500;
-}
-.easy-seed-setting-panel .img-upload-setting label a:hover{
-  color: #f7d584;
-}
-.feature-list{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 0 50px;
-}
-.feature-list .site-enable-setting{
-  width: 250px;
-  padding-top: 5px;
-  margin-bottom: 8px;
-  text-align: center;
-}
-.easy-seed-setting-panel .save-setting-btn{
-  background-color: #007bff;
-  border-color: #007bff;
-  color:#fff;
-}
-.easy-seed-setting-panel .save-setting-btn:hover{
-  background: #66b1ff;
-  border-color: #66b1ff;
-  color: #fff
-}
-.ptp-api-key-btn{
-  text-align: center;
-}
-.easy-notification{
-  box-sizing: border-box;
-  position: fixed;
-  transition: opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;
-  overflow: hidden;
-  right:0;
-  margin: 0 24px 0 0;
-  color: #000000d9;
-  font-size: 14px;
-  line-height: 1.5715;
-  z-index: 2010;
-}
-.easy-notification-enter{
-  right: 16px;
-  transform: translateX(0);
-}
-.easy-notification-notice{
-    position: relative;
-    width: 300px;
-    max-width: calc(100vw - 48px);
-    margin-bottom: 16px;
-    margin-left: auto;
-    padding: 16px 24px;
-    overflow: hidden;
-    line-height: 1.5715;
-    word-wrap: break-word;
-    background: #fff;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-}
-.notification-message {
-  margin-bottom: 8px;
-  color: #000000d9;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.notification-description{
-  font-size: 14px;
-  line-height: 21px;
-  margin: 6px 0 0;
-  text-align: justify;
-  padding-right: 10px;
-}
-
-.notification-description p {
-  margin: 0
-}
-
-.easy-notification-notice-close svg {
-  height: 14px;
-  width: 14px;
-  font-size: 14px
-}
-.easy-notification-notice-close {
-  position: absolute;
-  top: 13px;
-  right: 15px;
-  cursor: pointer;
-  color: #909399;
-  font-size: 16px
-}
-
-.easy-notification-notice-close:hover {
-  color: #606266
-}
-#transfer-progress{
-  display: none;
-}
-.custom-site{
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-.custom-site h4{
-  flex-shrink: 0;
-  margin: 0;
-  line-height: initial;
-  margin-right: 10px;
-}
-.custom-site .easy-seed-function-list{
-  flex: 1;
-}
-.custom-site img{
-  border-radius: 0px;
-}
-tr.pad[id*="torrent_"]{
-  font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
-}
-.easy-seed-function-list .copy-img{
-  margin-left: 5px;
-}
-.quick-search{
-  cursor: pointer;
-  color: #409eff;
-  font-weight: 600;
-}
-.ptp-title-wrapper{
-  position: relative;
-}
-#seed-dom .ptp-title-wrapper h4{
-  position: absolute;
-  left:0;
-  top: 0;
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center;
-  line-height: 24px;
-}
-#seed-dom .ptp-title-wrapper .site-list li:first-child{
-  padding: 0;
-  padding-left: 95px;
-}
-#seed-dom .ptp-title-wrapper .search-list li:first-child{
-  padding-left: 65px;
-}
-#seed-dom.use-eng  .ptp-title-wrapper .search-list li:first-child{
-  padding-left: 85px;
-}
-#batch-search-btn{
-  color: #409eff;
-  padding-left: 0;
-  padding-right: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-.douban-config {
-  display: flex;
-  justify-content: center;
-}
-.douban-config textarea{
-  resize: none;
-  width: 300px;
-  height: 100px;
-  margin-left: 6px;
-}
-`);
-
-  // src/components/Container.tsx
-  init_preact_shim();
-
-  // src/components/FunctionList.tsx
-  init_preact_shim();
-
-  // src/components/Douban.tsx
-  init_preact_shim();
-  var getTvSeasonData2 = async (data) => {
-    var _a3, _b2;
+  const getTvSeasonData = async (data) => {
+    var _a, _b;
     const { title: torrentTitle } = TORRENT_INFO;
     const { season = "", title } = data;
     if (season) {
-      const seasonNumber = (_b2 = (_a3 = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "1";
+      const seasonNumber = (_b = (_a = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a[1]) != null ? _b : "1";
       if (parseInt(seasonNumber, 10) === 1) {
         return data;
       }
-      const query = title.replace(/第.+?季/, `\u7B2C${seasonNumber}\u5B63`);
+      const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
       const response = await getDoubanIdByIMDB(query);
       return response;
     }
   };
-  var updateTorrentInfo = (data) => {
-    var _a3, _b2;
+  const updateTorrentInfo = (data) => {
+    var _a, _b;
     const desc = data.format;
     TORRENT_INFO.doubanInfo = data.format;
     TORRENT_INFO.subtitle = getSubTitle(data);
-    const areaMatch = (_b2 = (_a3 = desc == null ? void 0 : desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a3[2]) != null ? _b2 : "";
+    const areaMatch = (_b = (_a = desc == null ? void 0 : desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a[2]) != null ? _b : "";
     if (areaMatch) {
       TORRENT_INFO.area = getAreaCode(areaMatch);
     }
     const category = TORRENT_INFO.category;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
   };
-  var Douban = () => {
-    const [btnText, setBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
-    const [bookBtnText, setBookBtnText] = d2("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [searchValue, setSearchValue] = d2("");
+  const Douban = () => {
+    const [btnText, setBtnText] = h("获取豆瓣简介");
+    const [bookBtnText, setBookBtnText] = h("获取豆瓣读书简介");
+    const [btnDisable, setBtnDisable] = h(false);
+    const [searchValue, setSearchValue] = h("");
     const doubanClosed = GM_getValue("easy-seed.douban-closed") || "";
     const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
     const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) && !doubanClosed;
     const getDoubanData = async () => {
       try {
-        setBtnText("\u83B7\u53D6\u4E2D...");
+        setBtnText("获取中...");
         setBtnDisable(true);
         const scriptDoubanLink = jQuery(".douban-dom").attr("douban-link");
         const doubanLink = jQuery(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || searchValue;
@@ -21310,7 +20060,7 @@ tr.pad[id*="torrent_"]{
           if (doubanData) {
             let { id, season = "" } = doubanData;
             if (season) {
-              const tvData = await getTvSeasonData2(doubanData);
+              const tvData = await getTvSeasonData(doubanData);
               if (tvData) {
                 id = tvData.id;
               }
@@ -21325,22 +20075,22 @@ tr.pad[id*="torrent_"]{
             const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
             const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
             if (movieData) {
-              Notification_default2.open({
-                message: $t("\u6210\u529F"),
-                description: $t("\u83B7\u53D6\u6210\u529F")
+              NotificationApi.open({
+                message: $t("成功"),
+                description: $t("获取成功")
               });
               updateTorrentInfo(movieData);
             }
           } else {
-            Notification_default2.open({
-              message: $t("\u6210\u529F"),
-              description: $t("\u83B7\u53D6\u6210\u529F")
+            NotificationApi.open({
+              message: $t("成功"),
+              description: $t("获取成功")
             });
           }
         }
       } catch (error) {
       } finally {
-        setBtnText("\u83B7\u53D6\u8C46\u74E3\u7B80\u4ECB");
+        setBtnText("获取豆瓣简介");
         setBtnDisable(false);
       }
     };
@@ -21352,7 +20102,7 @@ tr.pad[id*="torrent_"]{
         setSearchValue(doubanUrl);
       }
       if (doubanUrl) {
-        setBookBtnText("\u83B7\u53D6\u4E2D...");
+        setBookBtnText("获取中...");
         setBtnDisable(true);
         getDoubanBookInfo(doubanUrl).then((data) => {
           if (data) {
@@ -21361,39 +20111,39 @@ tr.pad[id*="torrent_"]{
             TORRENT_INFO.description = data.book_intro || "";
             TORRENT_INFO.doubanBookInfo = data || null;
           }
-          Notification_default2.open({
-            message: $t("\u6210\u529F"),
-            description: $t("\u83B7\u53D6\u6210\u529F")
+          NotificationApi.open({
+            message: $t("成功"),
+            description: $t("获取成功")
           });
         }).catch((error) => {
           console.log(error);
-          Notification_default2.open({
-            message: $t("\u9519\u8BEF"),
+          NotificationApi.open({
+            message: $t("错误"),
             description: error.message
           });
         }).finally(() => {
-          setBookBtnText("\u83B7\u53D6\u8C46\u74E3\u8BFB\u4E66\u7B80\u4ECB");
+          setBookBtnText("获取豆瓣读书简介");
           setBtnDisable(false);
         });
       } else {
-        Notification_default2.open({
-          message: $t("\u9519\u8BEF"),
-          description: $t("\u7F3A\u5C11\u8C46\u74E3\u94FE\u63A5")
+        NotificationApi.open({
+          message: $t("错误"),
+          description: $t("缺少豆瓣链接")
         });
       }
     };
-    return showSearch ? /* @__PURE__ */ e3(d, { children: [
-      /* @__PURE__ */ e3("div", { className: "function-list-item", children: /* @__PURE__ */ e3("div", { className: "douban-section", children: /* @__PURE__ */ e3(
+    return showSearch ? /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "douban-section", children: /* @__PURE__ */ u$1(
         "input",
         {
           type: "text",
-          placeholder: $t("\u624B\u52A8\u8F93\u5165\u8C46\u74E3\u94FE\u63A5"),
+          placeholder: $t("手动输入豆瓣链接"),
           value: searchValue,
-          onChange: (e4) => setSearchValue(e4.target.value)
+          onChange: (e2) => setSearchValue(e2.target.value)
         }
       ) }) }),
-      /* @__PURE__ */ e3("div", { className: "function-list-item", children: /* @__PURE__ */ e3("div", { className: "douban-section", children: [
-        showSearch && CURRENT_SITE_NAME !== "SoulVoice" && /* @__PURE__ */ e3(
+      /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "douban-section", children: [
+        showSearch && CURRENT_SITE_NAME !== "SoulVoice" && /* @__PURE__ */ u$1(
           "button",
           {
             id: "douban-info",
@@ -21403,7 +20153,7 @@ tr.pad[id*="torrent_"]{
             children: $t(btnText)
           }
         ),
-        showSearch && CURRENT_SITE_NAME === "SoulVoice" && /* @__PURE__ */ e3(
+        showSearch && CURRENT_SITE_NAME === "SoulVoice" && /* @__PURE__ */ u$1(
           "button",
           {
             disabled: btnDisable,
@@ -21416,27 +20166,23 @@ tr.pad[id*="torrent_"]{
       ] }) })
     ] }) : null;
   };
-  var Douban_default = Douban;
-
-  // src/components/Transfer.tsx
-  init_preact_shim();
-  var Transfer = () => {
-    const [imgHost, setImgHost] = d2("imgbox");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [btnText, setBtnText] = d2("\u8F6C\u7F29\u7565\u56FE");
-    const [progress, setProgress] = d2(-1);
-    const [imgList, setImgList] = d2([]);
+  const Transfer = () => {
+    const [imgHost, setImgHost] = h("imgbox");
+    const [btnDisable, setBtnDisable] = h(false);
+    const [btnText, setBtnText] = h("转缩略图");
+    const [progress, setProgress] = h(-1);
+    const [imgList, setImgList] = h([]);
     const getThumbnailImgs = async () => {
-      var _a3, _b2, _c;
+      var _a, _b, _c2;
       try {
         const comparisons = TORRENT_INFO.comparisons || [];
-        const allImgs = TORRENT_INFO.screenshots.concat(...comparisons.map((v3) => v3.imgs));
+        const allImgs = TORRENT_INFO.screenshots.concat(...comparisons.map((v2) => v2.imgs));
         const imgList2 = [...new Set(allImgs)];
         setImgList(imgList2);
         if (imgList2.length < 1) {
-          throw new Error($t("\u83B7\u53D6\u56FE\u7247\u5217\u8868\u5931\u8D25"));
+          throw new Error($t("获取图片列表失败"));
         }
-        setBtnText("\u8F6C\u6362\u4E2D...");
+        setBtnText("转换中...");
         setBtnDisable(true);
         setProgress(0);
         const hostMap = {
@@ -21453,12 +20199,12 @@ tr.pad[id*="torrent_"]{
           const rawHtml = await fetch(selectHost.replace("/json", ""), {
             responseType: void 0
           });
-          authToken = (_a3 = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)) == null ? void 0 : _a3[1];
+          authToken = (_a = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)) == null ? void 0 : _a[1];
         } else if (imgHost === "imgbox") {
           const rawHtml = await fetch("https://imgbox.com", {
             responseType: void 0
           });
-          authToken = (_b2 = rawHtml.match(/content="(.+)" name="csrf-token"/)) == null ? void 0 : _b2[1];
+          authToken = (_b = rawHtml.match(/content="(.+)" name="csrf-token"/)) == null ? void 0 : _b[1];
           tokenSecret = await fetch("https://imgbox.com/ajax/token/generate", {
             responseType: "json",
             method: "POST",
@@ -21469,7 +20215,7 @@ tr.pad[id*="torrent_"]{
         }
         if (imgHost === "HDB") {
           const imgContent = await uploadToHDB(imgList2, TORRENT_INFO.title);
-          uploadedImgs = (_c = imgContent == null ? void 0 : imgContent.split("\n")) != null ? _c : [];
+          uploadedImgs = (_c2 = imgContent == null ? void 0 : imgContent.split("\n")) != null ? _c2 : [];
         } else {
           for (let index = 0; index < imgList2.length; index++) {
             let data;
@@ -21493,9 +20239,9 @@ tr.pad[id*="torrent_"]{
           TORRENT_INFO.screenshots = uploadedImgs.slice(0, TORRENT_INFO.screenshots.length);
           let { description } = TORRENT_INFO;
           imgList2.forEach((img, index) => {
-            var _a4, _b3;
+            var _a2, _b2;
             if (img.match(/i\.hdbits\.org/)) {
-              const imgId = (_b3 = (_a4 = img.match(/i\.hdbits\.org\/(.+)\./)) == null ? void 0 : _a4[1]) != null ? _b3 : "";
+              const imgId = (_b2 = (_a2 = img.match(/i\.hdbits\.org\/(.+)\./)) == null ? void 0 : _a2[1]) != null ? _b2 : "";
               const urlReg = new RegExp(`\\[url=https://img.hdbits.org/${imgId}\\].+?\\[\\/url\\]
 *`, "ig");
               if (description.match(urlReg)) {
@@ -21513,24 +20259,24 @@ tr.pad[id*="torrent_"]{
             }
           });
           TORRENT_INFO.description = description;
-          Notification_default2.open({
-            message: $t("\u6210\u529F"),
-            description: $t("\u8F6C\u6362\u6210\u529F\uFF01")
+          NotificationApi.open({
+            message: $t("成功"),
+            description: $t("转换成功！")
           });
         }
       } catch (error) {
-        Notification_default2.open({
-          message: $t("\u9519\u8BEF"),
+        NotificationApi.open({
+          message: $t("错误"),
           description: error.message
         });
       } finally {
-        setBtnText("\u8F6C\u7F29\u7565\u56FE");
+        setBtnText("转缩略图");
         setBtnDisable(false);
       }
     };
     const transferImgClosed = getValue("easy-seed.transfer-img-closed", false) || "";
-    return !(transferImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ e3("div", { className: "function-list-item", children: /* @__PURE__ */ e3("div", { className: "upload-section", children: [
-      /* @__PURE__ */ e3(
+    return !(transferImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
+      /* @__PURE__ */ u$1(
         "button",
         {
           className: btnDisable ? "is-disabled" : "",
@@ -21539,21 +20285,21 @@ tr.pad[id*="torrent_"]{
           children: $t(btnText)
         }
       ),
-      /* @__PURE__ */ e3(
+      /* @__PURE__ */ u$1(
         "select",
         {
           value: imgHost,
-          onChange: (e4) => setImgHost(e4.target.value),
+          onChange: (e2) => setImgHost(e2.target.value),
           children: [
-            /* @__PURE__ */ e3("option", { value: "imgbox", children: "imgbox" }),
-            /* @__PURE__ */ e3("option", { value: "imgbb", children: "imgbb" }),
-            /* @__PURE__ */ e3("option", { value: "gifyu", children: "gifyu" }),
-            /* @__PURE__ */ e3("option", { value: "pixhost", children: "pixhost" }),
-            /* @__PURE__ */ e3("option", { value: "HDB", children: "HDB" })
+            /* @__PURE__ */ u$1("option", { value: "imgbox", children: "imgbox" }),
+            /* @__PURE__ */ u$1("option", { value: "imgbb", children: "imgbb" }),
+            /* @__PURE__ */ u$1("option", { value: "gifyu", children: "gifyu" }),
+            /* @__PURE__ */ u$1("option", { value: "pixhost", children: "pixhost" }),
+            /* @__PURE__ */ u$1("option", { value: "HDB", children: "HDB" })
           ]
         }
       ),
-      /* @__PURE__ */ e3(
+      /* @__PURE__ */ u$1(
         "div",
         {
           id: "transfer-progress",
@@ -21563,25 +20309,21 @@ tr.pad[id*="torrent_"]{
       )
     ] }) }) : null;
   };
-  var Transfer_default = Transfer;
-
-  // src/components/UploadImg.tsx
-  init_preact_shim();
-  var UploadImg = () => {
-    const [selectHost, setSelectHost] = d2("ptpimg");
-    const [btnDisable, setBtnDisable] = d2(false);
-    const [btnText, setBtnText] = d2("\u8F6C\u5B58\u622A\u56FE");
-    const [canCopy, setCanCopy] = d2(false);
-    const [screenBBCode, setScreenBBCode] = d2([]);
-    const [copyText, setCopyText] = d2("\u62F7\u8D1D");
+  const UploadImg = () => {
+    const [selectHost, setSelectHost] = h("ptpimg");
+    const [btnDisable, setBtnDisable] = h(false);
+    const [btnText, setBtnText] = h("转存截图");
+    const [canCopy, setCanCopy] = h(false);
+    const [screenBBCode, setScreenBBCode] = h([]);
+    const [copyText, setCopyText] = h("拷贝");
     const uploadScreenshotsToAnother = async () => {
-      var _a3;
+      var _a;
       const screenshots = TORRENT_INFO.screenshots;
-      setBtnText("\u4E0A\u4F20\u4E2D\uFF0C\u8BF7\u7A0D\u5019...");
+      setBtnText("上传中，请稍候...");
       setBtnDisable(true);
       try {
         setCanCopy(false);
-        setCopyText("\u62F7\u8D1D");
+        setCopyText("拷贝");
         const imgData = [];
         if (selectHost === "ptpimg") {
           for (let index = 0; index < screenshots.length; index++) {
@@ -21597,7 +20339,7 @@ tr.pad[id*="torrent_"]{
           const gifyuHtml = await fetch("https://gifyu.com", {
             responseType: void 0
           });
-          const authToken = (_a3 = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a3[1];
+          const authToken = (_a = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a[1];
           for (let index = 0; index < screenshots.length; index++) {
             const originalImg = await getOriginalImgUrl(screenshots[index]);
             const data = await transferImgs(originalImg, authToken, "https://gifyu.com/json");
@@ -21607,8 +20349,8 @@ tr.pad[id*="torrent_"]{
           }
         }
         if (imgData.length > 0) {
-          Notification_default2.open({
-            message: $t("\u6210\u529F"),
+          NotificationApi.open({
+            message: $t("成功"),
             description: ""
           });
         }
@@ -21634,18 +20376,18 @@ ${screenBBcodeArray.join("")}`;
         TORRENT_INFO.description = `${description}
 ${screenBBcodeArray.join("")}`;
       } catch (error) {
-        Notification_default2.open({
-          message: $t("\u9519\u8BEF"),
+        NotificationApi.open({
+          message: $t("错误"),
           description: error.message
         });
       } finally {
-        setBtnText("\u8F6C\u5B58\u622A\u56FE");
+        setBtnText("转存截图");
         setBtnDisable(false);
       }
     };
     const uploadImgClosed = GM_getValue("easy-seed.upload-img-closed") || "";
-    return !(uploadImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ e3("div", { className: "function-list-item", children: /* @__PURE__ */ e3("div", { className: "upload-section", children: [
-      /* @__PURE__ */ e3(
+    return !(uploadImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
+      /* @__PURE__ */ u$1(
         "button",
         {
           disabled: btnDisable,
@@ -21654,43 +20396,33 @@ ${screenBBcodeArray.join("")}`;
           children: $t(btnText)
         }
       ),
-      /* @__PURE__ */ e3("select", { value: selectHost, onChange: (e4) => setSelectHost(e4.target.value), children: [
-        /* @__PURE__ */ e3("option", { value: "ptpimg", children: "ptpimg" }),
-        /* @__PURE__ */ e3("option", { value: "gifyu", children: "gifyu" })
+      /* @__PURE__ */ u$1("select", { value: selectHost, onChange: (e2) => setSelectHost(e2.target.value), children: [
+        /* @__PURE__ */ u$1("option", { value: "ptpimg", children: "ptpimg" }),
+        /* @__PURE__ */ u$1("option", { value: "gifyu", children: "gifyu" })
       ] }),
-      /* @__PURE__ */ e3(
+      /* @__PURE__ */ u$1(
         "button",
         {
           className: "copy-img",
           hidden: !canCopy,
           onClick: () => {
             GM_setClipboard(screenBBCode.join(""));
-            setCopyText("\u5DF2\u62F7\u8D1D");
+            setCopyText("已拷贝");
           },
           children: $t(copyText)
         }
       )
     ] }) }) : null;
   };
-  var UploadImg_default = UploadImg;
-
-  // src/components/FunctionList.tsx
-  var FunctionList = () => {
-    return /* @__PURE__ */ e3("section", { className: "easy-seed-function-list", children: [
-      /* @__PURE__ */ e3(Douban_default, {}),
-      /* @__PURE__ */ e3(Transfer_default, {}),
-      /* @__PURE__ */ e3(UploadImg_default, {})
+  const FunctionList = () => {
+    return /* @__PURE__ */ u$1("section", { className: "easy-seed-function-list", children: [
+      /* @__PURE__ */ u$1(Douban, {}),
+      /* @__PURE__ */ u$1(Transfer, {}),
+      /* @__PURE__ */ u$1(UploadImg, {})
     ] });
   };
-  var FunctionList_default = FunctionList;
-
-  // src/components/SearchList.tsx
-  init_preact_shim();
-
-  // src/components/common.ts
-  init_preact_shim();
-  var getQuickSearchUrl = (siteName) => {
-    var _a3;
+  const getQuickSearchUrl = (siteName) => {
+    var _a;
     const siteInfo = PT_SITE[siteName];
     const searchConfig = siteInfo.search;
     const { params = {}, imdbOptionKey, nameOptionKey, path: path2, replaceKey } = searchConfig;
@@ -21704,7 +20436,7 @@ ${screenBBcodeArray.join("")}`;
         searchKeyWord = imdbId;
       }
     } else if (CURRENT_SITE_NAME.match(/RED|DicMusic|Orpheus/)) {
-      const { year = "", name = "" } = (_a3 = musicJson == null ? void 0 : musicJson.group) != null ? _a3 : {};
+      const { year = "", name = "" } = (_a = musicJson == null ? void 0 : musicJson.group) != null ? _a : {};
       searchKeyWord = `${name} ${year}`;
     } else {
       searchKeyWord = movieAkaName || movieName || title;
@@ -21729,9 +20461,7 @@ ${screenBBcodeArray.join("")}`;
     }
     return url;
   };
-
-  // src/components/SearchList.tsx
-  var SearchList = () => {
+  const SearchList = () => {
     const handleSearchClickEvent = (siteName) => {
       let openUrl = "";
       const attrUrl = jQuery(`.search-list li>a[data-site="${siteName}"]`).data("url");
@@ -21771,36 +20501,32 @@ ${screenBBcodeArray.join("")}`;
         handleSearchClickEvent(site);
       });
     };
-    return /* @__PURE__ */ e3(d, { children: ["commonSites", "subtitlesSites"].map((key, index) => {
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: ["commonSites", "subtitlesSites"].map((key, index) => {
       const siteList = getSearchSites()[key];
-      return siteList.length > 0 ? /* @__PURE__ */ e3("ul", { className: "search-list", children: [
+      return siteList.length > 0 ? /* @__PURE__ */ u$1("ul", { className: "search-list", children: [
         siteList.map((siteName) => {
           const siteInfo = PT_SITE[siteName];
           const favIcon = !siteFaviconClosed && siteInfo.icon ? siteInfo.icon : "";
-          return /* @__PURE__ */ e3("li", { children: [
-            /* @__PURE__ */ e3(
+          return /* @__PURE__ */ u$1("li", { children: [
+            /* @__PURE__ */ u$1(
               "a",
               {
                 "data-site": siteName,
                 onClick: () => handleSearchClickEvent(siteName),
                 children: [
-                  !!favIcon && /* @__PURE__ */ e3("img", { src: favIcon, className: "site-icon" }),
+                  !!favIcon && /* @__PURE__ */ u$1("img", { src: favIcon, className: "site-icon" }),
                   siteName
                 ]
               }
             ),
-            /* @__PURE__ */ e3("span", { children: "|" })
+            /* @__PURE__ */ u$1("span", { children: "|" })
           ] }, siteName);
         }),
-        index === 0 && /* @__PURE__ */ e3("li", { id: "batch-search-btn", onClick: batchSearchClick, title: $t("\u540C\u65F6\u6253\u5F00\u591A\u4E2A\u641C\u7D22\u6807\u7B7E\u9875"), children: $t("\u6279\u91CF\u68C0\u7D22") })
+        index === 0 && /* @__PURE__ */ u$1("li", { id: "batch-search-btn", onClick: batchSearchClick, title: $t("同时打开多个搜索标签页"), children: $t("批量检索") })
       ] }) : "";
     }) });
   };
-  var SearchList_default = SearchList;
-
-  // src/components/UploadSiteList.tsx
-  init_preact_shim();
-  var getPTPGroupId = async (imdbUrl) => {
+  const getPTPGroupId = async (imdbUrl) => {
     if (!imdbUrl) {
       return "";
     }
@@ -21815,12 +20541,12 @@ ${screenBBcodeArray.join("")}`;
     }
     return "";
   };
-  var openBatchSeedTabs = () => {
+  const openBatchSeedTabs = () => {
     const batchSeedSetting = getValue("easy-seed.enabled-batch-seed-sites") || [];
     if (batchSeedSetting.length === 0) {
-      Notification_default2.open({
-        message: $t("\u9519\u8BEF"),
-        description: $t("\u8BF7\u5148\u8BBE\u7F6E\u7FA4\u8F6C\u5217\u8868")
+      NotificationApi.open({
+        message: $t("错误"),
+        description: $t("请先设置群转列表")
       });
       return false;
     }
@@ -21841,12 +20567,12 @@ ${screenBBcodeArray.join("")}`;
         }
       }
     });
-    Notification_default2.open({
-      message: $t("\u6210\u529F"),
-      description: $t("\u8F6C\u79CD\u9875\u9762\u5DF2\u6253\u5F00\uFF0C\u8BF7\u524D\u5F80\u5BF9\u5E94\u9875\u9762\u64CD\u4F5C")
+    NotificationApi.open({
+      message: $t("成功"),
+      description: $t("转种页面已打开，请前往对应页面操作")
     });
   };
-  var getGPWGroupId = async (imdbUrl) => {
+  const getGPWGroupId = async (imdbUrl) => {
     if (!imdbUrl) {
       return "";
     }
@@ -21861,7 +20587,7 @@ ${screenBBcodeArray.join("")}`;
     }
     return "";
   };
-  var UploadSiteList = () => {
+  const UploadSiteList = () => {
     const handleSiteClickEvent = async (url) => {
       if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
         const catMap = {
@@ -21922,14 +20648,14 @@ ${screenBBcodeArray.join("")}`;
         }
       }
       if (TORRENT_INFO.isForbidden) {
-        const result = window.confirm($t("\u672C\u79CD\u5B50\u53EF\u80FD\u7981\u6B62\u8F6C\u8F7D\uFF0C\u786E\u5B9A\u8981\u7EE7\u7EED\u8F6C\u8F7D\u4E48\uFF1F"));
+        const result = window.confirm($t("本种子可能禁止转载，确定要继续转载么？"));
         if (!result) {
           return;
         }
       }
       if (CURRENT_SITE_NAME === "TTG" && !TORRENT_INFO.description) {
-        Notification_default2.open({
-          description: $t("\u8BF7\u7B49\u5F85\u9875\u9762\u52A0\u8F7D\u5B8C\u6210")
+        NotificationApi.open({
+          description: $t("请等待页面加载完成")
         });
         return;
       }
@@ -21946,103 +20672,94 @@ ${screenBBcodeArray.join("")}`;
     };
     const targetSitesEnabled = getValue("easy-seed.enabled-target-sites") || [];
     const siteFaviconClosed = getValue("easy-seed.site-favicon-closed", false) || "";
-    return /* @__PURE__ */ e3("ul", { className: "site-list", children: [
+    return /* @__PURE__ */ u$1("ul", { className: "site-list", children: [
       SORTED_SITE_KEYS.map((siteName) => {
         const siteInfo = PT_SITE[siteName];
         const { url, uploadPath } = siteInfo;
         const favIcon = siteFaviconClosed === "" && siteInfo.icon ? siteInfo.icon : "";
         if (siteInfo.asTarget) {
           if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
-            return /* @__PURE__ */ e3("li", { children: [
-              /* @__PURE__ */ e3(
+            return /* @__PURE__ */ u$1("li", { children: [
+              /* @__PURE__ */ u$1(
                 "a",
                 {
                   className: "site-item",
                   onClick: () => handleSiteClickEvent(`${url}${uploadPath}`),
                   children: [
-                    !!favIcon && /* @__PURE__ */ e3("img", { src: favIcon, className: "site-icon" }),
+                    !!favIcon && /* @__PURE__ */ u$1("img", { src: favIcon, className: "site-icon" }),
                     siteName
                   ]
                 }
               ),
-              /* @__PURE__ */ e3("span", { children: "|" })
+              /* @__PURE__ */ u$1("span", { children: "|" })
             ] }, siteName);
           }
         }
         return "";
       }),
-      /* @__PURE__ */ e3("li", { children: /* @__PURE__ */ e3("button", { id: "batch-seed-btn", onClick: openBatchSeedTabs, children: $t("\u4E00\u952E\u7FA4\u8F6C") }) })
+      /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("button", { id: "batch-seed-btn", onClick: openBatchSeedTabs, children: $t("一键群转") }) })
     ] });
   };
-  var UploadSiteList_default = UploadSiteList;
-
-  // src/components/SettingPanel.tsx
-  init_preact_shim();
-
-  // src/components/conf/index.ts
-  init_preact_shim();
-  var SiteListConfig = [
+  const SiteListConfig = [
     {
       name: "enabled-target-sites",
       class: "target-sites-enable-list",
-      title: "\u8F6C\u79CD\u7AD9\u70B9\u542F\u7528",
+      title: "转种站点启用",
       key: "targetEnabled"
     },
     {
       name: "enabled-search-site-list",
       class: "search-sites-enable-list",
-      title: "\u7AD9\u70B9\u641C\u7D22\u542F\u7528",
+      title: "站点搜索启用",
       key: "searchEnabled"
     },
     {
       name: "enabled-batch-seed-sites",
       class: "batch-seed-sites-enable-list",
-      title: "\u6279\u91CF\u8F6C\u79CD\u542F\u7528",
+      title: "批量转种启用",
       key: "batchEnabled",
-      des: "\u4E00\u952E\u6279\u91CF\u8F6C\u53D1\u5230\u4EE5\u4E0B\u9009\u4E2D\u7684\u7AD9\u70B9"
+      des: "一键批量转发到以下选中的站点"
     }
   ];
-  var FeatureSwitchList = [
+  const FeatureSwitchList = [
     {
       name: "quick-search-closed",
-      des: "\u5173\u95ED\u5FEB\u901F\u68C0\u7D22",
+      des: "关闭快速检索",
       type: "checkbox",
       key: "quickSearchClosed"
     },
     {
       name: "transfer-img-closed",
-      des: "\u5173\u95ED\u8F6C\u7F29\u7565\u56FE\u529F\u80FD",
+      des: "关闭转缩略图功能",
       type: "checkbox",
       key: "transferImgClosed"
     },
     {
       name: "upload-img-closed",
-      des: "\u5173\u95ED\u8F6C\u5B58ptpimg\u529F\u80FD",
+      des: "关闭转存ptpimg功能",
       type: "checkbox",
       key: "uploadImgClosed"
     },
     {
       name: "site-favicon-closed",
-      des: "\u5173\u95ED\u7AD9\u70B9\u56FE\u6807\u663E\u793A",
+      des: "关闭站点图标显示",
       type: "checkbox",
       key: "siteFaviconClosed"
     },
     {
       name: "thanks-quote-closed",
-      des: "\u4E0D\u663E\u793A\u81F4\u8C22\u5185\u5BB9",
+      des: "不显示致谢内容",
       type: "checkbox",
       key: "thanksQuoteClosed"
     },
     {
       name: "douban-closed",
-      des: "\u4E0D\u663E\u793A\u8C46\u74E3\u6309\u94AE\u548C\u8C46\u74E3\u94FE\u63A5",
+      des: "不显示豆瓣按钮和豆瓣链接",
       type: "checkbox",
       key: "doubanClosed"
     }
   ];
-
-  // src/components/SettingPanel.tsx
-  var SettingPanel = (props) => {
+  const SettingPanel = (props) => {
     const getSiteSetList = () => {
       const targetSitesEnabled = getValue("easy-seed.enabled-target-sites") || [];
       const batchSeedSiteEnabled = getValue("easy-seed.enabled-batch-seed-sites") || [];
@@ -22070,8 +20787,8 @@ ${screenBBcodeArray.join("")}`;
     const featureList = getFeatureList();
     const siteList = getSiteSetList();
     const { closePanel } = props;
-    const [ptpImgApiKey, setPtpImgApiKey] = d2(getValue("easy-seed.ptp-img-api-key", false) || "");
-    const [doubanCookie, setDoubanCookie] = d2(getValue("easy-seed.douban-cookie", false) || "");
+    const [ptpImgApiKey, setPtpImgApiKey] = h(getValue("easy-seed.ptp-img-api-key", false) || "");
+    const [doubanCookie, setDoubanCookie] = h(getValue("easy-seed.douban-cookie", false) || "");
     const saveSetting = () => {
       const targetSitesEnabled = [];
       const searchSitesEnabled = [];
@@ -22098,9 +20815,9 @@ ${screenBBcodeArray.join("")}`;
         });
         window.location.reload();
       } catch (error) {
-        Notification_default2.open({
-          message: $t("\u9519\u8BEF"),
-          description: $t("\u4FDD\u5B58\u672C\u5730\u7AD9\u70B9\u8BBE\u7F6E\u5931\u8D25")
+        NotificationApi.open({
+          message: $t("错误"),
+          description: $t("保存本地站点设置失败")
         });
       }
     };
@@ -22114,17 +20831,17 @@ ${screenBBcodeArray.join("")}`;
       featureInfo.checked = !featureInfo.checked;
       featureList[index] = featureInfo;
     };
-    return /* @__PURE__ */ e3("div", { className: "easy-seed-setting-panel", children: /* @__PURE__ */ e3("div", { className: "panel-content-wrap", children: [
-      /* @__PURE__ */ e3("div", { className: "panel-content", children: [
+    return /* @__PURE__ */ u$1("div", { className: "easy-seed-setting-panel", children: /* @__PURE__ */ u$1("div", { className: "panel-content-wrap", children: [
+      /* @__PURE__ */ u$1("div", { className: "panel-content", children: [
         SiteListConfig.map((config) => {
-          return /* @__PURE__ */ e3("div", { children: [
-            /* @__PURE__ */ e3("h3", { children: $t(config.title) }),
-            config.des && /* @__PURE__ */ e3("p", { children: $t(config.des) }),
-            /* @__PURE__ */ e3("section", { className: "site-enable-setting", children: /* @__PURE__ */ e3("ul", { className: config.class, children: siteList.map((siteInfo, index) => {
+          return /* @__PURE__ */ u$1("div", { children: [
+            /* @__PURE__ */ u$1("h3", { children: $t(config.title) }),
+            config.des && /* @__PURE__ */ u$1("p", { children: $t(config.des) }),
+            /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("ul", { className: config.class, children: siteList.map((siteInfo, index) => {
               const siteData = PT_SITE[siteInfo.site];
               if (siteData.asTarget && config.key !== "searchEnabled" || config.key === "searchEnabled" && siteData.search) {
-                return /* @__PURE__ */ e3("li", { children: /* @__PURE__ */ e3("label", { children: [
-                  /* @__PURE__ */ e3(
+                return /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("label", { children: [
+                  /* @__PURE__ */ u$1(
                     "input",
                     {
                       onChange: () => handleCheckChange(config.key, index),
@@ -22140,32 +20857,32 @@ ${screenBBcodeArray.join("")}`;
             }) }) })
           ] }, config.name);
         }),
-        /* @__PURE__ */ e3("h3", { children: $t("\u56FE\u5E8A\u914D\u7F6E") }),
-        /* @__PURE__ */ e3("section", { className: "site-enable-setting img-upload-setting", children: /* @__PURE__ */ e3("label", { children: [
+        /* @__PURE__ */ u$1("h3", { children: $t("图床配置") }),
+        /* @__PURE__ */ u$1("section", { className: "site-enable-setting img-upload-setting", children: /* @__PURE__ */ u$1("label", { children: [
           "ptpimg ApiKey:",
-          /* @__PURE__ */ e3(
+          /* @__PURE__ */ u$1(
             "input",
             {
               name: "ptp-img-api-key",
               type: "text",
               value: ptpImgApiKey,
-              onChange: (e4) => setPtpImgApiKey(e4.target.value)
+              onChange: (e2) => setPtpImgApiKey(e2.target.value)
             }
           ),
-          /* @__PURE__ */ e3(
+          /* @__PURE__ */ u$1(
             "a",
             {
               target: "_blank",
               href: "https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey",
               rel: "noreferrer",
-              children: $t("\u5982\u4F55\u83B7\u53D6\uFF1F")
+              children: $t("如何获取？")
             }
           )
         ] }) }),
-        /* @__PURE__ */ e3("h3", { children: $t("\u989D\u5916\u529F\u80FD\u5173\u95ED") }),
-        /* @__PURE__ */ e3("div", { className: "feature-list", children: featureList.map((feature, index) => {
-          return /* @__PURE__ */ e3("section", { className: "site-enable-setting", children: /* @__PURE__ */ e3("label", { children: [
-            /* @__PURE__ */ e3(
+        /* @__PURE__ */ u$1("h3", { children: $t("额外功能关闭") }),
+        /* @__PURE__ */ u$1("div", { className: "feature-list", children: featureList.map((feature, index) => {
+          return /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("label", { children: [
+            /* @__PURE__ */ u$1(
               "input",
               {
                 onChange: () => handleFeatureChange(index),
@@ -22177,41 +20894,38 @@ ${screenBBcodeArray.join("")}`;
             $t(feature.des)
           ] }) }, feature.name);
         }) }),
-        /* @__PURE__ */ e3("h3", { children: $t("\u8C46\u74E3\u914D\u7F6E") }),
-        /* @__PURE__ */ e3("div", { className: "douban-config", children: /* @__PURE__ */ e3("label", { children: [
-          $t("\u8C46\u74E3Cookie"),
-          /* @__PURE__ */ e3(
+        /* @__PURE__ */ u$1("h3", { children: $t("豆瓣配置") }),
+        /* @__PURE__ */ u$1("div", { className: "douban-config", children: /* @__PURE__ */ u$1("label", { children: [
+          $t("豆瓣Cookie"),
+          /* @__PURE__ */ u$1(
             "textarea",
             {
               value: doubanCookie,
-              onChange: (e4) => setDoubanCookie(e4.target.value)
+              onChange: (e2) => setDoubanCookie(e2.target.value)
             }
           )
         ] }) })
       ] }),
-      /* @__PURE__ */ e3("div", { className: "confirm-btns", children: [
-        /* @__PURE__ */ e3("button", { onClick: closePanel, children: $t("\u53D6\u6D88") }),
-        /* @__PURE__ */ e3("button", { onClick: saveSetting, className: "save-setting-btn", children: $t("\u4FDD\u5B58") })
+      /* @__PURE__ */ u$1("div", { className: "confirm-btns", children: [
+        /* @__PURE__ */ u$1("button", { onClick: closePanel, children: $t("取消") }),
+        /* @__PURE__ */ u$1("button", { onClick: saveSetting, className: "save-setting-btn", children: $t("保存") })
       ] })
     ] }) });
   };
-  var SettingPanel_default = SettingPanel;
-
-  // src/assets/setting.svg
-  init_preact_shim();
-  var SvgSetting = (props) => /* @__PURE__ */ e3("svg", __spreadProps(__spreadValues({ className: "icon", viewBox: "0 0 1024 1024", xmlns: "http://www.w3.org/2000/svg", width: 200, height: 200 }, props), { children: [
-    /* @__PURE__ */ e3("path", { d: "M636.211 847.77c5.735-42.548 39.885-76.75 82.432-82.381 20.122-2.663 39.22.87 55.655 9.011 32.563 16.077 72.345 4.864 92.313-25.395a375.948 375.948 0 0 0 22.221-38.4c16.691-33.127 4.813-72.807-25.754-93.85a79.944 79.944 0 0 1-4.198-3.072c-34.202-26.265-46.848-73.216-30.26-113.05 7.732-18.636 20.327-33.28 35.482-43.417 30.31-20.275 40.704-60.467 24.218-92.98a383.375 383.375 0 0 0-19.302-33.74c-20.224-31.54-60.468-42.138-94.516-26.42a102.363 102.363 0 0 1-4.761 2.049c-39.936 15.974-86.63 2.97-112.487-31.437-12.083-16.077-18.33-34.304-19.404-52.429-2.15-36.505-31.693-65.69-68.148-67.993a388.598 388.598 0 0 0-47.974-.052c-36.915 2.253-65.178 32.205-68.25 69.07-.153 1.689-.307 3.378-.563 5.068-5.734 42.394-39.731 76.442-82.073 82.227-20.02 2.714-39.066-.717-55.45-8.704-32.563-15.82-72.192-4.505-92.006 25.754a386.852 386.852 0 0 0-22.17 38.502c-16.538 32.973-4.864 72.397 25.395 93.543a120.61 120.61 0 0 1 4.096 3.02c33.69 26.112 46.131 72.397 30.106 111.872-7.629 18.79-20.173 33.639-35.38 43.93-29.951 20.275-39.884 60.211-23.603 92.467 5.94 11.725 12.39 23.091 19.456 34.1 20.07 31.385 59.956 42.035 93.901 26.623a76.381 76.381 0 0 1 4.71-1.996c39.68-15.668 85.863-2.765 111.668 31.232 12.288 16.23 18.637 34.61 19.712 52.94 2.099 36.352 31.744 65.23 68.096 67.687 8.601.563 17.254.87 25.958.87 7.475 0 14.9-.205 22.323-.665 36.813-2.15 65.024-32.103 68.096-68.864.052-1.69.256-3.43.461-5.12z", fill: "#FFF7E6" }),
-    /* @__PURE__ */ e3("path", { d: "M387.994 514.816a127.795 127.795 0 1 0 255.59 0 127.795 127.795 0 1 0-255.59 0Z", fill: "#FD973F" }),
-    /* @__PURE__ */ e3("path", { d: "M515.789 668.211c-84.583 0-153.395-68.813-153.395-153.395 0-84.582 68.812-153.395 153.395-153.395s153.395 68.813 153.395 153.395c-.051 84.582-68.813 153.395-153.395 153.395zm0-255.539c-56.32 0-102.195 45.824-102.195 102.195s45.824 102.195 102.195 102.195 102.195-45.824 102.195-102.195-45.875-102.195-102.195-102.195zm370.38 24.525c-6.041 0-12.083-2.1-16.947-6.4a25.6 25.6 0 0 1-2.201-36.147c14.899-16.845 18.073-41.575 7.936-61.543a388.557 388.557 0 0 0-20.224-35.328c-12.442-19.405-35.533-29.03-58.778-24.576a25.605 25.605 0 0 1-29.952-20.326 25.605 25.605 0 0 1 20.327-29.952c43.98-8.397 87.705 10.086 111.513 47.206a437.184 437.184 0 0 1 22.784 39.834c19.559 38.553 13.415 86.22-15.257 118.63-5.12 5.683-12.135 8.602-19.2 8.602z", fill: "#44454A" }),
-    /* @__PURE__ */ e3("path", { d: "M515.789 968.448c-10.189 0-20.48-.358-30.618-1.024-53.709-3.635-96.563-46.387-99.635-99.43-.922-16.18-6.758-31.693-16.794-44.954-21.913-28.877-60.774-39.731-94.515-26.42a46.724 46.724 0 0 0-3.993 1.69c-50.125 22.784-107.623 6.298-136.704-39.116a459.955 459.955 0 0 1-22.938-40.244c-24.064-47.667-9.114-105.984 34.816-135.68 13.363-9.062 23.757-21.964 30.003-37.324 13.62-33.536 3.175-72.448-25.497-94.72a78.127 78.127 0 0 0-3.533-2.612c-45.005-31.436-60.365-88.883-36.506-136.55a450.35 450.35 0 0 1 26.163-45.466c29.236-44.646 87.296-60.825 135.015-37.683 14.438 7.015 30.72 9.523 47.104 7.322 35.993-4.915 64.563-33.536 69.478-69.632a61.27 61.27 0 0 0 .461-4.301c4.66-54.886 46.643-97.075 99.942-100.352 18.688-1.126 37.837-1.126 56.628.102 53.76 3.43 96.665 46.336 99.788 99.79.922 15.974 6.656 31.385 16.487 44.543 14.438 19.2 37.632 31.232 62.157 32.205 14.13.563 25.139 12.493 24.576 26.573-.564 14.131-12.698 25.088-26.573 24.576-40.295-1.587-77.159-20.787-101.069-52.685-15.923-21.197-25.14-46.182-26.675-72.243-1.639-27.648-23.962-49.869-51.917-51.661-16.64-1.075-33.69-1.075-50.227-.051-27.7 1.69-49.613 24.166-52.07 53.453-.205 2.252-.461 4.608-.769 6.912-7.987 58.828-54.579 105.472-113.305 113.51-26.42 3.584-52.787-.563-76.39-11.98-24.628-11.93-54.682-3.534-69.837 19.66a404.157 404.157 0 0 0-23.194 40.294c-12.39 24.781-3.994 54.938 20.02 71.68a144.56 144.56 0 0 1 5.631 4.148c46.643 36.198 63.744 99.737 41.472 154.419-10.086 24.78-26.931 45.67-48.742 60.416-22.63 15.309-30.26 45.517-17.818 70.246 6.144 12.186 13.005 24.167 20.378 35.687 15.257 23.808 45.67 32.256 72.397 20.172 2.099-.921 4.25-1.843 6.4-2.713 55.04-21.709 118.374-3.994 154.112 43.11 16.23 21.402 25.6 46.592 27.084 72.96 1.588 27.341 23.91 49.408 51.968 51.303a405.713 405.713 0 0 0 50.535.256c27.545-1.588 49.305-24.013 51.763-53.248.205-2.356.46-4.66.768-6.964 7.987-59.136 54.784-105.83 113.818-113.664 26.521-3.532 53.043.768 76.646 12.442 24.627 12.186 54.784 3.84 70.042-19.405 8.499-12.902 16.332-26.419 23.244-40.192 12.544-24.883 3.994-55.142-20.326-71.885a109.227 109.227 0 0 1-5.734-4.198c-47.565-36.557-64.717-100.71-41.728-155.955a25.559 25.559 0 0 1 33.484-13.773 25.559 25.559 0 0 1 13.773 33.485c-13.875 33.382-3.123 73.625 25.651 95.693a58.07 58.07 0 0 0 3.584 2.61c45.62 31.438 61.184 89.14 37.018 137.114a464.45 464.45 0 0 1-26.214 45.312c-29.492 44.75-87.706 60.724-135.476 37.172-14.49-7.168-30.873-9.78-47.257-7.578-35.635 4.71-64.973 34.048-69.786 69.734a67.705 67.705 0 0 0-.46 4.404c-4.557 54.835-46.541 96.972-99.79 100.044-8.755.41-17.612.666-26.316.666z", fill: "#44454A" })
-  ] }));
-  var setting_default = SvgSetting;
-
-  // src/components/Container.tsx
-  var Container = () => {
-    var _a3, _b2;
-    const [settingPanelOpen, setSettingPanelOpen] = d2(false);
-    const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || ((_a3 = CURRENT_SITE_NAME) == null ? void 0 : _a3.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
+  const SvgSetting = (_d, ref) => {
+    var _e = _d, {
+      title,
+      titleId
+    } = _e, props = __objRest(_e, [
+      "title",
+      "titleId"
+    ]);
+    return /* @__PURE__ */ preact.createElement("svg", __spreadValues({ t: 1638356346192, className: "icon", viewBox: "0 0 1024 1024", xmlns: "http://www.w3.org/2000/svg", "p-id": 26515, xmlnsXlink: "http://www.w3.org/1999/xlink", width: 200, height: 200, ref, "aria-labelledby": titleId }, props), title ? /* @__PURE__ */ preact.createElement("title", { id: titleId }, title) : null, /* @__PURE__ */ preact.createElement("defs", null, /* @__PURE__ */ preact.createElement("style", { type: "text/css" })), /* @__PURE__ */ preact.createElement("path", { d: "M636.2112 847.7696c5.7344-42.5472 39.8848-76.7488 82.432-82.3808 20.1216-2.6624 39.2192 0.8704 55.6544 9.0112 32.5632 16.0768 72.3456 4.864 92.3136-25.3952 8.1408-12.3392 15.5648-25.1392 22.2208-38.4 16.6912-33.1264 4.8128-72.8064-25.7536-93.8496-1.4336-0.9728-2.816-1.9968-4.1984-3.072-34.2016-26.2656-46.848-73.216-30.2592-113.0496 7.7312-18.6368 20.3264-33.28 35.4816-43.4176 30.3104-20.2752 40.704-60.4672 24.2176-92.9792a383.37536 383.37536 0 0 0-19.3024-33.7408c-20.224-31.5392-60.4672-42.1376-94.5152-26.4192-1.536 0.7168-3.1232 1.3824-4.7616 2.048-39.936 15.9744-86.6304 2.9696-112.4864-31.4368-12.0832-16.0768-18.3296-34.304-19.4048-52.4288-2.1504-36.5056-31.6928-65.6896-68.1472-67.9936a388.59776 388.59776 0 0 0-47.9744-0.0512c-36.9152 2.2528-65.1776 32.2048-68.2496 69.0688-0.1536 1.6896-0.3072 3.3792-0.5632 5.0688-5.7344 42.3936-39.7312 76.4416-82.0736 82.2272-20.0192 2.7136-39.0656-0.7168-55.4496-8.704-32.5632-15.8208-72.192-4.5056-92.0064 25.7536a386.85184 386.85184 0 0 0-22.1696 38.5024c-16.5376 32.9728-4.864 72.3968 25.3952 93.5424 1.3824 0.9728 2.7648 1.9968 4.096 3.0208 33.6896 26.112 46.1312 72.3968 30.1056 111.872-7.6288 18.7904-20.1728 33.6384-35.3792 43.9296-29.952 20.2752-39.8848 60.2112-23.6032 92.4672 5.9392 11.7248 12.3904 23.0912 19.456 34.0992 20.0704 31.3856 59.9552 42.0352 93.9008 26.624 1.536-0.7168 3.1232-1.3824 4.7104-1.9968 39.68-15.6672 85.8624-2.7648 111.6672 31.232 12.288 16.2304 18.6368 34.6112 19.712 52.9408 2.0992 36.352 31.744 65.2288 68.096 67.6864 8.6016 0.5632 17.2544 0.8704 25.9584 0.8704 7.4752 0 14.8992-0.2048 22.3232-0.6656 36.8128-2.1504 65.024-32.1024 68.096-68.864 0.0512-1.6896 0.256-3.4304 0.4608-5.12z", fill: "#FFF7E6", "p-id": 26516 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 514.816m-127.7952 0a127.7952 127.7952 0 1 0 255.5904 0 127.7952 127.7952 0 1 0-255.5904 0Z", fill: "#FD973F", "p-id": 26517 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 668.2112c-84.5824 0-153.3952-68.8128-153.3952-153.3952 0-84.5824 68.8128-153.3952 153.3952-153.3952s153.3952 68.8128 153.3952 153.3952c-0.0512 84.5824-68.8128 153.3952-153.3952 153.3952z m0-255.5392c-56.32 0-102.1952 45.824-102.1952 102.1952s45.824 102.1952 102.1952 102.1952 102.1952-45.824 102.1952-102.1952-45.8752-102.1952-102.1952-102.1952zM886.1696 437.1968c-6.0416 0-12.0832-2.0992-16.9472-6.4a25.6 25.6 0 0 1-2.2016-36.1472c14.8992-16.8448 18.0736-41.5744 7.936-61.5424a388.5568 388.5568 0 0 0-20.224-35.328c-12.4416-19.4048-35.5328-29.0304-58.7776-24.576a25.60512 25.60512 0 0 1-29.952-20.3264 25.60512 25.60512 0 0 1 20.3264-29.952c43.9808-8.3968 87.7056 10.0864 111.5136 47.2064 8.2432 12.8 15.9232 26.2144 22.784 39.8336 19.5584 38.5536 13.4144 86.2208-15.2576 118.6304-5.12 5.6832-12.1344 8.6016-19.2 8.6016z", fill: "#44454A", "p-id": 26518 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 968.448c-10.1888 0-20.48-0.3584-30.6176-1.024-53.7088-3.6352-96.5632-46.3872-99.6352-99.4304-0.9216-16.1792-6.7584-31.6928-16.7936-44.9536-21.9136-28.8768-60.7744-39.7312-94.5152-26.4192-1.3824 0.512-2.7136 1.0752-3.9936 1.6896-50.1248 22.784-107.6224 6.2976-136.704-39.1168a459.9552 459.9552 0 0 1-22.9376-40.2432c-24.064-47.6672-9.1136-105.984 34.816-135.68 13.3632-9.0624 23.7568-21.9648 30.0032-37.3248 13.6192-33.536 3.1744-72.448-25.4976-94.72-1.1776-0.9216-2.3552-1.792-3.5328-2.6112-45.0048-31.4368-60.3648-88.8832-36.5056-136.5504 7.7824-15.5648 16.5888-30.8736 26.1632-45.4656 29.2352-44.6464 87.296-60.8256 135.0144-37.6832 14.4384 7.0144 30.72 9.5232 47.104 7.3216 35.9936-4.9152 64.5632-33.536 69.4784-69.632 0.2048-1.4336 0.3584-2.8672 0.4608-4.3008 4.6592-54.8864 46.6432-97.0752 99.9424-100.352 18.688-1.1264 37.8368-1.1264 56.6272 0.1024 53.76 3.4304 96.6656 46.336 99.7888 99.7888 0.9216 15.9744 6.656 31.3856 16.4864 44.544 14.4384 19.2 37.632 31.232 62.1568 32.2048 14.1312 0.5632 25.1392 12.4928 24.576 26.5728-0.5632 14.1312-12.6976 25.088-26.5728 24.576-40.2944-1.5872-77.1584-20.7872-101.0688-52.6848-15.9232-21.1968-25.1392-46.1824-26.6752-72.2432-1.6384-27.648-23.9616-49.8688-51.9168-51.6608-16.64-1.0752-33.6896-1.0752-50.2272-0.0512-27.6992 1.6896-49.6128 24.1664-52.0704 53.4528-0.2048 2.2528-0.4608 4.608-0.768 6.912-7.9872 58.8288-54.5792 105.472-113.3056 113.5104-26.4192 3.584-52.7872-0.5632-76.3904-11.9808-24.6272-11.9296-54.6816-3.5328-69.8368 19.6608a404.15744 404.15744 0 0 0-23.1936 40.2944c-12.3904 24.7808-3.9936 54.9376 20.0192 71.68 1.8944 1.3312 3.7888 2.7136 5.632 4.1472 46.6432 36.1984 63.744 99.7376 41.472 154.4192-10.0864 24.7808-26.9312 45.6704-48.7424 60.416-22.6304 15.3088-30.2592 45.5168-17.8176 70.2464 6.144 12.1856 13.0048 24.1664 20.3776 35.6864 15.2576 23.808 45.6704 32.256 72.3968 20.1728 2.0992-0.9216 4.2496-1.8432 6.4-2.7136 55.04-21.7088 118.3744-3.9936 154.112 43.1104 16.2304 21.4016 25.6 46.592 27.0848 72.96 1.5872 27.3408 23.9104 49.408 51.968 51.3024 16.6912 1.1264 33.6384 1.2288 50.5344 0.256 27.5456-1.5872 49.3056-24.0128 51.7632-53.248 0.2048-2.3552 0.4608-4.6592 0.768-6.9632 7.9872-59.136 54.784-105.8304 113.8176-113.664 26.5216-3.5328 53.0432 0.768 76.6464 12.4416 24.6272 12.1856 54.784 3.84 70.0416-19.4048 8.4992-12.9024 16.3328-26.4192 23.2448-40.192 12.544-24.8832 3.9936-55.1424-20.3264-71.8848-1.9456-1.3312-3.84-2.7136-5.7344-4.1984-47.5648-36.5568-64.7168-100.7104-41.728-155.9552a25.55904 25.55904 0 0 1 33.4848-13.7728 25.55904 25.55904 0 0 1 13.7728 33.4848c-13.8752 33.3824-3.1232 73.6256 25.6512 95.6928 1.1776 0.9216 2.3552 1.792 3.584 2.6112 45.6192 31.4368 61.184 89.1392 37.0176 137.1136-7.8336 15.5136-16.64 30.72-26.2144 45.312-29.4912 44.7488-87.7056 60.7232-135.4752 37.1712-14.4896-7.168-30.8736-9.7792-47.2576-7.5776-35.6352 4.7104-64.9728 34.048-69.7856 69.7344-0.2048 1.4848-0.3584 2.9696-0.4608 4.4032-4.5568 54.8352-46.5408 96.9728-99.7888 100.0448-8.7552 0.4096-17.6128 0.6656-26.3168 0.6656z", fill: "#44454A", "p-id": 26519 }));
+  };
+  const ForwardRef = k(SvgSetting);
+  const Container = () => {
+    const [settingPanelOpen, setSettingPanelOpen] = h(false);
+    const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
     const isHDB = CURRENT_SITE_NAME === "HDBits";
     const baseTitleClass = ["title-td"];
     const baseContentClass = ["easy-seed-td"];
@@ -22240,9 +20954,9 @@ ${screenBBcodeArray.join("")}`;
         searchListSetting = SORTED_SITE_KEYS;
       }
       searchListSetting.forEach(async (site) => {
-        var _a4;
+        var _a;
         const siteInfo = PT_SITE[site];
-        const resultConfig = (_a4 = siteInfo.search) == null ? void 0 : _a4.result;
+        const resultConfig = (_a = siteInfo.search) == null ? void 0 : _a.result;
         const siteUrl = siteInfo.url;
         if (resultConfig) {
           const { list, name, size, url: urlDom } = resultConfig;
@@ -22254,10 +20968,10 @@ ${screenBBcodeArray.join("")}`;
           const dom = new DOMParser().parseFromString(domString, "text/html");
           const torrentList = jQuery(list, dom);
           const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
-            var _a5, _b3, _c, _d, _e;
+            var _a2, _b, _c2, _d, _e;
             let torrentName;
             if (site === "TTG") {
-              torrentName = (_c = (_b3 = (_a5 = jQuery(item).find(name).prop("firstChild")) == null ? void 0 : _a5.textContent) == null ? void 0 : _b3.trim()) != null ? _c : "";
+              torrentName = (_c2 = (_b = (_a2 = jQuery(item).find(name).prop("firstChild")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b.trim()) != null ? _c2 : "";
             } else {
               torrentName = jQuery(item).find(name).attr("title") || jQuery(item).find(name).text();
             }
@@ -22280,125 +20994,122 @@ ${screenBBcodeArray.join("")}`;
       });
     };
     const Title = () => {
-      return /* @__PURE__ */ e3("h4", { children: [
-        $t("\u4E00\u952E\u8F6C\u79CD"),
-        /* @__PURE__ */ e3("span", { id: "easy-seed-setting", className: "easy-seed-setting-btn" }),
-        /* @__PURE__ */ e3(setting_default, { onClick: openSettingPanel, className: "setting-svg" })
+      return /* @__PURE__ */ u$1("h4", { children: [
+        $t("一键转种"),
+        /* @__PURE__ */ u$1("span", { id: "easy-seed-setting", className: "easy-seed-setting-btn" }),
+        /* @__PURE__ */ u$1(ForwardRef, { onClick: openSettingPanel, className: "setting-svg" })
       ] });
     };
     const quickSearchClosed = getValue("easy-seed.quick-search-closed", false) || "";
-    return /* @__PURE__ */ e3(d, { children: [
-      CURRENT_SITE_NAME === "HH" && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: /* @__PURE__ */ e3(Title, {}) }),
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: /* @__PURE__ */ e3(UploadSiteList_default, {}) }),
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: $t("\u5FEB\u6377\u64CD\u4F5C") }),
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: /* @__PURE__ */ e3(FunctionList_default, {}) }),
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: $t("\u5FEB\u901F\u68C0\u7D22") }),
-        /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: /* @__PURE__ */ e3(SearchList_default, {}) })
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      CURRENT_SITE_NAME === "HH" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(Title, {}) }),
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }),
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快捷操作") }),
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(FunctionList, {}) }),
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快速检索") }),
+        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(SearchList, {}) })
       ] }),
-      CURRENT_SITE_NAME === "MTeam" && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("tr", { class: "ant-descriptions-row", children: [
-          /* @__PURE__ */ e3("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ e3("span", { children: /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: /* @__PURE__ */ e3(Title, {}) }) }) }),
-          /* @__PURE__ */ e3("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ e3(UploadSiteList_default, {}) })
+      CURRENT_SITE_NAME === "MTeam" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
+          /* @__PURE__ */ u$1("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(Title, {}) }) }) }),
+          /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ u$1(UploadSiteList, {}) })
         ] }),
-        /* @__PURE__ */ e3("tr", { class: "ant-descriptions-row", children: [
-          /* @__PURE__ */ e3("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ e3("span", { children: /* @__PURE__ */ e3("div", { class: "font-bold leading-6", children: $t("\u5FEB\u901F\u68C0\u7D22") }) }) }),
-          /* @__PURE__ */ e3("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
+          /* @__PURE__ */ u$1("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快速检索") }) }) }),
+          /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }),
-      (isNexusPHP || isHDB || ((_b2 = CURRENT_SITE_NAME) == null ? void 0 : _b2.match(/(HDSpace|HDT)$/))) && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ e3("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ e3(Title, {}) }),
-          /* @__PURE__ */ e3("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ e3("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ e3(UploadSiteList_default, {}) }) })
+      (isNexusPHP || isHDB || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/(HDSpace|HDT)$/))) && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
+          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1(Title, {}) }),
+          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
         ] }),
-        /* @__PURE__ */ e3("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ e3("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ e3("h4", { children: $t("\u5FEB\u6377\u64CD\u4F5C") }) }),
-          /* @__PURE__ */ e3("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ e3(FunctionList_default, {}) })
+        /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
+          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }) }),
+          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(FunctionList, {}) })
         ] }),
-        !quickSearchClosed && /* @__PURE__ */ e3("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ e3("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ e3("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }) }),
-          /* @__PURE__ */ e3("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        !quickSearchClosed && /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
+          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }) }),
+          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }),
-      CURRENT_SITE_NAME === "Cinematik" && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("tr", { children: [
-          /* @__PURE__ */ e3("td", { className: "rowhead", children: /* @__PURE__ */ e3(Title, {}) }),
-          /* @__PURE__ */ e3("td", { children: /* @__PURE__ */ e3(UploadSiteList_default, {}) })
+      CURRENT_SITE_NAME === "Cinematik" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("tr", { children: [
+          /* @__PURE__ */ u$1("td", { className: "rowhead", children: /* @__PURE__ */ u$1(Title, {}) }),
+          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(UploadSiteList, {}) })
         ] }),
-        /* @__PURE__ */ e3("tr", { children: [
-          /* @__PURE__ */ e3("td", { className: "rowhead", children: $t("\u5FEB\u6377\u64CD\u4F5C") }),
-          /* @__PURE__ */ e3("td", { children: /* @__PURE__ */ e3(FunctionList_default, {}) })
+        /* @__PURE__ */ u$1("tr", { children: [
+          /* @__PURE__ */ u$1("td", { className: "rowhead", children: $t("快捷操作") }),
+          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(FunctionList, {}) })
         ] }),
-        !quickSearchClosed && /* @__PURE__ */ e3("tr", { children: [
-          /* @__PURE__ */ e3("td", { className: "rowhead", children: /* @__PURE__ */ e3("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }) }),
-          /* @__PURE__ */ e3("td", { children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        !quickSearchClosed && /* @__PURE__ */ u$1("tr", { children: [
+          /* @__PURE__ */ u$1("td", { className: "rowhead", children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }) }),
+          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }),
-      CURRENT_SITE_NAME === "TeamHD" && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3(Title, {}),
-          /* @__PURE__ */ e3("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ e3("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ e3(UploadSiteList_default, {}) }) })
+      CURRENT_SITE_NAME === "TeamHD" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1(Title, {}),
+          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
         ] }),
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { children: $t("\u5FEB\u6377\u64CD\u4F5C") }),
-          /* @__PURE__ */ e3(FunctionList_default, {})
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
+          /* @__PURE__ */ u$1(FunctionList, {})
         ] }),
-        !quickSearchClosed && /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }),
-          /* @__PURE__ */ e3("div", { children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
+          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }),
-      CURRENT_SITE_NAME === "SpeedApp" && /* @__PURE__ */ e3(d, { children: [
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3(Title, {}),
-          /* @__PURE__ */ e3("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ e3("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ e3(UploadSiteList_default, {}) }) })
+      CURRENT_SITE_NAME === "SpeedApp" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1(Title, {}),
+          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
         ] }),
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { children: $t("\u5FEB\u6377\u64CD\u4F5C") }),
-          /* @__PURE__ */ e3(FunctionList_default, {})
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
+          /* @__PURE__ */ u$1(FunctionList, {})
         ] }),
-        !quickSearchClosed && /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }),
-          /* @__PURE__ */ e3("div", { children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
+          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }),
-      CURRENT_SITE_NAME === "Bdc" && /* @__PURE__ */ e3(d, { children: /* @__PURE__ */ e3("tr", { children: /* @__PURE__ */ e3("td", { colSpan: 4, children: [
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3(Title, {}),
-          /* @__PURE__ */ e3("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ e3("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ e3(UploadSiteList_default, {}) }) })
+      CURRENT_SITE_NAME === "Bdc" && /* @__PURE__ */ u$1(preact.Fragment, { children: /* @__PURE__ */ u$1("tr", { children: /* @__PURE__ */ u$1("td", { colSpan: 4, children: [
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1(Title, {}),
+          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
         ] }),
-        /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { children: $t("\u5FEB\u6377\u64CD\u4F5C") }),
-          /* @__PURE__ */ e3(FunctionList_default, {})
+        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
+          /* @__PURE__ */ u$1(FunctionList, {})
         ] }),
-        !quickSearchClosed && /* @__PURE__ */ e3("div", { className: "custom-site", children: [
-          /* @__PURE__ */ e3("h4", { onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }),
-          /* @__PURE__ */ e3("div", { children: /* @__PURE__ */ e3(SearchList_default, {}) })
+        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
+          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
         ] })
       ] }) }) }),
-      CURRENT_SITE_INFO.siteType === "gazelle" && /* @__PURE__ */ e3("div", { id: "seed-dom", className: ["movie-page__torrent__panel", BROWSER_LANGUAGE === "en" ? "use-eng" : ""].join(" "), children: [
-        /* @__PURE__ */ e3("div", { className: "ptp-title-wrapper", children: [
-          /* @__PURE__ */ e3(Title, {}),
-          /* @__PURE__ */ e3(UploadSiteList_default, {})
+      CURRENT_SITE_INFO.siteType === "gazelle" && /* @__PURE__ */ u$1("div", { id: "seed-dom", className: ["movie-page__torrent__panel", BROWSER_LANGUAGE === "en" ? "use-eng" : ""].join(" "), children: [
+        /* @__PURE__ */ u$1("div", { className: "ptp-title-wrapper", children: [
+          /* @__PURE__ */ u$1(Title, {}),
+          /* @__PURE__ */ u$1(UploadSiteList, {})
         ] }),
-        CURRENT_SITE_NAME !== "EMP" && /* @__PURE__ */ e3(FunctionList_default, {}),
-        /* @__PURE__ */ e3("div", { class: "ptp-search-list", children: !quickSearchClosed && /* @__PURE__ */ e3("div", { class: "ptp-title-wrapper", children: [
-          /* @__PURE__ */ e3("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("\u5FEB\u901F\u68C0\u7D22") }),
-          /* @__PURE__ */ e3(SearchList_default, {})
+        CURRENT_SITE_NAME !== "EMP" && /* @__PURE__ */ u$1(FunctionList, {}),
+        /* @__PURE__ */ u$1("div", { class: "ptp-search-list", children: !quickSearchClosed && /* @__PURE__ */ u$1("div", { class: "ptp-title-wrapper", children: [
+          /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }),
+          /* @__PURE__ */ u$1(SearchList, {})
         ] }) })
       ] }),
-      /* @__PURE__ */ e3("div", { style: { display: settingPanelOpen ? "block" : "none" }, children: /* @__PURE__ */ e3(SettingPanel_default, { closePanel }) })
+      /* @__PURE__ */ u$1("div", { style: { display: settingPanelOpen ? "block" : "none" }, children: /* @__PURE__ */ u$1(SettingPanel, { closePanel }) })
     ] });
   };
-  var Container_default = Container;
-
-  // src/index.tsx
-  var torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
-  var timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-  var torrentTimestamp = timestampMatchArray && timestampMatchArray.length > 0 ? timestampMatchArray[2] : null;
-  var torrentInfoRaw = torrentInfoMatchArray && torrentInfoMatchArray.length > 0 ? torrentInfoMatchArray[2] : null;
-  var torrentInfo = null;
-  var _a2, _b;
+  window.jQuery = $$1;
+  const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
+  const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
+  const torrentTimestamp = timestampMatchArray && timestampMatchArray.length > 0 ? timestampMatchArray[2] : null;
+  const torrentInfoRaw = torrentInfoMatchArray && torrentInfoMatchArray.length > 0 ? torrentInfoMatchArray[2] : null;
+  let torrentInfo = null;
   if (CURRENT_SITE_NAME) {
     fillSearchImdb();
     if (CURRENT_SITE_INFO.asTarget) {
@@ -22410,12 +21121,12 @@ ${screenBBcodeArray.join("")}`;
       fillTargetForm(torrentInfo);
     }
     if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload|offer/ig) && !(CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
-      source_default().then(() => {
+      getTorrentInfo$1().then(() => {
         console.log(TORRENT_INFO);
       });
-      let refNode = jQuery(CURRENT_SITE_INFO.seedDomSelector)[0];
+      let refNode = $$1(CURRENT_SITE_INFO.seedDomSelector)[0];
       const app = document.createElement("div");
-      S(/* @__PURE__ */ e3(Container_default, {}), app);
+      preact.render(/* @__PURE__ */ u$1(Container, {}), app);
       if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV", "Orpheus"].includes(CURRENT_SITE_NAME)) {
         const torrentId = getUrlParam("torrentid");
         if (CURRENT_SITE_NAME === "GPW") {
@@ -22431,27 +21142,27 @@ ${screenBBcodeArray.join("")}`;
         refNode == null ? void 0 : refNode.prepend(app);
       } else if (CURRENT_SITE_NAME === "UHDBits") {
         const torrentId = getUrlParam("torrentid");
-        jQuery(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
-        (_a2 = jQuery(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _a2.prepend(app);
+        $$1(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
+        (_f = $$1(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _f.prepend(app);
       } else if (CURRENT_SITE_NAME === "SpeedApp") {
         const div = document.createElement("div");
         div.setAttribute("class", "row col-md-12 mt-5");
         app.setAttribute("class", "card-body card");
         div.appendChild(app);
-        (_b = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _b.insertBefore(div, refNode);
+        (_g = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _g.insertBefore(div, refNode);
       } else if (CURRENT_SITE_NAME === "MTeam") {
         const targetNode = document.getElementById("root");
         const config = { childList: true, subtree: true };
         const observer = new MutationObserver((mutationsList, observer2) => {
           for (const mutation of mutationsList) {
             if (mutation.type === "childList") {
-              const targetElement = jQuery(CURRENT_SITE_INFO.seedDomSelector)[0];
+              const targetElement = $$1(CURRENT_SITE_INFO.seedDomSelector)[0];
               if (targetElement) {
                 observer2.disconnect();
-                refNode = jQuery(CURRENT_SITE_INFO.seedDomSelector)[0];
+                refNode = $$1(CURRENT_SITE_INFO.seedDomSelector)[0];
                 Array.from(app.childNodes).forEach((child) => {
-                  var _a3;
-                  (_a3 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a3.insertBefore(child, refNode);
+                  var _a;
+                  (_a = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a.insertBefore(child, refNode);
                 });
                 break;
               }
@@ -22461,46 +21172,11 @@ ${screenBBcodeArray.join("")}`;
         observer.observe(targetNode, config);
       } else {
         Array.from(app.childNodes).forEach((child) => {
-          var _a3;
-          (_a3 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a3.insertBefore(child, refNode);
+          var _a;
+          (_a = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a.insertBefore(child, refNode);
         });
       }
     }
   }
-})();
-/*! Bundled license information:
 
-classnames/index.js:
-  (*!
-    Copyright (c) 2018 Jed Watson.
-    Licensed under the MIT License (MIT), see
-    http://jedwatson.github.io/classnames
-  *)
-
-ieee754/index.js:
-  (*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> *)
-
-buffer/index.js:
-  (*!
-   * The buffer module from node.js, for the browser.
-   *
-   * @author   Feross Aboukhadijeh <https://feross.org>
-   * @license  MIT
-   *)
-
-queue-microtask/index.js:
-  (*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> *)
-
-uint8-util/util.js:
-  (* Common package for dealing with hex/string/uint8 conversions (and sha1 hashing)
-  *
-  * @author   Jimmy Wärting <jimmy@warting.se> (https://jimmy.warting.se/opensource)
-  * @license  MIT
-  *)
-
-magnet-uri/index.js:
-  (*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> *)
-
-parse-torrent/index.js:
-  (*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> *)
-*/
+})(preact, jQuery);

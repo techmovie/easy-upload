@@ -1,3 +1,18 @@
+# [6.0.0](https://github.com/techmovie/easy-upload/compare/5.2.2...6.0.0) (2024-09-28)
+
+
+### Bug Fixes
+
+* get mediainfo from pter detail page ([29a72ee](https://github.com/techmovie/easy-upload/commit/29a72ee82032b7e7b2a162cf3be77f5dd0d1975e)), closes [#198](https://github.com/techmovie/easy-upload/issues/198)
+* **hdb:** change the way to get the url of hdb original img ([96b81d5](https://github.com/techmovie/easy-upload/commit/96b81d541fa7e96813b4a5c5b87d1a86f9e05b9b))
+
+
+### Reverts
+
+* **hdb:** revert pr [#265](https://github.com/techmovie/easy-upload/issues/265) ([312391d](https://github.com/techmovie/easy-upload/commit/312391d07bdf8425601a7065a71539ba28ecbdce))
+
+
+
 ## [5.2.2](https://github.com/techmovie/easy-upload/compare/5.2.1...5.2.2) (2024-09-24)
 
 
