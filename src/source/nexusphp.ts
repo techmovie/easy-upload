@@ -214,6 +214,18 @@ export default async () => {
     TORRENT_INFO.isForbidden = true;
   }
 
+  const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
+  if (TORRENT_INFO.mediaInfos.length > 0) {
+    getSpecsFromMediainfo(isBluray);
+  } else {
+    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
+    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
+    if (mediaInfoOrBDInfo) {
+      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
+      getSpecsFromMediainfo(isBluray);
+    }
+  }
+
   const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos?.[0]);
   if (infoFromMediaInfoinfo.subtitles) {
     for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
@@ -227,17 +239,6 @@ export default async () => {
   TORRENT_INFO.resolution = getResolution(resolution || TORRENT_INFO.title);
   TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
 
-  const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
-  if (TORRENT_INFO.mediaInfos.length === 0) {
-    getSpecsFromMediainfo(isBluray);
-  } else {
-    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-    if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfos = CURRENT_SITE_NAME === 'HaresClub' ? mediaInfoOrBDInfo : mediaInfoOrBDInfo;
-      getSpecsFromMediainfo(isBluray);
-    }
-  }
   if (CURRENT_SITE_NAME === 'TCCF') {
     TORRENT_INFO.format = getFormat(videoType);
   } else {

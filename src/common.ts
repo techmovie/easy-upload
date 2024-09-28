@@ -1147,8 +1147,8 @@ const htmlToBBCode = (node:Element) => {
           const { className, id } = node;
           if (className === 'codemain') {
             // 兼容朋友
-            if (node.children[0] && node.children[0].tagName === 'PRE') {
-              pp('');
+            if (node.children[0]) {
+              pp('\n[quote]', '[/quote]');
               break;
             } else {
               return '';
@@ -1218,6 +1218,8 @@ const htmlToBBCode = (node:Element) => {
             pp('[quote]', '[/quote]'); break;
           } else if (CURRENT_SITE_NAME.match(/EMP|Bdc/)) {
             pp(''); break;
+          } else if (CURRENT_SITE_NAME === 'PTer') {
+            pp(null, null); break;
           } else {
             return '';
           }
@@ -1276,6 +1278,14 @@ const htmlToBBCode = (node:Element) => {
         case 'H3': { pp('[b][size="5"]', '[/size][/b]\n'); break; }
         case 'H4': { pp('[b][size="4"]', '[/size][/b]\n'); break; }
         case 'STRONG': { pp('[b]', '[/b]'); break; }
+        case 'TABLE':
+        {
+          if (CURRENT_SITE_NAME === 'PTer' && node.className === 'table') {
+            return '';
+          }
+          pp(''); break;
+        }
+        case 'TH': { pp(''); break; }
       }
       const { textAlign, fontWeight, fontStyle, textDecoration, color } = (node as HTMLElement).style;
       if (textAlign) {
@@ -1346,7 +1356,6 @@ const getTagsFromSubtitle = (title:string) => {
   return tags;
 };
 const getBDInfoOrMediaInfo = (bbcode:string) => {
-  bbcode = bbcode.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, '');
   const quoteList = bbcode?.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
   const bdinfo:string[] = []; const mediaInfo:string[] = [];
   quoteList.forEach(quote => {
