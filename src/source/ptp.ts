@@ -39,7 +39,6 @@ export default async () => {
     TORRENT_INFO.description = descriptionData;
     // Remux / 2D/3D Edition
     const infoArray = torrentHeaderDom.find('#PermaLinkedTorrentToggler').text().trim().split(' / ');
-    // eslint-disable-next-line no-unused-vars
     const [codes, container, source, resolution, ...otherInfo] = infoArray;
     const isRemux = otherInfo.includes('Remux');
     const { knownTags, otherTags } = getTags(otherInfo, [releaseGroup]);

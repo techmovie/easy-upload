@@ -12,7 +12,6 @@ export default async (info:TorrentInfo.Info) => {
   const groupId = getUrlParam('groupid');
   if (!groupId) {
     $(currentSiteInfo.imdb.selector).val(imdbUrl || 0);
-    // eslint-disable-next-line no-undef
     AutoFill();
   }
   info.resolution = getResolution(resolution, videoType, title);
@@ -40,7 +39,6 @@ export default async (info:TorrentInfo.Info) => {
   const editionInfo = getEditionInfo(videoType, tags);
   if (editionInfo.length > 0) {
     $('#remaster').attr('checked', 'true');
-    // eslint-disable-next-line no-undef
     Remaster();
     editionInfo.forEach(edition => {
       const event = new Event('click');

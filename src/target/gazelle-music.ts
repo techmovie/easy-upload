@@ -1,4 +1,3 @@
-
 import { base64ToBlob } from './common';
 import { Buffer } from 'buffer/index';
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';

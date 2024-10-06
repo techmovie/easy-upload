@@ -1,4 +1,3 @@
-
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
 import {
   getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
@@ -20,9 +19,9 @@ interface SiteOperation {
 }
 
 export default class ExportHelper {
-  info: TorrentInfo.TargetTorrentInfo
-  currentSiteInfo: Site.SiteInfo
-  operation: SiteOperation
+  info: TorrentInfo.TargetTorrentInfo;
+  currentSiteInfo: Site.SiteInfo;
+  operation: SiteOperation;
   constructor (info:TorrentInfo.TargetTorrentInfo) {
     this.info = info;
     this.currentSiteInfo = CURRENT_SITE_INFO;

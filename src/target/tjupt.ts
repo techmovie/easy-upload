@@ -41,7 +41,6 @@ function fillInfo (info:TorrentInfo.Info) {
       }
       if (selector) {
         $(selector).attr('checked', 'true');
-        // eslint-disable-next-line no-undef
         getcheckboxvalue('specificcat');
       } else {
         $('#specificcat').val(areaString);
@@ -58,7 +57,7 @@ function fillInfo (info:TorrentInfo.Info) {
         OT: '#district5',
       };
       $(districtMap[info.area as keyof typeof districtMap]).attr('checked', 'true');
-      // eslint-disable-next-line no-undef
+
       getcheckboxvalue('district');
     }
   }
@@ -77,7 +76,7 @@ function fillInfo (info:TorrentInfo.Info) {
         selector = '#language5';
       }
       $(selector).attr('checked', 'true');
-      // eslint-disable-next-line no-undef
+
       getcheckboxvalue('language');
     }
   }

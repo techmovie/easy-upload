@@ -324,7 +324,7 @@ export const SITE_OPERATIONS = {
       try {
         $(CURRENT_SITE_INFO.category.selector).trigger('change');
       } catch (err) {
-
+        console.log(err);
       }
       $('tr.mode_5').css('display', '');
     },

@@ -38,7 +38,6 @@ export default (info:TorrentInfo.Info) => {
   keyArray.forEach(key => {
     const { selector, map } = currentSiteInfo[key as Key];
     type MapKey = keyof typeof map;
-    // eslint-disable-next-line no-undef
     fill_field(
       selector,
       map[info[key as Key] as MapKey]);

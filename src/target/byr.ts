@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { PT_SITE } from '../const';
 import { getInfoFromMediaInfo, getInfoFromBDInfo } from '../common';
 export default (info:TorrentInfo.Info) => {

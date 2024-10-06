@@ -89,7 +89,7 @@ const Douban = () => {
         }
       }
     } catch (error) {
-
+      console.log(error);
     } finally {
       setBtnText('获取豆瓣简介');
       setBtnDisable(false);

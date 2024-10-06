@@ -774,6 +774,7 @@ const getTMDBIdByIMDBId = async (imdbid: string) => {
     const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
     return tmdbData;
   } catch (error) {
+    console.log('getTMDBIdByIMDBId:', error);
     return {};
   }
 };

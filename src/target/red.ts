@@ -6,7 +6,6 @@ export default async (info:TorrentInfo.Info) => {
     return;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   document.forms.upload_table.reset = () => {};
   const { name, year, musicInfo, bbBody, tags, releaseType, categoryId, wikiImage } = musicJson.group;
   const groupId = getUrlParam('groupid');
