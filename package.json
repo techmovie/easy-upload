@@ -88,7 +88,8 @@
     "jquery": "^3.7.1",
     "path-browserify": "^1.0.1",
     "preact": "^10.24.1",
-    "rc-notification": "4.4.0"
+    "rc-notification": "4.4.0",
+    "dompurify": "^3.1.7"
   },
   "packageManager": "yarn@4.5.0"
 }
