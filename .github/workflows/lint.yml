@@ -6,6 +6,7 @@ on:
       - 'scripts/**'
       - 'eslint.config.mjs'
       - 'package.json'
+      - '.github/**'
     branches:
       - master
       - dev
@@ -15,6 +16,7 @@ on:
       - 'scripts/**'
       - 'eslint.config.mjs'
       - 'package.json'
+      - '.github/**'
     branches:
       - master
       - dev
