@@ -4,12 +4,20 @@ on:
     paths:
       - 'src/**'
       - 'scripts/**'
-    branches: [master]
+      - 'eslint.config.mjs'
+      - 'package.json'
+    branches:
+      - master
+      - dev
   pull_request:
     paths:
       - 'src/**'
       - 'scripts/**'
-    branches: [master]
+      - 'eslint.config.mjs'
+      - 'package.json'
+    branches:
+      - master
+      - dev
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +31,7 @@ jobs:
           node-version: 20
 
       - name: Corepack
-        run: Corepack enable
+        run: corepack enable
 
       - name: Install dependencies
         run: yarn install
