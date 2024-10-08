@@ -3157,6 +3157,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dompurify@npm:^3.1.7":
+  version: 3.1.7
+  resolution: "dompurify@npm:3.1.7"
+  checksum: 10c0/fcceef2e9f824d712a056fa699b0538f3337f5cf00ccb7227bdc7eba5463823e15d9aecc00a2fd81c726b28a71e7b09f0eb8a2fde1021c40e35f12dc67b66394
+  languageName: node
+  linkType: hard
+
 "domutils@npm:^3.0.1, domutils@npm:^3.1.0":
   version: 3.1.0
   resolution: "domutils@npm:3.1.0"
@@ -3218,6 +3225,7 @@ __metadata:
     conventional-changelog-cli: "npm:^2.2.2"
     cz-conventional-changelog: "npm:^3.3.0"
     decode-ico: "npm:^0.4.1"
+    dompurify: "npm:^3.1.7"
     eslint: "npm:^9.12.0"
     eslint-config-preact: "npm:^1.2.0"
     eslint-config-standard: "npm:^17.1.0"
