@@ -1,3 +1,17 @@
+## [6.0.3](https://github.com/techmovie/easy-upload/compare/6.0.2...6.0.3) (2024-10-22)
+
+
+### Bug Fixes
+
+* update yarn.lock ([01901cc](https://github.com/techmovie/easy-upload/commit/01901cc176f8a715514731ee368fe93e76ce8899))
+
+
+### Reverts
+
+* Revert "chore(release): 6.0.3" ([4181172](https://github.com/techmovie/easy-upload/commit/4181172fcfb3c6ed8fcb1ec08d0e77554a256b84))
+
+
+
 ## [6.0.2](https://github.com/techmovie/easy-upload/compare/6.0.1...6.0.2) (2024-10-22)
 
 
@@ -10,6 +24,7 @@
 ### Reverts
 
 * Revert "chore: update pkg version 6.0.2" ([48ccf89](https://github.com/techmovie/easy-upload/commit/48ccf897f12bd56e3e19d46672123c6c99d26956))
+* Revert "chore(release): 6.0.2" ([90be6da](https://github.com/techmovie/easy-upload/commit/90be6da1625a4c4c6efca33c60afbf4cd824dd4e))
 
 
 
