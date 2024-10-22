@@ -26,7 +26,11 @@ jobs:
                   "parse_mode": "HTML"
                 }
               })
-              console.log(await response.json())
+              console.log(process.env.tgMsg);
+              const result = await response.json();
+              if(!response.ok){
+                core.setFailed(result.description);
+              }
             }catch(error){
               core.setFailed(error.message);
             }
