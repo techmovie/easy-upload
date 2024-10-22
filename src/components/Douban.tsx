@@ -6,7 +6,7 @@ import {
   $t, getDoubanIdByIMDB, getDoubanInfo, getDoubanBookInfo,
   getSubTitle, getAreaCode, getPreciseCategory,
 } from '../common';
-import Notification from './Notification';
+import { toast } from 'sonner';
 
 const getTvSeasonData = async (data:Douban.Season) => {
   const { title: torrentTitle } = TORRENT_INFO;
@@ -75,17 +75,11 @@ const Douban = () => {
           const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
           const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
           if (movieData) {
-            Notification.open({
-              message: $t('成功'),
-              description: $t('获取成功'),
-            });
+            toast.success($t('获取成功'));
             updateTorrentInfo(movieData);
           }
         } else {
-          Notification.open({
-            message: $t('成功'),
-            description: $t('获取成功'),
-          });
+          toast.success($t('获取成功'));
         }
       }
     } catch (error) {
@@ -112,25 +106,16 @@ const Douban = () => {
           TORRENT_INFO.description = data.book_intro || '';
           TORRENT_INFO.doubanBookInfo = data || null;
         }
-        Notification.open({
-          message: $t('成功'),
-          description: $t('获取成功'),
-        });
+        toast.success($t('获取成功'));
       }).catch(error => {
         console.log(error);
-        Notification.open({
-          message: $t('错误'),
-          description: error.message,
-        });
+        toast.error(error.message);
       }).finally(() => {
         setBookBtnText('获取豆瓣读书简介');
         setBtnDisable(false);
       });
     } else {
-      Notification.open({
-        message: $t('错误'),
-        description: $t('缺少豆瓣链接'),
-      });
+      toast.error($t('缺少豆瓣链接'));
     }
   };
   return showSearch

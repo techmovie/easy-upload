@@ -6,7 +6,7 @@ import {
   SORTED_SITE_KEYS,
 } from '../const';
 import { FeatureSwitchList, SiteListConfig } from './conf';
-import Notification from './Notification';
+import { toast } from 'sonner';
 interface Props {
   closePanel: JSX.MouseEventHandler<HTMLButtonElement>
 }
@@ -73,9 +73,7 @@ const SettingPanel = (props:Props) => {
       window.location.reload();
     } catch (error) {
       console.log(error);
-      Notification.open({
-        message: $t('错误'), description: $t('保存本地站点设置失败'),
-      });
+      toast.error($t('保存本地站点设置失败'));
     }
   };
   interface InfoKey {

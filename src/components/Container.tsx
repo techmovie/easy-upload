@@ -12,6 +12,7 @@ import UploadSiteList from '../components/UploadSiteList';
 import SettingPanel from './SettingPanel';
 import ConfigSvg from '../assets/setting.svg';
 import { getQuickSearchUrl } from './common';
+import { Toaster } from 'sonner';
 
 const Container = () => {
   const [settingPanelOpen, setSettingPanelOpen] = useState(false);
@@ -93,6 +94,7 @@ const Container = () => {
   };
   const quickSearchClosed = getValue('easy-seed.quick-search-closed', false) || '';
   return <>
+    <Toaster position="top-right" richColors />
     { (CURRENT_SITE_NAME === 'HH') && <>
       <div class="font-bold leading-6"><Title /></div>
       <div class="font-bold leading-6"><UploadSiteList /></div>

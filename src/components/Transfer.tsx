@@ -6,7 +6,7 @@ import {
 import {
   $t, fetch, transferImgs, uploadToPixhost, getValue, uploadToImgbox, uploadToHDB,
 } from '../common';
-import Notification from './Notification';
+import { toast } from 'sonner';
 
 const Transfer = () => {
   const [imgHost, setImgHost] = useState('imgbox');
@@ -97,16 +97,10 @@ const Transfer = () => {
           }
         });
         TORRENT_INFO.description = description;
-        Notification.open({
-          message: $t('成功'),
-          description: $t('转换成功！'),
-        });
+        toast.success($t('转换成功！'));
       }
     } catch (error) {
-      Notification.open({
-        message: $t('错误'),
-        description: (error as Error).message,
-      });
+      toast.error((error as Error).message);
     } finally {
       setBtnText('转缩略图');
       setBtnDisable(false);

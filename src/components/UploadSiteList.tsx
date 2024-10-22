@@ -4,8 +4,8 @@ import {
 import {
   $t, fetch, getIMDBIdByUrl, getValue,
 } from '../common';
-import Notification from './Notification';
 import { getTorrentFileData } from '../source/helper';
+import { toast } from 'sonner';
 
 const getPTPGroupId = async (imdbUrl:string|undefined) => {
   if (!imdbUrl) {
@@ -25,10 +25,7 @@ const getPTPGroupId = async (imdbUrl:string|undefined) => {
 const openBatchSeedTabs = () => {
   const batchSeedSetting = getValue('easy-seed.enabled-batch-seed-sites') || [];
   if (batchSeedSetting.length === 0) {
-    Notification.open({
-      message: $t('错误'),
-      description: $t('请先设置群转列表'),
-    });
+    toast.error($t('请先设置群转列表'));
     return false;
   }
   SORTED_SITE_KEYS.forEach(async (siteName) => {
@@ -48,10 +45,7 @@ const openBatchSeedTabs = () => {
       }
     }
   });
-  Notification.open({
-    message: $t('成功'),
-    description: $t('转种页面已打开，请前往对应页面操作'),
-  });
+  toast.success($t('转种页面已打开，请前往对应页面操作'));
 };
 const getGPWGroupId = async (imdbUrl:string|undefined) => {
   if (!imdbUrl) {
@@ -135,9 +129,7 @@ const UploadSiteList = () => {
       }
     }
     if (CURRENT_SITE_NAME === 'TTG' && !TORRENT_INFO.description) {
-      Notification.open({
-        description: $t('请等待页面加载完成'),
-      });
+      toast.warning($t('请等待页面加载完成'));
       return;
     }
     const timestamp = `${Date.now()}`;

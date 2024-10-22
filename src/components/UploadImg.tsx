@@ -5,7 +5,7 @@ import {
 import {
   $t, fetch, getOriginalImgUrl, saveScreenshotsToPtpimg, transferImgs,
 } from '../common';
-import Notification from './Notification';
+import { toast } from 'sonner';
 
 const UploadImg = () => {
   const [selectHost, setSelectHost] = useState('ptpimg');
@@ -46,10 +46,7 @@ const UploadImg = () => {
         }
       }
       if (imgData.length > 0) {
-        Notification.open({
-          message: $t('成功'),
-          description: '',
-        });
+        toast.success($t('成功'));
       }
       let { description, originalDescription } = TORRENT_INFO;
       TORRENT_INFO.screenshots = imgData;
@@ -72,10 +69,7 @@ const UploadImg = () => {
       TORRENT_INFO.originalDescription = `${originalDescription}\n${screenBBcodeArray.join('')}`;
       TORRENT_INFO.description = `${description}\n${screenBBcodeArray.join('')}`;
     } catch (error) {
-      Notification.open({
-        message: $t('错误'),
-        description: (error as Error).message,
-      });
+      toast.error((error as Error).message);
     } finally {
       setBtnText('转存截图');
       setBtnDisable(false);

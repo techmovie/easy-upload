@@ -7,7 +7,7 @@ import {
   TORRENT_INFO, DOUBAN_MOBILE_API,
 } from './const';
 import i18nConfig from './i18n.json';
-import Notification from './components/Notification';
+import { toast } from 'sonner';
 interface RequestOptions {
   method?: 'GET' | 'POST'
   responseType?: 'json' | 'blob' | 'arraybuffer' | undefined
@@ -23,9 +23,7 @@ const formatTorrentTitle = (title:string) => {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleError = (error:any) => {
-  Notification.open({
-    description: error.message || error,
-  });
+  toast.error(error.message || error);
 };
 const getDoubanInfo = async (doubanUrl:string, isTV?: boolean) => {
   try {
@@ -1434,10 +1432,7 @@ const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles = false) =
   try {
     const apiKey = getValue('easy-seed.ptp-img-api-key', false);
     if (!apiKey) {
-      Notification.open({
-        message: $t('ptpimg上传失败'),
-        description: $t('请到配置面板中填入ptpimg的api_key'),
-      });
+      toast.error(`${$t('ptpimg上传失败')} ${$t('请到配置面板中填入ptpimg的api_key')}`);
       return;
     }
 

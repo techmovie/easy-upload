@@ -2,7 +2,7 @@ import parseTorrent, { toTorrentFile } from 'parse-torrent';
 import { fetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
 import { CURRENT_SITE_INFO } from '../const';
-import Notification from '../components/Notification';
+import { toast } from 'sonner';
 
 /**
  * 格式化视频类型
@@ -158,10 +158,7 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
     const base64 = await blobToBase64(blob);
     return base64;
   } catch (error) {
-    Notification.open({
-      message: $t('种子文件下载失败'),
-      description: $t('请手动下载'),
-    });
+    toast.error(`${$t('种子文件下载失败')} ${$t('请手动下载')}`);
     console.log(error);
     return '';
   }

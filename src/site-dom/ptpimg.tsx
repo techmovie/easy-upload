@@ -1,5 +1,5 @@
 import { render } from 'preact';
-import Notification from '../components/Notification';
+import { toast } from 'sonner';
 
 if (location.host === 'ptpimg.me') {
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
@@ -9,10 +9,7 @@ if (location.host === 'ptpimg.me') {
       <button class="btn btn-info" onClick={() => {
         const apiKey = $('#api_key').val();
         GM_setValue('easy-seed.ptp-img-api-key', apiKey);
-        Notification.open({
-          message: 'Success!',
-          description: 'Saved to EasyUpload.',
-        });
+        toast.success('Success! Saved to EasyUpload.');
       }}>
         <i class="glyphicon glyphicon-floppy-saved" />
         <span>Save ApiKey</span>
