@@ -1,7 +1,7 @@
 {
   "name": "easy-upload",
   "description": "easy uploading torrents to other trackers",
-  "version": "6.0.1",
+  "version": "6.0.3",
   "main": "src/index.js",
   "repository": "git@github.com:techmovie/easy-upload.git",
   "author": "birdplane",
@@ -17,14 +17,14 @@
     "commit": "git add -A & git-cz",
     "release": "node scripts/release.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "postinstall": "husky install",
     "lint": "npx eslint",
     "icon": "node scripts/icoFetcher.js",
-    "support": "node scripts/supported.js"
+    "support": "node scripts/supported.js",
+    "prepare": "husky"
   },
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "browserslist": [
@@ -55,7 +55,7 @@
     "all-contributors-cli": "^6.20.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
-    "commitizen": "^4.2.4",
+    "commitizen": "^4.3.1",
     "conventional-changelog-cli": "^2.2.2",
     "cz-conventional-changelog": "^3.3.0",
     "decode-ico": "^0.4.1",
@@ -66,6 +66,7 @@
     "eslint-plugin-n": "^17.10.3",
     "eslint-plugin-promise": "^7.1.0",
     "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "execa": "^5.0.0",
     "globals": "^15.10.0",
     "got": "^12.0.1",
@@ -85,10 +86,11 @@
   },
   "dependencies": {
     "@preact/compat": "^17.0.3",
+    "dompurify": "^3.1.7",
     "jquery": "^3.7.1",
     "path-browserify": "^1.0.1",
     "preact": "^10.24.1",
-    "rc-notification": "4.4.0"
+    "sonner": "^1.5.0"
   },
   "packageManager": "yarn@4.5.0"
 }

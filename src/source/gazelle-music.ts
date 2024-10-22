@@ -1,5 +1,6 @@
 import { getUrlParam, fetch, htmlToBBCode } from '../common';
 import { CURRENT_SITE_INFO, TORRENT_INFO, CURRENT_SITE_NAME } from '../const';
+import DOMPurify from 'dompurify';
 
 export default async () => {
   const torrentId = getUrlParam('torrentid');
@@ -44,6 +45,7 @@ async function getTorrentInfo (torrentId:string) {
   div.innerHTML = wikiBody;
   let description = bbBody || htmlToBBCode(div);
   description = `[img]${wikiImage}[/img]\n${description}`;
+  description = DOMPurify.sanitize(description);
   const descSource = new DOMParser().parseFromString(description, 'text/html');
   if (descSource.documentElement.textContent) {
     description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, '').replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, '').replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');

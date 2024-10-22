@@ -3,7 +3,7 @@ import {
   $t, getDoubanIdByIMDB, getTvSeasonData,
   getDoubanInfo, getSubTitle,
 } from '../common';
-import Notification from '../components/Notification';
+import { toast } from 'sonner';
 
 async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
   try {
@@ -43,10 +43,7 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
       if (!descriptionData?.match(/(片|译)\s*名/)) {
         const movieData = await getDoubanInfo(doubanLink);
         if (movieData) {
-          Notification.open({
-            message: $t('成功'),
-            description: $t('获取成功'),
-          });
+          toast.success($t('获取成功'));
           const imdbLink = movieData.imdbLink;
           if ($(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== 'SSD') {
             $(imdb.selector).val(imdbLink);
@@ -62,17 +59,11 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
           }
         }
       } else {
-        Notification.open({
-          message: $t('成功'),
-          description: $t('获取成功'),
-        });
+        toast.success($t('获取成功'));
       }
     }
   } catch (error) {
-    Notification.open({
-      message: $t('错误'),
-      description: (error as Error).message,
-    });
+    toast.error((error as Error).message);
   } finally {
     $(selfDom).text($t('获取豆瓣简介'));
   }
