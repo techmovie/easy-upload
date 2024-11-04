@@ -7,6 +7,7 @@ import {
   TORRENT_INFO, DOUBAN_MOBILE_API,
 } from './const';
 import i18nConfig from './i18n.json';
+import sanitizeHtml from 'sanitize-html';
 import { toast } from 'sonner';
 interface RequestOptions {
   method?: 'GET' | 'POST'
@@ -187,12 +188,12 @@ const getDoubanAwards = async (doubanId:string) => {
   });
   const doc = new DOMParser().parseFromString(data, 'text/html');
   const linkDom: HTMLLinkElement|null = doc.querySelector('#content > div > div.article');
-  return linkDom?.innerHTML
-    .replace(/[ \n]/g, '')
+  return sanitizeHtml(linkDom?.innerHTML ?? '', {
+    allowedTags: [],
+    allowedAttributes: {}
+  }).replace(/[ \n]/g, '')
     .replace(/<\/li><li>/g, '</li> <li>')
     .replace(/<\/a><span/g, '</a> <span')
-    .replace(/<(div|ul)[^>]*>/g, '\n')
-    .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, ' ')
     .replace(/ +\n/g, '\n')
     .trim();
