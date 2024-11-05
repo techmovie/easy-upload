@@ -7,7 +7,7 @@ asTarget: true
 uploadPath: /upload
 seedDomSelector: '.detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)'
 search:
-  path: /browse/movie
+  path: /browse
   replaceKey: ['tt', 'https://www.imdb.com/title/tt']
   params:
     keyword: '{imdb}'

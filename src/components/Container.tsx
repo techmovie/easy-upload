@@ -88,13 +88,13 @@ const Container = () => {
   const Title = () => {
     return <h4>
       {$t('一键转种')}
+      <Toaster position="top-right" richColors />
       <span id="easy-seed-setting" className="easy-seed-setting-btn" />
       <ConfigSvg onClick={openSettingPanel} className='setting-svg' />
     </h4>;
   };
   const quickSearchClosed = getValue('easy-seed.quick-search-closed', false) || '';
   return <>
-    <Toaster position="top-right" richColors />
     { (CURRENT_SITE_NAME === 'HH') && <>
       <div class="font-bold leading-6"><Title /></div>
       <div class="font-bold leading-6"><UploadSiteList /></div>

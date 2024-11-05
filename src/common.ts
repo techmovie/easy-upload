@@ -273,7 +273,15 @@ const formatDoubanInfo = async (data:Douban.DoubanMobileData) => {
   } else {
     imdbId = getIMDBIdByUrl(imdbUrl);
   }
-  const imdbRate = await getIMDBRating(imdbId);
+  let imdbRate = {
+    id: '',
+    value: '0',
+    count: '0',
+  };
+  if (imdbId) {
+    imdbRate = await getIMDBRating(imdbId);
+  }
+
   let foreignTitle = '';
   if (original_title && title !== original_title) {
     foreignTitle = original_title;
