@@ -32,6 +32,8 @@ anonymous:
   selector: 'input[name="uplver"]'
 torrent:
   selector: 'input[name="file"]'
+mediaInfo:
+  selector: 'textarea[name="technical_info"]'
 category:
   selector: '#browsecat'
   map:
