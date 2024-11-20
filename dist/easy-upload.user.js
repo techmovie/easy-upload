@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.3
+// @version         6.0.4
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -5217,7 +5217,7 @@
       uploadPath: "/upload",
       seedDomSelector: ".detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)",
       search: {
-        path: "/browse/movie",
+        path: "/browse",
         replaceKey: [
           "tt",
           "https://www.imdb.com/title/tt"
@@ -9190,7 +9190,14 @@
     } else {
       imdbId = getIMDBIdByUrl(imdbUrl);
     }
-    const imdbRate = await getIMDBRating(imdbId);
+    let imdbRate = {
+      id: "",
+      value: "0",
+      count: "0"
+    };
+    if (imdbId) {
+      imdbRate = await getIMDBRating(imdbId);
+    }
     let foreignTitle = "";
     if (original_title && title !== original_title) {
       foreignTitle = original_title;
@@ -20703,13 +20710,13 @@ ${screenBBcodeArray.join("")}`;
     const Title = () => {
       return /* @__PURE__ */ u$1("h4", { children: [
         $t("一键转种"),
+        /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
         /* @__PURE__ */ u$1("span", { id: "easy-seed-setting", className: "easy-seed-setting-btn" }),
         /* @__PURE__ */ u$1(ForwardRef, { onClick: openSettingPanel, className: "setting-svg" })
       ] });
     };
     const quickSearchClosed = getValue("easy-seed.quick-search-closed", false) || "";
     return /* @__PURE__ */ u$1(preact.Fragment, { children: [
-      /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
       CURRENT_SITE_NAME === "HH" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
         /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(Title, {}) }),
         /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }),

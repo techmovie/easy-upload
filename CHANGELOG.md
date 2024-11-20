@@ -1,3 +1,12 @@
+## [6.0.4](https://github.com/techmovie/easy-upload/compare/6.0.3...6.0.4) (2024-11-20)
+
+
+### Bug Fixes
+
+* fix sonner toster and imdb error ([1084e25](https://github.com/techmovie/easy-upload/commit/1084e2583e23001b05ce9b9fb1450d52e101a7df))
+
+
+
 ## [6.0.3](https://github.com/techmovie/easy-upload/compare/6.0.2...6.0.3) (2024-10-22)
 
 
