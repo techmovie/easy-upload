@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.4
+// @version         6.0.5
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -7908,6 +7908,105 @@
       },
       resolution: {
         selector: "#rc_select_12"
+      }
+    },
+    agsv: {
+      url: "https://www.agsvpt.com",
+      host: "agsvpt.com",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,AAABAAIAMDAAAAEAIACoJQAAJgAAABgYAAABACAAiAkAAM4lAAAoAAAAMAAAAGAAAAABACAAAAAAAIAlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADEZADQxGgD/MRoA/zEaAP8xGgD/MRoA/zEaAP8xGgD/MRoA/zEdADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIbAf8wGwD/MRoA/yISAf/z683//vbZ//Przf///tz//fTS//n01f/58M7/+/nb/zIhB/80HAD/MBgA/zAbAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxGgD/MRsC/+newP/j2L3//v7W//Dqvf//9cX/49is/9nTpv8uGQD/MBgC/+HRo//347r/6dqs//Dnu//++dL/+PDS///02P8zHQH/NhsB/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMRoA/zIbAf/t5MP/9+/H///0zv//+tH/VEAn/zIdAv8yGwH/MBsA/zAbAP8wGwD/MBkD/zAaAf8yGwH/MhsB/zIbAf8iDwD/+/HC/+HYrP/i2bT/8+zR/y4bAP8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIbAf8xHAD////b/+TYsP/w4bP///XG/zIbAf8yHAD/MhwA///9/P/+/v7///////////////////////////80HAD//////y4bAP8wGwD/MRwA/zIcAP/s3q3//e+///7/1f/49tj/MRoA/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhsB/zUdAf/j2rX///nO//rvyf8yHAD/Mx0B/yoYAf8wGQP//f///zUbA/8wGgH/LxkA/zAaAf8wGwD/LxkA/y4bAP8xGQP//////zEcAf///v3/NBwA/zIeAP8yHAD/MhwA/+japv/s4bX/6eC//zAeAf8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyHAD/qp2D//324//89uP/LhsA/zIbAf8yHAD/MxsD//z++P8xGgD/o5eL//79///////////////////////////////////9/f3/MRkF/y8fAv//////NBsB/y4WAP/y8/H/MRwA/zIcAP8zHgL/7d+q//nsvv//8tL/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP/4993//vng//v35P8xGwL/MhsB/7OSYf82HgD/LxgC////+f/6+uL/9PHi////+f////n////5////+f////f////7////+////vb////+//7//f////v/LhcB/y8ZAP//////MRwB//////8yHAD/MhsB/9zDZf//9bn/5dSh/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhwA//f43v/7997/+fje/zQbAf8zHQH/+/78/7ueZf8zGwP/NBsB//////8yGwH/MhwK/ysYAP8tFQH/KRQA/ywUAP8qEQH/KxYA/y4XAf8wGwD/MBsA/zMbBf8uHgH/5dCZ/zghAf//////MBsA//3///8rFgD/Mx0E/zIbAf/8+OX/9vji//742/8yGwH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyHAD/4NCi/zIbAf///+X/MRsA///+9P84IAT//f///8OucP/aw3P/Mx0B///9/////////////////////////////////////////////zEcAP/ZwX//2sKA/zQfA//19uL/+Pfi/zIbAf//////MRwA////+/////r/NR0B////9/8zHQH/38Rq/9m+bf/Zvnv/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADEcAf8yGwH/9eSx///8z/8xHAD/Mx0B//f07/89Igf//f///zMdAf/48tv/9/TV/zIbAf8yGwH/MRoA/zMaAP8wGQD/MxsD/zUcAv8zGwP///////7+/v8zHgL/MRwB/zAbAP8wGwD/MRwB/zEcAf//////Mx4C/zMdAf8sGQD/Nh4A//Lu7f8zHQH/MhwA///9/P/+/v7/LRMF/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIbAf//98j/uKZ3/zEcAP8wGwD/NB4C/+jm5f86IQf//v7+/zIeAP8zHgL///7p//j44P/5+eH/+fnh//n45P///+z/2MB0/9nBdf/exYX/+fXq//3////+/v7//v7+///////+/v7//////zAaAf//////Mx4C/861a/8lFQX/Mx0B//////8xGgD/HAwA/zIbAf/8//3//////zUeBP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBsA///0zP/45r3/MhwA/zMdAf+1mVz/Nh4C//39/f85IQP//v/9/zEaAP//////LBgA/y0fA/8pHgL/LRwB/ywbAP8tHwP/LB4C/ycaAP8wHwT/Mx4C/zYfBf82Hwn/Mx4C/zUgBf82HgL/TkEx//////8uGwD/Mx4C/zQfAP//////NB4C//////8yGwH/LhgA/zIbAf80HAD////////+//8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMx8A/9vKo////+H/Mx0B/zMdAf/GtnT/OCAC//////81HQH///////3+/P8qHAr//v/9///////////////////////////////////////////////+/y8YAv/ZzpL////j//j44P/7++P/MhwD///+/f//////Mx4C////////////MRwB/y8cAf/9/////f////////8yHAD/+//+//////82Hgb/AAAAAAAAAAAAAAAAAAAAAAAAAAAxHAD///PP//710P8zHgL/Mx0B/zMbA/81HwP/Nx8B//////8yHgD/NhwE/62ml///+fb/MBsA/zEcAf8xHAH/MBsA/zEcAf8xHAH/Mx4D/zMbA/81HAL///////////8yGgL/MhsB/zIbAf8yGwH/Mx0B/zIcAP8xHAH/Mx4C/zMdAf8xHAH/Mx4D/zMeA/8zGwP/Mx4D/zMbA/82HQP/Mx0B///////9////MRoA/wAAAAAAAAAAAAAAAAAAAAAyHAD/8ejH//DkyP8zHQH/+vbd//z42//6+Nr/Nx8B//7+/v80HgL/2sF7/97Efv/lzHb/2Ltm//X21v/8+N//+Pjg//v24f/5+N7//Prc//v43P8pEgL//vv3//78+//7+vb//Pvt//745f/2+eD/9vng/ykUAP9YQRP/Mx0B//j12f/5+N7/9PbZ//n43v/5+N7/+vXg//v33v/59uH/MhwA///////+//3/MRoA/wAAAAAAAAAAAAAAADIcAP/Pxa3/MRwB/zIcAP8wGwD////x////8P///+X/NB4C//7//f8zIQT//v/l////5////ub//f7q////6v///+r//f/p///+6f///+r////n////5/+bkHz///7p////5////uz////t///97v/7+OP/+fbh/zIcA//+/v7/MhwA////6////+r///7r////7f///+3//v7s//7/6/////D/LxsC/zMdAf8yGgL//f/p/zIbAf8AAAAAAAAAADIcAP///vr///34/zMdAf82GwH/MRwB/zIdAv8zHgL/NB4C//7//f81HQH/Mx0B/zIcAP8zGwP/Mh0B/zEcAf8xGQH/LxoA/y8YAv8wGgH/MBoB/y4YAP8zHgD/MRwA/zMdAf8yGwH/MRoA/zIYAP8xHAH/MxwC/zIbAf8zHgL/NB8D/zMeAv8wGwD/LhsA/zAaAf8uHQP/MRoA/zEaAP8xGgD/MhsB/zMdAf////7//f///zIbAf8AAAAAAAAAADEcAf///un///3y/zQeAv/+/v7//////yERAP/Txnj/MBsA//z9+f8uGQP///////////8xHAD/Mx4C/zUgBf////////////////////////////////8eCgD/Mx0B/zIcAP81Jhb/////////////////+/f2/zEcAf8xHAH/0Llp/9C4ZP/Wumb/Mx0B////////////NSAE/9G5bf/RuGj/0bho/zIbAf/QuKT////x/zIbAf8AAAAAMR0ANDEbAv/Ny8D/Mx0B/zMdAf///v7///////3///8rFgD/KRMB/yYSAP////////////////8zHgL/Oy0a//////////////////////////////////////8ZBwD/Mx0B//////////////////////////////////z+/v8uHQL/Mh0C/zEbAP8zHQH/NR0A/////////////P/9/zMeA/8zHQH/MBsA/zQbAf8zHQH/8uvi/zIaBP8xHQA0MhwA//Pn2//5/Oz/Mx0B/zMdAf8yGAD//v7+/////////////////////////////////3FoWv8yHwT//////////////////f////////////////////////8bCAD/pJqJ///////////////////+//////////////////81IAT/MR0A/zUbA/8zHgL///z4/////////////////y8dAP8xHAD/MhsB/zMcAv8zHQH///v2//j48v8xGgD/MhwA//vy7v/Evbr/Mx0B//3///8zHQH//f///////////////////////////////////zEcAP////7///////////8zGgD/MRwA/zMeAv8xHAD///////////8dCwD/Mx0B/x4SAP/+//3/MhwA/zMdAf81IQL////////////37uT/MhwA/zEaAP8zHgP//////////////////////0M2Jv8xHAD///////79//8zHQH/8ern//Xz8/8xGgD/MhwA//779////vn/Mx0B/y4dAv8yGwH/qZ+V//3/////////MBsA/////////////f///zEcAP////////////////8yHAD/Mx4C//////////////////////8fDgH/Mx0B/zMdAf8wGwD/Mx4D/zYfBf///v////////////80HAj/Mx4C/zIcAP8qFwL////////////+//3///////////8wGwD/Mh0B/y0eAP8zHQH//Pj3//////8yHAD/MhwA/+fn5/////v/Mx0B/zQeAv8yHAD/Mx0B////////////oJaM////////////NRwC/zIcAP////////////////8zHQH/Mx4C//////////////////////8iDwD/MhwA/zUdAf////////////////////////////7//f8xHAH/MBsA/zIcAP////////////////8uFQH///////////8vHAH/MRwA/zEcAP8zHQH//Pz8//////8yHAD/MhwA//7+/v/4+vr/Mx0B/zMeAv8tGgD/Mx0B//7//f//////////////////////Mx4D/zIcAP/+//3///////////8zHQH/Mx0B/zIeAP80HAD/MRoA/zMaAP8zHQH/Mx0B//////////////////7+/v////////39/zEaAP8wGgH/MhsB/zMdAf///////////yMRAP82HgL//////////////v3/MhsB///9/P8zHQH//v/9//7//f8yGwH/MhwA//j4+P///fz/MhwA/zQcBP8zHgP/MhsB/zcfA/////////////////8iFgD/MRwB/zEcAf/+//3///////////8xHAD/MRwA/zIcAP8zHQH/NRoA/zEcAP8zHQH/NiEC////////////KBkA/zAbAP8xHAD/MBsA/zAbAP8yHAD/MhwA///9/f///////////zMdAf8zHQH//v7+////////////MRoA/zIcAP8zHQH/4ODg//39/f8yHAD/MhwA//7+/v///P3/MhwA/zIcAP8yHAD/MhwA/zMdAf////////////////8xHAH/MRwA/zIbAf8jEgD//////////////v//MRwB/zEcAf/9/////////zIdAv8zHQH/MRwB//////////////j1/zEcAf8vHAH///////7//f8xHAD/MhwA////////////+//+/zMdAf8zHQH/MxsF////////////MxsH/zMdAf8zHQH///////v+/P8yHAD/MhwA///////7/vz/MhsB////+//+/v7//f///zMdAf+hmof///////7+/v8xHAD//f///yQUB/8zHQH///////////////////////////////////////39/f8zHQH/Mx0B//7//f////////////////////////////////8zGgD/KhwF////////////NyEF/zcoGP////7/Mx0B//7+/v///////f78/zMdAf8zHQH///////3+/P8xGgD/MR0ANDcgBv///fz/MhwA/zIcAP8yHAD/NB4C/zMdAf8zHgD//////zIcAP8yHAD/MRoA/zEaAP8yHAD/MhwA/////////////////////////////////zEaAP/+/f//49bI/zMdAf/+//3//////////////////////y4XAf8yHAD//P7+////////////MhwA/zUdAf8yHAD/MhwA/x8OAf///////////zAbAP8zHQH//////xIJAP8xGQA0AAAAADMdAf/z9PL///3y/zIcAP8yGwH/MRwB/zEcAP8yHAD//P/9/zIcAP8yHAD/MhwA/zIcAP8xHAD/MhwA/zIcAP8yHAD/JREA/zEcBv8yHAD/MhwA/zIcAP8yHQH/MhwA/zIcAP8yHAD/MRwA/yANAP8vGAL/MBsA/zIcAP8yHAD/NR0F/zMbB/8vGwL/MhwA/zIcAP8yHAD/MhwA/zIcAP81HgT/NR4E/zYeCP+7rqD//////zEcAf8AAAAAAAAAADIcAP///fz//P37/zIcAP/exWn/18Bq/9bAaP/Yumf/1r5m/9a4Z//WuWj/NB4C/9u8Z//Yumf/2b1o/9a/af/Yv2n/0bln/9q6Z//Zu2T/27xn/9i7YP/Yu2D/2rxl/9m7ZP/bu2L/2rph/9i6Yf/YumH/2rph/9q/Zf88IgT/2b9z/9m+bf/Wvmz/2rlp/9q8bf/Yu2r/2bxr/9W6af/WuWj/1r5q/zIcAP/a2Nj///7//zEcAf8AAAAAAAAAADIcAP+Bbl///f///zIbAf82IAT/4djL//z+/v8dEAD/Hg8A/xcLAf8YCQD/NB4C////+//Ks2///////x4MAf8dCwD/HAwA/x8OAf8gDwL/IBAA/826d//+/v7/Oyki/yUQAf8gDQD/Hg0A/yQQAP8jEQD/IA0A/9jDhf80HwD/IhIC/52FQ//Cr2z/x7Ny/8iycf/Hs3L/yLVy//////8qGgP/MhwA/zgeAP/m4uH///72/zEaAP8AAAAAAAAAAAAAAAAyHAD/+vr6//z9+f8xHAD/9Pne//z53f/8+d3/+/jc//v52//7+Nz/Nx8D//v33v/6+d//+Pjg//j44P/5+eH/+fnh//r64v/6+uL/+vnf//z74f/6+d//+vnf//r53//6+d//+fnh//n54f/6+uL/+vnf//n43v83IQX/+/fl//n45P/5+eH//fjj//z43//8+uj////t//n54f/3+eP/Mx0B////+P/z8fD/MRoA/wAAAAAAAAAAAAAAAAAAAAAyHAD///79//7+/v8wGwD/MhwA/zIcAP8yHAD/MhwA/zMdAf8zHQH/Mx4D/zQeAv8zHgL/MRwB/zEcAf8zHgL/MhwA/zIcAP8zHAL/Mx4C/zMeA/8zHgL/Mx4D/zAZAP8wGAD/MBgA/zAYAP8wGAD/MhsB/zIbAf8xGgD/MBsA/y8ZAP8xGgD/MRoA/zMbA/8yGwH/MRoA/zIbAf8yGwH/MxsD/9TU1P///v3/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAMx4A//39/f///v7/MhsB////+/8uGgH/MxsA/0gqAf+uj1D/wKFi/zYeAv+rhjT/LxwB/9m+bv8zHQH/2cJ2/zEcAP/WvG//Mh0B/8e0d/+7o2n/jXdH/zMcAv///////////zIcAP/Zu2j/1Llp//////83HQX///////////8yGwH///79///+///+//3////+/////v8yHAD///z+//r49/8yGQD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhwA//7+/v/k5OT/Lx4E/zIcAP8cCQH/HAkB/zQcAP/v1JT/wqZm/zYeAv/auWr/Lx4D/9e+bv81HQH/2MB0/zMeA//Vu27/Mx0B///usf/myJf/Oh0C/////////////////zIcAP/WuGX//P/9//////8zHQT//////zMdAf8gDQD/IA0A/yIMAf8fCwD/HgoA/zQfAP8zHQH///////37+v8yGwH/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP///////////zEcAf8xHAH/NB8D/zMdAf///v3/28CH/zQbAf/cu2z/2L1s/zQfBP81HQH/2L5x/y4eAf/EqGv/NR0A/4NtPf84IAT/KhoD/////////////////zccAf///f///v/9//v///80HQP/+fj0/zQbAf8yHAD/MhwA/zIcAP8yHAD/MRoA/zIcAP/7/Pj///38/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP82HwX///////36/P8xHAH/KhYF//////81HAL/7dmq//nnuP8xGwL/17xr//7/9v8zHQH/3cOA/93Kjf8sGwD//+yz/zQcAP8zHQH//v/9////////////FQgA//3x5f/////////5/zMeAv/+//3/MRoA//3////7/f3/+/39//z+/v8qFAL/MRwA//38/v/9/f3/Nx0F/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyHAD/OiYV//j59///////MRwB/zIcAP8zHQH/OB8F/9zIpf/p26v////x//////8jEQD//f39//LepP/e0J//WUkf/9rCiP8zGwP//v/9///////v7ur/ORwB////////////MRoA//7+/v/+//3/MhwA/zIcAP8yGwH/MRwA/zIcAP8yHAD/+Pr6/////////Pf/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhwA//z9+f/5+vj//v/9/zEaAP80HAT/Mx0B/yoVAP///tj///////////////v/MhwA//z//f/ZzZf/KxoA/9i+cv82IQL//v/9//////8yHAP/NB8A//////8yHgD/rpdZ//z//f8xGgD/KBIA//v5+f/8/Pz/MhwA/zIcAP/9//////////////8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP/8/vj/5+fn//3++v8xGwL/MhwA/zMdAf/8/vj//////zIdB/8yGwH/MRoA/zIcAP///v///vPY/9q9cv82Hgb//v/9////////////Mh4A/zQfAP81HQD//f7u/y8cAf8vHAH/NRwC/zEcAP8yHAD/NBwA/////v/////////+/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyHAD//f/2//v7+///////GwgD/zIcAP8zHQH/Mx4C/zIcAP8vGQD/MRwB/zIdAv8yHAD/8e7m/9q/df81IAH//v/9////////////MxwC/zIcAP8yHAD/MhsB/zEcAP8xHAD/MhwA/zIcAP8vGQf///////////////r/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhwA/zchCP////////////7//f8xHAD/MRwA/zEcAP8rEwH/PCoZ//v7+/8xHAD/NSAA/+7dnv/Ft4b//v/9//////8xHQD/MhwA///98/8zHQv/MRkB/zEYBP8yGwH/MhwA//Lx8//9+/r//////yIRBP8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP8wGwD///79/////////////////zQhBv8zHQH/Mx0B/zAbAP8wGwD/SkAv/zIcAP/79ML//v7+/zEaAP8vGAL/MhwA/zIcAP8yGwH/MhsB/y8dBv/9/f3/8vLy//39/f/+//3/MRoA/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMhwA/zIZBf/9/////f///////////////////zAZA/8vHAH/MRwA/zIcAP8wGwD/MhwA/zEcAP8zHQH/NBwA/zMeAP///f3/9/f3////////////9vj4/zMaCv8xGgD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxGgD/MBkA///9/P/+/v7//v/9///////////////////////c2dH/t66k//v7+////////////+zq6f/h4Nz///7///z//f8vGQD/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIbAf8yGgT/MhsB/yEOAf/+//3//f/////////9///////////+/v/+//3//////09AN/8wGwD/MRoA/zEaAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADEdADQyHAD/MhwA/zIcAP8yHAD/MhsB/zMcAv8xGgD/MhsB/zEZADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA///gB///AAD//wAA//8AAP/8AAA//wAA//AAAA//AAD/wAAAA/8AAP+AAAAB/wAA/wAAAAD/AAD+AAAAAH8AAPwAAAAAPwAA+AAAAAAfAADwAAAAAA8AAPAAAAAADwAA4AAAAAAHAADgAAAAAAcAAMAAAAAAAwAAwAAAAAADAACAAAAAAAEAAIAAAAAAAQAAgAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAQAAgAAAAAABAACAAAAAAAEAAMAAAAAAAwAAwAAAAAADAADgAAAAAAcAAOAAAAAABwAA8AAAAAAPAADwAAAAAA8AAPgAAAAAHwAA/AAAAAA/AAD+AAAAAH8AAP8AAAAA/wAA/4AAAAH/AAD/wAAAA/8AAP/wAAAP/wAA//wAAD//AAD//wAA//8AAP//4Af//wAAKAAAABgAAAAwAAAAAQAgAAAAAABgCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAbAP8zHQH/IAkB/ycTAf8xGgD/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADEaAP8mGQD/7+bB//3uwP8vGAL/MBsA/y4bAP8rFgD/va59/9DEoP+hlnj/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMR0A//fsxv81IAH/MhsB/zIcAP84JRD/PS0c/0M1I/8uGQP///76/zEcAP8yHQH/7+a6/y0aAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD99tv//Pjg/zIcAP80HwD/MRwA/zEcAP80GwH/MhsB/zIcAP8wGwD////////tsP/r6+v/MRwB//Pdlv/968b/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIdAf/18tb/MhwA/zcgAP8yHAD//////zgcAP82GwD/MxoA/zMeAv8xGQH/Lx8C/+3Xp////////f///zIaBP/z+eL/3sNy/wAAAAAAAAAAAAAAAAAAAAAAAAAAMx0B/+3drv8zHQH/MhwA/zEcAP81Jgz/+Pfj//r45v8zHQH/Mx4A///////+/v7/////////////////NB4C/zMdBP8qGAH//////y8ZAP8AAAAAAAAAAAAAAAAxGgD//fPD/zMdAf8yHQL/MBkA/0o/Mf8zGwD//////////////////////zIdAv/068b/+Pjg/////v8hEAP//////zMdAf8eDgH/MhwA//3///8xGgD/AAAAAAAAAAAnEwH/NCAB//v74/8vFwD/MRsA/zQcAP8xGgD/+vnf//v74//9+t7////n///////+/vL/+vri//n54f/Xv3P/+Pjg//f54//3+eP/+Pjg/zUcAv+QhYH/AAAAAAAAAAD29eH/NB8A//r64v8xHwL/Mx0B//r23f/3+N7/9/nj//f54//6+d//+vTh//j65P/6+d//+Pjg//f33/81HwP/+Pnf//b44v/3+eP/+fnh/zIcAP/49OH/AAAAADIcAP/t6tz/JBIB//////8wGwD/MRwA//////8zHgL//v7+/////////////////zIcAP////////////////8zHgL/MBsA/5mPiP//////MBsA/zAYAP///Or/MBsA/zIcAP///v7/Mx0B/////////////////////////////////zEcAP/+//3//////xwPAf//////NR0B//////8yHAD/NBwA////////////MRwA/zIcAP////v/MRoA/zAZAP83HgT//f///////////////////zEaAP//////IREA/zAeAf///////////zMdAf////////////////8xHAD/Mx4D///////////////5//////82IAT/Nh4I/zMeAP83HwH/NB8D/zUcAv///////////zEcAP//////IRMA/zMdAf8yHAD/Mx0B////////////LR0A/zAbAP8yGwH///////39/f81IAX//////zIbAf8zHQH/OCEL/zQfAP////n/MRwA/zIcAP//////LxkA/zAbAP/+/v7////////+////////Mh0C////+v////////76//////8zHQH//////zMdAf8zHQH//////zMeAP+Ddmj/MhwA/zIcAP/9+/r///////7//f8sGwD/MhwA//3///8yHAD/+PLl//3///8qGQT/MhwA/zMdAf/+/Pv//f///zEbAP9eUUH//////zAYAP////v///////z//f/9////MhwA/wAAAAD+/v7/MhwA/9W7Yf/Vu2H/1bpj/9e8Yv/Uu2X/07tn/9K6Zv/WvWf/1rpm/9e8Yv/Xu2T/1rpj/9i7Zv8zHgL/2bxr/9q9bP/XvGv/1Ldm/zMdAf//////AAAAAAAAAAAwGAD/PSYM//X34f/0897/9Pbg//ny4f/48eL/9/Tl//f14//29OL/9fXj//fz4P/59OX/+fXj//j14P8yHQH/9vPk//j25P8wGwD/+fXj/zEbAv8mFAP/AAAAAAAAAAAyHAD/8vDv/zIdAP8yHAD/KxEA/6+TVv+ogzP/2r9v/+HIgv/SuGz/7tSY/zUdAf//////38F6//3//P8zGwP/Mx0B/zIcAP8wGgH/MhwA//////8yGwH/AAAAAAAAAAAAAAAAMx0B//7//f8xHAH/NB8A//Peqv/bumr/MhsB/9W7bv/44rL/clw4//////////////76/zMdAf/+/v7/MRwA/zIcAP8yHAD///7//zEbAP8AAAAAAAAAAAAAAAAAAAAAAAAAAP/////k4uH/Mx0B/zciB//z4bj///////////8xHQD/n4ZU//////8pFAD///////7//f8xHAD/Mx8G/zIcAP/+/f////7+/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///r//v7+/zIcAP/8//r/MhwA/////////v//3sBz////////////Mx0B/zYeDP81Hwb/MhwA/////v/8//3/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMRwB//////9mWk7/MhwA/zMdAf81HQH///rJ//3///8yHAD/MhsB/zIbAf8fDgH//v/9/y4WAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADIcAP8yIhb///////////////7/MyAF/yoaA//07+7//fv6///////Wz8b/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADEaAP8xGgD/KRgF/xwMAP8yHAD/MRoA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP+B/wD8AD8A+AAfAPAADwDgAAcAwAADAIAAAQCAAAEAgAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAQCAAAEAgAABAMAAAwDgAAcA8AAPAPgAHwD8AD8A/4H/AA==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#outer > table",
+      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
+      needDoubanInfo: true,
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: "#descr"
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      douban: {
+        selector: 'input[name="douban_url"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      torrent: {
+        selector: 'input[name="file"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      category: {
+        selector: "#browsecat",
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "408",
+          sport: "407",
+          cartoon: "405",
+          variety: "403"
+        }
+      },
+      source: {
+        selector: 'select[name="source_sel"]',
+        map: {
+          uhdbluray: "10",
+          bluray: "1",
+          hdtv: "4",
+          dvd: "3",
+          web: "7",
+          vhs: "8",
+          hddvd: "8"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "3",
+          hevc: "0",
+          x264: "3",
+          x265: "0",
+          h265: "0",
+          mpeg2: "17",
+          mpeg4: "1",
+          vc1: "16",
+          xvid: "5"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "0",
+          "2160p": "7",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "5",
+          "480p": "5"
+        }
       }
     },
     fearnopeer: {
