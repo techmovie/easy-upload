@@ -1,3 +1,12 @@
+## [6.0.6](https://github.com/techmovie/easy-upload/compare/6.0.5...6.0.6) (2024-11-28)
+
+
+### Bug Fixes
+
+* update red host ([c36bb54](https://github.com/techmovie/easy-upload/commit/c36bb5491f79085db9b045ce497102166938366e))
+
+
+
 ## [6.0.5](https://github.com/techmovie/easy-upload/compare/6.0.4...6.0.5) (2024-11-23)
 
 
