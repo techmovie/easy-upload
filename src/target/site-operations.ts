@@ -8,6 +8,7 @@ import handleTJUPT from './tjupt';
 import handleHDRoute from './hdr';
 import handleBib from './bib';
 import handlePTN from './ptn';
+import $ from 'jquery';
 
 export const SITE_OPERATIONS = {
   PTSBAO: {

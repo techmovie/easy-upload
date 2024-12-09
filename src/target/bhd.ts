@@ -7,6 +7,7 @@ import {
 import {
   matchSelectForm, buildPTPDescription, isChineseTacker, filterNexusDescription,
 } from './common';
+import $ from 'jquery';
 
 const currentSiteInfo = PT_SITE.BeyondHD;
 

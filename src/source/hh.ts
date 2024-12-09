@@ -4,6 +4,7 @@ import {
   getSourceFromTitle, getAreaCode, getDoubanInfo,
 } from '../common';
 import { getVideoType, getCategory } from './helper';
+import $ from 'jquery';
 
 export default async () => {
   const title = formatTorrentTitle(document.title.match(/"(.+)"/)?.[1] || '');

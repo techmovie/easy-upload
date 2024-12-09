@@ -2,6 +2,8 @@ import {
   CURRENT_SITE_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import { getUrlParam, fetch } from '../common';
+import $ from 'jquery';
+
 const filterBluTorrent = (imdb = '', name = '') => {
   if (imdb) {
     $('#imdb').val(imdb);

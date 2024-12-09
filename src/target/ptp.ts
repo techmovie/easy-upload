@@ -2,6 +2,8 @@ import { PT_SITE } from '../const';
 import {
   getUrlParam, getBDType, getInfoFromMediaInfo,
 } from '../common';
+import $ from 'jquery';
+
 export default async (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.PTP;
   const {

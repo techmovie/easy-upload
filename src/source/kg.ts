@@ -4,6 +4,7 @@ import {
   getBDInfoOrMediaInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
 interface BasicInfo {
   [key:string]:string
 }
@@ -19,9 +20,9 @@ export default async () => {
   const title = formatTorrentTitle(fileName || torrentFileName);
   const imdbUrl = InternetLink?.match(/imdb/) ? InternetLink : '';
   const movieTitles = $('.outer h1').text().split('- ');
-  let movieName, movieAkaName;
+  let movieName = ''; let movieAkaName = '';
   if (movieTitles.length >= 2) {
-    [movieName, movieAkaName = ''] = movieTitles[1].replace(/\(\d+\)/, '').trim().split(/AKA/i);
+    [movieName, movieAkaName] = movieTitles[1].replace(/\(\d+\)/, '').trim().split(/AKA/i);
   }
   const country = $('.outer h1 img').attr('alt') || '';
   const year = Year;

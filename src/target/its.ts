@@ -4,6 +4,7 @@ import {
   $t,
 } from '../common';
 import { getTeamName, getScreenshotsBBCode } from './common';
+import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
   let template = `[center]

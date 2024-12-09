@@ -3,6 +3,7 @@ import { fetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
 import { CURRENT_SITE_INFO } from '../const';
 import { toast } from 'sonner';
+import $ from 'jquery';
 
 /**
  * 格式化视频类型

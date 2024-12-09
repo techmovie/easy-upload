@@ -5,6 +5,8 @@ import {
   getValue, $t,
 } from '../common';
 import { getQuickSearchUrl } from './common';
+import $ from 'jquery';
+
 type SiteName = keyof typeof PT_SITE
 const SearchList = () => {
   const handleSearchClickEvent = (siteName:SiteName) => {

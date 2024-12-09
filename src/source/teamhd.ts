@@ -5,6 +5,8 @@ import {
   getPreciseCategory, getSourceFromTitle,
   getTagsFromSubtitle, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
+
 export default async () => {
   const torrentInfo = await getTorrentInfo();
   torrentInfo.category = getPreciseCategory(torrentInfo, torrentInfo.category);

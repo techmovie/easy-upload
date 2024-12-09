@@ -5,6 +5,8 @@ import {
 } from '../common';
 import { PT_SITE } from '../const';
 import { getScreenshotsBBCode, getTeamName } from './common';
+import $ from 'jquery';
+
 const currentSiteInfo = PT_SITE.Bdc;
 
 export default async (info:TorrentInfo.Info) => {

@@ -4,6 +4,7 @@ import {
   getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
   getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode, fetch,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   const { Name, Category, Size, Description } = getBasicInfo();

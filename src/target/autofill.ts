@@ -4,6 +4,7 @@ import {
   getDoubanInfo, getSubTitle,
 } from '../common';
 import { toast } from 'sonner';
+import $ from 'jquery';
 
 async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
   try {

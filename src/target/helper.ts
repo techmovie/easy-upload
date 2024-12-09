@@ -8,6 +8,7 @@ import {
   base64ToBlob,
 } from './common';
 import { SITE_OPERATIONS } from './site-operations';
+import $ from 'jquery';
 
 type SelectKey = 'videoCodec' | 'videoType' | 'resolution' | 'source' | 'area'
 

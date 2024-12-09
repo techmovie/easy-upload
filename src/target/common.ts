@@ -2,6 +2,7 @@ import {
   getFilterImages,
 } from '../common';
 import { CURRENT_SITE_NAME } from '../const';
+import $ from 'jquery';
 
 const getScreenshotsBBCode = (imgArray:string[]) => {
   return imgArray.map(img => {

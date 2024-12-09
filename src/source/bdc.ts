@@ -5,6 +5,8 @@ import {
   getBDInfoOrMediaInfo, getScreenshotsFromBBCode, getTagsFromSubtitle,
   getAreaCode,
 } from '../common';
+import $ from 'jquery';
+
 export default async () => {
   const torrentInfo = await getTorrentInfo();
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;

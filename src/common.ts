@@ -8,6 +8,7 @@ import {
 } from './const';
 import i18nConfig from './i18n.json';
 import { toast } from 'sonner';
+import $ from 'jquery';
 interface RequestOptions {
   method?: 'GET' | 'POST'
   responseType?: 'json' | 'blob' | 'arraybuffer' | undefined

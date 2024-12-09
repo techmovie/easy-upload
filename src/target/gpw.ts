@@ -4,6 +4,7 @@ import {
   getUrlParam, getInfoFromMediaInfo,
 } from '../common';
 import { buildPTPDescription } from './common';
+import $ from 'jquery';
 
 const currentSiteInfo = PT_SITE.GPW;
 export default async (info:TorrentInfo.Info) => {

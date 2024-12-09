@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default (info:TorrentInfo.Info) => {
   const { description, doubanInfo } = info;
   const fullDescription = description + doubanInfo;

@@ -4,6 +4,7 @@ import {
   getInfoFromBDInfo, getSize, getFilterBBCode,
   getPreciseCategory, getSourceFromTitle, getTagsFromSubtitle, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
 interface BasicInfo {
   Type: string,
   'File Size':string,

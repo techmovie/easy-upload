@@ -1345,12 +1345,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jquery@npm:^3.5.31":
-  version: 3.5.31
-  resolution: "@types/jquery@npm:3.5.31"
+"@types/jquery@npm:^3.5.32":
+  version: 3.5.32
+  resolution: "@types/jquery@npm:3.5.32"
   dependencies:
     "@types/sizzle": "npm:*"
-  checksum: 10c0/94a6e209382908e102199aa32d261147c97bf578693a6e7657d12a35e1304940b18bebadb21c207cd3efa51b4d16eb117be36af235c27f399be09cc56ed125b5
+  checksum: 10c0/4a17ad6819b89026c21323656ab01b0b263f9d470910a87c8740920ff98319d503c7352b85b50134a39724ecbfccabc73aa4c741dfdd460cf8bbe714f9259054
   languageName: node
   linkType: hard
 
@@ -1421,9 +1421,9 @@ __metadata:
   linkType: hard
 
 "@types/sizzle@npm:*":
-  version: 2.3.8
-  resolution: "@types/sizzle@npm:2.3.8"
-  checksum: 10c0/ab5460147ae6680cc20c2223a8f17d9f7c97144b70f00a222a1c32d68b5207696d48177ab9784dda88c74d93ed5a78dd31f74d271b15382520b423c81b4aac89
+  version: 2.3.9
+  resolution: "@types/sizzle@npm:2.3.9"
+  checksum: 10c0/db0277ff62e8ebe6cdae2020fd045fd7fd19f29a3a2ce13c555b14fb00e105e79004883732118b9f2e8b943cb302645e9eddb4e7bdeef1a171da679cd4c32b72
   languageName: node
   linkType: hard
 
@@ -3114,7 +3114,7 @@ __metadata:
     "@preact/compat": "npm:^17.0.3"
     "@preact/preset-vite": "npm:^2.9.1"
     "@stylistic/eslint-plugin-ts": "npm:^2.9.0"
-    "@types/jquery": "npm:^3.5.31"
+    "@types/jquery": "npm:^3.5.32"
     "@types/parse-torrent": "npm:^5.8.7"
     "@types/tampermonkey": "npm:^4.0.5"
     "@typescript-eslint/eslint-plugin": "npm:^8.8.0"

@@ -4,6 +4,7 @@ import {
   getBDType,
 } from '../common';
 import { PT_SITE } from '../const';
+import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
   const { imdbUrl, screenshots, mediaInfos, resolution, source, videoType } = info;

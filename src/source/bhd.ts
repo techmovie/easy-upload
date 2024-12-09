@@ -4,6 +4,7 @@ import {
   getInfoFromBDInfo, getSize, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;

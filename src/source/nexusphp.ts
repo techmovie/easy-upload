@@ -5,6 +5,7 @@ import {
   getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoOrMediaInfo, getPreciseCategory,
 } from '../common';
 import { getVideoType, getCategory, getResolution, getFormat } from './helper';
+import $ from 'jquery';
 
 /**
  * 获取 NexusPHP 默认数据

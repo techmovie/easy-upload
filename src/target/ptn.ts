@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default (info:TorrentInfo.Info) => {
   const { resolution, videoType, source } = info;
   let format = '';

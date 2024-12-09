@@ -14,8 +14,6 @@ import './style.css';
 import App from './components/Container';
 import $ from 'jquery';
 
-window.jQuery = $;
-
 const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
 const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
 const torrentTimestamp = (timestampMatchArray && timestampMatchArray.length > 0) ? timestampMatchArray[2] : null;

@@ -1,4 +1,5 @@
 import { getIMDBData, getIMDBIdByUrl, transferImgs, uploadToPtpImg, fetch } from '../common';
+import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
   const { imdbUrl = '' } = info;

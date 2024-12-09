@@ -1,5 +1,6 @@
 import { PT_SITE } from '../const';
 import { getTeamName } from './common';
+import $ from 'jquery';
 
 export default (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.NPUBits;

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default (info:TorrentInfo.Info) => {
   if (!info.doubanBookInfo) {
     return;

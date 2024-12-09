@@ -4,6 +4,7 @@ import {
   getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
   getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   const title = document.title.replace(/HD-Torrents.org\s*-/ig, '').trim();

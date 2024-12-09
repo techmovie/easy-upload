@@ -4,6 +4,7 @@ import {
   getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;

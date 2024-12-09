@@ -5,6 +5,7 @@ import {
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
   getUrlParam, getSize, getSourceFromTitle, fetch,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   const torrentId = getUrlParam('torrentid');

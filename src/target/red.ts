@@ -1,5 +1,7 @@
 import { fetch, getUrlParam } from '../common';
 import { CURRENT_SITE_INFO } from '../const';
+import $ from 'jquery';
+
 export default async (info:TorrentInfo.Info) => {
   const { musicJson } = info;
   if (!musicJson) {

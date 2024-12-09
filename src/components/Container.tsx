@@ -13,6 +13,7 @@ import SettingPanel from './SettingPanel';
 import ConfigSvg from '../assets/setting.svg';
 import { getQuickSearchUrl } from './common';
 import { Toaster } from 'sonner';
+import $ from 'jquery';
 
 const Container = () => {
   const [settingPanelOpen, setSettingPanelOpen] = useState(false);

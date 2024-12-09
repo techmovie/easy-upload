@@ -1,5 +1,6 @@
 import { render } from 'preact';
 import { toast } from 'sonner';
+import $ from 'jquery';
 
 if (location.host === 'ptpimg.me') {
   const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';

@@ -2,6 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, getFilterBBCode,
 } from '../common';
+import $ from 'jquery';
 
 export default async () => {
   const torrentId = getUrlParam('id');

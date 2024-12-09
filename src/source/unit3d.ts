@@ -5,6 +5,8 @@ import {
   getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
+import $ from 'jquery';
+
 interface BasicInfo {
   Category: string
   Name:string

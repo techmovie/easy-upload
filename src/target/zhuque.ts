@@ -5,7 +5,9 @@ import {
 import {
   getIMDBIdByUrl,
 } from '../common';
+import $ from 'jquery';
 const currentSiteInfo = PT_SITE.ZHUQUE;
+
 export default (info: TorrentInfo.Info) => {
   const targetNode = document;
   const imdbId = getIMDBIdByUrl(info.imdbUrl || '');

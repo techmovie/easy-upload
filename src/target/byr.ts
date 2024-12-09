@@ -1,5 +1,7 @@
 import { PT_SITE } from '../const';
 import { getInfoFromMediaInfo, getInfoFromBDInfo } from '../common';
+import $ from 'jquery';
+
 export default (info:TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.BYR;
   const {

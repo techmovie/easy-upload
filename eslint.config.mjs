@@ -40,7 +40,6 @@ export default [{
   languageOptions: {
     globals: {
       ...globals.browser,
-      ...globals.jquery,
       ...globals.greasemonkey,
     },
 
@@ -64,7 +63,7 @@ export default [{
   rules: {
     'no-use-before-define': 0,
     semi: ['error', 'always'],
-    'no-undef': 'off',
+    'no-undef': 0,
     'comma-dangle': ['error', 'always-multiline'],
     indent: 'off',
     '@stylistic/ts/indent': ['error', 2],

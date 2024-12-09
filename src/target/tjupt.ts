@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 export default (info:TorrentInfo.Info) => {
   const observer = new MutationObserver(() => {
     if ($('#ename')[0] && $('#cname')[0]) {

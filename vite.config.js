@@ -92,9 +92,6 @@ export default defineConfig({
     target: 'chrome58',
     outDir: './dist',
   },
-  define: {
-    $: 'jQuery',
-  },
   resolve: {
     alias: {
       path: 'path-browserify',

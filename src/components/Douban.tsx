@@ -7,6 +7,7 @@ import {
   getSubTitle, getAreaCode, getPreciseCategory,
 } from '../common';
 import { toast } from 'sonner';
+import $ from 'jquery';
 
 const getTvSeasonData = async (data:Douban.Season) => {
   const { title: torrentTitle } = TORRENT_INFO;
