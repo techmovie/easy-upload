@@ -1,3 +1,12 @@
+## [6.0.7](https://github.com/techmovie/easy-upload/compare/6.0.6...6.0.7) (2024-12-09)
+
+
+### Bug Fixes
+
+* fix issue for jquery on dev ([985523b](https://github.com/techmovie/easy-upload/commit/985523babe6bc6b7925bd5f61a17bbc0c4d1f18b))
+
+
+
 ## [6.0.6](https://github.com/techmovie/easy-upload/compare/6.0.5...6.0.6) (2024-11-28)
 
 

@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.6
+// @version         6.0.7
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -78,11 +78,11 @@
   };
   var _a, _d, _e;
   var f$1 = 0;
-  function u$1(e2, t2, n2, o2, i2, u2) {
+  function u$1(e2, t2, n, o2, i, u2) {
     t2 || (t2 = {});
     var a2, c2, l2 = t2;
     "ref" in t2 && (a2 = t2.ref, delete t2.ref);
-    var p2 = { type: e2, props: l2, key: n2, ref: a2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: --f$1, __i: -1, __u: 0, __source: i2, __self: u2 };
+    var p2 = { type: e2, props: l2, key: n, ref: a2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: --f$1, __i: -1, __u: 0, __source: i, __self: u2 };
     if ("function" == typeof e2 && (a2 = e2.defaultProps)) for (c2 in a2) void 0 === l2[c2] && (l2[c2] = a2[c2]);
     return preact.options.vnode && preact.options.vnode(p2), p2;
   }
@@ -8628,87 +8628,87 @@
   function D$1(n, t2) {
     return "function" == typeof t2 ? t2(n) : t2;
   }
-  function g(n2, t2) {
-    for (var e2 in n2) if ("__source" !== e2 && !(e2 in t2)) return true;
-    for (var r2 in t2) if ("__source" !== r2 && n2[r2] !== t2[r2]) return true;
+  function g(n, t2) {
+    for (var e2 in n) if ("__source" !== e2 && !(e2 in t2)) return true;
+    for (var r2 in t2) if ("__source" !== r2 && n[r2] !== t2[r2]) return true;
     return false;
   }
-  function E(n2, t2) {
-    this.props = n2, this.context = t2;
+  function E(n, t2) {
+    this.props = n, this.context = t2;
   }
-  function C(n2, e2) {
-    function r2(n3) {
-      var t2 = this.props.ref, r3 = t2 == n3.ref;
-      return !r3 && t2 && (t2.call ? t2(null) : t2.current = null), e2 ? !e2(this.props, n3) || !r3 : g(this.props, n3);
+  function C(n, e2) {
+    function r2(n2) {
+      var t2 = this.props.ref, r3 = t2 == n2.ref;
+      return !r3 && t2 && (t2.call ? t2(null) : t2.current = null), e2 ? !e2(this.props, n2) || !r3 : g(this.props, n2);
     }
     function u2(e3) {
-      return this.shouldComponentUpdate = r2, preact.createElement(n2, e3);
+      return this.shouldComponentUpdate = r2, preact.createElement(n, e3);
     }
-    return u2.displayName = "Memo(" + (n2.displayName || n2.name) + ")", u2.prototype.isReactComponent = true, u2.__f = true, u2;
+    return u2.displayName = "Memo(" + (n.displayName || n.name) + ")", u2.prototype.isReactComponent = true, u2.__f = true, u2;
   }
-  (E.prototype = new preact.Component()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n2, t2) {
-    return g(this.props, n2) || g(this.state, t2);
+  (E.prototype = new preact.Component()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n, t2) {
+    return g(this.props, n) || g(this.state, t2);
   };
   var x = preact.options.__b;
-  preact.options.__b = function(n2) {
-    n2.type && n2.type.__f && n2.ref && (n2.props.ref = n2.ref, n2.ref = null), x && x(n2);
+  preact.options.__b = function(n) {
+    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), x && x(n);
   };
   var R = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function w(n2) {
+  function w(n) {
     function t2(t3) {
-      if (!("ref" in t3)) return n2(t3, null);
+      if (!("ref" in t3)) return n(t3, null);
       var e2 = t3.ref;
       delete t3.ref;
-      var r2 = n2(t3, e2);
+      var r2 = n(t3, e2);
       return t3.ref = e2, r2;
     }
-    return t2.$$typeof = R, t2.render = t2, t2.prototype.isReactComponent = t2.__f = true, t2.displayName = "ForwardRef(" + (n2.displayName || n2.name) + ")", t2;
+    return t2.$$typeof = R, t2.render = t2, t2.prototype.isReactComponent = t2.__f = true, t2.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t2;
   }
-  var k = function(n2, t2) {
-    return null == n2 ? null : preact.toChildArray(preact.toChildArray(n2).map(t2));
-  }, I = { map: k, forEach: k, count: function(n2) {
-    return n2 ? preact.toChildArray(n2).length : 0;
-  }, only: function(n2) {
-    var t2 = preact.toChildArray(n2);
+  var k = function(n, t2) {
+    return null == n ? null : preact.toChildArray(preact.toChildArray(n).map(t2));
+  }, I = { map: k, forEach: k, count: function(n) {
+    return n ? preact.toChildArray(n).length : 0;
+  }, only: function(n) {
+    var t2 = preact.toChildArray(n);
     if (1 !== t2.length) throw "Children.only";
     return t2[0];
   }, toArray: preact.toChildArray }, N = preact.options.__e;
-  preact.options.__e = function(n2, t2, e2, r2) {
-    if (n2.then) {
-      for (var u2, o2 = t2; o2 = o2.__; ) if ((u2 = o2.__c) && u2.__c) return null == t2.__e && (t2.__e = e2.__e, t2.__k = e2.__k), u2.__c(n2, t2);
+  preact.options.__e = function(n, t2, e2, r2) {
+    if (n.then) {
+      for (var u2, o2 = t2; o2 = o2.__; ) if ((u2 = o2.__c) && u2.__c) return null == t2.__e && (t2.__e = e2.__e, t2.__k = e2.__k), u2.__c(n, t2);
     }
-    N(n2, t2, e2, r2);
+    N(n, t2, e2, r2);
   };
   var M = preact.options.unmount;
-  function T(n2, t2, e2) {
-    return n2 && (n2.__c && n2.__c.__H && (n2.__c.__H.__.forEach(function(n3) {
-      "function" == typeof n3.__c && n3.__c();
-    }), n2.__c.__H = null), null != (n2 = function(n3, t3) {
-      for (var e3 in t3) n3[e3] = t3[e3];
-      return n3;
-    }({}, n2)).__c && (n2.__c.__P === e2 && (n2.__c.__P = t2), n2.__c = null), n2.__k = n2.__k && n2.__k.map(function(n3) {
-      return T(n3, t2, e2);
-    })), n2;
+  function T(n, t2, e2) {
+    return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function(n2) {
+      "function" == typeof n2.__c && n2.__c();
+    }), n.__c.__H = null), null != (n = function(n2, t3) {
+      for (var e3 in t3) n2[e3] = t3[e3];
+      return n2;
+    }({}, n)).__c && (n.__c.__P === e2 && (n.__c.__P = t2), n.__c = null), n.__k = n.__k && n.__k.map(function(n2) {
+      return T(n2, t2, e2);
+    })), n;
   }
-  function A(n2, t2, e2) {
-    return n2 && e2 && (n2.__v = null, n2.__k = n2.__k && n2.__k.map(function(n3) {
-      return A(n3, t2, e2);
-    }), n2.__c && n2.__c.__P === t2 && (n2.__e && e2.appendChild(n2.__e), n2.__c.__e = true, n2.__c.__P = e2)), n2;
+  function A(n, t2, e2) {
+    return n && e2 && (n.__v = null, n.__k = n.__k && n.__k.map(function(n2) {
+      return A(n2, t2, e2);
+    }), n.__c && n.__c.__P === t2 && (n.__e && e2.appendChild(n.__e), n.__c.__e = true, n.__c.__P = e2)), n;
   }
   function D() {
     this.__u = 0, this.t = null, this.__b = null;
   }
-  function L(n2) {
-    var t2 = n2.__.__c;
-    return t2 && t2.__a && t2.__a(n2);
+  function L(n) {
+    var t2 = n.__.__c;
+    return t2 && t2.__a && t2.__a(n);
   }
-  function O(n2) {
+  function O(n) {
     var e2, r2, u2;
     function o2(o3) {
-      if (e2 || (e2 = n2()).then(function(n3) {
-        r2 = n3.default || n3;
-      }, function(n3) {
-        u2 = n3;
+      if (e2 || (e2 = n()).then(function(n2) {
+        r2 = n2.default || n2;
+      }, function(n2) {
+        u2 = n2;
       }), u2) throw u2;
       if (!r2) throw e2;
       return preact.createElement(r2, o3);
@@ -8718,30 +8718,30 @@
   function F() {
     this.u = null, this.o = null;
   }
-  preact.options.unmount = function(n2) {
-    var t2 = n2.__c;
-    t2 && t2.__R && t2.__R(), t2 && 32 & n2.__u && (n2.type = null), M && M(n2);
-  }, (D.prototype = new preact.Component()).__c = function(n2, t2) {
+  preact.options.unmount = function(n) {
+    var t2 = n.__c;
+    t2 && t2.__R && t2.__R(), t2 && 32 & n.__u && (n.type = null), M && M(n);
+  }, (D.prototype = new preact.Component()).__c = function(n, t2) {
     var e2 = t2.__c, r2 = this;
     null == r2.t && (r2.t = []), r2.t.push(e2);
-    var u2 = L(r2.__v), o2 = false, i2 = function() {
+    var u2 = L(r2.__v), o2 = false, i = function() {
       o2 || (o2 = true, e2.__R = null, u2 ? u2(c2) : c2());
     };
-    e2.__R = i2;
+    e2.__R = i;
     var c2 = function() {
       if (!--r2.__u) {
         if (r2.state.__a) {
-          var n3 = r2.state.__a;
-          r2.__v.__k[0] = A(n3, n3.__c.__P, n3.__c.__O);
+          var n2 = r2.state.__a;
+          r2.__v.__k[0] = A(n2, n2.__c.__P, n2.__c.__O);
         }
         var t3;
         for (r2.setState({ __a: r2.__b = null }); t3 = r2.t.pop(); ) t3.forceUpdate();
       }
     };
-    r2.__u++ || 32 & t2.__u || r2.setState({ __a: r2.__b = r2.__v.__k[0] }), n2.then(i2, i2);
+    r2.__u++ || 32 & t2.__u || r2.setState({ __a: r2.__b = r2.__v.__k[0] }), n.then(i, i);
   }, D.prototype.componentWillUnmount = function() {
     this.t = [];
-  }, D.prototype.render = function(n2, e2) {
+  }, D.prototype.render = function(n, e2) {
     if (this.__b) {
       if (this.__v.__k) {
         var r2 = document.createElement("div"), o2 = this.__v.__k[0].__c;
@@ -8749,73 +8749,73 @@
       }
       this.__b = null;
     }
-    var i2 = e2.__a && preact.createElement(preact.Fragment, null, n2.fallback);
-    return i2 && (i2.__u &= -33), [preact.createElement(preact.Fragment, null, e2.__a ? null : n2.children), i2];
+    var i = e2.__a && preact.createElement(preact.Fragment, null, n.fallback);
+    return i && (i.__u &= -33), [preact.createElement(preact.Fragment, null, e2.__a ? null : n.children), i];
   };
-  var U$1 = function(n2, t2, e2) {
-    if (++e2[1] === e2[0] && n2.o.delete(t2), n2.props.revealOrder && ("t" !== n2.props.revealOrder[0] || !n2.o.size)) for (e2 = n2.u; e2; ) {
+  var U$1 = function(n, t2, e2) {
+    if (++e2[1] === e2[0] && n.o.delete(t2), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e2 = n.u; e2; ) {
       for (; e2.length > 3; ) e2.pop()();
       if (e2[1] < e2[0]) break;
-      n2.u = e2 = e2[2];
+      n.u = e2 = e2[2];
     }
   };
-  function V(n2) {
+  function V(n) {
     return this.getChildContext = function() {
-      return n2.context;
-    }, n2.children;
+      return n.context;
+    }, n.children;
   }
-  function W(n2) {
-    var e2 = this, r2 = n2.i;
+  function W(n) {
+    var e2 = this, r2 = n.i;
     e2.componentWillUnmount = function() {
       preact.render(null, e2.l), e2.l = null, e2.i = null;
     }, e2.i && e2.i !== r2 && e2.componentWillUnmount(), e2.l || (e2.i = r2, e2.l = { nodeType: 1, parentNode: r2, childNodes: [], contains: function() {
       return true;
-    }, appendChild: function(n3) {
-      this.childNodes.push(n3), e2.i.appendChild(n3);
-    }, insertBefore: function(n3, t2) {
-      this.childNodes.push(n3), e2.i.appendChild(n3);
-    }, removeChild: function(n3) {
-      this.childNodes.splice(this.childNodes.indexOf(n3) >>> 1, 1), e2.i.removeChild(n3);
-    } }), preact.render(preact.createElement(V, { context: e2.context }, n2.__v), e2.l);
+    }, appendChild: function(n2) {
+      this.childNodes.push(n2), e2.i.appendChild(n2);
+    }, insertBefore: function(n2, t2) {
+      this.childNodes.push(n2), e2.i.appendChild(n2);
+    }, removeChild: function(n2) {
+      this.childNodes.splice(this.childNodes.indexOf(n2) >>> 1, 1), e2.i.removeChild(n2);
+    } }), preact.render(preact.createElement(V, { context: e2.context }, n.__v), e2.l);
   }
-  function P(n2, e2) {
-    var r2 = preact.createElement(W, { __v: n2, i: e2 });
+  function P(n, e2) {
+    var r2 = preact.createElement(W, { __v: n, i: e2 });
     return r2.containerInfo = e2, r2;
   }
-  (F.prototype = new preact.Component()).__a = function(n2) {
-    var t2 = this, e2 = L(t2.__v), r2 = t2.o.get(n2);
+  (F.prototype = new preact.Component()).__a = function(n) {
+    var t2 = this, e2 = L(t2.__v), r2 = t2.o.get(n);
     return r2[0]++, function(u2) {
       var o2 = function() {
-        t2.props.revealOrder ? (r2.push(u2), U$1(t2, n2, r2)) : u2();
+        t2.props.revealOrder ? (r2.push(u2), U$1(t2, n, r2)) : u2();
       };
       e2 ? e2(o2) : o2();
     };
-  }, F.prototype.render = function(n2) {
+  }, F.prototype.render = function(n) {
     this.u = null, this.o = /* @__PURE__ */ new Map();
-    var t2 = preact.toChildArray(n2.children);
-    n2.revealOrder && "b" === n2.revealOrder[0] && t2.reverse();
+    var t2 = preact.toChildArray(n.children);
+    n.revealOrder && "b" === n.revealOrder[0] && t2.reverse();
     for (var e2 = t2.length; e2--; ) this.o.set(t2[e2], this.u = [1, 0, this.u]);
-    return n2.children;
+    return n.children;
   }, F.prototype.componentDidUpdate = F.prototype.componentDidMount = function() {
-    var n2 = this;
+    var n = this;
     this.o.forEach(function(t2, e2) {
-      U$1(n2, e2, t2);
+      U$1(n, e2, t2);
     });
   };
-  var j = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103, z = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, B = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, H = /[A-Z0-9]/g, Z = "undefined" != typeof document, Y = function(n2) {
-    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n2);
+  var j = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103, z = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, B = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, H = /[A-Z0-9]/g, Z = "undefined" != typeof document, Y = function(n) {
+    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
   };
-  function $(n2, t2, e2) {
-    return null == t2.__k && (t2.textContent = ""), preact.render(n2, t2), "function" == typeof e2 && e2(), n2 ? n2.__c : null;
+  function $(n, t2, e2) {
+    return null == t2.__k && (t2.textContent = ""), preact.render(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
   }
-  function q(n2, t2, e2) {
-    return preact.hydrate(n2, t2), "function" == typeof e2 && e2(), n2 ? n2.__c : null;
+  function q(n, t2, e2) {
+    return preact.hydrate(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
   }
   preact.Component.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function(t2) {
     Object.defineProperty(preact.Component.prototype, t2, { configurable: true, get: function() {
       return this["UNSAFE_" + t2];
-    }, set: function(n2) {
-      Object.defineProperty(this, t2, { configurable: true, writable: true, value: n2 });
+    }, set: function(n) {
+      Object.defineProperty(this, t2, { configurable: true, writable: true, value: n });
     } });
   });
   var G = preact.options.event;
@@ -8827,94 +8827,94 @@
   function Q() {
     return this.defaultPrevented;
   }
-  preact.options.event = function(n2) {
-    return G && (n2 = G(n2)), n2.persist = J, n2.isPropagationStopped = K, n2.isDefaultPrevented = Q, n2.nativeEvent = n2;
+  preact.options.event = function(n) {
+    return G && (n = G(n)), n.persist = J, n.isPropagationStopped = K, n.isDefaultPrevented = Q, n.nativeEvent = n;
   };
   var X, nn = { enumerable: false, configurable: true, get: function() {
     return this.class;
   } }, tn = preact.options.vnode;
-  preact.options.vnode = function(n2) {
-    "string" == typeof n2.type && function(n3) {
-      var t2 = n3.props, e2 = n3.type, u2 = {}, o2 = -1 === e2.indexOf("-");
-      for (var i2 in t2) {
-        var c2 = t2[i2];
-        if (!("value" === i2 && "defaultValue" in t2 && null == c2 || Z && "children" === i2 && "noscript" === e2 || "class" === i2 || "className" === i2)) {
-          var f2 = i2.toLowerCase();
-          "defaultValue" === i2 && "value" in t2 && null == t2.value ? i2 = "value" : "download" === i2 && true === c2 ? c2 = "" : "translate" === f2 && "no" === c2 ? c2 = false : "o" === f2[0] && "n" === f2[1] ? "ondoubleclick" === f2 ? i2 = "ondblclick" : "onchange" !== f2 || "input" !== e2 && "textarea" !== e2 || Y(t2.type) ? "onfocus" === f2 ? i2 = "onfocusin" : "onblur" === f2 ? i2 = "onfocusout" : B.test(i2) && (i2 = f2) : f2 = i2 = "oninput" : o2 && z.test(i2) ? i2 = i2.replace(H, "-$&").toLowerCase() : null === c2 && (c2 = void 0), "oninput" === f2 && u2[i2 = f2] && (i2 = "oninputCapture"), u2[i2] = c2;
+  preact.options.vnode = function(n) {
+    "string" == typeof n.type && function(n2) {
+      var t2 = n2.props, e2 = n2.type, u2 = {}, o2 = -1 === e2.indexOf("-");
+      for (var i in t2) {
+        var c2 = t2[i];
+        if (!("value" === i && "defaultValue" in t2 && null == c2 || Z && "children" === i && "noscript" === e2 || "class" === i || "className" === i)) {
+          var f2 = i.toLowerCase();
+          "defaultValue" === i && "value" in t2 && null == t2.value ? i = "value" : "download" === i && true === c2 ? c2 = "" : "translate" === f2 && "no" === c2 ? c2 = false : "o" === f2[0] && "n" === f2[1] ? "ondoubleclick" === f2 ? i = "ondblclick" : "onchange" !== f2 || "input" !== e2 && "textarea" !== e2 || Y(t2.type) ? "onfocus" === f2 ? i = "onfocusin" : "onblur" === f2 ? i = "onfocusout" : B.test(i) && (i = f2) : f2 = i = "oninput" : o2 && z.test(i) ? i = i.replace(H, "-$&").toLowerCase() : null === c2 && (c2 = void 0), "oninput" === f2 && u2[i = f2] && (i = "oninputCapture"), u2[i] = c2;
         }
       }
-      "select" == e2 && u2.multiple && Array.isArray(u2.value) && (u2.value = preact.toChildArray(t2.children).forEach(function(n4) {
-        n4.props.selected = -1 != u2.value.indexOf(n4.props.value);
-      })), "select" == e2 && null != u2.defaultValue && (u2.value = preact.toChildArray(t2.children).forEach(function(n4) {
-        n4.props.selected = u2.multiple ? -1 != u2.defaultValue.indexOf(n4.props.value) : u2.defaultValue == n4.props.value;
-      })), t2.class && !t2.className ? (u2.class = t2.class, Object.defineProperty(u2, "className", nn)) : (t2.className && !t2.class || t2.class && t2.className) && (u2.class = u2.className = t2.className), n3.props = u2;
-    }(n2), n2.$$typeof = j, tn && tn(n2);
+      "select" == e2 && u2.multiple && Array.isArray(u2.value) && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
+        n3.props.selected = -1 != u2.value.indexOf(n3.props.value);
+      })), "select" == e2 && null != u2.defaultValue && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
+        n3.props.selected = u2.multiple ? -1 != u2.defaultValue.indexOf(n3.props.value) : u2.defaultValue == n3.props.value;
+      })), t2.class && !t2.className ? (u2.class = t2.class, Object.defineProperty(u2, "className", nn)) : (t2.className && !t2.class || t2.class && t2.className) && (u2.class = u2.className = t2.className), n2.props = u2;
+    }(n), n.$$typeof = j, tn && tn(n);
   };
   var en = preact.options.__r;
-  preact.options.__r = function(n2) {
-    en && en(n2), X = n2.__c;
+  preact.options.__r = function(n) {
+    en && en(n), X = n.__c;
   };
   var rn = preact.options.diffed;
-  preact.options.diffed = function(n2) {
-    rn && rn(n2);
-    var t2 = n2.props, e2 = n2.__e;
-    null != e2 && "textarea" === n2.type && "value" in t2 && t2.value !== e2.value && (e2.value = null == t2.value ? "" : t2.value), X = null;
+  preact.options.diffed = function(n) {
+    rn && rn(n);
+    var t2 = n.props, e2 = n.__e;
+    null != e2 && "textarea" === n.type && "value" in t2 && t2.value !== e2.value && (e2.value = null == t2.value ? "" : t2.value), X = null;
   };
-  var un = { ReactCurrentDispatcher: { current: { readContext: function(n2) {
-    return X.__n[n2.__c].props.value;
+  var un = { ReactCurrentDispatcher: { current: { readContext: function(n) {
+    return X.__n[n.__c].props.value;
   }, useCallback: q$1, useContext: x$1, useDebugValue: P$1, useDeferredValue: _n, useEffect: y, useId: g$1, useImperativeHandle: F$1, useInsertionEffect: Sn, useLayoutEffect: _, useMemo: T$1, useReducer: p, useRef: A$1, useState: h, useSyncExternalStore: En, useTransition: bn } } };
-  function cn(n2) {
-    return preact.createElement.bind(null, n2);
+  function cn(n) {
+    return preact.createElement.bind(null, n);
   }
-  function fn(n2) {
-    return !!n2 && n2.$$typeof === j;
+  function fn(n) {
+    return !!n && n.$$typeof === j;
   }
-  function ln(n2) {
-    return fn(n2) && n2.type === preact.Fragment;
+  function ln(n) {
+    return fn(n) && n.type === preact.Fragment;
   }
-  function an(n2) {
-    return !!n2 && !!n2.displayName && ("string" == typeof n2.displayName || n2.displayName instanceof String) && n2.displayName.startsWith("Memo(");
+  function an(n) {
+    return !!n && !!n.displayName && ("string" == typeof n.displayName || n.displayName instanceof String) && n.displayName.startsWith("Memo(");
   }
-  function sn(n2) {
-    return fn(n2) ? preact.cloneElement.apply(null, arguments) : n2;
+  function sn(n) {
+    return fn(n) ? preact.cloneElement.apply(null, arguments) : n;
   }
-  function hn(n2) {
-    return !!n2.__k && (preact.render(null, n2), true);
+  function hn(n) {
+    return !!n.__k && (preact.render(null, n), true);
   }
-  function vn(n2) {
-    return n2 && (n2.base || 1 === n2.nodeType && n2) || null;
+  function vn(n) {
+    return n && (n.base || 1 === n.nodeType && n) || null;
   }
-  var dn = function(n2, t2) {
-    return n2(t2);
-  }, pn = function(n2, t2) {
-    return n2(t2);
+  var dn = function(n, t2) {
+    return n(t2);
+  }, pn = function(n, t2) {
+    return n(t2);
   }, mn = preact.Fragment;
-  function yn(n2) {
-    n2();
+  function yn(n) {
+    n();
   }
-  function _n(n2) {
-    return n2;
+  function _n(n) {
+    return n;
   }
   function bn() {
     return [false, yn];
   }
   var Sn = _, gn = fn;
-  function En(n2, t2) {
+  function En(n, t2) {
     var e2 = t2(), r2 = h({ h: { __: e2, v: t2 } }), u2 = r2[0].h, o2 = r2[1];
     return _(function() {
       u2.__ = e2, u2.v = t2, Cn(u2) && o2({ h: u2 });
-    }, [n2, e2, t2]), y(function() {
-      return Cn(u2) && o2({ h: u2 }), n2(function() {
+    }, [n, e2, t2]), y(function() {
+      return Cn(u2) && o2({ h: u2 }), n(function() {
         Cn(u2) && o2({ h: u2 });
       });
-    }, [n2]), e2;
+    }, [n]), e2;
   }
-  function Cn(n2) {
-    var t2, e2, r2 = n2.v, u2 = n2.__;
+  function Cn(n) {
+    var t2, e2, r2 = n.v, u2 = n.__;
     try {
       var o2 = r2();
       return !((t2 = u2) === (e2 = o2) && (0 !== t2 || 1 / t2 == 1 / e2) || t2 != t2 && e2 != e2);
-    } catch (n3) {
+    } catch (n2) {
       return true;
     }
   }
@@ -9202,7 +9202,7 @@
       responseType: void 0
     });
     const dom = new DOMParser().parseFromString(doubanPage, "text/html");
-    const imdbId = (_d2 = (_c = (_b = (_a2 = jQuery('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()) != null ? _d2 : "";
+    const imdbId = (_d2 = (_c = (_b = (_a2 = $$1('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()) != null ? _d2 : "";
     return imdbId;
   };
   const getMobileDoubanInfo = async (doubanUrl, isTV) => {
@@ -9706,7 +9706,7 @@ ${" ".repeat(6)}`)}
           responseType: void 0
         });
         const doc = new DOMParser().parseFromString(res, "text/html");
-        imgUrl = jQuery("#viewimage", doc).attr("src");
+        imgUrl = $$1("#viewimage", doc).attr("src");
       } else if (urlBBcode.match(/img\.pterclub\.com/)) {
         imgUrl = (_d2 = (_c = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
         imgUrl = imgUrl.replace(/\.th/g, "");
@@ -9718,7 +9718,7 @@ ${" ".repeat(6)}`)}
           responseType: void 0
         });
         const doc = new DOMParser().parseFromString(originalPage, "text/html");
-        imgUrl = jQuery(".main-image", doc).attr("src");
+        imgUrl = $$1(".main-image", doc).attr("src");
       } else if (imgUrl.match(/beyondhd\.co/)) {
         imgUrl = (_h = (_g = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _g[1]) != null ? _h : "";
         imgUrl = imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, ".$2");
@@ -10297,7 +10297,7 @@ ${" ".repeat(6)}`)}
             const { href, textContent } = node;
             if (href && href.length > 0) {
               if (CURRENT_SITE_NAME === "HDSpace") {
-                const div = jQuery(node).find("div");
+                const div = $$1(node).find("div");
                 if (div[0] && div.attr("id")) {
                   const imgUrl = div.find("img").attr("src");
                   return `[url=${href}][img]${imgUrl}[/img][/url]`;
@@ -10690,7 +10690,7 @@ ${" ".repeat(6)}`)}
         }, 1e3);
       }
     } else {
-      jQuery(selector).val(value);
+      $$1(selector).val(value);
     }
   }
   function buildPTPDescription(info) {
@@ -10817,8 +10817,8 @@ ${allImages.join("")}`;
   
   [/center]`;
     const collectionMap = {};
-    jQuery('select[name="collection_id1"] option').each(function() {
-      const option = jQuery(this);
+    $$1('select[name="collection_id1"] option').each(function() {
+      const option = $$1(this);
       collectionMap[option.text()] = option.val();
     });
     const collectionValueArr = [];
@@ -10828,7 +10828,7 @@ ${allImages.join("")}`;
     }
     const { imdbUrl, category, screenshots, comparisons = [], resolution, movieName } = info;
     if (!resolution.match(/2160|1080|720/) && category === "movie") {
-      jQuery('select[name="type"]').val("67");
+      $$1('select[name="type"]').val("67");
     }
     const screenshotsBBCode = getScreenshotsBBCode(screenshots);
     template = template.replace("$SCREENSHOTS$", screenshotsBBCode.join("\n"));
@@ -10843,7 +10843,7 @@ ${allImages.join("")}`;
 $1`);
     }
     if (category.match(/tv|movie|cartoon|documentary/)) {
-      jQuery('textarea[name="descr"]').val($t("数据加载中..."));
+      $$1('textarea[name="descr"]').val($t("数据加载中..."));
       try {
         const replaceParams = {
           tmdbUrl: "",
@@ -10877,7 +10877,7 @@ $1`);
             collectionValueArr.push(collectionMap[language]);
           }
           collectionValueArr.forEach((value, index) => {
-            jQuery(`select[name="collection_id${index + 1}"]`).val(value);
+            $$1(`select[name="collection_id${index + 1}"]`).val(value);
           });
           replaceParams.poster = poster;
           replaceParams.synopsis = description;
@@ -10907,15 +10907,15 @@ $1`);
         Object.keys(replaceParams).forEach((key) => {
           template = template.replace(`$${key}$`, replaceParams[key] || "");
         });
-        jQuery('textarea[name="descr"]').val(template);
+        $$1('textarea[name="descr"]').val(template);
       } catch (error) {
-        jQuery('textarea[name="descr"]').val(error.message);
+        $$1('textarea[name="descr"]').val(error.message);
       }
     }
   };
   const handleTJUPT = (info) => {
     const observer = new MutationObserver(() => {
-      if (jQuery("#ename")[0] && jQuery("#cname")[0]) {
+      if ($$1("#ename")[0] && $$1("#cname")[0]) {
         fillInfo(info);
         observer.disconnect();
       }
@@ -10926,7 +10926,7 @@ $1`);
   function fillInfo(info) {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j;
     const { title, description, doubanInfo, category, tags } = info;
-    jQuery("#ename").val(title);
+    $$1("#ename").val(title);
     const fullDescription = description + doubanInfo;
     let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
     area = area.replace(/\[\/?.+?\]/g, "");
@@ -10936,7 +10936,7 @@ $1`);
     if (area) {
       const areaString = area.replace(/,/g, "/").replace(/\s|中国/g, "");
       if (category === "movie") {
-        jQuery("#district").val(areaString);
+        $$1("#district").val(areaString);
       } else if (category.match(/tv/)) {
         const areaToSelectorMap = {
           大陆: "#specificcat1",
@@ -10955,10 +10955,10 @@ $1`);
           }
         }
         if (selector) {
-          jQuery(selector).attr("checked", "true");
+          $$1(selector).attr("checked", "true");
           getcheckboxvalue("specificcat");
         } else {
-          jQuery("#specificcat").val(areaString);
+          $$1("#specificcat").val(areaString);
         }
       } else if (category.match(/variety/)) {
         const districtMap = {
@@ -10971,11 +10971,11 @@ $1`);
           EU: "#district3",
           OT: "#district5"
         };
-        jQuery(districtMap[info.area]).attr("checked", "true");
+        $$1(districtMap[info.area]).attr("checked", "true");
         getcheckboxvalue("district");
       }
     }
-    if (jQuery("#language")) {
+    if ($$1("#language")) {
       let selector = "";
       if (language) {
         if (language.match(/汉语/)) {
@@ -10989,7 +10989,7 @@ $1`);
         } else if (language.match(/韩语/)) {
           selector = "#language5";
         }
-        jQuery(selector).attr("checked", "true");
+        $$1(selector).attr("checked", "true");
         getcheckboxvalue("language");
       }
     }
@@ -10997,9 +10997,9 @@ $1`);
     if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
       chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
     }
-    jQuery("#cname").val(chineseName);
+    $$1("#cname").val(chineseName);
     if (tags.chinese_subtitle && !tags.chinese_audio) {
-      jQuery('input[name="chinese"]').attr("checked", "true");
+      $$1('input[name="chinese"]').attr("checked", "true");
     }
   }
   const handleHDRoute = (info) => {
@@ -11007,7 +11007,7 @@ $1`);
     const { description, doubanInfo } = info;
     const fullDescription = description + doubanInfo;
     const imdbRank = (_b = (_a2 = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    jQuery("#upload-imdb").val(imdbRank);
+    $$1("#upload-imdb").val(imdbRank);
     const originalName = (_d2 = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d2 : "";
     const translateName = (_h = (_g = (_f = (_e2 = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e2[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
     const summary = (_l = (_k = (_j = (_i = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _i[2]) == null ? void 0 : _j.split("/")) == null ? void 0 : _k[0]) != null ? _l : "";
@@ -11015,8 +11015,8 @@ $1`);
     if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
       chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : originalName;
     }
-    jQuery("#title_chs").val(chineseName);
-    jQuery("#upload_introduction").val(summary);
+    $$1("#title_chs").val(chineseName);
+    $$1("#upload_introduction").val(summary);
   };
   const handleBib = (info) => {
     var _a2;
@@ -11024,16 +11024,16 @@ $1`);
       return;
     }
     const { year, pager, translator, author, publisher, ISBN, book_intro: intro, poster } = info.doubanBookInfo;
-    jQuery("#AuthorsField").val(author.join(","));
-    jQuery("#PublishersField").val(publisher);
-    jQuery("#IsbnField").val(ISBN);
-    jQuery("#YearField").val(year);
-    jQuery("#PagesField").val(pager);
-    jQuery("#LanguageField").val("17");
-    jQuery("#inputFileID").replaceWith('<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>');
-    jQuery("#TranslatorsField").val(translator.join(","));
-    jQuery("#DescriptionField").val(intro);
-    jQuery("#ImageField").val(poster);
+    $$1("#AuthorsField").val(author.join(","));
+    $$1("#PublishersField").val(publisher);
+    $$1("#IsbnField").val(ISBN);
+    $$1("#YearField").val(year);
+    $$1("#PagesField").val(pager);
+    $$1("#LanguageField").val("17");
+    $$1("#inputFileID").replaceWith('<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>');
+    $$1("#TranslatorsField").val(translator.join(","));
+    $$1("#DescriptionField").val(intro);
+    $$1("#ImageField").val(poster);
     const event = new Event("change");
     (_a2 = document.getElementById("DescriptionField")) == null ? void 0 : _a2.dispatchEvent(event);
   };
@@ -11056,7 +11056,7 @@ $1`);
     } else {
       format2 = formatMap2[videoType] || "";
     }
-    jQuery("#format").val(format2);
+    $$1("#format").val(format2);
   };
   const SITE_OPERATIONS = {
     PTSBAO: {
@@ -11066,15 +11066,15 @@ $1`);
         }
       },
       afterHandler: (info) => {
-        jQuery('a[data-sceditor-command="source"]')[0].click();
-        jQuery(CURRENT_SITE_INFO.description.selector).val(info.description);
+        $$1('a[data-sceditor-command="source"]')[0].click();
+        $$1(CURRENT_SITE_INFO.description.selector).val(info.description);
       }
     },
     Concertos: {
       handleDescription: (info) => {
         let { description, mediaInfos } = info;
-        jQuery("#add").trigger("click");
-        jQuery(".sceditor-button.sceditor-button-source.has-icon")[0].click();
+        $$1("#add").trigger("click");
+        $$1(".sceditor-button.sceditor-button-source.has-icon")[0].click();
         mediaInfos.forEach((mediaInfo) => {
           description = description.replace(mediaInfo.trim(), "");
         });
@@ -11113,7 +11113,7 @@ $1`);
         var _a2, _b;
         const language = (_b = (_a2 = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
         if (!language.match(/英语/) && info.area === "EU") {
-          jQuery(CURRENT_SITE_INFO.area.selector).val("8");
+          $$1(CURRENT_SITE_INFO.area.selector).val("8");
         }
       }
     },
@@ -11164,13 +11164,13 @@ $1`);
         } else if (info.sourceSite === "RED") {
           description = description.replace(/\[#\]/g, "[*]");
         }
-        jQuery("#torrent").on("change", () => {
+        $$1("#torrent").on("change", () => {
           if (info.category !== "music") {
-            jQuery(CURRENT_SITE_INFO.name.selector).val(info.title);
-            if (info.subtitle) jQuery(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
+            $$1(CURRENT_SITE_INFO.name.selector).val(info.title);
+            if (info.subtitle) $$1(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
           } else {
-            jQuery(CURRENT_SITE_INFO.name.selector).val(info.subtitle || "");
-            if (info.subtitle) jQuery(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
+            $$1(CURRENT_SITE_INFO.name.selector).val(info.subtitle || "");
+            if (info.subtitle) $$1(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
           }
         });
         (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
@@ -11199,7 +11199,7 @@ $1`);
       },
       afterHandler: (info) => {
         if (info.imdbId) {
-          jQuery(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+          $$1(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
         }
       }
     },
@@ -11223,10 +11223,10 @@ ${description}`;
       },
       afterHandler: (info) => {
         if (info.category !== "tvPack") {
-          jQuery('select[name="season"').val("true");
+          $$1('select[name="season"').val("true");
         }
         if (info.imdbId) {
-          jQuery(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
+          $$1(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
         }
       }
     },
@@ -11250,10 +11250,10 @@ ${description}`;
     SSD: {
       afterHandler: (info) => {
         if (info.category === "tvPack" || info.title.match(/Trilogy|Collection/i) || info.subtitle && info.subtitle.match(/合集/)) {
-          jQuery('input[name="pack"]').attr("checked", "true");
+          $$1('input[name="pack"]').attr("checked", "true");
         }
-        jQuery(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-        jQuery(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join("\n"));
+        $$1(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
+        $$1(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join("\n"));
       }
     },
     HDU: {
@@ -11276,7 +11276,7 @@ ${description}`;
           }
         }
         if (videoTypeValue) {
-          jQuery(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
+          $$1(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
         }
       }
     },
@@ -11290,13 +11290,13 @@ ${description}`;
         return description;
       },
       afterHandler: (info) => {
-        jQuery("#browsecat").trigger("change");
+        $$1("#browsecat").trigger("change");
         handleTJUPT(info);
       }
     },
     NYPT: {
       afterHandler: (info) => {
-        jQuery("#browsecat").trigger("change");
+        $$1("#browsecat").trigger("change");
         const domTimeout = setTimeout(() => {
           const catMap = {
             movie: "#movie_enname",
@@ -11308,7 +11308,7 @@ ${description}`;
           };
           const selector = catMap[info.category];
           if (selector) {
-            jQuery(selector).val(info.title);
+            $$1(selector).val(info.title);
           }
           clearTimeout(domTimeout);
         }, 2e3);
@@ -11321,13 +11321,13 @@ ${description}`;
     },
     UHDBits: {
       afterHandler: (info) => {
-        jQuery(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
+        $$1(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
         if (info.title.match(/web-?rip/i)) {
-          jQuery(CURRENT_SITE_INFO.videoType.selector).val("WEBRip");
+          $$1(CURRENT_SITE_INFO.videoType.selector).val("WEBRip");
         }
         const teamName = getTeamName(info);
-        jQuery("#team").val(teamName === "other" ? "Unknown" : teamName);
-        jQuery("#imdb_button").trigger("click");
+        $$1("#team").val(teamName === "other" ? "Unknown" : teamName);
+        $$1("#imdb_button").trigger("click");
       }
     },
     "52pt": {
@@ -11341,41 +11341,41 @@ ${description}`;
         } else if (videoType === "remux" && resolution === "2160p") {
           videoTypeValue = "5";
         }
-        jQuery(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
+        $$1(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
       }
     },
     BTSCHOOL: {
       afterHandler: (info) => {
         var _a2, _b;
-        jQuery(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
+        $$1(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
         if (info.doubanUrl) {
           const doubanId = (_b = (_a2 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-          jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+          $$1(CURRENT_SITE_INFO.douban.selector).val(doubanId);
         }
       }
     },
     HDTime: {
       afterHandler: (info) => {
         if (info.videoType.match(/bluray/i)) {
-          jQuery(CURRENT_SITE_INFO.category.selector).val("424");
+          $$1(CURRENT_SITE_INFO.category.selector).val("424");
         }
       }
     },
     RedLeaves: {
       afterHandler: () => {
         try {
-          jQuery(CURRENT_SITE_INFO.category.selector).trigger("change");
+          $$1(CURRENT_SITE_INFO.category.selector).trigger("change");
         } catch (err) {
           console.log(err);
         }
-        jQuery("tr.mode_5").css("display", "");
+        $$1("tr.mode_5").css("display", "");
       }
     },
     HDFans: {
       afterHandler: (info) => {
         const { videoType, resolution, tags } = info;
         if (videoType === "remux") {
-          jQuery(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "10" : "8");
+          $$1(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "10" : "8");
         } else if (videoType === "encode") {
           const map = {
             "2160p": "9",
@@ -11383,10 +11383,10 @@ ${description}`;
             "1080i": "5",
             "720p": "11"
           };
-          jQuery(CURRENT_SITE_INFO.videoType.selector).val(map[resolution] || "16");
+          $$1(CURRENT_SITE_INFO.videoType.selector).val(map[resolution] || "16");
         }
         if (tags.diy) {
-          jQuery(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "2" : "4");
+          $$1(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "2" : "4");
         }
       }
     },
@@ -11399,8 +11399,8 @@ ${description}`;
     },
     HaresClub: {
       afterHandler: (info) => {
-        jQuery(".modesw").trigger("click");
-        jQuery(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join("\n"));
+        $$1(".modesw").trigger("click");
+        $$1(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join("\n"));
         if (layui) {
           setTimeout(() => {
             layui.form.render("select");
@@ -11414,7 +11414,7 @@ ${description}`;
         var _a2, _b;
         if (info.doubanUrl) {
           const doubanId = (_b = (_a2 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-          jQuery(CURRENT_SITE_INFO.douban.selector).val(doubanId);
+          $$1(CURRENT_SITE_INFO.douban.selector).val(doubanId);
         }
       }
     },
@@ -11431,78 +11431,78 @@ ${description}`;
         var _a2, _b, _c, _d2, _e2, _f, _g, _h;
         if (info.resolution !== "") {
           const resolution = info.resolution.replace("p", "");
-          (_a2 = jQuery(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a2.click();
-          jQuery("#taginput").val(info.resolution);
+          (_a2 = $$1(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a2.click();
+          $$1("#taginput").val(info.resolution);
         }
         if (info.videoCodec !== "") {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} ${info.videoCodec}`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} ${info.videoCodec}`);
         }
         if (info.audioCodec === "dd+") {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} ddp.audio`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} ddp.audio`);
         } else if ((_b = info.audioCodec) == null ? void 0 : _b.match(/dd|ac3/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} dd.audio`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} dd.audio`);
         } else if ((_c = info.audioCodec) == null ? void 0 : _c.match(/dtshd/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} dts.hd.audio`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} dts.hd.audio`);
         } else if ((_d2 = info.audioCodec) == null ? void 0 : _d2.match(/dtsx/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} dts.x.audio`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} dts.x.audio`);
         } else {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} ${info.audioCodec}.audio`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} ${info.audioCodec}.audio`);
         }
         if (info.title.match(/(\s|.)hybrid(\s|.)/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} hybrid`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} hybrid`);
         }
         if (/web-dl/i.test(info.title)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          (_e2 = jQuery('input[name="source"][value="9"]')[0]) == null ? void 0 : _e2.click();
+          const tagvalue = $$1("#taginput").attr("value");
+          (_e2 = $$1('input[name="source"][value="9"]')[0]) == null ? void 0 : _e2.click();
           if (/NF|Netflix/i.test(info.title)) {
-            jQuery("#taginput").val(`${tagvalue} web.dl netflix.source`);
-          } else jQuery("#taginput").val(`${tagvalue} web.dl`);
+            $$1("#taginput").val(`${tagvalue} web.dl netflix.source`);
+          } else $$1("#taginput").val(`${tagvalue} web.dl`);
         } else if (/webrip/i.test(info.title)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} webrip`);
-          (_f = jQuery('input[name="source"][value="10"]')[0]) == null ? void 0 : _f.click();
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} webrip`);
+          (_f = $$1('input[name="source"][value="10"]')[0]) == null ? void 0 : _f.click();
         } else if (info.videoType.match(/bluray/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} bluray`);
-          (_g = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _g.click();
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} bluray`);
+          (_g = $$1('input[name="source"][value="7"]')[0]) == null ? void 0 : _g.click();
         } else if (info.videoType.match(/remux/i)) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} ${info.videoType}`);
-          (_h = jQuery('input[name="source"][value="7"]')[0]) == null ? void 0 : _h.click();
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} ${info.videoType}`);
+          (_h = $$1('input[name="source"][value="7"]')[0]) == null ? void 0 : _h.click();
         } else {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} ${info.videoType}`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} ${info.videoType}`);
         }
         if (info.tags.cantonese_audio === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} cantonese.audio.track`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} cantonese.audio.track`);
         }
         if (info.tags.chinese_audio === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} chinese.audio.track`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} chinese.audio.track`);
         }
         if (info.tags.chinese_subtitle === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} chinese.subs`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} chinese.subs`);
         }
         if (info.tags.hdr === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} hdr`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} hdr`);
         }
         if (info.tags.dolby_vision === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} dovi`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} dovi`);
         }
         if (info.tags.hdr10_plus === true) {
-          const tagvalue = jQuery("#taginput").attr("value");
-          jQuery("#taginput").val(`${tagvalue} hdr10plus`);
+          const tagvalue = $$1("#taginput").attr("value");
+          $$1("#taginput").val(`${tagvalue} hdr10plus`);
         }
       }
     }
@@ -11526,15 +11526,15 @@ ${description}`;
         const formateTeamName = teamConfig.map[teamName.toLowerCase()];
         const matchValue = formateTeamName || teamConfig.map.other;
         if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === "BTSCHOOL") {
-          jQuery(teamConfig.selector).val(teamConfig.map.hdbint);
+          $$1(teamConfig.selector).val(teamConfig.map.hdbint);
           return;
         }
         if (CURRENT_SITE_NAME === "UHDBits") {
-          jQuery("#team").val(teamName === "other" ? "Unknown" : teamName);
+          $$1("#team").val(teamName === "other" ? "Unknown" : teamName);
           return;
         }
         if (matchValue) {
-          jQuery(teamConfig.selector).val(matchValue.toLowerCase());
+          $$1(teamConfig.selector).val(matchValue.toLowerCase());
         }
       }
     }
@@ -11542,8 +11542,8 @@ ${description}`;
       var _a2, _b;
       const nameSelector = (_b = (_a2 = this.currentSiteInfo.name) == null ? void 0 : _a2.selector) != null ? _b : "";
       if (nameSelector.match(/^#\w+/)) {
-        const nameDom = jQuery(nameSelector).clone().attr("name", "").hide();
-        jQuery(nameSelector).attr("id", "").after(nameDom);
+        const nameDom = $$1(nameSelector).clone().attr("name", "").hide();
+        $$1(nameSelector).attr("id", "").after(nameDom);
       }
     }
     getThanksQuote() {
@@ -11584,7 +11584,7 @@ All thanks to the original uploader！`;
         } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
           this.info.title = `[${this.getChineseName()}]${this.info.title}`;
         }
-        jQuery(this.currentSiteInfo.name.selector).val(this.info.title);
+        $$1(this.currentSiteInfo.name.selector).val(this.info.title);
       }
       return this.info;
     }
@@ -11597,24 +11597,24 @@ All thanks to the original uploader！`;
       const imdbId = getIMDBIdByUrl(this.info.imdbUrl || "");
       this.info.imdbId = imdbId;
       if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
-        jQuery(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
+        $$1(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
       } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST/)) {
         let tmdbId = "";
         const fillIMDBId = this.currentSiteInfo.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
-        jQuery(imdbSelector).val(fillIMDBId);
+        $$1(imdbSelector).val(fillIMDBId);
         getTMDBIdByIMDBId(imdbId).then((data) => {
           tmdbId = data.id;
-          jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
+          $$1(this.currentSiteInfo.tmdb.selector).val(tmdbId);
         });
         if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|LST/)) {
-          jQuery("#torrent").on("change", () => {
-            jQuery(imdbSelector).val(fillIMDBId);
-            jQuery(this.currentSiteInfo.tmdb.selector).val(tmdbId);
-            jQuery("#automal").val(0);
+          $$1("#torrent").on("change", () => {
+            $$1(imdbSelector).val(fillIMDBId);
+            $$1(this.currentSiteInfo.tmdb.selector).val(tmdbId);
+            $$1("#automal").val(0);
           });
         }
       } else {
-        jQuery(imdbSelector).val(this.info.imdbUrl || "");
+        $$1(imdbSelector).val(this.info.imdbUrl || "");
       }
     }
     fillBasicAttributes() {
@@ -11628,7 +11628,7 @@ All thanks to the original uploader！`;
           } else if (key === "area" || key === "audioCodec") {
             value = siteInfo.map[value];
           }
-          jQuery(siteInfo.selector).val(value);
+          $$1(siteInfo.selector).val(value);
         }
       });
     }
@@ -11655,13 +11655,13 @@ ${description}`;
       if (this.currentSiteInfo.mediaInfo) {
         if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU)/)) {
           const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
-          jQuery(selector).val(mediaInfos[0]);
+          $$1(selector).val(mediaInfos[0]);
           description = description.replace(mediaInfos[0].trim(), "");
         } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
-          jQuery(this.currentSiteInfo.bdinfo.selector).val(mediaInfos[0]);
+          $$1(this.currentSiteInfo.bdinfo.selector).val(mediaInfos[0]);
           this.info.mediaInfos = [];
         } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
-          jQuery(this.currentSiteInfo.mediaInfo.selector).val(mediaInfos[0]);
+          $$1(this.currentSiteInfo.mediaInfo.selector).val(mediaInfos[0]);
           description = description.replace(mediaInfos[0].trim(), "");
         }
       }
@@ -11685,9 +11685,9 @@ ${description}`;
           }
         }
         if (poster) {
-          jQuery(this.currentSiteInfo.poster).val(poster);
+          $$1(this.currentSiteInfo.poster).val(poster);
           if (CURRENT_SITE_NAME === "HDRoute") {
-            jQuery('input[name="poster"]').val(poster);
+            $$1('input[name="poster"]').val(poster);
             description = description.replace(poster, "");
           }
         }
@@ -11728,9 +11728,9 @@ ${description}`;
       if (!thanksQuoteClosed && this.info.sourceSite !== void 0) {
         description = this.getThanksQuote() + description.trim();
       }
-      jQuery((_d2 = this.currentSiteInfo.description) == null ? void 0 : _d2.selector).val(description);
+      $$1((_d2 = this.currentSiteInfo.description) == null ? void 0 : _d2.selector).val(description);
       if (CURRENT_SITE_INFO.siteType === "UNIT3D" && CURRENT_SITE_INFO.description.selector === "#bbcode-description") {
-        jQuery(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(new Event("input"));
+        $$1(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(new Event("input"));
       }
       this.info = __spreadProps(__spreadValues({}, this.info), {
         description
@@ -11771,23 +11771,23 @@ ${description}`;
     fillRemainingInfo() {
       if (this.currentSiteInfo.format) {
         const formatData = this.currentSiteInfo.format;
-        jQuery(formatData.selector).val(formatData.map[this.info.format]);
+        $$1(formatData.selector).val(formatData.map[this.info.format]);
       }
       if (this.currentSiteInfo.image) {
-        jQuery(this.currentSiteInfo.image.selector).val(this.info.image || "");
+        $$1(this.currentSiteInfo.image.selector).val(this.info.image || "");
       }
       if (this.currentSiteInfo.anonymous) {
         const { selector, value = "" } = this.currentSiteInfo.anonymous;
         if (value) {
-          jQuery(selector).val(value);
+          $$1(selector).val(value);
         } else {
-          jQuery(selector).attr("checked", "true");
+          $$1(selector).attr("checked", "true");
         }
       }
       if (this.currentSiteInfo.tags) {
         Object.keys(this.info.tags).forEach((key) => {
           if (this.info.tags[key] && this.currentSiteInfo.tags[key]) {
-            jQuery(this.currentSiteInfo.tags[key]).attr("checked", "true");
+            $$1(this.currentSiteInfo.tags[key]).attr("checked", "true");
           }
         });
       }
@@ -11815,14 +11815,14 @@ ${description}`;
           } else if (CURRENT_SITE_NAME === "52pt") {
             categoryValue = this.info.videoType === "bluray" ? "2" : "12";
           }
-          jQuery(this.currentSiteInfo.videoType.selector).val(categoryValue);
+          $$1(this.currentSiteInfo.videoType.selector).val(categoryValue);
         }
       }
       if (this.currentSiteInfo.siteType === "UNIT3D" && this.info.category.match(/tv/)) {
         const season = (_c = (_b = this.info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _b[1]) != null ? _c : 1;
         const episode = (_e2 = (_d2 = this.info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _d2[1]) != null ? _e2 : 0;
-        jQuery("#season_number").val(season);
-        jQuery("#episode_number").val(episode);
+        $$1("#season_number").val(season);
+        $$1("#episode_number").val(episode);
       }
       if (CURRENT_SITE_NAME.match(/HDHome/)) {
         if (this.info.title.match(/iPad/i)) {
@@ -11834,7 +11834,7 @@ ${description}`;
           };
           const ipadCat = categoryMap[this.info.category];
           if (ipadCat) {
-            jQuery("#browsecat").val(ipadCat);
+            $$1("#browsecat").val(ipadCat);
           }
         }
       }
@@ -11843,7 +11843,7 @@ ${description}`;
       var _a2;
       const { torrentData } = this.info;
       if (CURRENT_SITE_INFO.torrent) {
-        const fileInput = jQuery(CURRENT_SITE_INFO.torrent.selector);
+        const fileInput = $$1(CURRENT_SITE_INFO.torrent.selector);
         if (torrentData && fileInput.length > 0) {
           const blob = base64ToBlob(torrentData);
           const torrentFileName = (_a2 = this.info.title) == null ? void 0 : _a2.replace(/\s/g, ".");
@@ -11882,7 +11882,7 @@ ${description}`;
     } = info;
     const groupId = getUrlParam("groupid");
     if (!groupId) {
-      jQuery(currentSiteInfo2.imdb.selector).val(imdbUrl || 0);
+      $$1(currentSiteInfo2.imdb.selector).val(imdbUrl || 0);
       AutoFill();
     }
     info.resolution = getResolution$3(resolution, videoType, title);
@@ -11892,33 +11892,33 @@ ${description}`;
       const { selector = "", map } = currentSiteInfo2[key];
       if (map) {
         const mapValue = map[info[key]];
-        jQuery(selector).val(mapValue);
+        $$1(selector).val(mapValue);
       } else {
-        jQuery(selector).val(info[key]);
+        $$1(selector).val(info[key]);
       }
     });
     if (info.sourceSite.match(/PTP/i)) {
-      jQuery(currentSiteInfo2.description.selector).val(info.originalDescription || "");
+      $$1(currentSiteInfo2.description.selector).val(info.originalDescription || "");
     } else {
       const description = getDescription$2(info);
-      jQuery(currentSiteInfo2.description.selector).val(description);
+      $$1(currentSiteInfo2.description.selector).val(description);
     }
     const editionInfo = getEditionInfo(videoType, tags);
     if (editionInfo.length > 0) {
-      jQuery("#remaster").attr("checked", "true");
+      $$1("#remaster").attr("checked", "true");
       Remaster();
       editionInfo.forEach((edition) => {
         const event = new Event("click");
-        jQuery("#remaster_tags a").filter(function() {
-          return new RegExp(edition).test(jQuery(this).text());
+        $$1("#remaster_tags a").filter(function() {
+          return new RegExp(edition).test($$1(this).text());
         })[0].dispatchEvent(event);
       });
     }
     const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfos[0]);
     if (infoFromMediaInfoinfo.subtitles && infoFromMediaInfoinfo.subtitles[0]) {
       infoFromMediaInfoinfo.subtitles.forEach((subtitle) => {
-        const subtitleSelector = jQuery(".languageselector li").filter(function() {
-          return new RegExp(subtitle).test(jQuery(this).text());
+        const subtitleSelector = $$1(".languageselector li").filter(function() {
+          return new RegExp(subtitle).test($$1(this).text());
         });
         if (subtitle !== "English" && subtitleSelector[0]) {
           subtitleSelector.find("input").attr("checked", "true");
@@ -11993,29 +11993,29 @@ ${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
   };
   const currentSiteInfo$3 = PT_SITE.GPW;
   const handleGPW = async (info) => {
-    const isUploadSuccess = !jQuery("#mediainfo")[0];
+    const isUploadSuccess = !$$1("#mediainfo")[0];
     if (isUploadSuccess) {
       return;
     }
     transformInfo(info);
     const isAddFormat = getUrlParam("groupid");
     if (!isAddFormat) {
-      jQuery(currentSiteInfo$3.imdb.selector).val(info.imdbUrl || 0);
-      jQuery("#imdb_button").trigger("click");
-      jQuery("#upload .collapse").show();
+      $$1(currentSiteInfo$3.imdb.selector).val(info.imdbUrl || 0);
+      $$1("#imdb_button").trigger("click");
+      $$1("#upload .collapse").show();
     }
-    jQuery(currentSiteInfo$3.category.selector).val(currentSiteInfo$3.category.map[info.category]);
+    $$1(currentSiteInfo$3.category.selector).val(currentSiteInfo$3.category.map[info.category]);
     fillEditionInfo(info);
     fillMediaInfo$2(info);
     setTimeout(() => {
-      if (!jQuery(currentSiteInfo$3.source.selector).val() || !jQuery(currentSiteInfo$3.format.selector).val()) {
+      if (!$$1(currentSiteInfo$3.source.selector).val() || !$$1(currentSiteInfo$3.format.selector).val()) {
         handleNoAutoCheck(info);
       }
     }, 0);
     fillScene(info);
     fillProcessing(info);
     fillDescription$4(info);
-    jQuery(".u-bbcodePreview-button").trigger("click");
+    $$1(".u-bbcodePreview-button").trigger("click");
   };
   function buildDescription$2(info) {
     let description = "";
@@ -12042,16 +12042,16 @@ ${comparison.imgs.join("\n")}
       otherTag = Object.keys(info.otherTags).join(", ");
     }
     if (editionTags.length > 0 || otherTag) {
-      jQuery("#movie_edition_information").trigger("click");
+      $$1("#movie_edition_information").trigger("click");
     }
     if (editionTags.length > 0) {
       for (const tag of editionTags) {
-        jQuery(`#movie_remaster_tags a[onclick*="'${tag}'"]`).trigger("click");
+        $$1(`#movie_remaster_tags a[onclick*="'${tag}'"]`).trigger("click");
       }
     }
     if (otherTag) {
-      jQuery("#other-button").trigger("click");
-      jQuery("[name=remaster_custom_title]").val(otherTag);
+      $$1("#other-button").trigger("click");
+      $$1("[name=remaster_custom_title]").val(otherTag);
     }
   }
   function fillMediaInfo$2(info) {
@@ -12059,18 +12059,18 @@ ${comparison.imgs.join("\n")}
       return;
     }
     for (let i = 1; i < info.mediaInfos.length; i++) {
-      jQuery("#add-mediainfo")[0].click();
+      $$1("#add-mediainfo")[0].click();
     }
-    const textareas = Array.from(jQuery('[name="mediainfo[]"]'));
+    const textareas = Array.from($$1('[name="mediainfo[]"]'));
     for (const [index, textarea] of textareas.entries()) {
       textarea.value = info.mediaInfos[index];
       textarea.dispatchEvent(new Event("input"));
     }
-    jQuery('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
+    $$1('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
   }
   function fillScene(info) {
     if (info.tags.scene) {
-      jQuery("#scene").prop("checked", true);
+      $$1("#scene").prop("checked", true);
     }
   }
   function fillProcessing(info) {
@@ -12081,13 +12081,13 @@ ${comparison.imgs.join("\n")}
       }
       const videoTypeConfig = currentSiteInfo$3.videoType;
       const { selector, map } = videoTypeConfig;
-      jQuery(selector).val(map[videoType]);
-      jQuery(selector)[0].dispatchEvent(new Event("change"));
+      $$1(selector).val(map[videoType]);
+      $$1(selector)[0].dispatchEvent(new Event("change"));
       if (map[videoType] === "Untouched") {
         const bdType = getBDType(size);
-        jQuery('select[name="processing_other"]').val(bdType || "");
+        $$1('select[name="processing_other"]').val(bdType || "");
       }
-      jQuery(selector)[0].dispatchEvent(new Event("input"));
+      $$1(selector)[0].dispatchEvent(new Event("input"));
     }
   }
   function handleNoAutoCheck(info) {
@@ -12107,22 +12107,22 @@ ${comparison.imgs.join("\n")}
       const { selector = "", map } = currentSiteInfo$3[key];
       if (map) {
         const mapValue = map[info[key]];
-        jQuery(selector).val(mapValue);
+        $$1(selector).val(mapValue);
         if (key === "videoCodec" && mapValue === "Other") {
           document.querySelector(selector).dispatchEvent(new Event("change"));
-          jQuery('input[name="codec_other"]').val((_b = (_a3 = info[key]) == null ? void 0 : _a3.toUpperCase()) != null ? _b : "");
+          $$1('input[name="codec_other"]').val((_b = (_a3 = info[key]) == null ? void 0 : _a3.toUpperCase()) != null ? _b : "");
         }
       } else {
-        jQuery(selector).val(info[key] || "");
+        $$1(selector).val(info[key] || "");
       }
     });
     if (subtitles.length > 0) {
-      jQuery("#mixed_subtitles").attr("checked", "true");
-      jQuery('input[name="subtitles[]"][type="checkbox"]').each(function() {
+      $$1("#mixed_subtitles").attr("checked", "true");
+      $$1('input[name="subtitles[]"][type="checkbox"]').each(function() {
         var _a3, _b;
-        const language = (_b = (_a3 = jQuery(this).attr("id")) == null ? void 0 : _a3.replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase())) != null ? _b : "";
+        const language = (_b = (_a3 = $$1(this).attr("id")) == null ? void 0 : _a3.replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase())) != null ? _b : "";
         if (subtitles.includes(language)) {
-          jQuery(this).attr("checked", "true");
+          $$1(this).attr("checked", "true");
         }
       });
       const event = new Event("change");
@@ -12130,9 +12130,9 @@ ${comparison.imgs.join("\n")}
       const chineseLanguages = subtitles.filter((item) => item.match(/Chinese|Traditional|Simplified/i));
       if (chineseLanguages.length === 1 && chineseLanguages[0] === "Chinese") {
         const selector = chineseLanguages[0].match(/Traditional/i) ? "#chinese_traditional" : "#chinese_simplified";
-        jQuery(selector).attr("checked", "true");
+        $$1(selector).attr("checked", "true");
       } else if (chineseLanguages.length >= 2) {
-        jQuery("#chinese_traditional,#chinese_simplified").attr("checked", "true");
+        $$1("#chinese_traditional,#chinese_simplified").attr("checked", "true");
       }
     }
   }
@@ -12165,25 +12165,25 @@ ${comparison.imgs.join("\n")}
     } else {
       description = buildDescription$2(info);
     }
-    jQuery(currentSiteInfo$3.description.selector).val(description);
-    jQuery(currentSiteInfo$3.description.selector)[0].dispatchEvent(new Event("input"));
+    $$1(currentSiteInfo$3.description.selector).val(description);
+    $$1(currentSiteInfo$3.description.selector)[0].dispatchEvent(new Event("input"));
   }
   const handleNPU = (info) => {
     var _a2, _b;
     const currentSiteInfo2 = PT_SITE.NPUBits;
     let { title, year, movieName, category, doubanInfo, description, subtitle } = info;
-    jQuery(currentSiteInfo2.subtitle.selector).val(subtitle || "");
+    $$1(currentSiteInfo2.subtitle.selector).val(subtitle || "");
     if (doubanInfo) {
       description = `${doubanInfo}
 ${description}`;
     }
-    jQuery(currentSiteInfo2.description.selector).val(description);
-    jQuery("#torrent_name_checkbox").attr("checked", "true");
-    jQuery(currentSiteInfo2.name.selector).val(title);
-    jQuery(currentSiteInfo2.category.selector).val(
+    $$1(currentSiteInfo2.description.selector).val(description);
+    $$1("#torrent_name_checkbox").attr("checked", "true");
+    $$1(currentSiteInfo2.name.selector).val(title);
+    $$1(currentSiteInfo2.category.selector).val(
       currentSiteInfo2.category.map[category]
     );
-    jQuery(currentSiteInfo2.category.selector)[0].dispatchEvent(new Event("change"));
+    $$1(currentSiteInfo2.category.selector)[0].dispatchEvent(new Event("change"));
     if (category.match(/tv/)) {
       const districtMap = {
         CN: "23",
@@ -12195,11 +12195,11 @@ ${description}`;
         EU: "65",
         OT: "63"
       };
-      jQuery(currentSiteInfo2.area.selector).val(districtMap[info.area]);
+      $$1(currentSiteInfo2.area.selector).val(districtMap[info.area]);
     } else if (category.match(/movie/)) {
-      jQuery(currentSiteInfo2.area.selector).val(currentSiteInfo2.area.map[info.area]);
+      $$1(currentSiteInfo2.area.selector).val(currentSiteInfo2.area.map[info.area]);
     }
-    jQuery(currentSiteInfo2.area.selector)[0].dispatchEvent(new Event("change"));
+    $$1(currentSiteInfo2.area.selector)[0].dispatchEvent(new Event("change"));
     const keyArray = ["videoCodec", "videoType", "resolution"];
     keyArray.forEach((key) => {
       const { selector, map } = currentSiteInfo2[key];
@@ -12210,15 +12210,15 @@ ${description}`;
     });
     const teamName = getTeamName(info);
     const teamConfig = currentSiteInfo2.team;
-    jQuery(`${teamConfig.selector}`).val(teamConfig.map[teamName]);
-    jQuery("#torrent_name_field0").val(movieName);
+    $$1(`${teamConfig.selector}`).val(teamConfig.map[teamName]);
+    $$1("#torrent_name_field0").val(movieName);
     if (category === "movie") {
-      jQuery("#torrent_name_field1").val(year);
+      $$1("#torrent_name_field1").val(year);
     } else if (category.match(/tv/)) {
       const episode = (_b = (_a2 = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a2[0]) != null ? _b : "";
-      jQuery("#torrent_name_field1").val(episode);
+      $$1("#torrent_name_field1").val(episode);
     }
-    jQuery('input[name="uplver"]').attr("checked", "true");
+    $$1('input[name="uplver"]').attr("checked", "true");
   };
   const handleBYR = (info) => {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n2;
@@ -12234,13 +12234,13 @@ ${description}`;
       imdbUrl,
       doubanUrl
     } = info;
-    jQuery(currentSiteInfo2.subtitle.selector).val(subtitle || "");
-    jQuery(currentSiteInfo2.imdb.selector).val(imdbUrl || "");
-    jQuery(currentSiteInfo2.douban.selector).val(doubanUrl || "");
+    $$1(currentSiteInfo2.subtitle.selector).val(subtitle || "");
+    $$1(currentSiteInfo2.imdb.selector).val(imdbUrl || "");
+    $$1(currentSiteInfo2.douban.selector).val(doubanUrl || "");
     CKEDITOR.on("instanceReady", () => {
       CKEDITOR.instances.descr.setData(bbcode2Html(description));
     });
-    jQuery("#ename0day").val(title);
+    $$1("#ename0day").val(title);
     const fullDescription = description + doubanInfo;
     let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
     area = area.replace(/\[\/?.+?\]/g, "");
@@ -12272,12 +12272,12 @@ ${description}`;
         亚洲: "14",
         其他: "1"
       };
-      jQuery('select[name="second_type"]').val(typeMap[selector]);
-      jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      $$1('select[name="second_type"]').val(typeMap[selector]);
+      $$1('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
       const movieTypeArr = movieType.split(/\s\//);
-      jQuery("#movie_type").val(movieTypeArr.join("/"));
+      $$1("#movie_type").val(movieTypeArr.join("/"));
       fillField(selector, category === "movie" ? "movie_country" : "show_country");
-      jQuery("#movie_cname").val(chineseName);
+      $$1("#movie_cname").val(chineseName);
     } else if (category.match(/tv/)) {
       let selector = "movie_country";
       if (area.match(/大陆/)) {
@@ -12298,13 +12298,13 @@ ${description}`;
         日韩: "18",
         其他: "2"
       };
-      jQuery('select[name="second_type"]').val(typeMap[selector]);
-      jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      $$1('select[name="second_type"]').val(typeMap[selector]);
+      $$1('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
       fillField(selector, "tv_type");
-      jQuery("#tv_ename").val(title);
-      jQuery("#cname").val(chineseName);
+      $$1("#tv_ename").val(title);
+      $$1("#cname").val(chineseName);
       const episode = (_n2 = (_m = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _m[0]) != null ? _n2 : "";
-      jQuery("#tv_season").val(episode);
+      $$1("#tv_season").val(episode);
       const isBluray = videoType.match(/bluray/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       const { format: format2 } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
@@ -12329,11 +12329,11 @@ ${description}`;
         日韩: "28",
         其他: "5"
       };
-      jQuery('select[name="second_type"]').val(typeMap[selector]);
-      jQuery('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      $$1('select[name="second_type"]').val(typeMap[selector]);
+      $$1('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
       fillField(selector, "show_country");
-      jQuery("#show_cname").val(chineseName);
-      jQuery("#show_ename").val(title);
+      $$1("#show_cname").val(chineseName);
+      $$1("#show_ename").val(title);
       let languageVal = "";
       if (language.match(/汉语/)) {
         languageVal = "国语";
@@ -12366,11 +12366,11 @@ ${description}`;
   const handleSC = async (info) => {
     const { imdbUrl = "" } = info;
     const imdbId = getIMDBIdByUrl(imdbUrl);
-    jQuery("#catalogue_number").val(imdbId);
-    jQuery("#imdb_autofill").trigger("click");
+    $$1("#catalogue_number").val(imdbId);
+    $$1("#imdb_autofill").trigger("click");
     fillMedia(info);
-    jQuery(".modesw").trigger("click");
-    jQuery("#release_desc").val(buildDescription$1(info));
+    $$1(".modesw").trigger("click");
+    $$1("#release_desc").val(buildDescription$1(info));
     await fillIMDb(imdbUrl);
   };
   function buildDescription$1(info) {
@@ -12402,20 +12402,20 @@ ${description}`;
     } else {
       value = resolution;
     }
-    jQuery("#media").val(value);
+    $$1("#media").val(value);
   }
   async function fillIMDb(imdbUrl) {
     var _a2, _b, _c, _d2;
     if (imdbUrl) {
       const imdbData = await getIMDBData(imdbUrl);
       if (imdbData && ((_a2 = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a2.country)) {
-        jQuery("#country").val(imdbData.details.country);
+        $$1("#country").val(imdbData.details.country);
       }
       const akaName = imdbData && ((_b = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b["Also known as"]);
       const originalName = (_c = imdbData == null ? void 0 : imdbData.name) != null ? _c : "";
       if (akaName && akaName !== originalName) {
-        jQuery("#alternate_title").val(imdbData.details["Also known as"]);
-        jQuery("#title").val(originalName);
+        $$1("#alternate_title").val(imdbData.details["Also known as"]);
+        $$1("#title").val(originalName);
       }
       if (imdbData && imdbData.poster) {
         let poster;
@@ -12430,7 +12430,7 @@ ${description}`;
           const data = await transferImgs(imdbData.poster, authToken, "https://gifyu.com/json");
           poster = data.url;
         }
-        jQuery("#image").val(poster);
+        $$1("#image").val(poster);
       }
     }
   }
@@ -12440,8 +12440,8 @@ ${description}`;
     const siteInfo = PT_SITE.KG;
     const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
     if (imdbUrl) {
-      jQuery('input[type="submit"][value="next >>"]').hide().after("<p>loading...</p>");
-      jQuery('input[name="title"]').val(imdbUrl);
+      $$1('input[type="submit"][value="next >>"]').hide().after("<p>loading...</p>");
+      $$1('input[name="title"]').val(imdbUrl);
       const formData = new FormData();
       formData.append("upstep", "2");
       formData.append("type", "1");
@@ -12452,11 +12452,11 @@ ${description}`;
         data: formData
       });
       const uploadPage = new DOMParser().parseFromString(doc, "text/html");
-      jQuery("#upside+div").html(jQuery("#upside+div", uploadPage).html());
+      $$1("#upside+div").html($$1("#upside+div", uploadPage).html());
       const imdbData = await getIMDBData(imdbUrl);
       if (imdbData) {
         const { country, Languages: languages } = imdbData.details;
-        jQuery('input[name="lang"]').val(languages);
+        $$1('input[name="lang"]').val(languages);
         let { description, genre, poster = "" } = imdbData;
         const genreMap = siteInfo.genres.map;
         const countryMap = siteInfo.country.map;
@@ -12472,7 +12472,7 @@ ${description}`;
         if (!poster) {
           poster = info.poster || "";
         }
-        jQuery('select[name="country_id"]').val(countryMap[countryValue]);
+        $$1('select[name="country_id"]').val(countryMap[countryValue]);
         const descriptionBBCode = `[img]${poster}[/img]
       
 Synopsis:
@@ -12480,28 +12480,28 @@ Synopsis:
       
 
 ${screenshots.map((img) => `[img]${encodeURI(img)}[/img]`).join("")}`;
-        jQuery("#bbcodetextarea").html(descriptionBBCode);
+        $$1("#bbcodetextarea").html(descriptionBBCode);
         const [mainGenre, otherGenre = ""] = genre;
-        jQuery('select[name="genre_main_id"]').val(genreMap[mainGenre]);
-        jQuery('select[name="subgenre"]').val(genreMap[otherGenre]);
+        $$1('select[name="genre_main_id"]').val(genreMap[mainGenre]);
+        $$1('select[name="subgenre"]').val(genreMap[otherGenre]);
       }
-      jQuery(siteInfo.source.selector).val(siteInfo.source.map[source]);
+      $$1(siteInfo.source.selector).val(siteInfo.source.map[source]);
       if (!videoType.match("bluray")) {
-        jQuery(siteInfo.resolution.selector).val(siteInfo.resolution.map[resolution]);
+        $$1(siteInfo.resolution.selector).val(siteInfo.resolution.map[resolution]);
       } else {
-        jQuery(siteInfo.resolution.selector).val("3");
+        $$1(siteInfo.resolution.selector).val("3");
       }
       const isBluray = videoType.match(/bluray/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
       const { subtitles = [] } = getInfoFunc(mediaInfo);
       if (subtitles.length) {
-        jQuery('input[name="subs"]').val(subtitles.join(","));
+        $$1('input[name="subs"]').val(subtitles.join(","));
       }
       if (videoType === "dvd") {
-        jQuery('input[name="dvdr"]').attr("checked", "true");
+        $$1('input[name="dvdr"]').attr("checked", "true");
       }
       const specs = videoType === "dvd" ? buildDvdSpecs(info) : mediaInfo;
-      jQuery("#ripspecs").val(specs);
+      $$1("#ripspecs").val(specs);
     }
   };
   function buildDvdSpecs(info) {
@@ -12533,22 +12533,22 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
     if (info.videoType === "dvd") {
       title = buildDVDTitle(info);
     }
-    jQuery(currentSiteInfo$2.name.selector).val(title);
+    $$1(currentSiteInfo$2.name.selector).val(title);
     fillSpecs(info);
     fillTMDBId(info);
     fillMediaInfo$1(info);
     selectTag(info);
     fillDescription$3(info);
-    jQuery(currentSiteInfo$2.anonymous.selector).attr("checked", "true");
+    $$1(currentSiteInfo$2.anonymous.selector).attr("checked", "true");
     if (info.videoType === "tvPack") {
-      jQuery('input[name="pack"]').attr("checked", "true");
+      $$1('input[name="pack"]').attr("checked", "true");
     }
-    jQuery("#torrent").on("change", () => {
+    $$1("#torrent").on("change", () => {
       let title2 = info.title;
       if (info.videoType === "dvd") {
         title2 = buildDVDTitle(info);
       }
-      jQuery(currentSiteInfo$2.name.selector).val(title2);
+      $$1(currentSiteInfo$2.name.selector).val(title2);
       const categoryMap = currentSiteInfo$2.category.map;
       const categoryValueArr = categoryMap[info.category];
       const keyArray = ["resolution"];
@@ -12559,7 +12559,7 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
           finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
           console.log(finalSelectArray);
           if (finalSelectArray.length === 1) {
-            jQuery(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
+            $$1(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
           }
         });
       } else {
@@ -12571,14 +12571,14 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
   };
   function fillTMDBId(info) {
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    jQuery(currentSiteInfo$2.imdb.selector).val(imdbId);
+    $$1(currentSiteInfo$2.imdb.selector).val(imdbId);
     getTMDBIdByIMDBId(imdbId).then((data) => {
-      jQuery(currentSiteInfo$2.tmdb.selector).val(data.id);
+      $$1(currentSiteInfo$2.tmdb.selector).val(data.id);
     });
   }
   function fillMediaInfo$1(info) {
     var _a2, _b;
-    jQuery(currentSiteInfo$2.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
+    $$1(currentSiteInfo$2.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
   }
   function fillSpecs(info) {
     const { category, videoType } = info;
@@ -12601,7 +12601,7 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
       keyArray.forEach((key) => {
         finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
         if (finalSelectArray.length === 1) {
-          jQuery(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
+          $$1(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
         }
       });
     } else {
@@ -12612,7 +12612,7 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
   }
   function selectTag(info) {
     const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo$2.targetInfo.editionTags[tag]).filter(Boolean);
-    const editionOption = Array.from(jQuery('select[name="edition"] option')).map((opt) => jQuery(opt).attr("value"));
+    const editionOption = Array.from($$1('select[name="edition"] option')).map((opt) => $$1(opt).attr("value"));
     if (editionTags.length > 0) {
       for (const tag of editionTags) {
         setTimeout(() => {
@@ -12620,7 +12620,7 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
           (_a2 = document.querySelector(`.bhd-tag #${tag}`)) == null ? void 0 : _a2.dispatchEvent(new Event("click"));
         }, 0);
         if (editionOption.includes(tag)) {
-          jQuery('select[name="edition"]').val(tag);
+          $$1('select[name="edition"]').val(tag);
         }
       }
     }
@@ -12645,8 +12645,8 @@ DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
         }
       });
     }
-    jQuery(currentSiteInfo$2.description.selector).val(description);
-    jQuery(currentSiteInfo$2.description.selector)[0].dispatchEvent(new Event("input"));
+    $$1(currentSiteInfo$2.description.selector).val(description);
+    $$1(currentSiteInfo$2.description.selector)[0].dispatchEvent(new Event("input"));
   }
   function buildDescription(info) {
     var _a2, _b;
@@ -12688,9 +12688,9 @@ ${comparison.imgs.join("\n")}
   }
   const currentSiteInfo$1 = PT_SITE.Bdc;
   const handleBdc = async (info) => {
-    jQuery(currentSiteInfo$1.name.selector).val(info.title);
-    jQuery(currentSiteInfo$1.imdb.selector).val(info.imdbUrl || "");
-    jQuery(currentSiteInfo$1.anonymous.selector).attr("checked", "true");
+    $$1(currentSiteInfo$1.name.selector).val(info.title);
+    $$1(currentSiteInfo$1.imdb.selector).val(info.imdbUrl || "");
+    $$1(currentSiteInfo$1.anonymous.selector).attr("checked", "true");
     fillCategory(info);
     fillDescription$2(info);
   };
@@ -12707,11 +12707,11 @@ ${comparison.imgs.join("\n")}
     } else {
       categoryValue = `${currentSiteInfo$1.resolution.map[resolution][videoType]}`;
     }
-    jQuery('select[name="category"]').val(categoryValue);
+    $$1('select[name="category"]').val(categoryValue);
   }
   async function fillDescription$2(info) {
     var _a2, _b, _c, _d2;
-    jQuery(currentSiteInfo$1.description.selector).val($t("数据加载中..."));
+    $$1(currentSiteInfo$1.description.selector).val($t("数据加载中..."));
     let template = `
   [align=center][color=#FF0000][size=large][font=Trebuchet MS][b]${info.title}[/b][/font][/size][/color]
   
@@ -12752,7 +12752,7 @@ ${comparison.imgs.join("\n")}
         replaceParams.poster = poster;
         replaceParams.synopsis = overview;
         replaceParams.originalPoster = originalPoster;
-        jQuery('input[name="t_image_url"]').val(poster);
+        $$1('input[name="t_image_url"]').val(poster);
         const videos = await getTMDBVideos(tmdbId);
         const youtubeId = (_d2 = (_c = (_b = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _b[0]) == null ? void 0 : _c.key) != null ? _d2 : "";
         if (youtubeId.length > 0) {
@@ -12766,7 +12766,7 @@ ${comparison.imgs.join("\n")}
         }, 0);
       }
     } catch (error) {
-      jQuery(currentSiteInfo$1.description.selector).val(error.message);
+      $$1(currentSiteInfo$1.description.selector).val(error.message);
     }
   }
   const currentSiteInfo = PT_SITE.ZHUQUE;
@@ -12774,16 +12774,16 @@ ${comparison.imgs.join("\n")}
     const targetNode = document;
     const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
     const insert = new MutationObserver(() => {
-      jQuery("input.ant-select-selection-search-input[id]").each(function() {
+      $$1("input.ant-select-selection-search-input[id]").each(function() {
         this.dispatchEvent(new Event("keydown"));
       });
-      jQuery(currentSiteInfo.name.selector).val(info.title);
-      jQuery(currentSiteInfo.name.selector)[0].dispatchEvent(new Event("input"));
-      jQuery(currentSiteInfo.imdb.selector).val(imdbId);
-      jQuery(currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event("input"));
+      $$1(currentSiteInfo.name.selector).val(info.title);
+      $$1(currentSiteInfo.name.selector)[0].dispatchEvent(new Event("input"));
+      $$1(currentSiteInfo.imdb.selector).val(imdbId);
+      $$1(currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event("input"));
       if (info.subtitle) {
-        jQuery(currentSiteInfo.subtitle.selector).val(info.subtitle);
-        jQuery(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event("input"));
+        $$1(currentSiteInfo.subtitle.selector).val(info.subtitle);
+        $$1(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event("input"));
       }
       let screenshotStr = "";
       if (info.screenshots.length > 0) {
@@ -12792,15 +12792,15 @@ ${comparison.imgs.join("\n")}
 `;
         });
       }
-      jQuery(currentSiteInfo.screenshots.selector).val(screenshotStr);
-      jQuery(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event("input"));
+      $$1(currentSiteInfo.screenshots.selector).val(screenshotStr);
+      $$1(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event("input"));
       fillMediaInfo(info);
       fillDescription$1(info);
       const selectNodeParent = document.querySelector("form");
       const select = new MutationObserver(async () => {
         var _a2;
         const { category: categoryConfig } = currentSiteInfo;
-        jQuery(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category]})`).click();
+        $$1(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category]})`).click();
         const keyArray = ["videoType", "videoCodec", "audioCodec"];
         select.disconnect();
         const sleep = (ms) => {
@@ -12809,7 +12809,7 @@ ${comparison.imgs.join("\n")}
         const { tags } = currentSiteInfo;
         for (const tag in info.tags) {
           if (tags[tag]) {
-            await sleep(100).then(() => jQuery(tags[tag])[0].click());
+            await sleep(100).then(() => $$1(tags[tag])[0].click());
           }
         }
         keyArray.forEach((key) => {
@@ -12817,17 +12817,17 @@ ${comparison.imgs.join("\n")}
           if (map) {
             const mapValue = map[info[key]];
             if (mapValue) {
-              if (key !== "videoType" && jQuery(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-                jQuery(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+              if (key !== "videoType" && $$1(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+                $$1(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
               } else if (mapValue === "Blu-ray") {
-                jQuery(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
-              } else if (jQuery(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-                jQuery(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+                $$1(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
+              } else if ($$1(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+                $$1(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
               }
             }
           }
         });
-        if (info.resolution !== "") (_a2 = jQuery(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]) == null ? void 0 : _a2.click();
+        if (info.resolution !== "") (_a2 = $$1(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]) == null ? void 0 : _a2.click();
       });
       if (selectNodeParent) {
         select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false });
@@ -12838,8 +12838,8 @@ ${comparison.imgs.join("\n")}
   };
   function fillMediaInfo(info) {
     var _a2, _b;
-    jQuery(currentSiteInfo.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
-    jQuery(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
+    $$1(currentSiteInfo.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
+    $$1(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
   }
   function fillDescription$1(info) {
     var _a2, _b;
@@ -12883,12 +12883,12 @@ ${description}
 \`\`\`
 ${description}`;
     }
-    jQuery(currentSiteInfo.description.selector).val(description);
-    jQuery(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
+    $$1(currentSiteInfo.description.selector).val(description);
+    $$1(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
   }
   async function autoFillDoubanInfo(selfDom, info) {
     try {
-      jQuery(selfDom).text($t("获取中..."));
+      $$1(selfDom).text($t("获取中..."));
       const {
         imdbUrl,
         movieName,
@@ -12922,27 +12922,27 @@ ${description}`;
           name
         } = CURRENT_SITE_INFO;
         if (CURRENT_SITE_NAME === "SSD") {
-          jQuery(imdb.selector).val(doubanLink);
+          $$1(imdb.selector).val(doubanLink);
         } else {
-          jQuery(douban == null ? void 0 : douban.selector).val(doubanLink);
+          $$1(douban == null ? void 0 : douban.selector).val(doubanLink);
         }
         if (!(descriptionData == null ? void 0 : descriptionData.match(/(片|译)\s*名/))) {
           const movieData = await getDoubanInfo(doubanLink);
           if (movieData) {
             Jt.success($t("获取成功"));
             const imdbLink = movieData.imdbLink;
-            if (jQuery(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
-              jQuery(imdb.selector).val(imdbLink);
+            if ($$1(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
+              $$1(imdb.selector).val(imdbLink);
             }
             const torrentSubtitle = getSubTitle(movieData);
             if (CURRENT_SITE_NAME === "TTG") {
-              jQuery(name.selector).val(`${torrentTitle || ""}[${torrentSubtitle}]`);
+              $$1(name.selector).val(`${torrentTitle || ""}[${torrentSubtitle}]`);
             } else {
-              jQuery(subtitle.selector).val(torrentSubtitle);
+              $$1(subtitle.selector).val(torrentSubtitle);
             }
             if (CURRENT_SITE_NAME !== "SSD") {
-              jQuery(description.selector).val(`${movieData.format}
-${jQuery(description.selector).val()}`);
+              $$1(description.selector).val(`${movieData.format}
+${$$1(description.selector).val()}`);
             }
           }
         } else {
@@ -12952,7 +12952,7 @@ ${jQuery(description.selector).val()}`);
     } catch (error) {
       Jt.error(error.message);
     } finally {
-      jQuery(selfDom).text($t("获取豆瓣简介"));
+      $$1(selfDom).text($t("获取豆瓣简介"));
     }
   }
   const autoFill = (info) => {
@@ -12961,23 +12961,23 @@ ${jQuery(description.selector).val()}`);
     }
     if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
       const { imdb, douban } = CURRENT_SITE_INFO;
-      let selector = jQuery("");
-      if (douban && (douban.selector && jQuery(douban.selector)) && jQuery(douban.selector).val()) {
-        selector = jQuery(douban.selector);
+      let selector = $$1("");
+      if (douban && (douban.selector && $$1(douban.selector)) && $$1(douban.selector).val()) {
+        selector = $$1(douban.selector);
       } else if (imdb) {
-        selector = jQuery(imdb.selector);
+        selector = $$1(imdb.selector);
       }
       if (selector) {
         selector.after(`<span id="auto-fill-douban">${$t("获取豆瓣简介")}</span>`);
       }
-      jQuery("#auto-fill-douban").on("click", () => {
+      $$1("#auto-fill-douban").on("click", () => {
         const url = selector.val();
         if (url.match(/subject\/(\d+)/)) {
           info.doubanUrl = url;
         } else if (url.match(/imdb\.com\/title\/tt\d+/)) {
           info.imdbUrl = url;
         }
-        autoFillDoubanInfo(jQuery("#auto-fill-douban"), info);
+        autoFillDoubanInfo($$1("#auto-fill-douban"), info);
       });
     }
   };
@@ -13026,6 +13026,7 @@ ${jQuery(description.selector).val()}`);
       }
     });
     fillDescription(targetHelper.info.description);
+    targetHelper.fillTorrentFile();
   };
   function setInputValue(selector, value, isCheckbox = false) {
     const input = document.querySelector(selector);
@@ -13085,13 +13086,13 @@ ${jQuery(description.selector).val()}`);
         location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp}`;
         return;
       }
-      jQuery("#categories").val(categoryId - 1);
-      jQuery("#title").val(name);
-      jQuery("#year").val(year);
-      jQuery("#releasetype").val(releaseType);
-      jQuery("#tags").val(tags.join(", "));
-      jQuery("#album_desc").val(bbBody);
-      jQuery("#image").val(wikiImage);
+      $$1("#categories").val(categoryId - 1);
+      $$1("#title").val(name);
+      $$1("#year").val(year);
+      $$1("#releasetype").val(releaseType);
+      $$1("#tags").val(tags.join(", "));
+      $$1("#album_desc").val(bbBody);
+      $$1("#image").val(wikiImage);
       fillArtistsForm(musicInfo);
     }
     fillReleaseInfo(musicJson.torrent);
@@ -13121,27 +13122,27 @@ ${jQuery(description.selector).val()}`);
     }
     artists.forEach((artist, index) => {
       const selector = index > 0 ? `#artist_${index}` : "#artist";
-      jQuery(selector).val(artist.name).next().val(artist.type || "");
+      $$1(selector).val(artist.name).next().val(artist.type || "");
     });
   }
   function fillReleaseInfo(info) {
     var _a2;
     const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format: format2, encoding, media, description, scene, remasterTitle } = info;
-    jQuery("#remaster_record_label").val(remasterRecordLabel);
-    jQuery("#remaster_catalogue_number").val(remasterCatalogueNumber);
-    jQuery("#format").val(format2);
-    jQuery("#bitrate").val(encoding);
-    jQuery("#media").val(media);
+    $$1("#remaster_record_label").val(remasterRecordLabel);
+    $$1("#remaster_catalogue_number").val(remasterCatalogueNumber);
+    $$1("#format").val(format2);
+    $$1("#bitrate").val(encoding);
+    $$1("#media").val(media);
     if (media === "CD" && format2 === "FLAC") {
       (_a2 = document.querySelector("#format")) == null ? void 0 : _a2.dispatchEvent(new Event("change"));
     }
-    jQuery("#remaster_year").val(remasterYear);
-    jQuery("#release_desc").val(description);
+    $$1("#remaster_year").val(remasterYear);
+    $$1("#release_desc").val(description);
     if (scene) {
-      jQuery("#scene").attr("checked", "true");
+      $$1("#scene").attr("checked", "true");
     }
     if (remasterTitle) {
-      jQuery("#remaster_title").val(remasterTitle);
+      $$1("#remaster_title").val(remasterTitle);
     }
   }
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
@@ -13321,13 +13322,13 @@ ${jQuery(description.selector).val()}`);
     }
     buffer2[offset + i - d2] |= s2 * 128;
   };
+  /*!
+   * The buffer module from node.js, for the browser.
+   *
+   * @author   Feross Aboukhadijeh <https://feross.org>
+   * @license  MIT
+   */
   (function(exports) {
-    /*!
-     * The buffer module from node.js, for the browser.
-     *
-     * @author   Feross Aboukhadijeh <https://feross.org>
-     * @license  MIT
-     */
     var base64 = base64Js;
     var ieee754$1 = ieee754;
     var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
@@ -13441,18 +13442,18 @@ ${jQuery(description.selector).val()}`);
         throw new RangeError('The value "' + size + '" is invalid for option "size"');
       }
     }
-    function alloc(size, fill2, encoding) {
+    function alloc(size, fill, encoding) {
       assertSize(size);
       if (size <= 0) {
         return createBuffer(size);
       }
-      if (fill2 !== void 0) {
-        return typeof encoding === "string" ? createBuffer(size).fill(fill2, encoding) : createBuffer(size).fill(fill2);
+      if (fill !== void 0) {
+        return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
       }
       return createBuffer(size);
     }
-    Buffer2.alloc = function(size, fill2, encoding) {
-      return alloc(size, fill2, encoding);
+    Buffer2.alloc = function(size, fill, encoding) {
+      return alloc(size, fill, encoding);
     };
     function allocUnsafe(size) {
       assertSize(size);
@@ -13489,8 +13490,8 @@ ${jQuery(description.selector).val()}`);
     }
     function fromArrayView(arrayView) {
       if (isInstance(arrayView, Uint8Array)) {
-        var copy2 = new Uint8Array(arrayView);
-        return fromArrayBuffer(copy2.buffer, copy2.byteOffset, copy2.byteLength);
+        var copy = new Uint8Array(arrayView);
+        return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
       }
       return fromArrayLike(arrayView);
     }
@@ -13776,7 +13777,7 @@ ${jQuery(description.selector).val()}`);
     if (customInspectSymbol) {
       Buffer2.prototype[customInspectSymbol] = Buffer2.prototype.inspect;
     }
-    Buffer2.prototype.compare = function compare2(target, start, end, thisStart, thisEnd) {
+    Buffer2.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
       if (isInstance(target, Uint8Array)) {
         target = Buffer2.from(target, target.offset, target.byteLength);
       }
@@ -14169,28 +14170,28 @@ ${jQuery(description.selector).val()}`);
       if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
       if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
     }
-    Buffer2.prototype.readUintLE = Buffer2.prototype.readUIntLE = function readUIntLE(offset, byteLength22, noAssert) {
+    Buffer2.prototype.readUintLE = Buffer2.prototype.readUIntLE = function readUIntLE(offset, byteLength3, noAssert) {
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength22, this.length);
+      byteLength3 = byteLength3 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength3, this.length);
       var val = this[offset];
       var mul = 1;
       var i = 0;
-      while (++i < byteLength22 && (mul *= 256)) {
+      while (++i < byteLength3 && (mul *= 256)) {
         val += this[offset + i] * mul;
       }
       return val;
     };
-    Buffer2.prototype.readUintBE = Buffer2.prototype.readUIntBE = function readUIntBE(offset, byteLength22, noAssert) {
+    Buffer2.prototype.readUintBE = Buffer2.prototype.readUIntBE = function readUIntBE(offset, byteLength3, noAssert) {
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
+      byteLength3 = byteLength3 >>> 0;
       if (!noAssert) {
-        checkOffset(offset, byteLength22, this.length);
+        checkOffset(offset, byteLength3, this.length);
       }
-      var val = this[offset + --byteLength22];
+      var val = this[offset + --byteLength3];
       var mul = 1;
-      while (byteLength22 > 0 && (mul *= 256)) {
-        val += this[offset + --byteLength22] * mul;
+      while (byteLength3 > 0 && (mul *= 256)) {
+        val += this[offset + --byteLength3] * mul;
       }
       return val;
     };
@@ -14219,32 +14220,32 @@ ${jQuery(description.selector).val()}`);
       if (!noAssert) checkOffset(offset, 4, this.length);
       return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
     };
-    Buffer2.prototype.readIntLE = function readIntLE(offset, byteLength22, noAssert) {
+    Buffer2.prototype.readIntLE = function readIntLE(offset, byteLength3, noAssert) {
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength22, this.length);
+      byteLength3 = byteLength3 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength3, this.length);
       var val = this[offset];
       var mul = 1;
       var i = 0;
-      while (++i < byteLength22 && (mul *= 256)) {
+      while (++i < byteLength3 && (mul *= 256)) {
         val += this[offset + i] * mul;
       }
       mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength22);
+      if (val >= mul) val -= Math.pow(2, 8 * byteLength3);
       return val;
     };
-    Buffer2.prototype.readIntBE = function readIntBE(offset, byteLength22, noAssert) {
+    Buffer2.prototype.readIntBE = function readIntBE(offset, byteLength3, noAssert) {
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength22, this.length);
-      var i = byteLength22;
+      byteLength3 = byteLength3 >>> 0;
+      if (!noAssert) checkOffset(offset, byteLength3, this.length);
+      var i = byteLength3;
       var mul = 1;
       var val = this[offset + --i];
       while (i > 0 && (mul *= 256)) {
         val += this[offset + --i] * mul;
       }
       mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength22);
+      if (val >= mul) val -= Math.pow(2, 8 * byteLength3);
       return val;
     };
     Buffer2.prototype.readInt8 = function readInt8(offset, noAssert) {
@@ -14300,37 +14301,37 @@ ${jQuery(description.selector).val()}`);
       if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
       if (offset + ext > buf.length) throw new RangeError("Index out of range");
     }
-    Buffer2.prototype.writeUintLE = Buffer2.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength22, noAssert) {
+    Buffer2.prototype.writeUintLE = Buffer2.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength3, noAssert) {
       value = +value;
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
+      byteLength3 = byteLength3 >>> 0;
       if (!noAssert) {
-        var maxBytes = Math.pow(2, 8 * byteLength22) - 1;
-        checkInt(this, value, offset, byteLength22, maxBytes, 0);
+        var maxBytes = Math.pow(2, 8 * byteLength3) - 1;
+        checkInt(this, value, offset, byteLength3, maxBytes, 0);
       }
       var mul = 1;
       var i = 0;
       this[offset] = value & 255;
-      while (++i < byteLength22 && (mul *= 256)) {
+      while (++i < byteLength3 && (mul *= 256)) {
         this[offset + i] = value / mul & 255;
       }
-      return offset + byteLength22;
+      return offset + byteLength3;
     };
-    Buffer2.prototype.writeUintBE = Buffer2.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength22, noAssert) {
+    Buffer2.prototype.writeUintBE = Buffer2.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength3, noAssert) {
       value = +value;
       offset = offset >>> 0;
-      byteLength22 = byteLength22 >>> 0;
+      byteLength3 = byteLength3 >>> 0;
       if (!noAssert) {
-        var maxBytes = Math.pow(2, 8 * byteLength22) - 1;
-        checkInt(this, value, offset, byteLength22, maxBytes, 0);
+        var maxBytes = Math.pow(2, 8 * byteLength3) - 1;
+        checkInt(this, value, offset, byteLength3, maxBytes, 0);
       }
-      var i = byteLength22 - 1;
+      var i = byteLength3 - 1;
       var mul = 1;
       this[offset + i] = value & 255;
       while (--i >= 0 && (mul *= 256)) {
         this[offset + i] = value / mul & 255;
       }
-      return offset + byteLength22;
+      return offset + byteLength3;
     };
     Buffer2.prototype.writeUint8 = Buffer2.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
       value = +value;
@@ -14375,33 +14376,33 @@ ${jQuery(description.selector).val()}`);
       this[offset + 3] = value & 255;
       return offset + 4;
     };
-    Buffer2.prototype.writeIntLE = function writeIntLE(value, offset, byteLength22, noAssert) {
+    Buffer2.prototype.writeIntLE = function writeIntLE(value, offset, byteLength3, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
-        var limit = Math.pow(2, 8 * byteLength22 - 1);
-        checkInt(this, value, offset, byteLength22, limit - 1, -limit);
+        var limit = Math.pow(2, 8 * byteLength3 - 1);
+        checkInt(this, value, offset, byteLength3, limit - 1, -limit);
       }
       var i = 0;
       var mul = 1;
       var sub = 0;
       this[offset] = value & 255;
-      while (++i < byteLength22 && (mul *= 256)) {
+      while (++i < byteLength3 && (mul *= 256)) {
         if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
           sub = 1;
         }
         this[offset + i] = (value / mul >> 0) - sub & 255;
       }
-      return offset + byteLength22;
+      return offset + byteLength3;
     };
-    Buffer2.prototype.writeIntBE = function writeIntBE(value, offset, byteLength22, noAssert) {
+    Buffer2.prototype.writeIntBE = function writeIntBE(value, offset, byteLength3, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
-        var limit = Math.pow(2, 8 * byteLength22 - 1);
-        checkInt(this, value, offset, byteLength22, limit - 1, -limit);
+        var limit = Math.pow(2, 8 * byteLength3 - 1);
+        checkInt(this, value, offset, byteLength3, limit - 1, -limit);
       }
-      var i = byteLength22 - 1;
+      var i = byteLength3 - 1;
       var mul = 1;
       var sub = 0;
       this[offset + i] = value & 255;
@@ -14411,7 +14412,7 @@ ${jQuery(description.selector).val()}`);
         }
         this[offset + i] = (value / mul >> 0) - sub & 255;
       }
-      return offset + byteLength22;
+      return offset + byteLength3;
     };
     Buffer2.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
       value = +value;
@@ -14738,7 +14739,7 @@ ${jQuery(description.selector).val()}`);
   function attachFile({ data, selector, contentType, fileName, format: format2, charset = "UTF-8" }) {
     const buf = buffer.Buffer.isBuffer(data) ? data : buffer.Buffer.from(data, charset);
     const base64Data = buf.toString("base64");
-    const fileInput = jQuery(selector);
+    const fileInput = $$1(selector);
     if (base64Data && fileInput.length > 0) {
       const blob = base64ToBlob(base64Data, contentType);
       const file = new File([blob], `${fileName}.${format2}`, { type: contentType });
@@ -14815,21 +14816,21 @@ ${jQuery(description.selector).val()}`);
     }
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const torrentDom = jQuery(`#torrent_${torrentId}`);
-    const ptpMovieTitle = (_d2 = (_c = (_b = (_a2 = jQuery(".page__title").text()) == null ? void 0 : _a2.match(/]?([^[]+)/)) == null ? void 0 : _b[1]) == null ? void 0 : _c.trim()) != null ? _d2 : "";
+    const torrentDom = $$1(`#torrent_${torrentId}`);
+    const ptpMovieTitle = (_d2 = (_c = (_b = (_a2 = $$1(".page__title").text()) == null ? void 0 : _a2.match(/]?([^[]+)/)) == null ? void 0 : _b[1]) == null ? void 0 : _c.trim()) != null ? _d2 : "";
     const [movieName, movieAkaName = ""] = ptpMovieTitle.split(" AKA ");
     const mediaInfoArray = [];
     torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote").each(function() {
-      const textContent = jQuery(this).text();
+      const textContent = $$1(this).text();
       if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
         mediaInfoArray.push(textContent);
       }
     });
     TORRENT_INFO.movieName = movieName;
     TORRENT_INFO.movieAkaName = movieAkaName;
-    TORRENT_INFO.imdbUrl = (_f = (_e2 = jQuery("#imdb-title-link")) == null ? void 0 : _e2.attr("href")) != null ? _f : "";
-    TORRENT_INFO.year = (_h = (_g = jQuery(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _g[1]) != null ? _h : "";
-    const torrentHeaderDom = jQuery(`#group_torrent_header_${torrentId}`);
+    TORRENT_INFO.imdbUrl = (_f = (_e2 = $$1("#imdb-title-link")) == null ? void 0 : _e2.attr("href")) != null ? _f : "";
+    TORRENT_INFO.year = (_h = (_g = $$1(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _g[1]) != null ? _h : "";
+    const torrentHeaderDom = $$1(`#group_torrent_header_${torrentId}`);
     const torrentLink = torrentHeaderDom.find('a[title="Download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     TORRENT_INFO.category = getPTPType();
@@ -14873,16 +14874,16 @@ ${jQuery(description.selector).val()}`);
       const size = (_c2 = (_b2 = torrentHeaderDom.find(".nobr span").attr("title")) == null ? void 0 : _b2.replace(/[^\d]/g, "")) != null ? _c2 : "";
       TORRENT_INFO.size = parseFloat(size);
       TORRENT_INFO.screenshots = screenshots;
-      TORRENT_INFO.poster = jQuery(".sidebar-cover-image").attr("src") || "";
+      TORRENT_INFO.poster = $$1(".sidebar-cover-image").attr("src") || "";
       console.log(TORRENT_INFO);
     });
     let country = [];
-    const matchArray = jQuery("#movieinfo div").text().match(/Country:\s+([^\n]+)/);
+    const matchArray = $$1("#movieinfo div").text().match(/Country:\s+([^\n]+)/);
     if (matchArray && matchArray.length > 0) {
       country = matchArray == null ? void 0 : matchArray[1].replace(/(,)\s+/g, "$1").split(",");
     }
     TORRENT_INFO.area = getAreaCode(country == null ? void 0 : country[0]);
-    const trumpReason = jQuery(`#trumpable_${torrentId} span`).text() || "";
+    const trumpReason = $$1(`#trumpable_${torrentId} span`).text() || "";
     TORRENT_INFO.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
     return TORRENT_INFO;
   };
@@ -14895,13 +14896,13 @@ ${jQuery(description.selector).val()}`);
       "Live Performance": "concert",
       "Movie Collection": "movie"
     };
-    const ptpType = jQuery("#torrent-table .basic-movie-list__torrent-edition__main").eq(0).text();
+    const ptpType = $$1("#torrent-table .basic-movie-list__torrent-edition__main").eq(0).text();
     return typeMap[ptpType];
   };
   const getPTPImage = () => {
     var _a2;
     const imgList = [];
-    const torrentInfoPanel = jQuery(".movie-page__torrent__panel");
+    const torrentInfoPanel = $$1(".movie-page__torrent__panel");
     const imageDom = torrentInfoPanel.find(".bbcode__image");
     for (let i = 0; i < imageDom.length; i++) {
       const parent = imageDom[i].parentElement;
@@ -15010,7 +15011,7 @@ ${jQuery(description.selector).val()}`);
       }
     });
     if (TORRENT_INFO.category === "concert") {
-      descriptionData = `${jQuery("#synopsis").text()}
+      descriptionData = `${$$1("#synopsis").text()}
 ${descriptionData}`;
     }
     return descriptionData;
@@ -15046,15 +15047,15 @@ ${descriptionData}`;
     TORRENT_INFO.size = getSize(Size);
     TORRENT_INFO.title = formatTorrentTitle(Name);
     const tags = getTagsFromSubtitle(TORRENT_INFO.title);
-    const TMDBYear = jQuery(".movie-heading a:last").text();
-    const movieName = jQuery(".movie-heading a:first").text();
+    const TMDBYear = $$1(".movie-heading a:last").text();
+    const movieName = $$1(".movie-heading a:first").text();
     if (!TMDBYear) {
       const matchYear = TORRENT_INFO.title.match(/\s([12][90]\d{2})/);
       TORRENT_INFO.year = matchYear ? matchYear[0] : "";
     } else {
       TORRENT_INFO.year = TMDBYear;
     }
-    const descriptionDom = jQuery(".panel-heading:contains(Description)").next(".panel-body").find(".forced-nfo");
+    const descriptionDom = $$1(".panel-heading:contains(Description)").next(".panel-body").find(".forced-nfo");
     const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     TORRENT_INFO.comparisons = getComparisonImgs$1();
     const { category: movieCat, countries, imdbUrl } = getMovieDetails();
@@ -15066,7 +15067,7 @@ ${descriptionData}`;
     TORRENT_INFO.area = getAreaCode(countries);
     TORRENT_INFO.videoType = getVideoType$f(Source, Type);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const mediaInfo = jQuery("#stats-full code").text();
+    const mediaInfo = $$1("#stats-full code").text();
     TORRENT_INFO.mediaInfos = [mediaInfo];
     TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
     TORRENT_INFO.originalDescription = `${descriptionBBCode}`;
@@ -15096,25 +15097,25 @@ ${descriptionBBCode}`;
       Region: "",
       Extras: ""
     };
-    jQuery(".dotborder").each((index, element) => {
-      const key = jQuery(element).find("td:first").text();
-      const value = jQuery(element).find("td:last").text();
+    $$1(".dotborder").each((index, element) => {
+      const key = $$1(element).find("td:first").text();
+      const value = $$1(element).find("td:last").text();
       basicInfo[key] = value.replace(/\n/g, "").trim();
     });
     console.log(basicInfo);
     return basicInfo;
   };
   const getMovieDetails = () => {
-    const infoList = jQuery(".movie-details a");
+    const infoList = $$1(".movie-details a");
     const movieDetail = {
       category: "",
       countries: "",
       imdbUrl: ""
     };
-    movieDetail.imdbUrl = jQuery('span.badge-meta[title*="IMDb"] > a').attr("href") || "";
+    movieDetail.imdbUrl = $$1('span.badge-meta[title*="IMDb"] > a').attr("href") || "";
     infoList.each((index, element) => {
       var _a2, _b;
-      const urlParams = (_b = (_a2 = jQuery(element).attr("href")) == null ? void 0 : _a2.replace(/.+\//g, "").split("=")) != null ? _b : "";
+      const urlParams = (_b = (_a2 = $$1(element).attr("href")) == null ? void 0 : _a2.replace(/.+\//g, "").split("=")) != null ? _b : "";
       if (urlParams.length > 1) {
         let key = decodeURI(urlParams[0]);
         const value = urlParams[1];
@@ -15182,10 +15183,10 @@ ${descriptionBBCode}`;
   };
   function getComparisonImgs$1() {
     var _a2, _b;
-    const title = (_b = (_a2 = jQuery("#screenMain .screenParent").text()) == null ? void 0 : _a2.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b.trim();
-    const imgs = Array.from(jQuery(".screenComparison img")).map((img) => {
+    const title = (_b = (_a2 = $$1("#screenMain .screenParent").text()) == null ? void 0 : _a2.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b.trim();
+    const imgs = Array.from($$1(".screenComparison img")).map((img) => {
       var _a3, _b2;
-      return (_b2 = (_a3 = jQuery(img)) == null ? void 0 : _a3.attr("src")) != null ? _b2 : "";
+      return (_b2 = (_a3 = $$1(img)) == null ? void 0 : _a3.attr("src")) != null ? _b2 : "";
     });
     if (title !== "") {
       return [
@@ -15202,17 +15203,17 @@ ${descriptionBBCode}`;
     const torrentId = getUrlParam("id");
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const editDom = jQuery("#details tr").has("a:contains(Edit torrent)");
-    const descriptionDom = editDom.length > 0 ? editDom.prev() : jQuery("#details >tbody >tr:contains(tags) + tr");
+    const editDom = $$1("#details tr").has("a:contains(Edit torrent)");
+    const descriptionDom = editDom.length > 0 ? editDom.prev() : $$1("#details >tbody >tr:contains(tags) + tr");
     let descriptionBBCode = getFilterBBCode(descriptionDom.find(">td")[0]);
     descriptionBBCode = (_b = (_a2 = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
     TORRENT_INFO.description = descriptionBBCode;
     const { size, category, videoType } = getBasicInfo$5();
-    const title = jQuery("h1").eq(0).text();
+    const title = $$1("h1").eq(0).text();
     TORRENT_INFO.title = formatTorrentTitle(title);
     const tags = getTagsFromSubtitle(title);
-    const isMovieType = jQuery(".contentlayout h1").length > 0;
-    const IMDBLinkDom = isMovieType ? jQuery(".contentlayout h1") : jQuery("#details .showlinks li").eq(1);
+    const isMovieType = $$1(".contentlayout h1").length > 0;
+    const IMDBLinkDom = isMovieType ? $$1(".contentlayout h1") : $$1("#details .showlinks li").eq(1);
     if (isMovieType) {
       const IMDBYear = IMDBLinkDom.prop("lastChild").nodeValue.replace(/\s|\(|\)/g, "");
       const movieName = IMDBLinkDom.find("a").text();
@@ -15264,8 +15265,8 @@ ${descriptionBBCode}`;
       Remux: "remux",
       "WEB-DL": "web"
     };
-    const info = jQuery("th:contains(Category)").next().text();
-    const size = jQuery("th:contains(Size)").eq(0).next().text();
+    const info = $$1("th:contains(Category)").next().text();
+    const size = $$1("th:contains(Size)").eq(0).next().text();
     const splitArray = info.split("(");
     const category = splitArray[0].trim().toLowerCase();
     const videoCodec = splitArray[1].split(",")[0].toLowerCase().replace(/\./g, "");
@@ -15291,26 +15292,26 @@ ${descriptionBBCode}`;
   const getTikInfo = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const typeText = jQuery("td.heading:contains(Type)").eq(0).next().text();
+    const typeText = $$1("td.heading:contains(Type)").eq(0).next().text();
     const isMovie = typeText !== "TV-Series";
     const tags = [];
-    jQuery("td.heading:contains(Tags)").eq(0).next().children().each((_2, child) => {
+    $$1("td.heading:contains(Tags)").eq(0).next().children().each((_2, child) => {
       tags.push(child.textContent);
     });
-    const size = jQuery("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_2, size2) => size2.replace(/,/g, ""));
-    const title = jQuery("h1").eq(0).text();
-    const imdbNumber = jQuery('span:contains("IMDB id:") a').text();
-    const descContainer = jQuery("td.heading:contains(Description)").eq(0).next();
+    const size = $$1("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_2, size2) => size2.replace(/,/g, ""));
+    const title = $$1("h1").eq(0).text();
+    const imdbNumber = $$1('span:contains("IMDB id:") a').text();
+    const descContainer = $$1("td.heading:contains(Description)").eq(0).next();
     const desc = descContainer.text();
     const rawDesc = descContainer.html();
-    TORRENT_INFO.mediaInfos = [jQuery("td[style~=dotted]").text()];
+    TORRENT_INFO.mediaInfos = [$$1("td[style~=dotted]").text()];
     const { videoCodec, audioCodec, resolution = "", mediaTags = {} } = getInfoFromBDInfo(TORRENT_INFO.mediaInfos[0]);
     TORRENT_INFO.size = parseInt(size, 10);
     TORRENT_INFO.title = formatTorrentTitle(title);
     TORRENT_INFO.description = desc;
     TORRENT_INFO.screenshots = getImagesFromDesc(rawDesc);
-    TORRENT_INFO.year = jQuery("span.gr_hsep:contains(Year)").text().replace("Year: ", "").trim();
-    TORRENT_INFO.movieName = jQuery("div.gr_tdsep h1:first-child").text();
+    TORRENT_INFO.year = $$1("span.gr_hsep:contains(Year)").text().replace("Year: ", "").trim();
+    TORRENT_INFO.movieName = $$1("div.gr_tdsep h1:first-child").text();
     TORRENT_INFO.imdbUrl = `https://www.imdb.com/title/tt${imdbNumber}/`;
     TORRENT_INFO.category = isMovie ? "movie" : "tvPack";
     TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
@@ -15338,7 +15339,7 @@ ${descriptionBBCode}`;
     var _a2, _b, _c, _d2, _e2;
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const headTitle = jQuery("#main_table h1").eq(0).text();
+    const headTitle = $$1("#main_table h1").eq(0).text();
     const title = formatTorrentTitle((_b = (_a2 = headTitle.match(/[^[]+/)) == null ? void 0 : _a2[0]) != null ? _b : "");
     TORRENT_INFO.title = title;
     TORRENT_INFO.subtitle = headTitle.replace(title, "").replace(/\[|\]/g, "");
@@ -15355,10 +15356,10 @@ ${descriptionBBCode}`;
     TORRENT_INFO.size = parseInt(sizeStr.replace(/,/g, ""), 10);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    TORRENT_INFO.isForbidden = !!jQuery("#kt_d").text().match(/禁转/);
+    TORRENT_INFO.isForbidden = !!$$1("#kt_d").text().match(/禁转/);
     window.onload = async () => {
       var _a3, _b2, _c2, _d3, _e3, _f, _g;
-      const descriptionDom = jQuery("#kt_d");
+      const descriptionDom = $$1("#kt_d");
       const bbCodes = getFilterBBCode(descriptionDom[0]);
       if (!imdbUrl) {
         TORRENT_INFO.imdbUrl = (_a3 = bbCodes.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a3[0];
@@ -15487,7 +15488,7 @@ ${descriptionBBCode}`;
     return videoType;
   };
   const getTorrentValueDom = (key) => {
-    return jQuery(`#main_table td.heading:contains(${key})`).next();
+    return $$1(`#main_table td.heading:contains(${key})`).next();
   };
   const getCategoryFromDesc = (desc) => {
     let category = "movie";
@@ -15561,10 +15562,10 @@ ${doubanPart}`);
     const tags = getTagsFromSubtitle(TORRENT_INFO.title);
     const category = getCategory$7(Category);
     const videoType = getVideoType$d(Type, Resolution);
-    let IMDBYear = jQuery(".movie-heading span:last").text();
-    let movieName = jQuery(".movie-heading span:first").text();
-    let imdbUrl = jQuery(".movie-details a:contains(IMDB)").attr("href");
-    let poster = jQuery(".movie-poster").attr("src");
+    let IMDBYear = $$1(".movie-heading span:last").text();
+    let movieName = $$1(".movie-heading span:first").text();
+    let imdbUrl = $$1(".movie-details a:contains(IMDB)").attr("href");
+    let poster = $$1(".movie-poster").attr("src");
     if (CURRENT_SITE_NAME === "HDPOST") {
       const englishTitle = (_b = (_a2 = title.match(/[\s\W\d]+(.+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
       TORRENT_INFO.subtitle = (_c = title.replace(englishTitle, "")) == null ? void 0 : _c.trim();
@@ -15574,8 +15575,8 @@ ${doubanPart}`);
       title = title.replace(/\/\s+\W+/, "");
     }
     if (CURRENT_SITE_NAME === "MDU") {
-      title = jQuery("h1.text-center").text().trim();
-      TORRENT_INFO.subtitle = jQuery("h2.text-center").text().trim();
+      title = $$1("h1.text-center").text().trim();
+      TORRENT_INFO.subtitle = $$1("h2.text-center").text().trim();
     }
     if (!IMDBYear) {
       const matchYear = TORRENT_INFO.title.match(/(19|20)\d{2}/g);
@@ -15584,17 +15585,17 @@ ${doubanPart}`);
       IMDBYear = IMDBYear.replace(/\(|\)|\s/g, "");
     }
     const resolution = (_f = (_e2 = Resolution.match(/\d+(i|p)/i)) == null ? void 0 : _e2[0]) != null ? _f : "";
-    let descriptionDom = jQuery(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
+    let descriptionDom = $$1(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
     descriptionDom.find("#collection_waypoint").remove();
-    let mediaInfoOrBDInfo = jQuery(".decoda-code code").text();
+    let mediaInfoOrBDInfo = $$1(".decoda-code code").text();
     if (CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
-      const title2 = jQuery(".meta__title").text().trim();
+      const title2 = $$1(".meta__title").text().trim();
       movieName = title2.replace(/\(.+\)/g, "");
       IMDBYear = (_h = (_g = title2.match(/\((\d{4})\)/)) == null ? void 0 : _g[1]) != null ? _h : "";
-      imdbUrl = jQuery(".meta__imdb a").attr("href");
-      descriptionDom = jQuery(".panel__body.bbcode-rendered");
-      mediaInfoOrBDInfo = jQuery(".bbcode-rendered code").text();
-      poster = jQuery(".meta__poster-link img").attr("src");
+      imdbUrl = $$1(".meta__imdb a").attr("href");
+      descriptionDom = $$1(".panel__body.bbcode-rendered");
+      mediaInfoOrBDInfo = $$1(".bbcode-rendered code").text();
+      poster = $$1(".meta__poster-link img").attr("src");
     }
     let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     if (mediaInfoOrBDInfo) {
@@ -15651,27 +15652,27 @@ ${doubanPart}`);
       resolution: "Resolution"
     };
     if (!CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer/i)) {
-      const lineSelector = jQuery('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
+      const lineSelector = $$1('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
       lineSelector.each((index, element) => {
         var _a2, _b, _c;
-        const key = jQuery(element).find("td:first").text().replace(/\s|\n/g, "");
+        const key = $$1(element).find("td:first").text().replace(/\s|\n/g, "");
         const basicKey = keyMap[key];
         if (basicKey) {
-          let value = jQuery(element).find("td:last").text();
+          let value = $$1(element).find("td:last").text();
           if (basicKey === "Name") {
-            value = (_c = (_b = (_a2 = jQuery(element).find("td:last")[0]) == null ? void 0 : _a2.firstChild) == null ? void 0 : _b.textContent) != null ? _c : "";
+            value = (_c = (_b = (_a2 = $$1(element).find("td:last")[0]) == null ? void 0 : _a2.firstChild) == null ? void 0 : _b.textContent) != null ? _c : "";
           }
           basicInfo[basicKey] = value.replace(/\n/g, "").trim();
         }
       });
     } else {
-      const formats = jQuery(".torrent__tags li");
+      const formats = $$1(".torrent__tags li");
       formats.each((index, item) => {
         var _a2;
-        const className = (_a2 = jQuery(item).attr("class")) == null ? void 0 : _a2.replace("torrent__", "");
-        basicInfo[keyMap[className]] = jQuery(item).text().trim();
+        const className = (_a2 = $$1(item).attr("class")) == null ? void 0 : _a2.replace("torrent__", "");
+        basicInfo[keyMap[className]] = $$1(item).text().trim();
       });
-      const title = jQuery("h1.torrent__name").text().trim();
+      const title = $$1("h1.torrent__name").text().trim();
       basicInfo.Name = title;
       console.log(basicInfo);
     }
@@ -16940,7 +16941,7 @@ ${doubanPart}`);
     });
   };
   const getTorrentFileData = async (selector = "", torrentLink = "") => {
-    let downloadLink = torrentLink || jQuery(selector).attr("href");
+    let downloadLink = torrentLink || $$1(selector).attr("href");
     if (!downloadLink) {
       console.warn("Failed to get torrent file download link");
       return null;
@@ -16975,23 +16976,23 @@ ${doubanPart}`);
   };
   const getNexusPHPInfo = async () => {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n2, _o, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
-    let title = formatTorrentTitle((_b = (_a2 = jQuery("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim());
-    let metaInfo = jQuery("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ":");
-    let subtitle = jQuery("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
-    let siteImdbUrl = jQuery("#kimdb>a").attr("href");
-    let descriptionBBCode = getFilterBBCode(jQuery("#kdescr")[0]);
+    let title = formatTorrentTitle((_b = (_a2 = $$1("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim());
+    let metaInfo = $$1("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ":");
+    let subtitle = $$1("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
+    let siteImdbUrl = $$1("#kimdb>a").attr("href");
+    let descriptionBBCode = getFilterBBCode($$1("#kdescr")[0]);
     descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, " ");
     if (CURRENT_SITE_NAME === "MTeam") {
       descriptionBBCode = descriptionBBCode.replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, "").replace(/(http(s)?)%3A/g, "$1:").replace(/%2F/g, "/");
     }
     if (CURRENT_SITE_NAME === "HDArea") {
-      title = (_d2 = (_c = jQuery("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d2.trim();
+      title = (_d2 = (_c = $$1("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d2.trim();
     }
     if (CURRENT_SITE_NAME === "SSD") {
-      title = formatTorrentTitle(jQuery("#torrent-name").text());
+      title = formatTorrentTitle($$1("#torrent-name").text());
     }
     if (CURRENT_SITE_NAME === "PuTao") {
-      title = formatTorrentTitle((_e2 = jQuery("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _e2.trim());
+      title = formatTorrentTitle((_e2 = $$1("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _e2.trim());
     }
     if (CURRENT_SITE_NAME === "TJUPT") {
       const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
@@ -16999,55 +17000,55 @@ ${doubanPart}`);
       title = realTitle.replace(/\[|\]/g, "");
     }
     if (CURRENT_SITE_NAME === "PTer") {
-      if (jQuery("#descrcopyandpaster")[0]) {
-        descriptionBBCode = (_h = jQuery("#descrcopyandpaster").val()) == null ? void 0 : _h.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, "quote]");
+      if ($$1("#descrcopyandpaster")[0]) {
+        descriptionBBCode = (_h = $$1("#descrcopyandpaster").val()) == null ? void 0 : _h.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, "quote]");
       } else {
-        descriptionBBCode = getFilterBBCode(jQuery("#kdescr")[0]);
+        descriptionBBCode = getFilterBBCode($$1("#kdescr")[0]);
       }
       descriptionBBCode = descriptionBBCode.replace(/\[img\d\]/g, "[img]");
     }
     if (CURRENT_SITE_NAME === "HDChina") {
       const meta = [];
-      jQuery("li:contains('基本信息'):last").next("li").children("i").each(function() {
-        meta.push(jQuery(this).text().replace("：", ":"));
+      $$1("li:contains('基本信息'):last").next("li").children("i").each(function() {
+        meta.push($$1(this).text().replace("：", ":"));
       });
       metaInfo = meta.join("   ");
-      subtitle = jQuery("#top").next("h3").text();
+      subtitle = $$1("#top").next("h3").text();
     }
     if (CURRENT_SITE_NAME === "OurBits") {
-      siteImdbUrl = jQuery(".imdbnew2 a:first").attr("href");
-      TORRENT_INFO.doubanUrl = jQuery("#doubaninfo .doubannew a").attr("href");
+      siteImdbUrl = $$1(".imdbnew2 a:first").attr("href");
+      TORRENT_INFO.doubanUrl = $$1("#doubaninfo .doubannew a").attr("href");
       if (TORRENT_INFO.doubanUrl) {
-        const doubanInfo = getFilterBBCode((_i = jQuery(".doubannew2 .doubaninfo")) == null ? void 0 : _i[0]);
-        const doubanPoster = `[img]${jQuery("#doubaninfo .doubannew a img").attr("src")}[/img]
+        const doubanInfo = getFilterBBCode((_i = $$1(".doubannew2 .doubaninfo")) == null ? void 0 : _i[0]);
+        const doubanPoster = `[img]${$$1("#doubaninfo .doubannew a img").attr("src")}[/img]
 `;
         TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
       }
     }
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       [title, subtitle] = [subtitle, title];
-      siteImdbUrl = jQuery("#kimdb .imdbwp__link").attr("href");
-      TORRENT_INFO.doubanUrl = jQuery("#kdouban .imdbwp__link").attr("href");
+      siteImdbUrl = $$1("#kimdb .imdbwp__link").attr("href");
+      TORRENT_INFO.doubanUrl = $$1("#kdouban .imdbwp__link").attr("href");
       const element = document.createElement("div");
-      jQuery(element).html(jQuery("#outer td").has("#kdescr").html());
+      $$1(element).html($$1("#outer td").has("#kdescr").html());
       descriptionBBCode = getFilterBBCode(element);
       descriptionBBCode = descriptionBBCode.replace("  [url=", "\n  [url=").replace(/\[\/img\]\[\/url\]\n/g, "[/img][/url]");
-      const mediainfo = jQuery("div.codemain > pre:contains('Unique ID')");
+      const mediainfo = $$1("div.codemain > pre:contains('Unique ID')");
       if (mediainfo[0]) {
         mediainfo.each(function() {
           var _a3;
-          (_a3 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a3.push(jQuery(this).text());
+          (_a3 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a3.push($$1(this).text());
         });
       }
       descriptionBBCode = descriptionBBCode.replace(/ 截图对比\(点击空白处展开\)/g, "截图对比");
-      const comparisonArray = jQuery("fieldset[onclick]").toArray() || [];
+      const comparisonArray = $$1("fieldset[onclick]").toArray() || [];
       const comparisons = [];
       comparisonArray.forEach((item) => {
         const imgs = [];
-        jQuery(item).find("a").toArray().forEach((img) => {
+        $$1(item).find("a").toArray().forEach((img) => {
           if (img.href) imgs.push(img.href);
         });
-        const title2 = jQuery(item).find("legend").text().replace(" 截图对比(点击空白处展开):", "").trim();
+        const title2 = $$1(item).find("legend").text().replace(" 截图对比(点击空白处展开):", "").trim();
         const reason = "";
         comparisons.push({
           title: title2,
@@ -17057,12 +17058,12 @@ ${doubanPart}`);
       });
       TORRENT_INFO.comparisons = comparisons;
       if (!descriptionBBCode.match("豆瓣评分")) {
-        const imdbRate = jQuery("#kimdb span.imdbwp__rating").text().replace("\nRating: ", "");
-        const doubanInfo = jQuery("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n◎").replace(/\n◎$/, "\n").replace("◎Rating:", `◎IMDb链接:${siteImdbUrl}
+        const imdbRate = $$1("#kimdb span.imdbwp__rating").text().replace("\nRating: ", "");
+        const doubanInfo = $$1("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n◎").replace(/\n◎$/, "\n").replace("◎Rating:", `◎IMDb链接:${siteImdbUrl}
 ◎IMDb评分: ${imdbRate}
 ◎豆瓣链接: ${TORRENT_INFO.doubanUrl}
 ◎豆瓣评分:`);
-        const postUrl = (_k = (_j = jQuery("#kimdb img.imdbwp__img")) == null ? void 0 : _j.attr("src")) != null ? _k : "";
+        const postUrl = (_k = (_j = $$1("#kimdb img.imdbwp__img")) == null ? void 0 : _j.attr("src")) != null ? _k : "";
         const doubanPoster = postUrl ? `[img]${postUrl}[/img]
 ` : "";
         TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo || "";
@@ -17070,54 +17071,54 @@ ${doubanPart}`);
       descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, "");
     }
     if (CURRENT_SITE_NAME === "SSD") {
-      TORRENT_INFO.doubanUrl = jQuery(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
-      const doubanInfo = getFilterBBCode((_l = jQuery(".douban-info artical")) == null ? void 0 : _l[0]);
-      const postUrl = (_n2 = (_m = jQuery("#kposter").find("img")) == null ? void 0 : _m.attr("src")) != null ? _n2 : "";
+      TORRENT_INFO.doubanUrl = $$1(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
+      const doubanInfo = getFilterBBCode((_l = $$1(".douban-info artical")) == null ? void 0 : _l[0]);
+      const postUrl = (_n2 = (_m = $$1("#kposter").find("img")) == null ? void 0 : _m.attr("src")) != null ? _n2 : "";
       const doubanPoster = postUrl ? `[img]${postUrl}[/img]
 ` : "";
       TORRENT_INFO.doubanInfo = doubanPoster + (doubanInfo == null ? void 0 : doubanInfo.replace(/\n{2,}/g, "\n")) || "";
       if (descriptionBBCode === "" || descriptionBBCode === void 0) {
-        let extraTextInfo = getFilterBBCode((_o = jQuery(".torrent-extra-text-container .extra-text")) == null ? void 0 : _o[0]);
+        let extraTextInfo = getFilterBBCode((_o = $$1(".torrent-extra-text-container .extra-text")) == null ? void 0 : _o[0]);
         extraTextInfo = extraTextInfo ? `
 [quote]${extraTextInfo}[/quote]
 ` : "";
-        const extraScreenshotDom = jQuery(".screenshot").find("img");
+        const extraScreenshotDom = $$1(".screenshot").find("img");
         const imgs = [];
         if (extraScreenshotDom) {
           extraScreenshotDom.each((index, item) => {
             var _a3, _b2;
-            imgs.push(`[img]${(_b2 = (_a3 = jQuery(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
+            imgs.push(`[img]${(_b2 = (_a3 = $$1(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
           });
         }
         const extraScreenshot = imgs.join("");
-        const mediaInfo = jQuery("section[data-group='mediainfo'] .codemain").text();
+        const mediaInfo = $$1("section[data-group='mediainfo'] .codemain").text();
         const extraMediaInfo = `
 [quote]${mediaInfo}[/quote]
 `;
         TORRENT_INFO.mediaInfos = [mediaInfo];
         descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
       }
-      siteImdbUrl = jQuery(".douban_info a:contains('://www.imdb.com/title/')").attr("href");
+      siteImdbUrl = $$1(".douban_info a:contains('://www.imdb.com/title/')").attr("href");
     }
     if (CURRENT_SITE_NAME === "HaresClub") {
-      subtitle = jQuery("h3.layui-font-16:first").text();
-      const extraScreenshotDom = jQuery("#layer-photos-demo").find("img");
+      subtitle = $$1("h3.layui-font-16:first").text();
+      const extraScreenshotDom = $$1("#layer-photos-demo").find("img");
       const imgs = [];
       if (extraScreenshotDom) {
         extraScreenshotDom.each((index, item) => {
           var _a3, _b2;
-          imgs.push(`[img]${(_b2 = (_a3 = jQuery(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
+          imgs.push(`[img]${(_b2 = (_a3 = $$1(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
         });
       }
       const extraScreenshot = imgs.join("");
-      descriptionBBCode = getFilterBBCode(jQuery(".layui-colla-content:first")[0]);
-      const extraMediaInfo = (_q = (_p = jQuery("#kfmedia").html()) == null ? void 0 : _p.replace(/<br>/g, "\n")) != null ? _q : "";
+      descriptionBBCode = getFilterBBCode($$1(".layui-colla-content:first")[0]);
+      const extraMediaInfo = (_q = (_p = $$1("#kfmedia").html()) == null ? void 0 : _p.replace(/<br>/g, "\n")) != null ? _q : "";
       descriptionBBCode = `${descriptionBBCode}
 [quote]${extraMediaInfo}[/quote]
 ${extraScreenshot}`;
-      TORRENT_INFO.doubanUrl = jQuery('.layui-interval a[href*="douban.com/subject"]').attr("href");
+      TORRENT_INFO.doubanUrl = $$1('.layui-interval a[href*="douban.com/subject"]').attr("href");
       TORRENT_INFO.mediaInfos = [extraMediaInfo];
-      siteImdbUrl = jQuery('.layui-interval a[href*="imdb.com/title"]').attr("href");
+      siteImdbUrl = $$1('.layui-interval a[href*="imdb.com/title"]').attr("href");
     }
     const year = (_r = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _r : [];
     const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo$1(metaInfo);
@@ -17144,7 +17145,7 @@ ${extraScreenshot}`;
     } else {
       TORRENT_INFO.movieName = (_A = (_z = (_y = translateName.match(/(\w|\s){2,}/)) == null ? void 0 : _y[0]) == null ? void 0 : _z.trim()) != null ? _A : "";
     }
-    const fullInformation = jQuery("#top").text() + subtitle + descriptionBBCode;
+    const fullInformation = $$1("#top").text() + subtitle + descriptionBBCode;
     const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|exclusive/);
     TORRENT_INFO.isForbidden = !!isForbidden;
     if (!processing || processing.match(/raw|encode/)) {
@@ -17195,7 +17196,7 @@ ${extraScreenshot}`;
     if (CURRENT_SITE_NAME === "TCCF") {
       TORRENT_INFO.format = getFormat(videoType);
     } else {
-      TORRENT_INFO.format = getFormat(jQuery("#top").text() + subtitle);
+      TORRENT_INFO.format = getFormat($$1("#top").text() + subtitle);
     }
   };
   const getMetaInfo$1 = (metaInfo) => {
@@ -17271,10 +17272,10 @@ ${extraScreenshot}`;
   const getTagsFromPage$1 = () => {
     let tags = {};
     if (CURRENT_SITE_NAME === "PTer") {
-      const tagImgs = jQuery("td.rowhead:contains('类别与标签')").next().find("img");
+      const tagImgs = $$1("td.rowhead:contains('类别与标签')").next().find("img");
       const links = Array.from(tagImgs.map((index, item) => {
         var _a2, _b;
-        return (_b = (_a2 = jQuery(item).attr("src")) == null ? void 0 : _a2.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b : "";
+        return (_b = (_a2 = $$1(item).attr("src")) == null ? void 0 : _a2.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b : "";
       }));
       if (links.includes("pter-zz")) {
         tags.chinese_subtitle = true;
@@ -17289,7 +17290,7 @@ ${extraScreenshot}`;
         tags.diy = true;
       }
     } else {
-      const tagText = jQuery("td.rowhead:contains('标签')").next().text();
+      const tagText = $$1("td.rowhead:contains('标签')").next().text();
       tags = getTagsFromSubtitle(tagText);
     }
     return tags;
@@ -17308,7 +17309,7 @@ ${extraScreenshot}`;
   const getHDTInfo = async () => {
     var _a2, _b, _c, _d2, _e2, _f;
     const title = document.title.replace(/HD-Torrents.org\s*-/ig, "").trim();
-    const imdbInfoDom = jQuery("#IMDBDetailsInfoHideShowTR .imdbnew2");
+    const imdbInfoDom = $$1("#IMDBDetailsInfoHideShowTR .imdbnew2");
     const imdbUlrDom = imdbInfoDom.find(">a");
     const imdbUrl = imdbUlrDom.attr("href") || "";
     const movieName = imdbUlrDom.text();
@@ -17326,7 +17327,7 @@ ${extraScreenshot}`;
     }
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    const descriptionDom = jQuery("#technicalInfoHideShowTR");
+    const descriptionDom = $$1("#technicalInfoHideShowTR");
     let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     descriptionBBCode = descriptionBBCode.replace(/\[center\]((?:.|\n)+?)\[\/center\]/g, (match, p1) => {
       if (p1.match(/(keep seeding)|(spank your ass)/)) {
@@ -17371,9 +17372,9 @@ ${extraScreenshot}`;
       Title: "",
       Genre: ""
     };
-    jQuery(".detailsleft").each((index, element) => {
-      const key = jQuery(element).text().replace(/:/g, "").trim();
-      const value = jQuery(element).next("td").text();
+    $$1(".detailsleft").each((index, element) => {
+      const key = $$1(element).text().replace(/:/g, "").trim();
+      const value = $$1(element).next("td").text();
       if (value) {
         basicInfo[key] = value.replace(/\n/g, "").trim();
       }
@@ -17418,12 +17419,13 @@ ${extraScreenshot}`;
     const fileName = Filename.replace(/\.\w+$/, "");
     const title = formatTorrentTitle(fileName || torrentFileName);
     const imdbUrl = (InternetLink == null ? void 0 : InternetLink.match(/imdb/)) ? InternetLink : "";
-    const movieTitles = jQuery(".outer h1").text().split("- ");
-    let movieName, movieAkaName;
+    const movieTitles = $$1(".outer h1").text().split("- ");
+    let movieName = "";
+    let movieAkaName = "";
     if (movieTitles.length >= 2) {
-      [movieName, movieAkaName = ""] = movieTitles[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
+      [movieName, movieAkaName] = movieTitles[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
     }
-    const country = jQuery(".outer h1 img").attr("alt") || "";
+    const country = $$1(".outer h1 img").attr("alt") || "";
     const year = Year;
     const size = (_b = (_a2 = Size.match(/\((.+?)\)/)) == null ? void 0 : _a2[1].replace(/,|(bytes)/g, "")) != null ? _b : "";
     let tags = getTagsFromSubtitle(title);
@@ -17438,7 +17440,7 @@ ${extraScreenshot}`;
     }
     let category = Type.toLowerCase();
     category = Genres.match(/Animation/i) ? "cartoon" : category;
-    const mediaInfo = jQuery("div.mediainfo").text();
+    const mediaInfo = $$1("div.mediainfo").text();
     let source = Source.replace(/-/g, "").toLowerCase();
     if (source === "tv") {
       source = "hdtv";
@@ -17494,9 +17496,9 @@ ${extraScreenshot}`;
   };
   const getBasicInfo$2 = () => {
     const basicInfo = {};
-    jQuery(".outer h1~table:first>tbody>tr").each((index, element) => {
-      const key = jQuery(element).find("td.heading").text().replace(/\s/g, "");
-      const value = jQuery(element).find("td.heading").next("td").text();
+    $$1(".outer h1~table:first>tbody>tr").each((index, element) => {
+      const key = $$1(element).find("td.heading").text().replace(/\s/g, "");
+      const value = $$1(element).find("td.heading").next("td").text();
       if (value) {
         basicInfo[key] = value.replace(/\n/g, "").trim();
       }
@@ -17530,7 +17532,7 @@ ${extraScreenshot}`;
     return "";
   };
   const getBasicInfoDom = (key) => {
-    return jQuery(`.outer h1~table:first>tbody>tr td:contains(${key})`).next("td");
+    return $$1(`.outer h1~table:first>tbody>tr td:contains(${key})`).next("td");
   };
   const getUHDInfo = async () => {
     var _a2, _b, _c, _d2, _e2, _f;
@@ -17538,27 +17540,27 @@ ${extraScreenshot}`;
     if (!torrentId) {
       return false;
     }
-    const torrentFilePathDom = jQuery(`#files_${torrentId} .filelist_path`);
-    const torrentFileDom = jQuery(`#files_${torrentId} .filelist_table>tbody>tr:nth-child(2) td`).eq(0);
+    const torrentFilePathDom = $$1(`#files_${torrentId} .filelist_path`);
+    const torrentFileDom = $$1(`#files_${torrentId} .filelist_table>tbody>tr:nth-child(2) td`).eq(0);
     const torrentFileName = ((_a2 = torrentFilePathDom.text()) == null ? void 0 : _a2.replace(/\//g, "")) || ((_b = torrentFileDom.text()) == null ? void 0 : _b.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, ""));
     const title = formatTorrentTitle(torrentFileName);
-    const imdbUrl = jQuery(".imovie_title .tooltip.imdb_icon").attr("href") || "";
-    const titleText = jQuery("#scontent h2").text();
+    const imdbUrl = $$1(".imovie_title .tooltip.imdb_icon").attr("href") || "";
+    const titleText = $$1("#scontent h2").text();
     const [movieName = "", movieAkaName = ""] = (_d2 = (_c = titleText.match(/(.+?)\[/)) == null ? void 0 : _c[1].split("/")) != null ? _d2 : [];
     const year = (_f = (_e2 = titleText.match(/\[(\d+)\]/)) == null ? void 0 : _e2[1]) != null ? _f : "";
-    const torrentLink = jQuery(`#torrent${torrentId}`).find('a[href*="action=download"]').attr("href");
+    const torrentLink = $$1(`#torrent${torrentId}`).find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     let tags = getTagsFromSubtitle(title);
     const source = getSourceFromTitle(title);
     const category = title.match(/Season\s+\d+/) ? "tv" : "movie";
-    const size = getSize(jQuery(`#torrent${torrentId} td`).eq(1).text());
-    const infoArray = jQuery(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, "").split("/");
+    const size = getSize($$1(`#torrent${torrentId} td`).eq(1).text());
+    const infoArray = $$1(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, "").split("/");
     let [resolution, ...specArray] = infoArray;
     let videoType = specArray.join("|");
     videoType = getVideoType$9(videoType, resolution);
     TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    const descriptionDom = jQuery(`#torrent_${torrentId} #description`);
+    const descriptionDom = $$1(`#torrent_${torrentId} #description`);
     let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
     descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, "");
     TORRENT_INFO.originalDescription = descriptionBBCode;
@@ -17633,12 +17635,12 @@ ${extraScreenshot}`;
   };
   function getTorrentInfo$9(torrentId) {
     var _a2, _b, _c;
-    const torrentName = jQuery(`#torrent_${torrentId}`).prev().find("> td").text().replace(/»/, "").trim();
+    const torrentName = $$1(`#torrent_${torrentId}`).prev().find("> td").text().replace(/»/, "").trim();
     const { container, source, size } = getSpecs(torrentId);
-    const seasonTitle = jQuery("#content > div > h2").contents().last().text().trim();
+    const seasonTitle = $$1("#content > div > h2").contents().last().text().trim();
     const [season = "", year = ""] = (_b = (_a2 = seasonTitle == null ? void 0 : seasonTitle.match(/(.*) \[(\d+)\]/)) == null ? void 0 : _a2.slice(1)) != null ? _b : [];
-    const movieName = (_c = jQuery("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _c.replace(/\(\d+\)/, "").trim();
-    const description = getFilterBBCode(jQuery(`#torrent_${torrentId} > td > blockquote`).last()[0]);
+    const movieName = (_c = $$1("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _c.replace(/\(\d+\)/, "").trim();
+    const description = getFilterBBCode($$1(`#torrent_${torrentId} > td > blockquote`).last()[0]);
     const videoType = getVideoType$8({ torrentName, source });
     const isBluray = videoType.match(/bluray/i);
     const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
@@ -17647,7 +17649,7 @@ ${extraScreenshot}`;
     const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
     const category = getCategory$5(season);
     const sourceFrom = getSourceFromTitle(torrentName);
-    const torrentLink = jQuery(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr("href");
+    const torrentLink = $$1(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     return {
       title: formatTorrentTitle(torrentName),
@@ -17668,7 +17670,7 @@ ${extraScreenshot}`;
   }
   async function getShowInfo() {
     var _a2;
-    const seriesUrl = jQuery("#content > .thin > h2 > a").prop("href");
+    const seriesUrl = $$1("#content > .thin > h2 > a").prop("href");
     const html2 = await fetch(seriesUrl, {
       responseType: void 0
     });
@@ -17703,7 +17705,7 @@ ${extraScreenshot}`;
     return season.match(/season/i) ? "tvPack" : "tv";
   }
   function getSpecs(torrentId) {
-    const specsDom = jQuery(`#torrent_${torrentId}`).prev().prev();
+    const specsDom = $$1(`#torrent_${torrentId}`).prev().prev();
     const rawSpecs = specsDom.find("> td > a").text().replace(/»/, "").split("/").map((v2) => v2.trim());
     const specs = rawSpecs.filter((v2) => !["NFO"].includes(v2));
     const size = specsDom.find("> td").next("td").text().replace(/\s/g, "");
@@ -17724,27 +17726,27 @@ ${extraScreenshot}`;
   };
   const getTorrentInfo$8 = async () => {
     var _a2, _b, _c, _d2, _e2;
-    const imdbUrl = (_c = (_b = (_a2 = jQuery('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a2.split("?")) == null ? void 0 : _b[1]) != null ? _c : "";
-    const movieTitle = jQuery(".block-titled h3 a").text();
+    const imdbUrl = (_c = (_b = (_a2 = $$1('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a2.split("?")) == null ? void 0 : _b[1]) != null ? _c : "";
+    const movieTitle = $$1(".block-titled h3 a").text();
     const movieName = movieTitle.split("(")[0].trim();
     const year = (_e2 = (_d2 = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _d2[1]) != null ? _e2 : "";
     let { Type, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo$1();
     const category = Type == null ? void 0 : Type.toLowerCase().replace("-", "");
     const title = formatTorrentTitle(Title);
     videoType = getVideoType$7(videoType, resolution);
-    const country = jQuery(".fa-flag~.badge-extra:first a").text();
+    const country = $$1(".fa-flag~.badge-extra:first a").text();
     const area = getAreaCode(country);
     const source = getSourceFromTitle(title);
     const tags = getTagsFromSubtitle(title);
-    const mediaInfoOrBDInfo = jQuery("#collapseMediaInfo pre").text();
-    const screenshotsBBCode = jQuery("#collapseScreens a").map(function() {
-      return `[url=${jQuery(this).attr("href")}][img]${jQuery(this).find("img").attr("src")}[/img][/url]`;
+    const mediaInfoOrBDInfo = $$1("#collapseMediaInfo pre").text();
+    const screenshotsBBCode = $$1("#collapseScreens a").map(function() {
+      return `[url=${$$1(this).attr("href")}][img]${$$1(this).find("img").attr("src")}[/img][/url]`;
     }).get();
     const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
     const isBluray = videoType.match(/bluray/i);
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    const descriptionBBCode = getFilterBBCode(jQuery(".torrent-desc")[0]);
+    const descriptionBBCode = getFilterBBCode($$1(".torrent-desc")[0]);
     const description = `${descriptionBBCode}
 
 [quote]${mediaInfoOrBDInfo}[/quote]
@@ -17780,9 +17782,9 @@ ${screenshotsBBCode.join("")}`;
       resolution: "",
       "Rip Type": ""
     };
-    jQuery("#content-area .block:last table:first>tbody>tr").each((index, element) => {
-      const key = jQuery(element).find("td:first").text();
-      const value = jQuery(element).find("td:last").text();
+    $$1("#content-area .block:last table:first>tbody>tr").each((index, element) => {
+      const key = $$1(element).find("td:first").text();
+      const value = $$1(element).find("td:last").text();
       basicInfo[key] = value.replace(/\n/g, "").trim();
     });
     return basicInfo;
@@ -17826,26 +17828,26 @@ ${screenshotsBBCode.join("")}`;
   };
   const getTorrentInfo$7 = async () => {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l;
-    const basicInfoText = jQuery(".download").text().replace(/.+?\//g, "").trim();
+    const basicInfoText = $$1(".download").text().replace(/.+?\//g, "").trim();
     const year = (_b = (_a2 = basicInfoText.match(/\((\d{4})\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
     const movieName = (_d2 = (_c = basicInfoText.match(/(.+)\(\d{4}\)/)) == null ? void 0 : _c[1].trim()) != null ? _d2 : "";
     const resolution = (_f = (_e2 = basicInfoText.match(/(\s*(\d+(p|i)))$/i)) == null ? void 0 : _e2[2]) != null ? _f : "";
     const videoType = getVideoType$6(basicInfoText, resolution);
-    const size = getSize((_h = (_g = jQuery("#details_hop").text().match(/-\s*(.+?GB)/)) == null ? void 0 : _g[1]) != null ? _h : "");
-    const category = getCategory$4(jQuery('#details_hop a[href*="browse/cat"]').attr("href") || "");
-    const fileName = (_l = (_k = (_j = (_i = jQuery(".download").attr("href")) == null ? void 0 : _i.match(/name=(.+)/)) == null ? void 0 : _j[1].replace(/\.torrent/g, "")) == null ? void 0 : _k.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "")) != null ? _l : "";
+    const size = getSize((_h = (_g = $$1("#details_hop").text().match(/-\s*(.+?GB)/)) == null ? void 0 : _g[1]) != null ? _h : "");
+    const category = getCategory$4($$1('#details_hop a[href*="browse/cat"]').attr("href") || "");
+    const fileName = (_l = (_k = (_j = (_i = $$1(".download").attr("href")) == null ? void 0 : _i.match(/name=(.+)/)) == null ? void 0 : _j[1].replace(/\.torrent/g, "")) == null ? void 0 : _k.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "")) != null ? _l : "";
     const title = formatTorrentTitle(fileName);
     const source = getSourceFromTitle(title);
     const tags = getTagsFromSubtitle(title);
     const isBluray = videoType.match(/bluray/i);
-    const mediaInfo = jQuery('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
-    const bdInfo = jQuery('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
-    const eacLogs = jQuery('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
+    const mediaInfo = $$1('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
+    const bdInfo = $$1('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
+    const eacLogs = $$1('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
     const mediaInfoOrBDInfo = isBluray ? bdInfo : mediaInfo;
-    const screenshotsBBCode = jQuery('#details a[href*="teamhd.org/redirector.php"]').map(function() {
+    const screenshotsBBCode = $$1('#details a[href*="teamhd.org/redirector.php"]').map(function() {
       var _a3;
-      const url = (_a3 = jQuery(this).attr("href")) == null ? void 0 : _a3.replace(/.+?url=/g, "");
-      return `[url=${url}][img]${jQuery(this).find("img").attr("src")}[/img][/url]`;
+      const url = (_a3 = $$1(this).attr("href")) == null ? void 0 : _a3.replace(/.+?url=/g, "");
+      return `[url=${url}][img]${$$1(this).find("img").attr("src")}[/img][/url]`;
     }).get();
     const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -17921,7 +17923,7 @@ ${screenshotsBBCode.join("")}`;
     TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
     const div = document.createElement("div");
     div.innerHTML = Description.html();
-    jQuery(div).find('#slidenfo,a[href*="#nfo"]').remove();
+    $$1(div).find('#slidenfo,a[href*="#nfo"]').remove();
     const descriptionBBCode = getFilterBBCode(div);
     const isBluray = videoType.match(/bluray/i);
     const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
@@ -17937,16 +17939,16 @@ ${screenshotsBBCode.join("")}`;
         tags = __spreadValues(__spreadValues({}, tags), mediaTags);
       }
     }
-    const imdbId = (_d2 = (_c = (_b = jQuery("#imdb").next("script").text()) == null ? void 0 : _b.match(/mid=(\d+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
+    const imdbId = (_d2 = (_c = (_b = $$1("#imdb").next("script").text()) == null ? void 0 : _b.match(/mid=(\d+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
     const imdbData = await fetch(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
       responseType: void 0
     });
     const imdbDom = new DOMParser().parseFromString(imdbData, "text/html");
-    const imdbUlrDom = jQuery('a[href*="imdb.com/title"]', imdbDom);
+    const imdbUlrDom = $$1('a[href*="imdb.com/title"]', imdbDom);
     const imdbUrl = imdbUlrDom.attr("href");
     const movieName = imdbUlrDom.text().replace(/\(\d+\)/g, "");
     const year = (_f = (_e2 = imdbUlrDom.text().match(/\((\d{4})\)/)) == null ? void 0 : _e2[1]) != null ? _f : "";
-    const country = jQuery('td:contains("Country")', imdbDom).next("td").text();
+    const country = $$1('td:contains("Country")', imdbDom).next("td").text();
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     TORRENT_INFO.title = formatTorrentTitle(title);
@@ -17968,16 +17970,16 @@ ${screenshotsBBCode.join("")}`;
       Name: "",
       Category: "",
       Size: "",
-      Description: jQuery("")
+      Description: $$1("")
     };
-    jQuery("#mcol .header").each(function() {
+    $$1("#mcol .header").each(function() {
       var _a2;
-      const key = jQuery(this).text().trim();
+      const key = $$1(this).text().trim();
       if (!basicInfo[key]) {
         if (key === "Description") {
-          basicInfo.Description = jQuery(this).next("td");
+          basicInfo.Description = $$1(this).next("td");
         } else {
-          basicInfo[key] = (_a2 = jQuery(this).next("td").text()) == null ? void 0 : _a2.replace(/\n/g, "").trim();
+          basicInfo[key] = (_a2 = $$1(this).next("td").text()) == null ? void 0 : _a2.replace(/\n/g, "").trim();
         }
       }
     });
@@ -18039,7 +18041,7 @@ ${screenshotsBBCode.join("")}`;
     fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, "");
     const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, "") || fileList);
     const category = getCategory$2(releaseType);
-    const torrentHeaderDom = jQuery(`#torrent${torrentId}`);
+    const torrentHeaderDom = $$1(`#torrent${torrentId}`);
     const infoArray = remasterTitle.split(" / ");
     const isRemux = processing.includes("Remux");
     const videoType = source === "WEB" ? "web" : getVideoType$4(container, isRemux, source, resolution, processing);
@@ -18047,7 +18049,7 @@ ${screenshotsBBCode.join("")}`;
     const tags = getTags(infoArray);
     const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
-    const torrentDom = jQuery(`#torrent${torrentId}`).next(".TableTorrent-rowDetail");
+    const torrentDom = $$1(`#torrent${torrentId}`).next(".TableTorrent-rowDetail");
     const screenshots = getScreenshots(torrentDom);
     const mediaInfoArray = mediainfos.map((info) => info.replace(/\r\n/g, "\n"));
     const isBluray = videoType.match(/bluray/i);
@@ -18185,7 +18187,7 @@ ${screenshotsBBCode.join("")}`;
       descriptionData += `[quote]${mediaInfo}[/quote]`;
     });
     if (TORRENT_INFO.category === "concert") {
-      descriptionData = `${jQuery("#synopsis").text()}
+      descriptionData = `${$$1("#synopsis").text()}
 ${descriptionData}`;
     }
     return descriptionData;
@@ -18202,8 +18204,8 @@ ${descriptionData}`;
     if (!torrentId) {
       return false;
     }
-    const title = jQuery("#content > .details > h2").text().trim();
-    const descriptionBBCode = getFilterBBCode(jQuery(`#content${torrentId}`)[0]);
+    const title = $$1("#content > .details > h2").text().trim();
+    const descriptionBBCode = getFilterBBCode($$1(`#content${torrentId}`)[0]);
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     TORRENT_INFO.title = title;
@@ -18219,7 +18221,7 @@ ${descriptionData}`;
   };
   async function getTorrentInfo$5() {
     var _a2, _b;
-    const containerDom = jQuery(".yui-content #details");
+    const containerDom = $$1(".yui-content #details");
     const torrentName = containerDom.find(">table>tbody>tr:first").text();
     const size = containerDom.find(">table:first-child>tbody>tr:nth-child(5) td:last").text();
     const isTV = (_a2 = containerDom.find(">table:first-child>tbody>tr:nth-child(4) td:last").text()) == null ? void 0 : _a2.includes("TV");
@@ -18280,13 +18282,13 @@ ${descriptionData}`;
     return "";
   }
   function getIMDBInfo() {
-    const infoDom = jQuery("#imdbdetails tr td").last();
+    const infoDom = $$1("#imdbdetails tr td").last();
     const imdbUrl = infoDom.find('a[href*="imdb.com/title"]').attr("href");
     const info = Object.fromEntries(Array.from(infoDom.find("b")).map((text2) => {
       var _a2, _b, _c;
-      return [jQuery(text2).text().replace(":", ""), (_c = (_b = (_a2 = jQuery(text2)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()];
+      return [$$1(text2).text().replace(":", ""), (_c = (_b = (_a2 = $$1(text2)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()];
     }));
-    const movieName = jQuery("#imdbdetails tr").first().text();
+    const movieName = $$1("#imdbdetails tr").first().text();
     return {
       imdbUrl,
       movieName,
@@ -19328,10 +19330,10 @@ ${description}`;
       }
     }
     response.torrent.log = log;
-    CURRENT_SITE_INFO.torrentLink = jQuery(`#torrent${torrentId} a[href*="action=download"]`).attr("href");
+    CURRENT_SITE_INFO.torrentLink = $$1(`#torrent${torrentId} a[href*="action=download"]`).attr("href");
     return {
-      title: jQuery(".header h2").text(),
-      subtitle: `${jQuery(`#torrent${torrentId}`).prev().find("strong").contents().last().text().trim()} / ${jQuery(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
+      title: $$1(".header h2").text(),
+      subtitle: `${$$1(`#torrent${torrentId}`).prev().find("strong").contents().last().text().trim()} / ${$$1(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
       year: `${year}`,
       poster: wikiImage,
       description,
@@ -19370,7 +19372,7 @@ ${description}`;
     if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
       const div = document.createElement("div");
       div.innerHTML = response;
-      return jQuery(div).find("pre").text() || "";
+      return $$1(div).find("pre").text() || "";
     } else if (CURRENT_SITE_NAME.match(/Orpheus|/)) {
       return response;
     }
@@ -19388,19 +19390,19 @@ ${description}`;
   };
   async function getTorrentInfo$3(torrentId) {
     var _a2, _b;
-    const imdbUrl = jQuery('.metalinks a[href*="imdb.com/title"]').attr("href");
-    const torrentContainer = jQuery(`#torrent${torrentId}`);
-    const [showName] = (_b = (_a2 = jQuery(".details>h2").text()) == null ? void 0 : _a2.split("-")) != null ? _b : [];
+    const imdbUrl = $$1('.metalinks a[href*="imdb.com/title"]').attr("href");
+    const torrentContainer = $$1(`#torrent${torrentId}`);
+    const [showName] = (_b = (_a2 = $$1(".details>h2").text()) == null ? void 0 : _a2.split("-")) != null ? _b : [];
     const torrentName = torrentContainer.find(".permalink").text().trim();
     const size = torrentContainer.find(">td").eq(1).text().trim();
     const source = getSourceFromTitle(torrentName);
-    const descriptionContainer = jQuery(`#content${torrentId}`).clone();
+    const descriptionContainer = $$1(`#content${torrentId}`).clone();
     descriptionContainer.find(">div").remove();
     const description = getFilterBBCode(descriptionContainer[0]);
     const screenshots = await getScreenshotsFromBBCode(description);
-    const isBluray = !!jQuery(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
+    const isBluray = !!$$1(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
     const videoType = getVideoType$2({ torrentName, source, isBluray });
-    const mediaInfo = jQuery("div.mediainfo").text();
+    const mediaInfo = $$1("div.mediainfo").text();
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { resolution, videoCodec, audioCodec, mediaTags: tags } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle$1(torrentName);
     const category = getCategory$1(torrentName);
@@ -19444,25 +19446,25 @@ ${description}`;
   const getSpeedAppInfo = async () => {
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const imdbUrl = jQuery('a[href*="imdb.com/title"]').attr("href");
-    const movieName = jQuery("div.container > div.row div.cover-body h1.text-emphasis").text().trim();
-    const torrentName = jQuery("h5.text-emphasis").text().trim();
+    const imdbUrl = $$1('a[href*="imdb.com/title"]').attr("href");
+    const movieName = $$1("div.container > div.row div.cover-body h1.text-emphasis").text().trim();
+    const torrentName = $$1("h5.text-emphasis").text().trim();
     const source = getSourceFromTitle(torrentName);
-    const descriptionContainer = jQuery("div.description.description-modern");
+    const descriptionContainer = $$1("div.description.description-modern");
     const descriptionBBCode = getFilterBBCode(descriptionContainer[0]);
-    const extraScreenshotDom = jQuery(descriptionContainer[0]).find("img");
+    const extraScreenshotDom = $$1(descriptionContainer[0]).find("img");
     const imgs = [];
     if (extraScreenshotDom) {
       extraScreenshotDom.each((index, item) => {
         var _a2, _b;
-        if (!/\.svg/.test(jQuery(item).attr("src") || "")) imgs.push(`[img]${(_b = (_a2 = jQuery(item).attr("src")) == null ? void 0 : _a2.trim()) != null ? _b : ""}[/img]`);
+        if (!/\.svg/.test($$1(item).attr("src") || "")) imgs.push(`[img]${(_b = (_a2 = $$1(item).attr("src")) == null ? void 0 : _a2.trim()) != null ? _b : ""}[/img]`);
       });
     }
     const extraScreenshot = imgs.join("");
     const screenshots = await getScreenshotsFromBBCode(extraScreenshot);
-    const isBluray = !!jQuery('span.nav-text:contains("BD Info")');
+    const isBluray = !!$$1('span.nav-text:contains("BD Info")');
     const videoType = getVideoType$1({ torrentName, source, isBluray });
-    const mediaInfo = jQuery("div.mediainfo").text();
+    const mediaInfo = $$1("div.mediainfo").text();
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
     const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
     TORRENT_INFO.mediaInfos = [mediaInfo];
@@ -19474,7 +19476,7 @@ ${description}`;
     TORRENT_INFO.movieName = movieName;
     TORRENT_INFO.resolution = resolution || "";
     TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.poster = jQuery(".movie-poster").attr("src");
+    TORRENT_INFO.poster = $$1(".movie-poster").attr("src");
     TORRENT_INFO.videoType = videoType.toLowerCase();
   };
   const getVideoType$1 = ({ torrentName = "", source = "", isBluray = false }) => {
@@ -19497,23 +19499,23 @@ ${description}`;
   const getHHInfo = async () => {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l;
     const title = formatTorrentTitle(((_a2 = document.title.match(/"(.+)"/)) == null ? void 0 : _a2[1]) || "");
-    const subTitle = jQuery("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ":");
+    const subTitle = $$1("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ":");
     const metaInfo = getMetaInfo();
     const isBluray = !!((_b = metaInfo.videoType) == null ? void 0 : _b.match(/bluray|Blu-ray/i));
-    const mediaInfo = jQuery("#mediainfo-raw code").text() || "";
+    const mediaInfo = $$1("#mediainfo-raw code").text() || "";
     const specs = getSpecsFromMediainfo$1(isBluray, mediaInfo);
     if (Object.keys(specs).length > 0) {
       Object.assign(metaInfo, specs);
     }
-    const imbdDom = jQuery('#kimdb a[href*="imdb.com/title"]');
+    const imbdDom = $$1('#kimdb a[href*="imdb.com/title"]');
     const siteImdbUrl = (_c = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _c : "";
     let movieName = (_e2 = (_d2 = imbdDom == null ? void 0 : imbdDom.text()) == null ? void 0 : _d2.replace(/\n/g, "").trim()) != null ? _e2 : "";
     const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
     const categoryResult = getCategory$6(category);
     const formatSize = getSize(size);
     const year = (_f = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f : [];
-    const screenshots = jQuery("#screenshot-content img").toArray().map((el) => jQuery(el).attr("src")).filter((url) => url && url !== "");
-    const doubanUrl = (_g = jQuery("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
+    const screenshots = $$1("#screenshot-content img").toArray().map((el) => $$1(el).attr("src")).filter((url) => url && url !== "");
+    const doubanUrl = (_g = $$1("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
     const isTVCategory = !!categoryResult.match(/tv/);
     const doubanInfo = await getDoubanInfo(doubanUrl, isTVCategory);
     if (!movieName) {
@@ -19550,7 +19552,7 @@ ${description}`;
       audioCodec,
       resolution,
       doubanUrl,
-      poster: (_k = (_j = jQuery("#cover-content")) == null ? void 0 : _j.attr("src")) != null ? _k : "",
+      poster: (_k = (_j = $$1("#cover-content")) == null ? void 0 : _j.attr("src")) != null ? _k : "",
       area: getAreaCode((_l = doubanInfo == null ? void 0 : doubanInfo.region) != null ? _l : "")
     });
   };
@@ -19583,17 +19585,17 @@ ${description}`;
   };
   const getMetaValue = () => {
     const result = {};
-    jQuery("div.font-bold.leading-6:contains('基本信息')").next().find("div span").each((index, el) => {
+    $$1("div.font-bold.leading-6:contains('基本信息')").next().find("div span").each((index, el) => {
       if (index % 2 === 0) {
-        const key = jQuery(el).text().replace(/:|：/g, "").trim();
-        result[key] = jQuery(el).next().text();
+        const key = $$1(el).text().replace(/:|：/g, "").trim();
+        result[key] = $$1(el).next().text();
       }
     });
     return result;
   };
   const getTagsFromPage = () => {
     const tags = {};
-    const tagText = jQuery("div.font-bold.leading-6:contains('标签')").next().text();
+    const tagText = $$1("div.font-bold.leading-6:contains('标签')").next().text();
     if (tagText.includes("中字")) {
       tags.chinese_subtitle = true;
     }
@@ -19817,16 +19819,16 @@ ${description}`;
   const getTorrentInfo$1 = getTorrentInfo;
   const filterBluTorrent = (imdb = "", name = "") => {
     if (imdb) {
-      jQuery("#imdb").val(imdb);
+      $$1("#imdb").val(imdb);
     } else if (name) {
-      jQuery("#search").val(name);
+      $$1("#search").val(name);
     }
-    const token = jQuery('meta[name="csrf_token"]').attr("content");
+    const token = $$1('meta[name="csrf_token"]').attr("content");
     const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
     fetch(url, {
       responseType: void 0
     }).then((data) => {
-      jQuery("#facetedSearch").html(data);
+      $$1("#facetedSearch").html(data);
     });
   };
   const fillSearchImdb = () => {
@@ -19837,11 +19839,11 @@ ${description}`;
       if (CURRENT_SITE_INFO.siteType === "UNIT3D" && CURRENT_SITE_NAME !== "Blutopia") {
         filterBluTorrent(imdbParam, nameParam);
       } else if (CURRENT_SITE_NAME === "Bdc") {
-        jQuery("#tsstac").val(imdbParam);
-        jQuery("#search_type").val(searchType);
+        $$1("#tsstac").val(imdbParam);
+        $$1("#search_type").val(searchType);
       } else if (CURRENT_SITE_NAME === "PTN") {
-        jQuery("#movieimdb").val(imdbParam);
-        jQuery("#moviename").val(nameParam);
+        $$1("#movieimdb").val(imdbParam);
+        $$1("#moviename").val(nameParam);
       }
     }
   };
@@ -19850,7 +19852,7 @@ ${description}`;
     if (!ptpImgApiKey) {
       const div = document.createElement("div");
       preact.render(/* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: /* @__PURE__ */ u$1("button", { class: "btn btn-info", onClick: () => {
-        const apiKey = jQuery("#api_key").val();
+        const apiKey = $$1("#api_key").val();
         GM_setValue("easy-seed.ptp-img-api-key", apiKey);
         Jt.success("Success! Saved to EasyUpload.");
       }, children: [
@@ -19898,8 +19900,8 @@ ${description}`;
       try {
         setBtnText("获取中...");
         setBtnDisable(true);
-        const scriptDoubanLink = jQuery(".douban-dom").attr("douban-link");
-        const doubanLink = jQuery(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || searchValue;
+        const scriptDoubanLink = $$1(".douban-dom").attr("douban-link");
+        const doubanLink = $$1(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || searchValue;
         let doubanUrl = "";
         if (doubanLink && doubanLink.match(/movie\.douban\.com/)) {
           doubanUrl = doubanLink;
@@ -20287,7 +20289,7 @@ ${screenBBcodeArray.join("")}`;
   const SearchList = () => {
     const handleSearchClickEvent = (siteName) => {
       let openUrl = "";
-      const attrUrl = jQuery(`.search-list li>a[data-site="${siteName}"]`).data("url");
+      const attrUrl = $$1(`.search-list li>a[data-site="${siteName}"]`).data("url");
       if (attrUrl) {
         openUrl = attrUrl;
       } else {
@@ -20779,14 +20781,14 @@ ${screenBBcodeArray.join("")}`;
             responseType: void 0
           });
           const dom = new DOMParser().parseFromString(domString, "text/html");
-          const torrentList = jQuery(list, dom);
+          const torrentList = $$1(list, dom);
           const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
             var _a3, _b, _c, _d2, _e2;
             let torrentName;
             if (site === "TTG") {
-              torrentName = (_c = (_b = (_a3 = jQuery(item).find(name).prop("firstChild")) == null ? void 0 : _a3.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
+              torrentName = (_c = (_b = (_a3 = $$1(item).find(name).prop("firstChild")) == null ? void 0 : _a3.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
             } else {
-              torrentName = jQuery(item).find(name).attr("title") || jQuery(item).find(name).text();
+              torrentName = $$1(item).find(name).attr("title") || $$1(item).find(name).text();
             }
             if (site === "TJUPT") {
               const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
@@ -20794,14 +20796,14 @@ ${screenBBcodeArray.join("")}`;
               torrentName = realTitle.replace(/\[|\]/g, "");
             }
             torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
-            const sizeBytes = getSize(jQuery(item).find(size).text());
+            const sizeBytes = getSize($$1(item).find(size).text());
             return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
           });
           if (sameTorrent) {
-            const url2 = `${siteUrl}/${jQuery(sameTorrent).find(urlDom).attr("href")}`;
-            jQuery(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
+            const url2 = `${siteUrl}/${$$1(sameTorrent).find(urlDom).attr("href")}`;
+            $$1(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
           } else {
-            jQuery(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
+            $$1(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
           }
         }
       });
@@ -20918,7 +20920,6 @@ ${screenBBcodeArray.join("")}`;
       /* @__PURE__ */ u$1("div", { style: { display: settingPanelOpen ? "block" : "none" }, children: /* @__PURE__ */ u$1(SettingPanel, { closePanel }) })
     ] });
   };
-  window.jQuery = $$1;
   const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
   const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
   const torrentTimestamp = timestampMatchArray && timestampMatchArray.length > 0 ? timestampMatchArray[2] : null;
