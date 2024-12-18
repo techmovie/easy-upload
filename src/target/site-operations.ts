@@ -91,6 +91,14 @@ export const SITE_OPERATIONS = {
       return info;
     },
   },
+  HUNO: {
+    titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+      const isWebSource = !!info.source.match(/web/gi);
+      const title = fixTorrentTitle(info.title, isWebSource);
+      info.title = title;
+      return info;
+    },
+  },
   KEEPFRDS: {
     handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
       let { description, screenshots } = info;

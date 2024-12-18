@@ -37,6 +37,7 @@
 |   HDTime    |            ✅             |           ✅            |
 |     HDU     |            ✅             |           ✅            |
 |     HH      |            ✅             |           ❌            |
+|    HUNO     |            ✅             |           ✅            |
 |  HaresClub  |            ✅             |           ✅            |
 |  KEEPFRDS   |            ✅             |           ✅            |
 |     KG      |            ✅             |           ✅            |
@@ -72,5 +73,6 @@
 |   TeamHD    |            ✅             |           ❌            |
 |   UHDBits   |            ✅             |           ✅            |
 |   ZHUQUE    |            ❌             |           ✅            |
+|    agsv     |            ✅             |           ✅            |
 | fearnopeer  |            ✅             |           ✅            |
 |     iTS     |            ❌             |           ✅            |
