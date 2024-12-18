@@ -43,7 +43,6 @@ const SettingPanel = (props:Props) => {
 
   const { closePanel } = props;
 
-  const [ptpImgApiKey, setPtpImgApiKey] = useState(getValue('easy-seed.ptp-img-api-key', false) || '');
   const [doubanCookie, setDoubanCookie] = useState(getValue('easy-seed.douban-cookie', false) || '');
 
   const saveSetting = () => {
@@ -65,7 +64,6 @@ const SettingPanel = (props:Props) => {
       GM_setValue('easy-seed.enabled-target-sites', JSON.stringify(targetSitesEnabled));
       GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
       GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
-      GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
       GM_setValue('easy-seed.douban-cookie', doubanCookie);
       featureList.forEach(feature => {
         GM_setValue(`easy-seed.${feature.name}`, feature.checked ? 'checked' : '');
@@ -126,25 +124,6 @@ const SettingPanel = (props:Props) => {
             </div>;
           })
         }
-        <h3>{$t('图床配置')}</h3>
-        <section className="site-enable-setting img-upload-setting">
-          <label>
-            ptpimg ApiKey:
-            <input
-              name="ptp-img-api-key"
-              type="text"
-              value={ptpImgApiKey}
-              onChange={(e) => setPtpImgApiKey((e.target as HTMLInputElement).value)} />
-            <a
-              target="_blank"
-              href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
-              rel="noreferrer"
-            >
-              {$t('如何获取？')}
-            </a>
-          </label>
-
-        </section>
         <h3>{$t('额外功能关闭')}</h3>
         <div className="feature-list">
           {

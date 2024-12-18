@@ -55,7 +55,6 @@ export default defineConfig({
           'https://totheglory.im/t/*',
           'http*://*/torrents/*',
           'http*://*/torrents?*',
-          'https://ptpimg.me/*',
           'http*://*/upload*',
           'https://*/offers.php*',
           'https://broadcity.in/browse.php?imdb=*',

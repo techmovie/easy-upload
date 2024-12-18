@@ -35,7 +35,7 @@ const Transfer = () => {
       };
       const selectHost = hostMap[imgHost as keyof typeof hostMap];
       let uploadedImgs:string[] = [];
-      let authToken, tokenSecret;
+      let authToken = ''; let tokenSecret = { token_id: '', token_secret: '' };
       if (imgHost.match(/imgbb|gifyu/)) {
         const rawHtml = await fetch(selectHost.replace('/json', ''), {
           responseType: undefined,

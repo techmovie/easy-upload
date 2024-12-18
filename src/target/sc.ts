@@ -1,4 +1,4 @@
-import { getIMDBData, getIMDBIdByUrl, transferImgs, uploadToPtpImg, fetch } from '../common';
+import { getIMDBData, getIMDBIdByUrl, transferImgs, fetch } from '../common';
 import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
@@ -56,19 +56,12 @@ async function fillIMDb (imdbUrl:string) {
       $('#title').val(originalName);
     }
     if (imdbData && imdbData.poster) {
-      let poster;
-      const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key');
-      if (ptpImgApiKey) {
-        poster = await uploadToPtpImg([imdbData.poster]);
-      } else {
-        const gifyuHtml = await fetch('https://gifyu.com', {
-          responseType: undefined,
-        });
-        const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
-        const data = await transferImgs(imdbData.poster, authToken, 'https://gifyu.com/json');
-        poster = data.url;
-      }
-      $('#image').val(poster);
+      const gifyuHtml = await fetch('https://gifyu.com', {
+        responseType: undefined,
+      });
+      const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
+      const data = await transferImgs(imdbData.poster, authToken, 'https://gifyu.com/json');
+      $('#image').val(data.url ?? '');
     }
   }
 }

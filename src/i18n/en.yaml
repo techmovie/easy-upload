@@ -6,8 +6,6 @@
 获取成功: Data request successful
 请求失败: Request failed
 上传失败，请重试: Upload failed, please try again
-ptpimg上传失败: PtpImg upload failed
-请到配置面板中填入ptpimg的api_key: Please enter the API_KEY of ptpimg in the setting panel
 封面上传失败: Failed to upload poster
 数据加载中...: Loading data...
 获取图片列表失败: Failed to get list of images
@@ -34,7 +32,6 @@ ptpimg上传失败: PtpImg upload failed
 额外功能关闭: Turn off extra features
 关闭转缩略图功能: Remove the 'Convert to thumbnails' button
 关闭站点图标显示: Remove the icons
-关闭转存ptpimg功能: Remove the 'Upload screenshots to ptpimg' button
 保存: Save
 取消: Cancel
 错误: Error
@@ -42,8 +39,8 @@ ptpimg上传失败: PtpImg upload failed
 保存本地站点设置失败: Failed to save local site settings
 请先设置群转列表: Please set up the batch transfer list first
 转种页面已打开，请前往对应页面操作: The transfer pages have been opened, please go to the corresponding page to operate
-提示: 'Hint'
-转存截图: 'Upload screenshots to another host'
+提示: "Hint"
+转存截图: "Upload screenshots to another host"
 无需转存: No need to upload
 上传中，请稍候...: Uploading, be patient
 不显示致谢内容: Do not include thanks

@@ -33,12 +33,6 @@ const FeatureSwitchList = [
     key: 'transferImgClosed',
   },
   {
-    name: 'upload-img-closed',
-    des: '关闭转存ptpimg功能',
-    type: 'checkbox',
-    key: 'uploadImgClosed',
-  },
-  {
     name: 'site-favicon-closed',
     des: '关闭站点图标显示',
     type: 'checkbox',

@@ -44,7 +44,7 @@ async function getTorrentInfo (torrentId:string) {
   };
   const div = document.createElement('div');
   div.innerHTML = wikiBody;
-  let description = bbBody || htmlToBBCode(div);
+  let description = bbBody || htmlToBBCode(div) || '';
   description = `[img]${wikiImage}[/img]\n${description}`;
   description = DOMPurify.sanitize(description);
   const descSource = new DOMParser().parseFromString(description, 'text/html');

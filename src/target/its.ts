@@ -1,6 +1,6 @@
 import {
   getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData,
-  getTMDBVideos, getRtIdFromTitle, uploadToPtpImg,
+  getTMDBVideos, getRtIdFromTitle, fetch, transferImgs,
   $t,
 } from '../common';
 import { getTeamName, getScreenshotsBBCode } from './common';
@@ -89,11 +89,12 @@ export default async (info:TorrentInfo.Info) => {
         const { score = 0, id = '' } = rtInfo;
         replaceParams.rtScore = `${score}%`;
         replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
-        const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
-        if (ptpImgApiKey) {
-          const ptpImgPoster = await uploadToPtpImg([poster]);
-          replaceParams.poster = ptpImgPoster ? ptpImgPoster[0] : '';
-        }
+        const gifyuHtml = await fetch('https://gifyu.com', {
+          responseType: undefined,
+        });
+        const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
+        const data = await transferImgs(imdbData.poster, authToken, 'https://gifyu.com/json');
+        replaceParams.poster = data.url ?? '';
       }
 
       const imdbId = getIMDBIdByUrl(imdbUrl as string);

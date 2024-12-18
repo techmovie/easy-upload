@@ -9,7 +9,6 @@ import { getUrlParam } from './common';
 import { fillTargetForm } from './target';
 import getTorrentInfo from './source';
 import { fillSearchImdb } from './site-dom/quick-search';
-import './site-dom/ptpimg';
 import './style.css';
 import App from './components/Container';
 import $ from 'jquery';

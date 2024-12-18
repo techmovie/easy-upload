@@ -173,7 +173,7 @@ const getTorrentURL = async () => {
     data: formData,
     headers: {
       Authorization: localStorage.getItem('auth') || '',
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+      'User-Agent': navigator.userAgent,
     },
   });
   CURRENT_SITE_INFO.torrentLink = response?.data ?? '';

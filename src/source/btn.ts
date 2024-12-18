@@ -66,7 +66,7 @@ async function getShowInfo () {
   const html = await fetch(seriesUrl, {
     responseType: undefined,
   });
-  const infoHtml = html.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)[1];
+  const infoHtml = html?.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)?.[1] ?? '';
   const infoDom = new DOMParser().parseFromString(infoHtml, 'text/html');
   const info = Object.fromEntries(Array.from(infoDom.querySelectorAll('tr')).map(tr => {
     const tds = Array.from(tr.children);
