@@ -138,24 +138,6 @@ export default async () => {
     siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
   }
 
-  if (CURRENT_SITE_NAME === 'HaresClub') {
-    subtitle = $('h3.layui-font-16:first').text();
-    const extraScreenshotDom = $('#layer-photos-demo').find('img');
-    const imgs:string[] = [];
-    if (extraScreenshotDom) {
-      extraScreenshotDom.each((index, item) => {
-        imgs.push(`[img]${$(item).attr('src')?.trim() ?? ''}[/img]`);
-      });
-    }
-    const extraScreenshot = imgs.join('');
-    descriptionBBCode = getFilterBBCode($('.layui-colla-content:first')[0]);
-    const extraMediaInfo = $('#kfmedia').html()?.replace(/<br>/g, '\n') ?? '';
-    descriptionBBCode = `${descriptionBBCode}\n[quote]${extraMediaInfo}[/quote]\n${extraScreenshot}`;
-    TORRENT_INFO.doubanUrl = $('.layui-interval a[href*="douban.com/subject"]').attr('href');
-    TORRENT_INFO.mediaInfos = [extraMediaInfo];
-    siteImdbUrl = $('.layui-interval a[href*="imdb.com/title"]').attr('href');
-  }
-
   // 站点自定义数据覆盖 结束
 
   const year = title?.match(/(19|20)\d{2}/g) ?? [];

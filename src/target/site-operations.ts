@@ -364,18 +364,6 @@ export const SITE_OPERATIONS = {
       }
     },
   },
-  HaresClub: {
-    afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      $('.modesw').trigger('click');
-      $(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join('\n'));
-      if (layui) {
-        setTimeout(() => {
-          layui.form.render('select');
-          layui.form.render('checkbox');
-        }, 1000);
-      }
-    },
-  },
   TTG: {
     afterHandler: (info: TorrentInfo.TargetTorrentInfo) => {
       if (info.doubanUrl) {

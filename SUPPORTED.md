@@ -38,7 +38,6 @@
 |     HDU     |            ✅             |           ✅            |
 |     HH      |            ✅             |           ❌            |
 |    HUNO     |            ✅             |           ✅            |
-|  HaresClub  |            ✅             |           ✅            |
 |  KEEPFRDS   |            ✅             |           ✅            |
 |     KG      |            ✅             |           ✅            |
 |   KamePT    |            ✅             |           ✅            |
