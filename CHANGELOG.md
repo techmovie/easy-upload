@@ -1,3 +1,18 @@
+## [6.0.8](https://github.com/techmovie/easy-upload/compare/6.0.7...6.0.8) (2024-12-25)
+
+
+### Bug Fixes
+
+* remove haresclub ([ee006a9](https://github.com/techmovie/easy-upload/commit/ee006a9d4552e7c995459086d81f7db7a8127929))
+* remove ptpimg support and split common.ts ([34bb23e](https://github.com/techmovie/easy-upload/commit/34bb23eff66bccca1f1f811a9b3479236bfcc28b)), closes [#318](https://github.com/techmovie/easy-upload/issues/318)
+
+
+### Features
+
+* support huno ([29acebb](https://github.com/techmovie/easy-upload/commit/29acebb805114601b17172b31a5569cb072b61cb)), closes [#317](https://github.com/techmovie/easy-upload/issues/317)
+
+
+
 ## [6.0.7](https://github.com/techmovie/easy-upload/compare/6.0.6...6.0.7) (2024-12-09)
 
 
