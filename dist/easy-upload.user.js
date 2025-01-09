@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.9
+// @version         6.0.10
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -16770,7 +16770,7 @@ ${doubanPart}`);
       };
     });
   };
-  const getTorrentFileData = async (selector = "", torrentLink = "") => {
+  const getTorrentFileData = async (selector = "", torrentLink = "", targetSiteName) => {
     var _a;
     let downloadLink = torrentLink || $$2(selector).attr("href");
     if (!downloadLink) {
@@ -16789,7 +16789,8 @@ ${doubanPart}`);
         timeout: 1e4
       });
       const result = await parseTorrent(buffer.Buffer.from(file));
-      const announceUrl = ((_a = CURRENT_SITE_INFO.torrent) == null ? void 0 : _a.announce) || "tracker.com";
+      const siteInfo = PT_SITE[targetSiteName];
+      const announceUrl = ((_a = siteInfo == null ? void 0 : siteInfo.torrent) == null ? void 0 : _a.announce) || "tracker.com";
       const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
         comment: "",
         announce: [announceUrl],
@@ -20161,7 +20162,7 @@ ${screenBBcodeArray.join("")}`;
       if (siteInfo.asTarget) {
         if (batchSeedSetting.includes(siteName)) {
           if (!TORRENT_INFO.torrentData) {
-            const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+            const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
             if (torrentData) {
               TORRENT_INFO.torrentData = torrentData;
             }
@@ -20190,7 +20191,7 @@ ${screenBBcodeArray.join("")}`;
     return "";
   };
   const UploadSiteList = () => {
-    const handleSiteClickEvent = async (url) => {
+    const handleSiteClickEvent = async (url, siteName) => {
       if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
         const catMap = {
           movie: "1",
@@ -20261,7 +20262,7 @@ ${screenBBcodeArray.join("")}`;
       }
       const timestamp = `${Date.now()}`;
       if (!TORRENT_INFO.torrentData) {
-        const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+        const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
         if (torrentData) {
           TORRENT_INFO.torrentData = torrentData;
         }
@@ -20284,7 +20285,7 @@ ${screenBBcodeArray.join("")}`;
                 "a",
                 {
                   className: "site-item",
-                  onClick: () => handleSiteClickEvent(`${url}${uploadPath}`),
+                  onClick: () => handleSiteClickEvent(`${url}${uploadPath}`, siteName),
                   children: [
                     !!favIcon && /* @__PURE__ */ u$1("img", { src: favIcon, className: "site-icon" }),
                     siteName

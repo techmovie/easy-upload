@@ -1,3 +1,12 @@
+## [6.0.10](https://github.com/techmovie/easy-upload/compare/6.0.9...6.0.10) (2025-01-09)
+
+
+### Bug Fixes
+
+* **hdt:** update annouce url for hdt ([b9bccfc](https://github.com/techmovie/easy-upload/commit/b9bccfc9986a1875790a8ff5e9a7f2a5806f1990))
+
+
+
 ## [6.0.9](https://github.com/techmovie/easy-upload/compare/6.0.8...6.0.9) (2025-01-09)
 
 
