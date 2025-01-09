@@ -34,7 +34,7 @@ const openBatchSeedTabs = () => {
     if (siteInfo.asTarget) {
       if (batchSeedSetting.includes(siteName)) {
         if (!TORRENT_INFO.torrentData) {
-          const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+          const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
           if (torrentData) {
             TORRENT_INFO.torrentData = torrentData;
           }
@@ -63,7 +63,7 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
   return '';
 };
 const UploadSiteList = () => {
-  const handleSiteClickEvent = async (url:string) => {
+  const handleSiteClickEvent = async (url:string, siteName:string) => {
     if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
       const catMap = {
         movie: '1',
@@ -134,7 +134,7 @@ const UploadSiteList = () => {
     }
     const timestamp = `${Date.now()}`;
     if (!TORRENT_INFO.torrentData) {
-      const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink);
+      const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
       if (torrentData) {
         TORRENT_INFO.torrentData = torrentData;
       }
@@ -158,7 +158,7 @@ const UploadSiteList = () => {
           return <li key={siteName}>
             <a
               className="site-item"
-              onClick={() => handleSiteClickEvent(`${url}${uploadPath}`)}>
+              onClick={() => handleSiteClickEvent(`${url}${uploadPath}`, siteName)}>
               {
                 !!favIcon && <img src={favIcon} className="site-icon" />
               }

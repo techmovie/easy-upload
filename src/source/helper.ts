@@ -1,7 +1,7 @@
 import parseTorrent, { toTorrentFile } from 'parse-torrent';
 import { fetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
-import { CURRENT_SITE_INFO } from '../const';
+import { CURRENT_SITE_INFO, PT_SITE } from '../const';
 import { toast } from 'sonner';
 import $ from 'jquery';
 
@@ -128,7 +128,7 @@ const blobToBase64 = (blob:Blob):Promise<string> => {
   });
 };
 
-const getTorrentFileData = async (selector = '', torrentLink = '') => {
+const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteName:string) => {
   let downloadLink = torrentLink || $(selector).attr('href');
   if (!downloadLink) {
     console.warn('Failed to get torrent file download link');
@@ -146,7 +146,8 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
       timeout: 10000,
     });
     const result = await parseTorrent(Buffer.from(file));
-    const announceUrl = CURRENT_SITE_INFO.torrent?.announce || 'tracker.com';
+    const siteInfo = PT_SITE[targetSiteName as keyof typeof PT_SITE] as Site.SiteInfo;
+    const announceUrl = siteInfo?.torrent?.announce || 'tracker.com';
     const buf = toTorrentFile({
       ...result,
       comment: '',
