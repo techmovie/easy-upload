@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.8
+// @version         6.0.9
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -3911,7 +3911,8 @@
         selector: 'input[name="anonymous"][value="true"]'
       },
       torrent: {
-        selector: 'input[name="torrent"]'
+        selector: 'input[name="torrent"]',
+        announce: "https://hdts-announce.ru/announce.php"
       },
       category: {
         selector: 'select[name="category"]',
@@ -16770,6 +16771,7 @@ ${doubanPart}`);
     });
   };
   const getTorrentFileData = async (selector = "", torrentLink = "") => {
+    var _a;
     let downloadLink = torrentLink || $$2(selector).attr("href");
     if (!downloadLink) {
       console.warn("Failed to get torrent file download link");
@@ -16787,9 +16789,10 @@ ${doubanPart}`);
         timeout: 1e4
       });
       const result = await parseTorrent(buffer.Buffer.from(file));
+      const announceUrl = ((_a = CURRENT_SITE_INFO.torrent) == null ? void 0 : _a.announce) || "tracker.com";
       const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
         comment: "",
-        announce: ["tracker.com"],
+        announce: [announceUrl],
         info: __spreadProps(__spreadValues({}, result.info), {
           source: ""
         })
