@@ -146,10 +146,11 @@ const getTorrentFileData = async (selector = '', torrentLink = '') => {
       timeout: 10000,
     });
     const result = await parseTorrent(Buffer.from(file));
+    const announceUrl = CURRENT_SITE_INFO.torrent?.announce || 'tracker.com';
     const buf = toTorrentFile({
       ...result,
       comment: '',
-      announce: ['tracker.com'],
+      announce: [announceUrl],
       info: {
         ...result.info,
         source: '',

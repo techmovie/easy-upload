@@ -116,7 +116,10 @@ declare namespace Site {
       selector: string
       value?:string
     }
-    torrent?: Selector
+    torrent?: {
+      selector: string
+      announce?:string
+    }
     torrentLink?: string
     category: SelectorMap
     videoCodec: SelectorMap
