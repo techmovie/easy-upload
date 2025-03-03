@@ -53,6 +53,7 @@ export default defineConfig({
           'http*://*/torrents.php?torrentid=*',
           'http*://*/details.php?id=*',
           'https://totheglory.im/t/*',
+          'https://ptpimg.me/*',
           'http*://*/torrents/*',
           'http*://*/torrents?*',
           'http*://*/upload*',

@@ -3,12 +3,12 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, getOriginalImgUrl, transferImgs,
+  $t, fetch, getOriginalImgUrl, transferImgs, saveScreenshotsToPtpimg,
 } from '../common';
 import { toast } from 'sonner';
 
 const UploadImg = () => {
-  const [selectHost, setSelectHost] = useState('gifyu');
+  const [selectHost, setSelectHost] = useState('ptpimg');
   const [btnDisable, setBtnDisable] = useState(false);
   const [btnText, setBtnText] = useState('转存截图');
   const [canCopy, setCanCopy] = useState(false);
@@ -22,15 +22,27 @@ const UploadImg = () => {
       setCanCopy(false);
       setCopyText('拷贝');
       const imgData:string[] = [];
-      const gifyuHtml = await fetch('https://gifyu.com', {
-        responseType: undefined,
-      });
-      const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1] ?? '';
-      for (let index = 0; index < screenshots.length; index++) {
-        const originalImg = await getOriginalImgUrl(screenshots[index]);
-        const data = await transferImgs(originalImg, authToken, 'https://gifyu.com/json');
-        if (data) {
-          imgData.push(data.url);
+      if (selectHost === 'ptpimg') {
+        for (let index = 0; index < screenshots.length; index++) {
+          const originalImg = await getOriginalImgUrl(screenshots[index]);
+          const data = await saveScreenshotsToPtpimg([originalImg]);
+          if (data) {
+            imgData.push(data[0]);
+          } else {
+            return;
+          }
+        }
+      } else {
+        const gifyuHtml = await fetch('https://gifyu.com', {
+          responseType: undefined,
+        });
+        const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
+        for (let index = 0; index < screenshots.length; index++) {
+          const originalImg = await getOriginalImgUrl(screenshots[index]);
+          const data = await transferImgs(originalImg, authToken, 'https://gifyu.com/json');
+          if (data) {
+            imgData.push(data.url);
+          }
         }
       }
       if (imgData.length > 0) {
@@ -72,6 +84,7 @@ const UploadImg = () => {
           className={btnDisable ? 'is-disabled' : ''}
           onClick={uploadScreenshotsToAnother}>{$t(btnText)}</button>
         <select value={selectHost} onChange={(e) => setSelectHost((e.target as HTMLSelectElement).value)}>
+          <option value="ptpimg">ptpimg</option>
           <option value="gifyu">gifyu</option>
         </select>
         <button

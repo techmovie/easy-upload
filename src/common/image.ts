@@ -1,4 +1,5 @@
-import { handleError, urlToFile, $t, fetch, RequestOptions } from './utils';
+import { handleError, urlToFile, $t, fetch, RequestOptions, getValue } from './utils';
+import { toast } from 'sonner';
 export const uploadToHDB = async (screenshots: string[], galleryName: string) => {
   const apiUrl = 'https://img.hdbits.org/upload_api.php';
   try {
@@ -186,6 +187,75 @@ export const transferImgs = async (screenshot: string, authToken: string, imgHos
     throw $t('上传失败，请重试');
   } catch (error) {
     console.log('err:', error);
+    handleError(error);
+  }
+};
+
+export const uploadToPtpImg = async (imgArray: Array<string | File>, isFiles = false) => {
+  try {
+    const apiKey = getValue('easy-seed.ptp-img-api-key', false);
+    if (!apiKey) {
+      toast.error(`${$t('ptpimg上传失败')} ${$t('请到配置面板中填入ptpimg的api_key')}`);
+      return;
+    }
+
+    const options: RequestOptions = {
+      method: 'POST',
+      responseType: 'json',
+    };
+    if (isFiles) {
+      const formData = new FormData();
+      imgArray.forEach((img, index) => {
+        formData.append(`file-upload[${index}]`, img);
+      });
+      formData.append('api_key', apiKey);
+      options.data = formData;
+    } else {
+      const data = `link-upload=${imgArray.join('\n')}&api_key=${apiKey}`;
+      options.headers = {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      };
+      options.data = data;
+    }
+    interface PTPImg{
+      code:string
+      ext:string
+    }
+    const data:PTPImg[] = await fetch('https://ptpimg.me/upload.php', options);
+    if (!data) {
+      throw $t('上传失败，请重试');
+    }
+    let imgResultList = [];
+    if (data && data.length) {
+      imgResultList = data.map(img => {
+        return `https://ptpimg.me/${img.code}.${img.ext}`;
+      });
+      return imgResultList;
+    }
+    throw $t('上传失败，请重试');
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const saveScreenshotsToPtpimg = async (imgArray: Array<string>) => {
+  try {
+    const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
+    const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
+    if (isPtpHost) {
+      throw $t('无需转存');
+    } else if (isHdbHost) {
+      const promiseArray = imgArray.map(item => {
+        return urlToFile(item);
+      });
+      const fileArray = await Promise.all(promiseArray);
+      const data = uploadToPtpImg(fileArray, true);
+      return data;
+    } else {
+      const data = await uploadToPtpImg(imgArray);
+      return data;
+    }
+  } catch (error) {
     handleError(error);
   }
 };
