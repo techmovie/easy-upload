@@ -1,3 +1,12 @@
+## [6.1.1](https://github.com/techmovie/easy-upload/compare/6.1.0...6.1.1) (2025-03-06)
+
+
+### Bug Fixes
+
+* analyze upload page to get site config ([a1e9dcf](https://github.com/techmovie/easy-upload/commit/a1e9dcf8a805adf4d3db0c5617f0166f3500e59a))
+
+
+
 # [6.1.0](https://github.com/techmovie/easy-upload/compare/6.0.11...6.1.0) (2025-03-06)
 
 
