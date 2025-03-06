@@ -20,25 +20,14 @@ body:
         - Other
     validations:
       required: true
-  - type: dropdown
-    id: permission
-    attributes:
-      label: 站点是否限制发布权限
-      options:
-        - 是
-        - 否
-    validations:
-      required: true
   - type: textarea
-    id: user-class
+    id: upload-page-config
     attributes:
-      label: 站点发布种子所需的用户等级
-    validations:
-      required: true
-  - type: textarea
-    id: invite-way
-    attributes:
-      label: 邀请获取渠道
+      label: 站点配置
+      description: 在站点上传页面右下角会出现一个绿色的"[EASY-UPLOAD]获取页面配置"按钮，点击后黏贴到这里
+      placeholder: |
+        ```yaml
+        ```
     validations:
       required: true
   - type: textarea

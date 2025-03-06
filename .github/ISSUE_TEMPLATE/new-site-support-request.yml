@@ -18,22 +18,14 @@ body:
         - Other
     validations:
       required: true
-  - type: dropdown
-    attributes:
-      label: Whether the site restricts publishing rights
-      options:
-        - "Yes"
-        - "No"
-    validations:
-      required: true
   - type: textarea
+    id: upload-page-config
     attributes:
-      label: The user level required for the site to publish new torrent
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Where to get an invite
+      label: Site Configuration
+      description: A green "[EASY-UPLOAD] Retrieve Site Config" button will appear in the lower right corner of the site upload page. Click it and paste it here
+      placeholder: |
+        ```yaml
+        ```
     validations:
       required: true
   - type: textarea

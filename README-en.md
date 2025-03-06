@@ -38,6 +38,24 @@ Greasemonkey 4 is significantly inconsistent with the API of the above two scrip
 - Enable batch transfer: click “batch reproduce” button to open target sites for group transfer.
 - Enable site search: configure the quick search list to define the searching scope.
 
+## How to Generate Configuration for Unsupported Sites
+
+When you find a PT site that is not supported by the script, you can follow these steps to generate a configuration file and submit it to the author:
+
+### 1. Generate Configuration File
+
+1. Visit the torrent upload page of the PT site you want to support
+2. A green `[EASY-UPLOAD]Retrieve Site Config` button will appear in the bottom right corner
+3. Click the button, and the script will automatically analyze the form elements on the page and generate a configuration
+4. The configuration will be automatically copied to your clipboard
+
+### 2. Submit Issue
+
+1. Visit the project's [Issues page](https://github.com/techmovie/easy-upload/issues/new?template=new-site-support-request.yml)
+2. Paste the content from your clipboard into the `Site Configuration` section of the Issue
+3. Fill in other required information
+4. Submit the Issue
+
 ## Cautions
 
 - **PLEASE CHECK OVER YOUR TORRENT UPLOAD FOR ANY ERRORS, EASY UPLOAD IS NOT ALWAYS PERFECT FOR EVERY SITE**

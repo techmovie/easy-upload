@@ -1,5 +1,5 @@
 import { render } from 'preact';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 import $ from 'jquery';
 
 if (location.host === 'ptpimg.me') {
@@ -7,6 +7,7 @@ if (location.host === 'ptpimg.me') {
   if (!ptpImgApiKey) {
     const div = document.createElement('div');
     render(<div class="ptp-api-key-btn">
+      <Toaster position="top-right" richColors />
       <button class="btn btn-info" onClick={() => {
         const apiKey = $('#api_key').val();
         GM_setValue('easy-seed.ptp-img-api-key', apiKey);
