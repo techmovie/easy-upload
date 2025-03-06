@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.0.11
+// @version         6.1.0
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -8934,7 +8934,9 @@
     "请配置豆瓣Cookie": "Please configure douban cookie",
     "关闭快速检索": "Disable QuickSearch",
     "种子文件下载失败": "Failed to download torrent file",
-    "请手动下载": "Please download it manually"
+    "请手动下载": "Please download it manually",
+    "获取页面配置": "Retrieve Site Config",
+    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "The configuration has been copied to the clipboard, please paste it into the created Github Issue."
   };
   const ko = {
     "豆瓣链接获取失败": "더우반 링크 얻기 실패",
@@ -8996,7 +8998,9 @@
     "请配置豆瓣Cookie": "더우반 쿠키를 구성하세요.",
     "关闭快速检索": "빠른검색 비활성화",
     "种子文件下载失败": "토렌트 파일 다운로드 실패",
-    "请手动下载": "수동으로 다운로드해주세요"
+    "请手动下载": "수동으로 다운로드해주세요",
+    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "설정이 클립보드에 복사되었습니다. 생성한 Github Issue에 붙여넣으세요.",
+    "获取页面配置": "페이지 설정 가져오기"
   };
   const zh = {
     "豆瓣链接获取失败": "豆瓣链接获取失败",
@@ -9058,7 +9062,9 @@
     "请配置豆瓣Cookie": "请配置豆瓣Cookie",
     "关闭快速检索": "关闭快速检索",
     "种子文件下载失败": "种子文件下载失败",
-    "请手动下载": "请手动下载"
+    "请手动下载": "请手动下载",
+    "获取页面配置": "获取页面配置",
+    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "配置已复制到剪贴板,请黏贴到创建的Github Issue中"
   };
   const i18nConfig = {
     en,
@@ -9383,7 +9389,7 @@
     Jt.error(errorMessage);
   };
   const fetch = (url, options2) => {
-    return new Promise((resolve2, reject) => {
+    return new Promise((resolve28, reject) => {
       GM_xmlhttpRequest(__spreadProps(__spreadValues({
         method: "GET",
         url,
@@ -9394,7 +9400,7 @@
           if (status !== 200) {
             reject(new Error(statusText || `${status}`));
           } else {
-            resolve2(response);
+            resolve28(response);
           }
         },
         ontimeout: () => {
@@ -9769,42 +9775,42 @@
     return "";
   };
   const getTagsFromSubtitle = (title) => {
-    const tags = {};
+    const tags2 = {};
     if (title.match(/diy/i)) {
-      tags.diy = true;
+      tags2.diy = true;
     }
     if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语(言|字幕)/)) {
-      tags.chinese_audio = true;
+      tags2.chinese_audio = true;
     }
     if (title.match(/Atmos|杜比全景声/i)) {
-      tags.dolby_atoms = true;
+      tags2.dolby_atoms = true;
     }
     if (title.match(/HDR/i)) {
       if (title.match(/HDR10\+/i)) {
-        tags.hdr10_plus = true;
+        tags2.hdr10_plus = true;
       } else {
-        tags.hdr = true;
+        tags2.hdr = true;
       }
     }
     if (title.match(/DoVi|(Dolby\s*Vision)|杜比视界/i)) {
-      tags.dolby_vision = true;
+      tags2.dolby_vision = true;
     }
     if (title.match(/粤/i)) {
-      tags.cantonese_audio = true;
+      tags2.cantonese_audio = true;
     }
     if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i) && !title.match(/无中(字|文)/)) {
-      tags.chinese_subtitle = true;
+      tags2.chinese_subtitle = true;
     }
     if (title.match(/Criterion|CC标准/i)) {
-      tags.the_criterion_collection = true;
+      tags2.the_criterion_collection = true;
     }
     if (title.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|禁止转载|exclusive/)) {
-      tags.exclusive = true;
+      tags2.exclusive = true;
     }
-    return tags;
+    return tags2;
   };
-  const replaceRegSymbols = (string) => {
-    return string.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
+  const replaceRegSymbols = (string2) => {
+    return string2.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
   };
   const getSpecsFromMediainfo$1 = (isBluray, mediaInfo) => {
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -10348,7 +10354,7 @@
       duration: movieDuration,
       introduction,
       awards,
-      tags,
+      tags: tags2,
       credits = []
     } = data;
     const spaceStr = " ".repeat(7);
@@ -10397,8 +10403,8 @@ ${" ".repeat(24)}`).trim();
     descr += movieDuration ? `◎片${spaceStr}长${spaceStr}${movieDuration}
 ` : "";
     descr += creditsData.length > 0 ? creditsData.join("\n") : "";
-    descr += tags && tags.length > 0 ? `
-◎标${spaceStr}签${spaceStr}${tags.join(" | ")} 
+    descr += tags2 && tags2.length > 0 ? `
+◎标${spaceStr}签${spaceStr}${tags2.join(" | ")} 
 ` : "";
     descr += introduction ? `
 ◎简${spaceStr}介
@@ -10834,7 +10840,7 @@ $1`);
   };
   function fillInfo(info) {
     var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j;
-    const { title, description, doubanInfo, category, tags } = info;
+    const { title, description, doubanInfo, category, tags: tags2 } = info;
     $$2("#ename").val(title);
     const fullDescription = description + doubanInfo;
     let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
@@ -10907,7 +10913,7 @@ $1`);
       chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
     }
     $$2("#cname").val(chineseName);
-    if (tags.chinese_subtitle && !tags.chinese_audio) {
+    if (tags2.chinese_subtitle && !tags2.chinese_audio) {
       $$2('input[name="chinese"]').attr("checked", "true");
     }
   }
@@ -11249,10 +11255,10 @@ ${description}`;
     },
     "52pt": {
       afterHandler: (info) => {
-        const { tags, videoType, resolution } = info;
+        const { tags: tags2, videoType, resolution } = info;
         let videoTypeValue = videoType;
         if (videoType.match(/bluray/)) {
-          if (tags.chinese_audio || tags.cantonese_audio || tags.chinese_subtitle) {
+          if (tags2.chinese_audio || tags2.cantonese_audio || tags2.chinese_subtitle) {
             videoTypeValue = videoType === "bluray" ? "14" : "15";
           }
         } else if (videoType === "remux" && resolution === "2160p") {
@@ -11290,19 +11296,19 @@ ${description}`;
     },
     HDFans: {
       afterHandler: (info) => {
-        const { videoType, resolution, tags } = info;
+        const { videoType, resolution, tags: tags2 } = info;
         if (videoType === "remux") {
           $$2(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "10" : "8");
         } else if (videoType === "encode") {
-          const map = {
+          const map2 = {
             "2160p": "9",
             "1080p": "5",
             "1080i": "5",
             "720p": "11"
           };
-          $$2(CURRENT_SITE_INFO.videoType.selector).val(map[resolution] || "16");
+          $$2(CURRENT_SITE_INFO.videoType.selector).val(map2[resolution] || "16");
         }
-        if (tags.diy) {
+        if (tags2.diy) {
           $$2(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "2" : "4");
         }
       }
@@ -11779,7 +11785,7 @@ ${description}`;
     const {
       title,
       imdbUrl,
-      tags,
+      tags: tags2,
       size,
       videoCodec = "",
       videoType,
@@ -11794,9 +11800,9 @@ ${description}`;
     info.videoCodec = getVideoCodec(videoCodec, videoType, size);
     const keyArray = ["category", "source", "videoCodec", "resolution"];
     keyArray.forEach((key) => {
-      const { selector = "", map } = currentSiteInfo2[key];
-      if (map) {
-        const mapValue = map[info[key]];
+      const { selector = "", map: map2 } = currentSiteInfo2[key];
+      if (map2) {
+        const mapValue = map2[info[key]];
         $$2(selector).val(mapValue);
       } else {
         $$2(selector).val(info[key]);
@@ -11808,7 +11814,7 @@ ${description}`;
       const description = getDescription$2(info);
       $$2(currentSiteInfo2.description.selector).val(description);
     }
-    const editionInfo = getEditionInfo(videoType, tags);
+    const editionInfo = getEditionInfo(videoType, tags2);
     if (editionInfo.length > 0) {
       $$2("#remaster").attr("checked", "true");
       Remaster();
@@ -11831,24 +11837,24 @@ ${description}`;
       });
     }
   };
-  const getEditionInfo = (videoType, tags) => {
+  const getEditionInfo = (videoType, tags2) => {
     const editionInfo = [];
     if (videoType === "remux") {
       editionInfo.push("Remux");
     }
-    if (tags.hdr) {
+    if (tags2.hdr) {
       editionInfo.push("HDR10");
     }
-    if (tags.hdr10_plus) {
+    if (tags2.hdr10_plus) {
       editionInfo.push("HDR10+");
     }
-    if (tags.dolby_vision) {
+    if (tags2.dolby_vision) {
       editionInfo.push("Dolby Vision");
     }
-    if (tags.dolby_atmos) {
+    if (tags2.dolby_atmos) {
       editionInfo.push("Dolby Atmos");
     }
-    if (tags.dts_x) {
+    if (tags2.dts_x) {
       editionInfo.push("DTS:X");
     }
     return editionInfo;
@@ -11979,16 +11985,16 @@ ${comparison.imgs.join("\n")}
     }
   }
   function fillProcessing(info) {
-    let { videoType, size, source, tags } = info;
+    let { videoType, size, source, tags: tags2 } = info;
     if (source.match(/bluray|hddvd|dvd/)) {
-      if (tags.diy) {
+      if (tags2.diy) {
         videoType = "DIY";
       }
       const videoTypeConfig = currentSiteInfo$3.videoType;
-      const { selector, map } = videoTypeConfig;
-      $$2(selector).val(map[videoType]);
+      const { selector, map: map2 } = videoTypeConfig;
+      $$2(selector).val(map2[videoType]);
       $$2(selector)[0].dispatchEvent(new Event("change"));
-      if (map[videoType] === "Untouched") {
+      if (map2[videoType] === "Untouched") {
         const bdType = getBDType(size);
         $$2('select[name="processing_other"]').val(bdType || "");
       }
@@ -12009,9 +12015,9 @@ ${comparison.imgs.join("\n")}
     const keyArray = ["source", "videoCodec", "format", "resolution"];
     keyArray.forEach((key) => {
       var _a3, _b;
-      const { selector = "", map } = currentSiteInfo$3[key];
-      if (map) {
-        const mapValue = map[info[key]];
+      const { selector = "", map: map2 } = currentSiteInfo$3[key];
+      if (map2) {
+        const mapValue = map2[info[key]];
         $$2(selector).val(mapValue);
         if (key === "videoCodec" && mapValue === "Other") {
           document.querySelector(selector).dispatchEvent(new Event("change"));
@@ -12107,10 +12113,10 @@ ${description}`;
     $$2(currentSiteInfo2.area.selector)[0].dispatchEvent(new Event("change"));
     const keyArray = ["videoCodec", "videoType", "resolution"];
     keyArray.forEach((key) => {
-      const { selector, map } = currentSiteInfo2[key];
+      const { selector, map: map2 } = currentSiteInfo2[key];
       fill_field(
         selector,
-        map[info[key]]
+        map2[info[key]]
       );
     });
     const teamName = getTeamName(info);
@@ -12709,18 +12715,18 @@ ${comparison.imgs.join("\n")}
         const keyArray = ["videoType", "videoCodec", "audioCodec"];
         select.disconnect();
         const sleep = (ms) => {
-          return new Promise((resolve2) => setTimeout(resolve2, ms));
+          return new Promise((resolve28) => setTimeout(resolve28, ms));
         };
-        const { tags } = currentSiteInfo;
+        const { tags: tags2 } = currentSiteInfo;
         for (const tag in info.tags) {
-          if (tags[tag]) {
-            await sleep(100).then(() => $$2(tags[tag])[0].click());
+          if (tags2[tag]) {
+            await sleep(100).then(() => $$2(tags2[tag])[0].click());
           }
         }
         keyArray.forEach((key) => {
-          const { map } = currentSiteInfo[key];
-          if (map) {
-            const mapValue = map[info[key]];
+          const { map: map2 } = currentSiteInfo[key];
+          if (map2) {
+            const mapValue = map2[info[key]];
             if (mapValue) {
               if (key !== "videoType" && $$2(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
                 $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
@@ -12907,7 +12913,7 @@ ${$$2(description.selector).val()}`);
   const fillMTInfo = async (info) => {
     var _a2;
     const currentSiteInfo2 = PT_SITE.MTeam;
-    const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfos, tags } = info;
+    const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfos, tags: tags2 } = info;
     const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
     setInputValue(currentSiteInfo2.name.selector, title);
     setInputValue(currentSiteInfo2.subtitle.selector, subtitle || "");
@@ -12921,9 +12927,9 @@ ${$$2(description.selector).val()}`);
     targetHelper.disableTorrentChange();
     targetHelper.categoryHandler();
     let timeout = 0;
-    Object.keys(tags).forEach((key) => {
+    Object.keys(tags2).forEach((key) => {
       const siteTagMap = currentSiteInfo2.tags[key];
-      if (tags[key] && siteTagMap) {
+      if (tags2[key] && siteTagMap) {
         setTimeout(() => {
           setInputValue(siteTagMap, "", true);
         }, timeout);
@@ -12979,7 +12985,7 @@ ${$$2(description.selector).val()}`);
     }
     document.forms.upload_table.reset = () => {
     };
-    const { name, year, musicInfo, bbBody, tags, releaseType, categoryId, wikiImage } = musicJson.group;
+    const { name, year, musicInfo, bbBody, tags: tags2, releaseType, categoryId, wikiImage } = musicJson.group;
     const groupId = getUrlParam("groupid");
     if (!groupId) {
       const url = `/ajax.php?action=browse&searchstr=${name} ${year}`;
@@ -12987,15 +12993,15 @@ ${$$2(description.selector).val()}`);
       if (searchResult.status === "success" && searchResult.response.results.length > 0) {
         const groupId2 = searchResult.response.results[0].groupId;
         const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
-        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp}`;
+        const timestamp2 = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
+        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp2}`;
         return;
       }
       $$2("#categories").val(categoryId - 1);
       $$2("#title").val(name);
       $$2("#year").val(year);
       $$2("#releasetype").val(releaseType);
-      $$2("#tags").val(tags.join(", "));
+      $$2("#tags").val(tags2.join(", "));
       $$2("#album_desc").val(bbBody);
       $$2("#image").val(wikiImage);
       fillArtistsForm(musicInfo);
@@ -13053,6 +13059,30 @@ ${$$2(description.selector).val()}`);
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   function getDefaultExportFromCjs(x2) {
     return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
+  }
+  function getAugmentedNamespace(n) {
+    if (n.__esModule) return n;
+    var f2 = n.default;
+    if (typeof f2 == "function") {
+      var a2 = function a3() {
+        if (this instanceof a3) {
+          return Reflect.construct(f2, arguments, this.constructor);
+        }
+        return f2.apply(this, arguments);
+      };
+      a2.prototype = f2.prototype;
+    } else a2 = {};
+    Object.defineProperty(a2, "__esModule", { value: true });
+    Object.keys(n).forEach(function(k2) {
+      var d2 = Object.getOwnPropertyDescriptor(n, k2);
+      Object.defineProperty(a2, k2, d2.get ? d2 : {
+        enumerable: true,
+        get: function() {
+          return n[k2];
+        }
+      });
+    });
+    return a2;
   }
   var buffer = {};
   var base64Js = {};
@@ -13370,16 +13400,16 @@ ${$$2(description.selector).val()}`);
     Buffer2.allocUnsafeSlow = function(size) {
       return allocUnsafe(size);
     };
-    function fromString(string, encoding) {
+    function fromString(string2, encoding) {
       if (typeof encoding !== "string" || encoding === "") {
         encoding = "utf8";
       }
       if (!Buffer2.isEncoding(encoding)) {
         throw new TypeError("Unknown encoding: " + encoding);
       }
-      var length = byteLength2(string, encoding) | 0;
+      var length = byteLength2(string2, encoding) | 0;
       var buf = createBuffer(length);
-      var actual = buf.write(string, encoding);
+      var actual = buf.write(string2, encoding);
       if (actual !== length) {
         buf = buf.slice(0, actual);
       }
@@ -13530,19 +13560,19 @@ ${$$2(description.selector).val()}`);
       }
       return buffer2;
     };
-    function byteLength2(string, encoding) {
-      if (Buffer2.isBuffer(string)) {
-        return string.length;
+    function byteLength2(string2, encoding) {
+      if (Buffer2.isBuffer(string2)) {
+        return string2.length;
       }
-      if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
-        return string.byteLength;
+      if (ArrayBuffer.isView(string2) || isInstance(string2, ArrayBuffer)) {
+        return string2.byteLength;
       }
-      if (typeof string !== "string") {
+      if (typeof string2 !== "string") {
         throw new TypeError(
-          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
+          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string2
         );
       }
-      var len = string.length;
+      var len = string2.length;
       var mustMatch = arguments.length > 2 && arguments[2] === true;
       if (!mustMatch && len === 0) return 0;
       var loweredCase = false;
@@ -13554,7 +13584,7 @@ ${$$2(description.selector).val()}`);
             return len;
           case "utf8":
           case "utf-8":
-            return utf8ToBytes(string).length;
+            return utf8ToBytes(string2).length;
           case "ucs2":
           case "ucs-2":
           case "utf16le":
@@ -13563,10 +13593,10 @@ ${$$2(description.selector).val()}`);
           case "hex":
             return len >>> 1;
           case "base64":
-            return base64ToBytes(string).length;
+            return base64ToBytes(string2).length;
           default:
             if (loweredCase) {
-              return mustMatch ? -1 : utf8ToBytes(string).length;
+              return mustMatch ? -1 : utf8ToBytes(string2).length;
             }
             encoding = ("" + encoding).toLowerCase();
             loweredCase = true;
@@ -13838,7 +13868,7 @@ ${$$2(description.selector).val()}`);
     Buffer2.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
       return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
     };
-    function hexWrite(buf, string, offset, length) {
+    function hexWrite(buf, string2, offset, length) {
       offset = Number(offset) || 0;
       var remaining = buf.length - offset;
       if (!length) {
@@ -13849,30 +13879,30 @@ ${$$2(description.selector).val()}`);
           length = remaining;
         }
       }
-      var strLen = string.length;
+      var strLen = string2.length;
       if (length > strLen / 2) {
         length = strLen / 2;
       }
       for (var i = 0; i < length; ++i) {
-        var parsed = parseInt(string.substr(i * 2, 2), 16);
+        var parsed = parseInt(string2.substr(i * 2, 2), 16);
         if (numberIsNaN(parsed)) return i;
         buf[offset + i] = parsed;
       }
       return i;
     }
-    function utf8Write(buf, string, offset, length) {
-      return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
+    function utf8Write(buf, string2, offset, length) {
+      return blitBuffer(utf8ToBytes(string2, buf.length - offset), buf, offset, length);
     }
-    function asciiWrite(buf, string, offset, length) {
-      return blitBuffer(asciiToBytes(string), buf, offset, length);
+    function asciiWrite(buf, string2, offset, length) {
+      return blitBuffer(asciiToBytes(string2), buf, offset, length);
     }
-    function base64Write(buf, string, offset, length) {
-      return blitBuffer(base64ToBytes(string), buf, offset, length);
+    function base64Write(buf, string2, offset, length) {
+      return blitBuffer(base64ToBytes(string2), buf, offset, length);
     }
-    function ucs2Write(buf, string, offset, length) {
-      return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
+    function ucs2Write(buf, string2, offset, length) {
+      return blitBuffer(utf16leToBytes(string2, buf.length - offset), buf, offset, length);
     }
-    Buffer2.prototype.write = function write(string, offset, length, encoding) {
+    Buffer2.prototype.write = function write(string2, offset, length, encoding) {
       if (offset === void 0) {
         encoding = "utf8";
         length = this.length;
@@ -13897,7 +13927,7 @@ ${$$2(description.selector).val()}`);
       }
       var remaining = this.length - offset;
       if (length === void 0 || length > remaining) length = remaining;
-      if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
+      if (string2.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
         throw new RangeError("Attempt to write outside buffer bounds");
       }
       if (!encoding) encoding = "utf8";
@@ -13905,21 +13935,21 @@ ${$$2(description.selector).val()}`);
       for (; ; ) {
         switch (encoding) {
           case "hex":
-            return hexWrite(this, string, offset, length);
+            return hexWrite(this, string2, offset, length);
           case "utf8":
           case "utf-8":
-            return utf8Write(this, string, offset, length);
+            return utf8Write(this, string2, offset, length);
           case "ascii":
           case "latin1":
           case "binary":
-            return asciiWrite(this, string, offset, length);
+            return asciiWrite(this, string2, offset, length);
           case "base64":
-            return base64Write(this, string, offset, length);
+            return base64Write(this, string2, offset, length);
           case "ucs2":
           case "ucs-2":
           case "utf16le":
           case "utf-16le":
-            return ucs2Write(this, string, offset, length);
+            return ucs2Write(this, string2, offset, length);
           default:
             if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
             encoding = ("" + encoding).toLowerCase();
@@ -13927,7 +13957,7 @@ ${$$2(description.selector).val()}`);
         }
       }
     };
-    Buffer2.prototype.toJSON = function toJSON() {
+    Buffer2.prototype.toJSON = function toJSON2() {
       return {
         type: "Buffer",
         data: Array.prototype.slice.call(this._arr || this, 0)
@@ -14491,14 +14521,14 @@ ${$$2(description.selector).val()}`);
       }
       return str;
     }
-    function utf8ToBytes(string, units) {
+    function utf8ToBytes(string2, units) {
       units = units || Infinity;
       var codePoint;
-      var length = string.length;
+      var length = string2.length;
       var leadSurrogate = null;
       var bytes = [];
       for (var i = 0; i < length; ++i) {
-        codePoint = string.charCodeAt(i);
+        codePoint = string2.charCodeAt(i);
         if (codePoint > 55295 && codePoint < 57344) {
           if (!leadSurrogate) {
             if (codePoint > 56319) {
@@ -14613,8 +14643,8 @@ ${$$2(description.selector).val()}`);
       if (searchResult.status === "success" && searchResult.response.results.length > 0) {
         const groupId2 = searchResult.response.results[0].groupId;
         const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
-        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp}`;
+        const timestamp2 = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
+        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp2}`;
         return;
       }
     }
@@ -14948,10 +14978,10 @@ ${descriptionData}`;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const basicInfo = getBasicInfo$6();
     const editionTags = getEditionTags(basicInfo);
-    const { Category, Name, Source, Type, Size } = basicInfo;
+    const { Category, Name, Source, Type: Type2, Size } = basicInfo;
     TORRENT_INFO.size = getSize(Size);
     TORRENT_INFO.title = formatTorrentTitle(Name);
-    const tags = getTagsFromSubtitle(TORRENT_INFO.title);
+    const tags2 = getTagsFromSubtitle(TORRENT_INFO.title);
     const TMDBYear = $$2(".movie-heading a:last").text();
     const movieName = $$2(".movie-heading a:first").text();
     if (!TMDBYear) {
@@ -14968,9 +14998,9 @@ ${descriptionData}`;
     let category = Category.toLowerCase().replace(/s/, "");
     category = movieCat === "Animation" ? "cartoon" : category;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.source = getSource$2(Source, Type);
+    TORRENT_INFO.source = getSource$2(Source, Type2);
     TORRENT_INFO.area = getAreaCode(countries);
-    TORRENT_INFO.videoType = getVideoType$f(Source, Type);
+    TORRENT_INFO.videoType = getVideoType$f(Source, Type2);
     const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
     const mediaInfo = $$2("#stats-full code").text();
     TORRENT_INFO.mediaInfos = [mediaInfo];
@@ -14984,7 +15014,7 @@ ${descriptionBBCode}`;
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = __spreadValues(__spreadValues(__spreadValues({}, tags), mediaTags), editionTags.knownTags);
+    TORRENT_INFO.tags = __spreadValues(__spreadValues(__spreadValues({}, tags2), mediaTags), editionTags.knownTags);
     TORRENT_INFO.otherTags = editionTags.otherTags;
     TORRENT_INFO.imdbUrl = imdbUrl;
   };
@@ -15116,7 +15146,7 @@ ${descriptionBBCode}`;
     const { size, category, videoType } = getBasicInfo$5();
     const title = $$2("h1").eq(0).text();
     TORRENT_INFO.title = formatTorrentTitle(title);
-    const tags = getTagsFromSubtitle(title);
+    const tags2 = getTagsFromSubtitle(title);
     const isMovieType = $$2(".contentlayout h1").length > 0;
     const IMDBLinkDom = isMovieType ? $$2(".contentlayout h1") : $$2("#details .showlinks li").eq(1);
     if (isMovieType) {
@@ -15148,7 +15178,7 @@ ${descriptionBBCode}`;
           TORRENT_INFO.videoCodec = videoCodec;
           TORRENT_INFO.audioCodec = audioCodec;
           TORRENT_INFO.resolution = resolution || "";
-          TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+          TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
         }
       });
     } else {
@@ -15157,7 +15187,7 @@ ${descriptionBBCode}`;
       TORRENT_INFO.videoCodec = videoCodec;
       TORRENT_INFO.audioCodec = audioCodec;
       TORRENT_INFO.resolution = resolution || "";
-      TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+      TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
     }
     TORRENT_INFO.size = size;
     TORRENT_INFO.screenshots = await getImages$1(descriptionBBCode);
@@ -15199,9 +15229,9 @@ ${descriptionBBCode}`;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
     const typeText = $$2("td.heading:contains(Type)").eq(0).next().text();
     const isMovie = typeText !== "TV-Series";
-    const tags = [];
+    const tags2 = [];
     $$2("td.heading:contains(Tags)").eq(0).next().children().each((_2, child) => {
-      tags.push(child.textContent);
+      tags2.push(child.textContent);
     });
     const size = $$2("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_2, size2) => size2.replace(/,/g, ""));
     const title = $$2("h1").eq(0).text();
@@ -15220,7 +15250,7 @@ ${descriptionBBCode}`;
     TORRENT_INFO.imdbUrl = `https://www.imdb.com/title/tt${imdbNumber}/`;
     TORRENT_INFO.category = isMovie ? "movie" : "tvPack";
     TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    TORRENT_INFO.videoType = tags.includes("Blu-ray") ? "bluray" : "dvd";
+    TORRENT_INFO.videoType = tags2.includes("Blu-ray") ? "bluray" : "dvd";
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
     TORRENT_INFO.resolution = resolution;
@@ -15248,7 +15278,7 @@ ${descriptionBBCode}`;
     const title = formatTorrentTitle((_b = (_a2 = headTitle.match(/[^[]+/)) == null ? void 0 : _a2[0]) != null ? _b : "");
     TORRENT_INFO.title = title;
     TORRENT_INFO.subtitle = headTitle.replace(title, "").replace(/\[|\]/g, "");
-    const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
+    const tags2 = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
     const mediaTecInfo = getTorrentValueDom("类型").text();
     const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
     TORRENT_INFO.area = area;
@@ -15296,7 +15326,7 @@ ${descriptionBBCode}`;
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         TORRENT_INFO.resolution = resolution || "";
-        TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+        TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
       } else {
         let resolution = (_e3 = (_d3 = TORRENT_INFO.title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _d3[0]) != null ? _e3 : "";
         if (!resolution && resolution.match(/4k|uhd/i)) {
@@ -15461,12 +15491,12 @@ ${doubanPart}`);
     var _a2, _b, _c, _d2, _e2, _f, _g, _h;
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
     TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const { Category, Name, Type, Size, Resolution } = getBasicInfo$4();
+    const { Category, Name, Type: Type2, Size, Resolution } = getBasicInfo$4();
     TORRENT_INFO.size = getSize(Size);
     let title = formatTorrentTitle(Name);
-    const tags = getTagsFromSubtitle(TORRENT_INFO.title);
+    const tags2 = getTagsFromSubtitle(TORRENT_INFO.title);
     const category = getCategory$7(Category);
-    const videoType = getVideoType$d(Type, Resolution);
+    const videoType = getVideoType$d(Type2, Resolution);
     let IMDBYear = $$2(".movie-heading span:last").text();
     let movieName = $$2(".movie-heading span:first").text();
     let imdbUrl = $$2(".movie-details a:contains(IMDB)").attr("href");
@@ -15513,7 +15543,7 @@ ${doubanPart}`);
     TORRENT_INFO.mediaInfos = [mediaInfoOrBDInfo];
     TORRENT_INFO.videoCodec = videoCodec;
     TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
     TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
     TORRENT_INFO.title = title;
     TORRENT_INFO.year = IMDBYear;
@@ -15634,12 +15664,12 @@ ${doubanPart}`);
   }
   const arr2hex = (data) => {
     const length = data.length;
-    let string = "";
+    let string2 = "";
     let i = 0;
     while (i < length) {
-      string += encodeLookup[data[i++]];
+      string2 += encodeLookup[data[i++]];
     }
-    return string;
+    return string2;
   };
   const hex2arr = (str) => {
     const sizeof = str.length >> 1;
@@ -15953,9 +15983,9 @@ ${doubanPart}`);
     }
     return length;
   }
-  function mapLength(map) {
+  function mapLength(map2) {
     let length = 1 + 1;
-    for (const [key, value] of map) {
+    for (const [key, value] of map2) {
       const keyLength = text2arr(key).byteLength;
       length += digitCount(keyLength) + 1 + keyLength;
       length += encodingLength$1(value);
@@ -16833,11 +16863,11 @@ ${doubanPart}`);
     return "other";
   };
   const blobToBase64 = (blob) => {
-    return new Promise((resolve2, reject) => {
+    return new Promise((resolve28, reject) => {
       const fileReader = new FileReader();
       fileReader.onload = (e2) => {
         var _a2;
-        resolve2((_a2 = e2.target) == null ? void 0 : _a2.result);
+        resolve28((_a2 = e2.target) == null ? void 0 : _a2.result);
       };
       fileReader.readAsDataURL(blob);
       fileReader.onerror = () => {
@@ -17052,9 +17082,9 @@ ${doubanPart}`);
     if (CURRENT_SITE_NAME === "KEEPFRDS") {
       TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ""));
     } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-    const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
+    const tags2 = getTagsFromSubtitle(TORRENT_INFO.subtitle);
     const pageTags = getTagsFromPage$1();
-    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags), pageTags);
+    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), pageTags);
     if (!TORRENT_INFO.isForbidden && TORRENT_INFO.tags.exclusive) {
       TORRENT_INFO.isForbidden = true;
     }
@@ -17158,7 +17188,7 @@ ${doubanPart}`);
     return "";
   };
   const getTagsFromPage$1 = () => {
-    let tags = {};
+    let tags2 = {};
     if (CURRENT_SITE_NAME === "PTer") {
       const tagImgs = $$2("td.rowhead:contains('类别与标签')").next().find("img");
       const links = Array.from(tagImgs.map((index, item) => {
@@ -17166,22 +17196,22 @@ ${doubanPart}`);
         return (_b = (_a2 = $$2(item).attr("src")) == null ? void 0 : _a2.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b : "";
       }));
       if (links.includes("pter-zz")) {
-        tags.chinese_subtitle = true;
+        tags2.chinese_subtitle = true;
       }
       if (links.includes("pter-gy")) {
-        tags.chinese_audio = true;
+        tags2.chinese_audio = true;
       }
       if (links.includes("pter-yy")) {
-        tags.cantonese_audio = true;
+        tags2.cantonese_audio = true;
       }
       if (links.includes("pter-diy")) {
-        tags.diy = true;
+        tags2.diy = true;
       }
     } else {
       const tagText = $$2("td.rowhead:contains('标签')").next().text();
-      tags = getTagsFromSubtitle(tagText);
+      tags2 = getTagsFromSubtitle(tagText);
     }
-    return tags;
+    return tags2;
   };
   function getSpecsFromMediainfo(isBluray) {
     var _a2, _b;
@@ -17204,7 +17234,7 @@ ${doubanPart}`);
     const year = (_b = (_a2 = imdbInfoDom.text().match(/Year:\s*(\d{4})/)) == null ? void 0 : _a2[1]) != null ? _b : "";
     const country = (_d2 = (_c = imdbInfoDom.text().match(/Country:\s*([^\n]+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
     const { Category, Size, Genre } = getBasicInfo$3();
-    let tags = getTagsFromSubtitle(title);
+    let tags2 = getTagsFromSubtitle(title);
     let category = Category.toLowerCase().split(/\s|\//)[0];
     category = Genre.match(/Animation/i) ? "cartoon" : category;
     const videoType = getVideoType$b(Category, title);
@@ -17234,7 +17264,7 @@ ${doubanPart}`);
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         resolution = mediaResolution || "";
-        tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
       }
     }
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -17247,7 +17277,7 @@ ${doubanPart}`);
     TORRENT_INFO.size = getSize(Size);
     TORRENT_INFO.videoType = videoType;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = tags;
+    TORRENT_INFO.tags = tags2;
     TORRENT_INFO.imdbUrl = imdbUrl;
     TORRENT_INFO.description = descriptionBBCode;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
@@ -17293,7 +17323,7 @@ ${doubanPart}`);
     const {
       InternetLink,
       Year,
-      Type,
+      Type: Type2,
       Genres,
       Source,
       Size,
@@ -17316,17 +17346,17 @@ ${doubanPart}`);
     const country = $$2(".outer h1 img").attr("alt") || "";
     const year = Year;
     const size = (_b = (_a2 = Size.match(/\((.+?)\)/)) == null ? void 0 : _a2[1].replace(/,|(bytes)/g, "")) != null ? _b : "";
-    let tags = getTagsFromSubtitle(title);
+    let tags2 = getTagsFromSubtitle(title);
     if (Subtitles.match(/Chinese/i)) {
-      tags.chinese_subtitle = true;
+      tags2.chinese_subtitle = true;
     }
     if (language.match(/Chinese|Mandarin/i)) {
-      tags.chinese_audio = true;
+      tags2.chinese_audio = true;
     }
     if (language.match(/Cantonese/)) {
-      tags.cantonese_audio = true;
+      tags2.cantonese_audio = true;
     }
-    let category = Type.toLowerCase();
+    let category = Type2.toLowerCase();
     category = Genres.match(/Animation/i) ? "cartoon" : category;
     const mediaInfo = $$2("div.mediainfo").text();
     let source = Source.replace(/-/g, "").toLowerCase();
@@ -17362,7 +17392,7 @@ ${doubanPart}`);
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         resolution = mediaResolution || "";
-        tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
       }
     }
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -17375,7 +17405,7 @@ ${doubanPart}`);
     TORRENT_INFO.size = Number(size);
     TORRENT_INFO.videoType = videoType;
     TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = tags;
+    TORRENT_INFO.tags = tags2;
     TORRENT_INFO.imdbUrl = imdbUrl;
     TORRENT_INFO.area = getAreaCode(country);
     TORRENT_INFO.description = descriptionBBCode;
@@ -17438,7 +17468,7 @@ ${doubanPart}`);
     const year = (_f = (_e2 = titleText.match(/\[(\d+)\]/)) == null ? void 0 : _e2[1]) != null ? _f : "";
     const torrentLink = $$2(`#torrent${torrentId}`).find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
-    let tags = getTagsFromSubtitle(title);
+    let tags2 = getTagsFromSubtitle(title);
     const source = getSourceFromTitle(title);
     const category = title.match(/Season\s+\d+/) ? "tv" : "movie";
     const size = getSize($$2(`#torrent${torrentId} td`).eq(1).text());
@@ -17468,10 +17498,10 @@ ${doubanPart}`);
         if (videoCodec !== "" && audioCodec !== "") {
           TORRENT_INFO.videoCodec = videoCodec;
           TORRENT_INFO.audioCodec = audioCodec;
-          tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+          tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
         }
       }
-      TORRENT_INFO.tags = tags;
+      TORRENT_INFO.tags = tags2;
       TORRENT_INFO.resolution = resolution;
     });
     TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
@@ -17534,7 +17564,7 @@ ${doubanPart}`);
     const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
     const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec, mediaTags: tags } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
+    const { resolution, videoCodec, audioCodec, mediaTags: tags2 } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
     const category = getCategory$5(season);
     const sourceFrom = getSourceFromTitle(torrentName);
     const torrentLink = $$2(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr("href");
@@ -17552,7 +17582,7 @@ ${doubanPart}`);
       mediaInfos,
       videoCodec,
       audioCodec,
-      tags,
+      tags: tags2,
       category
     };
   }
@@ -17618,14 +17648,14 @@ ${doubanPart}`);
     const movieTitle = $$2(".block-titled h3 a").text();
     const movieName = movieTitle.split("(")[0].trim();
     const year = (_e2 = (_d2 = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _d2[1]) != null ? _e2 : "";
-    let { Type, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo$1();
-    const category = Type == null ? void 0 : Type.toLowerCase().replace("-", "");
+    let { Type: Type2, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo$1();
+    const category = Type2 == null ? void 0 : Type2.toLowerCase().replace("-", "");
     const title = formatTorrentTitle(Title);
     videoType = getVideoType$7(videoType, resolution);
     const country = $$2(".fa-flag~.badge-extra:first a").text();
     const area = getAreaCode(country);
     const source = getSourceFromTitle(title);
-    const tags = getTagsFromSubtitle(title);
+    const tags2 = getTagsFromSubtitle(title);
     const mediaInfoOrBDInfo = $$2("#collapseMediaInfo pre").text();
     const screenshotsBBCode = $$2("#collapseScreens a").map(function() {
       return `[url=${$$2(this).attr("href")}][img]${$$2(this).find("img").attr("src")}[/img][/url]`;
@@ -17658,7 +17688,7 @@ ${screenshotsBBCode.join("")}`;
       screenshots,
       mediaInfos: [mediaInfoOrBDInfo],
       description,
-      tags: __spreadValues(__spreadValues({}, tags), mediaTags)
+      tags: __spreadValues(__spreadValues({}, tags2), mediaTags)
     };
   };
   const getBasicInfo$1 = () => {
@@ -17726,7 +17756,7 @@ ${screenshotsBBCode.join("")}`;
     const fileName = (_l = (_k = (_j = (_i = $$2(".download").attr("href")) == null ? void 0 : _i.match(/name=(.+)/)) == null ? void 0 : _j[1].replace(/\.torrent/g, "")) == null ? void 0 : _k.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "")) != null ? _l : "";
     const title = formatTorrentTitle(fileName);
     const source = getSourceFromTitle(title);
-    const tags = getTagsFromSubtitle(title);
+    const tags2 = getTagsFromSubtitle(title);
     const isBluray = videoType.match(/bluray/i);
     const mediaInfo = $$2('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
     const bdInfo = $$2('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
@@ -17761,14 +17791,14 @@ ${screenshotsBBCode.join("")}`;
       screenshots,
       mediaInfos: [mediaInfoOrBDInfo],
       description,
-      tags: __spreadValues(__spreadValues({}, tags), mediaTags),
+      tags: __spreadValues(__spreadValues({}, tags2), mediaTags),
       imdbUrl: ""
     };
   };
   const getCategory$4 = (link) => {
     var _a2, _b;
     const catNum = (_b = (_a2 = link == null ? void 0 : link.match(/cat(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    const map = {
+    const map2 = {
       29: "movie",
       25: "cartoon",
       28: "document",
@@ -17776,7 +17806,7 @@ ${screenshotsBBCode.join("")}`;
       32: "tv",
       33: "tvPack"
     };
-    return map[parseInt(catNum, 10)] || "";
+    return map2[parseInt(catNum, 10)] || "";
   };
   const getVideoType$6 = (type, resolution) => {
     if (type.match(/Remux/i)) {
@@ -17799,7 +17829,7 @@ ${screenshotsBBCode.join("")}`;
     var _a2, _b, _c, _d2, _e2, _f;
     const { Name, Category, Size, Description } = getBasicInfo();
     const title = formatTorrentTitle(Name);
-    let tags = getTagsFromSubtitle(title);
+    let tags2 = getTagsFromSubtitle(title);
     const category = getCategory$3(Category, title);
     let resolution = (_a2 = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _a2[0];
     if (!resolution && title.match(/4k|uhd/i)) {
@@ -17824,7 +17854,7 @@ ${screenshotsBBCode.join("")}`;
         TORRENT_INFO.videoCodec = videoCodec;
         TORRENT_INFO.audioCodec = audioCodec;
         resolution = mediaResolution;
-        tags = __spreadValues(__spreadValues({}, tags), mediaTags);
+        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
       }
     }
     const imdbId = (_d2 = (_c = (_b = $$2("#imdb").next("script").text()) == null ? void 0 : _b.match(/mid=(\d+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
@@ -17847,7 +17877,7 @@ ${screenshotsBBCode.join("")}`;
     TORRENT_INFO.videoType = videoType;
     TORRENT_INFO.resolution = resolution || "";
     TORRENT_INFO.area = getAreaCode(country);
-    TORRENT_INFO.tags = tags;
+    TORRENT_INFO.tags = tags2;
     TORRENT_INFO.imdbUrl = imdbUrl || "";
     TORRENT_INFO.description = descriptionBBCode;
     TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
@@ -17934,7 +17964,7 @@ ${screenshotsBBCode.join("")}`;
     const isRemux = processing.includes("Remux");
     const videoType = source === "WEB" ? "web" : getVideoType$4(container, isRemux, source, resolution, processing);
     source = getSource$1(source, processing, resolution);
-    const tags = getTags(infoArray);
+    const tags2 = getTags(infoArray);
     const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr("href");
     CURRENT_SITE_INFO.torrentLink = torrentLink;
     const torrentDom = $$2(`#torrent${torrentId}`).next(".TableTorrent-rowDetail");
@@ -17968,7 +17998,7 @@ ${screenshotsBBCode.join("")}`;
       screenshots,
       mediaInfos,
       description: descriptionData,
-      tags: __spreadValues(__spreadValues({}, tags), mediaTags)
+      tags: __spreadValues(__spreadValues({}, tags2), mediaTags)
     };
   };
   const getCategory$2 = (releaseType) => {
@@ -18122,7 +18152,7 @@ ${descriptionData}`;
     const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
     const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
     const screenshots = await getScreenshotsFromBBCode(description);
-    const tags = getTagsFromSubtitle(torrentName);
+    const tags2 = getTagsFromSubtitle(torrentName);
     const year = (_b = torrentName.match(/(18|19|20)\d{2}/g)) != null ? _b : [];
     return {
       title: formatTorrentTitle(torrentName),
@@ -18134,7 +18164,7 @@ ${descriptionData}`;
       description,
       mediaInfos,
       resolution: getResolution$1(torrentName),
-      tags,
+      tags: tags2,
       screenshots,
       category: isTV ? "tv" : "movie",
       year: year.pop() || ""
@@ -18248,10 +18278,10 @@ ${descriptionData}`;
       return construct(func, args);
     };
   }
-  function addToSet(set, array) {
+  function addToSet(set2, array) {
     let transformCaseFunc = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : stringToLowerCase;
     if (setPrototypeOf) {
-      setPrototypeOf(set, null);
+      setPrototypeOf(set2, null);
     }
     let l2 = array.length;
     while (l2--) {
@@ -18265,9 +18295,9 @@ ${descriptionData}`;
           element = lcElement;
         }
       }
-      set[element] = true;
+      set2[element] = true;
     }
-    return set;
+    return set2;
   }
   function cleanArray(array) {
     for (let index = 0; index < array.length; index++) {
@@ -18413,7 +18443,7 @@ ${descriptionData}`;
     const {
       DocumentFragment,
       HTMLTemplateElement,
-      Node,
+      Node: Node3,
       Element,
       NodeFilter,
       NamedNodeMap = window2.NamedNodeMap || window2.MozNamedAttrMap,
@@ -18804,7 +18834,7 @@ ${descriptionData}`;
       return elm instanceof HTMLFormElement && (typeof elm.nodeName !== "string" || typeof elm.textContent !== "string" || typeof elm.removeChild !== "function" || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== "function" || typeof elm.setAttribute !== "function" || typeof elm.namespaceURI !== "string" || typeof elm.insertBefore !== "function" || typeof elm.hasChildNodes !== "function");
     };
     const _isNode = function _isNode2(object) {
-      return typeof Node === "function" && object instanceof Node;
+      return typeof Node3 === "function" && object instanceof Node3;
     };
     const _executeHook = function _executeHook2(entryPoint, currentNode, data) {
       if (!hooks[entryPoint]) {
@@ -19057,7 +19087,7 @@ ${descriptionData}`;
             throw typeErrorCreate("root node is forbidden and cannot be sanitized in-place");
           }
         }
-      } else if (dirty instanceof Node) {
+      } else if (dirty instanceof Node3) {
         body = _initDocument("<!---->");
         importedNode = body.ownerDocument.importNode(dirty, true);
         if (importedNode.nodeType === NODE_TYPE.element && importedNode.nodeName === "BODY") {
@@ -19185,7 +19215,7 @@ ${descriptionData}`;
       }
     }
     const { torrent, group } = response;
-    const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
+    const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags: tags2, wikiBody } = group;
     const { format: format2, media, encoding, logScore, ripLogIds = [] } = torrent;
     const catMap = {
       Applications: "app",
@@ -19230,7 +19260,7 @@ ${description}`;
       videoType: media.toLowerCase().replace("-", ""),
       musicInfo: {
         name,
-        tags,
+        tags: tags2,
         artists: musicInfo.artists.map((item) => item.name),
         media,
         encoding,
@@ -19292,7 +19322,7 @@ ${description}`;
     const videoType = getVideoType$2({ torrentName, source, isBluray });
     const mediaInfo = $$2("div.mediainfo").text();
     const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec, mediaTags: tags } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle$1(torrentName);
+    const { resolution, videoCodec, audioCodec, mediaTags: tags2 } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle$1(torrentName);
     const category = getCategory$1(torrentName);
     return {
       title: formatTorrentTitle(torrentName),
@@ -19306,7 +19336,7 @@ ${description}`;
       mediaInfos: [mediaInfo],
       videoCodec,
       audioCodec,
-      tags,
+      tags: tags2,
       screenshots,
       category
     };
@@ -19419,7 +19449,7 @@ ${description}`;
     screenshots.forEach((url) => {
       description += `[img]${url}[/img]`;
     });
-    const tags = getTagsFromPage();
+    const tags2 = getTagsFromPage();
     Object.assign(TORRENT_INFO, {
       title,
       subtitle: subTitle,
@@ -19434,7 +19464,7 @@ ${description}`;
       sourceSiteType: TORRENT_INFO.sourceSiteType,
       category: categoryResult,
       size: formatSize,
-      tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags),
+      tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags2),
       videoType: getVideoType$c(videoType),
       videoCodec,
       audioCodec,
@@ -19482,27 +19512,27 @@ ${description}`;
     return result;
   };
   const getTagsFromPage = () => {
-    const tags = {};
+    const tags2 = {};
     const tagText = $$2("div.font-bold.leading-6:contains('标签')").next().text();
     if (tagText.includes("中字")) {
-      tags.chinese_subtitle = true;
+      tags2.chinese_subtitle = true;
     }
     if (tagText.includes("国语")) {
-      tags.chinese_audio = true;
+      tags2.chinese_audio = true;
     }
     if (tagText.includes("粤语")) {
-      tags.cantonese_audio = true;
+      tags2.cantonese_audio = true;
     }
     if (tagText.includes("DIY")) {
-      tags.diy = true;
+      tags2.diy = true;
     }
     if (tagText.includes("杜比视界")) {
-      tags.dolbyVision = true;
+      tags2.dolbyVision = true;
     }
     if (tagText.includes("HDR")) {
-      tags.dolbyVision = true;
+      tags2.dolbyVision = true;
     }
-    return tags;
+    return tags2;
   };
   const MT_SPECS_MAP = {
     source: {
@@ -19739,16 +19769,6255 @@ ${description}`;
     const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") || "";
     if (!ptpImgApiKey) {
       const div = document.createElement("div");
-      preact.render(/* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: /* @__PURE__ */ u$1("button", { class: "btn btn-info", onClick: () => {
-        const apiKey = $$2("#api_key").val();
-        GM_setValue("easy-seed.ptp-img-api-key", apiKey);
-        Jt.success("Success! Saved to EasyUpload.");
-      }, children: [
-        /* @__PURE__ */ u$1("i", { class: "glyphicon glyphicon-floppy-saved" }),
-        /* @__PURE__ */ u$1("span", { children: "Save ApiKey" })
-      ] }) }), div);
+      preact.render(/* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: [
+        /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
+        /* @__PURE__ */ u$1("button", { class: "btn btn-info", onClick: () => {
+          const apiKey = $$2("#api_key").val();
+          GM_setValue("easy-seed.ptp-img-api-key", apiKey);
+          Jt.success("Success! Saved to EasyUpload.");
+        }, children: [
+          /* @__PURE__ */ u$1("i", { class: "glyphicon glyphicon-floppy-saved" }),
+          /* @__PURE__ */ u$1("span", { children: "Save ApiKey" })
+        ] })
+      ] }), div);
       (_a = document.querySelector(".well")) == null ? void 0 : _a.appendChild(div);
     }
+  }
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      _typeof = function(obj2) {
+        return typeof obj2;
+      };
+    } else {
+      _typeof = function(obj2) {
+        return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+      };
+    }
+    return _typeof(obj);
+  }
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+  function _getPrototypeOf(o2) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o3) {
+      return o3.__proto__ || Object.getPrototypeOf(o3);
+    };
+    return _getPrototypeOf(o2);
+  }
+  function _setPrototypeOf(o2, p2) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o3, p3) {
+      o3.__proto__ = p3;
+      return o3;
+    };
+    return _setPrototypeOf(o2, p2);
+  }
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+      }));
+      return true;
+    } catch (e2) {
+      return false;
+    }
+  }
+  function _construct(Parent, args, Class) {
+    if (_isNativeReflectConstruct()) {
+      _construct = Reflect.construct;
+    } else {
+      _construct = function _construct2(Parent2, args2, Class2) {
+        var a2 = [null];
+        a2.push.apply(a2, args2);
+        var Constructor = Function.bind.apply(Parent2, a2);
+        var instance = new Constructor();
+        if (Class2) _setPrototypeOf(instance, Class2.prototype);
+        return instance;
+      };
+    }
+    return _construct.apply(null, arguments);
+  }
+  function _isNativeFunction(fn2) {
+    return Function.toString.call(fn2).indexOf("[native code]") !== -1;
+  }
+  function _wrapNativeSuper(Class) {
+    var _cache = typeof Map === "function" ? /* @__PURE__ */ new Map() : void 0;
+    _wrapNativeSuper = function _wrapNativeSuper2(Class2) {
+      if (Class2 === null || !_isNativeFunction(Class2)) return Class2;
+      if (typeof Class2 !== "function") {
+        throw new TypeError("Super expression must either be null or a function");
+      }
+      if (typeof _cache !== "undefined") {
+        if (_cache.has(Class2)) return _cache.get(Class2);
+        _cache.set(Class2, Wrapper);
+      }
+      function Wrapper() {
+        return _construct(Class2, arguments, _getPrototypeOf(this).constructor);
+      }
+      Wrapper.prototype = Object.create(Class2.prototype, {
+        constructor: {
+          value: Wrapper,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      return _setPrototypeOf(Wrapper, Class2);
+    };
+    return _wrapNativeSuper(Class);
+  }
+  function _assertThisInitialized(self2) {
+    if (self2 === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self2;
+  }
+  function _possibleConstructorReturn(self2, call) {
+    if (call && (typeof call === "object" || typeof call === "function")) {
+      return call;
+    }
+    return _assertThisInitialized(self2);
+  }
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived), result;
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+  function _superPropBase(object, property) {
+    while (!Object.prototype.hasOwnProperty.call(object, property)) {
+      object = _getPrototypeOf(object);
+      if (object === null) break;
+    }
+    return object;
+  }
+  function _get(target, property, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.get) {
+      _get = Reflect.get;
+    } else {
+      _get = function _get2(target2, property2, receiver2) {
+        var base = _superPropBase(target2, property2);
+        if (!base) return;
+        var desc = Object.getOwnPropertyDescriptor(base, property2);
+        if (desc.get) {
+          return desc.get.call(receiver2);
+        }
+        return desc.value;
+      };
+    }
+    return _get(target, property, receiver || target);
+  }
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+  }
+  function _toArray(arr) {
+    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableRest();
+  }
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+  function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    var _arr = [];
+    var _n2 = true;
+    var _d2 = false;
+    var _e2 = void 0;
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n2 = (_s = _i.next()).done); _n2 = true) {
+        _arr.push(_s.value);
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d2 = true;
+      _e2 = err;
+    } finally {
+      try {
+        if (!_n2 && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d2) throw _e2;
+      }
+    }
+    return _arr;
+  }
+  function _unsupportedIterableToArray(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o2, minLen);
+  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+    return arr2;
+  }
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _createForOfIteratorHelper(o2, allowArrayLike) {
+    var it;
+    if (typeof Symbol === "undefined" || o2[Symbol.iterator] == null) {
+      if (Array.isArray(o2) || (it = _unsupportedIterableToArray(o2)) || allowArrayLike) {
+        if (it) o2 = it;
+        var i = 0;
+        var F2 = function() {
+        };
+        return {
+          s: F2,
+          n: function() {
+            if (i >= o2.length) return {
+              done: true
+            };
+            return {
+              done: false,
+              value: o2[i++]
+            };
+          },
+          e: function(e2) {
+            throw e2;
+          },
+          f: F2
+        };
+      }
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+    var normalCompletion = true, didErr = false, err;
+    return {
+      s: function() {
+        it = o2[Symbol.iterator]();
+      },
+      n: function() {
+        var step = it.next();
+        normalCompletion = step.done;
+        return step;
+      },
+      e: function(e2) {
+        didErr = true;
+        err = e2;
+      },
+      f: function() {
+        try {
+          if (!normalCompletion && it.return != null) it.return();
+        } finally {
+          if (didErr) throw err;
+        }
+      }
+    };
+  }
+  var Char = {
+    ANCHOR: "&",
+    COMMENT: "#",
+    TAG: "!",
+    DIRECTIVES_END: "-",
+    DOCUMENT_END: "."
+  };
+  var Type = {
+    ALIAS: "ALIAS",
+    BLANK_LINE: "BLANK_LINE",
+    BLOCK_FOLDED: "BLOCK_FOLDED",
+    BLOCK_LITERAL: "BLOCK_LITERAL",
+    COMMENT: "COMMENT",
+    DIRECTIVE: "DIRECTIVE",
+    DOCUMENT: "DOCUMENT",
+    FLOW_MAP: "FLOW_MAP",
+    FLOW_SEQ: "FLOW_SEQ",
+    MAP: "MAP",
+    MAP_KEY: "MAP_KEY",
+    MAP_VALUE: "MAP_VALUE",
+    PLAIN: "PLAIN",
+    QUOTE_DOUBLE: "QUOTE_DOUBLE",
+    QUOTE_SINGLE: "QUOTE_SINGLE",
+    SEQ: "SEQ",
+    SEQ_ITEM: "SEQ_ITEM"
+  };
+  var defaultTagPrefix = "tag:yaml.org,2002:";
+  var defaultTags = {
+    MAP: "tag:yaml.org,2002:map",
+    SEQ: "tag:yaml.org,2002:seq",
+    STR: "tag:yaml.org,2002:str"
+  };
+  function findLineStarts(src) {
+    var ls = [0];
+    var offset = src.indexOf("\n");
+    while (offset !== -1) {
+      offset += 1;
+      ls.push(offset);
+      offset = src.indexOf("\n", offset);
+    }
+    return ls;
+  }
+  function getSrcInfo(cst) {
+    var lineStarts, src;
+    if (typeof cst === "string") {
+      lineStarts = findLineStarts(cst);
+      src = cst;
+    } else {
+      if (Array.isArray(cst)) cst = cst[0];
+      if (cst && cst.context) {
+        if (!cst.lineStarts) cst.lineStarts = findLineStarts(cst.context.src);
+        lineStarts = cst.lineStarts;
+        src = cst.context.src;
+      }
+    }
+    return {
+      lineStarts,
+      src
+    };
+  }
+  function getLinePos(offset, cst) {
+    if (typeof offset !== "number" || offset < 0) return null;
+    var _getSrcInfo = getSrcInfo(cst), lineStarts = _getSrcInfo.lineStarts, src = _getSrcInfo.src;
+    if (!lineStarts || !src || offset > src.length) return null;
+    for (var i = 0; i < lineStarts.length; ++i) {
+      var start = lineStarts[i];
+      if (offset < start) {
+        return {
+          line: i,
+          col: offset - lineStarts[i - 1] + 1
+        };
+      }
+      if (offset === start) return {
+        line: i + 1,
+        col: 1
+      };
+    }
+    var line = lineStarts.length;
+    return {
+      line,
+      col: offset - lineStarts[line - 1] + 1
+    };
+  }
+  function getLine(line, cst) {
+    var _getSrcInfo2 = getSrcInfo(cst), lineStarts = _getSrcInfo2.lineStarts, src = _getSrcInfo2.src;
+    if (!lineStarts || !(line >= 1) || line > lineStarts.length) return null;
+    var start = lineStarts[line - 1];
+    var end = lineStarts[line];
+    while (end && end > start && src[end - 1] === "\n") {
+      --end;
+    }
+    return src.slice(start, end);
+  }
+  function getPrettyContext(_ref, cst) {
+    var start = _ref.start, end = _ref.end;
+    var maxWidth = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 80;
+    var src = getLine(start.line, cst);
+    if (!src) return null;
+    var col = start.col;
+    if (src.length > maxWidth) {
+      if (col <= maxWidth - 10) {
+        src = src.substr(0, maxWidth - 1) + "…";
+      } else {
+        var halfWidth = Math.round(maxWidth / 2);
+        if (src.length > col + halfWidth) src = src.substr(0, col + halfWidth - 1) + "…";
+        col -= src.length - maxWidth;
+        src = "…" + src.substr(1 - maxWidth);
+      }
+    }
+    var errLen = 1;
+    var errEnd = "";
+    if (end) {
+      if (end.line === start.line && col + (end.col - start.col) <= maxWidth + 1) {
+        errLen = end.col - start.col;
+      } else {
+        errLen = Math.min(src.length + 1, maxWidth) - col;
+        errEnd = "…";
+      }
+    }
+    var offset = col > 1 ? " ".repeat(col - 1) : "";
+    var err = "^".repeat(errLen);
+    return "".concat(src, "\n").concat(offset).concat(err).concat(errEnd);
+  }
+  var Range = /* @__PURE__ */ function() {
+    function Range2(start, end) {
+      _classCallCheck(this, Range2);
+      this.start = start;
+      this.end = end || start;
+    }
+    _createClass(Range2, [{
+      key: "isEmpty",
+      value: function isEmpty() {
+        return typeof this.start !== "number" || !this.end || this.end <= this.start;
+      }
+      /**
+       * Set `origStart` and `origEnd` to point to the original source range for
+       * this node, which may differ due to dropped CR characters.
+       *
+       * @param {number[]} cr - Positions of dropped CR characters
+       * @param {number} offset - Starting index of `cr` from the last call
+       * @returns {number} - The next offset, matching the one found for `origStart`
+       */
+    }, {
+      key: "setOrigRange",
+      value: function setOrigRange(cr, offset) {
+        var start = this.start, end = this.end;
+        if (cr.length === 0 || end <= cr[0]) {
+          this.origStart = start;
+          this.origEnd = end;
+          return offset;
+        }
+        var i = offset;
+        while (i < cr.length) {
+          if (cr[i] > start) break;
+          else ++i;
+        }
+        this.origStart = start + i;
+        var nextOffset = i;
+        while (i < cr.length) {
+          if (cr[i] >= end) break;
+          else ++i;
+        }
+        this.origEnd = end + i;
+        return nextOffset;
+      }
+    }], [{
+      key: "copy",
+      value: function copy(orig) {
+        return new Range2(orig.start, orig.end);
+      }
+    }]);
+    return Range2;
+  }();
+  var Node$1 = /* @__PURE__ */ function() {
+    function Node3(type, props, context) {
+      _classCallCheck(this, Node3);
+      Object.defineProperty(this, "context", {
+        value: context || null,
+        writable: true
+      });
+      this.error = null;
+      this.range = null;
+      this.valueRange = null;
+      this.props = props || [];
+      this.type = type;
+      this.value = null;
+    }
+    _createClass(Node3, [{
+      key: "getPropValue",
+      value: function getPropValue(idx, key, skipKey) {
+        if (!this.context) return null;
+        var src = this.context.src;
+        var prop = this.props[idx];
+        return prop && src[prop.start] === key ? src.slice(prop.start + (skipKey ? 1 : 0), prop.end) : null;
+      }
+    }, {
+      key: "anchor",
+      get: function get() {
+        for (var i = 0; i < this.props.length; ++i) {
+          var anchor = this.getPropValue(i, Char.ANCHOR, true);
+          if (anchor != null) return anchor;
+        }
+        return null;
+      }
+    }, {
+      key: "comment",
+      get: function get() {
+        var comments = [];
+        for (var i = 0; i < this.props.length; ++i) {
+          var comment = this.getPropValue(i, Char.COMMENT, true);
+          if (comment != null) comments.push(comment);
+        }
+        return comments.length > 0 ? comments.join("\n") : null;
+      }
+    }, {
+      key: "commentHasRequiredWhitespace",
+      value: function commentHasRequiredWhitespace(start) {
+        var src = this.context.src;
+        if (this.header && start === this.header.end) return false;
+        if (!this.valueRange) return false;
+        var end = this.valueRange.end;
+        return start !== end || Node3.atBlank(src, end - 1);
+      }
+    }, {
+      key: "hasComment",
+      get: function get() {
+        if (this.context) {
+          var src = this.context.src;
+          for (var i = 0; i < this.props.length; ++i) {
+            if (src[this.props[i].start] === Char.COMMENT) return true;
+          }
+        }
+        return false;
+      }
+    }, {
+      key: "hasProps",
+      get: function get() {
+        if (this.context) {
+          var src = this.context.src;
+          for (var i = 0; i < this.props.length; ++i) {
+            if (src[this.props[i].start] !== Char.COMMENT) return true;
+          }
+        }
+        return false;
+      }
+    }, {
+      key: "includesTrailingLines",
+      get: function get() {
+        return false;
+      }
+    }, {
+      key: "jsonLike",
+      get: function get() {
+        var jsonLikeTypes = [Type.FLOW_MAP, Type.FLOW_SEQ, Type.QUOTE_DOUBLE, Type.QUOTE_SINGLE];
+        return jsonLikeTypes.indexOf(this.type) !== -1;
+      }
+    }, {
+      key: "rangeAsLinePos",
+      get: function get() {
+        if (!this.range || !this.context) return void 0;
+        var start = getLinePos(this.range.start, this.context.root);
+        if (!start) return void 0;
+        var end = getLinePos(this.range.end, this.context.root);
+        return {
+          start,
+          end
+        };
+      }
+    }, {
+      key: "rawValue",
+      get: function get() {
+        if (!this.valueRange || !this.context) return null;
+        var _this$valueRange = this.valueRange, start = _this$valueRange.start, end = _this$valueRange.end;
+        return this.context.src.slice(start, end);
+      }
+    }, {
+      key: "tag",
+      get: function get() {
+        for (var i = 0; i < this.props.length; ++i) {
+          var tag = this.getPropValue(i, Char.TAG, false);
+          if (tag != null) {
+            if (tag[1] === "<") {
+              return {
+                verbatim: tag.slice(2, -1)
+              };
+            } else {
+              var _tag$match = tag.match(/^(.*!)([^!]*)$/), _tag$match2 = _slicedToArray(_tag$match, 3);
+              _tag$match2[0];
+              var handle = _tag$match2[1], suffix = _tag$match2[2];
+              return {
+                handle,
+                suffix
+              };
+            }
+          }
+        }
+        return null;
+      }
+    }, {
+      key: "valueRangeContainsNewline",
+      get: function get() {
+        if (!this.valueRange || !this.context) return false;
+        var _this$valueRange2 = this.valueRange, start = _this$valueRange2.start, end = _this$valueRange2.end;
+        var src = this.context.src;
+        for (var i = start; i < end; ++i) {
+          if (src[i] === "\n") return true;
+        }
+        return false;
+      }
+    }, {
+      key: "parseComment",
+      value: function parseComment(start) {
+        var src = this.context.src;
+        if (src[start] === Char.COMMENT) {
+          var end = Node3.endOfLine(src, start + 1);
+          var commentRange = new Range(start, end);
+          this.props.push(commentRange);
+          return end;
+        }
+        return start;
+      }
+      /**
+       * Populates the `origStart` and `origEnd` values of all ranges for this
+       * node. Extended by child classes to handle descendant nodes.
+       *
+       * @param {number[]} cr - Positions of dropped CR characters
+       * @param {number} offset - Starting index of `cr` from the last call
+       * @returns {number} - The next offset, matching the one found for `origStart`
+       */
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        if (this.range) offset = this.range.setOrigRange(cr, offset);
+        if (this.valueRange) this.valueRange.setOrigRange(cr, offset);
+        this.props.forEach(function(prop) {
+          return prop.setOrigRange(cr, offset);
+        });
+        return offset;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        var src = this.context.src, range = this.range, value = this.value;
+        if (value != null) return value;
+        var str = src.slice(range.start, range.end);
+        return Node3.addStringTerminator(src, range.end, str);
+      }
+    }], [{
+      key: "addStringTerminator",
+      value: function addStringTerminator(src, offset, str) {
+        if (str[str.length - 1] === "\n") return str;
+        var next = Node3.endOfWhiteSpace(src, offset);
+        return next >= src.length || src[next] === "\n" ? str + "\n" : str;
+      }
+      // ^(---|...)
+    }, {
+      key: "atDocumentBoundary",
+      value: function atDocumentBoundary(src, offset, sep) {
+        var ch0 = src[offset];
+        if (!ch0) return true;
+        var prev = src[offset - 1];
+        if (prev && prev !== "\n") return false;
+        if (sep) {
+          if (ch0 !== sep) return false;
+        } else {
+          if (ch0 !== Char.DIRECTIVES_END && ch0 !== Char.DOCUMENT_END) return false;
+        }
+        var ch1 = src[offset + 1];
+        var ch2 = src[offset + 2];
+        if (ch1 !== ch0 || ch2 !== ch0) return false;
+        var ch3 = src[offset + 3];
+        return !ch3 || ch3 === "\n" || ch3 === "	" || ch3 === " ";
+      }
+    }, {
+      key: "endOfIdentifier",
+      value: function endOfIdentifier(src, offset) {
+        var ch = src[offset];
+        var isVerbatim = ch === "<";
+        var notOk = isVerbatim ? ["\n", "	", " ", ">"] : ["\n", "	", " ", "[", "]", "{", "}", ","];
+        while (ch && notOk.indexOf(ch) === -1) {
+          ch = src[offset += 1];
+        }
+        if (isVerbatim && ch === ">") offset += 1;
+        return offset;
+      }
+    }, {
+      key: "endOfIndent",
+      value: function endOfIndent(src, offset) {
+        var ch = src[offset];
+        while (ch === " ") {
+          ch = src[offset += 1];
+        }
+        return offset;
+      }
+    }, {
+      key: "endOfLine",
+      value: function endOfLine(src, offset) {
+        var ch = src[offset];
+        while (ch && ch !== "\n") {
+          ch = src[offset += 1];
+        }
+        return offset;
+      }
+    }, {
+      key: "endOfWhiteSpace",
+      value: function endOfWhiteSpace(src, offset) {
+        var ch = src[offset];
+        while (ch === "	" || ch === " ") {
+          ch = src[offset += 1];
+        }
+        return offset;
+      }
+    }, {
+      key: "startOfLine",
+      value: function startOfLine(src, offset) {
+        var ch = src[offset - 1];
+        if (ch === "\n") return offset;
+        while (ch && ch !== "\n") {
+          ch = src[offset -= 1];
+        }
+        return offset + 1;
+      }
+      /**
+       * End of indentation, or null if the line's indent level is not more
+       * than `indent`
+       *
+       * @param {string} src
+       * @param {number} indent
+       * @param {number} lineStart
+       * @returns {?number}
+       */
+    }, {
+      key: "endOfBlockIndent",
+      value: function endOfBlockIndent(src, indent, lineStart) {
+        var inEnd = Node3.endOfIndent(src, lineStart);
+        if (inEnd > lineStart + indent) {
+          return inEnd;
+        } else {
+          var wsEnd = Node3.endOfWhiteSpace(src, inEnd);
+          var ch = src[wsEnd];
+          if (!ch || ch === "\n") return wsEnd;
+        }
+        return null;
+      }
+    }, {
+      key: "atBlank",
+      value: function atBlank(src, offset, endAsBlank) {
+        var ch = src[offset];
+        return ch === "\n" || ch === "	" || ch === " " || endAsBlank && !ch;
+      }
+    }, {
+      key: "nextNodeIsIndented",
+      value: function nextNodeIsIndented(ch, indentDiff, indicatorAsIndent) {
+        if (!ch || indentDiff < 0) return false;
+        if (indentDiff > 0) return true;
+        return indicatorAsIndent && ch === "-";
+      }
+      // should be at line or string end, or at next non-whitespace char
+    }, {
+      key: "normalizeOffset",
+      value: function normalizeOffset(src, offset) {
+        var ch = src[offset];
+        return !ch ? offset : ch !== "\n" && src[offset - 1] === "\n" ? offset - 1 : Node3.endOfWhiteSpace(src, offset);
+      }
+      // fold single newline into space, multiple newlines to N - 1 newlines
+      // presumes src[offset] === '\n'
+    }, {
+      key: "foldNewline",
+      value: function foldNewline(src, offset, indent) {
+        var inCount = 0;
+        var error = false;
+        var fold = "";
+        var ch = src[offset + 1];
+        while (ch === " " || ch === "	" || ch === "\n") {
+          switch (ch) {
+            case "\n":
+              inCount = 0;
+              offset += 1;
+              fold += "\n";
+              break;
+            case "	":
+              if (inCount <= indent) error = true;
+              offset = Node3.endOfWhiteSpace(src, offset + 2) - 1;
+              break;
+            case " ":
+              inCount += 1;
+              offset += 1;
+              break;
+          }
+          ch = src[offset + 1];
+        }
+        if (!fold) fold = " ";
+        if (ch && inCount <= indent) error = true;
+        return {
+          fold,
+          offset,
+          error
+        };
+      }
+    }]);
+    return Node3;
+  }();
+  var YAMLError = /* @__PURE__ */ function(_Error) {
+    _inherits(YAMLError2, _Error);
+    var _super = _createSuper(YAMLError2);
+    function YAMLError2(name, source, message) {
+      var _this;
+      _classCallCheck(this, YAMLError2);
+      if (!message || !(source instanceof Node$1)) throw new Error("Invalid arguments for new ".concat(name));
+      _this = _super.call(this);
+      _this.name = name;
+      _this.message = message;
+      _this.source = source;
+      return _this;
+    }
+    _createClass(YAMLError2, [{
+      key: "makePretty",
+      value: function makePretty() {
+        if (!this.source) return;
+        this.nodeType = this.source.type;
+        var cst = this.source.context && this.source.context.root;
+        if (typeof this.offset === "number") {
+          this.range = new Range(this.offset, this.offset + 1);
+          var start = cst && getLinePos(this.offset, cst);
+          if (start) {
+            var end = {
+              line: start.line,
+              col: start.col + 1
+            };
+            this.linePos = {
+              start,
+              end
+            };
+          }
+          delete this.offset;
+        } else {
+          this.range = this.source.range;
+          this.linePos = this.source.rangeAsLinePos;
+        }
+        if (this.linePos) {
+          var _this$linePos$start = this.linePos.start, line = _this$linePos$start.line, col = _this$linePos$start.col;
+          this.message += " at line ".concat(line, ", column ").concat(col);
+          var ctx = cst && getPrettyContext(this.linePos, cst);
+          if (ctx) this.message += ":\n\n".concat(ctx, "\n");
+        }
+        delete this.source;
+      }
+    }]);
+    return YAMLError2;
+  }(/* @__PURE__ */ _wrapNativeSuper(Error));
+  var YAMLReferenceError = /* @__PURE__ */ function(_YAMLError) {
+    _inherits(YAMLReferenceError2, _YAMLError);
+    var _super2 = _createSuper(YAMLReferenceError2);
+    function YAMLReferenceError2(source, message) {
+      _classCallCheck(this, YAMLReferenceError2);
+      return _super2.call(this, "YAMLReferenceError", source, message);
+    }
+    return YAMLReferenceError2;
+  }(YAMLError);
+  var YAMLSemanticError = /* @__PURE__ */ function(_YAMLError2) {
+    _inherits(YAMLSemanticError2, _YAMLError2);
+    var _super3 = _createSuper(YAMLSemanticError2);
+    function YAMLSemanticError2(source, message) {
+      _classCallCheck(this, YAMLSemanticError2);
+      return _super3.call(this, "YAMLSemanticError", source, message);
+    }
+    return YAMLSemanticError2;
+  }(YAMLError);
+  var YAMLSyntaxError = /* @__PURE__ */ function(_YAMLError3) {
+    _inherits(YAMLSyntaxError2, _YAMLError3);
+    var _super4 = _createSuper(YAMLSyntaxError2);
+    function YAMLSyntaxError2(source, message) {
+      _classCallCheck(this, YAMLSyntaxError2);
+      return _super4.call(this, "YAMLSyntaxError", source, message);
+    }
+    return YAMLSyntaxError2;
+  }(YAMLError);
+  var YAMLWarning = /* @__PURE__ */ function(_YAMLError4) {
+    _inherits(YAMLWarning2, _YAMLError4);
+    var _super5 = _createSuper(YAMLWarning2);
+    function YAMLWarning2(source, message) {
+      _classCallCheck(this, YAMLWarning2);
+      return _super5.call(this, "YAMLWarning", source, message);
+    }
+    return YAMLWarning2;
+  }(YAMLError);
+  var PlainValue = /* @__PURE__ */ function(_Node) {
+    _inherits(PlainValue2, _Node);
+    var _super = _createSuper(PlainValue2);
+    function PlainValue2() {
+      _classCallCheck(this, PlainValue2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(PlainValue2, [{
+      key: "strValue",
+      get: function get() {
+        if (!this.valueRange || !this.context) return null;
+        var _this$valueRange = this.valueRange, start = _this$valueRange.start, end = _this$valueRange.end;
+        var src = this.context.src;
+        var ch = src[end - 1];
+        while (start < end && (ch === "\n" || ch === "	" || ch === " ")) {
+          ch = src[--end - 1];
+        }
+        var str = "";
+        for (var i = start; i < end; ++i) {
+          var _ch = src[i];
+          if (_ch === "\n") {
+            var _Node$foldNewline = Node$1.foldNewline(src, i, -1), fold = _Node$foldNewline.fold, offset = _Node$foldNewline.offset;
+            str += fold;
+            i = offset;
+          } else if (_ch === " " || _ch === "	") {
+            var wsStart = i;
+            var next = src[i + 1];
+            while (i < end && (next === " " || next === "	")) {
+              i += 1;
+              next = src[i + 1];
+            }
+            if (next !== "\n") str += i > wsStart ? src.slice(wsStart, i + 1) : _ch;
+          } else {
+            str += _ch;
+          }
+        }
+        var ch0 = src[start];
+        switch (ch0) {
+          case "	": {
+            var msg = "Plain value cannot start with a tab character";
+            var errors = [new YAMLSemanticError(this, msg)];
+            return {
+              errors,
+              str
+            };
+          }
+          case "@":
+          case "`": {
+            var _msg = "Plain value cannot start with reserved character ".concat(ch0);
+            var _errors = [new YAMLSemanticError(this, _msg)];
+            return {
+              errors: _errors,
+              str
+            };
+          }
+          default:
+            return str;
+        }
+      }
+    }, {
+      key: "parseBlockValue",
+      value: function parseBlockValue(start) {
+        var _this$context = this.context, indent = _this$context.indent, inFlow = _this$context.inFlow, src = _this$context.src;
+        var offset = start;
+        var valueEnd = start;
+        for (var ch = src[offset]; ch === "\n"; ch = src[offset]) {
+          if (Node$1.atDocumentBoundary(src, offset + 1)) break;
+          var end = Node$1.endOfBlockIndent(src, indent, offset + 1);
+          if (end === null || src[end] === "#") break;
+          if (src[end] === "\n") {
+            offset = end;
+          } else {
+            valueEnd = PlainValue2.endOfLine(src, end, inFlow);
+            offset = valueEnd;
+          }
+        }
+        if (this.valueRange.isEmpty()) this.valueRange.start = start;
+        this.valueRange.end = valueEnd;
+        return valueEnd;
+      }
+      /**
+       * Parses a plain value from the source
+       *
+       * Accepted forms are:
+       * ```
+       * #comment
+       *
+       * first line
+       *
+       * first line #comment
+       *
+       * first line
+       * block
+       * lines
+       *
+       * #comment
+       * block
+       * lines
+       * ```
+       * where block lines are empty or have an indent level greater than `indent`.
+       *
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this scalar, may be `\n`
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var inFlow = context.inFlow, src = context.src;
+        var offset = start;
+        var ch = src[offset];
+        if (ch && ch !== "#" && ch !== "\n") {
+          offset = PlainValue2.endOfLine(src, start, inFlow);
+        }
+        this.valueRange = new Range(start, offset);
+        offset = Node$1.endOfWhiteSpace(src, offset);
+        offset = this.parseComment(offset);
+        if (!this.hasComment || this.valueRange.isEmpty()) {
+          offset = this.parseBlockValue(offset);
+        }
+        return offset;
+      }
+    }], [{
+      key: "endOfLine",
+      value: function endOfLine(src, start, inFlow) {
+        var ch = src[start];
+        var offset = start;
+        while (ch && ch !== "\n") {
+          if (inFlow && (ch === "[" || ch === "]" || ch === "{" || ch === "}" || ch === ",")) break;
+          var next = src[offset + 1];
+          if (ch === ":" && (!next || next === "\n" || next === "	" || next === " " || inFlow && next === ",")) break;
+          if ((ch === " " || ch === "	") && next === "#") break;
+          offset += 1;
+          ch = next;
+        }
+        return offset;
+      }
+    }]);
+    return PlainValue2;
+  }(Node$1);
+  var BlankLine = /* @__PURE__ */ function(_Node) {
+    _inherits(BlankLine2, _Node);
+    var _super = _createSuper(BlankLine2);
+    function BlankLine2() {
+      _classCallCheck(this, BlankLine2);
+      return _super.call(this, Type.BLANK_LINE);
+    }
+    _createClass(BlankLine2, [{
+      key: "includesTrailingLines",
+      get: function get() {
+        return true;
+      }
+      /**
+       * Parses a blank line from the source
+       *
+       * @param {ParseContext} context
+       * @param {number} start - Index of first \n character
+       * @returns {number} - Index of the character after this
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        this.range = new Range(start, start + 1);
+        return start + 1;
+      }
+    }]);
+    return BlankLine2;
+  }(Node$1);
+  var CollectionItem = /* @__PURE__ */ function(_Node) {
+    _inherits(CollectionItem2, _Node);
+    var _super = _createSuper(CollectionItem2);
+    function CollectionItem2(type, props) {
+      var _this;
+      _classCallCheck(this, CollectionItem2);
+      _this = _super.call(this, type, props);
+      _this.node = null;
+      return _this;
+    }
+    _createClass(CollectionItem2, [{
+      key: "includesTrailingLines",
+      get: function get() {
+        return !!this.node && this.node.includesTrailingLines;
+      }
+      /**
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var parseNode = context.parseNode, src = context.src;
+        var atLineStart = context.atLineStart, lineStart = context.lineStart;
+        if (!atLineStart && this.type === Type.SEQ_ITEM) this.error = new YAMLSemanticError(this, "Sequence items must not have preceding content on the same line");
+        var indent = atLineStart ? start - lineStart : context.indent;
+        var offset = Node$1.endOfWhiteSpace(src, start + 1);
+        var ch = src[offset];
+        var inlineComment = ch === "#";
+        var comments = [];
+        var blankLine = null;
+        while (ch === "\n" || ch === "#") {
+          if (ch === "#") {
+            var _end = Node$1.endOfLine(src, offset + 1);
+            comments.push(new Range(offset, _end));
+            offset = _end;
+          } else {
+            atLineStart = true;
+            lineStart = offset + 1;
+            var wsEnd = Node$1.endOfWhiteSpace(src, lineStart);
+            if (src[wsEnd] === "\n" && comments.length === 0) {
+              blankLine = new BlankLine();
+              lineStart = blankLine.parse({
+                src
+              }, lineStart);
+            }
+            offset = Node$1.endOfIndent(src, lineStart);
+          }
+          ch = src[offset];
+        }
+        if (Node$1.nextNodeIsIndented(ch, offset - (lineStart + indent), this.type !== Type.SEQ_ITEM)) {
+          this.node = parseNode({
+            atLineStart,
+            inCollection: false,
+            indent,
+            lineStart,
+            parent: this
+          }, offset);
+        } else if (ch && lineStart > start + 1) {
+          offset = lineStart - 1;
+        }
+        if (this.node) {
+          if (blankLine) {
+            var items = context.parent.items || context.parent.contents;
+            if (items) items.push(blankLine);
+          }
+          if (comments.length) Array.prototype.push.apply(this.props, comments);
+          offset = this.node.range.end;
+        } else {
+          if (inlineComment) {
+            var c2 = comments[0];
+            this.props.push(c2);
+            offset = c2.end;
+          } else {
+            offset = Node$1.endOfLine(src, start + 1);
+          }
+        }
+        var end = this.node ? this.node.valueRange.end : offset;
+        this.valueRange = new Range(start, end);
+        return offset;
+      }
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        offset = _get(_getPrototypeOf(CollectionItem2.prototype), "setOrigRanges", this).call(this, cr, offset);
+        return this.node ? this.node.setOrigRanges(cr, offset) : offset;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        var src = this.context.src, node = this.node, range = this.range, value = this.value;
+        if (value != null) return value;
+        var str = node ? src.slice(range.start, node.range.start) + String(node) : src.slice(range.start, range.end);
+        return Node$1.addStringTerminator(src, range.end, str);
+      }
+    }]);
+    return CollectionItem2;
+  }(Node$1);
+  var Comment = /* @__PURE__ */ function(_Node) {
+    _inherits(Comment2, _Node);
+    var _super = _createSuper(Comment2);
+    function Comment2() {
+      _classCallCheck(this, Comment2);
+      return _super.call(this, Type.COMMENT);
+    }
+    _createClass(Comment2, [{
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var offset = this.parseComment(start);
+        this.range = new Range(start, offset);
+        return offset;
+      }
+    }]);
+    return Comment2;
+  }(Node$1);
+  function grabCollectionEndComments(node) {
+    var cnode = node;
+    while (cnode instanceof CollectionItem) {
+      cnode = cnode.node;
+    }
+    if (!(cnode instanceof Collection$1)) return null;
+    var len = cnode.items.length;
+    var ci = -1;
+    for (var i = len - 1; i >= 0; --i) {
+      var n = cnode.items[i];
+      if (n.type === Type.COMMENT) {
+        var _n$context = n.context, indent = _n$context.indent, lineStart = _n$context.lineStart;
+        if (indent > 0 && n.range.start >= lineStart + indent) break;
+        ci = i;
+      } else if (n.type === Type.BLANK_LINE) ci = i;
+      else break;
+    }
+    if (ci === -1) return null;
+    var ca = cnode.items.splice(ci, len - ci);
+    var prevEnd = ca[0].range.start;
+    while (true) {
+      cnode.range.end = prevEnd;
+      if (cnode.valueRange && cnode.valueRange.end > prevEnd) cnode.valueRange.end = prevEnd;
+      if (cnode === node) break;
+      cnode = cnode.context.parent;
+    }
+    return ca;
+  }
+  var Collection$1 = /* @__PURE__ */ function(_Node) {
+    _inherits(Collection2, _Node);
+    var _super = _createSuper(Collection2);
+    function Collection2(firstItem) {
+      var _this;
+      _classCallCheck(this, Collection2);
+      _this = _super.call(this, firstItem.type === Type.SEQ_ITEM ? Type.SEQ : Type.MAP);
+      for (var i = firstItem.props.length - 1; i >= 0; --i) {
+        if (firstItem.props[i].start < firstItem.context.lineStart) {
+          _this.props = firstItem.props.slice(0, i + 1);
+          firstItem.props = firstItem.props.slice(i + 1);
+          var itemRange = firstItem.props[0] || firstItem.valueRange;
+          firstItem.range.start = itemRange.start;
+          break;
+        }
+      }
+      _this.items = [firstItem];
+      var ec = grabCollectionEndComments(firstItem);
+      if (ec) Array.prototype.push.apply(_this.items, ec);
+      return _this;
+    }
+    _createClass(Collection2, [{
+      key: "includesTrailingLines",
+      get: function get() {
+        return this.items.length > 0;
+      }
+      /**
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var parseNode = context.parseNode, src = context.src;
+        var lineStart = Node$1.startOfLine(src, start);
+        var firstItem = this.items[0];
+        firstItem.context.parent = this;
+        this.valueRange = Range.copy(firstItem.valueRange);
+        var indent = firstItem.range.start - firstItem.context.lineStart;
+        var offset = start;
+        offset = Node$1.normalizeOffset(src, offset);
+        var ch = src[offset];
+        var atLineStart = Node$1.endOfWhiteSpace(src, lineStart) === offset;
+        var prevIncludesTrailingLines = false;
+        while (ch) {
+          while (ch === "\n" || ch === "#") {
+            if (atLineStart && ch === "\n" && !prevIncludesTrailingLines) {
+              var blankLine = new BlankLine();
+              offset = blankLine.parse({
+                src
+              }, offset);
+              this.valueRange.end = offset;
+              if (offset >= src.length) {
+                ch = null;
+                break;
+              }
+              this.items.push(blankLine);
+              offset -= 1;
+            } else if (ch === "#") {
+              if (offset < lineStart + indent && !Collection2.nextContentHasIndent(src, offset, indent)) {
+                return offset;
+              }
+              var comment = new Comment();
+              offset = comment.parse({
+                indent,
+                lineStart,
+                src
+              }, offset);
+              this.items.push(comment);
+              this.valueRange.end = offset;
+              if (offset >= src.length) {
+                ch = null;
+                break;
+              }
+            }
+            lineStart = offset + 1;
+            offset = Node$1.endOfIndent(src, lineStart);
+            if (Node$1.atBlank(src, offset)) {
+              var wsEnd = Node$1.endOfWhiteSpace(src, offset);
+              var next = src[wsEnd];
+              if (!next || next === "\n" || next === "#") {
+                offset = wsEnd;
+              }
+            }
+            ch = src[offset];
+            atLineStart = true;
+          }
+          if (!ch) {
+            break;
+          }
+          if (offset !== lineStart + indent && (atLineStart || ch !== ":")) {
+            if (offset < lineStart + indent) {
+              if (lineStart > start) offset = lineStart;
+              break;
+            } else if (!this.error) {
+              var msg = "All collection items must start at the same column";
+              this.error = new YAMLSyntaxError(this, msg);
+            }
+          }
+          if (firstItem.type === Type.SEQ_ITEM) {
+            if (ch !== "-") {
+              if (lineStart > start) offset = lineStart;
+              break;
+            }
+          } else if (ch === "-" && !this.error) {
+            var _next = src[offset + 1];
+            if (!_next || _next === "\n" || _next === "	" || _next === " ") {
+              var _msg = "A collection cannot be both a mapping and a sequence";
+              this.error = new YAMLSyntaxError(this, _msg);
+            }
+          }
+          var node = parseNode({
+            atLineStart,
+            inCollection: true,
+            indent,
+            lineStart,
+            parent: this
+          }, offset);
+          if (!node) return offset;
+          this.items.push(node);
+          this.valueRange.end = node.valueRange.end;
+          offset = Node$1.normalizeOffset(src, node.range.end);
+          ch = src[offset];
+          atLineStart = false;
+          prevIncludesTrailingLines = node.includesTrailingLines;
+          if (ch) {
+            var ls = offset - 1;
+            var prev = src[ls];
+            while (prev === " " || prev === "	") {
+              prev = src[--ls];
+            }
+            if (prev === "\n") {
+              lineStart = ls + 1;
+              atLineStart = true;
+            }
+          }
+          var ec = grabCollectionEndComments(node);
+          if (ec) Array.prototype.push.apply(this.items, ec);
+        }
+        return offset;
+      }
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        offset = _get(_getPrototypeOf(Collection2.prototype), "setOrigRanges", this).call(this, cr, offset);
+        this.items.forEach(function(node) {
+          offset = node.setOrigRanges(cr, offset);
+        });
+        return offset;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        var src = this.context.src, items = this.items, range = this.range, value = this.value;
+        if (value != null) return value;
+        var str = src.slice(range.start, items[0].range.start) + String(items[0]);
+        for (var i = 1; i < items.length; ++i) {
+          var item = items[i];
+          var _item$context = item.context, atLineStart = _item$context.atLineStart, indent = _item$context.indent;
+          if (atLineStart) for (var _i = 0; _i < indent; ++_i) {
+            str += " ";
+          }
+          str += String(item);
+        }
+        return Node$1.addStringTerminator(src, range.end, str);
+      }
+    }], [{
+      key: "nextContentHasIndent",
+      value: function nextContentHasIndent(src, offset, indent) {
+        var lineStart = Node$1.endOfLine(src, offset) + 1;
+        offset = Node$1.endOfWhiteSpace(src, lineStart);
+        var ch = src[offset];
+        if (!ch) return false;
+        if (offset >= lineStart + indent) return true;
+        if (ch !== "#" && ch !== "\n") return false;
+        return Collection2.nextContentHasIndent(src, offset, indent);
+      }
+    }]);
+    return Collection2;
+  }(Node$1);
+  var Directive = /* @__PURE__ */ function(_Node) {
+    _inherits(Directive2, _Node);
+    var _super = _createSuper(Directive2);
+    function Directive2() {
+      var _this;
+      _classCallCheck(this, Directive2);
+      _this = _super.call(this, Type.DIRECTIVE);
+      _this.name = null;
+      return _this;
+    }
+    _createClass(Directive2, [{
+      key: "parameters",
+      get: function get() {
+        var raw = this.rawValue;
+        return raw ? raw.trim().split(/[ \t]+/) : [];
+      }
+    }, {
+      key: "parseName",
+      value: function parseName(start) {
+        var src = this.context.src;
+        var offset = start;
+        var ch = src[offset];
+        while (ch && ch !== "\n" && ch !== "	" && ch !== " ") {
+          ch = src[offset += 1];
+        }
+        this.name = src.slice(start, offset);
+        return offset;
+      }
+    }, {
+      key: "parseParameters",
+      value: function parseParameters(start) {
+        var src = this.context.src;
+        var offset = start;
+        var ch = src[offset];
+        while (ch && ch !== "\n" && ch !== "#") {
+          ch = src[offset += 1];
+        }
+        this.valueRange = new Range(start, offset);
+        return offset;
+      }
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var offset = this.parseName(start + 1);
+        offset = this.parseParameters(offset);
+        offset = this.parseComment(offset);
+        this.range = new Range(start, offset);
+        return offset;
+      }
+    }]);
+    return Directive2;
+  }(Node$1);
+  var Document$2 = /* @__PURE__ */ function(_Node) {
+    _inherits(Document2, _Node);
+    var _super = _createSuper(Document2);
+    function Document2() {
+      var _this;
+      _classCallCheck(this, Document2);
+      _this = _super.call(this, Type.DOCUMENT);
+      _this.directives = null;
+      _this.contents = null;
+      _this.directivesEndMarker = null;
+      _this.documentEndMarker = null;
+      return _this;
+    }
+    _createClass(Document2, [{
+      key: "parseDirectives",
+      value: function parseDirectives2(start) {
+        var src = this.context.src;
+        this.directives = [];
+        var atLineStart = true;
+        var hasDirectives = false;
+        var offset = start;
+        while (!Node$1.atDocumentBoundary(src, offset, Char.DIRECTIVES_END)) {
+          offset = Document2.startCommentOrEndBlankLine(src, offset);
+          switch (src[offset]) {
+            case "\n":
+              if (atLineStart) {
+                var blankLine = new BlankLine();
+                offset = blankLine.parse({
+                  src
+                }, offset);
+                if (offset < src.length) {
+                  this.directives.push(blankLine);
+                }
+              } else {
+                offset += 1;
+                atLineStart = true;
+              }
+              break;
+            case "#":
+              {
+                var comment = new Comment();
+                offset = comment.parse({
+                  src
+                }, offset);
+                this.directives.push(comment);
+                atLineStart = false;
+              }
+              break;
+            case "%":
+              {
+                var directive = new Directive();
+                offset = directive.parse({
+                  parent: this,
+                  src
+                }, offset);
+                this.directives.push(directive);
+                hasDirectives = true;
+                atLineStart = false;
+              }
+              break;
+            default:
+              if (hasDirectives) {
+                this.error = new YAMLSemanticError(this, "Missing directives-end indicator line");
+              } else if (this.directives.length > 0) {
+                this.contents = this.directives;
+                this.directives = [];
+              }
+              return offset;
+          }
+        }
+        if (src[offset]) {
+          this.directivesEndMarker = new Range(offset, offset + 3);
+          return offset + 3;
+        }
+        if (hasDirectives) {
+          this.error = new YAMLSemanticError(this, "Missing directives-end indicator line");
+        } else if (this.directives.length > 0) {
+          this.contents = this.directives;
+          this.directives = [];
+        }
+        return offset;
+      }
+    }, {
+      key: "parseContents",
+      value: function parseContents2(start) {
+        var _this$context = this.context, parseNode = _this$context.parseNode, src = _this$context.src;
+        if (!this.contents) this.contents = [];
+        var lineStart = start;
+        while (src[lineStart - 1] === "-") {
+          lineStart -= 1;
+        }
+        var offset = Node$1.endOfWhiteSpace(src, start);
+        var atLineStart = lineStart === start;
+        this.valueRange = new Range(offset);
+        while (!Node$1.atDocumentBoundary(src, offset, Char.DOCUMENT_END)) {
+          switch (src[offset]) {
+            case "\n":
+              if (atLineStart) {
+                var blankLine = new BlankLine();
+                offset = blankLine.parse({
+                  src
+                }, offset);
+                if (offset < src.length) {
+                  this.contents.push(blankLine);
+                }
+              } else {
+                offset += 1;
+                atLineStart = true;
+              }
+              lineStart = offset;
+              break;
+            case "#":
+              {
+                var comment = new Comment();
+                offset = comment.parse({
+                  src
+                }, offset);
+                this.contents.push(comment);
+                atLineStart = false;
+              }
+              break;
+            default: {
+              var iEnd = Node$1.endOfIndent(src, offset);
+              var context = {
+                atLineStart,
+                indent: -1,
+                inFlow: false,
+                inCollection: false,
+                lineStart,
+                parent: this
+              };
+              var node = parseNode(context, iEnd);
+              if (!node) return this.valueRange.end = iEnd;
+              this.contents.push(node);
+              offset = node.range.end;
+              atLineStart = false;
+              var ec = grabCollectionEndComments(node);
+              if (ec) Array.prototype.push.apply(this.contents, ec);
+            }
+          }
+          offset = Document2.startCommentOrEndBlankLine(src, offset);
+        }
+        this.valueRange.end = offset;
+        if (src[offset]) {
+          this.documentEndMarker = new Range(offset, offset + 3);
+          offset += 3;
+          if (src[offset]) {
+            offset = Node$1.endOfWhiteSpace(src, offset);
+            if (src[offset] === "#") {
+              var _comment = new Comment();
+              offset = _comment.parse({
+                src
+              }, offset);
+              this.contents.push(_comment);
+            }
+            switch (src[offset]) {
+              case "\n":
+                offset += 1;
+                break;
+              case void 0:
+                break;
+              default:
+                this.error = new YAMLSyntaxError(this, "Document end marker line cannot have a non-comment suffix");
+            }
+          }
+        }
+        return offset;
+      }
+      /**
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        context.root = this;
+        this.context = context;
+        var src = context.src;
+        var offset = src.charCodeAt(start) === 65279 ? start + 1 : start;
+        offset = this.parseDirectives(offset);
+        offset = this.parseContents(offset);
+        return offset;
+      }
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        offset = _get(_getPrototypeOf(Document2.prototype), "setOrigRanges", this).call(this, cr, offset);
+        this.directives.forEach(function(node) {
+          offset = node.setOrigRanges(cr, offset);
+        });
+        if (this.directivesEndMarker) offset = this.directivesEndMarker.setOrigRange(cr, offset);
+        this.contents.forEach(function(node) {
+          offset = node.setOrigRanges(cr, offset);
+        });
+        if (this.documentEndMarker) offset = this.documentEndMarker.setOrigRange(cr, offset);
+        return offset;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        var contents = this.contents, directives = this.directives, value = this.value;
+        if (value != null) return value;
+        var str = directives.join("");
+        if (contents.length > 0) {
+          if (directives.length > 0 || contents[0].type === Type.COMMENT) str += "---\n";
+          str += contents.join("");
+        }
+        if (str[str.length - 1] !== "\n") str += "\n";
+        return str;
+      }
+    }], [{
+      key: "startCommentOrEndBlankLine",
+      value: function startCommentOrEndBlankLine(src, start) {
+        var offset = Node$1.endOfWhiteSpace(src, start);
+        var ch = src[offset];
+        return ch === "#" || ch === "\n" ? offset : start;
+      }
+    }]);
+    return Document2;
+  }(Node$1);
+  var Alias$1 = /* @__PURE__ */ function(_Node) {
+    _inherits(Alias2, _Node);
+    var _super = _createSuper(Alias2);
+    function Alias2() {
+      _classCallCheck(this, Alias2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(Alias2, [{
+      key: "parse",
+      value: (
+        /**
+         * Parses an *alias from the source
+         *
+         * @param {ParseContext} context
+         * @param {number} start - Index of first character
+         * @returns {number} - Index of the character after this scalar
+         */
+        function parse3(context, start) {
+          this.context = context;
+          var src = context.src;
+          var offset = Node$1.endOfIdentifier(src, start + 1);
+          this.valueRange = new Range(start + 1, offset);
+          offset = Node$1.endOfWhiteSpace(src, offset);
+          offset = this.parseComment(offset);
+          return offset;
+        }
+      )
+    }]);
+    return Alias2;
+  }(Node$1);
+  var Chomp = {
+    CLIP: "CLIP",
+    KEEP: "KEEP",
+    STRIP: "STRIP"
+  };
+  var BlockValue = /* @__PURE__ */ function(_Node) {
+    _inherits(BlockValue2, _Node);
+    var _super = _createSuper(BlockValue2);
+    function BlockValue2(type, props) {
+      var _this;
+      _classCallCheck(this, BlockValue2);
+      _this = _super.call(this, type, props);
+      _this.blockIndent = null;
+      _this.chomping = Chomp.CLIP;
+      _this.header = null;
+      return _this;
+    }
+    _createClass(BlockValue2, [{
+      key: "includesTrailingLines",
+      get: function get() {
+        return this.chomping === Chomp.KEEP;
+      }
+    }, {
+      key: "strValue",
+      get: function get() {
+        if (!this.valueRange || !this.context) return null;
+        var _this$valueRange = this.valueRange, start = _this$valueRange.start, end = _this$valueRange.end;
+        var _this$context = this.context, indent = _this$context.indent, src = _this$context.src;
+        if (this.valueRange.isEmpty()) return "";
+        var lastNewLine = null;
+        var ch = src[end - 1];
+        while (ch === "\n" || ch === "	" || ch === " ") {
+          end -= 1;
+          if (end <= start) {
+            if (this.chomping === Chomp.KEEP) break;
+            else return "";
+          }
+          if (ch === "\n") lastNewLine = end;
+          ch = src[end - 1];
+        }
+        var keepStart = end + 1;
+        if (lastNewLine) {
+          if (this.chomping === Chomp.KEEP) {
+            keepStart = lastNewLine;
+            end = this.valueRange.end;
+          } else {
+            end = lastNewLine;
+          }
+        }
+        var bi = indent + this.blockIndent;
+        var folded = this.type === Type.BLOCK_FOLDED;
+        var atStart = true;
+        var str = "";
+        var sep = "";
+        var prevMoreIndented = false;
+        for (var i = start; i < end; ++i) {
+          for (var j2 = 0; j2 < bi; ++j2) {
+            if (src[i] !== " ") break;
+            i += 1;
+          }
+          var _ch = src[i];
+          if (_ch === "\n") {
+            if (sep === "\n") str += "\n";
+            else sep = "\n";
+          } else {
+            var lineEnd = Node$1.endOfLine(src, i);
+            var line = src.slice(i, lineEnd);
+            i = lineEnd;
+            if (folded && (_ch === " " || _ch === "	") && i < keepStart) {
+              if (sep === " ") sep = "\n";
+              else if (!prevMoreIndented && !atStart && sep === "\n") sep = "\n\n";
+              str += sep + line;
+              sep = lineEnd < end && src[lineEnd] || "";
+              prevMoreIndented = true;
+            } else {
+              str += sep + line;
+              sep = folded && i < keepStart ? " " : "\n";
+              prevMoreIndented = false;
+            }
+            if (atStart && line !== "") atStart = false;
+          }
+        }
+        return this.chomping === Chomp.STRIP ? str : str + "\n";
+      }
+    }, {
+      key: "parseBlockHeader",
+      value: function parseBlockHeader(start) {
+        var src = this.context.src;
+        var offset = start + 1;
+        var bi = "";
+        while (true) {
+          var ch = src[offset];
+          switch (ch) {
+            case "-":
+              this.chomping = Chomp.STRIP;
+              break;
+            case "+":
+              this.chomping = Chomp.KEEP;
+              break;
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+              bi += ch;
+              break;
+            default:
+              this.blockIndent = Number(bi) || null;
+              this.header = new Range(start, offset);
+              return offset;
+          }
+          offset += 1;
+        }
+      }
+    }, {
+      key: "parseBlockValue",
+      value: function parseBlockValue(start) {
+        var _this$context2 = this.context, indent = _this$context2.indent, src = _this$context2.src;
+        var explicit = !!this.blockIndent;
+        var offset = start;
+        var valueEnd = start;
+        var minBlockIndent = 1;
+        for (var ch = src[offset]; ch === "\n"; ch = src[offset]) {
+          offset += 1;
+          if (Node$1.atDocumentBoundary(src, offset)) break;
+          var end = Node$1.endOfBlockIndent(src, indent, offset);
+          if (end === null) break;
+          var _ch2 = src[end];
+          var lineIndent = end - (offset + indent);
+          if (!this.blockIndent) {
+            if (src[end] !== "\n") {
+              if (lineIndent < minBlockIndent) {
+                var msg = "Block scalars with more-indented leading empty lines must use an explicit indentation indicator";
+                this.error = new YAMLSemanticError(this, msg);
+              }
+              this.blockIndent = lineIndent;
+            } else if (lineIndent > minBlockIndent) {
+              minBlockIndent = lineIndent;
+            }
+          } else if (_ch2 && _ch2 !== "\n" && lineIndent < this.blockIndent) {
+            if (src[end] === "#") break;
+            if (!this.error) {
+              var _src = explicit ? "explicit indentation indicator" : "first line";
+              var _msg = "Block scalars must not be less indented than their ".concat(_src);
+              this.error = new YAMLSemanticError(this, _msg);
+            }
+          }
+          if (src[end] === "\n") {
+            offset = end;
+          } else {
+            offset = valueEnd = Node$1.endOfLine(src, end);
+          }
+        }
+        if (this.chomping !== Chomp.KEEP) {
+          offset = src[valueEnd] ? valueEnd + 1 : valueEnd;
+        }
+        this.valueRange = new Range(start + 1, offset);
+        return offset;
+      }
+      /**
+       * Parses a block value from the source
+       *
+       * Accepted forms are:
+       * ```
+       * BS
+       * block
+       * lines
+       *
+       * BS #comment
+       * block
+       * lines
+       * ```
+       * where the block style BS matches the regexp `[|>][-+1-9]*` and block lines
+       * are empty or have an indent level greater than `indent`.
+       *
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this block
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var src = context.src;
+        var offset = this.parseBlockHeader(start);
+        offset = Node$1.endOfWhiteSpace(src, offset);
+        offset = this.parseComment(offset);
+        offset = this.parseBlockValue(offset);
+        return offset;
+      }
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        offset = _get(_getPrototypeOf(BlockValue2.prototype), "setOrigRanges", this).call(this, cr, offset);
+        return this.header ? this.header.setOrigRange(cr, offset) : offset;
+      }
+    }]);
+    return BlockValue2;
+  }(Node$1);
+  var FlowCollection = /* @__PURE__ */ function(_Node) {
+    _inherits(FlowCollection2, _Node);
+    var _super = _createSuper(FlowCollection2);
+    function FlowCollection2(type, props) {
+      var _this;
+      _classCallCheck(this, FlowCollection2);
+      _this = _super.call(this, type, props);
+      _this.items = null;
+      return _this;
+    }
+    _createClass(FlowCollection2, [{
+      key: "prevNodeIsJsonLike",
+      value: function prevNodeIsJsonLike() {
+        var idx = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this.items.length;
+        var node = this.items[idx - 1];
+        return !!node && (node.jsonLike || node.type === Type.COMMENT && this.prevNodeIsJsonLike(idx - 1));
+      }
+      /**
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var parseNode = context.parseNode, src = context.src;
+        var indent = context.indent, lineStart = context.lineStart;
+        var char = src[start];
+        this.items = [{
+          char,
+          offset: start
+        }];
+        var offset = Node$1.endOfWhiteSpace(src, start + 1);
+        char = src[offset];
+        while (char && char !== "]" && char !== "}") {
+          switch (char) {
+            case "\n":
+              {
+                lineStart = offset + 1;
+                var wsEnd = Node$1.endOfWhiteSpace(src, lineStart);
+                if (src[wsEnd] === "\n") {
+                  var blankLine = new BlankLine();
+                  lineStart = blankLine.parse({
+                    src
+                  }, lineStart);
+                  this.items.push(blankLine);
+                }
+                offset = Node$1.endOfIndent(src, lineStart);
+                if (offset <= lineStart + indent) {
+                  char = src[offset];
+                  if (offset < lineStart + indent || char !== "]" && char !== "}") {
+                    var msg = "Insufficient indentation in flow collection";
+                    this.error = new YAMLSemanticError(this, msg);
+                  }
+                }
+              }
+              break;
+            case ",":
+              {
+                this.items.push({
+                  char,
+                  offset
+                });
+                offset += 1;
+              }
+              break;
+            case "#":
+              {
+                var comment = new Comment();
+                offset = comment.parse({
+                  src
+                }, offset);
+                this.items.push(comment);
+              }
+              break;
+            case "?":
+            case ":": {
+              var next = src[offset + 1];
+              if (next === "\n" || next === "	" || next === " " || next === "," || // in-flow : after JSON-like key does not need to be followed by whitespace
+              char === ":" && this.prevNodeIsJsonLike()) {
+                this.items.push({
+                  char,
+                  offset
+                });
+                offset += 1;
+                break;
+              }
+            }
+            default: {
+              var node = parseNode({
+                atLineStart: false,
+                inCollection: false,
+                inFlow: true,
+                indent: -1,
+                lineStart,
+                parent: this
+              }, offset);
+              if (!node) {
+                this.valueRange = new Range(start, offset);
+                return offset;
+              }
+              this.items.push(node);
+              offset = Node$1.normalizeOffset(src, node.range.end);
+            }
+          }
+          offset = Node$1.endOfWhiteSpace(src, offset);
+          char = src[offset];
+        }
+        this.valueRange = new Range(start, offset + 1);
+        if (char) {
+          this.items.push({
+            char,
+            offset
+          });
+          offset = Node$1.endOfWhiteSpace(src, offset + 1);
+          offset = this.parseComment(offset);
+        }
+        return offset;
+      }
+    }, {
+      key: "setOrigRanges",
+      value: function setOrigRanges(cr, offset) {
+        offset = _get(_getPrototypeOf(FlowCollection2.prototype), "setOrigRanges", this).call(this, cr, offset);
+        this.items.forEach(function(node) {
+          if (node instanceof Node$1) {
+            offset = node.setOrigRanges(cr, offset);
+          } else if (cr.length === 0) {
+            node.origOffset = node.offset;
+          } else {
+            var i = offset;
+            while (i < cr.length) {
+              if (cr[i] > node.offset) break;
+              else ++i;
+            }
+            node.origOffset = node.offset + i;
+            offset = i;
+          }
+        });
+        return offset;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        var src = this.context.src, items = this.items, range = this.range, value = this.value;
+        if (value != null) return value;
+        var nodes = items.filter(function(item) {
+          return item instanceof Node$1;
+        });
+        var str = "";
+        var prevEnd = range.start;
+        nodes.forEach(function(node) {
+          var prefix = src.slice(prevEnd, node.range.start);
+          prevEnd = node.range.end;
+          str += prefix + String(node);
+          if (str[str.length - 1] === "\n" && src[prevEnd - 1] !== "\n" && src[prevEnd] === "\n") {
+            prevEnd += 1;
+          }
+        });
+        str += src.slice(prevEnd, range.end);
+        return Node$1.addStringTerminator(src, range.end, str);
+      }
+    }]);
+    return FlowCollection2;
+  }(Node$1);
+  var QuoteDouble = /* @__PURE__ */ function(_Node) {
+    _inherits(QuoteDouble2, _Node);
+    var _super = _createSuper(QuoteDouble2);
+    function QuoteDouble2() {
+      _classCallCheck(this, QuoteDouble2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(QuoteDouble2, [{
+      key: "strValue",
+      get: (
+        /**
+         * @returns {string | { str: string, errors: YAMLSyntaxError[] }}
+         */
+        function get() {
+          if (!this.valueRange || !this.context) return null;
+          var errors = [];
+          var _this$valueRange = this.valueRange, start = _this$valueRange.start, end = _this$valueRange.end;
+          var _this$context = this.context, indent = _this$context.indent, src = _this$context.src;
+          if (src[end - 1] !== '"') errors.push(new YAMLSyntaxError(this, 'Missing closing "quote'));
+          var str = "";
+          for (var i = start + 1; i < end - 1; ++i) {
+            var ch = src[i];
+            if (ch === "\n") {
+              if (Node$1.atDocumentBoundary(src, i + 1)) errors.push(new YAMLSemanticError(this, "Document boundary indicators are not allowed within string values"));
+              var _Node$foldNewline = Node$1.foldNewline(src, i, indent), fold = _Node$foldNewline.fold, offset = _Node$foldNewline.offset, error = _Node$foldNewline.error;
+              str += fold;
+              i = offset;
+              if (error) errors.push(new YAMLSemanticError(this, "Multi-line double-quoted string needs to be sufficiently indented"));
+            } else if (ch === "\\") {
+              i += 1;
+              switch (src[i]) {
+                case "0":
+                  str += "\0";
+                  break;
+                case "a":
+                  str += "\x07";
+                  break;
+                case "b":
+                  str += "\b";
+                  break;
+                case "e":
+                  str += "\x1B";
+                  break;
+                case "f":
+                  str += "\f";
+                  break;
+                case "n":
+                  str += "\n";
+                  break;
+                case "r":
+                  str += "\r";
+                  break;
+                case "t":
+                  str += "	";
+                  break;
+                case "v":
+                  str += "\v";
+                  break;
+                case "N":
+                  str += "";
+                  break;
+                case "_":
+                  str += " ";
+                  break;
+                case "L":
+                  str += "\u2028";
+                  break;
+                case "P":
+                  str += "\u2029";
+                  break;
+                case " ":
+                  str += " ";
+                  break;
+                case '"':
+                  str += '"';
+                  break;
+                case "/":
+                  str += "/";
+                  break;
+                case "\\":
+                  str += "\\";
+                  break;
+                case "	":
+                  str += "	";
+                  break;
+                case "x":
+                  str += this.parseCharCode(i + 1, 2, errors);
+                  i += 2;
+                  break;
+                case "u":
+                  str += this.parseCharCode(i + 1, 4, errors);
+                  i += 4;
+                  break;
+                case "U":
+                  str += this.parseCharCode(i + 1, 8, errors);
+                  i += 8;
+                  break;
+                case "\n":
+                  while (src[i + 1] === " " || src[i + 1] === "	") {
+                    i += 1;
+                  }
+                  break;
+                default:
+                  errors.push(new YAMLSyntaxError(this, "Invalid escape sequence ".concat(src.substr(i - 1, 2))));
+                  str += "\\" + src[i];
+              }
+            } else if (ch === " " || ch === "	") {
+              var wsStart = i;
+              var next = src[i + 1];
+              while (next === " " || next === "	") {
+                i += 1;
+                next = src[i + 1];
+              }
+              if (next !== "\n") str += i > wsStart ? src.slice(wsStart, i + 1) : ch;
+            } else {
+              str += ch;
+            }
+          }
+          return errors.length > 0 ? {
+            errors,
+            str
+          } : str;
+        }
+      )
+    }, {
+      key: "parseCharCode",
+      value: function parseCharCode(offset, length, errors) {
+        var src = this.context.src;
+        var cc = src.substr(offset, length);
+        var ok = cc.length === length && /^[0-9a-fA-F]+$/.test(cc);
+        var code2 = ok ? parseInt(cc, 16) : NaN;
+        if (isNaN(code2)) {
+          errors.push(new YAMLSyntaxError(this, "Invalid escape sequence ".concat(src.substr(offset - 2, length + 2))));
+          return src.substr(offset - 2, length + 2);
+        }
+        return String.fromCodePoint(code2);
+      }
+      /**
+       * Parses a "double quoted" value from the source
+       *
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this scalar
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var src = context.src;
+        var offset = QuoteDouble2.endOfQuote(src, start + 1);
+        this.valueRange = new Range(start, offset);
+        offset = Node$1.endOfWhiteSpace(src, offset);
+        offset = this.parseComment(offset);
+        return offset;
+      }
+    }], [{
+      key: "endOfQuote",
+      value: function endOfQuote(src, offset) {
+        var ch = src[offset];
+        while (ch && ch !== '"') {
+          offset += ch === "\\" ? 2 : 1;
+          ch = src[offset];
+        }
+        return offset + 1;
+      }
+    }]);
+    return QuoteDouble2;
+  }(Node$1);
+  var QuoteSingle = /* @__PURE__ */ function(_Node) {
+    _inherits(QuoteSingle2, _Node);
+    var _super = _createSuper(QuoteSingle2);
+    function QuoteSingle2() {
+      _classCallCheck(this, QuoteSingle2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(QuoteSingle2, [{
+      key: "strValue",
+      get: (
+        /**
+         * @returns {string | { str: string, errors: YAMLSyntaxError[] }}
+         */
+        function get() {
+          if (!this.valueRange || !this.context) return null;
+          var errors = [];
+          var _this$valueRange = this.valueRange, start = _this$valueRange.start, end = _this$valueRange.end;
+          var _this$context = this.context, indent = _this$context.indent, src = _this$context.src;
+          if (src[end - 1] !== "'") errors.push(new YAMLSyntaxError(this, "Missing closing 'quote"));
+          var str = "";
+          for (var i = start + 1; i < end - 1; ++i) {
+            var ch = src[i];
+            if (ch === "\n") {
+              if (Node$1.atDocumentBoundary(src, i + 1)) errors.push(new YAMLSemanticError(this, "Document boundary indicators are not allowed within string values"));
+              var _Node$foldNewline = Node$1.foldNewline(src, i, indent), fold = _Node$foldNewline.fold, offset = _Node$foldNewline.offset, error = _Node$foldNewline.error;
+              str += fold;
+              i = offset;
+              if (error) errors.push(new YAMLSemanticError(this, "Multi-line single-quoted string needs to be sufficiently indented"));
+            } else if (ch === "'") {
+              str += ch;
+              i += 1;
+              if (src[i] !== "'") errors.push(new YAMLSyntaxError(this, "Unescaped single quote? This should not happen."));
+            } else if (ch === " " || ch === "	") {
+              var wsStart = i;
+              var next = src[i + 1];
+              while (next === " " || next === "	") {
+                i += 1;
+                next = src[i + 1];
+              }
+              if (next !== "\n") str += i > wsStart ? src.slice(wsStart, i + 1) : ch;
+            } else {
+              str += ch;
+            }
+          }
+          return errors.length > 0 ? {
+            errors,
+            str
+          } : str;
+        }
+      )
+      /**
+       * Parses a 'single quoted' value from the source
+       *
+       * @param {ParseContext} context
+       * @param {number} start - Index of first character
+       * @returns {number} - Index of the character after this scalar
+       */
+    }, {
+      key: "parse",
+      value: function parse3(context, start) {
+        this.context = context;
+        var src = context.src;
+        var offset = QuoteSingle2.endOfQuote(src, start + 1);
+        this.valueRange = new Range(start, offset);
+        offset = Node$1.endOfWhiteSpace(src, offset);
+        offset = this.parseComment(offset);
+        return offset;
+      }
+    }], [{
+      key: "endOfQuote",
+      value: function endOfQuote(src, offset) {
+        var ch = src[offset];
+        while (ch) {
+          if (ch === "'") {
+            if (src[offset + 1] !== "'") break;
+            ch = src[offset += 2];
+          } else {
+            ch = src[offset += 1];
+          }
+        }
+        return offset + 1;
+      }
+    }]);
+    return QuoteSingle2;
+  }(Node$1);
+  function createNewNode(type, props) {
+    switch (type) {
+      case Type.ALIAS:
+        return new Alias$1(type, props);
+      case Type.BLOCK_FOLDED:
+      case Type.BLOCK_LITERAL:
+        return new BlockValue(type, props);
+      case Type.FLOW_MAP:
+      case Type.FLOW_SEQ:
+        return new FlowCollection(type, props);
+      case Type.MAP_KEY:
+      case Type.MAP_VALUE:
+      case Type.SEQ_ITEM:
+        return new CollectionItem(type, props);
+      case Type.COMMENT:
+      case Type.PLAIN:
+        return new PlainValue(type, props);
+      case Type.QUOTE_DOUBLE:
+        return new QuoteDouble(type, props);
+      case Type.QUOTE_SINGLE:
+        return new QuoteSingle(type, props);
+      default:
+        return null;
+    }
+  }
+  var ParseContext = /* @__PURE__ */ function() {
+    function ParseContext2() {
+      var _this = this;
+      var orig = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      var _ref = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, atLineStart = _ref.atLineStart, inCollection = _ref.inCollection, inFlow = _ref.inFlow, indent = _ref.indent, lineStart = _ref.lineStart, parent = _ref.parent;
+      _classCallCheck(this, ParseContext2);
+      _defineProperty(this, "parseNode", function(overlay, start) {
+        if (Node$1.atDocumentBoundary(_this.src, start)) return null;
+        var context = new ParseContext2(_this, overlay);
+        var _context$parseProps = context.parseProps(start), props = _context$parseProps.props, type = _context$parseProps.type, valueStart = _context$parseProps.valueStart;
+        var node = createNewNode(type, props);
+        var offset = node.parse(context, valueStart);
+        node.range = new Range(start, offset);
+        if (offset <= start) {
+          node.error = new Error("Node#parse consumed no characters");
+          node.error.parseEnd = offset;
+          node.error.source = node;
+          node.range.end = start + 1;
+        }
+        if (context.nodeStartsCollection(node)) {
+          if (!node.error && !context.atLineStart && context.parent.type === Type.DOCUMENT) {
+            node.error = new YAMLSyntaxError(node, "Block collection must not have preceding content here (e.g. directives-end indicator)");
+          }
+          var collection = new Collection$1(node);
+          offset = collection.parse(new ParseContext2(context), offset);
+          collection.range = new Range(start, offset);
+          return collection;
+        }
+        return node;
+      });
+      this.atLineStart = atLineStart != null ? atLineStart : orig.atLineStart || false;
+      this.inCollection = inCollection != null ? inCollection : orig.inCollection || false;
+      this.inFlow = inFlow != null ? inFlow : orig.inFlow || false;
+      this.indent = indent != null ? indent : orig.indent;
+      this.lineStart = lineStart != null ? lineStart : orig.lineStart;
+      this.parent = parent != null ? parent : orig.parent || {};
+      this.root = orig.root;
+      this.src = orig.src;
+    }
+    _createClass(ParseContext2, [{
+      key: "nodeStartsCollection",
+      value: function nodeStartsCollection(node) {
+        var inCollection = this.inCollection, inFlow = this.inFlow, src = this.src;
+        if (inCollection || inFlow) return false;
+        if (node instanceof CollectionItem) return true;
+        var offset = node.range.end;
+        if (src[offset] === "\n" || src[offset - 1] === "\n") return false;
+        offset = Node$1.endOfWhiteSpace(src, offset);
+        return src[offset] === ":";
+      }
+      // Anchor and tag are before type, which determines the node implementation
+      // class; hence this intermediate step.
+    }, {
+      key: "parseProps",
+      value: function parseProps(offset) {
+        var inFlow = this.inFlow, parent = this.parent, src = this.src;
+        var props = [];
+        var lineHasProps = false;
+        offset = this.atLineStart ? Node$1.endOfIndent(src, offset) : Node$1.endOfWhiteSpace(src, offset);
+        var ch = src[offset];
+        while (ch === Char.ANCHOR || ch === Char.COMMENT || ch === Char.TAG || ch === "\n") {
+          if (ch === "\n") {
+            var inEnd = offset;
+            var lineStart = void 0;
+            do {
+              lineStart = inEnd + 1;
+              inEnd = Node$1.endOfIndent(src, lineStart);
+            } while (src[inEnd] === "\n");
+            var indentDiff = inEnd - (lineStart + this.indent);
+            var noIndicatorAsIndent = parent.type === Type.SEQ_ITEM && parent.context.atLineStart;
+            if (src[inEnd] !== "#" && !Node$1.nextNodeIsIndented(src[inEnd], indentDiff, !noIndicatorAsIndent)) break;
+            this.atLineStart = true;
+            this.lineStart = lineStart;
+            lineHasProps = false;
+            offset = inEnd;
+          } else if (ch === Char.COMMENT) {
+            var end = Node$1.endOfLine(src, offset + 1);
+            props.push(new Range(offset, end));
+            offset = end;
+          } else {
+            var _end = Node$1.endOfIdentifier(src, offset + 1);
+            if (ch === Char.TAG && src[_end] === "," && /^[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+,\d\d\d\d(-\d\d){0,2}\/\S/.test(src.slice(offset + 1, _end + 13))) {
+              _end = Node$1.endOfIdentifier(src, _end + 5);
+            }
+            props.push(new Range(offset, _end));
+            lineHasProps = true;
+            offset = Node$1.endOfWhiteSpace(src, _end);
+          }
+          ch = src[offset];
+        }
+        if (lineHasProps && ch === ":" && Node$1.atBlank(src, offset + 1, true)) offset -= 1;
+        var type = ParseContext2.parseType(src, offset, inFlow);
+        return {
+          props,
+          type,
+          valueStart: offset
+        };
+      }
+      /**
+       * Parses a node from the source
+       * @param {ParseContext} overlay
+       * @param {number} start - Index of first non-whitespace character for the node
+       * @returns {?Node} - null if at a document boundary
+       */
+    }], [{
+      key: "parseType",
+      value: function parseType(src, offset, inFlow) {
+        switch (src[offset]) {
+          case "*":
+            return Type.ALIAS;
+          case ">":
+            return Type.BLOCK_FOLDED;
+          case "|":
+            return Type.BLOCK_LITERAL;
+          case "{":
+            return Type.FLOW_MAP;
+          case "[":
+            return Type.FLOW_SEQ;
+          case "?":
+            return !inFlow && Node$1.atBlank(src, offset + 1, true) ? Type.MAP_KEY : Type.PLAIN;
+          case ":":
+            return !inFlow && Node$1.atBlank(src, offset + 1, true) ? Type.MAP_VALUE : Type.PLAIN;
+          case "-":
+            return !inFlow && Node$1.atBlank(src, offset + 1, true) ? Type.SEQ_ITEM : Type.PLAIN;
+          case '"':
+            return Type.QUOTE_DOUBLE;
+          case "'":
+            return Type.QUOTE_SINGLE;
+          default:
+            return Type.PLAIN;
+        }
+      }
+    }]);
+    return ParseContext2;
+  }();
+  function parse$1(src) {
+    var cr = [];
+    if (src.indexOf("\r") !== -1) {
+      src = src.replace(/\r\n?/g, function(match, offset2) {
+        if (match.length > 1) cr.push(offset2);
+        return "\n";
+      });
+    }
+    var documents = [];
+    var offset = 0;
+    do {
+      var doc = new Document$2();
+      var context = new ParseContext({
+        src
+      });
+      offset = doc.parse(context, offset);
+      documents.push(doc);
+    } while (offset < src.length);
+    documents.setOrigRanges = function() {
+      if (cr.length === 0) return false;
+      for (var i = 1; i < cr.length; ++i) {
+        cr[i] -= i;
+      }
+      var crOffset = 0;
+      for (var _i = 0; _i < documents.length; ++_i) {
+        crOffset = documents[_i].setOrigRanges(cr, crOffset);
+      }
+      cr.splice(0, cr.length);
+      return true;
+    };
+    documents.toString = function() {
+      return documents.join("...\n");
+    };
+    return documents;
+  }
+  function addCommentBefore(str, indent, comment) {
+    if (!comment) return str;
+    var cc = comment.replace(/[\s\S]^/gm, "$&".concat(indent, "#"));
+    return "#".concat(cc, "\n").concat(indent).concat(str);
+  }
+  function addComment(str, indent, comment) {
+    return !comment ? str : comment.indexOf("\n") === -1 ? "".concat(str, " #").concat(comment) : "".concat(str, "\n") + comment.replace(/^/gm, "".concat(indent || "", "#"));
+  }
+  var Node = function Node2() {
+    _classCallCheck(this, Node2);
+  };
+  function toJSON(value, arg, ctx) {
+    if (Array.isArray(value)) return value.map(function(v2, i) {
+      return toJSON(v2, String(i), ctx);
+    });
+    if (value && typeof value.toJSON === "function") {
+      var anchor = ctx && ctx.anchors && ctx.anchors.get(value);
+      if (anchor) ctx.onCreate = function(res2) {
+        anchor.res = res2;
+        delete ctx.onCreate;
+      };
+      var res = value.toJSON(arg, ctx);
+      if (anchor && ctx.onCreate) ctx.onCreate(res);
+      return res;
+    }
+    if ((!ctx || !ctx.keep) && typeof value === "bigint") return Number(value);
+    return value;
+  }
+  var Scalar = /* @__PURE__ */ function(_Node) {
+    _inherits(Scalar2, _Node);
+    var _super = _createSuper(Scalar2);
+    function Scalar2(value) {
+      var _this;
+      _classCallCheck(this, Scalar2);
+      _this = _super.call(this);
+      _this.value = value;
+      return _this;
+    }
+    _createClass(Scalar2, [{
+      key: "toJSON",
+      value: function toJSON$1(arg, ctx) {
+        return ctx && ctx.keep ? this.value : toJSON(this.value, arg, ctx);
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        return String(this.value);
+      }
+    }]);
+    return Scalar2;
+  }(Node);
+  function collectionFromPath(schema, path2, value) {
+    var v2 = value;
+    for (var i = path2.length - 1; i >= 0; --i) {
+      var k2 = path2[i];
+      if (Number.isInteger(k2) && k2 >= 0) {
+        var a2 = [];
+        a2[k2] = v2;
+        v2 = a2;
+      } else {
+        var o2 = {};
+        Object.defineProperty(o2, k2, {
+          value: v2,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+        v2 = o2;
+      }
+    }
+    return schema.createNode(v2, false);
+  }
+  var isEmptyPath = function isEmptyPath2(path2) {
+    return path2 == null || _typeof(path2) === "object" && path2[Symbol.iterator]().next().done;
+  };
+  var Collection = /* @__PURE__ */ function(_Node) {
+    _inherits(Collection2, _Node);
+    var _super = _createSuper(Collection2);
+    function Collection2(schema) {
+      var _this;
+      _classCallCheck(this, Collection2);
+      _this = _super.call(this);
+      _defineProperty(_assertThisInitialized(_this), "items", []);
+      _this.schema = schema;
+      return _this;
+    }
+    _createClass(Collection2, [{
+      key: "addIn",
+      value: function addIn(path2, value) {
+        if (isEmptyPath(path2)) this.add(value);
+        else {
+          var _path = _toArray(path2), key = _path[0], rest = _path.slice(1);
+          var node = this.get(key, true);
+          if (node instanceof Collection2) node.addIn(rest, value);
+          else if (node === void 0 && this.schema) this.set(key, collectionFromPath(this.schema, rest, value));
+          else throw new Error("Expected YAML collection at ".concat(key, ". Remaining path: ").concat(rest));
+        }
+      }
+    }, {
+      key: "deleteIn",
+      value: function deleteIn(_ref) {
+        var _ref2 = _toArray(_ref), key = _ref2[0], rest = _ref2.slice(1);
+        if (rest.length === 0) return this.delete(key);
+        var node = this.get(key, true);
+        if (node instanceof Collection2) return node.deleteIn(rest);
+        else throw new Error("Expected YAML collection at ".concat(key, ". Remaining path: ").concat(rest));
+      }
+    }, {
+      key: "getIn",
+      value: function getIn(_ref3, keepScalar) {
+        var _ref4 = _toArray(_ref3), key = _ref4[0], rest = _ref4.slice(1);
+        var node = this.get(key, true);
+        if (rest.length === 0) return !keepScalar && node instanceof Scalar ? node.value : node;
+        else return node instanceof Collection2 ? node.getIn(rest, keepScalar) : void 0;
+      }
+    }, {
+      key: "hasAllNullValues",
+      value: function hasAllNullValues() {
+        return this.items.every(function(node) {
+          if (!node || node.type !== "PAIR") return false;
+          var n = node.value;
+          return n == null || n instanceof Scalar && n.value == null && !n.commentBefore && !n.comment && !n.tag;
+        });
+      }
+    }, {
+      key: "hasIn",
+      value: function hasIn(_ref5) {
+        var _ref6 = _toArray(_ref5), key = _ref6[0], rest = _ref6.slice(1);
+        if (rest.length === 0) return this.has(key);
+        var node = this.get(key, true);
+        return node instanceof Collection2 ? node.hasIn(rest) : false;
+      }
+    }, {
+      key: "setIn",
+      value: function setIn(_ref7, value) {
+        var _ref8 = _toArray(_ref7), key = _ref8[0], rest = _ref8.slice(1);
+        if (rest.length === 0) {
+          this.set(key, value);
+        } else {
+          var node = this.get(key, true);
+          if (node instanceof Collection2) node.setIn(rest, value);
+          else if (node === void 0 && this.schema) this.set(key, collectionFromPath(this.schema, rest, value));
+          else throw new Error("Expected YAML collection at ".concat(key, ". Remaining path: ").concat(rest));
+        }
+      }
+      // overridden in implementations
+      /* istanbul ignore next */
+    }, {
+      key: "toJSON",
+      value: function toJSON2() {
+        return null;
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, _ref9, onComment, onChompKeep) {
+        var _this2 = this;
+        var blockItem = _ref9.blockItem, flowChars = _ref9.flowChars, isMap = _ref9.isMap, itemIndent = _ref9.itemIndent;
+        var _ctx = ctx, indent = _ctx.indent, indentStep = _ctx.indentStep, stringify16 = _ctx.stringify;
+        var inFlow = this.type === Type.FLOW_MAP || this.type === Type.FLOW_SEQ || ctx.inFlow;
+        if (inFlow) itemIndent += indentStep;
+        var allNullValues = isMap && this.hasAllNullValues();
+        ctx = Object.assign({}, ctx, {
+          allNullValues,
+          indent: itemIndent,
+          inFlow,
+          type: null
+        });
+        var chompKeep = false;
+        var hasItemWithNewLine = false;
+        var nodes = this.items.reduce(function(nodes2, item, i) {
+          var comment;
+          if (item) {
+            if (!chompKeep && item.spaceBefore) nodes2.push({
+              type: "comment",
+              str: ""
+            });
+            if (item.commentBefore) item.commentBefore.match(/^.*$/gm).forEach(function(line) {
+              nodes2.push({
+                type: "comment",
+                str: "#".concat(line)
+              });
+            });
+            if (item.comment) comment = item.comment;
+            if (inFlow && (!chompKeep && item.spaceBefore || item.commentBefore || item.comment || item.key && (item.key.commentBefore || item.key.comment) || item.value && (item.value.commentBefore || item.value.comment))) hasItemWithNewLine = true;
+          }
+          chompKeep = false;
+          var str2 = stringify16(item, ctx, function() {
+            return comment = null;
+          }, function() {
+            return chompKeep = true;
+          });
+          if (inFlow && !hasItemWithNewLine && str2.includes("\n")) hasItemWithNewLine = true;
+          if (inFlow && i < _this2.items.length - 1) str2 += ",";
+          str2 = addComment(str2, itemIndent, comment);
+          if (chompKeep && (comment || inFlow)) chompKeep = false;
+          nodes2.push({
+            type: "item",
+            str: str2
+          });
+          return nodes2;
+        }, []);
+        var str;
+        if (nodes.length === 0) {
+          str = flowChars.start + flowChars.end;
+        } else if (inFlow) {
+          var start = flowChars.start, end = flowChars.end;
+          var strings = nodes.map(function(n) {
+            return n.str;
+          });
+          if (hasItemWithNewLine || strings.reduce(function(sum, str2) {
+            return sum + str2.length + 2;
+          }, 2) > Collection2.maxFlowStringSingleLineLength) {
+            str = start;
+            var _iterator = _createForOfIteratorHelper(strings), _step;
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+                var s2 = _step.value;
+                str += s2 ? "\n".concat(indentStep).concat(indent).concat(s2) : "\n";
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+            str += "\n".concat(indent).concat(end);
+          } else {
+            str = "".concat(start, " ").concat(strings.join(" "), " ").concat(end);
+          }
+        } else {
+          var _strings = nodes.map(blockItem);
+          str = _strings.shift();
+          var _iterator2 = _createForOfIteratorHelper(_strings), _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
+              var _s = _step2.value;
+              str += _s ? "\n".concat(indent).concat(_s) : "\n";
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+        if (this.comment) {
+          str += "\n" + this.comment.replace(/^/gm, "".concat(indent, "#"));
+          if (onComment) onComment();
+        } else if (chompKeep && onChompKeep) onChompKeep();
+        return str;
+      }
+    }]);
+    return Collection2;
+  }(Node);
+  _defineProperty(Collection, "maxFlowStringSingleLineLength", 60);
+  function asItemIndex(key) {
+    var idx = key instanceof Scalar ? key.value : key;
+    if (idx && typeof idx === "string") idx = Number(idx);
+    return Number.isInteger(idx) && idx >= 0 ? idx : null;
+  }
+  var YAMLSeq = /* @__PURE__ */ function(_Collection) {
+    _inherits(YAMLSeq2, _Collection);
+    var _super = _createSuper(YAMLSeq2);
+    function YAMLSeq2() {
+      _classCallCheck(this, YAMLSeq2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(YAMLSeq2, [{
+      key: "add",
+      value: function add(value) {
+        this.items.push(value);
+      }
+    }, {
+      key: "delete",
+      value: function _delete(key) {
+        var idx = asItemIndex(key);
+        if (typeof idx !== "number") return false;
+        var del = this.items.splice(idx, 1);
+        return del.length > 0;
+      }
+    }, {
+      key: "get",
+      value: function get(key, keepScalar) {
+        var idx = asItemIndex(key);
+        if (typeof idx !== "number") return void 0;
+        var it = this.items[idx];
+        return !keepScalar && it instanceof Scalar ? it.value : it;
+      }
+    }, {
+      key: "has",
+      value: function has(key) {
+        var idx = asItemIndex(key);
+        return typeof idx === "number" && idx < this.items.length;
+      }
+    }, {
+      key: "set",
+      value: function set2(key, value) {
+        var idx = asItemIndex(key);
+        if (typeof idx !== "number") throw new Error("Expected a valid index, not ".concat(key, "."));
+        this.items[idx] = value;
+      }
+    }, {
+      key: "toJSON",
+      value: function toJSON$1(_2, ctx) {
+        var seq2 = [];
+        if (ctx && ctx.onCreate) ctx.onCreate(seq2);
+        var i = 0;
+        var _iterator = _createForOfIteratorHelper(this.items), _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+            var item = _step.value;
+            seq2.push(toJSON(item, String(i++), ctx));
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+        return seq2;
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, onComment, onChompKeep) {
+        if (!ctx) return JSON.stringify(this);
+        return _get(_getPrototypeOf(YAMLSeq2.prototype), "toString", this).call(this, ctx, {
+          blockItem: function blockItem(n) {
+            return n.type === "comment" ? n.str : "- ".concat(n.str);
+          },
+          flowChars: {
+            start: "[",
+            end: "]"
+          },
+          isMap: false,
+          itemIndent: (ctx.indent || "") + "  "
+        }, onComment, onChompKeep);
+      }
+    }]);
+    return YAMLSeq2;
+  }(Collection);
+  var stringifyKey = function stringifyKey2(key, jsKey, ctx) {
+    if (jsKey === null) return "";
+    if (_typeof(jsKey) !== "object") return String(jsKey);
+    if (key instanceof Node && ctx && ctx.doc) return key.toString({
+      anchors: /* @__PURE__ */ Object.create(null),
+      doc: ctx.doc,
+      indent: "",
+      indentStep: ctx.indentStep,
+      inFlow: true,
+      inStringifyKey: true,
+      stringify: ctx.stringify
+    });
+    return JSON.stringify(jsKey);
+  };
+  var Pair = /* @__PURE__ */ function(_Node) {
+    _inherits(Pair2, _Node);
+    var _super = _createSuper(Pair2);
+    function Pair2(key) {
+      var _this;
+      var value = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
+      _classCallCheck(this, Pair2);
+      _this = _super.call(this);
+      _this.key = key;
+      _this.value = value;
+      _this.type = Pair2.Type.PAIR;
+      return _this;
+    }
+    _createClass(Pair2, [{
+      key: "commentBefore",
+      get: function get() {
+        return this.key instanceof Node ? this.key.commentBefore : void 0;
+      },
+      set: function set2(cb) {
+        if (this.key == null) this.key = new Scalar(null);
+        if (this.key instanceof Node) this.key.commentBefore = cb;
+        else {
+          var msg = "Pair.commentBefore is an alias for Pair.key.commentBefore. To set it, the key must be a Node.";
+          throw new Error(msg);
+        }
+      }
+    }, {
+      key: "addToJSMap",
+      value: function addToJSMap(ctx, map2) {
+        var key = toJSON(this.key, "", ctx);
+        if (map2 instanceof Map) {
+          var value = toJSON(this.value, key, ctx);
+          map2.set(key, value);
+        } else if (map2 instanceof Set) {
+          map2.add(key);
+        } else {
+          var stringKey = stringifyKey(this.key, key, ctx);
+          var _value = toJSON(this.value, stringKey, ctx);
+          if (stringKey in map2) Object.defineProperty(map2, stringKey, {
+            value: _value,
+            writable: true,
+            enumerable: true,
+            configurable: true
+          });
+          else map2[stringKey] = _value;
+        }
+        return map2;
+      }
+    }, {
+      key: "toJSON",
+      value: function toJSON2(_2, ctx) {
+        var pair = ctx && ctx.mapAsMap ? /* @__PURE__ */ new Map() : {};
+        return this.addToJSMap(ctx, pair);
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, onComment, onChompKeep) {
+        if (!ctx || !ctx.doc) return JSON.stringify(this);
+        var _ctx$doc$options = ctx.doc.options, indentSize = _ctx$doc$options.indent, indentSeq = _ctx$doc$options.indentSeq, simpleKeys = _ctx$doc$options.simpleKeys;
+        var key = this.key, value = this.value;
+        var keyComment = key instanceof Node && key.comment;
+        if (simpleKeys) {
+          if (keyComment) {
+            throw new Error("With simple keys, key nodes cannot have comments");
+          }
+          if (key instanceof Collection) {
+            var msg = "With simple keys, collection cannot be used as a key value";
+            throw new Error(msg);
+          }
+        }
+        var explicitKey = !simpleKeys && (!key || keyComment || (key instanceof Node ? key instanceof Collection || key.type === Type.BLOCK_FOLDED || key.type === Type.BLOCK_LITERAL : _typeof(key) === "object"));
+        var _ctx = ctx, doc = _ctx.doc, indent = _ctx.indent, indentStep = _ctx.indentStep, stringify16 = _ctx.stringify;
+        ctx = Object.assign({}, ctx, {
+          implicitKey: !explicitKey,
+          indent: indent + indentStep
+        });
+        var chompKeep = false;
+        var str = stringify16(key, ctx, function() {
+          return keyComment = null;
+        }, function() {
+          return chompKeep = true;
+        });
+        str = addComment(str, ctx.indent, keyComment);
+        if (!explicitKey && str.length > 1024) {
+          if (simpleKeys) throw new Error("With simple keys, single line scalar must not span more than 1024 characters");
+          explicitKey = true;
+        }
+        if (ctx.allNullValues && !simpleKeys) {
+          if (this.comment) {
+            str = addComment(str, ctx.indent, this.comment);
+            if (onComment) onComment();
+          } else if (chompKeep && !keyComment && onChompKeep) onChompKeep();
+          return ctx.inFlow && !explicitKey ? str : "? ".concat(str);
+        }
+        str = explicitKey ? "? ".concat(str, "\n").concat(indent, ":") : "".concat(str, ":");
+        if (this.comment) {
+          str = addComment(str, ctx.indent, this.comment);
+          if (onComment) onComment();
+        }
+        var vcb = "";
+        var valueComment = null;
+        if (value instanceof Node) {
+          if (value.spaceBefore) vcb = "\n";
+          if (value.commentBefore) {
+            var cs = value.commentBefore.replace(/^/gm, "".concat(ctx.indent, "#"));
+            vcb += "\n".concat(cs);
+          }
+          valueComment = value.comment;
+        } else if (value && _typeof(value) === "object") {
+          value = doc.schema.createNode(value, true);
+        }
+        ctx.implicitKey = false;
+        if (!explicitKey && !this.comment && value instanceof Scalar) ctx.indentAtStart = str.length + 1;
+        chompKeep = false;
+        if (!indentSeq && indentSize >= 2 && !ctx.inFlow && !explicitKey && value instanceof YAMLSeq && value.type !== Type.FLOW_SEQ && !value.tag && !doc.anchors.getName(value)) {
+          ctx.indent = ctx.indent.substr(2);
+        }
+        var valueStr = stringify16(value, ctx, function() {
+          return valueComment = null;
+        }, function() {
+          return chompKeep = true;
+        });
+        var ws = " ";
+        if (vcb || this.comment) {
+          ws = "".concat(vcb, "\n").concat(ctx.indent);
+        } else if (!explicitKey && value instanceof Collection) {
+          var flow = valueStr[0] === "[" || valueStr[0] === "{";
+          if (!flow || valueStr.includes("\n")) ws = "\n".concat(ctx.indent);
+        } else if (valueStr[0] === "\n") ws = "";
+        if (chompKeep && !valueComment && onChompKeep) onChompKeep();
+        return addComment(str + ws + valueStr, ctx.indent, valueComment);
+      }
+    }]);
+    return Pair2;
+  }(Node);
+  _defineProperty(Pair, "Type", {
+    PAIR: "PAIR",
+    MERGE_PAIR: "MERGE_PAIR"
+  });
+  var getAliasCount = function getAliasCount2(node, anchors) {
+    if (node instanceof Alias) {
+      var anchor = anchors.get(node.source);
+      return anchor.count * anchor.aliasCount;
+    } else if (node instanceof Collection) {
+      var count = 0;
+      var _iterator = _createForOfIteratorHelper(node.items), _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+          var item = _step.value;
+          var c2 = getAliasCount2(item, anchors);
+          if (c2 > count) count = c2;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return count;
+    } else if (node instanceof Pair) {
+      var kc = getAliasCount2(node.key, anchors);
+      var vc = getAliasCount2(node.value, anchors);
+      return Math.max(kc, vc);
+    }
+    return 1;
+  };
+  var Alias = /* @__PURE__ */ function(_Node) {
+    _inherits(Alias2, _Node);
+    var _super = _createSuper(Alias2);
+    function Alias2(source) {
+      var _this;
+      _classCallCheck(this, Alias2);
+      _this = _super.call(this);
+      _this.source = source;
+      _this.type = Type.ALIAS;
+      return _this;
+    }
+    _createClass(Alias2, [{
+      key: "tag",
+      set: function set2(t2) {
+        throw new Error("Alias nodes cannot have tags");
+      }
+    }, {
+      key: "toJSON",
+      value: function toJSON$1(arg, ctx) {
+        if (!ctx) return toJSON(this.source, arg, ctx);
+        var anchors = ctx.anchors, maxAliasCount = ctx.maxAliasCount;
+        var anchor = anchors.get(this.source);
+        if (!anchor || anchor.res === void 0) {
+          var msg = "This should not happen: Alias anchor was not resolved?";
+          if (this.cstNode) throw new YAMLReferenceError(this.cstNode, msg);
+          else throw new ReferenceError(msg);
+        }
+        if (maxAliasCount >= 0) {
+          anchor.count += 1;
+          if (anchor.aliasCount === 0) anchor.aliasCount = getAliasCount(this.source, anchors);
+          if (anchor.count * anchor.aliasCount > maxAliasCount) {
+            var _msg = "Excessive alias count indicates a resource exhaustion attack";
+            if (this.cstNode) throw new YAMLReferenceError(this.cstNode, _msg);
+            else throw new ReferenceError(_msg);
+          }
+        }
+        return anchor.res;
+      }
+      // Only called when stringifying an alias mapping key while constructing
+      // Object output.
+    }, {
+      key: "toString",
+      value: function toString(ctx) {
+        return Alias2.stringify(this, ctx);
+      }
+    }], [{
+      key: "stringify",
+      value: function stringify16(_ref, _ref2) {
+        var range = _ref.range, source = _ref.source;
+        var anchors = _ref2.anchors, doc = _ref2.doc, implicitKey = _ref2.implicitKey, inStringifyKey = _ref2.inStringifyKey;
+        var anchor = Object.keys(anchors).find(function(a2) {
+          return anchors[a2] === source;
+        });
+        if (!anchor && inStringifyKey) anchor = doc.anchors.getName(source) || doc.anchors.newName();
+        if (anchor) return "*".concat(anchor).concat(implicitKey ? " " : "");
+        var msg = doc.anchors.getName(source) ? "Alias node must be after source node" : "Source node not found for alias node";
+        throw new Error("".concat(msg, " [").concat(range, "]"));
+      }
+    }]);
+    return Alias2;
+  }(Node);
+  _defineProperty(Alias, "default", true);
+  function findPair(items, key) {
+    var k2 = key instanceof Scalar ? key.value : key;
+    var _iterator = _createForOfIteratorHelper(items), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var it = _step.value;
+        if (it instanceof Pair) {
+          if (it.key === key || it.key === k2) return it;
+          if (it.key && it.key.value === k2) return it;
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return void 0;
+  }
+  var YAMLMap = /* @__PURE__ */ function(_Collection) {
+    _inherits(YAMLMap2, _Collection);
+    var _super = _createSuper(YAMLMap2);
+    function YAMLMap2() {
+      _classCallCheck(this, YAMLMap2);
+      return _super.apply(this, arguments);
+    }
+    _createClass(YAMLMap2, [{
+      key: "add",
+      value: function add(pair, overwrite) {
+        if (!pair) pair = new Pair(pair);
+        else if (!(pair instanceof Pair)) pair = new Pair(pair.key || pair, pair.value);
+        var prev = findPair(this.items, pair.key);
+        var sortEntries = this.schema && this.schema.sortMapEntries;
+        if (prev) {
+          if (overwrite) prev.value = pair.value;
+          else throw new Error("Key ".concat(pair.key, " already set"));
+        } else if (sortEntries) {
+          var i = this.items.findIndex(function(item) {
+            return sortEntries(pair, item) < 0;
+          });
+          if (i === -1) this.items.push(pair);
+          else this.items.splice(i, 0, pair);
+        } else {
+          this.items.push(pair);
+        }
+      }
+    }, {
+      key: "delete",
+      value: function _delete(key) {
+        var it = findPair(this.items, key);
+        if (!it) return false;
+        var del = this.items.splice(this.items.indexOf(it), 1);
+        return del.length > 0;
+      }
+    }, {
+      key: "get",
+      value: function get(key, keepScalar) {
+        var it = findPair(this.items, key);
+        var node = it && it.value;
+        return !keepScalar && node instanceof Scalar ? node.value : node;
+      }
+    }, {
+      key: "has",
+      value: function has(key) {
+        return !!findPair(this.items, key);
+      }
+    }, {
+      key: "set",
+      value: function set2(key, value) {
+        this.add(new Pair(key, value), true);
+      }
+      /**
+       * @param {*} arg ignored
+       * @param {*} ctx Conversion context, originally set in Document#toJSON()
+       * @param {Class} Type If set, forces the returned collection type
+       * @returns {*} Instance of Type, Map, or Object
+       */
+    }, {
+      key: "toJSON",
+      value: function toJSON2(_2, ctx, Type2) {
+        var map2 = Type2 ? new Type2() : ctx && ctx.mapAsMap ? /* @__PURE__ */ new Map() : {};
+        if (ctx && ctx.onCreate) ctx.onCreate(map2);
+        var _iterator2 = _createForOfIteratorHelper(this.items), _step2;
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
+            var item = _step2.value;
+            item.addToJSMap(ctx, map2);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+        return map2;
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, onComment, onChompKeep) {
+        if (!ctx) return JSON.stringify(this);
+        var _iterator3 = _createForOfIteratorHelper(this.items), _step3;
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done; ) {
+            var item = _step3.value;
+            if (!(item instanceof Pair)) throw new Error("Map items must all be pairs; found ".concat(JSON.stringify(item), " instead"));
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+        return _get(_getPrototypeOf(YAMLMap2.prototype), "toString", this).call(this, ctx, {
+          blockItem: function blockItem(n) {
+            return n.str;
+          },
+          flowChars: {
+            start: "{",
+            end: "}"
+          },
+          isMap: true,
+          itemIndent: ctx.indent || ""
+        }, onComment, onChompKeep);
+      }
+    }]);
+    return YAMLMap2;
+  }(Collection);
+  var MERGE_KEY = "<<";
+  var Merge = /* @__PURE__ */ function(_Pair) {
+    _inherits(Merge2, _Pair);
+    var _super = _createSuper(Merge2);
+    function Merge2(pair) {
+      var _this;
+      _classCallCheck(this, Merge2);
+      if (pair instanceof Pair) {
+        var seq2 = pair.value;
+        if (!(seq2 instanceof YAMLSeq)) {
+          seq2 = new YAMLSeq();
+          seq2.items.push(pair.value);
+          seq2.range = pair.value.range;
+        }
+        _this = _super.call(this, pair.key, seq2);
+        _this.range = pair.range;
+      } else {
+        _this = _super.call(this, new Scalar(MERGE_KEY), new YAMLSeq());
+      }
+      _this.type = Pair.Type.MERGE_PAIR;
+      return _possibleConstructorReturn(_this);
+    }
+    _createClass(Merge2, [{
+      key: "addToJSMap",
+      value: function addToJSMap(ctx, map2) {
+        var _iterator = _createForOfIteratorHelper(this.value.items), _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+            var source = _step.value.source;
+            if (!(source instanceof YAMLMap)) throw new Error("Merge sources must be maps");
+            var srcMap = source.toJSON(null, ctx, Map);
+            var _iterator2 = _createForOfIteratorHelper(srcMap), _step2;
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
+                var _step2$value = _slicedToArray(_step2.value, 2), key = _step2$value[0], value = _step2$value[1];
+                if (map2 instanceof Map) {
+                  if (!map2.has(key)) map2.set(key, value);
+                } else if (map2 instanceof Set) {
+                  map2.add(key);
+                } else if (!Object.prototype.hasOwnProperty.call(map2, key)) {
+                  Object.defineProperty(map2, key, {
+                    value,
+                    writable: true,
+                    enumerable: true,
+                    configurable: true
+                  });
+                }
+              }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+        return map2;
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, onComment) {
+        var seq2 = this.value;
+        if (seq2.items.length > 1) return _get(_getPrototypeOf(Merge2.prototype), "toString", this).call(this, ctx, onComment);
+        this.value = seq2.items[0];
+        var str = _get(_getPrototypeOf(Merge2.prototype), "toString", this).call(this, ctx, onComment);
+        this.value = seq2;
+        return str;
+      }
+    }]);
+    return Merge2;
+  }(Pair);
+  var binaryOptions = {
+    defaultType: Type.BLOCK_LITERAL,
+    lineWidth: 76
+  };
+  var boolOptions = {
+    trueStr: "true",
+    falseStr: "false"
+  };
+  var intOptions = {
+    asBigInt: false
+  };
+  var nullOptions = {
+    nullStr: "null"
+  };
+  var strOptions = {
+    defaultType: Type.PLAIN,
+    doubleQuoted: {
+      jsonEncoding: false,
+      minMultiLineLength: 40
+    },
+    fold: {
+      lineWidth: 80,
+      minContentWidth: 20
+    }
+  };
+  function resolveScalar(str, tags2, scalarFallback) {
+    var _iterator = _createForOfIteratorHelper(tags2), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var _step$value = _step.value, format2 = _step$value.format, test = _step$value.test, resolve28 = _step$value.resolve;
+        if (test) {
+          var match = str.match(test);
+          if (match) {
+            var res = resolve28.apply(null, match);
+            if (!(res instanceof Scalar)) res = new Scalar(res);
+            if (format2) res.format = format2;
+            return res;
+          }
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    if (scalarFallback) str = scalarFallback(str);
+    return new Scalar(str);
+  }
+  var FOLD_FLOW = "flow";
+  var FOLD_BLOCK = "block";
+  var FOLD_QUOTED = "quoted";
+  var consumeMoreIndentedLines = function consumeMoreIndentedLines2(text2, i) {
+    var ch = text2[i + 1];
+    while (ch === " " || ch === "	") {
+      do {
+        ch = text2[i += 1];
+      } while (ch && ch !== "\n");
+      ch = text2[i + 1];
+    }
+    return i;
+  };
+  function foldFlowLines(text2, indent, mode, _ref) {
+    var indentAtStart = _ref.indentAtStart, _ref$lineWidth = _ref.lineWidth, lineWidth = _ref$lineWidth === void 0 ? 80 : _ref$lineWidth, _ref$minContentWidth = _ref.minContentWidth, minContentWidth = _ref$minContentWidth === void 0 ? 20 : _ref$minContentWidth, onFold = _ref.onFold, onOverflow = _ref.onOverflow;
+    if (!lineWidth || lineWidth < 0) return text2;
+    var endStep = Math.max(1 + minContentWidth, 1 + lineWidth - indent.length);
+    if (text2.length <= endStep) return text2;
+    var folds = [];
+    var escapedFolds = {};
+    var end = lineWidth - indent.length;
+    if (typeof indentAtStart === "number") {
+      if (indentAtStart > lineWidth - Math.max(2, minContentWidth)) folds.push(0);
+      else end = lineWidth - indentAtStart;
+    }
+    var split = void 0;
+    var prev = void 0;
+    var overflow = false;
+    var i = -1;
+    var escStart = -1;
+    var escEnd = -1;
+    if (mode === FOLD_BLOCK) {
+      i = consumeMoreIndentedLines(text2, i);
+      if (i !== -1) end = i + endStep;
+    }
+    for (var ch; ch = text2[i += 1]; ) {
+      if (mode === FOLD_QUOTED && ch === "\\") {
+        escStart = i;
+        switch (text2[i + 1]) {
+          case "x":
+            i += 3;
+            break;
+          case "u":
+            i += 5;
+            break;
+          case "U":
+            i += 9;
+            break;
+          default:
+            i += 1;
+        }
+        escEnd = i;
+      }
+      if (ch === "\n") {
+        if (mode === FOLD_BLOCK) i = consumeMoreIndentedLines(text2, i);
+        end = i + endStep;
+        split = void 0;
+      } else {
+        if (ch === " " && prev && prev !== " " && prev !== "\n" && prev !== "	") {
+          var next = text2[i + 1];
+          if (next && next !== " " && next !== "\n" && next !== "	") split = i;
+        }
+        if (i >= end) {
+          if (split) {
+            folds.push(split);
+            end = split + endStep;
+            split = void 0;
+          } else if (mode === FOLD_QUOTED) {
+            while (prev === " " || prev === "	") {
+              prev = ch;
+              ch = text2[i += 1];
+              overflow = true;
+            }
+            var j2 = i > escEnd + 1 ? i - 2 : escStart - 1;
+            if (escapedFolds[j2]) return text2;
+            folds.push(j2);
+            escapedFolds[j2] = true;
+            end = j2 + endStep;
+            split = void 0;
+          } else {
+            overflow = true;
+          }
+        }
+      }
+      prev = ch;
+    }
+    if (overflow && onOverflow) onOverflow();
+    if (folds.length === 0) return text2;
+    if (onFold) onFold();
+    var res = text2.slice(0, folds[0]);
+    for (var _i = 0; _i < folds.length; ++_i) {
+      var fold = folds[_i];
+      var _end = folds[_i + 1] || text2.length;
+      if (fold === 0) res = "\n".concat(indent).concat(text2.slice(0, _end));
+      else {
+        if (mode === FOLD_QUOTED && escapedFolds[fold]) res += "".concat(text2[fold], "\\");
+        res += "\n".concat(indent).concat(text2.slice(fold + 1, _end));
+      }
+    }
+    return res;
+  }
+  var getFoldOptions = function getFoldOptions2(_ref) {
+    var indentAtStart = _ref.indentAtStart;
+    return indentAtStart ? Object.assign({
+      indentAtStart
+    }, strOptions.fold) : strOptions.fold;
+  };
+  var containsDocumentMarker = function containsDocumentMarker2(str) {
+    return /^(%|---|\.\.\.)/m.test(str);
+  };
+  function lineLengthOverLimit(str, lineWidth, indentLength) {
+    if (!lineWidth || lineWidth < 0) return false;
+    var limit = lineWidth - indentLength;
+    var strLen = str.length;
+    if (strLen <= limit) return false;
+    for (var i = 0, start = 0; i < strLen; ++i) {
+      if (str[i] === "\n") {
+        if (i - start > limit) return true;
+        start = i + 1;
+        if (strLen - start <= limit) return false;
+      }
+    }
+    return true;
+  }
+  function doubleQuotedString(value, ctx) {
+    var implicitKey = ctx.implicitKey;
+    var _strOptions$doubleQuo = strOptions.doubleQuoted, jsonEncoding = _strOptions$doubleQuo.jsonEncoding, minMultiLineLength = _strOptions$doubleQuo.minMultiLineLength;
+    var json2 = JSON.stringify(value);
+    if (jsonEncoding) return json2;
+    var indent = ctx.indent || (containsDocumentMarker(value) ? "  " : "");
+    var str = "";
+    var start = 0;
+    for (var i = 0, ch = json2[i]; ch; ch = json2[++i]) {
+      if (ch === " " && json2[i + 1] === "\\" && json2[i + 2] === "n") {
+        str += json2.slice(start, i) + "\\ ";
+        i += 1;
+        start = i;
+        ch = "\\";
+      }
+      if (ch === "\\") switch (json2[i + 1]) {
+        case "u":
+          {
+            str += json2.slice(start, i);
+            var code2 = json2.substr(i + 2, 4);
+            switch (code2) {
+              case "0000":
+                str += "\\0";
+                break;
+              case "0007":
+                str += "\\a";
+                break;
+              case "000b":
+                str += "\\v";
+                break;
+              case "001b":
+                str += "\\e";
+                break;
+              case "0085":
+                str += "\\N";
+                break;
+              case "00a0":
+                str += "\\_";
+                break;
+              case "2028":
+                str += "\\L";
+                break;
+              case "2029":
+                str += "\\P";
+                break;
+              default:
+                if (code2.substr(0, 2) === "00") str += "\\x" + code2.substr(2);
+                else str += json2.substr(i, 6);
+            }
+            i += 5;
+            start = i + 1;
+          }
+          break;
+        case "n":
+          if (implicitKey || json2[i + 2] === '"' || json2.length < minMultiLineLength) {
+            i += 1;
+          } else {
+            str += json2.slice(start, i) + "\n\n";
+            while (json2[i + 2] === "\\" && json2[i + 3] === "n" && json2[i + 4] !== '"') {
+              str += "\n";
+              i += 2;
+            }
+            str += indent;
+            if (json2[i + 2] === " ") str += "\\";
+            i += 1;
+            start = i + 1;
+          }
+          break;
+        default:
+          i += 1;
+      }
+    }
+    str = start ? str + json2.slice(start) : json2;
+    return implicitKey ? str : foldFlowLines(str, indent, FOLD_QUOTED, getFoldOptions(ctx));
+  }
+  function singleQuotedString(value, ctx) {
+    if (ctx.implicitKey) {
+      if (/\n/.test(value)) return doubleQuotedString(value, ctx);
+    } else {
+      if (/[ \t]\n|\n[ \t]/.test(value)) return doubleQuotedString(value, ctx);
+    }
+    var indent = ctx.indent || (containsDocumentMarker(value) ? "  " : "");
+    var res = "'" + value.replace(/'/g, "''").replace(/\n+/g, "$&\n".concat(indent)) + "'";
+    return ctx.implicitKey ? res : foldFlowLines(res, indent, FOLD_FLOW, getFoldOptions(ctx));
+  }
+  function blockString(_ref2, ctx, onComment, onChompKeep) {
+    var comment = _ref2.comment, type = _ref2.type, value = _ref2.value;
+    if (/\n[\t ]+$/.test(value) || /^\s*$/.test(value)) {
+      return doubleQuotedString(value, ctx);
+    }
+    var indent = ctx.indent || (ctx.forceBlockIndent || containsDocumentMarker(value) ? "  " : "");
+    var indentSize = indent ? "2" : "1";
+    var literal = type === Type.BLOCK_FOLDED ? false : type === Type.BLOCK_LITERAL ? true : !lineLengthOverLimit(value, strOptions.fold.lineWidth, indent.length);
+    var header = literal ? "|" : ">";
+    if (!value) return header + "\n";
+    var wsStart = "";
+    var wsEnd = "";
+    value = value.replace(/[\n\t ]*$/, function(ws) {
+      var n = ws.indexOf("\n");
+      if (n === -1) {
+        header += "-";
+      } else if (value === ws || n !== ws.length - 1) {
+        header += "+";
+        if (onChompKeep) onChompKeep();
+      }
+      wsEnd = ws.replace(/\n$/, "");
+      return "";
+    }).replace(/^[\n ]*/, function(ws) {
+      if (ws.indexOf(" ") !== -1) header += indentSize;
+      var m2 = ws.match(/ +$/);
+      if (m2) {
+        wsStart = ws.slice(0, -m2[0].length);
+        return m2[0];
+      } else {
+        wsStart = ws;
+        return "";
+      }
+    });
+    if (wsEnd) wsEnd = wsEnd.replace(/\n+(?!\n|$)/g, "$&".concat(indent));
+    if (wsStart) wsStart = wsStart.replace(/\n+/g, "$&".concat(indent));
+    if (comment) {
+      header += " #" + comment.replace(/ ?[\r\n]+/g, " ");
+      if (onComment) onComment();
+    }
+    if (!value) return "".concat(header).concat(indentSize, "\n").concat(indent).concat(wsEnd);
+    if (literal) {
+      value = value.replace(/\n+/g, "$&".concat(indent));
+      return "".concat(header, "\n").concat(indent).concat(wsStart).concat(value).concat(wsEnd);
+    }
+    value = value.replace(/\n+/g, "\n$&").replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g, "$1$2").replace(/\n+/g, "$&".concat(indent));
+    var body = foldFlowLines("".concat(wsStart).concat(value).concat(wsEnd), indent, FOLD_BLOCK, strOptions.fold);
+    return "".concat(header, "\n").concat(indent).concat(body);
+  }
+  function plainString(item, ctx, onComment, onChompKeep) {
+    var comment = item.comment, type = item.type, value = item.value;
+    var actualString = ctx.actualString, implicitKey = ctx.implicitKey, indent = ctx.indent, inFlow = ctx.inFlow;
+    if (implicitKey && /[\n[\]{},]/.test(value) || inFlow && /[[\]{},]/.test(value)) {
+      return doubleQuotedString(value, ctx);
+    }
+    if (!value || /^[\n\t ,[\]{}#&*!|>'"%@`]|^[?-]$|^[?-][ \t]|[\n:][ \t]|[ \t]\n|[\n\t ]#|[\n\t :]$/.test(value)) {
+      return implicitKey || inFlow || value.indexOf("\n") === -1 ? value.indexOf('"') !== -1 && value.indexOf("'") === -1 ? singleQuotedString(value, ctx) : doubleQuotedString(value, ctx) : blockString(item, ctx, onComment, onChompKeep);
+    }
+    if (!implicitKey && !inFlow && type !== Type.PLAIN && value.indexOf("\n") !== -1) {
+      return blockString(item, ctx, onComment, onChompKeep);
+    }
+    if (indent === "" && containsDocumentMarker(value)) {
+      ctx.forceBlockIndent = true;
+      return blockString(item, ctx, onComment, onChompKeep);
+    }
+    var str = value.replace(/\n+/g, "$&\n".concat(indent));
+    if (actualString) {
+      var tags2 = ctx.doc.schema.tags;
+      var resolved = resolveScalar(str, tags2, tags2.scalarFallback).value;
+      if (typeof resolved !== "string") return doubleQuotedString(value, ctx);
+    }
+    var body = implicitKey ? str : foldFlowLines(str, indent, FOLD_FLOW, getFoldOptions(ctx));
+    if (comment && !inFlow && (body.indexOf("\n") !== -1 || comment.indexOf("\n") !== -1)) {
+      if (onComment) onComment();
+      return addCommentBefore(body, indent, comment);
+    }
+    return body;
+  }
+  function stringifyString(item, ctx, onComment, onChompKeep) {
+    var defaultType = strOptions.defaultType;
+    var implicitKey = ctx.implicitKey, inFlow = ctx.inFlow;
+    var _item = item, type = _item.type, value = _item.value;
+    if (typeof value !== "string") {
+      value = String(value);
+      item = Object.assign({}, item, {
+        value
+      });
+    }
+    var _stringify = function _stringify2(_type) {
+      switch (_type) {
+        case Type.BLOCK_FOLDED:
+        case Type.BLOCK_LITERAL:
+          return blockString(item, ctx, onComment, onChompKeep);
+        case Type.QUOTE_DOUBLE:
+          return doubleQuotedString(value, ctx);
+        case Type.QUOTE_SINGLE:
+          return singleQuotedString(value, ctx);
+        case Type.PLAIN:
+          return plainString(item, ctx, onComment, onChompKeep);
+        default:
+          return null;
+      }
+    };
+    if (type !== Type.QUOTE_DOUBLE && /[\x00-\x08\x0b-\x1f\x7f-\x9f]/.test(value)) {
+      type = Type.QUOTE_DOUBLE;
+    } else if ((implicitKey || inFlow) && (type === Type.BLOCK_FOLDED || type === Type.BLOCK_LITERAL)) {
+      type = Type.QUOTE_DOUBLE;
+    }
+    var res = _stringify(type);
+    if (res === null) {
+      res = _stringify(defaultType);
+      if (res === null) throw new Error("Unsupported default string type ".concat(defaultType));
+    }
+    return res;
+  }
+  function stringifyNumber(_ref) {
+    var format2 = _ref.format, minFractionDigits = _ref.minFractionDigits, tag = _ref.tag, value = _ref.value;
+    if (typeof value === "bigint") return String(value);
+    if (!isFinite(value)) return isNaN(value) ? ".nan" : value < 0 ? "-.inf" : ".inf";
+    var n = JSON.stringify(value);
+    if (!format2 && minFractionDigits && (!tag || tag === "tag:yaml.org,2002:float") && /^\d/.test(n)) {
+      var i = n.indexOf(".");
+      if (i < 0) {
+        i = n.length;
+        n += ".";
+      }
+      var d2 = minFractionDigits - (n.length - i - 1);
+      while (d2-- > 0) {
+        n += "0";
+      }
+    }
+    return n;
+  }
+  function checkFlowCollectionEnd(errors, cst) {
+    var char, name;
+    switch (cst.type) {
+      case Type.FLOW_MAP:
+        char = "}";
+        name = "flow map";
+        break;
+      case Type.FLOW_SEQ:
+        char = "]";
+        name = "flow sequence";
+        break;
+      default:
+        errors.push(new YAMLSemanticError(cst, "Not a flow collection!?"));
+        return;
+    }
+    var lastItem;
+    for (var i = cst.items.length - 1; i >= 0; --i) {
+      var item = cst.items[i];
+      if (!item || item.type !== Type.COMMENT) {
+        lastItem = item;
+        break;
+      }
+    }
+    if (lastItem && lastItem.char !== char) {
+      var msg = "Expected ".concat(name, " to end with ").concat(char);
+      var err;
+      if (typeof lastItem.offset === "number") {
+        err = new YAMLSemanticError(cst, msg);
+        err.offset = lastItem.offset + 1;
+      } else {
+        err = new YAMLSemanticError(lastItem, msg);
+        if (lastItem.range && lastItem.range.end) err.offset = lastItem.range.end - lastItem.range.start;
+      }
+      errors.push(err);
+    }
+  }
+  function checkFlowCommentSpace(errors, comment) {
+    var prev = comment.context.src[comment.range.start - 1];
+    if (prev !== "\n" && prev !== "	" && prev !== " ") {
+      var msg = "Comments must be separated from other tokens by white space characters";
+      errors.push(new YAMLSemanticError(comment, msg));
+    }
+  }
+  function getLongKeyError(source, key) {
+    var sk = String(key);
+    var k2 = sk.substr(0, 8) + "..." + sk.substr(-8);
+    return new YAMLSemanticError(source, 'The "'.concat(k2, '" key is too long'));
+  }
+  function resolveComments(collection, comments) {
+    var _iterator = _createForOfIteratorHelper(comments), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var _step$value = _step.value, afterKey = _step$value.afterKey, before = _step$value.before, comment = _step$value.comment;
+        var item = collection.items[before];
+        if (!item) {
+          if (comment !== void 0) {
+            if (collection.comment) collection.comment += "\n" + comment;
+            else collection.comment = comment;
+          }
+        } else {
+          if (afterKey && item.value) item = item.value;
+          if (comment === void 0) {
+            if (afterKey || !item.commentBefore) item.spaceBefore = true;
+          } else {
+            if (item.commentBefore) item.commentBefore += "\n" + comment;
+            else item.commentBefore = comment;
+          }
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+  }
+  function resolveString(doc, node) {
+    var res = node.strValue;
+    if (!res) return "";
+    if (typeof res === "string") return res;
+    res.errors.forEach(function(error) {
+      if (!error.source) error.source = node;
+      doc.errors.push(error);
+    });
+    return res.str;
+  }
+  function resolveTagHandle(doc, node) {
+    var _node$tag = node.tag, handle = _node$tag.handle, suffix = _node$tag.suffix;
+    var prefix = doc.tagPrefixes.find(function(p2) {
+      return p2.handle === handle;
+    });
+    if (!prefix) {
+      var dtp = doc.getDefaults().tagPrefixes;
+      if (dtp) prefix = dtp.find(function(p2) {
+        return p2.handle === handle;
+      });
+      if (!prefix) throw new YAMLSemanticError(node, "The ".concat(handle, " tag handle is non-default and was not declared."));
+    }
+    if (!suffix) throw new YAMLSemanticError(node, "The ".concat(handle, " tag has no suffix."));
+    if (handle === "!" && (doc.version || doc.options.version) === "1.0") {
+      if (suffix[0] === "^") {
+        doc.warnings.push(new YAMLWarning(node, "YAML 1.0 ^ tag expansion is not supported"));
+        return suffix;
+      }
+      if (/[:/]/.test(suffix)) {
+        var vocab = suffix.match(/^([a-z0-9-]+)\/(.*)/i);
+        return vocab ? "tag:".concat(vocab[1], ".yaml.org,2002:").concat(vocab[2]) : "tag:".concat(suffix);
+      }
+    }
+    return prefix.prefix + decodeURIComponent(suffix);
+  }
+  function resolveTagName(doc, node) {
+    var tag = node.tag, type = node.type;
+    var nonSpecific = false;
+    if (tag) {
+      var handle = tag.handle, suffix = tag.suffix, verbatim = tag.verbatim;
+      if (verbatim) {
+        if (verbatim !== "!" && verbatim !== "!!") return verbatim;
+        var msg = "Verbatim tags aren't resolved, so ".concat(verbatim, " is invalid.");
+        doc.errors.push(new YAMLSemanticError(node, msg));
+      } else if (handle === "!" && !suffix) {
+        nonSpecific = true;
+      } else {
+        try {
+          return resolveTagHandle(doc, node);
+        } catch (error) {
+          doc.errors.push(error);
+        }
+      }
+    }
+    switch (type) {
+      case Type.BLOCK_FOLDED:
+      case Type.BLOCK_LITERAL:
+      case Type.QUOTE_DOUBLE:
+      case Type.QUOTE_SINGLE:
+        return defaultTags.STR;
+      case Type.FLOW_MAP:
+      case Type.MAP:
+        return defaultTags.MAP;
+      case Type.FLOW_SEQ:
+      case Type.SEQ:
+        return defaultTags.SEQ;
+      case Type.PLAIN:
+        return nonSpecific ? defaultTags.STR : null;
+      default:
+        return null;
+    }
+  }
+  function resolveByTagName(doc, node, tagName) {
+    var tags2 = doc.schema.tags;
+    var matchWithTest = [];
+    var _iterator = _createForOfIteratorHelper(tags2), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var tag = _step.value;
+        if (tag.tag === tagName) {
+          if (tag.test) matchWithTest.push(tag);
+          else {
+            var res = tag.resolve(doc, node);
+            return res instanceof Collection ? res : new Scalar(res);
+          }
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    var str = resolveString(doc, node);
+    if (typeof str === "string" && matchWithTest.length > 0) return resolveScalar(str, matchWithTest, tags2.scalarFallback);
+    return null;
+  }
+  function getFallbackTagName(_ref) {
+    var type = _ref.type;
+    switch (type) {
+      case Type.FLOW_MAP:
+      case Type.MAP:
+        return defaultTags.MAP;
+      case Type.FLOW_SEQ:
+      case Type.SEQ:
+        return defaultTags.SEQ;
+      default:
+        return defaultTags.STR;
+    }
+  }
+  function resolveTag(doc, node, tagName) {
+    try {
+      var res = resolveByTagName(doc, node, tagName);
+      if (res) {
+        if (tagName && node.tag) res.tag = tagName;
+        return res;
+      }
+    } catch (error) {
+      if (!error.source) error.source = node;
+      doc.errors.push(error);
+      return null;
+    }
+    try {
+      var fallback = getFallbackTagName(node);
+      if (!fallback) throw new Error("The tag ".concat(tagName, " is unavailable"));
+      var msg = "The tag ".concat(tagName, " is unavailable, falling back to ").concat(fallback);
+      doc.warnings.push(new YAMLWarning(node, msg));
+      var _res = resolveByTagName(doc, node, fallback);
+      _res.tag = tagName;
+      return _res;
+    } catch (error) {
+      var refError = new YAMLReferenceError(node, error.message);
+      refError.stack = error.stack;
+      doc.errors.push(refError);
+      return null;
+    }
+  }
+  var isCollectionItem = function isCollectionItem2(node) {
+    if (!node) return false;
+    var type = node.type;
+    return type === Type.MAP_KEY || type === Type.MAP_VALUE || type === Type.SEQ_ITEM;
+  };
+  function resolveNodeProps(errors, node) {
+    var comments = {
+      before: [],
+      after: []
+    };
+    var hasAnchor = false;
+    var hasTag = false;
+    var props = isCollectionItem(node.context.parent) ? node.context.parent.props.concat(node.props) : node.props;
+    var _iterator = _createForOfIteratorHelper(props), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var _step$value = _step.value, start = _step$value.start, end = _step$value.end;
+        switch (node.context.src[start]) {
+          case Char.COMMENT: {
+            if (!node.commentHasRequiredWhitespace(start)) {
+              var msg = "Comments must be separated from other tokens by white space characters";
+              errors.push(new YAMLSemanticError(node, msg));
+            }
+            var header = node.header, valueRange = node.valueRange;
+            var cc = valueRange && (start > valueRange.start || header && start > header.start) ? comments.after : comments.before;
+            cc.push(node.context.src.slice(start + 1, end));
+            break;
+          }
+          case Char.ANCHOR:
+            if (hasAnchor) {
+              var _msg = "A node can have at most one anchor";
+              errors.push(new YAMLSemanticError(node, _msg));
+            }
+            hasAnchor = true;
+            break;
+          case Char.TAG:
+            if (hasTag) {
+              var _msg2 = "A node can have at most one tag";
+              errors.push(new YAMLSemanticError(node, _msg2));
+            }
+            hasTag = true;
+            break;
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return {
+      comments,
+      hasAnchor,
+      hasTag
+    };
+  }
+  function resolveNodeValue(doc, node) {
+    var anchors = doc.anchors, errors = doc.errors, schema = doc.schema;
+    if (node.type === Type.ALIAS) {
+      var name = node.rawValue;
+      var src = anchors.getNode(name);
+      if (!src) {
+        var msg = "Aliased anchor not found: ".concat(name);
+        errors.push(new YAMLReferenceError(node, msg));
+        return null;
+      }
+      var res = new Alias(src);
+      anchors._cstAliases.push(res);
+      return res;
+    }
+    var tagName = resolveTagName(doc, node);
+    if (tagName) return resolveTag(doc, node, tagName);
+    if (node.type !== Type.PLAIN) {
+      var _msg3 = "Failed to resolve ".concat(node.type, " node here");
+      errors.push(new YAMLSyntaxError(node, _msg3));
+      return null;
+    }
+    try {
+      var str = resolveString(doc, node);
+      return resolveScalar(str, schema.tags, schema.tags.scalarFallback);
+    } catch (error) {
+      if (!error.source) error.source = node;
+      errors.push(error);
+      return null;
+    }
+  }
+  function resolveNode(doc, node) {
+    if (!node) return null;
+    if (node.error) doc.errors.push(node.error);
+    var _resolveNodeProps = resolveNodeProps(doc.errors, node), comments = _resolveNodeProps.comments, hasAnchor = _resolveNodeProps.hasAnchor, hasTag = _resolveNodeProps.hasTag;
+    if (hasAnchor) {
+      var anchors = doc.anchors;
+      var name = node.anchor;
+      var prev = anchors.getNode(name);
+      if (prev) anchors.map[anchors.newName(name)] = prev;
+      anchors.map[name] = node;
+    }
+    if (node.type === Type.ALIAS && (hasAnchor || hasTag)) {
+      var msg = "An alias node must not specify any properties";
+      doc.errors.push(new YAMLSemanticError(node, msg));
+    }
+    var res = resolveNodeValue(doc, node);
+    if (res) {
+      res.range = [node.range.start, node.range.end];
+      if (doc.options.keepCstNodes) res.cstNode = node;
+      if (doc.options.keepNodeTypes) res.type = node.type;
+      var cb = comments.before.join("\n");
+      if (cb) {
+        res.commentBefore = res.commentBefore ? "".concat(res.commentBefore, "\n").concat(cb) : cb;
+      }
+      var ca = comments.after.join("\n");
+      if (ca) res.comment = res.comment ? "".concat(res.comment, "\n").concat(ca) : ca;
+    }
+    return node.resolved = res;
+  }
+  function resolveMap(doc, cst) {
+    if (cst.type !== Type.MAP && cst.type !== Type.FLOW_MAP) {
+      var msg = "A ".concat(cst.type, " node cannot be resolved as a mapping");
+      doc.errors.push(new YAMLSyntaxError(cst, msg));
+      return null;
+    }
+    var _ref = cst.type === Type.FLOW_MAP ? resolveFlowMapItems(doc, cst) : resolveBlockMapItems(doc, cst), comments = _ref.comments, items = _ref.items;
+    var map2 = new YAMLMap();
+    map2.items = items;
+    resolveComments(map2, comments);
+    var hasCollectionKey = false;
+    for (var i = 0; i < items.length; ++i) {
+      var iKey = items[i].key;
+      if (iKey instanceof Collection) hasCollectionKey = true;
+      if (doc.schema.merge && iKey && iKey.value === MERGE_KEY) {
+        items[i] = new Merge(items[i]);
+        var sources = items[i].value.items;
+        var error = null;
+        sources.some(function(node) {
+          if (node instanceof Alias) {
+            var type = node.source.type;
+            if (type === Type.MAP || type === Type.FLOW_MAP) return false;
+            return error = "Merge nodes aliases can only point to maps";
+          }
+          return error = "Merge nodes can only have Alias nodes as values";
+        });
+        if (error) doc.errors.push(new YAMLSemanticError(cst, error));
+      } else {
+        for (var j2 = i + 1; j2 < items.length; ++j2) {
+          var jKey = items[j2].key;
+          if (iKey === jKey || iKey && jKey && Object.prototype.hasOwnProperty.call(iKey, "value") && iKey.value === jKey.value) {
+            var _msg = 'Map keys must be unique; "'.concat(iKey, '" is repeated');
+            doc.errors.push(new YAMLSemanticError(cst, _msg));
+            break;
+          }
+        }
+      }
+    }
+    if (hasCollectionKey && !doc.options.mapAsMap) {
+      var warn2 = "Keys with collection values will be stringified as YAML due to JS Object restrictions. Use mapAsMap: true to avoid this.";
+      doc.warnings.push(new YAMLWarning(cst, warn2));
+    }
+    cst.resolved = map2;
+    return map2;
+  }
+  var valueHasPairComment = function valueHasPairComment2(_ref2) {
+    var _ref2$context = _ref2.context, lineStart = _ref2$context.lineStart, node = _ref2$context.node, src = _ref2$context.src, props = _ref2.props;
+    if (props.length === 0) return false;
+    var start = props[0].start;
+    if (node && start > node.valueRange.start) return false;
+    if (src[start] !== Char.COMMENT) return false;
+    for (var i = lineStart; i < start; ++i) {
+      if (src[i] === "\n") return false;
+    }
+    return true;
+  };
+  function resolvePairComment(item, pair) {
+    if (!valueHasPairComment(item)) return;
+    var comment = item.getPropValue(0, Char.COMMENT, true);
+    var found = false;
+    var cb = pair.value.commentBefore;
+    if (cb && cb.startsWith(comment)) {
+      pair.value.commentBefore = cb.substr(comment.length + 1);
+      found = true;
+    } else {
+      var cc = pair.value.comment;
+      if (!item.node && cc && cc.startsWith(comment)) {
+        pair.value.comment = cc.substr(comment.length + 1);
+        found = true;
+      }
+    }
+    if (found) pair.comment = comment;
+  }
+  function resolveBlockMapItems(doc, cst) {
+    var comments = [];
+    var items = [];
+    var key = void 0;
+    var keyStart = null;
+    for (var i = 0; i < cst.items.length; ++i) {
+      var item = cst.items[i];
+      switch (item.type) {
+        case Type.BLANK_LINE:
+          comments.push({
+            afterKey: !!key,
+            before: items.length
+          });
+          break;
+        case Type.COMMENT:
+          comments.push({
+            afterKey: !!key,
+            before: items.length,
+            comment: item.comment
+          });
+          break;
+        case Type.MAP_KEY:
+          if (key !== void 0) items.push(new Pair(key));
+          if (item.error) doc.errors.push(item.error);
+          key = resolveNode(doc, item.node);
+          keyStart = null;
+          break;
+        case Type.MAP_VALUE:
+          {
+            if (key === void 0) key = null;
+            if (item.error) doc.errors.push(item.error);
+            if (!item.context.atLineStart && item.node && item.node.type === Type.MAP && !item.node.context.atLineStart) {
+              var msg = "Nested mappings are not allowed in compact mappings";
+              doc.errors.push(new YAMLSemanticError(item.node, msg));
+            }
+            var valueNode = item.node;
+            if (!valueNode && item.props.length > 0) {
+              valueNode = new PlainValue(Type.PLAIN, []);
+              valueNode.context = {
+                parent: item,
+                src: item.context.src
+              };
+              var pos = item.range.start + 1;
+              valueNode.range = {
+                start: pos,
+                end: pos
+              };
+              valueNode.valueRange = {
+                start: pos,
+                end: pos
+              };
+              if (typeof item.range.origStart === "number") {
+                var origPos = item.range.origStart + 1;
+                valueNode.range.origStart = valueNode.range.origEnd = origPos;
+                valueNode.valueRange.origStart = valueNode.valueRange.origEnd = origPos;
+              }
+            }
+            var pair = new Pair(key, resolveNode(doc, valueNode));
+            resolvePairComment(item, pair);
+            items.push(pair);
+            if (key && typeof keyStart === "number") {
+              if (item.range.start > keyStart + 1024) doc.errors.push(getLongKeyError(cst, key));
+            }
+            key = void 0;
+            keyStart = null;
+          }
+          break;
+        default:
+          if (key !== void 0) items.push(new Pair(key));
+          key = resolveNode(doc, item);
+          keyStart = item.range.start;
+          if (item.error) doc.errors.push(item.error);
+          next: for (var j2 = i + 1; ; ++j2) {
+            var nextItem = cst.items[j2];
+            switch (nextItem && nextItem.type) {
+              case Type.BLANK_LINE:
+              case Type.COMMENT:
+                continue next;
+              case Type.MAP_VALUE:
+                break next;
+              default: {
+                var _msg2 = "Implicit map keys need to be followed by map values";
+                doc.errors.push(new YAMLSemanticError(item, _msg2));
+                break next;
+              }
+            }
+          }
+          if (item.valueRangeContainsNewline) {
+            var _msg3 = "Implicit map keys need to be on a single line";
+            doc.errors.push(new YAMLSemanticError(item, _msg3));
+          }
+      }
+    }
+    if (key !== void 0) items.push(new Pair(key));
+    return {
+      comments,
+      items
+    };
+  }
+  function resolveFlowMapItems(doc, cst) {
+    var comments = [];
+    var items = [];
+    var key = void 0;
+    var explicitKey = false;
+    var next = "{";
+    for (var i = 0; i < cst.items.length; ++i) {
+      var item = cst.items[i];
+      if (typeof item.char === "string") {
+        var char = item.char, offset = item.offset;
+        if (char === "?" && key === void 0 && !explicitKey) {
+          explicitKey = true;
+          next = ":";
+          continue;
+        }
+        if (char === ":") {
+          if (key === void 0) key = null;
+          if (next === ":") {
+            next = ",";
+            continue;
+          }
+        } else {
+          if (explicitKey) {
+            if (key === void 0 && char !== ",") key = null;
+            explicitKey = false;
+          }
+          if (key !== void 0) {
+            items.push(new Pair(key));
+            key = void 0;
+            if (char === ",") {
+              next = ":";
+              continue;
+            }
+          }
+        }
+        if (char === "}") {
+          if (i === cst.items.length - 1) continue;
+        } else if (char === next) {
+          next = ":";
+          continue;
+        }
+        var msg = "Flow map contains an unexpected ".concat(char);
+        var err = new YAMLSyntaxError(cst, msg);
+        err.offset = offset;
+        doc.errors.push(err);
+      } else if (item.type === Type.BLANK_LINE) {
+        comments.push({
+          afterKey: !!key,
+          before: items.length
+        });
+      } else if (item.type === Type.COMMENT) {
+        checkFlowCommentSpace(doc.errors, item);
+        comments.push({
+          afterKey: !!key,
+          before: items.length,
+          comment: item.comment
+        });
+      } else if (key === void 0) {
+        if (next === ",") doc.errors.push(new YAMLSemanticError(item, "Separator , missing in flow map"));
+        key = resolveNode(doc, item);
+      } else {
+        if (next !== ",") doc.errors.push(new YAMLSemanticError(item, "Indicator : missing in flow map entry"));
+        items.push(new Pair(key, resolveNode(doc, item)));
+        key = void 0;
+        explicitKey = false;
+      }
+    }
+    checkFlowCollectionEnd(doc.errors, cst);
+    if (key !== void 0) items.push(new Pair(key));
+    return {
+      comments,
+      items
+    };
+  }
+  function resolveSeq(doc, cst) {
+    if (cst.type !== Type.SEQ && cst.type !== Type.FLOW_SEQ) {
+      var msg = "A ".concat(cst.type, " node cannot be resolved as a sequence");
+      doc.errors.push(new YAMLSyntaxError(cst, msg));
+      return null;
+    }
+    var _ref = cst.type === Type.FLOW_SEQ ? resolveFlowSeqItems(doc, cst) : resolveBlockSeqItems(doc, cst), comments = _ref.comments, items = _ref.items;
+    var seq2 = new YAMLSeq();
+    seq2.items = items;
+    resolveComments(seq2, comments);
+    if (!doc.options.mapAsMap && items.some(function(it) {
+      return it instanceof Pair && it.key instanceof Collection;
+    })) {
+      var warn2 = "Keys with collection values will be stringified as YAML due to JS Object restrictions. Use mapAsMap: true to avoid this.";
+      doc.warnings.push(new YAMLWarning(cst, warn2));
+    }
+    cst.resolved = seq2;
+    return seq2;
+  }
+  function resolveBlockSeqItems(doc, cst) {
+    var comments = [];
+    var items = [];
+    for (var i = 0; i < cst.items.length; ++i) {
+      var item = cst.items[i];
+      switch (item.type) {
+        case Type.BLANK_LINE:
+          comments.push({
+            before: items.length
+          });
+          break;
+        case Type.COMMENT:
+          comments.push({
+            comment: item.comment,
+            before: items.length
+          });
+          break;
+        case Type.SEQ_ITEM:
+          if (item.error) doc.errors.push(item.error);
+          items.push(resolveNode(doc, item.node));
+          if (item.hasProps) {
+            var msg = "Sequence items cannot have tags or anchors before the - indicator";
+            doc.errors.push(new YAMLSemanticError(item, msg));
+          }
+          break;
+        default:
+          if (item.error) doc.errors.push(item.error);
+          doc.errors.push(new YAMLSyntaxError(item, "Unexpected ".concat(item.type, " node in sequence")));
+      }
+    }
+    return {
+      comments,
+      items
+    };
+  }
+  function resolveFlowSeqItems(doc, cst) {
+    var comments = [];
+    var items = [];
+    var explicitKey = false;
+    var key = void 0;
+    var keyStart = null;
+    var next = "[";
+    var prevItem = null;
+    for (var i = 0; i < cst.items.length; ++i) {
+      var item = cst.items[i];
+      if (typeof item.char === "string") {
+        var char = item.char, offset = item.offset;
+        if (char !== ":" && (explicitKey || key !== void 0)) {
+          if (explicitKey && key === void 0) key = next ? items.pop() : null;
+          items.push(new Pair(key));
+          explicitKey = false;
+          key = void 0;
+          keyStart = null;
+        }
+        if (char === next) {
+          next = null;
+        } else if (!next && char === "?") {
+          explicitKey = true;
+        } else if (next !== "[" && char === ":" && key === void 0) {
+          if (next === ",") {
+            key = items.pop();
+            if (key instanceof Pair) {
+              var msg = "Chaining flow sequence pairs is invalid";
+              var err = new YAMLSemanticError(cst, msg);
+              err.offset = offset;
+              doc.errors.push(err);
+            }
+            if (!explicitKey && typeof keyStart === "number") {
+              var keyEnd = item.range ? item.range.start : item.offset;
+              if (keyEnd > keyStart + 1024) doc.errors.push(getLongKeyError(cst, key));
+              var src = prevItem.context.src;
+              for (var _i = keyStart; _i < keyEnd; ++_i) {
+                if (src[_i] === "\n") {
+                  var _msg = "Implicit keys of flow sequence pairs need to be on a single line";
+                  doc.errors.push(new YAMLSemanticError(prevItem, _msg));
+                  break;
+                }
+              }
+            }
+          } else {
+            key = null;
+          }
+          keyStart = null;
+          explicitKey = false;
+          next = null;
+        } else if (next === "[" || char !== "]" || i < cst.items.length - 1) {
+          var _msg2 = "Flow sequence contains an unexpected ".concat(char);
+          var _err = new YAMLSyntaxError(cst, _msg2);
+          _err.offset = offset;
+          doc.errors.push(_err);
+        }
+      } else if (item.type === Type.BLANK_LINE) {
+        comments.push({
+          before: items.length
+        });
+      } else if (item.type === Type.COMMENT) {
+        checkFlowCommentSpace(doc.errors, item);
+        comments.push({
+          comment: item.comment,
+          before: items.length
+        });
+      } else {
+        if (next) {
+          var _msg3 = "Expected a ".concat(next, " in flow sequence");
+          doc.errors.push(new YAMLSemanticError(item, _msg3));
+        }
+        var value = resolveNode(doc, item);
+        if (key === void 0) {
+          items.push(value);
+          prevItem = item;
+        } else {
+          items.push(new Pair(key, value));
+          key = void 0;
+        }
+        keyStart = item.range.start;
+        next = ",";
+      }
+    }
+    checkFlowCollectionEnd(doc.errors, cst);
+    if (key !== void 0) items.push(new Pair(key));
+    return {
+      comments,
+      items
+    };
+  }
+  var define_process_env_default = {};
+  var binary = {
+    identify: function identify(value) {
+      return value instanceof Uint8Array;
+    },
+    // Buffer inherits from Uint8Array
+    default: false,
+    tag: "tag:yaml.org,2002:binary",
+    /**
+     * Returns a Buffer in node and an Uint8Array in browsers
+     *
+     * To use the resulting buffer as an image, you'll want to do something like:
+     *
+     *   const blob = new Blob([buffer], { type: 'image/jpeg' })
+     *   document.querySelector('#photo').src = URL.createObjectURL(blob)
+     */
+    resolve: function resolve2(doc, node) {
+      var src = resolveString(doc, node);
+      if (typeof Buffer === "function") {
+        return Buffer.from(src, "base64");
+      } else if (typeof atob === "function") {
+        var str = atob(src.replace(/[\n\r]/g, ""));
+        var buffer2 = new Uint8Array(str.length);
+        for (var i = 0; i < str.length; ++i) {
+          buffer2[i] = str.charCodeAt(i);
+        }
+        return buffer2;
+      } else {
+        var msg = "This environment does not support reading binary tags; either Buffer or atob is required";
+        doc.errors.push(new YAMLReferenceError(node, msg));
+        return null;
+      }
+    },
+    options: binaryOptions,
+    stringify: function stringify(_ref, ctx, onComment, onChompKeep) {
+      var comment = _ref.comment, type = _ref.type, value = _ref.value;
+      var src;
+      if (typeof Buffer === "function") {
+        src = value instanceof Buffer ? value.toString("base64") : Buffer.from(value.buffer).toString("base64");
+      } else if (typeof btoa === "function") {
+        var s2 = "";
+        for (var i = 0; i < value.length; ++i) {
+          s2 += String.fromCharCode(value[i]);
+        }
+        src = btoa(s2);
+      } else {
+        throw new Error("This environment does not support writing binary tags; either Buffer or btoa is required");
+      }
+      if (!type) type = binaryOptions.defaultType;
+      if (type === Type.QUOTE_DOUBLE) {
+        value = src;
+      } else {
+        var lineWidth = binaryOptions.lineWidth;
+        var n = Math.ceil(src.length / lineWidth);
+        var lines = new Array(n);
+        for (var _i = 0, o2 = 0; _i < n; ++_i, o2 += lineWidth) {
+          lines[_i] = src.substr(o2, lineWidth);
+        }
+        value = lines.join(type === Type.BLOCK_LITERAL ? "\n" : " ");
+      }
+      return stringifyString({
+        comment,
+        type,
+        value
+      }, ctx, onComment, onChompKeep);
+    }
+  };
+  function parsePairs(doc, cst) {
+    var seq2 = resolveSeq(doc, cst);
+    for (var i = 0; i < seq2.items.length; ++i) {
+      var item = seq2.items[i];
+      if (item instanceof Pair) continue;
+      else if (item instanceof YAMLMap) {
+        if (item.items.length > 1) {
+          var msg = "Each pair must have its own sequence indicator";
+          throw new YAMLSemanticError(cst, msg);
+        }
+        var pair = item.items[0] || new Pair();
+        if (item.commentBefore) pair.commentBefore = pair.commentBefore ? "".concat(item.commentBefore, "\n").concat(pair.commentBefore) : item.commentBefore;
+        if (item.comment) pair.comment = pair.comment ? "".concat(item.comment, "\n").concat(pair.comment) : item.comment;
+        item = pair;
+      }
+      seq2.items[i] = item instanceof Pair ? item : new Pair(item);
+    }
+    return seq2;
+  }
+  function createPairs(schema, iterable, ctx) {
+    var pairs2 = new YAMLSeq(schema);
+    pairs2.tag = "tag:yaml.org,2002:pairs";
+    var _iterator = _createForOfIteratorHelper(iterable), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var it = _step.value;
+        var key = void 0, value = void 0;
+        if (Array.isArray(it)) {
+          if (it.length === 2) {
+            key = it[0];
+            value = it[1];
+          } else throw new TypeError("Expected [key, value] tuple: ".concat(it));
+        } else if (it && it instanceof Object) {
+          var keys = Object.keys(it);
+          if (keys.length === 1) {
+            key = keys[0];
+            value = it[key];
+          } else throw new TypeError("Expected { key: value } tuple: ".concat(it));
+        } else {
+          key = it;
+        }
+        var pair = schema.createPair(key, value, ctx);
+        pairs2.items.push(pair);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return pairs2;
+  }
+  var pairs = {
+    default: false,
+    tag: "tag:yaml.org,2002:pairs",
+    resolve: parsePairs,
+    createNode: createPairs
+  };
+  var YAMLOMap = /* @__PURE__ */ function(_YAMLSeq) {
+    _inherits(YAMLOMap2, _YAMLSeq);
+    var _super = _createSuper(YAMLOMap2);
+    function YAMLOMap2() {
+      var _this;
+      _classCallCheck(this, YAMLOMap2);
+      _this = _super.call(this);
+      _defineProperty(_assertThisInitialized(_this), "add", YAMLMap.prototype.add.bind(_assertThisInitialized(_this)));
+      _defineProperty(_assertThisInitialized(_this), "delete", YAMLMap.prototype.delete.bind(_assertThisInitialized(_this)));
+      _defineProperty(_assertThisInitialized(_this), "get", YAMLMap.prototype.get.bind(_assertThisInitialized(_this)));
+      _defineProperty(_assertThisInitialized(_this), "has", YAMLMap.prototype.has.bind(_assertThisInitialized(_this)));
+      _defineProperty(_assertThisInitialized(_this), "set", YAMLMap.prototype.set.bind(_assertThisInitialized(_this)));
+      _this.tag = YAMLOMap2.tag;
+      return _this;
+    }
+    _createClass(YAMLOMap2, [{
+      key: "toJSON",
+      value: function toJSON$1(_2, ctx) {
+        var map2 = /* @__PURE__ */ new Map();
+        if (ctx && ctx.onCreate) ctx.onCreate(map2);
+        var _iterator = _createForOfIteratorHelper(this.items), _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+            var pair = _step.value;
+            var key = void 0, value = void 0;
+            if (pair instanceof Pair) {
+              key = toJSON(pair.key, "", ctx);
+              value = toJSON(pair.value, key, ctx);
+            } else {
+              key = toJSON(pair, "", ctx);
+            }
+            if (map2.has(key)) throw new Error("Ordered maps must not include duplicate keys");
+            map2.set(key, value);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+        return map2;
+      }
+    }]);
+    return YAMLOMap2;
+  }(YAMLSeq);
+  _defineProperty(YAMLOMap, "tag", "tag:yaml.org,2002:omap");
+  function parseOMap(doc, cst) {
+    var pairs2 = parsePairs(doc, cst);
+    var seenKeys = [];
+    var _iterator2 = _createForOfIteratorHelper(pairs2.items), _step2;
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
+        var key = _step2.value.key;
+        if (key instanceof Scalar) {
+          if (seenKeys.includes(key.value)) {
+            var msg = "Ordered maps must not include duplicate keys";
+            throw new YAMLSemanticError(cst, msg);
+          } else {
+            seenKeys.push(key.value);
+          }
+        }
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+    return Object.assign(new YAMLOMap(), pairs2);
+  }
+  function createOMap(schema, iterable, ctx) {
+    var pairs2 = createPairs(schema, iterable, ctx);
+    var omap2 = new YAMLOMap();
+    omap2.items = pairs2.items;
+    return omap2;
+  }
+  var omap = {
+    identify: function identify2(value) {
+      return value instanceof Map;
+    },
+    nodeClass: YAMLOMap,
+    default: false,
+    tag: "tag:yaml.org,2002:omap",
+    resolve: parseOMap,
+    createNode: createOMap
+  };
+  var YAMLSet = /* @__PURE__ */ function(_YAMLMap) {
+    _inherits(YAMLSet2, _YAMLMap);
+    var _super = _createSuper(YAMLSet2);
+    function YAMLSet2() {
+      var _this;
+      _classCallCheck(this, YAMLSet2);
+      _this = _super.call(this);
+      _this.tag = YAMLSet2.tag;
+      return _this;
+    }
+    _createClass(YAMLSet2, [{
+      key: "add",
+      value: function add(key) {
+        var pair = key instanceof Pair ? key : new Pair(key);
+        var prev = findPair(this.items, pair.key);
+        if (!prev) this.items.push(pair);
+      }
+    }, {
+      key: "get",
+      value: function get(key, keepPair) {
+        var pair = findPair(this.items, key);
+        return !keepPair && pair instanceof Pair ? pair.key instanceof Scalar ? pair.key.value : pair.key : pair;
+      }
+    }, {
+      key: "set",
+      value: function set2(key, value) {
+        if (typeof value !== "boolean") throw new Error("Expected boolean value for set(key, value) in a YAML set, not ".concat(_typeof(value)));
+        var prev = findPair(this.items, key);
+        if (prev && !value) {
+          this.items.splice(this.items.indexOf(prev), 1);
+        } else if (!prev && value) {
+          this.items.push(new Pair(key));
+        }
+      }
+    }, {
+      key: "toJSON",
+      value: function toJSON2(_2, ctx) {
+        return _get(_getPrototypeOf(YAMLSet2.prototype), "toJSON", this).call(this, _2, ctx, Set);
+      }
+    }, {
+      key: "toString",
+      value: function toString(ctx, onComment, onChompKeep) {
+        if (!ctx) return JSON.stringify(this);
+        if (this.hasAllNullValues()) return _get(_getPrototypeOf(YAMLSet2.prototype), "toString", this).call(this, ctx, onComment, onChompKeep);
+        else throw new Error("Set items must all have null values");
+      }
+    }]);
+    return YAMLSet2;
+  }(YAMLMap);
+  _defineProperty(YAMLSet, "tag", "tag:yaml.org,2002:set");
+  function parseSet(doc, cst) {
+    var map2 = resolveMap(doc, cst);
+    if (!map2.hasAllNullValues()) throw new YAMLSemanticError(cst, "Set items must all have null values");
+    return Object.assign(new YAMLSet(), map2);
+  }
+  function createSet(schema, iterable, ctx) {
+    var set2 = new YAMLSet();
+    var _iterator = _createForOfIteratorHelper(iterable), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var value = _step.value;
+        set2.items.push(schema.createPair(value, null, ctx));
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return set2;
+  }
+  var set = {
+    identify: function identify3(value) {
+      return value instanceof Set;
+    },
+    nodeClass: YAMLSet,
+    default: false,
+    tag: "tag:yaml.org,2002:set",
+    resolve: parseSet,
+    createNode: createSet
+  };
+  var parseSexagesimal = function parseSexagesimal2(sign, parts) {
+    var n = parts.split(":").reduce(function(n2, p2) {
+      return n2 * 60 + Number(p2);
+    }, 0);
+    return sign === "-" ? -n : n;
+  };
+  var stringifySexagesimal = function stringifySexagesimal2(_ref) {
+    var value = _ref.value;
+    if (isNaN(value) || !isFinite(value)) return stringifyNumber(value);
+    var sign = "";
+    if (value < 0) {
+      sign = "-";
+      value = Math.abs(value);
+    }
+    var parts = [value % 60];
+    if (value < 60) {
+      parts.unshift(0);
+    } else {
+      value = Math.round((value - parts[0]) / 60);
+      parts.unshift(value % 60);
+      if (value >= 60) {
+        value = Math.round((value - parts[0]) / 60);
+        parts.unshift(value);
+      }
+    }
+    return sign + parts.map(function(n) {
+      return n < 10 ? "0" + String(n) : String(n);
+    }).join(":").replace(/000000\d*$/, "");
+  };
+  var intTime = {
+    identify: function identify4(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "TIME",
+    test: /^([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+)$/,
+    resolve: function resolve22(str, sign, parts) {
+      return parseSexagesimal(sign, parts.replace(/_/g, ""));
+    },
+    stringify: stringifySexagesimal
+  };
+  var floatTime = {
+    identify: function identify5(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    format: "TIME",
+    test: /^([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+\.[0-9_]*)$/,
+    resolve: function resolve3(str, sign, parts) {
+      return parseSexagesimal(sign, parts.replace(/_/g, ""));
+    },
+    stringify: stringifySexagesimal
+  };
+  var timestamp = {
+    identify: function identify6(value) {
+      return value instanceof Date;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:timestamp",
+    // If the time zone is omitted, the timestamp is assumed to be specified in UTC. The time part
+    // may be omitted altogether, resulting in a date format. In such a case, the time part is
+    // assumed to be 00:00:00Z (start of day, UTC).
+    test: RegExp("^(?:([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})(?:(?:t|T|[ \\t]+)([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\\.[0-9]+)?)(?:[ \\t]*(Z|[-+][012]?[0-9](?::[0-9]{2})?))?)?)$"),
+    resolve: function resolve4(str, year, month, day, hour, minute, second, millisec, tz) {
+      if (millisec) millisec = (millisec + "00").substr(1, 3);
+      var date = Date.UTC(year, month - 1, day, hour || 0, minute || 0, second || 0, millisec || 0);
+      if (tz && tz !== "Z") {
+        var d2 = parseSexagesimal(tz[0], tz.slice(1));
+        if (Math.abs(d2) < 30) d2 *= 60;
+        date -= 6e4 * d2;
+      }
+      return new Date(date);
+    },
+    stringify: function stringify2(_ref2) {
+      var value = _ref2.value;
+      return value.toISOString().replace(/((T00:00)?:00)?\.000Z$/, "");
+    }
+  };
+  function shouldWarn(deprecation) {
+    var env = typeof process !== "undefined" && define_process_env_default || {};
+    if (deprecation) {
+      if (typeof YAML_SILENCE_DEPRECATION_WARNINGS !== "undefined") return !YAML_SILENCE_DEPRECATION_WARNINGS;
+      return !env.YAML_SILENCE_DEPRECATION_WARNINGS;
+    }
+    if (typeof YAML_SILENCE_WARNINGS !== "undefined") return !YAML_SILENCE_WARNINGS;
+    return !env.YAML_SILENCE_WARNINGS;
+  }
+  function warn(warning, type) {
+    if (shouldWarn(false)) {
+      var emit = typeof process !== "undefined" && process.emitWarning;
+      if (emit) emit(warning, type);
+      else {
+        console.warn(type ? "".concat(type, ": ").concat(warning) : warning);
+      }
+    }
+  }
+  var warned = {};
+  function warnOptionDeprecation(name, alternative) {
+    if (!warned[name] && shouldWarn(true)) {
+      warned[name] = true;
+      var msg = "The option '".concat(name, "' will be removed in a future release");
+      msg += ", use '".concat(alternative, "' instead.");
+      warn(msg, "DeprecationWarning");
+    }
+  }
+  function createMap(schema, obj, ctx) {
+    var map2 = new YAMLMap(schema);
+    if (obj instanceof Map) {
+      var _iterator = _createForOfIteratorHelper(obj), _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+          var _step$value = _slicedToArray(_step.value, 2), key = _step$value[0], value = _step$value[1];
+          map2.items.push(schema.createPair(key, value, ctx));
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    } else if (obj && _typeof(obj) === "object") {
+      for (var _i = 0, _Object$keys = Object.keys(obj); _i < _Object$keys.length; _i++) {
+        var _key = _Object$keys[_i];
+        map2.items.push(schema.createPair(_key, obj[_key], ctx));
+      }
+    }
+    if (typeof schema.sortMapEntries === "function") {
+      map2.items.sort(schema.sortMapEntries);
+    }
+    return map2;
+  }
+  var map = {
+    createNode: createMap,
+    default: true,
+    nodeClass: YAMLMap,
+    tag: "tag:yaml.org,2002:map",
+    resolve: resolveMap
+  };
+  function createSeq(schema, obj, ctx) {
+    var seq2 = new YAMLSeq(schema);
+    if (obj && obj[Symbol.iterator]) {
+      var _iterator = _createForOfIteratorHelper(obj), _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+          var it = _step.value;
+          var v2 = schema.createNode(it, ctx.wrapScalars, null, ctx);
+          seq2.items.push(v2);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+    return seq2;
+  }
+  var seq = {
+    createNode: createSeq,
+    default: true,
+    nodeClass: YAMLSeq,
+    tag: "tag:yaml.org,2002:seq",
+    resolve: resolveSeq
+  };
+  var string = {
+    identify: function identify7(value) {
+      return typeof value === "string";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:str",
+    resolve: resolveString,
+    stringify: function stringify3(item, ctx, onComment, onChompKeep) {
+      ctx = Object.assign({
+        actualString: true
+      }, ctx);
+      return stringifyString(item, ctx, onComment, onChompKeep);
+    },
+    options: strOptions
+  };
+  var failsafe = [map, seq, string];
+  var intIdentify$2 = function intIdentify(value) {
+    return typeof value === "bigint" || Number.isInteger(value);
+  };
+  var intResolve$1 = function intResolve(src, part, radix) {
+    return intOptions.asBigInt ? BigInt(src) : parseInt(part, radix);
+  };
+  function intStringify$1(node, radix, prefix) {
+    var value = node.value;
+    if (intIdentify$2(value) && value >= 0) return prefix + value.toString(radix);
+    return stringifyNumber(node);
+  }
+  var nullObj = {
+    identify: function identify8(value) {
+      return value == null;
+    },
+    createNode: function createNode(schema, value, ctx) {
+      return ctx.wrapScalars ? new Scalar(null) : null;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:null",
+    test: /^(?:~|[Nn]ull|NULL)?$/,
+    resolve: function resolve5() {
+      return null;
+    },
+    options: nullOptions,
+    stringify: function stringify4() {
+      return nullOptions.nullStr;
+    }
+  };
+  var boolObj = {
+    identify: function identify9(value) {
+      return typeof value === "boolean";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:bool",
+    test: /^(?:[Tt]rue|TRUE|[Ff]alse|FALSE)$/,
+    resolve: function resolve6(str) {
+      return str[0] === "t" || str[0] === "T";
+    },
+    options: boolOptions,
+    stringify: function stringify5(_ref) {
+      var value = _ref.value;
+      return value ? boolOptions.trueStr : boolOptions.falseStr;
+    }
+  };
+  var octObj = {
+    identify: function identify10(value) {
+      return intIdentify$2(value) && value >= 0;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "OCT",
+    test: /^0o([0-7]+)$/,
+    resolve: function resolve7(str, oct) {
+      return intResolve$1(str, oct, 8);
+    },
+    options: intOptions,
+    stringify: function stringify6(node) {
+      return intStringify$1(node, 8, "0o");
+    }
+  };
+  var intObj = {
+    identify: intIdentify$2,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    test: /^[-+]?[0-9]+$/,
+    resolve: function resolve8(str) {
+      return intResolve$1(str, str, 10);
+    },
+    options: intOptions,
+    stringify: stringifyNumber
+  };
+  var hexObj = {
+    identify: function identify11(value) {
+      return intIdentify$2(value) && value >= 0;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "HEX",
+    test: /^0x([0-9a-fA-F]+)$/,
+    resolve: function resolve9(str, hex) {
+      return intResolve$1(str, hex, 16);
+    },
+    options: intOptions,
+    stringify: function stringify7(node) {
+      return intStringify$1(node, 16, "0x");
+    }
+  };
+  var nanObj = {
+    identify: function identify12(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    test: /^(?:[-+]?\.inf|(\.nan))$/i,
+    resolve: function resolve10(str, nan) {
+      return nan ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+    },
+    stringify: stringifyNumber
+  };
+  var expObj = {
+    identify: function identify13(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    format: "EXP",
+    test: /^[-+]?(?:\.[0-9]+|[0-9]+(?:\.[0-9]*)?)[eE][-+]?[0-9]+$/,
+    resolve: function resolve11(str) {
+      return parseFloat(str);
+    },
+    stringify: function stringify8(_ref2) {
+      var value = _ref2.value;
+      return Number(value).toExponential();
+    }
+  };
+  var floatObj = {
+    identify: function identify14(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    test: /^[-+]?(?:\.([0-9]+)|[0-9]+\.([0-9]*))$/,
+    resolve: function resolve12(str, frac1, frac2) {
+      var frac = frac1 || frac2;
+      var node = new Scalar(parseFloat(str));
+      if (frac && frac[frac.length - 1] === "0") node.minFractionDigits = frac.length;
+      return node;
+    },
+    stringify: stringifyNumber
+  };
+  var core = failsafe.concat([nullObj, boolObj, octObj, intObj, hexObj, nanObj, expObj, floatObj]);
+  var intIdentify$1 = function intIdentify2(value) {
+    return typeof value === "bigint" || Number.isInteger(value);
+  };
+  var stringifyJSON = function stringifyJSON2(_ref) {
+    var value = _ref.value;
+    return JSON.stringify(value);
+  };
+  var json = [map, seq, {
+    identify: function identify15(value) {
+      return typeof value === "string";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:str",
+    resolve: resolveString,
+    stringify: stringifyJSON
+  }, {
+    identify: function identify16(value) {
+      return value == null;
+    },
+    createNode: function createNode2(schema, value, ctx) {
+      return ctx.wrapScalars ? new Scalar(null) : null;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:null",
+    test: /^null$/,
+    resolve: function resolve13() {
+      return null;
+    },
+    stringify: stringifyJSON
+  }, {
+    identify: function identify17(value) {
+      return typeof value === "boolean";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:bool",
+    test: /^true|false$/,
+    resolve: function resolve14(str) {
+      return str === "true";
+    },
+    stringify: stringifyJSON
+  }, {
+    identify: intIdentify$1,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    test: /^-?(?:0|[1-9][0-9]*)$/,
+    resolve: function resolve15(str) {
+      return intOptions.asBigInt ? BigInt(str) : parseInt(str, 10);
+    },
+    stringify: function stringify9(_ref2) {
+      var value = _ref2.value;
+      return intIdentify$1(value) ? value.toString() : JSON.stringify(value);
+    }
+  }, {
+    identify: function identify18(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    test: /^-?(?:0|[1-9][0-9]*)(?:\.[0-9]*)?(?:[eE][-+]?[0-9]+)?$/,
+    resolve: function resolve16(str) {
+      return parseFloat(str);
+    },
+    stringify: stringifyJSON
+  }];
+  json.scalarFallback = function(str) {
+    throw new SyntaxError("Unresolved plain scalar ".concat(JSON.stringify(str)));
+  };
+  var boolStringify = function boolStringify2(_ref) {
+    var value = _ref.value;
+    return value ? boolOptions.trueStr : boolOptions.falseStr;
+  };
+  var intIdentify3 = function intIdentify4(value) {
+    return typeof value === "bigint" || Number.isInteger(value);
+  };
+  function intResolve2(sign, src, radix) {
+    var str = src.replace(/_/g, "");
+    if (intOptions.asBigInt) {
+      switch (radix) {
+        case 2:
+          str = "0b".concat(str);
+          break;
+        case 8:
+          str = "0o".concat(str);
+          break;
+        case 16:
+          str = "0x".concat(str);
+          break;
+      }
+      var _n2 = BigInt(str);
+      return sign === "-" ? BigInt(-1) * _n2 : _n2;
+    }
+    var n = parseInt(str, radix);
+    return sign === "-" ? -1 * n : n;
+  }
+  function intStringify(node, radix, prefix) {
+    var value = node.value;
+    if (intIdentify3(value)) {
+      var str = value.toString(radix);
+      return value < 0 ? "-" + prefix + str.substr(1) : prefix + str;
+    }
+    return stringifyNumber(node);
+  }
+  var yaml11 = failsafe.concat([{
+    identify: function identify19(value) {
+      return value == null;
+    },
+    createNode: function createNode3(schema, value, ctx) {
+      return ctx.wrapScalars ? new Scalar(null) : null;
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:null",
+    test: /^(?:~|[Nn]ull|NULL)?$/,
+    resolve: function resolve17() {
+      return null;
+    },
+    options: nullOptions,
+    stringify: function stringify10() {
+      return nullOptions.nullStr;
+    }
+  }, {
+    identify: function identify20(value) {
+      return typeof value === "boolean";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:bool",
+    test: /^(?:Y|y|[Yy]es|YES|[Tt]rue|TRUE|[Oo]n|ON)$/,
+    resolve: function resolve18() {
+      return true;
+    },
+    options: boolOptions,
+    stringify: boolStringify
+  }, {
+    identify: function identify21(value) {
+      return typeof value === "boolean";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:bool",
+    test: /^(?:N|n|[Nn]o|NO|[Ff]alse|FALSE|[Oo]ff|OFF)$/i,
+    resolve: function resolve19() {
+      return false;
+    },
+    options: boolOptions,
+    stringify: boolStringify
+  }, {
+    identify: intIdentify3,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "BIN",
+    test: /^([-+]?)0b([0-1_]+)$/,
+    resolve: function resolve20(str, sign, bin) {
+      return intResolve2(sign, bin, 2);
+    },
+    stringify: function stringify11(node) {
+      return intStringify(node, 2, "0b");
+    }
+  }, {
+    identify: intIdentify3,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "OCT",
+    test: /^([-+]?)0([0-7_]+)$/,
+    resolve: function resolve21(str, sign, oct) {
+      return intResolve2(sign, oct, 8);
+    },
+    stringify: function stringify12(node) {
+      return intStringify(node, 8, "0");
+    }
+  }, {
+    identify: intIdentify3,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    test: /^([-+]?)([0-9][0-9_]*)$/,
+    resolve: function resolve23(str, sign, abs) {
+      return intResolve2(sign, abs, 10);
+    },
+    stringify: stringifyNumber
+  }, {
+    identify: intIdentify3,
+    default: true,
+    tag: "tag:yaml.org,2002:int",
+    format: "HEX",
+    test: /^([-+]?)0x([0-9a-fA-F_]+)$/,
+    resolve: function resolve24(str, sign, hex) {
+      return intResolve2(sign, hex, 16);
+    },
+    stringify: function stringify13(node) {
+      return intStringify(node, 16, "0x");
+    }
+  }, {
+    identify: function identify22(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    test: /^(?:[-+]?\.inf|(\.nan))$/i,
+    resolve: function resolve25(str, nan) {
+      return nan ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+    },
+    stringify: stringifyNumber
+  }, {
+    identify: function identify23(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    format: "EXP",
+    test: /^[-+]?([0-9][0-9_]*)?(\.[0-9_]*)?[eE][-+]?[0-9]+$/,
+    resolve: function resolve26(str) {
+      return parseFloat(str.replace(/_/g, ""));
+    },
+    stringify: function stringify14(_ref2) {
+      var value = _ref2.value;
+      return Number(value).toExponential();
+    }
+  }, {
+    identify: function identify24(value) {
+      return typeof value === "number";
+    },
+    default: true,
+    tag: "tag:yaml.org,2002:float",
+    test: /^[-+]?(?:[0-9][0-9_]*)?\.([0-9_]*)$/,
+    resolve: function resolve27(str, frac) {
+      var node = new Scalar(parseFloat(str.replace(/_/g, "")));
+      if (frac) {
+        var f2 = frac.replace(/_/g, "");
+        if (f2[f2.length - 1] === "0") node.minFractionDigits = f2.length;
+      }
+      return node;
+    },
+    stringify: stringifyNumber
+  }], binary, omap, pairs, set, intTime, floatTime, timestamp);
+  var schemas = {
+    core,
+    failsafe,
+    json,
+    yaml11
+  };
+  var tags = {
+    binary,
+    bool: boolObj,
+    float: floatObj,
+    floatExp: expObj,
+    floatNaN: nanObj,
+    floatTime,
+    int: intObj,
+    intHex: hexObj,
+    intOct: octObj,
+    intTime,
+    map,
+    null: nullObj,
+    omap,
+    pairs,
+    seq,
+    set,
+    timestamp
+  };
+  function findTagObject(value, tagName, tags2) {
+    if (tagName) {
+      var match = tags2.filter(function(t2) {
+        return t2.tag === tagName;
+      });
+      var tagObj = match.find(function(t2) {
+        return !t2.format;
+      }) || match[0];
+      if (!tagObj) throw new Error("Tag ".concat(tagName, " not found"));
+      return tagObj;
+    }
+    return tags2.find(function(t2) {
+      return (t2.identify && t2.identify(value) || t2.class && value instanceof t2.class) && !t2.format;
+    });
+  }
+  function createNode$1(value, tagName, ctx) {
+    if (value instanceof Node) return value;
+    var defaultPrefix = ctx.defaultPrefix, onTagObj = ctx.onTagObj, prevObjects = ctx.prevObjects, schema = ctx.schema, wrapScalars = ctx.wrapScalars;
+    if (tagName && tagName.startsWith("!!")) tagName = defaultPrefix + tagName.slice(2);
+    var tagObj = findTagObject(value, tagName, schema.tags);
+    if (!tagObj) {
+      if (typeof value.toJSON === "function") value = value.toJSON();
+      if (!value || _typeof(value) !== "object") return wrapScalars ? new Scalar(value) : value;
+      tagObj = value instanceof Map ? map : value[Symbol.iterator] ? seq : map;
+    }
+    if (onTagObj) {
+      onTagObj(tagObj);
+      delete ctx.onTagObj;
+    }
+    var obj = {
+      value: void 0,
+      node: void 0
+    };
+    if (value && _typeof(value) === "object" && prevObjects) {
+      var prev = prevObjects.get(value);
+      if (prev) {
+        var alias = new Alias(prev);
+        ctx.aliasNodes.push(alias);
+        return alias;
+      }
+      obj.value = value;
+      prevObjects.set(value, obj);
+    }
+    obj.node = tagObj.createNode ? tagObj.createNode(ctx.schema, value, ctx) : wrapScalars ? new Scalar(value) : value;
+    if (tagName && obj.node instanceof Node) obj.node.tag = tagName;
+    return obj.node;
+  }
+  function getSchemaTags(schemas2, knownTags, customTags, schemaId) {
+    var tags2 = schemas2[schemaId.replace(/\W/g, "")];
+    if (!tags2) {
+      var keys = Object.keys(schemas2).map(function(key) {
+        return JSON.stringify(key);
+      }).join(", ");
+      throw new Error('Unknown schema "'.concat(schemaId, '"; use one of ').concat(keys));
+    }
+    if (Array.isArray(customTags)) {
+      var _iterator = _createForOfIteratorHelper(customTags), _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+          var tag = _step.value;
+          tags2 = tags2.concat(tag);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    } else if (typeof customTags === "function") {
+      tags2 = customTags(tags2.slice());
+    }
+    for (var i = 0; i < tags2.length; ++i) {
+      var _tag = tags2[i];
+      if (typeof _tag === "string") {
+        var tagObj = knownTags[_tag];
+        if (!tagObj) {
+          var _keys = Object.keys(knownTags).map(function(key) {
+            return JSON.stringify(key);
+          }).join(", ");
+          throw new Error('Unknown custom tag "'.concat(_tag, '"; use one of ').concat(_keys));
+        }
+        tags2[i] = tagObj;
+      }
+    }
+    return tags2;
+  }
+  var sortMapEntriesByKey = function sortMapEntriesByKey2(a2, b) {
+    return a2.key < b.key ? -1 : a2.key > b.key ? 1 : 0;
+  };
+  var Schema = /* @__PURE__ */ function() {
+    function Schema2(_ref) {
+      var customTags = _ref.customTags, merge = _ref.merge, schema = _ref.schema, sortMapEntries = _ref.sortMapEntries, deprecatedCustomTags = _ref.tags;
+      _classCallCheck(this, Schema2);
+      this.merge = !!merge;
+      this.name = schema;
+      this.sortMapEntries = sortMapEntries === true ? sortMapEntriesByKey : sortMapEntries || null;
+      if (!customTags && deprecatedCustomTags) warnOptionDeprecation("tags", "customTags");
+      this.tags = getSchemaTags(schemas, tags, customTags || deprecatedCustomTags, schema);
+    }
+    _createClass(Schema2, [{
+      key: "createNode",
+      value: function createNode$1$1(value, wrapScalars, tagName, ctx) {
+        var baseCtx = {
+          defaultPrefix: Schema2.defaultPrefix,
+          schema: this,
+          wrapScalars
+        };
+        var createCtx = ctx ? Object.assign(ctx, baseCtx) : baseCtx;
+        return createNode$1(value, tagName, createCtx);
+      }
+    }, {
+      key: "createPair",
+      value: function createPair(key, value, ctx) {
+        if (!ctx) ctx = {
+          wrapScalars: true
+        };
+        var k2 = this.createNode(key, ctx.wrapScalars, null, ctx);
+        var v2 = this.createNode(value, ctx.wrapScalars, null, ctx);
+        return new Pair(k2, v2);
+      }
+    }]);
+    return Schema2;
+  }();
+  _defineProperty(Schema, "defaultPrefix", defaultTagPrefix);
+  _defineProperty(Schema, "defaultTags", defaultTags);
+  var defaultOptions = {
+    anchorPrefix: "a",
+    customTags: null,
+    indent: 2,
+    indentSeq: true,
+    keepCstNodes: false,
+    keepNodeTypes: true,
+    keepBlobsInJSON: true,
+    mapAsMap: false,
+    maxAliasCount: 100,
+    prettyErrors: false,
+    // TODO Set true in v2
+    simpleKeys: false,
+    version: "1.2"
+  };
+  var scalarOptions = {
+    get binary() {
+      return binaryOptions;
+    },
+    set binary(opt) {
+      Object.assign(binaryOptions, opt);
+    },
+    get bool() {
+      return boolOptions;
+    },
+    set bool(opt) {
+      Object.assign(boolOptions, opt);
+    },
+    get int() {
+      return intOptions;
+    },
+    set int(opt) {
+      Object.assign(intOptions, opt);
+    },
+    get null() {
+      return nullOptions;
+    },
+    set null(opt) {
+      Object.assign(nullOptions, opt);
+    },
+    get str() {
+      return strOptions;
+    },
+    set str(opt) {
+      Object.assign(strOptions, opt);
+    }
+  };
+  var documentOptions = {
+    "1.0": {
+      schema: "yaml-1.1",
+      merge: true,
+      tagPrefixes: [{
+        handle: "!",
+        prefix: defaultTagPrefix
+      }, {
+        handle: "!!",
+        prefix: "tag:private.yaml.org,2002:"
+      }]
+    },
+    1.1: {
+      schema: "yaml-1.1",
+      merge: true,
+      tagPrefixes: [{
+        handle: "!",
+        prefix: "!"
+      }, {
+        handle: "!!",
+        prefix: defaultTagPrefix
+      }]
+    },
+    1.2: {
+      schema: "core",
+      merge: false,
+      tagPrefixes: [{
+        handle: "!",
+        prefix: "!"
+      }, {
+        handle: "!!",
+        prefix: defaultTagPrefix
+      }]
+    }
+  };
+  function stringifyTag(doc, tag) {
+    if ((doc.version || doc.options.version) === "1.0") {
+      var priv = tag.match(/^tag:private\.yaml\.org,2002:([^:/]+)$/);
+      if (priv) return "!" + priv[1];
+      var vocab = tag.match(/^tag:([a-zA-Z0-9-]+)\.yaml\.org,2002:(.*)/);
+      return vocab ? "!".concat(vocab[1], "/").concat(vocab[2]) : "!".concat(tag.replace(/^tag:/, ""));
+    }
+    var p2 = doc.tagPrefixes.find(function(p3) {
+      return tag.indexOf(p3.prefix) === 0;
+    });
+    if (!p2) {
+      var dtp = doc.getDefaults().tagPrefixes;
+      p2 = dtp && dtp.find(function(p3) {
+        return tag.indexOf(p3.prefix) === 0;
+      });
+    }
+    if (!p2) return tag[0] === "!" ? tag : "!<".concat(tag, ">");
+    var suffix = tag.substr(p2.prefix.length).replace(/[!,[\]{}]/g, function(ch) {
+      return {
+        "!": "%21",
+        ",": "%2C",
+        "[": "%5B",
+        "]": "%5D",
+        "{": "%7B",
+        "}": "%7D"
+      }[ch];
+    });
+    return p2.handle + suffix;
+  }
+  function getTagObject(tags2, item) {
+    if (item instanceof Alias) return Alias;
+    if (item.tag) {
+      var match = tags2.filter(function(t2) {
+        return t2.tag === item.tag;
+      });
+      if (match.length > 0) return match.find(function(t2) {
+        return t2.format === item.format;
+      }) || match[0];
+    }
+    var tagObj, obj;
+    if (item instanceof Scalar) {
+      obj = item.value;
+      var _match = tags2.filter(function(t2) {
+        return t2.identify && t2.identify(obj) || t2.class && obj instanceof t2.class;
+      });
+      tagObj = _match.find(function(t2) {
+        return t2.format === item.format;
+      }) || _match.find(function(t2) {
+        return !t2.format;
+      });
+    } else {
+      obj = item;
+      tagObj = tags2.find(function(t2) {
+        return t2.nodeClass && obj instanceof t2.nodeClass;
+      });
+    }
+    if (!tagObj) {
+      var name = obj && obj.constructor ? obj.constructor.name : _typeof(obj);
+      throw new Error("Tag not resolved for ".concat(name, " value"));
+    }
+    return tagObj;
+  }
+  function stringifyProps(node, tagObj, _ref) {
+    var anchors = _ref.anchors, doc = _ref.doc;
+    var props = [];
+    var anchor = doc.anchors.getName(node);
+    if (anchor) {
+      anchors[anchor] = node;
+      props.push("&".concat(anchor));
+    }
+    if (node.tag) {
+      props.push(stringifyTag(doc, node.tag));
+    } else if (!tagObj.default) {
+      props.push(stringifyTag(doc, tagObj.tag));
+    }
+    return props.join(" ");
+  }
+  function stringify$1(item, ctx, onComment, onChompKeep) {
+    var _ctx$doc = ctx.doc, anchors = _ctx$doc.anchors, schema = _ctx$doc.schema;
+    var tagObj;
+    if (!(item instanceof Node)) {
+      var createCtx = {
+        aliasNodes: [],
+        onTagObj: function onTagObj(o2) {
+          return tagObj = o2;
+        },
+        prevObjects: /* @__PURE__ */ new Map()
+      };
+      item = schema.createNode(item, true, null, createCtx);
+      var _iterator = _createForOfIteratorHelper(createCtx.aliasNodes), _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+          var alias = _step.value;
+          alias.source = alias.source.node;
+          var name = anchors.getName(alias.source);
+          if (!name) {
+            name = anchors.newName();
+            anchors.map[name] = alias.source;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+    if (item instanceof Pair) return item.toString(ctx, onComment, onChompKeep);
+    if (!tagObj) tagObj = getTagObject(schema.tags, item);
+    var props = stringifyProps(item, tagObj, ctx);
+    if (props.length > 0) ctx.indentAtStart = (ctx.indentAtStart || 0) + props.length + 1;
+    var str = typeof tagObj.stringify === "function" ? tagObj.stringify(item, ctx, onComment, onChompKeep) : item instanceof Scalar ? stringifyString(item, ctx, onComment, onChompKeep) : item.toString(ctx, onComment, onChompKeep);
+    if (!props) return str;
+    return item instanceof Scalar || str[0] === "{" || str[0] === "[" ? "".concat(props, " ").concat(str) : "".concat(props, "\n").concat(ctx.indent).concat(str);
+  }
+  var Anchors = /* @__PURE__ */ function() {
+    function Anchors2(prefix) {
+      _classCallCheck(this, Anchors2);
+      _defineProperty(this, "map", /* @__PURE__ */ Object.create(null));
+      this.prefix = prefix;
+    }
+    _createClass(Anchors2, [{
+      key: "createAlias",
+      value: function createAlias(node, name) {
+        this.setAnchor(node, name);
+        return new Alias(node);
+      }
+    }, {
+      key: "createMergePair",
+      value: function createMergePair() {
+        var _this = this;
+        var merge = new Merge();
+        for (var _len = arguments.length, sources = new Array(_len), _key = 0; _key < _len; _key++) {
+          sources[_key] = arguments[_key];
+        }
+        merge.value.items = sources.map(function(s2) {
+          if (s2 instanceof Alias) {
+            if (s2.source instanceof YAMLMap) return s2;
+          } else if (s2 instanceof YAMLMap) {
+            return _this.createAlias(s2);
+          }
+          throw new Error("Merge sources must be Map nodes or their Aliases");
+        });
+        return merge;
+      }
+    }, {
+      key: "getName",
+      value: function getName(node) {
+        var map2 = this.map;
+        return Object.keys(map2).find(function(a2) {
+          return map2[a2] === node;
+        });
+      }
+    }, {
+      key: "getNames",
+      value: function getNames() {
+        return Object.keys(this.map);
+      }
+    }, {
+      key: "getNode",
+      value: function getNode(name) {
+        return this.map[name];
+      }
+    }, {
+      key: "newName",
+      value: function newName(prefix) {
+        if (!prefix) prefix = this.prefix;
+        var names = Object.keys(this.map);
+        for (var i = 1; true; ++i) {
+          var name = "".concat(prefix).concat(i);
+          if (!names.includes(name)) return name;
+        }
+      }
+      // During parsing, map & aliases contain CST nodes
+    }, {
+      key: "resolveNodes",
+      value: function resolveNodes() {
+        var map2 = this.map, _cstAliases = this._cstAliases;
+        Object.keys(map2).forEach(function(a2) {
+          map2[a2] = map2[a2].resolved;
+        });
+        _cstAliases.forEach(function(a2) {
+          a2.source = a2.source.resolved;
+        });
+        delete this._cstAliases;
+      }
+    }, {
+      key: "setAnchor",
+      value: function setAnchor(node, name) {
+        if (node != null && !Anchors2.validAnchorNode(node)) {
+          throw new Error("Anchors may only be set for Scalar, Seq and Map nodes");
+        }
+        if (name && /[\x00-\x19\s,[\]{}]/.test(name)) {
+          throw new Error("Anchor names must not contain whitespace or control characters");
+        }
+        var map2 = this.map;
+        var prev = node && Object.keys(map2).find(function(a2) {
+          return map2[a2] === node;
+        });
+        if (prev) {
+          if (!name) {
+            return prev;
+          } else if (prev !== name) {
+            delete map2[prev];
+            map2[name] = node;
+          }
+        } else {
+          if (!name) {
+            if (!node) return null;
+            name = this.newName();
+          }
+          map2[name] = node;
+        }
+        return name;
+      }
+    }], [{
+      key: "validAnchorNode",
+      value: function validAnchorNode(node) {
+        return node instanceof Scalar || node instanceof YAMLSeq || node instanceof YAMLMap;
+      }
+    }]);
+    return Anchors2;
+  }();
+  var visit = function visit2(node, tags2) {
+    if (node && _typeof(node) === "object") {
+      var tag = node.tag;
+      if (node instanceof Collection) {
+        if (tag) tags2[tag] = true;
+        node.items.forEach(function(n) {
+          return visit2(n, tags2);
+        });
+      } else if (node instanceof Pair) {
+        visit2(node.key, tags2);
+        visit2(node.value, tags2);
+      } else if (node instanceof Scalar) {
+        if (tag) tags2[tag] = true;
+      }
+    }
+    return tags2;
+  };
+  var listTagNames = function listTagNames2(node) {
+    return Object.keys(visit(node, {}));
+  };
+  function parseContents(doc, contents) {
+    var comments = {
+      before: [],
+      after: []
+    };
+    var body = void 0;
+    var spaceBefore = false;
+    var _iterator = _createForOfIteratorHelper(contents), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var node = _step.value;
+        if (node.valueRange) {
+          if (body !== void 0) {
+            var msg = "Document contains trailing content not separated by a ... or --- line";
+            doc.errors.push(new YAMLSyntaxError(node, msg));
+            break;
+          }
+          var res = resolveNode(doc, node);
+          if (spaceBefore) {
+            res.spaceBefore = true;
+            spaceBefore = false;
+          }
+          body = res;
+        } else if (node.comment !== null) {
+          var cc = body === void 0 ? comments.before : comments.after;
+          cc.push(node.comment);
+        } else if (node.type === Type.BLANK_LINE) {
+          spaceBefore = true;
+          if (body === void 0 && comments.before.length > 0 && !doc.commentBefore) {
+            doc.commentBefore = comments.before.join("\n");
+            comments.before = [];
+          }
+        }
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    doc.contents = body || null;
+    if (!body) {
+      doc.comment = comments.before.concat(comments.after).join("\n") || null;
+    } else {
+      var cb = comments.before.join("\n");
+      if (cb) {
+        var cbNode = body instanceof Collection && body.items[0] ? body.items[0] : body;
+        cbNode.commentBefore = cbNode.commentBefore ? "".concat(cb, "\n").concat(cbNode.commentBefore) : cb;
+      }
+      doc.comment = comments.after.join("\n") || null;
+    }
+  }
+  function resolveTagDirective(_ref, directive) {
+    var tagPrefixes = _ref.tagPrefixes;
+    var _directive$parameters = _slicedToArray(directive.parameters, 2), handle = _directive$parameters[0], prefix = _directive$parameters[1];
+    if (!handle || !prefix) {
+      var msg = "Insufficient parameters given for %TAG directive";
+      throw new YAMLSemanticError(directive, msg);
+    }
+    if (tagPrefixes.some(function(p2) {
+      return p2.handle === handle;
+    })) {
+      var _msg = "The %TAG directive must only be given at most once per handle in the same document.";
+      throw new YAMLSemanticError(directive, _msg);
+    }
+    return {
+      handle,
+      prefix
+    };
+  }
+  function resolveYamlDirective(doc, directive) {
+    var _directive$parameters2 = _slicedToArray(directive.parameters, 1), version = _directive$parameters2[0];
+    if (directive.name === "YAML:1.0") version = "1.0";
+    if (!version) {
+      var msg = "Insufficient parameters given for %YAML directive";
+      throw new YAMLSemanticError(directive, msg);
+    }
+    if (!documentOptions[version]) {
+      var v0 = doc.version || doc.options.version;
+      var _msg2 = "Document will be parsed as YAML ".concat(v0, " rather than YAML ").concat(version);
+      doc.warnings.push(new YAMLWarning(directive, _msg2));
+    }
+    return version;
+  }
+  function parseDirectives(doc, directives, prevDoc) {
+    var directiveComments = [];
+    var hasDirectives = false;
+    var _iterator = _createForOfIteratorHelper(directives), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var directive = _step.value;
+        var comment = directive.comment, name = directive.name;
+        switch (name) {
+          case "TAG":
+            try {
+              doc.tagPrefixes.push(resolveTagDirective(doc, directive));
+            } catch (error) {
+              doc.errors.push(error);
+            }
+            hasDirectives = true;
+            break;
+          case "YAML":
+          case "YAML:1.0":
+            if (doc.version) {
+              var msg = "The %YAML directive must only be given at most once per document.";
+              doc.errors.push(new YAMLSemanticError(directive, msg));
+            }
+            try {
+              doc.version = resolveYamlDirective(doc, directive);
+            } catch (error) {
+              doc.errors.push(error);
+            }
+            hasDirectives = true;
+            break;
+          default:
+            if (name) {
+              var _msg3 = "YAML only supports %TAG and %YAML directives, and not %".concat(name);
+              doc.warnings.push(new YAMLWarning(directive, _msg3));
+            }
+        }
+        if (comment) directiveComments.push(comment);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    if (prevDoc && !hasDirectives && "1.1" === (doc.version || prevDoc.version || doc.options.version)) {
+      var copyTagPrefix = function copyTagPrefix2(_ref2) {
+        var handle = _ref2.handle, prefix = _ref2.prefix;
+        return {
+          handle,
+          prefix
+        };
+      };
+      doc.tagPrefixes = prevDoc.tagPrefixes.map(copyTagPrefix);
+      doc.version = prevDoc.version;
+    }
+    doc.commentBefore = directiveComments.join("\n") || null;
+  }
+  function assertCollection(contents) {
+    if (contents instanceof Collection) return true;
+    throw new Error("Expected a YAML collection as document contents");
+  }
+  var Document$1 = /* @__PURE__ */ function() {
+    function Document2(options2) {
+      _classCallCheck(this, Document2);
+      this.anchors = new Anchors(options2.anchorPrefix);
+      this.commentBefore = null;
+      this.comment = null;
+      this.contents = null;
+      this.directivesEndMarker = null;
+      this.errors = [];
+      this.options = options2;
+      this.schema = null;
+      this.tagPrefixes = [];
+      this.version = null;
+      this.warnings = [];
+    }
+    _createClass(Document2, [{
+      key: "add",
+      value: function add(value) {
+        assertCollection(this.contents);
+        return this.contents.add(value);
+      }
+    }, {
+      key: "addIn",
+      value: function addIn(path2, value) {
+        assertCollection(this.contents);
+        this.contents.addIn(path2, value);
+      }
+    }, {
+      key: "delete",
+      value: function _delete(key) {
+        assertCollection(this.contents);
+        return this.contents.delete(key);
+      }
+    }, {
+      key: "deleteIn",
+      value: function deleteIn(path2) {
+        if (isEmptyPath(path2)) {
+          if (this.contents == null) return false;
+          this.contents = null;
+          return true;
+        }
+        assertCollection(this.contents);
+        return this.contents.deleteIn(path2);
+      }
+    }, {
+      key: "getDefaults",
+      value: function getDefaults() {
+        return Document2.defaults[this.version] || Document2.defaults[this.options.version] || {};
+      }
+    }, {
+      key: "get",
+      value: function get(key, keepScalar) {
+        return this.contents instanceof Collection ? this.contents.get(key, keepScalar) : void 0;
+      }
+    }, {
+      key: "getIn",
+      value: function getIn(path2, keepScalar) {
+        if (isEmptyPath(path2)) return !keepScalar && this.contents instanceof Scalar ? this.contents.value : this.contents;
+        return this.contents instanceof Collection ? this.contents.getIn(path2, keepScalar) : void 0;
+      }
+    }, {
+      key: "has",
+      value: function has(key) {
+        return this.contents instanceof Collection ? this.contents.has(key) : false;
+      }
+    }, {
+      key: "hasIn",
+      value: function hasIn(path2) {
+        if (isEmptyPath(path2)) return this.contents !== void 0;
+        return this.contents instanceof Collection ? this.contents.hasIn(path2) : false;
+      }
+    }, {
+      key: "set",
+      value: function set2(key, value) {
+        assertCollection(this.contents);
+        this.contents.set(key, value);
+      }
+    }, {
+      key: "setIn",
+      value: function setIn(path2, value) {
+        if (isEmptyPath(path2)) this.contents = value;
+        else {
+          assertCollection(this.contents);
+          this.contents.setIn(path2, value);
+        }
+      }
+    }, {
+      key: "setSchema",
+      value: function setSchema(id, customTags) {
+        if (!id && !customTags && this.schema) return;
+        if (typeof id === "number") id = id.toFixed(1);
+        if (id === "1.0" || id === "1.1" || id === "1.2") {
+          if (this.version) this.version = id;
+          else this.options.version = id;
+          delete this.options.schema;
+        } else if (id && typeof id === "string") {
+          this.options.schema = id;
+        }
+        if (Array.isArray(customTags)) this.options.customTags = customTags;
+        var opt = Object.assign({}, this.getDefaults(), this.options);
+        this.schema = new Schema(opt);
+      }
+    }, {
+      key: "parse",
+      value: function parse3(node, prevDoc) {
+        if (this.options.keepCstNodes) this.cstNode = node;
+        if (this.options.keepNodeTypes) this.type = "DOCUMENT";
+        var _node$directives = node.directives, directives = _node$directives === void 0 ? [] : _node$directives, _node$contents = node.contents, contents = _node$contents === void 0 ? [] : _node$contents, directivesEndMarker = node.directivesEndMarker, error = node.error, valueRange = node.valueRange;
+        if (error) {
+          if (!error.source) error.source = this;
+          this.errors.push(error);
+        }
+        parseDirectives(this, directives, prevDoc);
+        if (directivesEndMarker) this.directivesEndMarker = true;
+        this.range = valueRange ? [valueRange.start, valueRange.end] : null;
+        this.setSchema();
+        this.anchors._cstAliases = [];
+        parseContents(this, contents);
+        this.anchors.resolveNodes();
+        if (this.options.prettyErrors) {
+          var _iterator = _createForOfIteratorHelper(this.errors), _step;
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+              var _error = _step.value;
+              if (_error instanceof YAMLError) _error.makePretty();
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+          var _iterator2 = _createForOfIteratorHelper(this.warnings), _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
+              var warn2 = _step2.value;
+              if (warn2 instanceof YAMLError) warn2.makePretty();
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+        return this;
+      }
+    }, {
+      key: "listNonDefaultTags",
+      value: function listNonDefaultTags() {
+        return listTagNames(this.contents).filter(function(t2) {
+          return t2.indexOf(Schema.defaultPrefix) !== 0;
+        });
+      }
+    }, {
+      key: "setTagPrefix",
+      value: function setTagPrefix(handle, prefix) {
+        if (handle[0] !== "!" || handle[handle.length - 1] !== "!") throw new Error("Handle must start and end with !");
+        if (prefix) {
+          var prev = this.tagPrefixes.find(function(p2) {
+            return p2.handle === handle;
+          });
+          if (prev) prev.prefix = prefix;
+          else this.tagPrefixes.push({
+            handle,
+            prefix
+          });
+        } else {
+          this.tagPrefixes = this.tagPrefixes.filter(function(p2) {
+            return p2.handle !== handle;
+          });
+        }
+      }
+    }, {
+      key: "toJSON",
+      value: function toJSON$1(arg, onAnchor) {
+        var _this = this;
+        var _this$options = this.options, keepBlobsInJSON = _this$options.keepBlobsInJSON, mapAsMap = _this$options.mapAsMap, maxAliasCount = _this$options.maxAliasCount;
+        var keep = keepBlobsInJSON && (typeof arg !== "string" || !(this.contents instanceof Scalar));
+        var ctx = {
+          doc: this,
+          indentStep: "  ",
+          keep,
+          mapAsMap: keep && !!mapAsMap,
+          maxAliasCount,
+          stringify: stringify$1
+          // Requiring directly in Pair would create circular dependencies
+        };
+        var anchorNames = Object.keys(this.anchors.map);
+        if (anchorNames.length > 0) ctx.anchors = new Map(anchorNames.map(function(name) {
+          return [_this.anchors.map[name], {
+            alias: [],
+            aliasCount: 0,
+            count: 1
+          }];
+        }));
+        var res = toJSON(this.contents, arg, ctx);
+        if (typeof onAnchor === "function" && ctx.anchors) {
+          var _iterator3 = _createForOfIteratorHelper(ctx.anchors.values()), _step3;
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done; ) {
+              var _step3$value = _step3.value, count = _step3$value.count, _res = _step3$value.res;
+              onAnchor(_res, count);
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+        }
+        return res;
+      }
+    }, {
+      key: "toString",
+      value: function toString() {
+        if (this.errors.length > 0) throw new Error("Document with errors cannot be stringified");
+        var indentSize = this.options.indent;
+        if (!Number.isInteger(indentSize) || indentSize <= 0) {
+          var s2 = JSON.stringify(indentSize);
+          throw new Error('"indent" option must be a positive integer, not '.concat(s2));
+        }
+        this.setSchema();
+        var lines = [];
+        var hasDirectives = false;
+        if (this.version) {
+          var vd = "%YAML 1.2";
+          if (this.schema.name === "yaml-1.1") {
+            if (this.version === "1.0") vd = "%YAML:1.0";
+            else if (this.version === "1.1") vd = "%YAML 1.1";
+          }
+          lines.push(vd);
+          hasDirectives = true;
+        }
+        var tagNames = this.listNonDefaultTags();
+        this.tagPrefixes.forEach(function(_ref) {
+          var handle = _ref.handle, prefix = _ref.prefix;
+          if (tagNames.some(function(t2) {
+            return t2.indexOf(prefix) === 0;
+          })) {
+            lines.push("%TAG ".concat(handle, " ").concat(prefix));
+            hasDirectives = true;
+          }
+        });
+        if (hasDirectives || this.directivesEndMarker) lines.push("---");
+        if (this.commentBefore) {
+          if (hasDirectives || !this.directivesEndMarker) lines.unshift("");
+          lines.unshift(this.commentBefore.replace(/^/gm, "#"));
+        }
+        var ctx = {
+          anchors: /* @__PURE__ */ Object.create(null),
+          doc: this,
+          indent: "",
+          indentStep: " ".repeat(indentSize),
+          stringify: stringify$1
+          // Requiring directly in nodes would create circular dependencies
+        };
+        var chompKeep = false;
+        var contentComment = null;
+        if (this.contents) {
+          if (this.contents instanceof Node) {
+            if (this.contents.spaceBefore && (hasDirectives || this.directivesEndMarker)) lines.push("");
+            if (this.contents.commentBefore) lines.push(this.contents.commentBefore.replace(/^/gm, "#"));
+            ctx.forceBlockIndent = !!this.comment;
+            contentComment = this.contents.comment;
+          }
+          var onChompKeep = contentComment ? null : function() {
+            return chompKeep = true;
+          };
+          var body = stringify$1(this.contents, ctx, function() {
+            return contentComment = null;
+          }, onChompKeep);
+          lines.push(addComment(body, "", contentComment));
+        } else if (this.contents !== void 0) {
+          lines.push(stringify$1(this.contents, ctx));
+        }
+        if (this.comment) {
+          if ((!chompKeep || contentComment) && lines[lines.length - 1] !== "") lines.push("");
+          lines.push(this.comment.replace(/^/gm, "#"));
+        }
+        return lines.join("\n") + "\n";
+      }
+    }]);
+    return Document2;
+  }();
+  _defineProperty(Document$1, "defaults", documentOptions);
+  function createNode4(value) {
+    var wrapScalars = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+    var tag = arguments.length > 2 ? arguments[2] : void 0;
+    if (tag === void 0 && typeof wrapScalars === "string") {
+      tag = wrapScalars;
+      wrapScalars = true;
+    }
+    var options2 = Object.assign({}, Document$1.defaults[defaultOptions.version], defaultOptions);
+    var schema = new Schema(options2);
+    return schema.createNode(value, wrapScalars, tag);
+  }
+  var Document = /* @__PURE__ */ function(_YAMLDocument) {
+    _inherits(Document2, _YAMLDocument);
+    var _super = _createSuper(Document2);
+    function Document2(options2) {
+      _classCallCheck(this, Document2);
+      return _super.call(this, Object.assign({}, defaultOptions, options2));
+    }
+    return Document2;
+  }(Document$1);
+  function parseAllDocuments(src, options2) {
+    var stream = [];
+    var prev;
+    var _iterator = _createForOfIteratorHelper(parse$1(src)), _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+        var cstDoc = _step.value;
+        var doc = new Document(options2);
+        doc.parse(cstDoc, prev);
+        stream.push(doc);
+        prev = doc;
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return stream;
+  }
+  function parseDocument(src, options2) {
+    var cst = parse$1(src);
+    var doc = new Document(options2).parse(cst[0]);
+    if (cst.length > 1) {
+      var errMsg = "Source contains multiple documents; please use YAML.parseAllDocuments()";
+      doc.errors.unshift(new YAMLSemanticError(cst[1], errMsg));
+    }
+    return doc;
+  }
+  function parse2(src, options2) {
+    var doc = parseDocument(src, options2);
+    doc.warnings.forEach(function(warning) {
+      return warn(warning);
+    });
+    if (doc.errors.length > 0) throw doc.errors[0];
+    return doc.toJSON();
+  }
+  function stringify15(value, options2) {
+    var doc = new Document(options2);
+    doc.contents = value;
+    return String(doc);
+  }
+  var YAML$1 = {
+    createNode: createNode4,
+    defaultOptions,
+    Document,
+    parse: parse2,
+    parseAllDocuments,
+    parseCST: parse$1,
+    parseDocument,
+    scalarOptions,
+    stringify: stringify15
+  };
+  const dist = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    YAML: YAML$1
+  }, Symbol.toStringTag, { value: "Module" }));
+  const require$$0 = /* @__PURE__ */ getAugmentedNamespace(dist);
+  var browser = require$$0.YAML;
+  const YAML = /* @__PURE__ */ getDefaultExportFromCjs(browser);
+  const AnalyzeUploadPage = () => {
+    const analyzeForm = () => {
+      const baseUrl = window.location.origin;
+      const host = window.location.host;
+      const baseConfig = {
+        url: baseUrl,
+        host,
+        uploadPath: window.location.pathname
+      };
+      const formElements = document.querySelectorAll("input, select, textarea");
+      const formConfig = {};
+      formElements.forEach((element) => {
+        const name = element.getAttribute("name");
+        if (!name) return;
+        if (element instanceof HTMLSelectElement) {
+          const options2 = Array.from(element.options).map((opt) => ({
+            value: opt.value,
+            text: opt.text
+          }));
+          formConfig[name] = {
+            selector: `select[name="${name}"]`,
+            options: options2
+          };
+        } else if (element instanceof HTMLInputElement) {
+          formConfig[name] = {
+            selector: `input[name="${name}"]`,
+            type: element.type
+          };
+        } else if (element instanceof HTMLTextAreaElement) {
+          formConfig[name] = {
+            selector: `textarea[name="${name}"]`
+          };
+        }
+      });
+      navigator.clipboard.writeText(YAML.stringify(__spreadValues(__spreadValues({}, formConfig), baseConfig))).then(() => {
+        Jt.success($t("配置已复制到剪贴板,请黏贴到创建的Github Issue中"));
+      });
+    };
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
+      /* @__PURE__ */ u$1(
+        "button",
+        {
+          onClick: analyzeForm,
+          style: {
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 9999,
+            padding: "8px 16px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer"
+          },
+          children: `[EASY-UPLOAD]${$t("获取页面配置")}`
+        }
+      )
+    ] });
+  };
+  if (location.pathname.includes("upload") && CURRENT_SITE_INFO.asTarget) {
+    const div = document.createElement("div");
+    preact.render(/* @__PURE__ */ u$1(AnalyzeUploadPage, {}), div);
+    document.body.appendChild(div);
   }
   const getTvSeasonData = async (data) => {
     var _a2, _b;
@@ -20272,9 +26541,9 @@ ${screenBBcodeArray.join("")}`;
               TORRENT_INFO.torrentData = torrentData;
             }
           }
-          const timestamp = `${Date.now()}`;
+          const timestamp2 = `${Date.now()}`;
           GM_setValue("uploadInfo", TORRENT_INFO);
-          GM_openInTab(`${url + uploadPath}#timestamp=${timestamp}`);
+          GM_openInTab(`${url + uploadPath}#timestamp=${timestamp2}`);
         }
       }
     });
@@ -20365,7 +26634,7 @@ ${screenBBcodeArray.join("")}`;
         Jt.warning($t("请等待页面加载完成"));
         return;
       }
-      const timestamp = `${Date.now()}`;
+      const timestamp2 = `${Date.now()}`;
       if (!TORRENT_INFO.torrentData) {
         const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
         if (torrentData) {
@@ -20373,7 +26642,7 @@ ${screenBBcodeArray.join("")}`;
         }
       }
       GM_setValue("uploadInfo", TORRENT_INFO);
-      url = `${url}#timestamp=${timestamp}`;
+      url = `${url}#timestamp=${timestamp2}`;
       GM_openInTab(url);
     };
     const targetSitesEnabled = getValue("easy-seed.enabled-target-sites") || [];
