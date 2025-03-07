@@ -42,6 +42,7 @@
 |     KG      |            ✅             |           ✅            |
 |   KamePT    |            ✅             |           ✅            |
 |     LST     |            ✅             |           ✅            |
+|    Lemon    |            ✅             |           ✅            |
 |     MDU     |            ✅             |           ✅            |
 |     MTV     |            ✅             |           ✅            |
 |    MTeam    |            ✅             |           ✅            |

@@ -35,6 +35,7 @@ const AnalyzeUploadPage = () => {
         formConfig[name] = {
           selector: `input[name="${name}"]`,
           type: element.type,
+          label: element.labels?.[0]?.textContent,
         };
       } else if (element instanceof HTMLTextAreaElement) {
         formConfig[name] = {
@@ -42,7 +43,8 @@ const AnalyzeUploadPage = () => {
         };
       }
     });
-    navigator.clipboard.writeText(YAML.stringify({ ...formConfig, ...baseConfig })).then(() => {
+    const yamlContent = YAML.stringify({ ...formConfig, ...baseConfig });
+    navigator.clipboard.writeText(`\`\`\`yaml\n${yamlContent}\`\`\``).then(() => {
       toast.success($t('配置已复制到剪贴板,请黏贴到创建的Github Issue中'));
     });
   };
