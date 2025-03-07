@@ -15,6 +15,7 @@
 |     Bib     |            ❌             |           ✅            |
 |  Blutopia   |            ✅             |           ✅            |
 |   CHDBits   |            ✅             |           ✅            |
+|    Carpt    |            ✅             |           ✅            |
 |   CinemaZ   |            ✅             |           ❌            |
 |  Cinematik  |            ✅             |           ❌            |
 |  Concertos  |            ❌             |           ✅            |

@@ -1,13 +1,8 @@
 name: New site support request
 description: Request support for a site that is not currently supported by the script
-title: "[New Site]"
+title: '[New Site]'
 labels: new site
 body:
-  - type: textarea
-    attributes:
-      label: URL
-    validations:
-      required: true
   - type: dropdown
     attributes:
       label: Site based on
