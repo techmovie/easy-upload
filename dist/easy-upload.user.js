@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.1.2
+// @version         6.1.3
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -1623,6 +1623,134 @@
           hqc: "17",
           gbt: "18",
           kan: "19"
+        }
+      }
+    },
+    Carpt: {
+      url: "https://carpt.net",
+      host: "carpt.net",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAFZUlEQVR4nGWVeTQVaBjGPy5Tlq4lNAzGtNKinJutRlLTJqJmLJPtJEmbasScamZUamomS5pSYUqFa7m4rmS7C4UU10jFvVxxyTIqJVLd7ZnjNpnm9Pzzfn+873Oe95z3/D5CPhaISjSiVcefqaie4lbrFELdS3yWMy2TQlq9W+acpW63Pq+9NXI03PV9Pyb6P5FXjhdlvM6Fl7ZtuuW2PWyv1vThVHladwLY4ixwxQUo7r2muDjwO/Z3hIz41biVBHbssM7Bw88+hPnEjDgTg58EEcLiQTqeKp7IOl4Kpe1jIqlwrE3W+JKvqB2qkd4cKJbm9WTKkrrj5XtbA7FN5B83PhraEKo+saayriHGh6t3PxiQd2JM8lomGm2Xikba0DX6GMJXrWga4uP2IA83egtBF19TpHQkSWNbTsrDhVuw9sbi2PfByPtgMxV21MSe2Aeidy34+82A9NGrh+gcFeH5u2cYlgyj/00/2kYEqH9eh4qBUjB6spDSkYQ4wUkcaAqX+Ak8EdwV9OvEypG8sJAXeAbR2065WDGAZnk7emT9GJGNQgLgmWIYIqkYDa/44PaVImcwD8m9qTj9+DT2t+yTr+evg0utnTi+67ix0rByhMu/N8jBk9Y6+dDVNHR6eqCLx8Tg6z4MCZvQJ6yHqKUS/E4OSsaqcJOTgOzyo7hUdRjHS7YiNHuldHnVXMx77nSAOBXRgjLH6Hi0f7ukb5Mf2vVMICIaaHf8GqL8y+iaaoou468g1jRCt6EFeKw4lLBi0GpLQz/VDGKzWXihPwft08wVgRn2cmJBnx1QxjiKtx47JPfWuIDZlo7K5mzU9XLRmJGAZkNTNJtOR+O6Vajf7I6/HG3BDfXAxZqjqHFciFZdM7BtpqPM1gK+P+qBuNW4pjXm/YE7uWdk11LDUFh0AmVZx8ER5KEy5zRqtfVRazEDJeJClCbsA8/ZDs1EDVcS/JC5ZRkERB+ReyxA6qmYnE9A/Cs9uxmhqxH9IkGR2PIb0o8FoGCfB1j0w2DmxaBMXQulpqbIqT+P8pnG4BKCKqKJuARPJHsvQj2hYtdWA6iyKaDmEBD7N/470v3sEHdktfRE4yGkRW1Acl4EkvtTcf3PcDAok5BraICU+3G4VHoQ5+g7cSojEGFV3yN+lTm4RBP+AZNBKgim5BAZcXkaFHDgkCWYhEgYhCBlgw0u/LAWqTE+SEoMwlVCcEVLA/FNxxDz5BSiHh9EsCAE7ndW47iDHoqJOnx91ZSGs/M/B3HPdF9l3eSA4N0mOGuirUgnKkqTMw5m+PnWLsSc3YgjFzYhsnE3dtZvgV+1J1x5zrArnw/7eB0siSCYcY6iUL9BMJ89X6C8w6UVzhzzBjPYllrJgiItEHRuMbwe+cC/3hsB9/2wuckHXrVuWH9rBZZxbbGgbAZMWFRosFQxqZhAhUGkRhU6oBXTNisN3RpCLWfVzIFuoZrMtM4CVrVWsKuYhyXsRVjKsYED2xq0civMLfkSZix96BWoQyuPQLeAAkInUsc7NnBuWFPzPzhYVTjE6lfpQCuLSPQYFJkBUwPGhVSYs/RhUqgDI6YmphZ8Bp18itJMg6ECkkkkLrdpSGpLHF1R8q3TfzCMJkpIflE6L27q7WnQKiJSHYaqdHIuGU8AlWwClfGToBOQLAKNXKKwKNKTuPOXI/Ru8LsQdqTSbAKD4yk/oMe0wOEktdi4N6jVD+YsXcV31d/AmbMQjhVW8K1ZB/cqJ9hXLsDlgRTpUu56PrlEcRmfozXQ/uXhx+I5qympzXIzV80w+cWYORthdRFw5XljJWcDdt6Nku9qjIIhY7rQ6PqsjdE50Upaf/wN/AMeaUa+v6I4TwAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(3)",
+      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: ".torrents>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      imdb: {
+        selector: 'input[name="pt_gen"]'
+      },
+      torrent: {
+        selector: 'input[name="file"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          cartoon: "403",
+          concert: "445",
+          variety: "405",
+          music: "406",
+          sport: "407"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel[4]"]',
+        map: {
+          h264: "1",
+          hevc: "2",
+          h265: "2",
+          x264: "1",
+          x265: "2",
+          mpeg2: "3",
+          mpeg4: "1",
+          vc1: "4",
+          xvid: "5"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel[4]"]',
+        map: {
+          aac: "7",
+          ac3: "3'",
+          dd: "3",
+          "dd+": "3",
+          flac: "5",
+          dts: "2",
+          truehd: "1",
+          lpcm: "4",
+          dtshdma: "2",
+          atmos: "2",
+          dtsx: "2",
+          mp3: "6",
+          ape: "8",
+          wav: "10"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel[4]"]',
+        map: {
+          uhdbluray: "7",
+          bluray: "8",
+          remux: "9",
+          encode: "1",
+          web: "2",
+          hdtv: "3",
+          dvd: "6",
+          hddvd: "1",
+          dvdrip: "4",
+          other: "9",
+          cd: "6"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel[4]"]',
+        map: {
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "4",
+          "480p": "4"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel[4]"]',
+        map: {
+          carpt: "1",
+          wiki: "2",
+          cmct: "3",
+          mteam: "4",
+          other: "5"
         }
       }
     },
@@ -4987,6 +5115,157 @@
           "576p": "6",
           "480p": "8"
         }
+      }
+    },
+    Lemon: {
+      url: "https://lemonhd.club",
+      host: "lemonhd.club",
+      siteType: "NexusPHP",
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADkUlEQVR4nI2Uf0zUdRjHnzt+CExYwQwbDLChy3TLcrVJqMtNaNRaWWBzZbMhPyLQNoKMk6PmbGVYzIYYakq1OcosS+qPmq11gKKAguF5Id1xAgGCVhr6/X4/r3Z3IMc8imf77vnj+Xxfn/fzfd7PV+R/gvrMIMAUsIanJgFr08K8WcRM16MpnFuayZnkZ3E8ns4vMZE+qNU8I6jnoDefT8+i9/UO+jYprlfD2EHFYBG4S/uUY00ZVgn2dPCf0Fuw7vVvcX0nuLIULYkGjnwN13aN5rsNHGkG/5SDs/AYlRLuey8AdKJNZU/dyNguGP1Goz1Vwxav+K0EXDugeQE0JRn0770BDdCd9rG/ED9lvhv4XqIZtPTiWA2tqQajP8PpZWDPA+e70BgPg4fBWanU6WSd0QqwL1weoNXxITjTsxgpRZ1M1GlKhrMZMPAZ9FRAz5vQ+z5ctEDTPajGOJ2hbHC/tCfQtwv2ZK0np4qrZdC+QqNjDbStAns+/P0rXLvgU9m2EjqeRrWv0hnIhksFP94GrGp4bJYX7MrfCT/B0Fcaw8dg6GsY+hL0v0AZcPk7X8vDDajBIzqGDVxFU4GZmeJtV0TCWhozDjG8CaN5ns7JxXDiPujbD/0HYPALH+zUQ3BiIao5Wcf1JDg3+gGt4p1OyFrJkXVyednWCOivUMap+dDyIAwfha4NcD4beqzQuRaGv4XW5dAUq3G1FNxZFh9rHJZUFmFZuXsOD1fGGHOLzZxtfQ7chejuKnAUg20udL8GrkqwxcKFQuj/xMDxFAxs/pPGqORJhRtkffirQSx9504ta3+8nvJBLI98ZGJ0YAf0vc1NWyR6Y6LCXqT4fbuiaZ6BLUqjd6vBjUPQlpAz6eEX5Q7JFWdMcSiLtkVpK96bo4JKBKkR0urDudaTDQNWxbkUhXsL/LELupYoRgqhN8/gzP0FU02dK0mmXLliKhASyiNUdEmoHlcTrtKPxvJAfQwL6kJU+Q+LDLt9nYb7jREuWa4o18suLj6/j875S/y3azJyJEHy5JmgFyRDtogldJ+ZuIPhavWRu7RZtWZNDgiRNbIZq5g7ayWa4xLmt13m2/w3PmmvqaVW8kM/NRNXF3bz3sORzK4LxlQt2wJt1fQwxCSF4jW17JZXgj83EVJrGpNqOS57JHXCDZ5dn3gCg6aG79CHMluq5YmQall8q1LvNf3M/8zThkeJDzbj+Bc9TIk5RyzZEgAAAABJRU5ErkJggg==",
+      asSource: true,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
+      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: "0",
+          search_area: "{optionKey}",
+          search: "{imdb}",
+          sort: "5",
+          type: "desc"
+        },
+        result: {
+          list: "#torrenttable>tbody>tr",
+          url: '.torrentname td a[href*="details.php?id="]',
+          name: '.torrentname td a[href*="details.php?id="]',
+          size: "td:nth-child(5)"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      imdb: {
+        selector: 'input[name="imdb"]'
+      },
+      douban: {
+        selector: 'input[name="douban"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      torrent: {
+        selector: 'input[name="file"]'
+      },
+      mediainfo: {
+        selector: 'textarea[name="mediainfo"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "401",
+          tv: "402",
+          tvPack: "402",
+          documentary: "404",
+          concert: "406",
+          sport: "407",
+          cartoon: "405",
+          variety: "403",
+          music: "411"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel"]',
+        map: {
+          h264: "1",
+          x264: "1",
+          hevc: "3",
+          x265: "3",
+          h265: "3",
+          mpeg2: "4",
+          mpeg4: "1",
+          vc1: "2",
+          xvid: "100",
+          dvd: "4"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel"]',
+        map: {
+          aac: "8",
+          ac3: "6",
+          dd: "6",
+          "dd+": "7",
+          flac: "10",
+          dts: "5",
+          truehd: "2",
+          lpcm: "9",
+          dtshdma: "3",
+          atmos: "1",
+          dtsx: "4",
+          ape: "12",
+          wav: "11",
+          mp3: "100",
+          m4a: "100",
+          other: "100"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel"]',
+        map: {
+          uhdbluray: "3",
+          bluray: "1",
+          remux: "12",
+          encode: "13",
+          web: "10",
+          hdtv: "11",
+          dvd: "2",
+          dvdrip: "13",
+          other: '5"'
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel"]',
+        map: {
+          "4320p": "6",
+          "2160p": "5",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          "576p": "100",
+          "480p": "4"
+        }
+      },
+      area: {
+        selector: 'select[name="team_sel"]',
+        map: {
+          CN: "3",
+          US: "1",
+          EU: "1",
+          HK: "2",
+          TW: "2",
+          JP: "4",
+          KR: "4",
+          IN: "5",
+          OT: "10"
+        }
+      },
+      tags: {
+        chinese_audio: 'input[name="tag_gy"]',
+        diy: 'input[name="tag_diy"]',
+        cantonese_audio: 'input[name="tag_yy"]',
+        chinese_subtitle: 'input[name="tag_zz"]',
+        hdr: 'input[name="tag_hdr"]',
+        dolby_vision: 'input[name="tag_dv"]'
       }
     },
     MDU: {
@@ -25965,6 +26244,7 @@ ${description}`;
       const formElements = document.querySelectorAll("input, select, textarea");
       const formConfig = {};
       formElements.forEach((element) => {
+        var _a2, _b;
         const name = element.getAttribute("name");
         if (!name) return;
         if (element instanceof HTMLSelectElement) {
@@ -25979,7 +26259,8 @@ ${description}`;
         } else if (element instanceof HTMLInputElement) {
           formConfig[name] = {
             selector: `input[name="${name}"]`,
-            type: element.type
+            type: element.type,
+            label: (_b = (_a2 = element.labels) == null ? void 0 : _a2[0]) == null ? void 0 : _b.textContent
           };
         } else if (element instanceof HTMLTextAreaElement) {
           formConfig[name] = {
@@ -25987,7 +26268,9 @@ ${description}`;
           };
         }
       });
-      navigator.clipboard.writeText(YAML.stringify(__spreadValues(__spreadValues({}, formConfig), baseConfig))).then(() => {
+      const yamlContent = YAML.stringify(__spreadValues(__spreadValues({}, formConfig), baseConfig));
+      navigator.clipboard.writeText(`\`\`\`yaml
+${yamlContent}\`\`\``).then(() => {
         Jt.success($t("配置已复制到剪贴板,请黏贴到创建的Github Issue中"));
       });
     };
