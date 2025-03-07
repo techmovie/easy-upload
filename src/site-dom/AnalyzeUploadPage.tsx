@@ -71,7 +71,7 @@ const AnalyzeUploadPage = () => {
   );
 };
 
-if (location.pathname.includes('upload') && !CURRENT_SITE_INFO.asTarget) {
+if (location.pathname.includes('upload') && !CURRENT_SITE_INFO?.asTarget) {
   const div = document.createElement('div');
   render(<AnalyzeUploadPage />, div);
   document.body.appendChild(div);
