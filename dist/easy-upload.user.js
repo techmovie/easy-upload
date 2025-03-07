@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.1.1
+// @version         6.1.2
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -26014,7 +26014,7 @@ ${description}`;
       )
     ] });
   };
-  if (location.pathname.includes("upload") && !CURRENT_SITE_INFO.asTarget) {
+  if (location.pathname.includes("upload") && !(CURRENT_SITE_INFO == null ? void 0 : CURRENT_SITE_INFO.asTarget)) {
     const div = document.createElement("div");
     preact.render(/* @__PURE__ */ u$1(AnalyzeUploadPage, {}), div);
     document.body.appendChild(div);
