@@ -23,8 +23,8 @@ const AnalyzeUploadPage = () => {
 
       if (element instanceof HTMLSelectElement) {
         const options = Array.from(element.options).map(opt => ({
-          value: opt.value,
           text: opt.text,
+          value: opt.value,
         }));
 
         formConfig[name] = {

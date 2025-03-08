@@ -55,6 +55,7 @@
 |     PTN     |            ❌             |           ✅            |
 |     PTP     |            ✅             |           ✅            |
 |   PTSBAO    |            ✅             |           ✅            |
+|   PTZone    |            ✅             |           ✅            |
 | PTer-offer  |            ❌             |           ✅            |
 |    PTer     |            ✅             |           ✅            |
 | Piggo-offer |            ❌             |           ✅            |

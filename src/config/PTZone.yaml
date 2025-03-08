@@ -1,0 +1,112 @@
+url: https://ptzone.xyz
+host: ptzone.xyz
+siteType: NexusPHP
+icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAEmklEQVR4nG2VCUwUZxTHF7FJTZPaIzWlB9XWGqUBlUuFAkJopRQpkRIOTSsmgrpiSyBQjroCglS5CwoVCLAgRytYRQtoRBSKSWkTtUeksi7LXuzMzuyyu6y7OzP/ZmYDlZYvmZlv5s37fe8/7837RKLlBuAiAVbE9cAVgMsyb7i8f2r6RZ+UiWeW9ZdInM48aDm71xnNczGtug3xbYa4vR2G0gM91PWUXsPM5530QEST+hVnDIu+/GQp6KX0h68H1JEfRjXrM/d1UBf2d9MPDvaZrGkDDMSDHI4MAWlDduboLSCqzXKM9xECWhi7GnRukY3k/l+nbQNzVnbyL51dd09tZycIIHsEEA/YIe434egVAzcsszEKg4N5oHXYH9GAnHLcB/DCYpThDSr3hAvG0dQhoORnhr02BXAAOP4EML1/WpmEbopLuWTkUn40onjEhDtyO29jVRagfMQ0fe0u+fy/wDriUFKPxZTcZ0ZsB8UldRtgZzj8McsIYKuDQ86gCQldNJIvGhEtpZHWb+SBnPSeHTsbCENUDbHRmQysEIWUK9bHtOhliT3ziGun2M+6DUJodeMW3JyyCfNRuQ2x7TSSOmnsaaOQ0T8HGwOuatTM7W6dQ1S9Pp7nhUiGVwrgj77TDcd12RDdTDLxUkqA1IyacfB7Gk8cTu1lt8yIOK/H7mYSR/t4FUDlbZMjqp1BZD1RsiQxYd8SFTFSKz5uJNhPW/QCoH7cjMAaHdonLMK9gmaQ0KZH+DkC4ou08FnKhueYiJYniKgnryyps+ByIimy0Yxd52bZT84TTsm3TQiqnsWeRgJTpEN41v6LBX5lWhzqoYQIv7lhZEPPUviglpjyK1G+vAjcUazaGFqhtYdV6xBZOytorLo5h6ByLQLLtPjqEi0AHSyQLCWR2EyCYYHinwyCPbyGwI4zar9FoE/21OqA09rfgyv1CK/SsLxz+XUjfEvUCKvQwv+UGlfvzwvQkUkr9jYRsDEcCq/S8C1RsWE1Rmwr1R586k8RifxPqrsDys3YeVoj6Ds9YMDmEyoElWrgU6hCTK0WlEVYC+3jZhjmWRRcpuElUTJBFUb4FakbRE+n2luiyvUtNiLwpJLhnUr7aXjkzMC/QIlthUpsylGgctBZUnzmecl5P1D8c2bHKRpbjyvGRU+n2jNfGe2ZOwPvPIVQtAW9FNZnyLE1T4EtuQp45Sjgkz+D3x4/wcLI6iTxboac9T6uxeavZ9WbszVrhVYlJKZI/daawzIiuEgjAIt69Vh94BE8MqeFwzNLzr0plrH7ajUMw4LX7kiXUliXrmG3nLDAI3tmbHu6YtWS8mkaNj6irc6E2hwcc3dyngnIm2bXimXYkD6DTVk6vPEFBemYTaiEnC6SWpMqu/xe9vQJ9wz5uiX9kL+23pnvaxkDKvuN7NkbNrSOMvDNJeEuVuHtNBm5/tjj26+mTlVHlKiPAChQ0tj6n164QHQCRSH3fVcmTipWJU0aXBMmH4hiH3a9dliW+U7a36HuX8rdfBqW69BwEcXBdZGxxMD3xpNyt+35Ck/JMJ79v7Ow+sLWsHK57eEfAo6UC1R23N8AAAAASUVORK5CYII=
+asSource: true
+asTarget: true
+seedDomSelector: '#top~table:first>tbody>tr:nth-child(6)'
+torrentDownloadLinkSelector: a[href*="download.php?id="]
+uploadPath: /upload.php
+search:
+  path: /torrents.php
+  imdbOptionKey: '4'
+  nameOptionKey: '0'
+  params:
+    incldead: '0'
+    search_area: '{optionKey}'
+    search: '{imdb}'
+    sort: '5'
+    type: desc
+  result:
+    list: .torrents>tbody>tr
+    url: .torrentname td a[href*="details.php?id="]
+    name: .torrentname td a[href*="details.php?id="]
+    size: td:nth-child(5)
+name:
+  selector: input[name="name"]
+subtitle:
+  selector: input[name="small_descr"]
+mediainfo:
+  selector: textarea[name="technical_info"]
+description:
+  selector: textarea[name="descr"]
+imdb:
+  selector: input[name="pt_gen"]
+anonymous:
+  selector: input[name="uplver"]
+torrent:
+  selector: input[name="file"]
+tags:
+  hdr: input[name="tags[4][]"]
+category:
+  selector: select[name="type"]
+  map:
+    movie: '401'
+    tv: '402'
+    tvPack: '402'
+    documentary: '404'
+    cartoon: '405'
+    sport: '407'
+    concert: '406'
+    music: '406'
+    variety: '403'
+videoCodec:
+  selector: select[name="codec_sel[4]"]
+  map:
+    h264: '1'
+    hevc: '6'
+    h265: '6'
+    x264: '1'
+    x265: '6'
+    mpeg2: '3'
+    mpeg4: '4'
+    vc1: '2'
+    xvid: '5'
+audioCodec:
+  selector: select[name="audiocodec_sel[4]"]
+  map:
+    aac: '6'
+    ac3: '8'
+    dd: '11'
+    dd+: '12'
+    flac: '1'
+    dts: '9'
+    truehd: '14'
+    lpcm: '1'
+    dtshdma: '10'
+    atmos: '10'
+    dtsx: '9'
+    ape: '2'
+    mp3: '4'
+    ogg: '5'
+    wav: '15'
+videoType:
+  selector: select[name="medium_sel[4]"]
+  map:
+    uhdbluray: '10'
+    bluray: '1'
+    hddvd: '2'
+    remux: '3'
+    encode: '7'
+    web: '4'
+    hdtv: '5'
+    dvd: '6'
+    dvdrip: '6'
+    cd: '8'
+resolution:
+  selector: select[name="standard_sel[4]"]
+  map:
+    4320p: '5'
+    2160p: '6'
+    1080p: '1'
+    1080i: '2'
+    720p: '3'
+    480p: '4'
+team:
+  selector: select[name="team_sel[4]"]
+  map:
+    hds: '1'
+    chd: '2'
+    mysilu: '3'
+    wiki: '4'
+    other: '5'
