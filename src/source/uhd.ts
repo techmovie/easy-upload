@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
-  getUrlParam, getSize, getSourceFromTitle, fetch,
+  getUrlParam, getSize, getSourceFromTitle, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -74,7 +74,7 @@ export default async () => {
 
 const getMediaInfo = async (torrentId:string) => {
   const url = `/torrents.php?action=mediainfo&id=${torrentId}`;
-  const data = await fetch(url, {
+  const data = await GMFetch<string>(url, {
     responseType: undefined,
   });
   return data || '';

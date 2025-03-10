@@ -3,8 +3,9 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, getOriginalImgUrl, transferImgs, saveScreenshotsToPtpimg,
+  $t, getOriginalImgUrl, transferImgToCheveretoSite, transferImgsToPtpimg,
 } from '../common';
+import { ImgInfo } from '../common/image/image.types';
 import { toast } from 'sonner';
 
 const UploadImg = () => {
@@ -21,35 +22,23 @@ const UploadImg = () => {
     try {
       setCanCopy(false);
       setCopyText('拷贝');
-      const imgData:string[] = [];
+      const originalImgUrlPromises = screenshots.map(img => {
+        return getOriginalImgUrl(img);
+      });
+      const originalImgUrls = await Promise.all(originalImgUrlPromises);
+      let imgData:ImgInfo[] | string[] = [];
       if (selectHost === 'ptpimg') {
-        for (let index = 0; index < screenshots.length; index++) {
-          const originalImg = await getOriginalImgUrl(screenshots[index]);
-          const data = await saveScreenshotsToPtpimg([originalImg]);
-          if (data) {
-            imgData.push(data[0]);
-          } else {
-            return;
-          }
-        }
+        imgData = await transferImgsToPtpimg(originalImgUrls);
       } else {
-        const gifyuHtml = await fetch('https://gifyu.com', {
-          responseType: undefined,
-        });
-        const authToken = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)?.[1];
-        for (let index = 0; index < screenshots.length; index++) {
-          const originalImg = await getOriginalImgUrl(screenshots[index]);
-          const data = await transferImgs(originalImg, authToken, 'https://gifyu.com/json');
-          if (data) {
-            imgData.push(data.url);
-          }
-        }
+        imgData = await (await transferImgToCheveretoSite)(originalImgUrls, 'https://gifyu.com/json');
       }
       if (imgData.length > 0) {
         toast.success($t('成功'));
       }
       let { description, originalDescription } = TORRENT_INFO;
-      TORRENT_INFO.screenshots = imgData;
+      TORRENT_INFO.screenshots = imgData.map(img => {
+        return selectHost !== 'ptpimg' ? (img as ImgInfo)?.original : img as string;
+      });
 
       const screenBBcodeArray = imgData.map(img => {
         return `[img]${img}[/img]`;

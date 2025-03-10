@@ -4,7 +4,7 @@ import {
   PT_GEN_API, DOUBAN_SUGGEST_API, DOUBAN_MOBILE_API,
   TORRENT_INFO,
 } from '../const';
-import { $t, handleError, getValue, fetch } from './utils';
+import { $t, handleError, getValue, GMFetch } from './utils';
 import $ from 'jquery';
 
 export const getAreaCode = (area:string) => {
@@ -31,7 +31,7 @@ export const getAreaCode = (area:string) => {
 export const getTMDBIdByIMDBId = async (imdbid: string) => {
   try {
     const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
-    const data = await fetch(url);
+    const data = await GMFetch(url);
     const isMovie = data.movie_results && data.movie_results.length > 0;
     const isTV = data.tv_results && data.tv_results.length > 0;
     if (!isMovie && !isTV) {
@@ -47,7 +47,7 @@ export const getTMDBIdByIMDBId = async (imdbid: string) => {
 
 export const getTMDBVideos = async (tmdbId: string) => {
   const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
-  const data = await fetch(url);
+  const data = await GMFetch(url);
   return data.results || [];
 };
 export const getIMDBIdByUrl = (imdbLink: string) => {
@@ -62,7 +62,7 @@ export const getIMDBData = async (imdbUrl: string):Promise<IMDB.ImdbData|undefin
     if (!imdbUrl) {
       throw new Error('$t(缺少IMDB信息)');
     }
-    const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
+    const data = await GMFetch(`${PT_GEN_API}?url=${imdbUrl}`);
     if (data && data.success) {
       return data;
     }
@@ -115,7 +115,7 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
   if (hasImdb) {
     imdbId = fetchAnchor(imdbLinkAnchor);
     imdbLink = `https://www.imdb.com/title/${imdbId}/`;
-    const imdbData = await fetch(
+    const imdbData = await GMFetch(
       `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
       {
         responseType: undefined,
@@ -153,7 +153,7 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
     }).get();
   }
   // awards
-  const awardsPage = await fetch(`${doubanLink}/awards`, {
+  const awardsPage = await GMFetch(`${doubanLink}/awards`, {
     responseType: undefined,
   });
   const awardsDoc = new DOMParser().parseFromString(awardsPage, 'text/html');
@@ -198,7 +198,7 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
   };
 };
 export const getDoubanAwards = async (doubanId:string) => {
-  const data = await fetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
+  const data = await GMFetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
     responseType: undefined,
   });
   const doc = new DOMParser().parseFromString(data, 'text/html');
@@ -214,7 +214,7 @@ export const getDoubanAwards = async (doubanId:string) => {
     .trim();
 };
 export const getIMDBFromDouban = async (doubanLink:string) => {
-  const doubanPage = await fetch(doubanLink, {
+  const doubanPage = await GMFetch(doubanLink, {
     responseType: undefined,
   });
   const dom = new DOMParser().parseFromString(doubanPage, 'text/html');
@@ -244,12 +244,12 @@ export const getMobileDoubanInfo = async (doubanUrl:string, isTV?:boolean): Prom
         options.cookie = cookie;
         options.anonymous = true;
       }
-      const data = await fetch(`${url}?for_mobile=1&ck=${ckValue}`, options);
+      const data = await GMFetch(`${url}?for_mobile=1&ck=${ckValue}`, options);
       if (data && data.title === '未知电影') {
         throw $t('请配置豆瓣Cookie');
       }
       if (data && data.id) {
-        const creditsData = await fetch(`${url}/credits`, options);
+        const creditsData = await GMFetch(`${url}/credits`, options);
         data.credits = creditsData.credits;
         const awards = await getDoubanAwards(doubanId);
         data.awards = awards;
@@ -265,7 +265,7 @@ export const getMobileDoubanInfo = async (doubanUrl:string, isTV?:boolean): Prom
 };
 export const getIMDBRating = async (imdbId:string) => {
   const url = `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`;
-  const data = await fetch(url, {
+  const data = await GMFetch(url, {
     responseType: undefined,
   });
   const { resource } = JSON.parse(data.match(/[^(]+\((.+)\)/)?.[1] ?? '') ?? {};
@@ -397,7 +397,7 @@ export const getDoubanIdByIMDB = async (query:string):(Promise<Douban.Season|und
       options.cookie = cookie;
       options.anonymous = true;
     }
-    const data = await fetch(url, options);
+    const data = await GMFetch(url, options);
     const doc = new DOMParser().parseFromString(data, 'text/html');
     const linkDom: HTMLLinkElement|null = doc.querySelector('.result-list .result h3 a');
     if (!linkDom) {
@@ -429,7 +429,7 @@ export const getDoubanInfo = async (doubanUrl:string, isTV?: boolean) => {
 };
 export const getDoubanBookInfo = async (doubanUrl:string):Promise<Douban.BookData|undefined> => {
   const reqUrl = `${PT_GEN_API}?url=${doubanUrl}`;
-  const data = await fetch(reqUrl);
+  const data = await GMFetch(reqUrl);
   const { chinese_title: chineseTitle, origin_title: originalTitle } = data;
   let foreignTitle = '';
   if (chineseTitle !== originalTitle) {
@@ -451,7 +451,7 @@ export const getRtIdFromTitle = async (title:string, tv:boolean, year:string) =>
   tv = tv || false;
   const yearVal = parseInt(year, 10) || 1800;
   const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
-  const data = await fetch(url);
+  const data = await GMFetch(url);
   const movies = tv ? data.tvSeries : data.movies;
   if (!Array.isArray(movies) || movies.length < 1) {
     console.log('no search results');

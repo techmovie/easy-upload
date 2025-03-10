@@ -3,7 +3,7 @@ import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
   getBDInfoOrMediaInfo, getSize,
-  getFilterBBCode, fetch, getSourceFromTitle,
+  getFilterBBCode, GMFetch, getSourceFromTitle,
 } from '../common';
 import $ from 'jquery';
 
@@ -63,7 +63,7 @@ function getTorrentInfo (torrentId:string) {
 
 async function getShowInfo () {
   const seriesUrl = $('#content > .thin > h2 > a').prop('href');
-  const html = await fetch(seriesUrl, {
+  const html = await GMFetch<string>(seriesUrl, {
     responseType: undefined,
   });
   const infoHtml = html?.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)?.[1] ?? '';

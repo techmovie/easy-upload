@@ -1,4 +1,4 @@
-import { getUrlParam, fetch, htmlToBBCode } from '../common';
+import { getUrlParam, GMFetch, htmlToBBCode } from '../common';
 import { CURRENT_SITE_INFO, TORRENT_INFO, CURRENT_SITE_NAME } from '../const';
 import DOMPurify from 'dompurify';
 import $ from 'jquery';
@@ -19,7 +19,7 @@ export default async () => {
 };
 
 async function getTorrentInfo (torrentId:string) {
-  const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
+  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`);
   if (response.group) {
     if (CURRENT_SITE_NAME === 'DicMusic') {
       response.group.name = getUTF8String(response.group.name);
@@ -103,7 +103,7 @@ async function getLog (logScore:number, torrentId:string, ripLogId:string) {
   } else if (CURRENT_SITE_NAME === 'DicMusic') {
     url = `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
   }
-  const response = await fetch(url, {
+  const response = await GMFetch<string>(url, {
     responseType: undefined,
   });
   if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {

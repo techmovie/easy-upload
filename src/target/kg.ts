@@ -1,5 +1,5 @@
 import {
-  getIMDBData, fetch,
+  getIMDBData, GMFetch,
   getInfoFromBDInfo, getInfoFromMediaInfo,
   getBDType,
 } from '../common';
@@ -17,7 +17,7 @@ export default async (info:TorrentInfo.Info) => {
     formData.append('upstep', '2');
     formData.append('type', '1');
     formData.append('title', imdbUrl);
-    const doc = await fetch(`${PT_SITE.KG.url}/upload.php`, {
+    const doc = await GMFetch<string>(`${PT_SITE.KG.url}/upload.php`, {
       method: 'POST',
       responseType: undefined,
       data: formData,

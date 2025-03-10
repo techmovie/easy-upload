@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO, PT_SITE } from '../
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  replaceRegSymbols, fetch,
+  replaceRegSymbols, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -147,7 +147,7 @@ const getVideoType = (container:string, isRemux:boolean, codes:string, source:st
 };
 const getDescription = async (id:string) => {
   const url = `${PT_SITE.PTP.url}/torrents.php?action=get_description&id=${id}`;
-  const data = await fetch(url, {
+  const data = await GMFetch<string>(url, {
     responseType: undefined,
   });
   if (data) {

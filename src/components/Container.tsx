@@ -4,7 +4,7 @@ import {
   SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO, BROWSER_LANGUAGE,
 } from '../const';
 import {
-  $t, getValue, getSize, fetch,
+  $t, getValue, getSize, GMFetch,
 } from '../common';
 import FunctionList from '../components/FunctionList';
 import SearchList from '../components/SearchList';
@@ -54,7 +54,7 @@ const Container = () => {
         const { list, name, size, url: urlDom } = resultConfig;
         const { title, size: searchSize } = TORRENT_INFO;
         const url = getQuickSearchUrl(site);
-        const domString = await fetch(url, {
+        const domString = await GMFetch<string>(url, {
           responseType: undefined,
         });
 

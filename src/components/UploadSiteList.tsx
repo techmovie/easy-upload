@@ -2,7 +2,7 @@ import {
   TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME, CURRENT_SITE_INFO,
 } from '../const';
 import {
-  $t, fetch, getIMDBIdByUrl, getValue,
+  $t, GMFetch, getIMDBIdByUrl, getValue,
 } from '../common';
 import { getTorrentFileData } from '../source/helper';
 import { toast } from 'sonner';
@@ -14,7 +14,7 @@ const getPTPGroupId = async (imdbUrl:string|undefined) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
-    const data = await fetch(url);
+    const data = await GMFetch(url);
     if (data && data.Movies && data.Movies.length > 0) {
       return data.Movies[0].GroupId;
     }
@@ -54,7 +54,7 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
-    const data = await fetch(url);
+    const data = await GMFetch(url);
     if (data && data.response && data.response.GroupID) {
       return data.response.GroupID;
     }

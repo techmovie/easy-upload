@@ -1,7 +1,7 @@
 import {
   CURRENT_SITE_INFO, CURRENT_SITE_NAME,
 } from '../const';
-import { getUrlParam, fetch } from '../common';
+import { getUrlParam, GMFetch } from '../common';
 import $ from 'jquery';
 
 const filterBluTorrent = (imdb = '', name = '') => {
@@ -12,7 +12,7 @@ const filterBluTorrent = (imdb = '', name = '') => {
   }
   const token = $('meta[name="csrf_token"]').attr('content');
   const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
-  fetch(url, {
+  GMFetch<string>(url, {
     responseType: undefined,
   }).then(data => {
     $('#facetedSearch').html(data);

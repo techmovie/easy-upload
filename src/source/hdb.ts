@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getUrlParam, getSize,
   getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
-  getFilterBBCode, getBDInfoOrMediaInfo, fetch,
+  getFilterBBCode, getBDInfoOrMediaInfo, GMFetch,
   getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
 } from '../common';
 import $ from 'jquery';
@@ -86,7 +86,7 @@ const getBasicInfo = () => {
   };
 };
 const getMediaInfo = async (torrentId:string) => {
-  const res = await fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
+  const res = await GMFetch<string>(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
     responseType: undefined,
   });
   const data = res.replace(/\r\n/g, '\n');

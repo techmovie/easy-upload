@@ -4,6 +4,7 @@ import monkey, { cdn } from 'vite-plugin-monkey';
 import svgr from 'vite-plugin-svgr';
 import { yamlToJSON } from './scripts/helper.js';
 import chokidar from 'chokidar';
+import path from 'path';
 
 const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
@@ -94,6 +95,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       path: 'path-browserify',
     },
   },

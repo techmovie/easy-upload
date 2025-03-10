@@ -1,7 +1,7 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo,
-  getInfoFromBDInfo, getSize, fetch,
+  getInfoFromBDInfo, getSize, GMFetch,
   getPreciseCategory, getSourceFromTitle,
   getTagsFromSubtitle, getScreenshotsFromBBCode,
 } from '../common';
@@ -14,7 +14,7 @@ export default async () => {
     let { movieName = '', year } = torrentInfo;
     movieName = movieName.toLowerCase().replace(/\s/g, '_');
     const url = `https://v2.sg.media-imdb.com/suggestion/${movieName[0]}/${movieName}_${year}.json`;
-    const imdbSearch = await fetch(url);
+    const imdbSearch = await GMFetch(url);
     if (imdbSearch && imdbSearch.d.length) {
       torrentInfo.imdbUrl = `https://www.imdb.com/title/${imdbSearch.d[0].id}`;
     }

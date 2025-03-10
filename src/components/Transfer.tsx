@@ -4,9 +4,10 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, fetch, transferImgs, uploadToPixhost, getValue, uploadToImgbox, uploadToHDB,
+  $t, transferImgToCheveretoSite, uploadToPixhost, getValue, uploadToImgbox, uploadToHDB,
 } from '../common';
 import { toast } from 'sonner';
+import { ImgInfo } from '@/common/image/image.types';
 
 const Transfer = () => {
   const [imgHost, setImgHost] = useState('imgbox');
@@ -26,6 +27,7 @@ const Transfer = () => {
       setBtnText('转换中...');
       setBtnDisable(true);
       setProgress(0);
+      let uploadedImgs:ImgInfo[] = [];
       const hostMap = {
         imgbb: 'https://imgbb.com/json',
         gifyu: 'https://gifyu.com/json',
@@ -34,65 +36,36 @@ const Transfer = () => {
         HDB: 'https://img.hdbits.org',
       };
       const selectHost = hostMap[imgHost as keyof typeof hostMap];
-      let uploadedImgs:string[] = [];
-      let authToken = ''; let tokenSecret = { token_id: '', token_secret: '' };
-      if (imgHost.match(/imgbb|gifyu/)) {
-        const rawHtml = await fetch(selectHost.replace('/json', ''), {
-          responseType: undefined,
-        });
-        authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1];
-      } else if (imgHost === 'imgbox') {
-        const rawHtml = await fetch('https://imgbox.com', {
-          responseType: undefined,
-        });
-        authToken = rawHtml.match(/content="(.+)" name="csrf-token"/)?.[1];
-        tokenSecret = await fetch('https://imgbox.com/ajax/token/generate', {
-          responseType: 'json',
-          method: 'POST',
-          headers: {
-            'X-CSRF-Token': authToken,
-          },
-        });
-      }
       if (imgHost === 'HDB') {
-        const imgContent = await uploadToHDB(imgList, TORRENT_INFO.title);
-        uploadedImgs = imgContent?.split('\n') ?? [];
-      } else {
-        for (let index = 0; index < imgList.length; index++) {
-          let data;
-          if (imgHost.match(/imgbb|gifyu/)) {
-            const transferData = await transferImgs(imgList[index], authToken, selectHost);
-            data = `[url=${transferData.url}][img]${transferData.thumb.url}[/img][/url]`;
-          } else if (imgHost === 'pixhost') {
-            const [transferData] = await uploadToPixhost([imgList[index]]);
-            data = `[url=${transferData.show_url}][img]${transferData.th_url}[/img][/url]`;
-          } else if (imgHost === 'imgbox') {
-            const transferData = await uploadToImgbox(imgList[index], authToken, tokenSecret);
-            data = `[url=${transferData.original_url}][img]${transferData.thumbnail_url}[/img][/url]`;
-          }
-          if (data) {
-            uploadedImgs.push(data);
-            setProgress(uploadedImgs.length);
-          }
-        }
+        uploadedImgs = await (await uploadToHDB)(imgList, TORRENT_INFO.title);
+      } else if (imgHost.match(/imgbb|gifyu/)) {
+        uploadedImgs = await (await transferImgToCheveretoSite)(imgList, selectHost);
+      } else if (imgHost === 'pixhost') {
+        uploadedImgs = await (await uploadToPixhost)(imgList);
+      } else if (imgHost === 'imgbox') {
+        uploadedImgs = await (await uploadToImgbox)(imgList);
       }
 
+      const imgsBBCodeArray = uploadedImgs.map(img => {
+        return `[url=${img.original}][img]${img.thumbnail}[/img][/url]`;
+      });
+
       if (uploadedImgs.length) {
-        TORRENT_INFO.screenshots = uploadedImgs.slice(0, TORRENT_INFO.screenshots.length);
+        TORRENT_INFO.screenshots = imgsBBCodeArray.slice(0, TORRENT_INFO.screenshots.length);
         let { description } = TORRENT_INFO;
         imgList.forEach((img, index) => {
           if (img.match(/i\.hdbits\.org/)) {
             const imgId = img.match(/i\.hdbits\.org\/(.+)\./)?.[1] ?? '';
             const urlReg = new RegExp(`\\[url=https://img.hdbits.org/${imgId}\\].+?\\[\\/url\\]\n*`, 'ig');
             if (description.match(urlReg)) {
-              description = description.replace(urlReg, uploadedImgs[index] || '');
+              description = description.replace(urlReg, imgsBBCodeArray[index] || '');
             }
           } else if (description.includes(img)) {
             const urlReg = new RegExp(`\\[url=${img}\\].+?\\[\\/url\\]\n*`, 'ig');
             if (description.match(urlReg)) {
-              description = description.replace(urlReg, uploadedImgs[index] || '');
+              description = description.replace(urlReg, imgsBBCodeArray[index] || '');
             } else {
-              description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), uploadedImgs[index] || '');
+              description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]\n*`, 'ig'), imgsBBCodeArray[index] || '');
             }
           }
         });

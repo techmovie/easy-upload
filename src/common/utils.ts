@@ -32,7 +32,7 @@ export const $t = (key: string) => {
 
 export const urlToFile = async (url: string): Promise<File> => {
   const filename = url.match(/\/([^/]+)$/)?.[1] ?? 'filename';
-  const data = await fetch(url, {
+  const data = await GMFetch<Blob>(url, {
     responseType: 'blob',
   });
   const file = new File([data], filename, { type: data.type });
@@ -287,27 +287,77 @@ export interface RequestOptions {
   data?: any
   timeout?: number
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const fetch = (url: string, options?: RequestOptions): Promise<any> => {
+
+export class NetworkError extends Error {
+  public readonly status?: number;
+  public readonly statusText?: string;
+
+  constructor (message: string, status?: number, statusText?: string) {
+    super(message);
+    this.name = 'NetworkError';
+    this.status = status;
+    this.statusText = statusText;
+  }
+}
+
+export class TimeoutError extends Error {
+  constructor (message: string = 'Request timed out') {
+    super(message);
+    this.name = 'TimeoutError';
+  }
+}
+
+/**
+ * 通用的网络请求函数
+ * @template T 响应数据的类型
+ * @param {string} url 请求的URL
+ * @param {RequestOptions} [options] 请求选项
+ * @returns {Promise<T>} 返回Promise，包含解析后的响应数据
+ */
+export const GMFetch = <T = unknown>(
+  url: string,
+  options?: RequestOptions,
+): Promise<T> => {
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
+    const finalOptions: RequestOptions = {
       method: 'GET',
-      url,
       responseType: 'json',
       ...options,
+    };
+
+    GM_xmlhttpRequest({
+      url,
+      ...finalOptions,
       onload: (res) => {
-        const { statusText, status, response } = res;
-        if (status !== 200) {
-          reject(new Error(statusText || `${status}`));
+        const { statusText, status, response, responseText } = res;
+        if (status >= 200 && status < 300) {
+          if (finalOptions.responseType === 'json' && typeof response === 'undefined' && responseText) {
+            try {
+              resolve(JSON.parse(responseText) as T);
+            } catch (e) {
+              reject(new Error(`Failed to parse JSON: ${e instanceof Error ? e.message : String(e)}`));
+            }
+          } else {
+            resolve(response);
+          }
         } else {
-          resolve(response);
+          reject(new NetworkError(
+            statusText || `Request failed with status ${status}`,
+            status,
+            statusText,
+          ));
         }
       },
       ontimeout: () => {
-        reject(new Error('timeout'));
+        reject(new TimeoutError(`Request to ${url} timed out after ${finalOptions.timeout}ms`));
       },
       onerror: (error) => {
-        reject(error);
+        const errorMessage = error.error || error.statusText || 'Unknown network error';
+        reject(new NetworkError(
+          errorMessage,
+          error.status,
+          error.statusText,
+        ));
       },
     });
   });

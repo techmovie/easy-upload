@@ -1,5 +1,5 @@
 import parseTorrent, { toTorrentFile } from 'parse-torrent';
-import { fetch, $t } from '../common';
+import { GMFetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
 import { CURRENT_SITE_INFO, PT_SITE } from '../const';
 import { toast } from 'sonner';
@@ -140,7 +140,7 @@ const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteNam
     downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
   }
   try {
-    const file = await fetch(downloadLink, {
+    const file = await GMFetch<ArrayBuffer>(downloadLink, {
       method: 'GET',
       responseType: 'arraybuffer',
       timeout: 10000,

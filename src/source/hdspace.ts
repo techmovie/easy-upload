@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo,
   getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
-  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode, fetch,
+  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -41,7 +41,7 @@ export default async () => {
     }
   }
   const imdbId = $('#imdb').next('script').text()?.match(/mid=(\d+)/)?.[1] ?? '';
-  const imdbData = await fetch(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
+  const imdbData = await GMFetch<string>(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
     responseType: undefined,
   });
   const imdbDom = new DOMParser().parseFromString(imdbData, 'text/html');

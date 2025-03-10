@@ -3,7 +3,7 @@ import {
   formatTorrentTitle, getSpecsFromMediainfo
   , getAudioCodecFromTitle, getVideoCodecFromTitle, getScreenshotsFromBBCode,
   getSourceFromTitle, getAreaCode,
-  getBDInfoOrMediaInfo, fetch,
+  getBDInfoOrMediaInfo, GMFetch,
 } from '../common';
 
 import type { TorrentDetailInfo, IMDbInfo } from '../types/mt';
@@ -168,7 +168,7 @@ const getTorrentURL = async () => {
   }
   const formData = new FormData();
   formData.append('id', torrentId);
-  const response = await fetch('https://api.m-team.cc/api/torrent/genDlToken', {
+  const response = await GMFetch('https://api.m-team.cc/api/torrent/genDlToken', {
     method: 'POST',
     data: formData,
     headers: {

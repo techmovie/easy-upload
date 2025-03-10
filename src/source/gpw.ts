@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  fetch,
+  GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -17,7 +17,7 @@ export default async () => {
   Object.assign(TORRENT_INFO, data);
 };
 const getTorrentInfo = async (torrentId:string) => {
-  const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
+  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`);
   const { torrent, group } = response;
   const { name: movieName, year, conver: poster, releaseType, region, imdbId, doubanId } = group;
   const imdbUrl = `https://www.imdb.com/title${imdbId}`;
