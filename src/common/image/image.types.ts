@@ -30,8 +30,8 @@ export interface CheveretoResponse {
 }
 
 export interface PTPImg {
-  code: string;
-  ext: string;
+  code: string
+  ext: string
 }
 
 export interface ImgInfo {
@@ -40,6 +40,6 @@ export interface ImgInfo {
 }
 
 export interface UrlTransformStrategy {
-  matches(url: string, bbcode: string): boolean;
-  transform(url: string): Promise<string>;
+  matches(url: string, bbcode: string): boolean
+  transform(url: string, bbcode?: string): Promise<string>
 }

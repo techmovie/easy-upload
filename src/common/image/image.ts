@@ -57,7 +57,7 @@ export const uploadToHDB = withUploadErrorHandling(async (imgUrls: string[], gal
   return await parseHDBResponse(data);
 }, 'HBD');
 
-const getImgboxToken = async (): Promise<{
+export const getImgboxToken = async (): Promise<{
   tokenSecret: TokenSecret;
   authToken: string;
 }> => {
@@ -403,9 +403,10 @@ export const getOriginalImgUrl = async (urlBBcode: string): Promise<string> => {
     const imgUrl = urlBBcode.match(/=(([^\]])+)/)?.[1] ?? '';
     for (const strategy of URLStrategies) {
       if (strategy.matches(imgUrl, urlBBcode)) {
-        return await strategy.transform(imgUrl);
+        return await strategy.transform(imgUrl, urlBBcode);
       }
     }
+    return imgUrl;
   } else if (urlBBcode.match(/\[img\]/)) {
     return urlBBcode.match(/img\](([^[])+)/)?.[1] ?? '';
   } else if (urlBBcode.match(/http(s)*:.+/)) {

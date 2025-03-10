@@ -17,11 +17,17 @@ export const createFormData = <T extends Record<string, unknown>>(fields: T, fil
   const formData = new FormData();
 
   Object.entries(fields).forEach(([key, value]) => {
+    if (value instanceof File) {
+      throw new Error('Files should be passed as a separate argument');
+    }
     formData.append(key, String(value));
   });
 
   if (files) {
     files.forEach(({ fieldName, file }) => {
+      if (fieldName.match(/\[.*\]/)) {
+        throw new Error('FieldName should not include []');
+      }
       if (Array.isArray(file)) {
         file.forEach((f, index) => {
           formData.append(`${fieldName}[${index}]`, f);
@@ -38,13 +44,16 @@ export const createFormData = <T extends Record<string, unknown>>(fields: T, fil
 const urlFileCache = new Map<string, Promise<File>>();
 
 export const cachedUrlToFile = async (url: string): Promise<File> => {
+  if (!url) {
+    throw new Error('URL is required to convert to file');
+  }
   if (!urlFileCache.has(url)) {
     urlFileCache.set(url, urlToFile(url));
   }
   return urlFileCache.get(url)!;
 };
 
-class HdBitsStrategy implements UrlTransformStrategy {
+export class HdBitsStrategy implements UrlTransformStrategy {
   matches (url: string): boolean {
     return url.includes('img.hdbits.org');
   }
@@ -53,35 +62,51 @@ class HdBitsStrategy implements UrlTransformStrategy {
     const data = await GMFetch<string>(url, { responseType: undefined });
     const doc = new DOMParser().parseFromString(data, 'text/html');
     const imgElem = doc.querySelector('#viewimage');
-    return imgElem ? imgElem.getAttribute('src') || '' : '';
+    if (!imgElem) {
+      throw new Error("Couldn't find image element when retrieving from HDBits");
+    }
+    const imgSrc = imgElem.getAttribute('src');
+    if (!imgSrc) {
+      throw new Error('No valid image source found when retrieving from HDBits');
+    }
+    return imgSrc;
   }
 }
 
-class PterClubStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
-    return url.includes('img.pterclub.com');
+export class PterClubStrategy implements UrlTransformStrategy {
+  matches (url: string, bbCode: string): boolean {
+    return bbCode.includes('img.pterclub.com');
   }
 
-  async transform (url: string): Promise<string> {
-    const imgUrl = url.match(/img\](([^[])+)/)?.[1] ?? '';
+  async transform (url: string, bbCode:string): Promise<string> {
+    const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
+    if (!imgUrl || !imgUrl.includes('.th.')) {
+      throw new Error('Invalid PterClub image URL');
+    }
     return imgUrl.replace(/\.th/g, '');
   }
 }
 
-class ImageBoxStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
-    return url.includes('imgbox.com');
+export class ImageBoxStrategy implements UrlTransformStrategy {
+  matches (url: string, bbCode: string): boolean {
+    return bbCode.includes('imgbox.com');
   }
 
-  async transform (url: string): Promise<string> {
-    const imgUrl = url.match(/img\](([^[])+)/)?.[1] ?? '';
+  async transform (url: string, bbCode: string): Promise<string> {
+    const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
+    if (!imgUrl) {
+      throw new Error('Invalid ImageBox image BBCode');
+    }
+    if (!imgUrl.match(/thumbs\d.+?_t\.png/)) {
+      throw new Error('Invalid ImageBox image URL');
+    }
     return imgUrl
       .replace(/thumbs(\d)/, 'images$1')
       .replace(/_t(\.png)/, '_o.png');
   }
 }
 
-class ImageBamStrategy implements UrlTransformStrategy {
+export class ImageBamStrategy implements UrlTransformStrategy {
   matches (url: string): boolean {
     return url.includes('imagebam.com');
   }
@@ -90,28 +115,44 @@ class ImageBamStrategy implements UrlTransformStrategy {
     const originalPage = await GMFetch<string>(url, { responseType: undefined });
     const doc = new DOMParser().parseFromString(originalPage, 'text/html');
     const imgElem = doc.querySelector('.main-image');
-    return imgElem ? imgElem.getAttribute('src') || '' : '';
+    if (!imgElem) {
+      throw new Error("Couldn't find image element when retrieving from ImageBam");
+    }
+    const imgSrc = imgElem.getAttribute('src');
+    if (!imgSrc) {
+      throw new Error('No valid image source found when retrieving from ImageBam');
+    }
+    return imgSrc;
   }
 }
 
-class BeyondHdStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
-    return url.includes('beyondhd.co');
+export class BeyondHdStrategy implements UrlTransformStrategy {
+  matches (url: string, bbCode: string): boolean {
+    return bbCode.includes('beyondhd.co');
   }
 
-  async transform (url: string): Promise<string> {
-    const imgUrl = url.match(/img\](([^[])+)/)?.[1] ?? '';
+  async transform (url: string, bbCode: string): Promise<string> {
+    const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
+    if (!imgUrl) {
+      throw new Error('Invalid BeyondHD image BBCode');
+    }
+    if (!imgUrl.match(/\.(th|md)\.(png|jpg|gif)/)) {
+      throw new Error('Invalid BeyondHD image URL');
+    }
     return imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, '.$2');
   }
 }
 
-class PixHostStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
-    return url.includes('pixhost.to');
+export class PixHostStrategy implements UrlTransformStrategy {
+  matches (url: string, bbCode:string): boolean {
+    return bbCode.includes('pixhost.to');
   }
 
-  async transform (url: string): Promise<string> {
-    const hostNumber = url.match(/img\]https:\/\/t(\d+)\./)?.[1];
+  async transform (url: string, bbCode:string): Promise<string> {
+    const hostNumber = bbCode.match(/img\]https:\/\/t(\d+)\./)?.[1];
+    if (!hostNumber || !url.includes('show')) {
+      throw new Error('Invalid PixHost image BBCode');
+    }
     return url.replace(
       /(pixhost\.to)\/show/,
       `img${hostNumber}.$1/images`,

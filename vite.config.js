@@ -10,6 +10,17 @@ const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
 
 export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    include: [
+      'src/**/*.test.{ts,tsx}',
+    ],
+    coverage: {
+      include: [
+        'src/**/*.{ts,tsx}',
+      ],
+    },
+  },
   plugins: [
     {
       name: 'watch-yaml',
