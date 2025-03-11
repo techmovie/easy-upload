@@ -1,3 +1,12 @@
+## [6.1.4](https://github.com/techmovie/easy-upload/compare/6.1.3...6.1.4) (2025-03-11)
+
+
+### Features
+
+* **new site:** ptzone ([567ba93](https://github.com/techmovie/easy-upload/commit/567ba93a0817e1310a4b070b1bb126c92d47927c))
+
+
+
 ## [6.1.3](https://github.com/techmovie/easy-upload/compare/6.1.2...6.1.3) (2025-03-07)
 
 
