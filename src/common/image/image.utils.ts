@@ -8,12 +8,18 @@ export class ImageUploadError extends Error {
   }
 }
 
-export const throwUploadError = (message?: string, originalError?: unknown): never => {
+export const throwUploadError = (
+  message?: string,
+  originalError?: unknown,
+): never => {
   const errorMessage = message || $t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED);
   throw new ImageUploadError(errorMessage, originalError);
 };
 
-export const createFormData = <T extends Record<string, unknown>>(fields: T, files?: {fieldName: string, file: File | File[]}[]): FormData => {
+export const createFormData = <T extends Record<string, unknown>>(
+  fields: T,
+  files?: { fieldName: string; file: File | File[] }[],
+): FormData => {
   const formData = new FormData();
 
   Object.entries(fields).forEach(([key, value]) => {
@@ -78,7 +84,7 @@ export class PterClubStrategy implements UrlTransformStrategy {
     return bbCode.includes('img.pterclub.com');
   }
 
-  async transform (url: string, bbCode:string): Promise<string> {
+  async transform (url: string, bbCode: string): Promise<string> {
     const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
     if (!imgUrl || !imgUrl.includes('.th.')) {
       throw new Error('Invalid PterClub image URL');
@@ -116,11 +122,15 @@ export class ImageBamStrategy implements UrlTransformStrategy {
     const doc = new DOMParser().parseFromString(originalPage, 'text/html');
     const imgElem = doc.querySelector('.main-image');
     if (!imgElem) {
-      throw new Error("Couldn't find image element when retrieving from ImageBam");
+      throw new Error(
+        "Couldn't find image element when retrieving from ImageBam",
+      );
     }
     const imgSrc = imgElem.getAttribute('src');
     if (!imgSrc) {
-      throw new Error('No valid image source found when retrieving from ImageBam');
+      throw new Error(
+        'No valid image source found when retrieving from ImageBam',
+      );
     }
     return imgSrc;
   }
@@ -144,19 +154,16 @@ export class BeyondHdStrategy implements UrlTransformStrategy {
 }
 
 export class PixHostStrategy implements UrlTransformStrategy {
-  matches (url: string, bbCode:string): boolean {
+  matches (url: string, bbCode: string): boolean {
     return bbCode.includes('pixhost.to');
   }
 
-  async transform (url: string, bbCode:string): Promise<string> {
+  async transform (url: string, bbCode: string): Promise<string> {
     const hostNumber = bbCode.match(/img\]https:\/\/t(\d+)\./)?.[1];
     if (!hostNumber || !url.includes('show')) {
       throw new Error('Invalid PixHost image BBCode');
     }
-    return url.replace(
-      /(pixhost\.to)\/show/,
-      `img${hostNumber}.$1/images`,
-    );
+    return url.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
   }
 }
 
@@ -181,22 +188,26 @@ export const URLStrategies: UrlTransformStrategy[] = [
  * @param {R} options.defaultResult - Default result to return on error
  * @returns {(...args: P) => Promise<R>} Wrapped function with error handling
  */
-export const withUploadErrorHandling = async<P extends unknown[], R>(
+export const withUploadErrorHandling = async <P extends unknown[], R>(
   uploadFn: (...args: P) => Promise<R>,
   serviceName: string,
   options: {
-    validateFirstArg?: boolean;
-    defaultResult?: R;
+    validateFirstArg?: boolean
+    defaultResult?: R
   } = {},
 ): Promise<(...args: P) => Promise<R>> => {
-  const { validateFirstArg = true, defaultResult = ([] as unknown as R) } = options;
+  const { validateFirstArg = true, defaultResult = [] as unknown as R } =
+    options;
 
   return async (...args: P): Promise<R> => {
     try {
       if (validateFirstArg) {
         const firstArg = args[0];
-        if (firstArg === undefined || firstArg === null ||
-            (Array.isArray(firstArg) && firstArg.length === 0)) {
+        if (
+          firstArg === undefined ||
+          firstArg === null ||
+          (Array.isArray(firstArg) && firstArg.length === 0)
+        ) {
           return defaultResult;
         }
       }
@@ -206,10 +217,34 @@ export const withUploadErrorHandling = async<P extends unknown[], R>(
       if (error instanceof ImageUploadError) {
         throw error;
       }
-      const errorMessage = (error instanceof Error) ? `${error.name}: ${error.message}` : 'Unknown error';
-      throwUploadError(`${$t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED)} - ${serviceName}. ${errorMessage}`, error);
+      const errorMessage =
+        error instanceof Error
+          ? `${error.name}: ${error.message}`
+          : 'Unknown error';
+      throwUploadError(
+        `${$t(
+          CONFIG.ERROR_MESSAGES.UPLOAD_FAILED,
+        )} - ${serviceName}. ${errorMessage}`,
+        error,
+      );
 
       return defaultResult;
     }
   };
+};
+
+/**
+ * Get image BBCode matches
+ *
+ * @param {string} bbcode
+ * @returns {string[]}
+ */
+export const getImageBBCodeMatches = (bbcode: string): string[] => {
+  const matches = bbcode.match(
+    /(\[url=(http(s)*:\/{2}.+?)\])?\[img\](http(s)?:.+?)\[\/img](\[\/url\])?/gi,
+  );
+  if (!matches) {
+    return [];
+  }
+  return Array.from(matches);
 };

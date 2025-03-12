@@ -14,6 +14,7 @@ import {
   ImageUploadError,
   withUploadErrorHandling,
   cachedUrlToFile,
+  getImageBBCodeMatches,
 } from '../image.utils';
 
 beforeEach(() => {
@@ -383,7 +384,6 @@ describe('withUploadErrorHandling', () => {
     try {
       await wrappedFn('arg1');
     } catch (error) {
-      console.log(error);
       expect(error).toBeInstanceOf(ImageUploadError);
       expect((error as ImageUploadError).message).toContain('TestService');
       expect((error as ImageUploadError).message).toContain('Deep nested error');
@@ -509,5 +509,65 @@ describe('cachedUrlToFile', () => {
     expect(result1).toBe(mockFile);
     expect(result2).toBe(mockFile);
     expect(urlToFile).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('getImageBBCodeMatches', () => {
+  it('should return matches for [img] bbcode', () => {
+    const bbcode = '[img]https://example.com/image.jpg[/img]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toHaveLength(1);
+    expect(matches![0]).toBe('[img]https://example.com/image.jpg[/img]');
+  });
+  it('should return matches for [img] bbcode with multiple URLs', () => {
+    const bbcode = '[img]https://example.com/image1.jpg[/img][img]https://example.com/image2.jpg[/img]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toHaveLength(2);
+    expect(matches![0]).toBe('[img]https://example.com/image1.jpg[/img]');
+    expect(matches![1]).toBe('[img]https://example.com/image2.jpg[/img]');
+  });
+  it('should return matches for [img] bbcode with multiple URLs and other text', () => {
+    const bbcode = 'Some text [img]https://example.com/image1.jpg[/img] and [img]https://example.com/image2.jpg[/img]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toHaveLength(2);
+    expect(matches![0]).toBe('[img]https://example.com/image1.jpg[/img]');
+    expect(matches![1]).toBe('[img]https://example.com/image2.jpg[/img]');
+  });
+  it('should return null for [img] bbcode with invalid URLs', () => {
+    const bbcode = '[img]invalid[/img]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toEqual([]);
+  });
+  it('should return matches for combined [url] and [img] bbcode', () => {
+    const bbcode = '[url=https://example.com/image.jpg][img]https://example.com/image.jpg[/img][/url]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toHaveLength(1);
+    expect(matches![0]).toBe(bbcode);
+  });
+  it('should return matches for combined [url] and [img] bbcode with multiple URLs', () => {
+    const bbcode = `[url=https://example.com/image1.jpg][img]https://example.com/image1.jpg[/img][/url]
+      '[url=https://example.com/image2.jpg][img]https://example.com/image2.jpg[/img][/url]`;
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toHaveLength(2);
+    expect(matches![0]).toBe('[url=https://example.com/image1.jpg][img]https://example.com/image1.jpg[/img][/url]');
+    expect(matches![1]).toBe('[url=https://example.com/image2.jpg][img]https://example.com/image2.jpg[/img][/url]');
+  });
+  it('should return [] for combined [url] and [img] bbcode with invalid URLs', () => {
+    const bbcode = '[url=invalid][img]invalid[/img][/url]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toEqual([]);
+  });
+  it('should return [] for [url] bbcode', () => {
+    const bbcode = '[url=https://example.com/image.jpg]Link text[/url]';
+    const matches = getImageBBCodeMatches(bbcode);
+    expect(matches).toEqual([]);
+  });
+  it('should return [] for empty string', () => {
+    const matches = getImageBBCodeMatches('');
+    expect(matches).toEqual([]);
+  });
+  it('should return [] for invalid bbcode', () => {
+    const matches = getImageBBCodeMatches('invalid bbcode');
+    expect(matches).toEqual([]);
   });
 });

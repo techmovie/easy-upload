@@ -91,7 +91,7 @@ export default async (info:TorrentInfo.Info) => {
         replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
         const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
         if (ptpImgApiKey) {
-          const ptpImgPoster = await uploadToPtpImg([poster]);
+          const ptpImgPoster = await (await uploadToPtpImg)([poster]);
           replaceParams.poster = ptpImgPoster ? ptpImgPoster[0] : '';
         }
       }
