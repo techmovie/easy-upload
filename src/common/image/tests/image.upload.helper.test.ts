@@ -1,4 +1,4 @@
-import { expect, it, vi, beforeEach, afterEach, describe } from 'vitest';
+import { expect, it, vi, beforeEach, afterEach, describe, beforeAll, afterAll } from 'vitest';
 
 import {
   createHDBRequestConfig,
@@ -17,13 +17,12 @@ import {
 import { cachedUrlToFile, createFormData, ImageUploadError } from '../image.utils';
 import { CONFIG } from '../image.config';
 import { getImgInfoFromBBCode } from '../image.info';
-import { getGMValue, GMFetch } from '@/common/utils';
+import { GMFetch } from '@/common/utils';
 
 vi.mock('@/common/utils', () => {
   return {
     $t: vi.fn(),
     GMFetch: vi.fn(),
-    getGMValue: vi.fn(),
   };
 });
 
@@ -368,10 +367,16 @@ describe('parsePixhostResponse', () => {
 });
 
 describe('createPTPImgRequestConfig', () => {
+  beforeAll(() => {
+    vi.stubGlobal('GM_getValue', vi.fn());
+  });
+  afterAll(() => {
+    vi.unstubAllGlobals();
+  });
   it('should create PTPImg request config correctly if files are passed', () => {
     const files = [new File([], 'image1.jpg'), new File([], 'image2.jpg')];
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
-    vi.mocked(getGMValue).mockReturnValueOnce('api key');
+    vi.mocked(GM_getValue).mockReturnValueOnce('api key');
     const { url, options } = createPTPImgRequestConfig(files);
     expect(url).toBe(CONFIG.URLS.PTPIMG_UPLOAD);
     expect(options.method).toBe('POST');
@@ -385,7 +390,7 @@ describe('createPTPImgRequestConfig', () => {
   });
   it('should create PTPImg request config correctly if links are passed', () => {
     const links = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'];
-    vi.mocked(getGMValue).mockReturnValueOnce('api key');
+    vi.mocked(GM_getValue).mockReturnValueOnce('api key');
     const { url, options } = createPTPImgRequestConfig(links);
     expect(url).toBe(CONFIG.URLS.PTPIMG_UPLOAD);
     expect(options.method).toBe('POST');
