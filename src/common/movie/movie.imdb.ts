@@ -14,7 +14,7 @@ export const getIMDBData = async (imdbUrl: string): Promise<IMDBDataResponse> =>
   if (!imdbUrl) {
     throw new Error('No IMDB URL provided');
   }
-  const data = await GMFetch<IMDBDataResponse>(`${CONFIG.URLS.PT_GEN_API}?url=${imdbUrl}`, {
+  const data = await GMFetch<IMDBDataResponse>(CONFIG.URLS.PT_GEN_API(imdbUrl), {
     responseType: 'json',
   });
   if (!data || !data.success) {
@@ -35,7 +35,7 @@ export const getIMDBRating = async (imdbId:string): Promise<IMDBRating> => {
   if (!imdbId) {
     throw new Error('No IMDB ID provided');
   }
-  const url = CONFIG.URLS.IMDB_RATING_API.replace('{imdbId}', imdbId);
+  const url = CONFIG.URLS.IMDB_RATING_API(imdbId);
   const data = await GMFetch<string>(url, {
     responseType: 'json',
   });
@@ -52,4 +52,18 @@ export const getIMDBRating = async (imdbId:string): Promise<IMDBRating> => {
   } catch {
     throw new Error('Failed to parse rating data');
   }
+};
+
+/**
+ * Get IMDb ID from IMDb URL
+ *
+ * @param {string} imdbUrl
+ * @returns {string}
+ */
+export const getIdByIMDbUrl = (imdbUrl: string) => {
+  const imdbIdArray = /tt\d+/.exec(imdbUrl);
+  if (imdbIdArray && imdbIdArray[0]) {
+    return imdbIdArray[0];
+  }
+  return '';
 };
