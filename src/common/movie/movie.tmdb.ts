@@ -3,7 +3,7 @@ import { GMFetch } from '@/common/utils';
 import { TMDBVideoResponse, TMDBVideo, TMDBFindResponse, TMDBMovie, TMDBTV } from './movie.types';
 
 /**
- * Get TMDB ID by IMDB ID
+ * Get TMDB Data by IMDB ID
  *
  * @async
  * @param {string} imdbid
@@ -38,5 +38,8 @@ export const getTMDBVideosById = async (tmdbId: string): Promise<TMDBVideo[]> =>
   const data = await GMFetch<TMDBVideoResponse>(url, {
     responseType: 'json',
   });
+  if (!data.results || data.results.length === 0) {
+    throw new Error('No TMDB videos found');
+  }
   return data.results;
 };
