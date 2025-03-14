@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { JSX } from 'preact';
-import { $t, getValue } from '../common';
+import { $t } from '../common';
 import {
   PT_SITE,
   SORTED_SITE_KEYS,
@@ -12,9 +12,9 @@ interface Props {
 }
 const SettingPanel = (props:Props) => {
   const getSiteSetList = () => {
-    const targetSitesEnabled:string[] = getValue('easy-seed.enabled-target-sites') || [];
-    const batchSeedSiteEnabled:string[] = getValue('easy-seed.enabled-batch-seed-sites') || [];
-    const searchSitesEnabled:string[] = getValue('easy-seed.enabled-search-site-list') || [];
+    const targetSitesEnabled = GM_getValue<string[]>('easy-seed.enabled-target-sites', []);
+    const batchSeedSiteEnabled:string[] = GM_getValue<string[]>('easy-seed.enabled-batch-seed-sites', []);
+    const searchSitesEnabled:string[] = GM_getValue<string[]>('easy-seed.enabled-search-site-list', []);
 
     return SORTED_SITE_KEYS.map(site => {
       const targetEnabled = targetSitesEnabled.includes(site);
@@ -30,7 +30,7 @@ const SettingPanel = (props:Props) => {
   };
   const getFeatureList = () => {
     return FeatureSwitchList.map(feature => {
-      const isChecked = getValue(`easy-seed.${feature.name}`, false) || false;
+      const isChecked = GM_getValue<string>(`easy-seed.${feature.name}`, '');
       return {
         ...feature,
         checked: !!isChecked,
@@ -43,8 +43,8 @@ const SettingPanel = (props:Props) => {
 
   const { closePanel } = props;
 
-  const [doubanCookie, setDoubanCookie] = useState(getValue('easy-seed.douban-cookie', false) || '');
-  const [ptpImgApiKey, setPtpImgApiKey] = useState(getValue('easy-seed.ptp-img-api-key', false) || '');
+  const [doubanCookie, setDoubanCookie] = useState(GM_getValue<string>('easy-seed.douban-cookie', ''));
+  const [ptpImgApiKey, setPtpImgApiKey] = useState(GM_getValue<string>('easy-seed.ptp-img-api-key', ''));
 
   const saveSetting = () => {
     const targetSitesEnabled:string[] = [];
@@ -62,9 +62,9 @@ const SettingPanel = (props:Props) => {
       }
     });
     try {
-      GM_setValue('easy-seed.enabled-target-sites', JSON.stringify(targetSitesEnabled));
-      GM_setValue('easy-seed.enabled-search-site-list', JSON.stringify(searchSitesEnabled));
-      GM_setValue('easy-seed.enabled-batch-seed-sites', JSON.stringify(batchSeedSiteEnabled));
+      GM_setValue('easy-seed.enabled-target-sites', targetSitesEnabled);
+      GM_setValue('easy-seed.enabled-search-site-list', searchSitesEnabled);
+      GM_setValue('easy-seed.enabled-batch-seed-sites', batchSeedSiteEnabled);
       GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
       GM_setValue('easy-seed.douban-cookie', doubanCookie);
       featureList.forEach(feature => {

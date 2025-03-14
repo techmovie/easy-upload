@@ -17,13 +17,13 @@ import {
 import { cachedUrlToFile, createFormData, ImageUploadError } from '../image.utils';
 import { CONFIG } from '../image.config';
 import { getImgInfoFromBBCode } from '../image.info';
-import { getValue, GMFetch } from '@/common/utils';
+import { getGMValue, GMFetch } from '@/common/utils';
 
 vi.mock('@/common/utils', () => {
   return {
     $t: vi.fn(),
     GMFetch: vi.fn(),
-    getValue: vi.fn(),
+    getGMValue: vi.fn(),
   };
 });
 
@@ -172,9 +172,7 @@ describe('getImgboxToken', () => {
       token_secret: 'token secret',
     });
     expect(GMFetch).toHaveBeenCalledTimes(2);
-    expect(GMFetch).toHaveBeenCalledWith(CONFIG.URLS.IMGBOX, {
-      responseType: undefined,
-    });
+    expect(GMFetch).toHaveBeenCalledWith(CONFIG.URLS.IMGBOX);
     expect(GMFetch).toHaveBeenCalledWith(`${CONFIG.URLS.IMGBOX}/ajax/token/generate`, {
       responseType: 'json',
       method: 'POST',
@@ -373,7 +371,7 @@ describe('createPTPImgRequestConfig', () => {
   it('should create PTPImg request config correctly if files are passed', () => {
     const files = [new File([], 'image1.jpg'), new File([], 'image2.jpg')];
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
-    vi.mocked(getValue).mockReturnValueOnce('api key');
+    vi.mocked(getGMValue).mockReturnValueOnce('api key');
     const { url, options } = createPTPImgRequestConfig(files);
     expect(url).toBe(CONFIG.URLS.PTPIMG_UPLOAD);
     expect(options.method).toBe('POST');
@@ -387,7 +385,7 @@ describe('createPTPImgRequestConfig', () => {
   });
   it('should create PTPImg request config correctly if links are passed', () => {
     const links = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'];
-    vi.mocked(getValue).mockReturnValueOnce('api key');
+    vi.mocked(getGMValue).mockReturnValueOnce('api key');
     const { url, options } = createPTPImgRequestConfig(links);
     expect(url).toBe(CONFIG.URLS.PTPIMG_UPLOAD);
     expect(options.method).toBe('POST');
@@ -439,9 +437,7 @@ describe('getCheveretoToken', () => {
     const authToken = await getCheveretoToken(imgHost);
     expect(authToken).toBe('token');
     expect(GMFetch).toHaveBeenCalledTimes(1);
-    expect(GMFetch).toHaveBeenCalledWith('http://example.com', {
-      responseType: undefined,
-    });
+    expect(GMFetch).toHaveBeenCalledWith('http://example.com');
   });
   it('should throw error if authToken is empty', async () => {
     const imgHost = 'http://example.com/json';

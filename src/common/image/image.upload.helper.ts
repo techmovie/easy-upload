@@ -2,7 +2,7 @@ import {
   $t,
   GMFetch,
   RequestOptions,
-  getValue,
+  getGMValue,
 } from '@/common/utils';
 import { CONFIG } from './image.config';
 import { cachedUrlToFile, createFormData, throwUploadError } from './image.utils';
@@ -48,9 +48,7 @@ export const getImgboxToken = async (): Promise<{
   tokenSecret: TokenSecret;
   authToken: string;
 }> => {
-  const rawHtml = await GMFetch<string>(CONFIG.URLS.IMGBOX, {
-    responseType: undefined,
-  });
+  const rawHtml = await GMFetch<string>(CONFIG.URLS.IMGBOX);
   const authToken = rawHtml.match(/content="(.+)" name="csrf-token"/)?.[1] ?? '';
   if (!authToken) {
     throwUploadError(`${$t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED)} - Invalid AuthToken`);
@@ -150,7 +148,7 @@ export const parsePixhostResponse = (data: string): ImgInfo[] => {
 };
 
 export const createPTPImgRequestConfig = (imgArray: Array<string | File>): {url: string, options: RequestOptions} => {
-  const apiKey = getValue('easy-seed.ptp-img-api-key', false);
+  const apiKey = getGMValue('easy-seed.ptp-img-api-key', false);
   if (!apiKey) {
     throwUploadError(`${$t(CONFIG.ERROR_MESSAGES.PTPIMG_UPLOAD_FAILED)} ${$t(CONFIG.ERROR_MESSAGES.NO_API_KEY)}`);
   }
@@ -193,9 +191,7 @@ export const parsePTPImgResponse = (data: PTPImg[]): string[] => {
 };
 
 export const getCheveretoToken = async (imgHost: string): Promise<string> => {
-  const rawHtml = await GMFetch<string>(imgHost.replace('/json', ''), {
-    responseType: undefined,
-  });
+  const rawHtml = await GMFetch<string>(imgHost.replace('/json', ''));
   const authToken = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)?.[1] ?? '';
   if (!authToken) {
     throwUploadError(`${$t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED)} - Invalid AuthToken`);

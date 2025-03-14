@@ -5,7 +5,6 @@ vi.mock('@/common/utils', () => {
   return {
     GMFetch: vi.fn(),
     $t: vi.fn((key) => key),
-    getValue: vi.fn(),
   };
 });
 

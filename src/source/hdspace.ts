@@ -1,8 +1,8 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo,
-  getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
-  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode, GMFetch,
+  getBDInfoOrMediaInfo, getAudioCodecFromTitle, convertSizeStringToBytes, getVideoCodecFromTitle, getFilterBBCode,
+  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -41,9 +41,7 @@ export default async () => {
     }
   }
   const imdbId = $('#imdb').next('script').text()?.match(/mid=(\d+)/)?.[1] ?? '';
-  const imdbData = await GMFetch<string>(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
-    responseType: undefined,
-  });
+  const imdbData = await GMFetch<string>(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`);
   const imdbDom = new DOMParser().parseFromString(imdbData, 'text/html');
   const imdbUlrDom = $('a[href*="imdb.com/title"]', imdbDom);
   const imdbUrl = imdbUlrDom.attr('href');
@@ -57,7 +55,7 @@ export default async () => {
   TORRENT_INFO.year = year;
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.source = source;
-  TORRENT_INFO.size = getSize(Size);
+  TORRENT_INFO.size = convertSizeStringToBytes(Size);
   TORRENT_INFO.videoType = videoType;
   TORRENT_INFO.resolution = resolution || '';
   TORRENT_INFO.area = getAreaCode(country);
@@ -65,7 +63,7 @@ export default async () => {
   TORRENT_INFO.imdbUrl = imdbUrl || '';
   TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
 };
 const getBasicInfo = () => {
   const basicInfo: {

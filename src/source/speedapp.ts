@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode,
+  getFilterBBCode, getSourceFromTitle, extractImgsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
 import $ from 'jquery';
@@ -26,7 +26,7 @@ export default async () => {
     });
   }
   const extraScreenshot = imgs.join('');
-  const screenshots = await getScreenshotsFromBBCode(extraScreenshot);
+  const screenshots = await extractImgsFromBBCode(extraScreenshot);
   const isBluray = !!$('span.nav-text:contains("BD Info")');
   const videoType = getVideoType({ torrentName, source, isBluray });
 

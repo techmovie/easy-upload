@@ -4,7 +4,7 @@ import {
   PT_GEN_API, DOUBAN_SUGGEST_API, DOUBAN_MOBILE_API,
   TORRENT_INFO,
 } from '../const';
-import { $t, handleError, getValue, GMFetch } from './utils';
+import { $t, handleError, GMFetch } from './utils';
 import $ from 'jquery';
 
 export const getAreaCode = (area:string) => {
@@ -31,7 +31,9 @@ export const getAreaCode = (area:string) => {
 export const getTMDBIdByIMDBId = async (imdbid: string) => {
   try {
     const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
-    const data = await GMFetch(url);
+    const data = await GMFetch(url, {
+      responseType: 'json',
+    });
     const isMovie = data.movie_results && data.movie_results.length > 0;
     const isTV = data.tv_results && data.tv_results.length > 0;
     if (!isMovie && !isTV) {
@@ -47,7 +49,9 @@ export const getTMDBIdByIMDBId = async (imdbid: string) => {
 
 export const getTMDBVideos = async (tmdbId: string) => {
   const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
-  const data = await GMFetch(url);
+  const data = await GMFetch(url, {
+    responseType: 'json',
+  });
   return data.results || [];
 };
 export const getIMDBIdByUrl = (imdbLink: string) => {
@@ -62,7 +66,9 @@ export const getIMDBData = async (imdbUrl: string):Promise<IMDB.ImdbData|undefin
     if (!imdbUrl) {
       throw new Error('$t(缺少IMDB信息)');
     }
-    const data = await GMFetch(`${PT_GEN_API}?url=${imdbUrl}`);
+    const data = await GMFetch(`${PT_GEN_API}?url=${imdbUrl}`, {
+      responseType: 'json',
+    });
     if (data && data.success) {
       return data;
     }
@@ -116,9 +122,8 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
     imdbId = fetchAnchor(imdbLinkAnchor);
     imdbLink = `https://www.imdb.com/title/${imdbId}/`;
     const imdbData = await GMFetch(
-      `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
-      {
-        responseType: undefined,
+      `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`, {
+        responseType: 'json',
       },
     );
     imdbAverageRating = imdbData.match(/rating":(\d\.\d)/)?.[1] ?? '0';
@@ -153,9 +158,7 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
     }).get();
   }
   // awards
-  const awardsPage = await GMFetch(`${doubanLink}/awards`, {
-    responseType: undefined,
-  });
+  const awardsPage = await GMFetch<string>(`${doubanLink}/awards`);
   const awardsDoc = new DOMParser().parseFromString(awardsPage, 'text/html');
   const awards = $('#content > div > div.article', awardsDoc).html()
     .replace(/[ \n]/g, '')
@@ -198,9 +201,7 @@ export const getDataFromDoubanPage = async (domString:string): Promise<Douban.Do
   };
 };
 export const getDoubanAwards = async (doubanId:string) => {
-  const data = await GMFetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
-    responseType: undefined,
-  });
+  const data = await GMFetch<string>(`https://movie.douban.com/subject/${doubanId}/awards/`);
   const doc = new DOMParser().parseFromString(data, 'text/html');
   const linkDom: HTMLLinkElement|null = doc.querySelector('#content > div > div.article');
   return linkDom?.innerHTML
@@ -214,9 +215,7 @@ export const getDoubanAwards = async (doubanId:string) => {
     .trim();
 };
 export const getIMDBFromDouban = async (doubanLink:string) => {
-  const doubanPage = await GMFetch(doubanLink, {
-    responseType: undefined,
-  });
+  const doubanPage = await GMFetch(doubanLink);
   const dom = new DOMParser().parseFromString(doubanPage, 'text/html');
   const imdbId = $('#info span.pl:contains("IMDb")', dom)[0]?.nextSibling?.nodeValue?.trim() ?? '';
   return imdbId;
@@ -236,8 +235,9 @@ export const getMobileDoubanInfo = async (doubanUrl:string, isTV?:boolean): Prom
         },
         cookie: '',
         anonymous: false,
+        responseType: 'json',
       };
-      const cookie = getValue('easy-seed.douban-cookie', false);
+      const cookie = GM_getValue<string>('easy-seed.douban-cookie', '');
       const ckValue = cookie?.match(/ck=([^;]+)?/)?.[1] ?? '';
 
       if (cookie) {
@@ -266,7 +266,7 @@ export const getMobileDoubanInfo = async (doubanUrl:string, isTV?:boolean): Prom
 export const getIMDBRating = async (imdbId:string) => {
   const url = `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`;
   const data = await GMFetch(url, {
-    responseType: undefined,
+    responseType: 'json',
   });
   const { resource } = JSON.parse(data.match(/[^(]+\((.+)\)/)?.[1] ?? '') ?? {};
   return {
@@ -390,9 +390,9 @@ export const getDoubanIdByIMDB = async (query:string):(Promise<Douban.Season|und
     const options = {
       cookie: '',
       anonymous: false,
-      responseType: undefined,
+      responseType: 'json',
     };
-    const cookie = getValue('easy-seed.douban-cookie', false);
+    const cookie = GM_getValue<string>('easy-seed.douban-cookie');
     if (cookie) {
       options.cookie = cookie;
       options.anonymous = true;
@@ -429,7 +429,9 @@ export const getDoubanInfo = async (doubanUrl:string, isTV?: boolean) => {
 };
 export const getDoubanBookInfo = async (doubanUrl:string):Promise<Douban.BookData|undefined> => {
   const reqUrl = `${PT_GEN_API}?url=${doubanUrl}`;
-  const data = await GMFetch(reqUrl);
+  const data = await GMFetch(reqUrl, {
+    responseType: 'json',
+  });
   const { chinese_title: chineseTitle, origin_title: originalTitle } = data;
   let foreignTitle = '';
   if (chineseTitle !== originalTitle) {
@@ -451,7 +453,9 @@ export const getRtIdFromTitle = async (title:string, tv:boolean, year:string) =>
   tv = tv || false;
   const yearVal = parseInt(year, 10) || 1800;
   const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
-  const data = await GMFetch(url);
+  const data = await GMFetch(url, {
+    responseType: 'json',
+  });
   const movies = tv ? data.tvSeries : data.movies;
   if (!Array.isArray(movies) || movies.length < 1) {
     console.log('no search results');

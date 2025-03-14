@@ -1,8 +1,8 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo,
-  getInfoFromBDInfo, getSize, getFilterBBCode,
-  getPreciseCategory, getSourceFromTitle, getTagsFromSubtitle, getScreenshotsFromBBCode,
+  getInfoFromBDInfo, convertSizeStringToBytes, getFilterBBCode,
+  getPreciseCategory, getSourceFromTitle, getTagsFromSubtitle, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 interface BasicInfo {
@@ -36,7 +36,7 @@ const getTorrentInfo = async () => {
   const screenshotsBBCode = $('#collapseScreens a').map(function () {
     return `[url=${$(this).attr('href')}][img]${$(this).find('img').attr('src')}[/img][/url]`;
   }).get();
-  const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
+  const screenshots = await extractImgsFromBBCode(screenshotsBBCode.join('\n'));
   const isBluray = videoType.match(/bluray/i);
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
@@ -49,7 +49,7 @@ const getTorrentInfo = async () => {
     imdbUrl,
     movieName,
     year,
-    size: getSize(size),
+    size: convertSizeStringToBytes(size),
     category,
     videoType,
     resolution,

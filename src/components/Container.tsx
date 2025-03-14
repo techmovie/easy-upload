@@ -4,7 +4,7 @@ import {
   SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO, BROWSER_LANGUAGE,
 } from '../const';
 import {
-  $t, getValue, getSize, GMFetch,
+  $t, convertSizeStringToBytes, GMFetch,
 } from '../common';
 import FunctionList from '../components/FunctionList';
 import SearchList from '../components/SearchList';
@@ -42,7 +42,7 @@ const Container = () => {
     setSettingPanelOpen(false);
   };
   const checkQuickResult = () => {
-    let searchListSetting:string[] = getValue('easy-seed.enabled-search-site-list');
+    let searchListSetting = GM_getValue<string[]>('easy-seed.enabled-search-site-list', []);
     if (searchListSetting.length === 0) {
       searchListSetting = SORTED_SITE_KEYS;
     }
@@ -54,9 +54,7 @@ const Container = () => {
         const { list, name, size, url: urlDom } = resultConfig;
         const { title, size: searchSize } = TORRENT_INFO;
         const url = getQuickSearchUrl(site);
-        const domString = await GMFetch<string>(url, {
-          responseType: undefined,
-        });
+        const domString = await GMFetch<string>(url);
 
         const dom = new DOMParser().parseFromString(domString, 'text/html');
         const torrentList = $(list, dom);
@@ -74,7 +72,7 @@ const Container = () => {
           }
           torrentName = torrentName?.replace(/\s|\./g, '');
 
-          const sizeBytes = getSize($(item).find(size).text());
+          const sizeBytes = convertSizeStringToBytes($(item).find(size).text());
           return torrentName === title?.replace(/\s|\./g, '') && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1000;
         });
         if (sameTorrent) {
@@ -94,7 +92,7 @@ const Container = () => {
       <ConfigSvg onClick={openSettingPanel} className='setting-svg' />
     </h4>;
   };
-  const quickSearchClosed = getValue('easy-seed.quick-search-closed', false) || '';
+  const quickSearchClosed = GM_getValue<string>('easy-seed.quick-search-closed', '');
   return <>
     { (CURRENT_SITE_NAME === 'HH') && <>
       <div class="font-bold leading-6"><Title /></div>
@@ -224,35 +222,6 @@ const Container = () => {
               </div>
             }
           </>
-    }
-    {
-      CURRENT_SITE_NAME === 'Bdc' && <>
-        <tr>
-          <td colSpan={4}>
-            <div className='custom-site'>
-              <Title />
-              <div className="easy-seed-td" style={{ flexWrap: 'wrap' }} >
-                <div id='seed-dom' className={BROWSER_LANGUAGE === 'en' ? 'use-eng' : ''}>
-                  <UploadSiteList />
-                </div>
-              </div>
-            </div>
-            <div className='custom-site'>
-              <h4>{$t('快捷操作')}</h4>
-              <FunctionList />
-            </div>
-            {
-              !quickSearchClosed && <div className='custom-site'>
-                <h4 onClick={checkQuickResult}>{$t('快速检索')}</h4>
-                <div>
-                  <SearchList />
-                </div>
-              </div>
-            }
-          </td>
-        </tr>
-
-      </>
     }
     {
       CURRENT_SITE_INFO.siteType === 'gazelle' &&

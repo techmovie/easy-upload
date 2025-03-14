@@ -1,11 +1,11 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
-import { getOriginalImgUrl } from '../image.url';
+import { getOriginalImgUrl, urlToFile } from '../image.url';
 import { URLStrategies } from '../image.utils';
+import { GMFetch } from '@/common/utils';
 
 vi.mock('@/common/utils', () => ({
   GMFetch: vi.fn(),
   $t: vi.fn((key) => key),
-  getValue: vi.fn(),
 }));
 
 vi.mock(import('../image.utils'), async (importOriginal) => {
@@ -145,5 +145,60 @@ describe('getOriginalImgUrl', () => {
 
     const result = await getOriginalImgUrl(bbcode);
     expect(result).toBe(extractedUrl);
+  });
+});
+
+describe('urlToFile', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+  it('should convert URL to File object', async () => {
+    const url = 'https://example.com/image.jpg';
+    const filename = 'image.jpg';
+    const blob = new Blob([''], { type: 'image/jpeg' });
+    const file = new File([blob], filename, { type: blob.type });
+    vi.mocked(GMFetch).mockResolvedValueOnce(blob);
+    const result = await urlToFile(url);
+    expect(result).toEqual(file);
+    expect(result.name).toBe(filename);
+    expect(result.type).toBe('image/jpeg');
+    expect(GMFetch).toBeCalledWith(url, { responseType: 'blob' });
+  });
+  it('should use the last part of the URL as the filename', async () => {
+    const url = 'https://example.com/image1.jpg';
+    const filename = 'image1.jpg';
+    const blob = new Blob([''], { type: 'image/jpeg' });
+    const file = new File([blob], filename, { type: blob.type });
+    vi.mocked(GMFetch).mockResolvedValueOnce(blob);
+    const result = await urlToFile(url);
+    expect(result.name).toEqual(filename);
+    expect(result).toEqual(file);
+  });
+  it('should use default filename when URL has no filename', async () => {
+    const url = 'no valid filename';
+    const mockBlob = new Blob([''], { type: 'image/jpg' });
+    vi.mocked(GMFetch).mockResolvedValueOnce(mockBlob);
+    const result = await urlToFile(url);
+    expect(result.name).toBe('filename');
+    expect(result.type).toBe('image/jpg');
+  });
+  it('should handle errors from GMFetch', async () => {
+    const url = 'https://example.com/not-found.png';
+    const error = new Error('Network error');
+    vi.mocked(GMFetch).mockRejectedValue(error);
+    await expect(urlToFile(url)).rejects.toThrow('Network error');
+    expect(GMFetch).toHaveBeenCalledWith(url, { responseType: 'blob' });
+  });
+  it('should handle URLs with query parameters', async () => {
+    const url = 'https://example.com/image.jpg?version=1&token=abc123';
+    const mockBlob = new Blob([''], { type: 'image/jpg' });
+    vi.mocked(GMFetch).mockResolvedValue(mockBlob);
+    const result = await urlToFile(url);
+    expect(result.name).toBe('image.jpg');
+    expect(result.type).toBe('image/jpg');
   });
 });

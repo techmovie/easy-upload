@@ -13,7 +13,9 @@ export default async (info:TorrentInfo.Info) => {
   const groupId = getUrlParam('groupid');
   if (!groupId) {
     const url = `/ajax.php?action=browse&searchstr=${name} ${year}`;
-    const searchResult = await GMFetch(url);
+    const searchResult = await GMFetch(url, {
+      responseType: 'json',
+    });
     if (searchResult.status === 'success' && searchResult.response.results.length > 0) {
       const groupId = searchResult.response.results[0].groupId;
       const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);

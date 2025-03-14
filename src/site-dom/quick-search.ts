@@ -12,9 +12,7 @@ const filterBluTorrent = (imdb = '', name = '') => {
   }
   const token = $('meta[name="csrf_token"]').attr('content');
   const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
-  GMFetch<string>(url, {
-    responseType: undefined,
-  }).then(data => {
+  GMFetch<string>(url).then(data => {
     $('#facetedSearch').html(data);
   });
 };
@@ -22,13 +20,9 @@ const filterBluTorrent = (imdb = '', name = '') => {
 const fillSearchImdb = () => {
   const imdbParam = getUrlParam('imdb');
   const nameParam = getUrlParam('name');
-  const searchType = getUrlParam('search_area');
   if (imdbParam || nameParam) {
     if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_NAME !== 'Blutopia') {
       filterBluTorrent(imdbParam, nameParam);
-    } else if (CURRENT_SITE_NAME === 'Bdc') {
-      $('#tsstac').val(imdbParam);
-      $('#search_type').val(searchType);
     } else if (CURRENT_SITE_NAME === 'PTN') {
       $('#movieimdb').val(imdbParam);
       $('#moviename').val(nameParam);

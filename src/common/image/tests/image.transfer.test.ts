@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { uploadToPtpImg } from '../image.upload';
 import {
   transferImgToCheveretoSite,
@@ -15,18 +15,10 @@ import { cachedUrlToFile } from '../image.utils';
 
 vi.mock('../image.upload.helper', { spy: true });
 vi.mock('../image.upload', { spy: true });
-beforeEach(() => {
-  vi.resetAllMocks();
-});
-
-afterEach(() => {
-  vi.resetAllMocks();
-});
 
 vi.mock('@/common/utils', () => ({
   GMFetch: vi.fn(),
   $t: vi.fn((key) => key),
-  getValue: vi.fn(),
 }));
 
 vi.mock(import('../image.utils'), async (importOriginal) => {

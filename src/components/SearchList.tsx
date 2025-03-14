@@ -2,7 +2,7 @@ import {
   PT_SITE, SORTED_SITE_KEYS,
 } from '../const';
 import {
-  getValue, $t,
+  $t,
 } from '../common';
 import { getQuickSearchUrl } from './common';
 import $ from 'jquery';
@@ -19,9 +19,9 @@ const SearchList = () => {
     }
     GM_openInTab(openUrl);
   };
-  const searchListSetting = getValue('easy-seed.enabled-search-site-list');
+  const searchListSetting = GM_getValue<string[]>('easy-seed.enabled-search-site-list', []);
   const searchSitesEnabled = searchListSetting || [];
-  const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false);
+  const siteFaviconClosed = GM_getValue<string[]>('easy-seed.site-favicon-closed', []);
 
   const getSearchSites = () => {
     const commonSites:SiteName[] = [];

@@ -1,9 +1,9 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getUrlParam, getSize,
+  formatTorrentTitle, getUrlParam, convertSizeStringToBytes,
   getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
   getFilterBBCode, getBDInfoOrMediaInfo, GMFetch,
-  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+  getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -79,21 +79,19 @@ const getBasicInfo = () => {
   const videoCodec = splitArray[1].split(',')[0].toLowerCase().replace(/\./g, '');
   const videoType = splitArray[1].split(',')[1].replace(/\)/g, '').trim();
   return {
-    size: getSize(size),
+    size: convertSizeStringToBytes(size),
     category,
     videoCodec,
     videoType: videoTypeMap[videoType as keyof typeof videoTypeMap],
   };
 };
 const getMediaInfo = async (torrentId:string) => {
-  const res = await GMFetch<string>(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
-    responseType: undefined,
-  });
+  const res = await GMFetch<string>(`https://hdbits.org/details/mediainfo?id=${torrentId}`);
   const data = res.replace(/\r\n/g, '\n');
   return data || '';
 };
 // 获取截图
 const getImages = async (description:string) => {
-  const screenshots = await getScreenshotsFromBBCode(description);
+  const screenshots = await extractImgsFromBBCode(description);
   return screenshots;
 };

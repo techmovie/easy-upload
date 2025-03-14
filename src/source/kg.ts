@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo,
   getBDInfoOrMediaInfo, getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
-  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+  getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 interface BasicInfo {
@@ -94,7 +94,7 @@ export default async () => {
   TORRENT_INFO.area = getAreaCode(country);
   TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
 };
 const getBasicInfo = () => {
   const basicInfo:BasicInfo = {

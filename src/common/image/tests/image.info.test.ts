@@ -1,4 +1,4 @@
-import { vi, expect, beforeEach, afterEach, describe, it } from 'vitest';
+import { vi, expect, beforeEach, describe, it } from 'vitest';
 import { getOriginalImgUrl } from '../image.url';
 import { getImgInfoFromBBCode, extractImgsFromBBCode } from '../image.info';
 import { CONFIG } from '../image.config';
@@ -12,20 +12,12 @@ vi.mock('../image.url', () => ({
 vi.mock('@/common/utils', () => ({
   GMFetch: vi.fn(),
   $t: vi.fn((key) => key),
-  getValue: vi.fn(),
 }));
 vi.mock('../image.utils', () => ({
   getImageBBCodeMatches: vi.fn(),
 }));
 
 describe('getImgInfoFromBBCode', () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
   it('should throw error if bbcode is empty', async () => {
     await expect(getImgInfoFromBBCode('')).rejects.toThrow('Invalid BBCode - No BBCode found');
   });
@@ -82,15 +74,10 @@ describe('getImgInfoFromBBCode', () => {
 
 describe('extractImgsFromBBCode', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
     vi.spyOn(CONFIG, 'FILTER_IMGS_NAMES', 'get').mockReturnValue([
       'banner',
       'logo',
     ]);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it('should return empty array when bbcode is empty', async () => {

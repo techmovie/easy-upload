@@ -103,4 +103,5 @@ export {
   DOUBAN_SUGGEST_API,
   SORTED_SITE_KEYS,
   BROWSER_LANGUAGE,
+  SiteName,
 };

@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getSize, getAreaCode, getFilterBBCode, getSourceFromTitle,
-  getScreenshotsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo,
+  formatTorrentTitle, convertSizeStringToBytes, getAreaCode, getFilterBBCode, getSourceFromTitle,
+  extractImgsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoOrMediaInfo, getPreciseCategory,
 } from '../common';
 import { getVideoType, getCategory, getResolution, getFormat } from './helper';
@@ -181,10 +181,10 @@ export default async () => {
   TORRENT_INFO.category = specificCategory;
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-  TORRENT_INFO.size = size ? getSize(size) : 0;
+  TORRENT_INFO.size = size ? convertSizeStringToBytes(size) : 0;
   if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
-  } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+    TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
+  } else TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
 
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const pageTags = getTagsFromPage();

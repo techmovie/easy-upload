@@ -1,8 +1,8 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO, PT_SITE } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo,
-  getInfoFromBDInfo, getSize, getFilterBBCode,
-  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+  getInfoFromBDInfo, convertSizeStringToBytes, getFilterBBCode,
+  getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -12,7 +12,7 @@ export default async () => {
   const basicInfo = getBasicInfo();
   const editionTags = getEditionTags(basicInfo);
   const { Category, Name, Source, Type, Size } = basicInfo;
-  TORRENT_INFO.size = getSize(Size);
+  TORRENT_INFO.size = convertSizeStringToBytes(Size);
   TORRENT_INFO.title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
   const TMDBYear = $('.movie-heading a:last').text();
@@ -38,7 +38,7 @@ export default async () => {
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const mediaInfo = $('#stats-full code').text();
   TORRENT_INFO.mediaInfos = [mediaInfo];
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
   TORRENT_INFO.originalDescription = `${descriptionBBCode}`;
   TORRENT_INFO.description = `\n[quote]${mediaInfo}[/quote]\n${descriptionBBCode}`;
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;

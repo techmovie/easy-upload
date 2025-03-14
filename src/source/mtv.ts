@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  getSize, getFilterBBCode, getSourceFromTitle, getScreenshotsFromBBCode,
+  convertSizeStringToBytes, getFilterBBCode, getSourceFromTitle, extractImgsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
 import $ from 'jquery';
@@ -33,7 +33,7 @@ async function getTorrentInfo (torrentId:string) {
   const descriptionContainer = $(`#content${torrentId}`).clone();
   descriptionContainer.find('>div').remove();
   const description = getFilterBBCode(descriptionContainer[0]);
-  const screenshots = await getScreenshotsFromBBCode(description);
+  const screenshots = await extractImgsFromBBCode(description);
   const isBluray = !!$(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
   const videoType = getVideoType({ torrentName, source, isBluray });
 
@@ -46,7 +46,7 @@ async function getTorrentInfo (torrentId:string) {
     title: formatTorrentTitle(torrentName),
     imdbUrl,
     source,
-    size: getSize(size),
+    size: convertSizeStringToBytes(size),
     resolution,
     movieName: showName.replace(/\n/g, '').trim(),
     description,

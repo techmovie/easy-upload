@@ -1,6 +1,6 @@
 import { CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getSize, getSpecsFromMediainfo,
+  formatTorrentTitle, convertSizeStringToBytes, getSpecsFromMediainfo,
   getSourceFromTitle, getAreaCode, getDoubanInfo,
 } from '../common';
 import { getVideoType, getCategory } from './helper';
@@ -22,7 +22,7 @@ export default async () => {
   const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
 
   const categoryResult = getCategory(category);
-  const formatSize = getSize(size);
+  const formatSize = convertSizeStringToBytes(size);
   const year = title?.match(/(19|20)\d{2}/g) ?? [];
 
   const screenshots = $('#screenshot-content img')

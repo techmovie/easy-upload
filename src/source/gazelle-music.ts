@@ -19,7 +19,9 @@ export default async () => {
 };
 
 async function getTorrentInfo (torrentId:string) {
-  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`);
+  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`, {
+    responseType: 'json',
+  });
   if (response.group) {
     if (CURRENT_SITE_NAME === 'DicMusic') {
       response.group.name = getUTF8String(response.group.name);
@@ -103,9 +105,7 @@ async function getLog (logScore:number, torrentId:string, ripLogId:string) {
   } else if (CURRENT_SITE_NAME === 'DicMusic') {
     url = `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
   }
-  const response = await GMFetch<string>(url, {
-    responseType: undefined,
-  });
+  const response = await GMFetch<string>(url);
   if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
     const div = document.createElement('div');
     div.innerHTML = response;

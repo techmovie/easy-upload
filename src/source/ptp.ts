@@ -147,9 +147,7 @@ const getVideoType = (container:string, isRemux:boolean, codes:string, source:st
 };
 const getDescription = async (id:string) => {
   const url = `${PT_SITE.PTP.url}/torrents.php?action=get_description&id=${id}`;
-  const data = await GMFetch<string>(url, {
-    responseType: undefined,
-  });
+  const data = await GMFetch<string>(url);
   if (data) {
     const element = document.createElement('span');
     element.innerHTML = data;

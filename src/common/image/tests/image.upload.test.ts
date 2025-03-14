@@ -33,7 +33,6 @@ afterEach(() => {
 vi.mock('@/common/utils', () => ({
   GMFetch: vi.fn(),
   $t: vi.fn((key) => key),
-  getValue: vi.fn(),
 }));
 
 vi.mock(import('../image.utils'), async (importOriginal) => {

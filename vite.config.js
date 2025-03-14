@@ -20,6 +20,8 @@ export default defineConfig({
         'src/**/*.{ts,tsx}',
       ],
     },
+    clearMocks: true,
+    mockReset: true,
   },
   plugins: [
     {

@@ -1,9 +1,9 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo,
-  getInfoFromBDInfo, getSize, getSourceFromTitle,
+  getInfoFromBDInfo, convertSizeStringToBytes, getSourceFromTitle,
   getFilterBBCode,
-  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+  getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -18,7 +18,7 @@ export default async () => {
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const { Category, Name, Type, Size, Resolution } = getBasicInfo();
-  TORRENT_INFO.size = getSize(Size);
+  TORRENT_INFO.size = convertSizeStringToBytes(Size);
   let title = formatTorrentTitle(Name);
   const tags = getTagsFromSubtitle(TORRENT_INFO.title);
   const category = getCategory(Category);
@@ -73,7 +73,7 @@ export default async () => {
   TORRENT_INFO.videoCodec = videoCodec;
   TORRENT_INFO.audioCodec = audioCodec;
   TORRENT_INFO.tags = { ...tags, ...mediaTags };
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
   TORRENT_INFO.title = title;
   TORRENT_INFO.year = IMDBYear;
   TORRENT_INFO.movieName = CURRENT_SITE_NAME === 'HDPOST' ? '' : movieName;

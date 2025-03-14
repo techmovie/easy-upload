@@ -10,7 +10,6 @@
 |     BTN     |            ✅             |           ❌            |
 |  BTSCHOOL   |            ✅             |           ✅            |
 |     BYR     |            ❌             |           ✅            |
-|     Bdc     |            ✅             |           ✅            |
 |  BeyondHD   |            ✅             |           ✅            |
 |     Bib     |            ❌             |           ✅            |
 |  Blutopia   |            ✅             |           ✅            |

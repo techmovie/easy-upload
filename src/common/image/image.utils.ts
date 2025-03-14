@@ -1,6 +1,7 @@
-import { $t, urlToFile, GMFetch } from '@/common/utils';
+import { $t, GMFetch } from '@/common/utils';
 import { CONFIG } from './image.config';
 import { UrlTransformStrategy } from './image.types';
+import { urlToFile } from './image.url';
 export class ImageUploadError extends Error {
   constructor (message: string, public readonly originalError?: unknown) {
     super(message);
@@ -65,7 +66,7 @@ export class HdBitsStrategy implements UrlTransformStrategy {
   }
 
   async transform (url: string): Promise<string> {
-    const data = await GMFetch<string>(url, { responseType: undefined });
+    const data = await GMFetch<string>(url);
     const doc = new DOMParser().parseFromString(data, 'text/html');
     const imgElem = doc.querySelector('#viewimage');
     if (!imgElem) {
@@ -118,7 +119,7 @@ export class ImageBamStrategy implements UrlTransformStrategy {
   }
 
   async transform (url: string): Promise<string> {
-    const originalPage = await GMFetch<string>(url, { responseType: undefined });
+    const originalPage = await GMFetch<string>(url);
     const doc = new DOMParser().parseFromString(originalPage, 'text/html');
     const imgElem = doc.querySelector('.main-image');
     if (!imgElem) {

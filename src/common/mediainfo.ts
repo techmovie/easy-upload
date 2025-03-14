@@ -1,4 +1,4 @@
-import { getSize } from './utils';
+import { convertSizeStringToBytes } from './utils';
 import { getAudioCodecFromTitle } from './torrent-info';
 
 export const getSpecsFromMediainfo = (isBluray:boolean, mediaInfo:string) => {
@@ -70,7 +70,7 @@ export const getInfoFromMediaInfo = (mediaInfo:string) => {
   const completeName = getMediaValueByKey('Complete name', generalPart);
   const format = completeName?.match(/\.(\w+)$/i)?.[1]?.toLowerCase() ?? '';
   const fileName = completeName.replace(/\.\w+$/i, '');
-  const fileSize = getSize(getMediaValueByKey('File size', generalPart));
+  const fileSize = convertSizeStringToBytes(getMediaValueByKey('File size', generalPart));
   const { videoCodec, hdrFormat, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
   const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
   const subtitleLanguageArray = textPart.map(item => {

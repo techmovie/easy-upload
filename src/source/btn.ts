@@ -2,7 +2,7 @@ import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   getUrlParam, formatTorrentTitle, getAreaCode,
   getInfoFromMediaInfo, getInfoFromBDInfo,
-  getBDInfoOrMediaInfo, getSize,
+  getBDInfoOrMediaInfo, convertSizeStringToBytes,
   getFilterBBCode, GMFetch, getSourceFromTitle,
 } from '../common';
 import $ from 'jquery';
@@ -47,7 +47,7 @@ function getTorrentInfo (torrentId:string) {
     title: formatTorrentTitle(torrentName),
     format: container.toLowerCase(),
     source: sourceFrom,
-    size: getSize(size),
+    size: convertSizeStringToBytes(size),
     resolution,
     year,
     movieName,
@@ -63,9 +63,7 @@ function getTorrentInfo (torrentId:string) {
 
 async function getShowInfo () {
   const seriesUrl = $('#content > .thin > h2 > a').prop('href');
-  const html = await GMFetch<string>(seriesUrl, {
-    responseType: undefined,
-  });
+  const html = await GMFetch<string>(seriesUrl);
   const infoHtml = html?.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)?.[1] ?? '';
   const infoDom = new DOMParser().parseFromString(infoHtml, 'text/html');
   const info = Object.fromEntries(Array.from(infoDom.querySelectorAll('tr')).map(tr => {

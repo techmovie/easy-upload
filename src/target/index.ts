@@ -8,7 +8,6 @@ import handleBYR from './byr';
 import handleSC from './sc';
 import handleKG from './kg';
 import handleBHD from './bhd';
-import handleBdc from './bdc';
 import handleZQ from './zhuque';
 import autoFill from './autofill';
 import handleMT from './mt';
@@ -26,7 +25,6 @@ const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
   SC: handleSC,
   KG: handleKG,
   BeyondHD: handleBHD,
-  Bdc: handleBdc,
   ZHUQUE: handleZQ,
   MTeam: handleMT,
   RED: handleRED,

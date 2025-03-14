@@ -17,7 +17,9 @@ export default async () => {
   Object.assign(TORRENT_INFO, data);
 };
 const getTorrentInfo = async (torrentId:string) => {
-  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`);
+  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`, {
+    responseType: 'json',
+  });
   const { torrent, group } = response;
   const { name: movieName, year, conver: poster, releaseType, region, imdbId, doubanId } = group;
   const imdbUrl = `https://www.imdb.com/title${imdbId}`;

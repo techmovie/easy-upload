@@ -2,7 +2,7 @@ import {
   TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME, CURRENT_SITE_INFO,
 } from '../const';
 import {
-  $t, GMFetch, getIMDBIdByUrl, getValue,
+  $t, GMFetch, getIMDBIdByUrl,
 } from '../common';
 import { getTorrentFileData } from '../source/helper';
 import { toast } from 'sonner';
@@ -14,7 +14,9 @@ const getPTPGroupId = async (imdbUrl:string|undefined) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
-    const data = await GMFetch(url);
+    const data = await GMFetch(url, {
+      responseType: 'json',
+    });
     if (data && data.Movies && data.Movies.length > 0) {
       return data.Movies[0].GroupId;
     }
@@ -23,7 +25,7 @@ const getPTPGroupId = async (imdbUrl:string|undefined) => {
   return '';
 };
 const openBatchSeedTabs = () => {
-  const batchSeedSetting = getValue('easy-seed.enabled-batch-seed-sites') || [];
+  const batchSeedSetting = GM_getValue<string[]>('easy-seed.enabled-batch-seed-sites');
   if (batchSeedSetting.length === 0) {
     toast.error($t('请先设置群转列表'));
     return false;
@@ -54,7 +56,9 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
   const imdbId = getIMDBIdByUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
-    const data = await GMFetch(url);
+    const data = await GMFetch(url, {
+      responseType: 'json',
+    });
     if (data && data.response && data.response.GroupID) {
       return data.response.GroupID;
     }
@@ -143,8 +147,8 @@ const UploadSiteList = () => {
     url = `${url}#timestamp=${timestamp}`;
     GM_openInTab(url);
   };
-  const targetSitesEnabled = getValue('easy-seed.enabled-target-sites') || [];
-  const siteFaviconClosed = getValue('easy-seed.site-favicon-closed', false) || '';
+  const targetSitesEnabled = GM_getValue<string[]>('easy-seed.enabled-target-sites');
+  const siteFaviconClosed = GM_getValue<string>('easy-seed.site-favicon-closed');
   return <ul className="site-list">
     {SORTED_SITE_KEYS.map((siteName) => {
       const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;

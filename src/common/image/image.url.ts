@@ -1,4 +1,6 @@
 import { URLStrategies } from './image.utils';
+import { GMFetch } from '@/common/utils';
+
 /**
  * Get the original image URL from a BBCode string
  *
@@ -27,4 +29,20 @@ export const getOriginalImgUrl = async (urlBBcode: string): Promise<string> => {
     return directUrlMatch[0].trim();
   }
   throw new Error('Invalid BBCode - No valid image URL found');
+};
+
+/**
+ * Convert a URL to a File object
+ *
+ * @async
+ * @param {string} url - The URL of the file
+ * @returns {Promise<File>} The File object
+ */
+export const urlToFile = async (url: string): Promise<File> => {
+  const filename = url.match(/\/([^/]+?)(\?|$)/)?.[1] ?? 'filename';
+  const data = await GMFetch<Blob>(url, {
+    responseType: 'blob',
+  });
+  const file = new File([data], filename, { type: data.type });
+  return file;
 };

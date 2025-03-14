@@ -1,9 +1,9 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo,
-  getInfoFromBDInfo, getSize, GMFetch,
+  getInfoFromBDInfo, convertSizeStringToBytes, GMFetch,
   getPreciseCategory, getSourceFromTitle,
-  getTagsFromSubtitle, getScreenshotsFromBBCode,
+  getTagsFromSubtitle, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -14,7 +14,9 @@ export default async () => {
     let { movieName = '', year } = torrentInfo;
     movieName = movieName.toLowerCase().replace(/\s/g, '_');
     const url = `https://v2.sg.media-imdb.com/suggestion/${movieName[0]}/${movieName}_${year}.json`;
-    const imdbSearch = await GMFetch(url);
+    const imdbSearch = await GMFetch(url, {
+      responseType: 'json',
+    });
     if (imdbSearch && imdbSearch.d.length) {
       torrentInfo.imdbUrl = `https://www.imdb.com/title/${imdbSearch.d[0].id}`;
     }
@@ -29,7 +31,7 @@ const getTorrentInfo = async () => {
   const movieName = basicInfoText.match(/(.+)\(\d{4}\)/)?.[1].trim() ?? '';
   const resolution = basicInfoText.match(/(\s*(\d+(p|i)))$/i)?.[2] ?? '';
   const videoType = getVideoType(basicInfoText, resolution);
-  const size = getSize($('#details_hop').text().match(/-\s*(.+?GB)/)?.[1] ?? '');
+  const size = convertSizeStringToBytes($('#details_hop').text().match(/-\s*(.+?GB)/)?.[1] ?? '');
   const category = getCategory($('#details_hop a[href*="browse/cat"]').attr('href') || '');
   const fileName = $('.download').attr('href')?.match(/name=(.+)/)
     ?.[1].replace(/\.torrent/g, '')
@@ -46,7 +48,7 @@ const getTorrentInfo = async () => {
     const url = $(this).attr('href')?.replace(/.+?url=/g, '');
     return `[url=${url}][img]${$(this).find('img').attr('src')}[/img][/url]`;
   }).get();
-  const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join('\n'));
+  const screenshots = await extractImgsFromBBCode(screenshotsBBCode.join('\n'));
 
   const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);

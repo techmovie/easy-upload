@@ -4,7 +4,7 @@ import {
   TORRENT_INFO, CURRENT_SITE_NAME,
 } from '../const';
 import {
-  $t, transferImgToCheveretoSite, uploadToPixhost, getValue, uploadToImgbox, uploadToHDB,
+  $t, transferImgToCheveretoSite, uploadToPixhost, uploadToImgbox, uploadToHDB,
 } from '../common';
 import { toast } from 'sonner';
 import { ImgInfo } from '@/common/image/image.types';
@@ -79,7 +79,7 @@ const Transfer = () => {
       setBtnDisable(false);
     }
   };
-  const transferImgClosed = getValue('easy-seed.transfer-img-closed', false) || '';
+  const transferImgClosed = GM_getValue<string>('easy-seed.transfer-img-closed');
   return !(transferImgClosed || CURRENT_SITE_NAME === 'BTN')
     ? <div className="function-list-item">
       <div className="upload-section">

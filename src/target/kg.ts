@@ -19,7 +19,6 @@ export default async (info:TorrentInfo.Info) => {
     formData.append('title', imdbUrl);
     const doc = await GMFetch<string>(`${PT_SITE.KG.url}/upload.php`, {
       method: 'POST',
-      responseType: undefined,
       data: formData,
     });
 

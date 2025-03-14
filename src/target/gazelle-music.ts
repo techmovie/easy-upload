@@ -13,7 +13,9 @@ export default async (info:TorrentInfo.Info) => {
   const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
   const groupId = getUrlParam('groupid');
   if (!groupId) {
-    const searchResult = await GMFetch(`/ajax.php?action=browse&searchstr=${name} ${year}`);
+    const searchResult = await GMFetch(`/ajax.php?action=browse&searchstr=${name} ${year}`, {
+      responseType: 'json',
+    });
     if (searchResult.status === 'success' && searchResult.response.results.length > 0) {
       const groupId = searchResult.response.results[0].groupId;
       const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);

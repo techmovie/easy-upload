@@ -2,8 +2,8 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
-  getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
-  getUrlParam, getSize, getSourceFromTitle, GMFetch,
+  getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
+  getUrlParam, convertSizeStringToBytes, getSourceFromTitle, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
@@ -27,7 +27,7 @@ export default async () => {
   let tags = getTagsFromSubtitle(title);
   const source = getSourceFromTitle(title);
   const category = title.match(/Season\s+\d+/) ? 'tv' : 'movie';
-  const size = getSize($(`#torrent${torrentId} td`).eq(1).text());
+  const size = convertSizeStringToBytes($(`#torrent${torrentId} td`).eq(1).text());
   const infoArray = $(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, '').split('/');
   let [resolution, ...specArray] = infoArray;
   let videoType = specArray.join('|');
@@ -43,7 +43,7 @@ export default async () => {
     if (data) {
       TORRENT_INFO.mediaInfos = [data];
       TORRENT_INFO.description = `${descriptionBBCode}\n[quote]${data}[/quote]`;
-      TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+      TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
       const isBluray = data.match(/\.(iso|m2ts|mpls)/i);
       const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
@@ -74,9 +74,7 @@ export default async () => {
 
 const getMediaInfo = async (torrentId:string) => {
   const url = `/torrents.php?action=mediainfo&id=${torrentId}`;
-  const data = await GMFetch<string>(url, {
-    responseType: undefined,
-  });
+  const data = await GMFetch<string>(url);
   return data || '';
 };
 const getVideoType = (videoType:string, resolution:string) => {

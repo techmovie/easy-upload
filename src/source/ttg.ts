@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo,
-  getSourceFromTitle, getFilterBBCode, getScreenshotsFromBBCode,
+  getSourceFromTitle, getFilterBBCode, extractImgsFromBBCode,
   getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle,
   getVideoCodecFromTitle, getPreciseCategory, getBDInfoOrMediaInfo,
 } from '../common';
@@ -142,9 +142,9 @@ const getCategoryAndArea = (mediaInfo:string) => {
 const getImages = (bbcode:string) => {
   if (bbcode.match(/More\.Screens/i)) { // 官组截图
     const moreScreen = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)?.[1] ?? '';
-    return getScreenshotsFromBBCode(moreScreen);
+    return extractImgsFromBBCode(moreScreen);
   }
-  return getScreenshotsFromBBCode(bbcode);
+  return extractImgsFromBBCode(bbcode);
 };
 const getVideoType = (title:string, videoType:string) => {
   if (title.match(/HDTV/i)) {

@@ -1,6 +1,7 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { GMFetch, $t, urlToFile } from '@/common/utils';
+import { GMFetch, $t } from '@/common/utils';
 import { CONFIG } from '@/common/image/image.config';
+import { urlToFile } from '../image.url';
 import {
   HdBitsStrategy,
   PterClubStrategy,
@@ -28,9 +29,9 @@ afterEach(() => {
 vi.mock('@/common/utils', () => ({
   GMFetch: vi.fn(),
   $t: vi.fn((key) => key),
-  getValue: vi.fn(),
-  urlToFile: vi.fn(),
 }));
+
+vi.mock('../image.url');
 
 describe('HdBitsStrategy', () => {
   it('should match img.hdbits.org urls or not', () => {

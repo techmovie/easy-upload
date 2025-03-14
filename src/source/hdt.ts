@@ -1,8 +1,8 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getAreaCode, getInfoFromMediaInfo, getInfoFromBDInfo,
-  getBDInfoOrMediaInfo, getAudioCodecFromTitle, getSize, getVideoCodecFromTitle, getFilterBBCode,
-  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, getScreenshotsFromBBCode,
+  getBDInfoOrMediaInfo, getAudioCodecFromTitle, convertSizeStringToBytes, getVideoCodecFromTitle, getFilterBBCode,
+  getSourceFromTitle, getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -55,14 +55,14 @@ export default async () => {
   TORRENT_INFO.movieName = movieName;
   TORRENT_INFO.source = source;
   TORRENT_INFO.area = getAreaCode(country);
-  TORRENT_INFO.size = getSize(Size);
+  TORRENT_INFO.size = convertSizeStringToBytes(Size);
   TORRENT_INFO.videoType = videoType;
   TORRENT_INFO.resolution = resolution;
   TORRENT_INFO.tags = tags;
   TORRENT_INFO.imdbUrl = imdbUrl;
   TORRENT_INFO.description = descriptionBBCode;
   TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-  TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
 };
 interface BasicInfo {
   Category: string,

@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, PT_SITE, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, getSpecsFromMediainfo
-  , getAudioCodecFromTitle, getVideoCodecFromTitle, getScreenshotsFromBBCode,
+  , getAudioCodecFromTitle, getVideoCodecFromTitle, extractImgsFromBBCode,
   getSourceFromTitle, getAreaCode,
   getBDInfoOrMediaInfo, GMFetch,
 } from '../common';
@@ -76,7 +76,7 @@ const getTorrentInfo = async (info: TorrentDetailInfo): Promise<TorrentInfo.Info
   }
   let videoCodec = getVideoCodecFromTitle(title);
   const audioCodec = getAudioCodecFromTitle(title);
-  const screenshots = await getScreenshotsFromBBCode(descr);
+  const screenshots = await extractImgsFromBBCode(descr);
   let mediaTags = {};
   let mediaInfoOrBDInfo = [mediainfo];
   const isBluray = !!videoType?.match(/bluray/i);
@@ -171,6 +171,7 @@ const getTorrentURL = async () => {
   const response = await GMFetch('https://api.m-team.cc/api/torrent/genDlToken', {
     method: 'POST',
     data: formData,
+    responseType: 'json',
     headers: {
       Authorization: localStorage.getItem('auth') || '',
       'User-Agent': navigator.userAgent,
