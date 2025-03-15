@@ -10,7 +10,6 @@ import {
   BeyondHdStrategy,
   PixHostStrategy,
   URLStrategies,
-  createFormData,
   throwUploadError,
   ImageUploadError,
   withUploadErrorHandling,
@@ -200,56 +199,6 @@ describe('URL Strategies', () => {
       expect(typeof strategy.matches).toBe('function');
       expect(typeof strategy.transform).toBe('function');
     });
-  });
-});
-
-describe('createFormData', () => {
-  it('should create FormData object from object', () => {
-    const formData = createFormData({ key1: 'value1', key2: 'value2' });
-    expect(formData instanceof FormData).toBe(true);
-    expect(formData.get('key1')).toBe('value1');
-    expect(formData.get('key2')).toBe('value2');
-  });
-  it('should handle empty object', () => {
-    const formData = createFormData({});
-    expect(formData instanceof FormData).toBe(true);
-    expect(formData.get('key1')).toBeNull();
-  });
-  it("should handle FormData's append method", () => {
-    const formData = createFormData({});
-    formData.append('key1', 'value1');
-    expect(formData.get('key1')).toBe('value1');
-  });
-  it('should handle multiple values for the same key', () => {
-    const formData = createFormData({ key1: ['value1', 'value2'] });
-    expect(formData.get('key1')).toBe('value1,value2');
-  });
-  it('should handle File objects', () => {
-    const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    const formData = createFormData({ key1: 'value1' }, [{
-      fieldName: 'file',
-      file,
-    }]);
-    expect(formData.get('file')).toBe(file);
-    expect(formData.get('key1')).toBe('value1');
-  });
-  it('should handle multiple File objects', () => {
-    const file1 = new File(['file content'], 'file1.txt', { type: 'text/plain' });
-    const file2 = new File(['file content'], 'file2.txt', { type: 'text/plain' });
-    const formData = createFormData({ key1: 'value1' }, [{ fieldName: 'file', file: [file1, file2] }]);
-    expect(formData.get('file[0]')).toBe(file1);
-    expect(formData.get('file[1]')).toBe(file2);
-  });
-
-  it('should throw error when filedName includes brackets', () => {
-    const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    expect(() => createFormData({ key1: 'value1' }, [{ fieldName: 'file[0]', file }])).toThrow('FieldName should not include []');
-    expect(() => createFormData({ key1: 'value1' }, [{ fieldName: 'file[]', file }])).toThrow('FieldName should not include []');
-  });
-
-  it('should throw error when File is passed from object', () => {
-    const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    expect(() => createFormData({ file, key1: 'value1' })).toThrow('Files should be passed as a separate argument');
   });
 });
 

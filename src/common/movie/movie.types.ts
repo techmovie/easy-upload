@@ -207,3 +207,22 @@ export type FormatRule = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formatter?: (value: any) => string;
 };
+
+export interface RottenTomatoesResponse {
+  results: RottenTomatoesResult[]
+}
+
+export interface RottenTomatoesResult {
+  hits: RottenTomatoesHit[]
+}
+
+export interface RottenTomatoesHit {
+  title: string
+  type: 'movie' | 'tv'
+  releaseYear: number
+  rtId: number
+  rottenTomatoes: {
+    audienceScore: number
+    criticsScore: number
+  }
+}

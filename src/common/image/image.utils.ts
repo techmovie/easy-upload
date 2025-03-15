@@ -17,37 +17,6 @@ export const throwUploadError = (
   throw new ImageUploadError(errorMessage, originalError);
 };
 
-export const createFormData = <T extends Record<string, unknown>>(
-  fields: T,
-  files?: { fieldName: string; file: File | File[] }[],
-): FormData => {
-  const formData = new FormData();
-
-  Object.entries(fields).forEach(([key, value]) => {
-    if (value instanceof File) {
-      throw new Error('Files should be passed as a separate argument');
-    }
-    formData.append(key, String(value));
-  });
-
-  if (files) {
-    files.forEach(({ fieldName, file }) => {
-      if (fieldName.match(/\[.*\]/)) {
-        throw new Error('FieldName should not include []');
-      }
-      if (Array.isArray(file)) {
-        file.forEach((f, index) => {
-          formData.append(`${fieldName}[${index}]`, f);
-        });
-      } else {
-        formData.append(fieldName, file);
-      }
-    });
-  }
-
-  return formData;
-};
-
 const urlFileCache = new Map<string, Promise<File>>();
 
 export const cachedUrlToFile = async (url: string): Promise<File> => {

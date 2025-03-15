@@ -230,7 +230,6 @@ export class DoubanFormatter {
     );
     const formatData = {
       ...data.info,
-      ...data.credits,
       awards: data.awards,
       poster,
       translatedTitle,

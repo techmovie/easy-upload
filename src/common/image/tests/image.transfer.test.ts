@@ -27,7 +27,6 @@ vi.mock(import('../image.utils'), async (importOriginal) => {
     ...actual,
     getImageBBCodeMatches: vi.fn(),
     cachedUrlToFile: vi.fn(),
-    createFormData: vi.fn(),
     withUploadErrorHandling: vi.fn((fn) => fn),
   };
 });

@@ -14,15 +14,16 @@ import {
   createCheveretoRequestConfig,
   parseCheveretoResponse,
 } from '../image.upload.helper';
-import { cachedUrlToFile, createFormData, ImageUploadError } from '../image.utils';
+import { cachedUrlToFile, ImageUploadError } from '../image.utils';
 import { CONFIG } from '../image.config';
 import { getImgInfoFromBBCode } from '../image.info';
-import { GMFetch } from '@/common/utils';
+import { GMFetch, createFormData } from '@/common/utils';
 
 vi.mock('@/common/utils', () => {
   return {
     $t: vi.fn(),
     GMFetch: vi.fn(),
+    createFormData: vi.fn(),
   };
 });
 
@@ -30,7 +31,6 @@ vi.mock(import('../image.utils'), async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
-    createFormData: vi.fn(),
     cachedUrlToFile: vi.fn(),
     withUploadErrorHandling: vi.fn(),
     getImageBBCodeMatches: vi.fn(),

@@ -2,9 +2,10 @@ import {
   $t,
   GMFetch,
   RequestOptions,
+  createFormData,
 } from '@/common/utils';
 import { CONFIG } from './image.config';
-import { cachedUrlToFile, createFormData, throwUploadError } from './image.utils';
+import { cachedUrlToFile, throwUploadError } from './image.utils';
 import { ImgInfo, ImgBoxResponse, PTPImg, TokenSecret, PixHostResponse, CheveretoResponse } from './image.types';
 import { getImgInfoFromBBCode } from './image.info';
 

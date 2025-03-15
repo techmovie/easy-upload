@@ -52,7 +52,7 @@ export const getIMDbIDFromDouban = async (doubanItemUrl: string) => {
 };
 
 /**
- * Description placeholder
+ * Get douban movie data from mobile api
  *
  * @async
  * @param {string} id
