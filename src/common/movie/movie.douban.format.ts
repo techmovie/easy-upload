@@ -72,7 +72,7 @@ const FORMAT_RULES: FormatRule[] = [
     title: '豆瓣链接',
   },
   {
-    key: 'epCount',
+    key: 'episodes_count',
     title: '集数',
   },
   {
@@ -86,18 +86,18 @@ const FORMAT_RULES: FormatRule[] = [
     formatter: (tags: string[]) => tags.join(' | '),
   },
   {
+    key: 'creditsData',
+    formatter: (creditsData: string) => `\n${creditsData}`,
+  },
+  {
     key: 'intro',
     title: '简介',
-    formatter: (intro: string) => `\n◎简${NBSP.repeat(7)}介\n\n  ${intro.replace(/\n/g, `\n${NBSP.repeat(2)}`)}`,
+    formatter: (intro: string) => `\n\n  ${intro.replace(/\n/g, `\n${NBSP.repeat(2)}`)}`,
   },
   {
     key: 'awards',
     title: '获奖情况',
-    formatter: (awards: string) => `${awards.replace(/\n/g, `\n${NBSP.repeat(6)}`)}`,
-  },
-  {
-    key: 'creditsData',
-    title: '演职员',
+    formatter: (awards: string) => `\n\n  ${awards.replace(/\n/g, `\n${NBSP.repeat(6)}`)}\n`,
   },
 ];
 export class DoubanFormatter {
@@ -125,20 +125,15 @@ export class DoubanFormatter {
   }
 
   private async fetchIMDbData () {
-    try {
-      if (!this.imdbId) {
-        this.imdbId = await getIMDbIDFromDouban(
-          CONFIG.URLS.DOUBAN_SUBJECT(this.doubanId),
-        );
-      }
-      if (this.imdbId) {
-        return await getIMDBRating(this.imdbId);
-      }
-      return undefined;
-    } catch (error) {
-      console.error('Error fetching IMDb data:', error);
-      return undefined;
+    if (!this.imdbId) {
+      this.imdbId = await getIMDbIDFromDouban(
+        CONFIG.URLS.DOUBAN_SUBJECT(this.doubanId),
+      );
     }
+    if (this.imdbId) {
+      return await getIMDBRating(this.imdbId);
+    }
+    return null;
   }
 
   private formatPosterUrl (poster: string) {
@@ -152,7 +147,7 @@ export class DoubanFormatter {
     const { title, original_title: originalTitle, aka } = data;
     const translatedTitle = [...aka];
     if (originalTitle && originalTitle !== title) {
-      translatedTitle.push(title);
+      translatedTitle.unshift(title);
     }
     return {
       translatedTitle: Array.from(new Set(translatedTitle)).filter(Boolean),
@@ -161,6 +156,9 @@ export class DoubanFormatter {
   }
 
   private updateCredits (credits: DoubanMobileCredits[]) {
+    if (!credits || credits.length === 0) {
+      return '';
+    }
     const indentationMap: Record<number, number> = {
       2: 7,
       3: 2,
@@ -169,21 +167,21 @@ export class DoubanFormatter {
     };
     const creditsData = credits.map((credit) => {
       const celebrity = credit.celebrities.map((item) => {
-        return `${item.name} ${item.latin_name}`;
+        return `${item.name}  ${item.latin_name ?? ''}`;
       });
       const titleLength = credit.title.length;
       const indentation = indentationMap[titleLength as keyof typeof indentationMap] || 0;
       const celebrityKey = credit.title.split('').join(NBSP.repeat(indentation));
       const celebrityValue = celebrity.join(`\n${NBSP.repeat(CREDIT_INDENTATION)}`).trim();
 
-      return `◎${celebrityKey}${celebrityValue}`;
+      return `◎${celebrityKey}${NBSP.repeat(7)}${celebrityValue}`;
     });
     return creditsData.join('\n');
   }
 
   private updateRating (
     data: DoubanMobileData,
-    imdbRating: IMDBRating | undefined,
+    imdbRating?: IMDBRating | null,
   ) {
     const { value, count } = data.rating;
     return {
@@ -210,7 +208,7 @@ export class DoubanFormatter {
         }
         let prefix = title + NBSP.repeat(7);
         if (title.length === 2) {
-          prefix = title.split('').join(NBSP.repeat(7));
+          prefix = title.split('').join(NBSP.repeat(7)) + NBSP.repeat(7);
         }
         result.push(`◎${prefix}${formattedValue}`);
       }
@@ -221,12 +219,15 @@ export class DoubanFormatter {
 
   public async format () {
     const data = await this.fetchAllData();
-    const poster = this.formatPosterUrl(data.info.cover_url);
+    if (!data?.info) {
+      throw new Error('failed to fetch douban info');
+    }
+    const poster = this.formatPosterUrl(data.info?.cover_url);
     const { translatedTitle, originalTitle } = this.formatTitles(data.info);
-    const creditsData = this.updateCredits(data.credits);
+    const creditsData = this.updateCredits(data?.credits);
     const { doubanRating, imdbRating, doubanLink, imdbLink } = this.updateRating(
       data.info,
-      data.imdbData,
+      data?.imdbData,
     );
     const formatData = {
       ...data.info,

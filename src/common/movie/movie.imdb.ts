@@ -18,7 +18,7 @@ export const getIMDBData = async (imdbUrl: string): Promise<IMDBDataResponse> =>
     responseType: 'json',
   });
   if (!data || !data.success) {
-    throw new Error(data.error || 'Failed to get IMDB data');
+    throw new Error(data?.error || 'Failed to get IMDB data');
   }
   return data;
 };
@@ -39,7 +39,7 @@ export const getIMDBRating = async (imdbId:string): Promise<IMDBRating> => {
   const data = await GMFetch<string>(url, {
     responseType: 'json',
   });
-  const matchData = data.match(/[^(]+\((.+)\)/)?.[1] ?? '';
+  const matchData = data?.match(/[^(]+\((.+)\)/)?.[1] ?? '';
   if (!matchData) {
     throw new Error('No rating data found');
   }

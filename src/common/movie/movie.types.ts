@@ -83,11 +83,11 @@ interface DoubanPerson {
   name: string
 }
 interface Celebrity {
-  latin_name: string
+  latin_name?: string
   name: string
-  cover_url: string
-  abstract: string
-  url: string
+  cover_url?: string
+  abstract?: string
+  url?: string
 }
 export interface DoubanMobileCredits {
   title: string
@@ -137,23 +137,22 @@ interface DoubanMobilePic {
 
 interface DoubanMobileRating {
   count: number
-  max: number
-  start_count: number
+  max?: number
+  start_count?: number
   value: number
 }
 export interface DoubanMobileData {
   rating: DoubanMobileRating
   pubdate: string[]
-  pic: DoubanMobilePic
+  pic?: DoubanMobilePic
   is_tv: boolean
   year: string
-  card_subtitle: string
   id: string
   languages: string[]
   genres: string[]
   title: string
   intro: string
-  actors: DoubanMobilePerson[]
+  actors?: DoubanMobilePerson[]
   durations: string[]
   cover_url: string
   countries: string[]
@@ -162,10 +161,9 @@ export interface DoubanMobileData {
   original_title: string
   directors: DoubanMobilePerson[]
   aka: string[]
-  episodes_info: string
-  episodes_count: number
-  credits: DoubanMobileCredits[]
-  awards: string
+  episodes_info?: string
+  episodes_count?: number
+  tags?: string[]
 }
 
 export interface DoubanBasicData {
@@ -203,7 +201,7 @@ export interface FormattedMovieData extends DoubanMobileData {
 
 export type FormatRule = {
   key: string;
-  title: string;
+  title?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formatter?: (value: any) => string;
 };

@@ -38,7 +38,7 @@ export const getTMDBVideosById = async (tmdbId: string): Promise<TMDBVideo[]> =>
   const data = await GMFetch<TMDBVideoResponse>(url, {
     responseType: 'json',
   });
-  if (!data.results || data.results.length === 0) {
+  if (!data?.results || data?.results?.length === 0) {
     throw new Error('No TMDB videos found');
   }
   return data.results;

@@ -41,13 +41,13 @@ export const getDoubanAwards = async (doubanId: string) => {
  * @param {string} doubanItemUrl
  * @returns {Promise<string>}
  */
-export const getIMDbIDFromDouban = async (doubanItemUrl: string) => {
-  const doubanPage = await GMFetch<string>(doubanItemUrl);
+export const getIMDbIDFromDouban = async (doubanId: string) => {
+  const doubanPage = await GMFetch<string>(CONFIG.URLS.DOUBAN_SUBJECT(doubanId));
   const dom = new DOMParser().parseFromString(doubanPage, 'text/html');
-  const imdbId =
-    dom
-      .querySelector('#info > span.pl:contains("IMDb")')
-      ?.nextSibling?.nodeValue?.trim() ?? '';
+  const spans = dom.querySelectorAll('#info > span.pl');
+  const spansContainsIMDb = Array.from(spans).filter((span) =>
+    span.textContent?.includes('IMDb'));
+  const imdbId = spansContainsIMDb[0]?.nextSibling?.nodeValue?.trim() ?? '';
   return imdbId;
 };
 
@@ -103,7 +103,7 @@ export const getDoubanBasicDataByQuery = async (
       id: doubanId,
       season,
       isTV: !!season,
-      title: textContent || '',
+      title: textContent as string,
     };
   }
 };
