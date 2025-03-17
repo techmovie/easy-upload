@@ -1,26 +1,26 @@
 export interface AudioTrack {
-  id: string
+  id?: string
   codec: string
   language: string
   channelName: string
-  default: boolean
-  forced: boolean
+  default?: boolean
+  forced?: boolean
 }
 export interface VideoTrack {
-  id: string
+  id?: string
   codec: string
   resolution: string
-  default: boolean
-  forced: boolean
-  isEncoded: boolean
+  default?: boolean
+  forced?: boolean
+  isEncoded?: boolean
   hdrType?: string
 }
 export interface SubtitleTrack {
-  id: string
-  title: string
+  id?: string
+  title?: string
   language: string
-  default: boolean
-  forced: boolean
+  default?: boolean
+  forced?: boolean
 }
 export interface BasicMediaInfo {
   fileName: string

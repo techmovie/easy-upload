@@ -34,7 +34,9 @@ export const convertSizeStringToBytes = (size: string) => {
   if (isNaN(sizeFloat)) {
     return 0;
   }
-  if (size.match(/T/i)) {
+  if (size.match(/bytes/)) {
+    return sizeFloat;
+  } else if (size.match(/T/i)) {
     return (sizeFloat * 1024 * 1024 * 1024 * 1024);
   } else if (size.match(/G/i)) {
     return (sizeFloat * 1024 * 1024 * 1024);

@@ -1,3 +1,4 @@
+import { CONFIG } from './media.config';
 /**
  * get bd type based on size e.g BD25, BD50
  *
@@ -23,4 +24,24 @@ export const getBDTypeBasedOnSize = (size: number) => {
   }
 
   return 'Unknown';
+};
+
+/**
+ * get audio codec from given source
+ *
+ * @param {string} source
+ * @returns {string}
+ */
+export const getAudioCodecFromSource = (source:string) => {
+  if (!source) {
+    return '';
+  }
+  const formattedSource = source.replace(/:|-|\s|\./g, '');
+  const { CODEC_RULES } = CONFIG;
+  for (const { codec, regex } of CODEC_RULES) {
+    if (regex.test(formattedSource)) {
+      return codec;
+    }
+  }
+  return '';
 };
