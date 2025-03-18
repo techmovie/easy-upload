@@ -29,7 +29,6 @@ export interface BasicMediaInfo {
   format: string
 }
 export interface MediaInfo extends BasicMediaInfo {
-  resolution: string
   audioTracks: AudioTrack[]
   subtitleTracks: SubtitleTrack[]
   videoTracks: VideoTrack[]

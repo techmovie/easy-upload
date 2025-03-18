@@ -12,7 +12,6 @@ abstract class MediaParser {
       fileSize: 0,
       duration: 0,
       format: '',
-      resolution: '',
       audioTracks: [],
       subtitleTracks: [],
       videoTracks: [],
@@ -86,13 +85,15 @@ export class MediaInfoParser extends MediaParser {
   }
 
   parseGeneralSection (general: Record<string, string>) {
+    if (!general) return;
     this.result.fileSize = convertSizeStringToBytes(general['File size']);
     this.result.duration = this.parseDuration(general.Duration);
     this.result.format = general.Format;
-    this.result.fileName = general['File name'];
+    this.result.fileName = general['Complete name'];
   }
 
   parseVideoSection (videos: Record<string, string>[]) {
+    if (!videos || videos.length === 0) return [];
     const videoTracks: VideoTrack[] = [];
     for (const video of videos) {
       videoTracks.push(this.parseVideo(video, this.result.format));
@@ -101,6 +102,7 @@ export class MediaInfoParser extends MediaParser {
   }
 
   parseAudioSection (audios: Record<string, string>[]) {
+    if (!audios || audios.length === 0) return [];
     const audioTracks: AudioTrack[] = [];
     for (const audio of audios) {
       audioTracks.push(this.parseAudio(audio));
@@ -109,6 +111,7 @@ export class MediaInfoParser extends MediaParser {
   }
 
   parseSubtitleSection (subtitles: Record<string, string>[]) {
+    if (!subtitles || subtitles.length === 0) return [];
     const subtitleTracks: SubtitleTrack[] = [];
     for (const subtitle of subtitles) {
       const {
@@ -217,9 +220,9 @@ export class MediaInfoParser extends MediaParser {
   }
 
   parseDuration (duration: string) {
-    const hour = duration.match(/(\d+)\s*h/)?.[1] ?? '';
-    const minute = duration.match(/(\d+)\s*min/)?.[1] ?? '';
-    const second = duration.match(/(\d+)\s*s/)?.[1] ?? '';
+    const hour = duration.match(/(\d+)\s*h/)?.[1] ?? '0';
+    const minute = duration.match(/(\d+)\s*min/)?.[1] ?? '0';
+    const second = duration.match(/(\d+)\s*s/)?.[1] ?? '0';
     return (
       parseInt(hour, 10) * 3600 +
       parseInt(minute, 10) * 60 +
@@ -237,20 +240,17 @@ export class MediaInfoParser extends MediaParser {
     }
     if (width === 7680 && height === 4320) return '4320p';
     if (width === 3840 && height === 2160) return '2160p';
-    if (width === 2560 && height === 1440) return '2K';
 
-    if (height >= 2160) {
+    if (height >= 2160 || width >= 3840) {
       return '2160p';
-    } else if (height >= 1440) {
-      return '1440p';
-    } else if (height >= 1080) {
+    } else if (height >= 1080 || width >= 1920) {
       const isProgressive = scanType === 'Progressive' || !scanType;
       return `1080${isProgressive ? 'p' : 'i'}`;
-    } else if (height >= 720) {
+    } else if (height >= 720 || width >= 1280) {
       return '720p';
-    } else if (height >= 576) {
+    } else if (height >= 576 || width >= 1024) {
       return '576p';
-    } else if (height >= 480) {
+    } else if (width >= 840 || height === 480) {
       return '480p';
     } else if (height >= 360) {
       return '360p';
@@ -309,10 +309,11 @@ export class MediaInfoParser extends MediaParser {
 
   parse (): MediaInfo {
     const sections = this.splitIntoSections();
-    this.parseGeneralSection(sections.General[0]);
-    const videoTracks = this.parseVideoSection(sections.Video);
-    const audioTracks = this.parseAudioSection(sections.Audio);
-    const subtitleTracks = this.parseSubtitleSection(sections.Text);
+    this.parseGeneralSection(sections?.General?.[0]);
+    const videoTracks = this.parseVideoSection(sections?.Video);
+    const audioTracks = this.parseAudioSection(sections?.Audio);
+    const subtitleTracks = this.parseSubtitleSection(sections?.Text);
+
     return {
       ...this.result,
       videoTracks,
@@ -399,12 +400,16 @@ export class BDInfoParser extends MediaParser {
   }
 
   parseGeneralSection (general: Record<string, string>) {
-    this.result.fileSize = convertSizeStringToBytes(general['Disc Size']?.replace(/,/g, ''));
-    this.result.duration = this.parseDuration(general.Length?.replace(/\s/g, '')); ;
-    this.result.fileName = general['Disc Label'];
+    if (!general) {
+      return;
+    }
+    this.result.fileSize = convertSizeStringToBytes(general?.['Disc Size']?.replace(/,/g, ''));
+    this.result.duration = this.parseDuration(general?.Length?.replace(/\s/g, '')); ;
+    this.result.fileName = general?.['Disc Label'];
   }
 
   parseVideoSection (videos: Record<string, string>[]): VideoTrack[] {
+    if (!videos || videos.length === 0) return [];
     const videoTracks: VideoTrack[] = [];
     for (const video of videos) {
       videoTracks.push(this.parseVideo(Object.values(video)[0]));
@@ -428,6 +433,7 @@ export class BDInfoParser extends MediaParser {
   }
 
   parseAudioSection (audios: Record<string, string>[]): AudioTrack[] {
+    if (!audios || audios.length === 0) return [];
     const audioTracks: AudioTrack[] = [];
     for (const audio of audios) {
       audioTracks.push(this.parseAudio(Object.values(audio)[0]));
@@ -454,6 +460,7 @@ export class BDInfoParser extends MediaParser {
   }
 
   parseSubtitleSection (subtitles: Record<string, string>[]): SubtitleTrack[] {
+    if (!subtitles || subtitles.length === 0) return [];
     const subtitleTracks: SubtitleTrack[] = [];
     for (const subtitle of subtitles) {
       subtitleTracks.push(this.parseSubtitle(Object.values(subtitle)[0]));
@@ -484,10 +491,10 @@ export class BDInfoParser extends MediaParser {
 
   parse (): MediaInfo {
     const sections = this.splitIntoSections();
-    this.parseGeneralSection(sections.general[sections.general.length > 1 ? 1 : 0]);
-    const videoTracks = this.parseVideoSection(sections.video);
-    const audioTracks = this.parseAudioSection(sections.audio);
-    const subtitleTracks = this.parseSubtitleSection(sections.subtitle);
+    this.parseGeneralSection(sections?.general?.[sections?.general?.length > 1 ? 1 : 0]);
+    const videoTracks = this.parseVideoSection(sections?.video);
+    const audioTracks = this.parseAudioSection(sections?.audio);
+    const subtitleTracks = this.parseSubtitleSection(sections?.subtitle);
     return {
       ...this.result,
       videoTracks,
