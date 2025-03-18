@@ -1,5 +1,6 @@
-import { expect, describe, it } from 'vitest';
-import { getAudioCodecFromSource } from '../index';
+import { expect, describe, it, vi } from 'vitest';
+import { getAudioCodecFromSource, getBDTypeBasedOnSize, parseMedia } from '../index';
+import { BDInfoParser, MediaInfoParser } from '../media.mediaParser';
 
 describe('getAudioCodecFromSource', () => {
   it('should return codec correctly', () => {
@@ -54,5 +55,55 @@ describe('getAudioCodecFromSource', () => {
     const source13 = 'Anora.2024.1080p.AC3.2.0';
     const result13 = getAudioCodecFromSource(source13);
     expect(result13).toBe('ac3');
+
+    expect(getAudioCodecFromSource('')).toBe('');
+    expect(getAudioCodecFromSource('Anora.2024.1080p')).toBe('');
+  });
+});
+
+describe('getBDTypeBasedOnSize', () => {
+  const GBSize = 1024 ** 3;
+  it('should return bd type correctly', () => {
+    expect(getBDTypeBasedOnSize(4 * GBSize)).toBe('DVD5');
+    expect(getBDTypeBasedOnSize(5 * GBSize)).toBe('DVD9');
+    expect(getBDTypeBasedOnSize(9 * GBSize)).toBe('BD25');
+    expect(getBDTypeBasedOnSize(22 * GBSize)).toBe('BD25');
+    expect(getBDTypeBasedOnSize(45 * GBSize)).toBe('BD50');
+    expect(getBDTypeBasedOnSize(50 * GBSize)).toBe('BD66');
+    expect(getBDTypeBasedOnSize(78 * GBSize)).toBe('BD100');
+    expect(getBDTypeBasedOnSize(100 * GBSize)).toBe('Unknown');
+  });
+});
+
+describe('parseMedia', () => {
+  it('BDInfoParser should be parsed if it\'s bluray', () => {
+    const parserSpy = vi
+      .spyOn(BDInfoParser.prototype, 'parse').mockReturnValue({
+        fileName: '',
+        fileSize: 0,
+        duration: 0,
+        format: '',
+        audioTracks: [],
+        subtitleTracks: [],
+        videoTracks: [],
+      });
+    parseMedia('source', true);
+    expect(parserSpy).toHaveBeenCalledTimes(1);
+    parserSpy.mockRestore();
+  });
+  it('MediaInfoParser should be parsed if it\'s not bluray', () => {
+    const parserSpy = vi
+      .spyOn(MediaInfoParser.prototype, 'parse').mockReturnValue({
+        fileName: '',
+        fileSize: 0,
+        duration: 0,
+        format: '',
+        audioTracks: [],
+        subtitleTracks: [],
+        videoTracks: [],
+      });
+    parseMedia('source');
+    expect(parserSpy).toHaveBeenCalledTimes(1);
+    parserSpy.mockRestore();
   });
 });

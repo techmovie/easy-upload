@@ -37,11 +37,11 @@ export const convertSizeStringToBytes = (size: string) => {
   if (size.match(/bytes/)) {
     return sizeFloat;
   } else if (size.match(/T/i)) {
-    return (sizeFloat * 1024 * 1024 * 1024 * 1024);
+    return (sizeFloat * 1024 ** 4);
   } else if (size.match(/G/i)) {
-    return (sizeFloat * 1024 * 1024 * 1024);
+    return (sizeFloat * 1024 ** 3);
   } else if (size.match(/M/i)) {
-    return (sizeFloat * 1024 * 1024);
+    return (sizeFloat * 1024 ** 2);
   } else if (size.match(/K/i)) {
     return (sizeFloat * 1024);
   }

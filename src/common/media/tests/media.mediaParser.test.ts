@@ -4,7 +4,7 @@ import { BDInfoParser, MediaInfoParser } from '../media.mediaParser';
 vi.mock('../index', { spy: true });
 vi.mock('@/common/utils', { spy: true });
 
-describe('MediaParser', () => {
+describe('BDInfoParser', () => {
   it('should parse quickSummary BDInfo correctly', () => {
     const source = `Disc Label: Anora.2024.1080p.FRA.Blu-ray.AVC.DTS-HD.MA.5.1
 Disc Size: 47,576,622,216 bytes
@@ -681,5 +681,123 @@ Matrix coefficients : BT.709`;
       subtitleTracks: [],
       videoTracks: [],
     });
+  });
+
+  describe('MediaInfoParser.parseVideo', () => {
+    it('mpeg2', () => {
+      const source = `
+        Video
+        ID : 1
+        Format : MPEG Video
+        Format version : Version 2
+        Format profile : Main@High
+        Format settings : CustomMatrix / BVOP
+        Format settings, BVOP : Yes
+        Format settings, Matrix : Custom
+        Format settings, GOP : M=3, N=15
+        Format settings, picture structure : Frame
+        Codec ID : V_MPEG2
+        Codec ID/Info : MPEG 1 or 2 Video
+        Duration : 1 h 24 min
+        Bit rate mode : Variable
+        Bit rate : 14.1 Mb/s
+        Maximum bit rate : 24.0 Mb/s
+        Width : 1 440 pixels
+        Height : 1 080 pixels
+        Display aspect ratio : 16:9
+        Frame rate mode : Constant
+        Frame rate : 29.970 (30000/1001) FPS
+        Color space : YUV
+        Chroma subsampling : 4:2:0
+        Bit depth : 8 bits
+        Scan type : Interlaced
+        Scan order : Top Field First
+        Compression mode : Lossy
+        Bits/(Pixel*Frame) : 0.302
+        Time code of first frame : 00:00:00:00
+        Time code source : Group of pictures header
+        GOP, Open/Closed : Open
+        GOP, Open/Closed of first frame : Closed
+        Stream size : 8.27 GiB (99%)
+        Default : Yes
+        Forced : No
+        Color primaries : BT.709
+        Transfer characteristics : BT.709
+        Matrix coefficients : BT.709`;
+      const mediaParser = new MediaInfoParser(source);
+      const result = mediaParser.parse();
+      expect(result.videoTracks).toHaveLength(1);
+      expect(result.videoTracks[0].resolution).toBe('1080i');
+      expect(result.videoTracks[0].codec).toBe('mpeg2');
+    });
+
+    it('xvid', () => {
+      const source = `
+      Video
+      ID : 0
+      Format : MPEG-4 Visual
+      Format profile : Advanced Simple@L5
+      Format settings : BVOP1
+      Format settings, BVOP : 1
+      Format settings, QPel : No
+      Format settings, GMC : No warppoints
+      Format settings, Matrix : Default (MPEG)
+      Codec ID : XVID
+      Codec ID/Hint : XviD
+      Duration : 1 h 0 min
+      Bit rate : 1 765 kb/s
+      Width : 720 pixels
+      Height : 576 pixels
+      Display aspect ratio : 4:3
+      Frame rate : 25.000 FPS
+      Standard : PAL
+      Color space : YUV
+      Chroma subsampling : 4:2:0
+      Bit depth : 8 bits
+      Scan type : Progressive
+      Compression mode : Lossy
+      Bits/(Pixel*Frame) : 0.170
+      Stream size : 769 MiB (90%)
+      Writing library : XviD 64`;
+      const mediaParser = new MediaInfoParser(source);
+      const result = mediaParser.parse();
+      expect(result.videoTracks).toHaveLength(1);
+      expect(result.videoTracks[0].resolution).toBe('576p');
+      expect(result.videoTracks[0].codec).toBe('xvid');
+    });
+  });
+});
+
+describe('MediaParser.getHdrType', () => {
+  it('should return the correct HDR type', () => {
+    const mediaParser = new BDInfoParser('');
+    expect(mediaParser.getHdrType('HDR10')).toBe('HDR10');
+    expect(mediaParser.getHdrType('Dolby Vision')).toBe('DV');
+    expect(mediaParser.getHdrType('DolbyVision')).toBe('DV');
+    expect(mediaParser.getHdrType('HDR10+')).toBe('HDR10+');
+    expect(mediaParser.getHdrType('HLG')).toBe('HLG');
+    expect(mediaParser.getHdrType('')).toBe('');
+    expect(mediaParser.getHdrType('SDR')).toBe('');
+  });
+});
+
+describe('MediaInfoParse.parseResolution', () => {
+  it('should parse resolution correctly', () => {
+    const mediaParser = new MediaInfoParser('');
+    expect(mediaParser.parseResolution(7680, 4320)).toBe('4320p');
+    expect(mediaParser.parseResolution(3840, 2160)).toBe('2160p');
+    expect(mediaParser.parseResolution(1920, 1080)).toBe('1080p');
+    expect(mediaParser.parseResolution(1920, 900)).toBe('1080p');
+    expect(mediaParser.parseResolution(1920, 900, 'Interlaced')).toBe('1080i');
+    expect(mediaParser.parseResolution(2560, 1440)).toBe('1080p');
+    expect(mediaParser.parseResolution(1280, 720)).toBe('720p');
+    expect(mediaParser.parseResolution(720, 480)).toBe('480p');
+    expect(mediaParser.parseResolution(848, 480)).toBe('480p');
+    expect(mediaParser.parseResolution(640, 360)).toBe('360p');
+    expect(mediaParser.parseResolution(1024, 576)).toBe('576p');
+    expect(mediaParser.parseResolution(420, 240)).toBe('240p');
+    expect(mediaParser.parseResolution(200, 100)).toBe('200x100');
+    expect(mediaParser.parseResolution(0, 0)).toBe('');
+    expect(mediaParser.parseResolution(NaN, NaN)).toBe('');
   });
 });

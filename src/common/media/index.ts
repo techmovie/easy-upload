@@ -1,4 +1,5 @@
 import { CONFIG } from './media.config';
+import { MediaInfoParser, BDInfoParser } from './media.mediaParser';
 /**
  * get bd type based on size e.g BD25, BD50
  *
@@ -6,7 +7,7 @@ import { CONFIG } from './media.config';
  * @returns {string}
  */
 export const getBDTypeBasedOnSize = (size: number) => {
-  const GBSize = size / 1e9;
+  const GBSize = size / 1024 ** 3;
 
   const DISK_TYPES = [
     { maxSize: 5, type: 'DVD5' },
@@ -44,4 +45,16 @@ export const getAudioCodecFromSource = (source:string) => {
     }
   }
   return '';
+};
+
+/**
+ * parse given mediainfo or bdinfo
+ *
+ * @param {string} source mediainfo or bdinfo
+ * @param {boolean} [isBluray=false] is bluray disc or not
+ * @returns {MediaInfo}
+ */
+export const parseMedia = (source:string, isBluray = false) => {
+  const parser = isBluray ? new BDInfoParser(source) : new MediaInfoParser(source);
+  return parser.parse();
 };

@@ -32,7 +32,7 @@ abstract class MediaParser {
 
   abstract parseDuration(duration: string): number
 
-  protected getHdrType (hdrFormat: string): string {
+  getHdrType (hdrFormat: string): string {
     if (!hdrFormat) return '';
 
     if (/Dolby\s*Vision/i.test(hdrFormat)) return 'DV';
@@ -230,10 +230,10 @@ export class MediaInfoParser extends MediaParser {
     );
   }
 
-  private parseResolution (
+  parseResolution (
     width: number,
     height: number,
-    scanType: string,
+    scanType: string = '',
   ): string {
     if (!width || !height || isNaN(width) || isNaN(height)) {
       return '';
