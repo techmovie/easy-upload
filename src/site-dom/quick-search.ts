@@ -1,7 +1,7 @@
 import {
   CURRENT_SITE_INFO, CURRENT_SITE_NAME,
 } from '../const';
-import { getUrlParam, GMFetch } from '../common';
+import { getLocationSearchValueByKey, GMFetch } from '../common';
 import $ from 'jquery';
 
 const filterBluTorrent = (imdb = '', name = '') => {
@@ -18,8 +18,8 @@ const filterBluTorrent = (imdb = '', name = '') => {
 };
 // 某些站点需要将IMDB填入检索表单
 const fillSearchImdb = () => {
-  const imdbParam = getUrlParam('imdb');
-  const nameParam = getUrlParam('name');
+  const imdbParam = getLocationSearchValueByKey('imdb');
+  const nameParam = getLocationSearchValueByKey('name');
   if (imdbParam || nameParam) {
     if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_NAME !== 'Blutopia') {
       filterBluTorrent(imdbParam, nameParam);

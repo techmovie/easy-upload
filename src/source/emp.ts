@@ -1,11 +1,12 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  getUrlParam, getFilterBBCode,
-} from '../common';
+  getLocationSearchValueByKey,
+} from '@/common';
+import { getFilterBBCode } from '@/source/helper/index';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('id');
+  const torrentId = getLocationSearchValueByKey('id');
   if (!torrentId) {
     return false;
   }

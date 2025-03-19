@@ -1,5 +1,5 @@
 import {
-  getFilterImages,
+  extractImgsFromBBCode,
 } from '../common';
 import { CURRENT_SITE_NAME } from '../const';
 import $ from 'jquery';
@@ -135,7 +135,7 @@ function buildPTPDescription (info:TorrentInfo.Info) {
 const isChineseTacker = (siteType:string) => {
   return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
 };
-const filterNexusDescription = (info:TorrentInfo.Info) => {
+const filterNexusDescription = async (info:TorrentInfo.Info) => {
   const { description } = info;
   let filterDescription = '';
   const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
@@ -147,7 +147,7 @@ const filterNexusDescription = (info:TorrentInfo.Info) => {
       }
     });
   }
-  const allImages = getFilterImages(description);
+  const allImages = await extractImgsFromBBCode(description);
   return `${filterDescription}\n${allImages.join('')}`;
 };
 // 过滤空标签

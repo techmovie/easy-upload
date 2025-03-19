@@ -1,6 +1,8 @@
 import { PT_SITE } from '../const';
 import {
-  getUrlParam, getBDType, getInfoFromMediaInfo,
+  getLocationSearchValueByKey,
+  getBDTypeBasedOnSize,
+  parseMedia,
 } from '../common';
 import $ from 'jquery';
 
@@ -11,7 +13,7 @@ export default async (info:TorrentInfo.Info) => {
     videoCodec = '', videoType,
     resolution,
   } = info;
-  const groupId = getUrlParam('groupid');
+  const groupId = getLocationSearchValueByKey('groupid');
   if (!groupId) {
     $(currentSiteInfo.imdb.selector).val(imdbUrl || 0);
     AutoFill();
@@ -49,7 +51,7 @@ export default async (info:TorrentInfo.Info) => {
       })[0].dispatchEvent(event);
     });
   }
-  const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfos[0]);
+  const infoFromMediaInfoinfo = parseMedia(info.mediaInfos[0]);
   if (infoFromMediaInfoinfo.subtitles && infoFromMediaInfoinfo.subtitles[0]) {
     infoFromMediaInfoinfo.subtitles.forEach(subtitle => {
       const subtitleSelector = $('.languageselector li').filter(function () {
@@ -85,7 +87,7 @@ const getEditionInfo = (videoType:string, tags:TorrentInfo.MediaTags) => {
 };
 const getVideoCodec = (videoCodec:string, videoType:string, size:number) => {
   if (videoType === 'bluray') {
-    return getBDType(size);
+    return getBDTypeBasedOnSize(size);
   } else if (videoType === 'dvd') {
     const GBSize = size / 1e9;
     if (GBSize < 5) {

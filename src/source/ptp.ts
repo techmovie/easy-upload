@@ -1,13 +1,13 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO, PT_SITE } from '../const';
 import {
-  getUrlParam, formatTorrentTitle, getAreaCode,
-  getInfoFromMediaInfo, getInfoFromBDInfo,
+  getLocationSearchValueByKey, formatTorrentTitle, getAreaCode,
+  parseMedia, getInfoFromBDInfo,
   replaceRegSymbols, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('torrentid');
+  const torrentId = getLocationSearchValueByKey('torrentid');
   if (!torrentId) {
     return false;
   }
@@ -53,9 +53,9 @@ export default async () => {
     const mediaInfoOrBDInfo = mediaInfoArray.filter(media => {
       return TORRENT_INFO.videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
     });
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+    const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
     TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map(v => v.trim());
-    const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos[0]);
+    const infoFromMediaInfoinfo = parseMedia(TORRENT_INFO.mediaInfos[0]);
     if (infoFromMediaInfoinfo.subtitles) {
       for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
         if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {

@@ -1,7 +1,7 @@
 import { expect, describe, it, vi } from 'vitest';
 import {
   getTMDBDataByIMDBId,
-  getTMDBVideosById,
+  getTMDBVideosByIdById,
 } from '../movie.tmdb';
 import { GMFetch } from '@/common/utils';
 
@@ -57,7 +57,7 @@ describe('getTMDBDataByIMDBId', () => {
   });
 });
 
-describe('getTMDBVideosById', () => {
+describe('getTMDBVideosByIdById', () => {
   it('should return the TMDB videos by TMDB ID', async () => {
     const mockData = {
       id: 123456,
@@ -72,7 +72,7 @@ describe('getTMDBVideosById', () => {
       ],
     };
     vi.mocked(GMFetch).mockResolvedValue(mockData);
-    const data = await getTMDBVideosById('123456');
+    const data = await getTMDBVideosByIdById('123456');
     expect(data).toEqual(mockData.results);
   });
 
@@ -80,11 +80,11 @@ describe('getTMDBVideosById', () => {
     vi.mocked(GMFetch).mockResolvedValue({
       results: [],
     });
-    await expect(getTMDBVideosById('123456')).rejects.toThrow('No TMDB videos found');
+    await expect(getTMDBVideosByIdById('123456')).rejects.toThrow('No TMDB videos found');
   });
 
   it('should throw an error if the request fails', async () => {
     vi.mocked(GMFetch).mockResolvedValue(null);
-    await expect(getTMDBVideosById('123456')).rejects.toThrow('No TMDB videos found');
+    await expect(getTMDBVideosByIdById('123456')).rejects.toThrow('No TMDB videos found');
   });
 }); ;

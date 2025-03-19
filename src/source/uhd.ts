@@ -1,14 +1,14 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getInfoFromMediaInfo, getInfoFromBDInfo,
+  formatTorrentTitle, parseMedia, getInfoFromBDInfo,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
-  getUrlParam, convertSizeStringToBytes, getSourceFromTitle, GMFetch,
+  getLocationSearchValueByKey, convertSizeStringToBytes, getSourceFromTitle, GMFetch,
 } from '../common';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('torrentid');
+  const torrentId = getLocationSearchValueByKey('torrentid');
   if (!torrentId) {
     return false;
   }
@@ -46,7 +46,7 @@ export default async () => {
       TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
       TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
       const isBluray = data.match(/\.(iso|m2ts|mpls)/i);
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+      const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
       const { videoCodec, audioCodec, mediaTags, resolution: mediaResolution } = getInfoFunc(data);
       if (resolution === 'mHD' && mediaResolution) {
         resolution = mediaResolution;

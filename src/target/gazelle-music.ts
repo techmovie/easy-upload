@@ -1,7 +1,7 @@
 import { base64ToBlob } from './common';
 import { Buffer } from 'buffer/index';
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
-import { getUrlParam, GMFetch } from '../common';
+import { getLocationSearchValueByKey, GMFetch } from '../common';
 import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
@@ -11,7 +11,7 @@ export default async (info:TorrentInfo.Info) => {
   }
   const { name, year, recordLabel, catalogueNumber } = musicJson.group;
   const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
-  const groupId = getUrlParam('groupid');
+  const groupId = getLocationSearchValueByKey('groupid');
   if (!groupId) {
     const searchResult = await GMFetch(`/ajax.php?action=browse&searchstr=${name} ${year}`, {
       responseType: 'json',

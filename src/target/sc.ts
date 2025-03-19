@@ -1,9 +1,9 @@
-import { getIMDBData, getIMDBIdByUrl, transferImgToCheveretoSite, uploadToPtpImg } from '../common';
+import { getIMDBData, getIdByIMDbUrl, transferImgToCheveretoSite, uploadToPtpImg } from '../common';
 import $ from 'jquery';
 
 export default async (info:TorrentInfo.Info) => {
   const { imdbUrl = '' } = info;
-  const imdbId = getIMDBIdByUrl(imdbUrl);
+  const imdbId = getIdByIMDbUrl(imdbUrl);
   $('#catalogue_number').val(imdbId);
   $('#imdb_autofill').trigger('click');
   fillMedia(info);

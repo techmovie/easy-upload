@@ -1,7 +1,8 @@
 import { PT_SITE } from '../const';
 import {
-  getBDType, getInfoFromBDInfo,
-  getUrlParam, getInfoFromMediaInfo,
+  getBDTypeBasedOnSize,
+  getLocationSearchValueByKey,
+  parseMedia,
 } from '../common';
 import { buildPTPDescription } from './common';
 import $ from 'jquery';
@@ -16,7 +17,7 @@ export default async (info:TorrentInfo.Info) => {
 
   transformInfo(info);
 
-  const isAddFormat = getUrlParam('groupid');
+  const isAddFormat = getLocationSearchValueByKey('groupid');
   if (!isAddFormat) {
     $(currentSiteInfo.imdb.selector).val(info.imdbUrl || 0);
     $('#imdb_button').trigger('click');
@@ -117,7 +118,7 @@ function fillProcessing (info:TorrentInfo.Info) {
     // change event to trigger processing_other fields
     $(selector)[0].dispatchEvent(new Event('change'));
     if (map[videoType as keyof typeof map] === 'Untouched') {
-      const bdType = getBDType(size);
+      const bdType = getBDTypeBasedOnSize(size);
       $('select[name="processing_other"]').val(bdType || '');
     }
     // input event to trigger validation
@@ -131,7 +132,7 @@ function handleNoAutoCheck (info:TorrentInfo.Info) {
   } = info;
   const mediaInfo = mediaInfos?.[0] || '';
   const isBluray = videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { format = '', subtitles = [] } = getInfoFunc(mediaInfo);
   info.format = getFormat(format, videoType);
   const keyArray = ['source', 'videoCodec', 'format', 'resolution'] as const;

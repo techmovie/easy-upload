@@ -1,10 +1,10 @@
 import { CURRENT_SITE_INFO } from '../const';
-import {
-  getBDInfoOrMediaInfo,
-} from '../common';
+// import {
+//   getBDInfoOrMediaInfo,
+// } from '../common';
 import { filterEmptyTags, fixTorrentTitle, getTeamName } from './common';
 import handleIts from './its';
-import handleTJUPT from './tjupt';
+// import handleTJUPT from './tjupt';
 import handleHDRoute from './hdr';
 import handleBib from './bib';
 import handlePTN from './ptn';
@@ -33,40 +33,40 @@ export const SITE_OPERATIONS = {
       return description;
     },
   },
-  PTer: {
-    handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
-      let description = info.description;
-      const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
-      mediaInfo.forEach(info => {
-        description = description.replace(`[quote]${info}[/quote]`, `[hide=mediainfo]${info}[/hide]`);
-      });
-      bdinfo.forEach(info => {
-        description = description.replace(`[quote]${info}[/quote]`, `[hide=BDInfo]${info}[/hide]`);
-      });
-      if (info.comparisons?.length) {
-        for (const comparison of info.comparisons) {
-          const { title, imgs } = comparison;
-          const titleCount = title?.split(',').length ?? '';
-          imgs.forEach(img => {
-            description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
-          });
-        }
-      }
-      return description;
-    },
-    titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      const isWebSource = !!info.source.match(/web/gi);
-      const title = fixTorrentTitle(info.title, isWebSource);
-      info.title = title;
-      return info;
-    },
-    afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
-      if (!language.match(/英语/) && info.area === 'EU') {
-        $(CURRENT_SITE_INFO.area.selector).val('8');
-      }
-    },
-  },
+  // PTer: {
+  //   handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
+  //     let description = info.description;
+  //     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+  //     mediaInfo.forEach(info => {
+  //       description = description.replace(`[quote]${info}[/quote]`, `[hide=mediainfo]${info}[/hide]`);
+  //     });
+  //     bdinfo.forEach(info => {
+  //       description = description.replace(`[quote]${info}[/quote]`, `[hide=BDInfo]${info}[/hide]`);
+  //     });
+  //     if (info.comparisons?.length) {
+  //       for (const comparison of info.comparisons) {
+  //         const { title, imgs } = comparison;
+  //         const titleCount = title?.split(',').length ?? '';
+  //         imgs.forEach(img => {
+  //           description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
+  //         });
+  //       }
+  //     }
+  //     return description;
+  //   },
+  //   titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+  //     const isWebSource = !!info.source.match(/web/gi);
+  //     const title = fixTorrentTitle(info.title, isWebSource);
+  //     info.title = title;
+  //     return info;
+  //   },
+  //   afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+  //     const language = info.description.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
+  //     if (!language.match(/英语/) && info.area === 'EU') {
+  //       $(CURRENT_SITE_INFO.area.selector).val('8');
+  //     }
+  //   },
+  // },
   Blutopia: {
     titleHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       const isWebSource = !!info.source.match(/web/gi);
@@ -248,20 +248,20 @@ export const SITE_OPERATIONS = {
       }
     },
   },
-  TJUPT: {
-    handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
-      let { description } = info;
-      const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
-      [...mediaInfo, ...bdinfo].forEach(info => {
-        description = description.replace(`[quote]${info}[/quote]`, `[mediainfo]${info}[/mediainfo]`);
-      });
-      return description;
-    },
-    afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
-      $('#browsecat').trigger('change');
-      handleTJUPT(info);
-    },
-  },
+  // TJUPT: {
+  //   handleDescription: (info:TorrentInfo.TargetTorrentInfo) => {
+  //     let { description } = info;
+  //     const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
+  //     [...mediaInfo, ...bdinfo].forEach(info => {
+  //       description = description.replace(`[quote]${info}[/quote]`, `[mediainfo]${info}[/mediainfo]`);
+  //     });
+  //     return description;
+  //   },
+  //   afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
+  //     $('#browsecat').trigger('change');
+  //     handleTJUPT(info);
+  //   },
+  // },
   NYPT: {
     afterHandler: (info:TorrentInfo.TargetTorrentInfo) => {
       $('#browsecat').trigger('change');

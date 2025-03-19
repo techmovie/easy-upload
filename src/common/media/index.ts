@@ -1,5 +1,6 @@
 import { CONFIG } from './media.config';
 import { MediaInfoParser, BDInfoParser } from './media.mediaParser';
+
 /**
  * get bd type based on size e.g BD25, BD50
  *
@@ -52,9 +53,12 @@ export const getAudioCodecFromSource = (source:string) => {
  *
  * @param {string} source mediainfo or bdinfo
  * @param {boolean} [isBluray=false] is bluray disc or not
- * @returns {MediaInfo}
+ * @returns {MediaInfo | null}
  */
 export const parseMedia = (source:string, isBluray = false) => {
+  if (!source) {
+    return null;
+  }
   const parser = isBluray ? new BDInfoParser(source) : new MediaInfoParser(source);
   return parser.parse();
 };

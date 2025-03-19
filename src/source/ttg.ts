@@ -1,6 +1,6 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getInfoFromBDInfo, getInfoFromMediaInfo,
+  formatTorrentTitle, getInfoFromBDInfo, parseMedia,
   getSourceFromTitle, getFilterBBCode, extractImgsFromBBCode,
   getAreaCode, getTagsFromSubtitle, getAudioCodecFromTitle,
   getVideoCodecFromTitle, getPreciseCategory, getBDInfoOrMediaInfo,
@@ -27,7 +27,7 @@ export default async () => {
   const sizeStr = getTorrentValueDom('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1] ?? '';
   TORRENT_INFO.size = parseInt(sizeStr.replace(/,/g, ''), 10);
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   TORRENT_INFO.isForbidden = !!$('#kt_d').text().match(/禁转/);
   window.onload = async () => {
     const descriptionDom = $('#kt_d');

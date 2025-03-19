@@ -1,5 +1,5 @@
 import { PT_SITE } from '../const';
-import { getInfoFromMediaInfo, getInfoFromBDInfo } from '../common';
+import { parseMedia } from '../common';
 import $ from 'jquery';
 
 export default (info:TorrentInfo.Info) => {
@@ -81,8 +81,7 @@ export default (info:TorrentInfo.Info) => {
     const episode = title.match(/S\d+(E\d+)?/i)?.[0] ?? '';
     $('#tv_season').val(episode);
     const isBluray = videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { format } = getInfoFunc(mediaInfos?.[0]);
+    const { format } = parseMedia(mediaInfos?.[0], !!isBluray);
     fillField(format?.toUpperCase() || 'MKV', 'tv_filetype');
   } else if (category.match(/variety/)) {
     let selector = '';

@@ -1,6 +1,6 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
 import {
-  getBDType, getTMDBIdByIMDBId, getIMDBIdByUrl,
+  getBDTypeBasedOnSize, getTMDBDataByIMDBId, getIdByIMDbUrl,
 } from '../common';
 import {
   getTeamName, matchSelectForm, filterNexusDescription,
@@ -113,7 +113,7 @@ export default class ExportHelper {
     if (!imdbSelector) {
       return;
     }
-    const imdbId = getIMDBIdByUrl(this.info.imdbUrl || '');
+    const imdbId = getIdByIMDbUrl(this.info.imdbUrl || '');
     this.info.imdbId = imdbId;
 
     if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
@@ -122,7 +122,7 @@ export default class ExportHelper {
       let tmdbId = '';
       const fillIMDBId = this.currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
       $(imdbSelector).val(fillIMDBId);
-      getTMDBIdByIMDBId(imdbId).then(data => {
+      getTMDBDataByIMDBId(imdbId).then(data => {
         tmdbId = data.id;
         $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
       });
@@ -283,7 +283,7 @@ export default class ExportHelper {
       this.info.videoType = category;
       // BHD需要细分蓝光类型
       if (isBluray) {
-        let bdType = getBDType(this.info.size);
+        let bdType = getBDTypeBasedOnSize(this.info.size);
         if (videoType === 'uhdbluray' && bdType === 'BD50') {
           bdType = 'uhd50';
         }

@@ -1,6 +1,6 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  getInfoFromMediaInfo, getInfoFromBDInfo,
+  parseMedia, getInfoFromBDInfo,
   getFilterBBCode, getSourceFromTitle, extractImgsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
@@ -31,7 +31,7 @@ export default async () => {
   const videoType = getVideoType({ torrentName, source, isBluray });
 
   const mediaInfo = $('div.mediainfo').text();
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
 
   // const category = getCategory(torrentName);

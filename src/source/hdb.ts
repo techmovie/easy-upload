@@ -1,14 +1,14 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getUrlParam, convertSizeStringToBytes,
-  getInfoFromBDInfo, getInfoFromMediaInfo, getSourceFromTitle,
+  formatTorrentTitle, getLocationSearchValueByKey, convertSizeStringToBytes,
+  getInfoFromBDInfo, parseMedia, getSourceFromTitle,
   getFilterBBCode, getBDInfoOrMediaInfo, GMFetch,
   getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('id');
+  const torrentId = getLocationSearchValueByKey('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const editDom = $('#details tr').has('a:contains(Edit torrent)');
@@ -38,7 +38,7 @@ export default async () => {
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.videoType = videoType;
   const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
   if (!isBluray) {
     getMediaInfo(torrentId).then(data => {

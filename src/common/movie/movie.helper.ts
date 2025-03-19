@@ -1,4 +1,3 @@
-import { EUROPE_LIST } from '@/const';
 import { CONFIG } from './movie.config';
 import { RottenTomatoesResponse } from './movie.types';
 import { GMFetch } from '@/common/utils';
@@ -9,7 +8,7 @@ import { GMFetch } from '@/common/utils';
  * @returns {string} Area code
  */
 export const getAreaCode = (area: string) => {
-  const europeList = EUROPE_LIST;
+  const europeList = CONFIG.EUROPE_LIST;
   if (!area) return 'OT';
   if (europeList.includes(area)) return 'EU';
   for (const [code, pattern] of Object.entries(CONFIG.REGION_PATTERNS)) {

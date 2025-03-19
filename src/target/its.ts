@@ -1,6 +1,6 @@
 import {
-  getTMDBIdByIMDBId, getIMDBIdByUrl, getIMDBData,
-  getTMDBVideos, getRtIdFromTitle, uploadToPtpImg,
+  getTMDBDataByIMDBId, getIdByIMDbUrl, getIMDBData,
+  getTMDBVideosById, getMatchRottenTomatoes, uploadToPtpImg,
   $t,
 } from '../common';
 import { getTeamName, getScreenshotsBBCode } from './common';
@@ -85,7 +85,7 @@ export default async (info:TorrentInfo.Info) => {
         replaceParams.imdbScore = imdbRate;
 
         const searchMovieName = movieName || aka.filter(item => item.country.match(/(World-wide)|UK|USA/))?.[0].title;
-        const rtInfo = await getRtIdFromTitle(searchMovieName, !!category.match(/tv/), year);
+        const rtInfo = await getMatchRottenTomatoes(searchMovieName, !!category.match(/tv/), year);
         const { score = 0, id = '' } = rtInfo;
         replaceParams.rtScore = `${score}%`;
         replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
@@ -96,8 +96,8 @@ export default async (info:TorrentInfo.Info) => {
         }
       }
 
-      const imdbId = getIMDBIdByUrl(imdbUrl as string);
-      const { id: tmdbId, vote_average: tmdbRate } = await getTMDBIdByIMDBId(imdbId);
+      const imdbId = getIdByIMDbUrl(imdbUrl as string);
+      const { id: tmdbId, vote_average: tmdbRate } = await getTMDBDataByIMDBId(imdbId);
       if (tmdbId) {
         replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
         replaceParams.tmdbScore = tmdbRate;
@@ -105,7 +105,7 @@ export default async (info:TorrentInfo.Info) => {
           site:string
           key:string
         }
-        const videos:Video[] = await getTMDBVideos(tmdbId);
+        const videos:Video[] = await getTMDBVideosById(tmdbId);
 
         const youtubeId = videos.filter(video => video.site === 'YouTube')?.[0]?.key ?? '';
         if (youtubeId.length > 0) {

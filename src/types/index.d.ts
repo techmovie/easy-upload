@@ -2,7 +2,18 @@
 
 declare namespace TorrentInfo {
   interface MediaTags {
-    [key: string]: boolean
+    hdr10?: boolean
+    hdr10_plus?: boolean
+    hlg?: boolean
+    dolby_vision?: boolean
+    chinese_audio?: boolean
+    cantonese_audio?: boolean
+    chinese_subtitle?: boolean
+    dts_x?: boolean
+    dolby_atmos?: boolean
+    diy?: boolean
+    the_criterion_collection?: boolean
+    exclusive?: boolean
   }
   interface comparison {
     title?: string

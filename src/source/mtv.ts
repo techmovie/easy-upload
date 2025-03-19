@@ -1,14 +1,14 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
-  getUrlParam, formatTorrentTitle,
-  getInfoFromMediaInfo, getInfoFromBDInfo,
+  getLocationSearchValueByKey, formatTorrentTitle,
+  parseMedia, getInfoFromBDInfo,
   convertSizeStringToBytes, getFilterBBCode, getSourceFromTitle, extractImgsFromBBCode,
   getVideoCodecFromTitle, getAudioCodecFromTitle, getTagsFromSubtitle,
 } from '../common';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('torrentid');
+  const torrentId = getLocationSearchValueByKey('torrentid');
   if (!torrentId) {
     return false;
   }
@@ -38,7 +38,7 @@ async function getTorrentInfo (torrentId:string) {
   const videoType = getVideoType({ torrentName, source, isBluray });
 
   const mediaInfo = $('div.mediainfo').text();
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { resolution, videoCodec, audioCodec, mediaTags: tags } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
 
   const category = getCategory(torrentName);

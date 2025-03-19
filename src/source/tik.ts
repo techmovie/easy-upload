@@ -7,7 +7,7 @@ import {
 import $ from 'jquery';
 
 export default async () => {
-  // const torrentId = getUrlParam('id');
+  // const torrentId = getLocationSearchValueByKey('id');
   TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
   TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
   const typeText = $('td.heading:contains(Type)').eq(0).next().text();

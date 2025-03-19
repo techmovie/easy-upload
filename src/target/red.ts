@@ -1,4 +1,4 @@
-import { GMFetch, getUrlParam } from '../common';
+import { GMFetch, getLocationSearchValueByKey } from '../common';
 import { CURRENT_SITE_INFO } from '../const';
 import $ from 'jquery';
 
@@ -10,7 +10,7 @@ export default async (info:TorrentInfo.Info) => {
 
   document.forms.upload_table.reset = () => {};
   const { name, year, musicInfo, bbBody, tags, releaseType, categoryId, wikiImage } = musicJson.group;
-  const groupId = getUrlParam('groupid');
+  const groupId = getLocationSearchValueByKey('groupid');
   if (!groupId) {
     const url = `/ajax.php?action=browse&searchstr=${name} ${year}`;
     const searchResult = await GMFetch(url, {

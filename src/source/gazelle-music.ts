@@ -1,10 +1,10 @@
-import { getUrlParam, GMFetch, htmlToBBCode } from '../common';
+import { getLocationSearchValueByKey, GMFetch, htmlToBBCode } from '../common';
 import { CURRENT_SITE_INFO, TORRENT_INFO, CURRENT_SITE_NAME } from '../const';
 import DOMPurify from 'dompurify';
 import $ from 'jquery';
 
 export default async () => {
-  const torrentId = getUrlParam('torrentid');
+  const torrentId = getLocationSearchValueByKey('torrentid');
   if (!torrentId) {
     return false;
   }

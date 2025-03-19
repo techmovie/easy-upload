@@ -3,7 +3,7 @@ import {
   CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO,
 } from '../const';
 import {
-  $t, getDoubanIdByIMDB, getDoubanInfo, getDoubanBookInfo,
+  $t, getDoubanBasicDataByQuery, getDoubanInfo, getDoubanBookInfo,
   getSubTitle, getAreaCode, getPreciseCategory,
 } from '../common';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ const getTvSeasonData = async (data:Douban.Season) => {
       return data;
     }
     const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
-    const response = await getDoubanIdByIMDB(query);
+    const response = await getDoubanBasicDataByQuery(query);
     return response;
   }
 };
@@ -57,7 +57,7 @@ const Douban = () => {
         doubanUrl = doubanLink;
       } else {
         const { imdbUrl, movieName } = TORRENT_INFO;
-        const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+        const doubanData = await getDoubanBasicDataByQuery(imdbUrl || movieName);
         if (doubanData) {
           let { id, season = '' } = doubanData;
           if (season) {

@@ -2,12 +2,11 @@
 import { render } from 'preact';
 import {
   CURRENT_SITE_NAME, CURRENT_SITE_INFO,
-  TORRENT_INFO,
 } from './const';
 
-import { getUrlParam } from './common';
+import { getLocationSearchValueByKey } from '@/common';
 import { fillTargetForm } from './target';
-import getTorrentInfo from './source';
+import { getTorrentInfo } from '@/source/info-extractors';
 import { fillSearchImdb } from './site-dom/quick-search';
 import './site-dom/ptpimg';
 import './site-dom/AnalyzeUploadPage';
@@ -34,21 +33,21 @@ if (CURRENT_SITE_NAME) {
     (!location.href.match(/upload|offer/ig)) &&
     !(CURRENT_SITE_INFO.search &&
       location.pathname.match(CURRENT_SITE_INFO.search.path) &&
-      (getUrlParam('imdb') || getUrlParam('name')))) {
-    getTorrentInfo().then(() => {
+      (getLocationSearchValueByKey('imdb') || getLocationSearchValueByKey('name')))) {
+    getTorrentInfo().then((info) => {
       // 向当前所在站点添加按钮等内容
-      console.log(TORRENT_INFO);
+      console.log(info);
     });
 
     let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
     const app = document.createElement('div');
     render(<App />, app);
     if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV', 'Orpheus'].includes(CURRENT_SITE_NAME)) {
-      const torrentId = getUrlParam('torrentid');
+      const torrentId = getLocationSearchValueByKey('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
         refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
       } else if (CURRENT_SITE_NAME === 'EMP') {
-        const groupId = getUrlParam('id');
+        const groupId = getLocationSearchValueByKey('id');
         refNode = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
       } else if (CURRENT_SITE_NAME === 'MTV') {
         refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
@@ -57,7 +56,7 @@ if (CURRENT_SITE_NAME) {
       }
       refNode?.prepend(app);
     } else if (CURRENT_SITE_NAME === 'UHDBits') {
-      const torrentId = getUrlParam('torrentid');
+      const torrentId = getLocationSearchValueByKey('torrentid');
       $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
       $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(app);
     } else if (CURRENT_SITE_NAME === 'SpeedApp') {

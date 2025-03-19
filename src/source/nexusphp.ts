@@ -1,7 +1,7 @@
 import { CURRENT_SITE_NAME, CURRENT_SITE_INFO, TORRENT_INFO } from '../const';
 import {
   formatTorrentTitle, convertSizeStringToBytes, getAreaCode, getFilterBBCode, getSourceFromTitle,
-  extractImgsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, getInfoFromMediaInfo,
+  extractImgsFromBBCode, getTagsFromSubtitle, getInfoFromBDInfo, parseMedia,
   getAudioCodecFromTitle, getVideoCodecFromTitle, getBDInfoOrMediaInfo, getPreciseCategory,
 } from '../common';
 import { getVideoType, getCategory, getResolution, getFormat } from './helper';
@@ -209,7 +209,7 @@ export default async () => {
     }
   }
 
-  const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos?.[0]);
+  const infoFromMediaInfoinfo = parseMedia(TORRENT_INFO.mediaInfos?.[0]);
   if (infoFromMediaInfoinfo.subtitles) {
     for (let i = 0; i < infoFromMediaInfoinfo.subtitles?.length; i++) {
       if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
@@ -325,7 +325,7 @@ const getTagsFromPage = () => {
   return tags;
 };
 function getSpecsFromMediainfo (isBluray:boolean) {
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(TORRENT_INFO.mediaInfos?.[0] ?? '');
   if (videoCodec !== '' && audioCodec !== '' && resolution !== '') {
     TORRENT_INFO.videoCodec = videoCodec;

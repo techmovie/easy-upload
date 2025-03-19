@@ -3,13 +3,13 @@ import {
   PT_SITE, TORRENT_INFO,
 } from '../const';
 import {
-  getIMDBIdByUrl,
+  getIdByIMDbUrl,
 } from '../common';
 const getQuickSearchUrl = (siteName:string) => {
   const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
   const searchConfig = siteInfo.search;
   const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-  let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl as string);
+  let imdbId = getIdByIMDbUrl(TORRENT_INFO.imdbUrl as string);
   let searchKeyWord = '';
   const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
   if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&

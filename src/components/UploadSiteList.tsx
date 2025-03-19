@@ -2,7 +2,7 @@ import {
   TORRENT_INFO, SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_NAME, CURRENT_SITE_INFO,
 } from '../const';
 import {
-  $t, GMFetch, getIMDBIdByUrl,
+  $t, GMFetch, getIdByIMDbUrl,
 } from '../common';
 import { getTorrentFileData } from '../source/helper';
 import { toast } from 'sonner';
@@ -11,7 +11,7 @@ const getPTPGroupId = async (imdbUrl:string|undefined) => {
   if (!imdbUrl) {
     return '';
   }
-  const imdbId = getIMDBIdByUrl(imdbUrl);
+  const imdbId = getIdByIMDbUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
     const data = await GMFetch(url, {
@@ -53,7 +53,7 @@ const getGPWGroupId = async (imdbUrl:string|undefined) => {
   if (!imdbUrl) {
     return '';
   }
-  const imdbId = getIMDBIdByUrl(imdbUrl);
+  const imdbId = getIdByIMDbUrl(imdbUrl);
   if (imdbId) {
     const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
     const data = await GMFetch(url, {
@@ -147,7 +147,7 @@ const UploadSiteList = () => {
     url = `${url}#timestamp=${timestamp}`;
     GM_openInTab(url);
   };
-  const targetSitesEnabled = GM_getValue<string[]>('easy-seed.enabled-target-sites');
+  const targetSitesEnabled = GM_getValue<string[]>('easy-seed.enabled-target-sites', []);
   const siteFaviconClosed = GM_getValue<string>('easy-seed.site-favicon-closed');
   return <ul className="site-list">
     {SORTED_SITE_KEYS.map((siteName) => {

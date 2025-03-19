@@ -6,36 +6,6 @@ import { toast } from 'sonner';
 import $ from 'jquery';
 
 /**
- * 格式化视频类型
- * @param {videoType} videoType
- * @return
- */
-const getVideoType = (videoType:string) => {
-  if (!videoType) {
-    return '';
-  }
-
-  videoType = videoType.replace(/[.-]/g, '').toLowerCase();
-  if (videoType.match(/encode|x264|x265|bdrip|hdrip|压制/ig)) {
-    return 'encode';
-  } else if (videoType.match(/remux/ig)) {
-    return 'remux';
-  } else if (videoType.match(/uhd|ultra/ig)) {
-    return 'uhdbluray';
-  } else if (videoType.match(/blu|discs/ig)) {
-    return 'bluray';
-  } else if (videoType.match(/webdl/ig)) {
-    return 'web';
-  } else if (videoType.match(/hdtv/ig)) {
-    return 'hdtv';
-  } else if (videoType.match(/dvdr/ig)) {
-    return 'dvdrip';
-  } else if (videoType.match(/dvd/ig)) {
-    return 'dvd';
-  }
-  return '';
-};
-/**
  * 格式化视频分类
  * @param {category} category
  */
@@ -76,22 +46,6 @@ const getCategory = (category:string) => {
     return 'ebook';
   }
   return '';
-};
-
-const getResolution = (resolution:string) => {
-  resolution = resolution.toLowerCase();
-  if (resolution.match(/4k|2160|UHD/ig)) {
-    return '2160p';
-  } else if (resolution.match(/1080(p)?/ig)) { // 兼容烧包
-    return '1080p';
-  } else if (resolution.match(/1080i/ig)) {
-    return '1080i';
-  } else if (resolution.match(/720(p)?/ig)) { // 兼容烧包
-    return '720p';
-  } else if (resolution.match(/sd/ig)) {
-    return '480p';
-  }
-  return resolution;
 };
 
 const getFormat = (data:string) => {
@@ -167,9 +121,7 @@ const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteNam
   }
 };
 export {
-  getVideoType,
   getCategory,
-  getResolution,
   getFormat,
   getTorrentFileData,
 };

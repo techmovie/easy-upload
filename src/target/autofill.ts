@@ -1,7 +1,9 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
 import {
-  $t, getDoubanIdByIMDB, getTvSeasonData,
-  getDoubanInfo, getSubTitle,
+  $t, getDoubanBasicDataByQuery,
+  // getTvSeasonData,
+  getSubTitle,
+  DoubanFormatter,
 } from '../common';
 import { toast } from 'sonner';
 import $ from 'jquery';
@@ -21,14 +23,14 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
     if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
       doubanLink = doubanUrl;
     } else {
-      const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+      const doubanData = await getDoubanBasicDataByQuery(imdbUrl || movieName);
       if (doubanData) {
-        let { id, season = '' } = doubanData;
-        const tvData = await getTvSeasonData(doubanData);
-        if (season && tvData) {
-          id = tvData && tvData.id;
-        }
-        doubanLink = `https://movie.douban.com/subject/${id}`;
+        // let { id, season = '' } = doubanData;
+        // const tvData = await getTvSeasonData(doubanData);
+        // if (season && tvData) {
+        //   id = tvData && tvData.id;
+        // }
+        // doubanLink = `https://movie.douban.com/subject/${id}`;
       }
     }
     if (doubanLink) {
@@ -42,7 +44,8 @@ async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
         $(douban?.selector).val(doubanLink);
       }
       if (!descriptionData?.match(/(片|译)\s*名/)) {
-        const movieData = await getDoubanInfo(doubanLink);
+        // TODO: get douban info
+        const movieData = await (new DoubanFormatter(doubanLink, 'movie')).format();
         if (movieData) {
           toast.success($t('获取成功'));
           const imdbLink = movieData.imdbLink;

@@ -1,7 +1,8 @@
 import {
-  getIMDBData, GMFetch,
-  getInfoFromBDInfo, getInfoFromMediaInfo,
-  getBDType,
+  getIMDBData,
+  GMFetch,
+  parseMedia,
+  getBDTypeBasedOnSize,
 } from '../common';
 import { PT_SITE } from '../const';
 import $ from 'jquery';
@@ -60,10 +61,9 @@ export default async (info:TorrentInfo.Info) => {
     }
     // subtitle
     const isBluray = videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { subtitles = [] } = getInfoFunc(mediaInfo);
-    if (subtitles.length) {
-      $('input[name="subs"]').val(subtitles.join(','));
+    const { subtitleTracks = [] } = parseMedia(mediaInfo, !!isBluray);
+    if (subtitleTracks.length) {
+      $('input[name="subs"]').val(subtitleTracks.join(','));
     }
     if (videoType === 'dvd') {
       $('input[name="dvdr"]').attr('checked', 'true');
@@ -76,7 +76,7 @@ function buildDvdSpecs (info:TorrentInfo.Info) {
   const { mediaInfos, size, audioCodec } = info;
   const mediaInfo = mediaInfos?.[0] ?? '';
   const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
-  const dvdType = getBDType(size);
+  const dvdType = getBDTypeBasedOnSize(size);
   const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';
   const audioName = `${audioCodec?.toUpperCase()} ${audioChannelNumber === '6' ? '5.1' : `${audioChannelNumber}.0`}`;
   const IFOMediaInfo = info.mediaInfos?.find(info => info.includes('.IFO')) ?? '';

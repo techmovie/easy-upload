@@ -39,12 +39,6 @@ const TORRENT_INFO: TorrentInfo.Info = {
   poster: '',
 };
 
-const DOUBAN_SEARCH_API = 'https://omit.mkrobot.org/movie/infos';
-const DOUBAN_SUGGEST_API = 'https://www.douban.com/search?cat=1002&q={query}';
-const DOUBAN_MOBILE_API = 'https://m.douban.com/rexxar/api/v2';
-const PT_GEN_API = 'https://media.pttool.workers.dev';
-const TMDB_API_URL = 'https://api.tmdb.org';
-const TMDB_API_KEY = '3d62cb1443c6b34b61262ab332aaf78c';
 const BROWSER_LANGUAGE = navigator.language.toLowerCase().split('-')[0];
 
 type SiteName = keyof typeof PT_SITE;
@@ -81,26 +75,16 @@ const getSortedSiteKeys = () => {
   });
 };
 const SORTED_SITE_KEYS = getSortedSiteKeys();
-const CODES_ARRAY = ['atmos', 'dtshdma', 'aac', 'ac3', 'dd+', 'dd', 'dtsx', 'dts', 'truehd', 'flac', 'lpcm'];
-const EUROPE_LIST = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan', 'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Georgia', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'North Macedonia', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'UK', 'Vatican City'];
 const CURRENT_SITE_NAME = getSiteName(location.host);
 const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME as keyof typeof PT_SITE] as Site.SiteInfo;
 const HDB_TEAM = ['Chotab', 'CRiSC', 'CtrlHD', 'DON', 'EA', 'EbP', 'Geek', 'LolHD', 'NTb', 'RightSiZE', 'SA89', 'SbR', 'TayTo', 'VietHD'];
 
 export {
   TORRENT_INFO,
-  DOUBAN_SEARCH_API,
-  DOUBAN_MOBILE_API,
-  PT_GEN_API,
-  CODES_ARRAY,
   CURRENT_SITE_NAME,
   CURRENT_SITE_INFO,
   PT_SITE,
-  EUROPE_LIST,
-  TMDB_API_URL,
-  TMDB_API_KEY,
   HDB_TEAM,
-  DOUBAN_SUGGEST_API,
   SORTED_SITE_KEYS,
   BROWSER_LANGUAGE,
   SiteName,

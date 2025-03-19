@@ -1,6 +1,6 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, getInfoFromMediaInfo,
+  formatTorrentTitle, parseMedia,
   getInfoFromBDInfo, convertSizeStringToBytes, getSourceFromTitle,
   getFilterBBCode,
   getTagsFromSubtitle, getPreciseCategory, extractImgsFromBBCode,
@@ -67,7 +67,7 @@ export default async () => {
     descriptionBBCode = `\n[quote]${mediaInfoOrBDInfo}[/quote]${descriptionBBCode}`;
   }
   const isBluray = videoType.match(/bluray/i);
-  const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
+  const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
   const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
   TORRENT_INFO.mediaInfos = [mediaInfoOrBDInfo];
   TORRENT_INFO.videoCodec = videoCodec;

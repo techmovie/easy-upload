@@ -1,7 +1,8 @@
 import { PT_SITE } from '../const';
 import {
-  getBDType,
-  getIMDBIdByUrl, getTMDBIdByIMDBId,
+  getBDTypeBasedOnSize,
+  getIdByIMDbUrl,
+  getTMDBDataByIMDBId,
 } from '../common';
 
 import {
@@ -55,9 +56,9 @@ export default (info:TorrentInfo.Info) => {
   });
 };
 function fillTMDBId (info:TorrentInfo.Info) {
-  const imdbId = getIMDBIdByUrl(info.imdbUrl || '');
+  const imdbId = getIdByIMDbUrl(info.imdbUrl || '');
   $(currentSiteInfo.imdb.selector).val(imdbId);
-  getTMDBIdByIMDBId(imdbId).then(data => {
+  getTMDBDataByIMDBId(imdbId).then(data => {
     $(currentSiteInfo.tmdb.selector).val(data.id);
   });
 }
@@ -72,7 +73,7 @@ function fillSpecs (info:TorrentInfo.Info) {
   info.videoType = category;
   // BHD需要细分蓝光类型
   if (isBluray || videoType === 'dvd') {
-    let bdType = getBDType(info.size);
+    let bdType = getBDTypeBasedOnSize(info.size);
     if (videoType === 'uhdbluray' && bdType === 'BD50') {
       bdType = 'UHD50';
     }
@@ -159,7 +160,7 @@ function buildDVDTitle (info:TorrentInfo.Info) {
   const { movieName, movieAkaName, year, mediaInfos, size, audioCodec } = info;
   const mediaInfo = mediaInfos?.[0] ?? '';
   const scanType = mediaInfo.includes('NTSC') ? 'NTSC' : 'PAL';
-  const dvdType = getBDType(size);
+  const dvdType = getBDTypeBasedOnSize(size);
   const audioChannelNumber = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)?.[1] || '2';
   const audio = audioCodec === 'ac3' ? 'dd' : audioCodec;
   const audioName = `${audio?.toUpperCase()}${audioChannelNumber === '6' ? '5.1' : `${audioChannelNumber}.0`}`;
