@@ -32,6 +32,7 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
   async extract (): Promise<TorrentInfo.Info> {
     this.extractTitle();
     this.extractYear();
+    this.extractDoubanInfo();
     this.extractDescription();
     this.extractImdbUrl();
     this.extractDoubanUrl();
@@ -181,5 +182,9 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     const combinedContent = title + subtitle + description;
     const isForbidden = CONFIG.NEXUS_FORBIDDEN_KEYWORDS.some((keyword) => combinedContent.includes(keyword));
     this.info.isForbidden = isForbidden;
+  }
+
+  protected extractDoubanInfo () {
+
   }
 }

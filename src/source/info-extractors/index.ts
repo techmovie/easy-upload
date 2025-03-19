@@ -2,7 +2,12 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
 import { registry } from './registry';
 
 import './nexusphp';
-import './PTer';
+import './pter';
+import './ssd';
+import './hdarea';
+import './putao';
+import './tjupt';
+import './ourbits';
 
 export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {

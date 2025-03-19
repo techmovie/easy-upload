@@ -13,7 +13,7 @@ import $ from 'jquery';
 export default async () => {
   let title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
 
-  let metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ':');
+  const metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ':');
   let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
   let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
@@ -24,37 +24,6 @@ export default async () => {
       .replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, '')
       .replace(/(http(s)?)%3A/g, '$1:')
       .replace(/%2F/g, '/');
-  }
-  if (CURRENT_SITE_NAME === 'HDArea') {
-    title = $('h1#top').text().split(/\s{3,}/)?.[0]?.trim();
-  }
-
-  if (CURRENT_SITE_NAME === 'SSD') {
-    title = formatTorrentTitle($('#torrent-name').text());
-  }
-  if (CURRENT_SITE_NAME === 'PuTao') {
-    title = formatTorrentTitle($('h1').text().replace(/\[.+?\]|\(.+?\)/g, '')?.trim());
-  }
-  if (CURRENT_SITE_NAME === 'TJUPT') {
-    const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-    const realTitle = matchArray.filter(item => item.match(/\.| /))?.[0] ?? '';
-    title = realTitle.replace(/\[|\]/g, '');
-  }
-  if (CURRENT_SITE_NAME === 'PTer') {
-    if ($('#descrcopyandpaster')[0]) {
-      descriptionBBCode = ($('#descrcopyandpaster').val() as string)?.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
-    } else {
-      descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
-    }
-    descriptionBBCode = descriptionBBCode.replace(/\[img\d\]/g, '[img]');
-  }
-  if (CURRENT_SITE_NAME === 'HDChina') {
-    const meta:string[] = [];
-    $("li:contains('基本信息'):last").next('li').children('i').each(function () {
-      meta.push($(this).text().replace('：', ':'));
-    });
-    metaInfo = meta.join('   ');
-    subtitle = $('#top').next('h3').text();
   }
 
   if (CURRENT_SITE_NAME === 'OurBits') {
@@ -111,31 +80,6 @@ export default async () => {
       TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo || '';
     }
     descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, '');
-  }
-
-  if (CURRENT_SITE_NAME === 'SSD') {
-    TORRENT_INFO.doubanUrl = $(".douban_info a:contains('://movie.douban.com/subject/')").attr('href');
-    const doubanInfo = getFilterBBCode($('.douban-info artical')?.[0]);
-    const postUrl = $('#kposter').find('img')?.attr('src') ?? '';
-    const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
-    TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo?.replace(/\n{2,}/g, '\n') || '';
-    if (descriptionBBCode === '' || descriptionBBCode === undefined) {
-      let extraTextInfo = getFilterBBCode($('.torrent-extra-text-container .extra-text')?.[0]);
-      extraTextInfo = extraTextInfo ? `\n[quote]${extraTextInfo}[/quote]\n` : '';
-      const extraScreenshotDom = $('.screenshot').find('img');
-      const imgs:string[] = [];
-      if (extraScreenshotDom) {
-        extraScreenshotDom.each((index, item) => {
-          imgs.push(`[img]${$(item).attr('src')?.trim() ?? ''}[/img]`);
-        });
-      }
-      const extraScreenshot = imgs.join('');
-      const mediaInfo = $("section[data-group='mediainfo'] .codemain").text();
-      const extraMediaInfo = `\n[quote]${mediaInfo}[/quote]\n`;
-      TORRENT_INFO.mediaInfos = [mediaInfo];
-      descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
-    }
-    siteImdbUrl = $(".douban_info a:contains('://www.imdb.com/title/')").attr('href');
   }
 
   // 站点自定义数据覆盖 结束
@@ -277,9 +221,6 @@ const getMetaValue = (key:string, metaInfo:string) => {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
   if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|SoulVoice|PuTao/)) && key.match(/类型/)) {
-    regStr = `(${key}):\\s?([^\\s]+)?`;
-  }
-  if (CURRENT_SITE_NAME === 'PTer' && key.match(/类型|地区/)) {
     regStr = `(${key}):\\s?([^\\s]+)?`;
   }
   if (CURRENT_SITE_NAME === 'TCCF' && key.match(/类型/)) {
