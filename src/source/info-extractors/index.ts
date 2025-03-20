@@ -8,6 +8,12 @@ import './hdarea';
 import './putao';
 import './tjupt';
 import './ourbits';
+import './keepfrds';
+import './tlf';
+import './hdhome';
+import './hdfans';
+import './shared-nexusphp-sites';
+import './ttg';
 
 export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {

@@ -34,6 +34,10 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.extractYear();
     this.extractDoubanInfo();
     this.extractDescription();
+    const result: void | Promise<void> = this.extractDescription();
+    if (result instanceof Promise) {
+      await result;
+    }
     this.extractImdbUrl();
     this.extractDoubanUrl();
     await this.extractScreenshots();
@@ -46,6 +50,8 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.extractMovieNames();
     this.extractTags();
     this.determineIfIsForbidden();
+    this.extractComparisonsScreenshots();
+    this.enhanceInfo();
 
     return this.info;
   }
@@ -71,13 +77,13 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.info.doubanUrl = doubanUrl;
   }
 
-  protected extractDescription () {
+  protected extractDescription (): void | Promise<void> {
     const bbCode = getFilterBBCode($('#kdescr')[0]);
     this.info.description = bbCode.replace(/\u00A0\u3000/g, ' ');
   }
 
   protected extractYear () {
-    this.info.year = this.info.title?.match(/(19|20)\d{2}/g)?.[0] ?? '';
+    this.info.year = this.info.title?.match(/(18|19|20)\d{2}/g)?.[0] ?? '';
   }
 
   protected extractMediaInfos () {
@@ -185,6 +191,14 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
   }
 
   protected extractDoubanInfo () {
+
+  }
+
+  protected enhanceInfo () {
+
+  }
+
+  protected extractComparisonsScreenshots () {
 
   }
 }

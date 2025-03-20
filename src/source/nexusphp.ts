@@ -11,11 +11,11 @@ import $ from 'jquery';
  * 获取 NexusPHP 默认数据
  */
 export default async () => {
-  let title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
+  const title = formatTorrentTitle($('#top').text().split(/\s{3,}/)?.[0]?.trim());
 
   const metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ':');
-  let subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
-  let siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
+  const subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
+  const siteImdbUrl = $('#kimdb>a').attr('href'); // 部分站点IMDB信息需要手动更新才能展示
   let descriptionBBCode = getFilterBBCode($('#kdescr')[0]);
   descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, ' ');
   // 站点自定义数据覆盖 开始
@@ -24,62 +24,6 @@ export default async () => {
       .replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, '')
       .replace(/(http(s)?)%3A/g, '$1:')
       .replace(/%2F/g, '/');
-  }
-
-  if (CURRENT_SITE_NAME === 'OurBits') {
-    siteImdbUrl = $('.imdbnew2 a:first').attr('href');
-    TORRENT_INFO.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
-    if (TORRENT_INFO.doubanUrl) {
-      const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
-      const doubanPoster = `[img]${$('#doubaninfo .doubannew a img').attr('src')}[/img]\n`;
-      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
-    }
-  }
-
-  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    [title, subtitle] = [subtitle, title];
-    siteImdbUrl = $('#kimdb .imdbwp__link').attr('href');
-    TORRENT_INFO.doubanUrl = $('#kdouban .imdbwp__link').attr('href');
-    const element = document.createElement('div');
-    $(element).html($('#outer td').has('#kdescr').html());
-    descriptionBBCode = getFilterBBCode(element);
-    descriptionBBCode = descriptionBBCode.replace('  [url=', '\n  [url=').replace(/\[\/img\]\[\/url\]\n/g, '[/img][/url]');
-    const mediainfo = $("div.codemain > pre:contains('Unique ID')");
-    if (mediainfo[0]) {
-      mediainfo.each(function () {
-        TORRENT_INFO.mediaInfos?.push($(this).text());
-      });
-    }
-    descriptionBBCode = descriptionBBCode.replace(/ 截图对比\(点击空白处展开\)/g, '截图对比');
-    interface ComparisonObj{
-      title: string
-      imgs: string[]
-      reason: string
-    }
-    const comparisonArray = $('fieldset[onclick]').toArray() || [];
-    const comparisons:ComparisonObj[] = [];
-    comparisonArray.forEach(item => {
-      const imgs: string[] = [];
-      $(item).find('a').toArray().forEach(img => {
-        if (img.href) imgs.push(img.href);
-      });
-      const title = $(item).find('legend').text().replace(' 截图对比(点击空白处展开):', '').trim();
-      const reason = '';
-      comparisons.push({
-        title,
-        imgs,
-        reason,
-      });
-    });
-    TORRENT_INFO.comparisons = comparisons;
-    if (!descriptionBBCode.match('豆瓣评分')) {
-      const imdbRate = $('#kimdb span.imdbwp__rating').text().replace('\nRating: ', '');
-      const doubanInfo = $('#kdouban .imdbwp__content').text().replace(/\n{2,}/g, '\n').replace(/\n[0-9]?[0-9]\.[0-9]\n/g, '\n').replace(/\n/g, '\n◎').replace(/\n◎$/, '\n').replace('◎Rating:', `◎IMDb链接:${siteImdbUrl}\n◎IMDb评分: ${imdbRate}\n◎豆瓣链接: ${TORRENT_INFO.doubanUrl}\n◎豆瓣评分:`);
-      const postUrl = $('#kimdb img.imdbwp__img')?.attr('src') ?? '';
-      const doubanPoster = postUrl ? `[img]${postUrl}[/img]\n` : '';
-      TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo || '';
-    }
-    descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, '');
   }
 
   // 站点自定义数据覆盖 结束
@@ -126,9 +70,7 @@ export default async () => {
   TORRENT_INFO.videoType = getVideoType(videoType || TORRENT_INFO.title);
   TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
   TORRENT_INFO.size = size ? convertSizeStringToBytes(size) : 0;
-  if (CURRENT_SITE_NAME === 'KEEPFRDS') {
-    TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''));
-  } else TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
+  TORRENT_INFO.screenshots = await extractImgsFromBBCode(descriptionBBCode);
 
   const tags = getTagsFromSubtitle(TORRENT_INFO.subtitle);
   const pageTags = getTagsFromPage();
@@ -220,13 +162,7 @@ const getMetaValue = (key:string, metaInfo:string) => {
   if (key.match(/大小/)) {
     regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
   }
-  if ((CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|SoulVoice|PuTao/)) && key.match(/类型/)) {
-    regStr = `(${key}):\\s?([^\\s]+)?`;
-  }
   if (CURRENT_SITE_NAME === 'TCCF' && key.match(/类型/)) {
-    regStr = `(${key}):(.+?)\\s{2,}`;
-  }
-  if (CURRENT_SITE_NAME === 'HDFans' && key.match(/来源/)) {
     regStr = `(${key}):(.+?)\\s{2,}`;
   }
   if (CURRENT_SITE_NAME === 'HDChina' && key.match(/类型/)) {

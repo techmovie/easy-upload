@@ -4,7 +4,7 @@ import { formatTorrentTitle } from '@/source/helper/index';
 import { CONFIG } from '@/source/config';
 import $ from 'jquery';
 
-class PuTapExtractor extends NexusPHPExtractor {
+class PuTaoExtractor extends NexusPHPExtractor {
   priority = 10;
 
   canHandle (siteName: string): boolean {
@@ -23,4 +23,4 @@ class PuTapExtractor extends NexusPHPExtractor {
   }
 }
 
-registry.register(new PuTapExtractor());
+registry.register(new PuTaoExtractor());
