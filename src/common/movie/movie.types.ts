@@ -82,16 +82,14 @@ export interface IMDBRatingResponse {
 interface DoubanPerson {
   name: string
 }
-interface Celebrity {
-  latin_name?: string
-  name: string
-  cover_url?: string
-  abstract?: string
-  url?: string
+
+export interface DoubanMobileCreditsResponse {
+  items: DoubanMobileCredit[]
 }
-export interface DoubanMobileCredits {
-  title: string
-  celebrities: Celebrity[]
+export interface DoubanMobileCredit {
+  name: string
+  category: string
+  latin_name?: string
 }
 
 export interface DoubanData {

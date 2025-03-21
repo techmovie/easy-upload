@@ -32,8 +32,8 @@ export const CONFIG = {
   VIDEO_TYPE_MATCH_MAP: {
     encode: ['encode', 'x264', 'x265', 'bdrip', 'hdrip', '压制'],
     remux: ['remux'],
-    uhdbluray: ['uhd', 'ultra'],
-    bluray: ['blu', 'discs'],
+    uhdbluray: ['uhd', 'ultra', 'UHD原盘'],
+    bluray: ['blu', 'discs', 'bluray原盘'],
     web: ['webdl'],
     hdtv: ['hdtv'],
     dvdrip: ['dvdr'],
@@ -51,8 +51,8 @@ export const CONFIG = {
   VIDEO_CATEGORY_MAP: {
     movie: /movie|电影/gi,
     variety: /综艺|variety/gi,
-    tv: /tv|drama|剧集|电视/,
-    tvPack: /TVSeries/gi,
+    tv: /tv|drama|剧集|电视|剧/,
+    tvPack: /TVSeries|剧包/gi,
     cartoon: /anim|动(画|漫)/gi,
     sport: /sport|体育/gi,
     concert: /mv|演唱|concert/gi,
@@ -62,7 +62,7 @@ export const CONFIG = {
     magazine: /杂志|magazine/gi,
     comics: /漫画|comics/gi,
     onlineCourse: /公开课/gi,
-    documentary: /纪录片|documentary/gi,
+    documentary: /纪录片|documentary|记录/gi,
   },
   RESOLUTION_MAP: {
     '4320p': /4320p|8k/i,

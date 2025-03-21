@@ -1,7 +1,15 @@
 import { registry } from './registry';
 import { NexusPHPExtractor } from './base/nexusphp-base';
-import { formatTorrentTitle, getFilterBBCode } from '@/source/helper/index';
-import { GMFetch } from '@/common';
+import {
+  formatTorrentTitle,
+  getFilterBBCode,
+  getCategoryFromSource,
+  getVideoTypeFromSource,
+  getVideoCodecFromSourceAndVideoType,
+  refineCategory,
+  getResolutionFromSource,
+} from '@/source/helper/index';
+import { GMFetch, getAreaCode, getAudioCodecFromSource, extractImgsFromBBCode } from '@/common';
 import $ from 'jquery';
 
 class TTGExtractor extends NexusPHPExtractor {
@@ -13,17 +21,21 @@ class TTGExtractor extends NexusPHPExtractor {
   }
 
   extractTitle () {
-    this.headTitle = $('#main_table h1').eq(0).text();
-    const title = formatTorrentTitle(this.headTitle.match(/[^[]+/)?.[0] ?? '');
-    this.info.title = title;
+    const title = $('#main_table h1').eq(0).text();
+    this.headTitle = title.replace(/^「.+?」/g, '');
+    this.info.title = formatTorrentTitle(this.headTitle.match(/[^[]+/)?.[0] ?? '');
   }
 
   extractSubtitle () {
-    this.info.subtitle = this.headTitle.replace(this.info.title, '').replace(/\[|\]/g, '');
+    this.info.subtitle = this.headTitle?.replace(this.info.title, '')?.replace(/\[|\]/g, '')?.trim() ?? '';
   }
 
   extractImdbUrl () {
-    this.info.imdbUrl = $('#main_table td.heading:contains(IMDb)').next().find('a').attr('href') || '';
+    const imdbUrl = this.getHeadingTdDomsByKey('IMDb').find('a').attr('href');
+    if (!imdbUrl) {
+      this.info.imdbUrl = this.info.description.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)?.[0] ?? '';
+    }
+    this.info.imdbUrl = imdbUrl;
   }
 
   protected extractDoubanUrl (): void {
@@ -39,10 +51,7 @@ class TTGExtractor extends NexusPHPExtractor {
     if (discountMatch) {
       description = description.replace(discountMatch, '');
     }
-    const noneSenseNumberMatch = description.match(/@\d+?\(\d+?\)/)?.[0] ?? '';
-    if (noneSenseNumberMatch) {
-      description = description.replace(noneSenseNumberMatch, '');
-    }
+    description = description.replace(/@\d+(\(\d+\))?/g, ''); // @3545(1920)@468@152
     if (this.info.title.match(/-WiKi$/)) {
       const doubanPart = description.match(/◎译\s+名(.|\n)+/)?.[0] ?? '';
       description = description.replace(doubanPart, '');
@@ -52,16 +61,38 @@ class TTGExtractor extends NexusPHPExtractor {
   }
 
   extractMetaInfo () {
-
+    const { description, title } = this.info;
+    const mediaTecInfo = this.getHeadingTdDomsByKey('类型').text();
+    this.info.area = getAreaCode(mediaTecInfo);
+    const category = getCategoryFromSource(mediaTecInfo + description);
+    this.info.category = refineCategory(this.info, category);
+    this.info.videoType = getVideoTypeFromSource(mediaTecInfo + title);
+    const audioCodec = getAudioCodecFromSource(title);
+    if (description.match(/VIDEO(\.| )*CODEC/i)) {
+      const matchCodec = description.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)?.[2];
+      if (matchCodec) {
+        this.info.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
+      } else {
+        this.info.videoCodec = getVideoCodecFromSourceAndVideoType(title, this.info.videoType);
+      }
+    }
+    // 从简略mediainfo中获取audioCodec
+    if (description.match(/AUDIO\s*CODEC/i)) {
+      const matchCodec = description.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)?.[1];
+      if (matchCodec) {
+        this.info.audioCodec = getAudioCodecFromSource(matchCodec);
+      }
+    }
+    this.info.audioCodec = audioCodec;
+    this.info.resolution = getResolutionFromSource(title);
   }
 
   enhanceInfo () {
-    const sizeMatch = $('#main_table td.heading:contains(尺寸)')
-      .next().text().match(/\(((\d|,)+)\s*字节\)/i)?.[1] ?? '';
+    const sizeMatch = this.getHeadingTdDomsByKey('尺寸').text().match(/\(((\d|,)+)\s*字节\)/i)?.[1] ?? ''; // 46.20 GB (49,602,062,686 字节)
     this.info.size = parseInt(sizeMatch.replace(/,/g, ''), 10);
   }
 
-  protected extractComparisonsScreenshots (): void {
+  extractComparisonsScreenshots () {
     const comparisonPart = this.info.description.match(/\.Comparisons(.|\n)+\[\/img\]\[\/url\]/)?.[0];
     if (!comparisonPart) {
       return;
@@ -85,6 +116,20 @@ class TTGExtractor extends NexusPHPExtractor {
       reason: '',
     }];
   }
+
+  async extractScreenshots () {
+    const { description } = this.info;
+    if (description.match(/More\.Screens/i)) { // 官组截图
+      const moreScreen = description.match(/\.More\.Screens.*?\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)?.[1] ?? '';
+      this.info.screenshots = await extractImgsFromBBCode(moreScreen);
+      return;
+    }
+    this.info.screenshots = await extractImgsFromBBCode(description);
+  }
+
+  private getHeadingTdDomsByKey (key:string) {
+    return $(`#main_table td.heading:contains(${key})`).next();
+  };
 }
 
 registry.register(new TTGExtractor());

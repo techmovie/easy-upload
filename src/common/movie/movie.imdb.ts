@@ -36,9 +36,7 @@ export const getIMDBRating = async (imdbId:string): Promise<IMDBRating> => {
     throw new Error('No IMDB ID provided');
   }
   const url = CONFIG.URLS.IMDB_RATING_API(imdbId);
-  const data = await GMFetch<string>(url, {
-    responseType: 'json',
-  });
+  const data = await GMFetch<string>(url);
   const matchData = data?.match(/[^(]+\((.+)\)/)?.[1] ?? '';
   if (!matchData) {
     throw new Error('No rating data found');

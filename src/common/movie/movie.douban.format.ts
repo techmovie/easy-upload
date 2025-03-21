@@ -9,7 +9,8 @@ import { CONFIG } from './movie.config';
 import {
   DoubanMobileData,
   IMDBRating,
-  DoubanMobileCredits,
+  DoubanMobileCreditsResponse,
+  DoubanMobileCredit,
   FormattedMovieData,
   FormatRule,
 } from './movie.types';
@@ -119,8 +120,8 @@ export class DoubanFormatter {
         this.fetchIMDbData(),
       ]);
       return { awards, credits, info, imdbData };
-    } catch {
-      throw new Error(`Failed to fetch data for Douban ID: ${this.doubanId}`);
+    } catch (e) {
+      throw new Error(`Failed to fetch data for Douban ID: ${this.doubanId} ${(e as Error).message}`);
     }
   }
 
@@ -155,8 +156,8 @@ export class DoubanFormatter {
     };
   }
 
-  private updateCredits (credits: DoubanMobileCredits[]) {
-    if (!credits || credits.length === 0) {
+  private updateCredits (credits: DoubanMobileCreditsResponse) {
+    if (!credits || !credits.items || credits.items.length === 0) {
       return '';
     }
     const indentationMap: Record<number, number> = {
@@ -165,17 +166,23 @@ export class DoubanFormatter {
       4: 0,
       5: 0,
     };
-    const creditsData = credits.map((credit) => {
-      const celebrity = credit.celebrities.map((item) => {
+    const result: Record<string, DoubanMobileCredit[]> = { };
+    for (const item of credits.items) {
+      if (!result[item.category]) {
+        result[item.category] = [];
+      }
+      result[item.category].push(item);
+    }
+    const creditsData = [];
+    for (const [category, items] of Object.entries(result)) {
+      const celebrity = items.map((item) => {
         return `${item.name}  ${item.latin_name ?? ''}`;
       });
-      const titleLength = credit.title.length;
-      const indentation = indentationMap[titleLength as keyof typeof indentationMap] || 0;
-      const celebrityKey = credit.title.split('').join(NBSP.repeat(indentation));
+      const indentation = indentationMap[category.length as keyof typeof indentationMap] || 0;
+      const celebrityKey = category.split('').join(NBSP.repeat(indentation));
       const celebrityValue = celebrity.join(`\n${NBSP.repeat(CREDIT_INDENTATION)}`).trim();
-
-      return `◎${celebrityKey}${NBSP.repeat(7)}${celebrityValue}`;
-    });
+      creditsData.push(`◎${celebrityKey}${NBSP.repeat(7)}${celebrityValue}`);
+    }
     return creditsData.join('\n');
   }
 

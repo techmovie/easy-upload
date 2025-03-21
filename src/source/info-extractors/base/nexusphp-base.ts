@@ -31,26 +31,28 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
 
   async extract (): Promise<TorrentInfo.Info> {
     this.extractTitle();
+    this.extractSubtitle();
     this.extractYear();
     this.extractDoubanInfo();
-    this.extractDescription();
-    const result: void | Promise<void> = this.extractDescription();
-    if (result instanceof Promise) {
-      await result;
+    const descriptionResult: void | Promise<void> = this.extractDescription();
+    if (descriptionResult instanceof Promise) {
+      await descriptionResult;
     }
-    this.extractImdbUrl();
     this.extractDoubanUrl();
+    this.extractImdbUrl();
     await this.extractScreenshots();
-    this.extractSubtitle();
     this.extractSource();
 
-    this.extractMediaDetails();
     this.extractMetaInfo();
+
     this.extractMediaInfos();
+    this.extractMediaDetails();
+
     this.extractMovieNames();
     this.extractTags();
     this.determineIfIsForbidden();
     this.extractComparisonsScreenshots();
+    this.extractArea();
     this.enhanceInfo();
 
     return this.info;
@@ -166,8 +168,7 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.info.category = refineCategory(this.info, initialCategory);
     this.info.size = convertSizeStringToBytes(result.size);
     this.info.videoType = getVideoTypeFromSource(result.videoType || this.info.title);
-    const areaMatch = this.info.description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
-    this.info.area = getAreaCode(result.area || areaMatch);
+    this.info.area = getAreaCode(result.area);
     if (!this.info.videoCodec) {
       this.info.videoCodec = getVideoCodecFromSourceAndVideoType(this.info.title || result.videoCodec, this.info.videoType);
     }
@@ -188,6 +189,14 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     const combinedContent = title + subtitle + description;
     const isForbidden = CONFIG.NEXUS_FORBIDDEN_KEYWORDS.some((keyword) => combinedContent.includes(keyword));
     this.info.isForbidden = isForbidden;
+  }
+
+  protected extractArea () {
+    const { area, description } = this.info;
+    if (!area) {
+      const areaMatch = description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
+      this.info.area = getAreaCode(areaMatch);
+    }
   }
 
   protected extractDoubanInfo () {

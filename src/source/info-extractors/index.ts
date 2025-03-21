@@ -14,6 +14,7 @@ import './hdhome';
 import './hdfans';
 import './shared-nexusphp-sites';
 import './ttg';
+import './hanhan';
 
 export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {

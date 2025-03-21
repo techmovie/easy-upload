@@ -55,20 +55,23 @@ describe('DoubanFormatter', () => {
   it('should format the douban data correctly', async () => {
     vi.mocked(getMobileDoubanInfo).mockResolvedValue(mockDoubanData);
     vi.mocked(getDoubanAwards).mockResolvedValue('第69届意大利大卫奖  (2024)\n青年大卫奖 宝拉·柯特莱西');
-    vi.mocked(getDoubanCreditsData).mockResolvedValue([
-      {
-        title: '导演',
-        celebrities: [{ name: '导演' }],
-      },
-      {
-        title: '演员',
-        celebrities: [{ name: '演员', latin_name: 'actor' }],
-      },
-      {
-        title: '编剧编剧编剧',
-        celebrities: [{ name: '编剧' }],
-      },
-    ]);
+    vi.mocked(getDoubanCreditsData).mockResolvedValue({
+      items: [
+        {
+          name: '导演1',
+          category: '导演',
+        },
+        {
+          category: '演员',
+          name: '演员1',
+          latin_name: 'actor1',
+        },
+        {
+          name: '编剧1',
+          category: '编剧',
+        },
+      ],
+    });
     vi.mocked(getIMDbIDFromDouban).mockResolvedValue('tt123456');
     vi.mocked(getIMDBRating).mockResolvedValue({
       rating: 8.5,
@@ -86,9 +89,9 @@ describe('DoubanFormatter', () => {
     expect(result).toContain(`语${NBSPRepeatSevenTimes}言${NBSPRepeatSevenTimes}汉语普通话`);
     expect(result).toContain(`上映日期${NBSPRepeatSevenTimes}2022-01-01 / 2022-01-02`);
     expect(result).toContain(`片${NBSPRepeatSevenTimes}长${NBSPRepeatSevenTimes}100分钟`);
-    expect(result).toContain(`导${NBSPRepeatSevenTimes}演${NBSPRepeatSevenTimes}导演`);
-    expect(result).toContain(`演${NBSPRepeatSevenTimes}员${NBSPRepeatSevenTimes}演员  actor`);
-    expect(result).toContain(`编剧编剧编剧${NBSPRepeatSevenTimes}编剧`);
+    expect(result).toContain(`导${NBSPRepeatSevenTimes}演${NBSPRepeatSevenTimes}导演1`);
+    expect(result).toContain(`演${NBSPRepeatSevenTimes}员${NBSPRepeatSevenTimes}演员1  actor1`);
+    expect(result).toContain(`编${NBSPRepeatSevenTimes}剧${NBSPRepeatSevenTimes}编剧1`);
     expect(result).toContain(`简${NBSPRepeatSevenTimes}介${NBSPRepeatSevenTimes}\n\n  简介`);
     expect(result).toContain(`集${NBSPRepeatSevenTimes}数${NBSPRepeatSevenTimes}1`);
     expect(result).toContain(`标${NBSPRepeatSevenTimes}签${NBSPRepeatSevenTimes}tag1 | tag2`);
@@ -122,7 +125,7 @@ describe('DoubanFormatter', () => {
 
   it('should not throw error if credits data is empty', async () => {
     vi.mocked(getMobileDoubanInfo).mockResolvedValue(mockDoubanData);
-    vi.mocked(getDoubanCreditsData).mockResolvedValue([]);
+    vi.mocked(getDoubanCreditsData).mockResolvedValue({ items: [] });
     const result = await converter.format();
     expect(result).not.toContain('导演');
     expect(result).not.toContain('演员');

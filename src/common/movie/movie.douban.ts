@@ -3,10 +3,11 @@ import { CONFIG } from './movie.config';
 import {
   DoubanMobileData,
   DoubanBasicData,
-  DoubanMobileCredits,
+  DoubanMobileCreditsResponse,
   DoubanBookData,
 } from './movie.types';
 import { getIdByIMDbUrl } from './movie.imdb';
+import { DoubanFormatter } from './movie.douban.format';
 
 /**
  * Get Douban Awards by Douban ID
@@ -114,11 +115,14 @@ export const getDoubanBasicDataByQuery = async (
  * @async
  * @param {string} url
  * @param {('tv' | 'movie')} type
- * @returns {Promise<DoubanMobileCredits[]>}
+ * @returns {Promise<DoubanMobileCreditsResponse>}
  */
 export const getDoubanCreditsData = async (id: string, type: 'tv' | 'movie') => {
-  const url = `${CONFIG.URLS.DOUBAN_MOBILE_API}/${type}/${id}/credits`;
-  const data = await GMFetch<DoubanMobileCredits[]>(url, {
+  const url = `${CONFIG.URLS.DOUBAN_MOBILE_API}/${type}/${id}/credits?for_mobile=1&ck=`;
+  const data = await GMFetch<DoubanMobileCreditsResponse>(url, {
+    headers: {
+      Referer: `https://m.douban.com/${type}/subject/${id}`,
+    },
     responseType: 'json',
   });
   return data;
@@ -137,4 +141,13 @@ export const getDoubanBookInfo = async (doubanUrl: string) => {
     responseType: 'json',
   });
   return data;
+};
+
+export const getDoubanInfoByIdOrDoubanUrl = async (query: string, type: 'movie'| 'tv' = 'movie', imdbId?:string) => {
+  let doubanId = query;
+  if (!/^d/.test(query)) {
+    doubanId = query?.match(/douban\.com\/subject\/(\d+)/)?.[1] ?? '';
+  }
+  const parser = new DoubanFormatter(doubanId, type, imdbId);
+  return await parser.format();
 };
