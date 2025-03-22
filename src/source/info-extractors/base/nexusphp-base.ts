@@ -84,10 +84,6 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.info.description = bbCode.replace(/\u00A0\u3000/g, ' ');
   }
 
-  protected extractYear () {
-    this.info.year = this.info.title?.match(/(18|19|20)\d{2}/g)?.[0] ?? '';
-  }
-
   protected extractMediaInfos () {
     const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(this.info.description);
     this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
@@ -189,14 +185,6 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     const combinedContent = title + subtitle + description;
     const isForbidden = CONFIG.NEXUS_FORBIDDEN_KEYWORDS.some((keyword) => combinedContent.includes(keyword));
     this.info.isForbidden = isForbidden;
-  }
-
-  protected extractArea () {
-    const { area, description } = this.info;
-    if (!area) {
-      const areaMatch = description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
-      this.info.area = getAreaCode(areaMatch);
-    }
   }
 
   protected extractDoubanInfo () {

@@ -9,7 +9,12 @@ import {
   refineCategory,
   getResolutionFromSource,
 } from '@/source/helper/index';
-import { GMFetch, getAreaCode, getAudioCodecFromSource, extractImgsFromBBCode } from '@/common';
+import {
+  GMFetch,
+  getAreaCode,
+  getAudioCodecFromSource,
+  extractImgsFromBBCode,
+} from '@/common';
 import $ from 'jquery';
 
 class TTGExtractor extends NexusPHPExtractor {
@@ -67,20 +72,18 @@ class TTGExtractor extends NexusPHPExtractor {
     const category = getCategoryFromSource(mediaTecInfo + description);
     this.info.category = refineCategory(this.info, category);
     this.info.videoType = getVideoTypeFromSource(mediaTecInfo + title);
-    const audioCodec = getAudioCodecFromSource(title);
+    let audioCodec = getAudioCodecFromSource(title);
     if (description.match(/VIDEO(\.| )*CODEC/i)) {
       const matchCodec = description.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)?.[2];
-      if (matchCodec) {
-        this.info.videoCodec = matchCodec.replace(/\.|-/g, '').toLowerCase();
-      } else {
-        this.info.videoCodec = getVideoCodecFromSourceAndVideoType(title, this.info.videoType);
-      }
+      this.info.videoCodec = matchCodec
+        ? matchCodec.replace(/\.|-/g, '').toLowerCase()
+        : getVideoCodecFromSourceAndVideoType(title, this.info.videoType);
     }
     // 从简略mediainfo中获取audioCodec
     if (description.match(/AUDIO\s*CODEC/i)) {
       const matchCodec = description.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)?.[1];
       if (matchCodec) {
-        this.info.audioCodec = getAudioCodecFromSource(matchCodec);
+        audioCodec = getAudioCodecFromSource(matchCodec);
       }
     }
     this.info.audioCodec = audioCodec;
