@@ -1,6 +1,5 @@
 import {
   convertSizeStringToBytes,
-  parseMedia,
   extractImgsFromBBCode,
   getAudioCodecFromSource,
   getAreaCode,
@@ -12,8 +11,6 @@ import {
   getVideoTypeFromSource,
   getVideoSourceFromTitle,
   getBDInfoOrMediaInfoFromBBCode,
-  extractDetailsFromMediaInfo,
-  getMediaTags,
   getTagsFromSource,
   getResolutionFromSource,
   getVideoCodecFromSourceAndVideoType,
@@ -89,24 +86,6 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
   }
 
-  protected extractMediaDetails () {
-    if (!this.info.mediaInfos?.[0]) {
-      return;
-    }
-    const mediaInfo = parseMedia(this.info.mediaInfos?.[0], this.isVideoTypeBluray());
-    if (!mediaInfo) {
-      return;
-    }
-    const mediaDetail = extractDetailsFromMediaInfo(mediaInfo);
-    if (!mediaDetail) {
-      return;
-    }
-    this.info.videoCodec = mediaDetail.videoCodec;
-    this.info.audioCodec = mediaDetail.audioCodec;
-    this.info.resolution = mediaDetail.resolution;
-    this.info.tags = getMediaTags(mediaDetail);
-  }
-
   protected async extractScreenshots () {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;
@@ -174,10 +153,6 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     if (!this.info.resolution) {
       this.info.resolution = getResolutionFromSource(result.resolution || this.info.title);
     }
-  }
-
-  protected isVideoTypeBluray () {
-    return /bluray/i.test(this.info.videoType);
   }
 
   protected determineIfIsForbidden () {

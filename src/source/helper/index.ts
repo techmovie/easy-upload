@@ -302,3 +302,7 @@ export const getCategoryFromSource = (source:string) => {
   }
   return '';
 };
+
+export const replaceRegSymbols = (string:string) => {
+  return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
+};

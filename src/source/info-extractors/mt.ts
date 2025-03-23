@@ -123,7 +123,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
       Did: dId,
       Visitorid: visitorId,
       ts,
-      version: CONFIG.MT_REQUEST_VERSION,
+      version,
       webVersion,
     };
   }

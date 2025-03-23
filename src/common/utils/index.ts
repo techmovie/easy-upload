@@ -45,7 +45,7 @@ export const convertSizeStringToBytes = (size: string) => {
   } else if (size.match(/K/i)) {
     return (sizeFloat * 1024);
   }
-  return 0;
+  return sizeFloat;
 };
 
 /**

@@ -14,7 +14,3 @@ export const getSubTitle = (data: Douban.DoubanData) => {
   const hardcodedSub = TORRENT_INFO.hardcodedSub ? '| 硬字幕' : '';
   return `${title}${moreTitle.length > 0 ? '/' : ''}${moreTitle.join('/')}${episode} ${hardcodedSub}`;
 };
-
-export const replaceRegSymbols = (string:string) => {
-  return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
-};

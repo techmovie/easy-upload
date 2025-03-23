@@ -1,5 +1,6 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
-import { getAreaCode } from '@/common';
+import { getAreaCode, parseMedia } from '@/common';
+import { extractDetailsFromMediaInfo, getMediaTags } from '@/source/helper/index';
 
 export abstract class BaseExtractor {
   protected info: TorrentInfo.Info;
@@ -43,5 +44,31 @@ export abstract class BaseExtractor {
       const areaMatch = description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
       this.info.area = getAreaCode(areaMatch);
     }
+  }
+
+  protected extractMediaDetails () {
+    const { mediaInfos, tags } = this.info;
+    if (!mediaInfos?.[0]) {
+      return;
+    }
+    const mediaInfo = parseMedia(mediaInfos?.[0], this.isVideoTypeBluray());
+    if (!mediaInfo) {
+      return;
+    }
+    const mediaDetail = extractDetailsFromMediaInfo(mediaInfo);
+    if (!mediaDetail) {
+      return;
+    }
+    this.info.videoCodec = mediaDetail.videoCodec;
+    this.info.audioCodec = mediaDetail.audioCodec;
+    this.info.resolution = mediaDetail.resolution;
+    this.info.tags = {
+      ...tags,
+      ...getMediaTags(mediaDetail),
+    };
+  }
+
+  protected isVideoTypeBluray () {
+    return /bluray/i.test(this.info.videoType);
   }
 }

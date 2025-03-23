@@ -13,39 +13,10 @@ search:
     searchstr: '{imdb}'
 sourceInfo:
   editionTags:
-    10-bit: 10_bit
-    2-Disc Set: 2_disc_set
-    2D/3D Edition: 2d_3d_edition
-    2in1: 2_in_1
-    3D: 3d
-    3D Anaglyph: 3d_anaglyph
-    3D Full SBS: 3d_full_sbs
-    3D Half OU: 3d_half_ou
-    3D Half SBS: 3d_half_sbs
-    4K Remaster: 4k_remaster
-    4K Restoration: 4k_restoration
-    "Director's Cut": director_s_cut
-    Dolby Atmos: dolby_atmos
-    Dolby Vision: dolby_vision
-    Dual Audio: dual_audio
-    English Dub: english_dub
-    Extended Cut: extended_edition
-    Extended Edition: extended_edition
-    Extras: extras
     HDR10: hdr10
     HDR10+: hdr10_plus
-    Masters of Cinema: masters_of_cinema
-    Scene: scene
-    The Criterion Collection: the_criterion_collection
-    Theatrical Cut: theatrical_cut
-    Trumpable: null
-    Two-Disc Set: two_disc_set
-    Remux: remux
-    Rifftrax: rifftrax
-    Uncut: uncut
-    Unrated: unrated
-    Warner Archive Collection: warner_archive_collection
-    With Commentary: with_commentary
+    Dolby Atmos: dolby_atmos
+    Dolby Vision: dolby_vision
 description:
   selector: '#release_desc'
 poster: '#image'

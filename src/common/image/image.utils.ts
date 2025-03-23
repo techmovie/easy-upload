@@ -73,12 +73,12 @@ export class ImageBoxStrategy implements UrlTransformStrategy {
     if (!imgUrl) {
       throw new Error('Invalid ImageBox image BBCode');
     }
-    if (!imgUrl.match(/thumbs\d.+?_t\.png/)) {
+    if (!imgUrl.match(/thumbs\d.+?_t\.(png|jpg)/)) {
       throw new Error('Invalid ImageBox image URL');
     }
     return imgUrl
       .replace(/thumbs(\d)/, 'images$1')
-      .replace(/_t(\.png)/, '_o.png');
+      .replace(/_t(\.(png|jpg))/, '_o.$2');
   }
 }
 
