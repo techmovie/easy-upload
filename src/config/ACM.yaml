@@ -1,6 +1,6 @@
-url: 'https://asiancinema.me'
-host: asiancinema.me
-siteType: UNIT3D
+url: https://eiga.moi
+host: eiga.moi
+siteType: UNIT3D-Legacy
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBjskFFwRbgAAA11JREFUOMvNlM1vlGUUxc+5zzPvfLT2y5a0BqglgAFCcaGIYaEhAYIaTYgxLo1x5wL+BBf+Ay6NceOChYnGjVVj4wchkAhE1AKKWqopTBinZdrpFGbe97nHBSaSqNENiWd3N79zF/f+gP97ePdwfXwbIJFkXxbsfjfVEjwJvmZ5q1luLffyPmBs6T8AFzbuAIASyAmS0wHaJWhURCHghqA5gHNmpYbkPrkw97fACACXJ3aitdhEdXJ8E8nnSDxF6SFBQ3dquQrgssC3Bc6C1vynDePM1iNYT034g/0bPOCAES9JPgUgI5AgQOQoiL2QfqUw7yE254c3czlU9ciBd/Du6eN4YfHMHWD0hOpwjqXO0DSgpwHfSiGn/JRJ35kxJto0iZql4mSlu3alUe6rLo1MjnW7nfrVmx/kM3/AAIDvbX8GvWT9g5X8FUDH5BqN8FPB/UT0dI7GsoDtJMo91+lWebAWgX3mvsGNdYgnvZ1dZTmlo1feR7ydVSBxdDVkmwENy3wpwD8xaNal+q3lFRN4KY/lEIdHNlWYDko6IFOfyKrLrBgMq0RoAEDslPtJoObw+wAESCuSfoCrDRKLGyd94PZKjhCrA0EPJ/k4oWsulZ22X+CTIH+cWm81Xtv/KuJyrAlAj1ACZAAoB+QAjagwoVMbKhm0pfCiL5IysC7P52Vhj2h7BZ7/cqT/bMmxHtusAMItRbZA3JY4koTdAr+FuNauj7B/fHXCSulFSlsMyA06E3udz0tCIw+VZ53Wy5NXE7EeO8wQPLW6sXJN4E0BEw4eKmCNLuM3Ycr7k6r7otJhQg+AnId0pp63ry38ki8e3DnYJJQ7ilsSERvVGrbYSGfZV644eNHBDQIedVpw8KccqOWwPVRpkoRTWofUTpXx8HXnUj7anTj36dnX/zzszB2XrQdaeQ4WPxQ4lqRdIB4H8BggAiShLsGvDJhh8gtZeaD0/L4nihgy3f0p4cLCF5jaeBTd+sCaD/pvhcW1PGZDuWW1gjEWFnu5xUYRsvOJ8YRkH2We/wzFHmESEi4tzPxVDoeOvAmTYqKNJXK303YDnAAEya8bcN7A760ITZnS7Mcv/7u+dhx+Cy4hkOWBEMfMbFAk5Hl7NbXrF7cdy+PF40ifvXHvhHrP8zvmB8JDHarovgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0xMFQwNjo1OTozNiswMDowMLWCrh8AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMTBUMDY6NTk6MzYrMDA6MDDE3xajAAAAAElFTkSuQmCC
 asSource: true
 asTarget: true
@@ -11,16 +11,16 @@ torrentDownloadLinkSelector: 'a[href*="/torrents/download/"]'
 search:
   path: /torrents
   params:
-    name: '{name}'
-    imdb: '{imdb}'
+    name: "{name}"
+    imdb: "{imdb}"
 name:
-  selector: '#title'
+  selector: "#title"
 description:
-  selector: '#upload-form-description'
+  selector: "#upload-form-description"
 imdb:
-  selector: '#autoimdb'
+  selector: "#autoimdb"
 tmdb:
-  selector: '#autotmdb'
+  selector: "#autotmdb"
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 anonymous:
@@ -28,65 +28,65 @@ anonymous:
 torrent:
   selector: 'input[name="file"]'
 videoType:
-  selector: '#autocat'
+  selector: "#autocat"
   map:
-    movie: '1'
-    tv: '2'
-    tvPack: '2'
+    movie: "1"
+    tv: "2"
+    tvPack: "2"
 category:
-  selector: '#autotype'
+  selector: "#autotype"
   map:
-    BD100: '1'
-    BD66: '2'
-    UHD50: '3'
-    BD50: '4'
-    BD25: '5'
+    BD100: "1"
+    BD66: "2"
+    UHD50: "3"
+    BD50: "4"
+    BD25: "5"
     remux:
-      - '12'
-      - '7'
+      - "12"
+      - "7"
     encode:
-      - '8'
-      - '10'
-      - '11'
-      - '13'
-    web: '9'
-    hdtv: '17'
+      - "8"
+      - "10"
+      - "11"
+      - "13"
+    web: "9"
+    hdtv: "17"
     dvd:
-      - '14'
-      - '16'
-    dvdrip: '13'
-    other: ''
+      - "14"
+      - "16"
+    dvdrip: "13"
+    other: ""
 resolution:
-  selector: '#autores'
+  selector: "#autores"
   map:
     2160p:
-      - '1'
-      - '1'
-      - '2'
-      - '3'
-      - '12'
-      - '8'
+      - "1"
+      - "1"
+      - "2"
+      - "3"
+      - "12"
+      - "8"
     1080p:
-      - '2'
-      - '4'
-      - '5'
-      - '7'
-      - '10'
+      - "2"
+      - "4"
+      - "5"
+      - "7"
+      - "10"
     1080i:
-      - '2'
-      - '4'
-      - '5'
-      - '7'
-      - '10'
+      - "2"
+      - "4"
+      - "5"
+      - "7"
+      - "10"
     720p:
-      - '3'
-      - '11'
+      - "3"
+      - "11"
     576p:
-      - '4'
-      - '13'
+      - "4"
+      - "13"
     480p:
-      - '5'
-      - '14'
-      - '16'
-      - '13'
-    other: ''
+      - "5"
+      - "14"
+      - "16"
+      - "13"
+    other: ""

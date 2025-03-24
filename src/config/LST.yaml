@@ -4,27 +4,27 @@ siteType: UNIT3D
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABXFBMVEUAAAAAAAEAAQABAAABAQAAAAAAAAEBAAEAAAAAAQAAAQABAAAAAAEAAAAAAQAAAAABAAAAAAAAAAABAQALCgoKCgoBAADQ0dC2treTkpMoKSmBgICAgIABAACTk5MAAACTkpIBAQEAAAEBAQEAAAEAAQABAAAAAQABAAABAAEAAQABAAAAAAEBAAEBAAEBAAAAAAABAQEAAQAAAAEBAQAEBAQhICAREREAAQH8/PwoKCk+Pz/q6ur//v/9/P13d3d2dnbz8vLz8/Pz8/I3NzexsbH+//5gYWBVVVVISEgyMjJoaGny8/Pg4OBoaWn///5/fn7////p6eiQkZEUFBTp6enJyMg3NjdQUVCys7L8/fzGx8bJyciEhYRgYGE0NDVra2ppaGlHR0bo6Ojs7e37+vr9/Pz9/f2NjY14eXn8/P309PRnZmfV1dXIycgNDQ0gICEHBwcDAgMCAgOj429fAAAALnRSTlMAAAAAADCX2fn52ZcJmv7+CQnCmjD+MJiX2dn5+fnZ2ZeXMP6aCcKa/pqX2fmXK9ig8QAAAAFiS0dEUZRpfCoAAAAHdElNRQfnChsDMwGLF6JaAAAA90lEQVQY0xWOZ1PDMBiD3yQEWiBNE/YsZc9Y2AbMCIXSsqEUCLPsvdf/v8PRJ+k53UlEZJBdXZNI1tbZJsUy6p1UwIBJuE46Bp7POVjAIQDf06AhCCAk4syZY1Bjk7ZianoGUgmZaqaW2Tnw+YVwMbe0nF/Jt1JbWBCiuLq2vrG5tb2z204dpYJke+X9g0MgOmJJ6iwdM6ZOTs/OJaIK66Lu8sXl1fXN7d09gqjCM9Tz8Pj0/PIavr1DfXwiS72unhdf3z+A/P3rs/UxgIGr+Bh4v0XWgK+gNIrxYLqKTMsbciG4ZGp4xCPdIDLt0bHEeGbCtkwy/wE9US4qeYwieAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0xMC0yN1QwMzo1MTowMSswMDowMPxuOEAAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMTAtMjdUMDM6NTE6MDErMDA6MDCNM4D8AAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIzLTEwLTI3VDAzOjUxOjAxKzAwOjAw2iahIwAAAABJRU5ErkJggg==
 asSource: true
 asTarget: true
-uploadPath: /upload/1
+uploadPath: /torrents/create?category_id=1
 needDoubanInfo: true
-seedDomSelector: '#meta-info+.meta-general>.panel:first'
+seedDomSelector: "#meta-info+.meta-general>.panel:first"
 torrentDownloadLinkSelector: 'a[href*="/download/torrent/"]'
 search:
   path: /torrents
-  replaceKey: ['tt', '']
+  replaceKey: ["tt", ""]
   params:
-    name: '{name}'
-    imdbId: '{imdb}'
+    name: "{name}"
+    imdbId: "{imdb}"
     sortField: size
 name:
-  selector: '#title'
+  selector: "#title"
 description:
-  selector: '#bbcode-description'
+  selector: "#bbcode-description"
 imdb:
-  selector: '#autoimdb'
+  selector: "#autoimdb"
 tmdb:
-  selector: '#autotmdb'
+  selector: "#autotmdb"
 mal:
-  selector: '#automal'
+  selector: "#automal"
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 anonymous:
@@ -32,30 +32,30 @@ anonymous:
 torrent:
   selector: 'input[name="file"]'
 category:
-  selector: '#browsecat'
+  selector: "#browsecat"
   map:
-    movie: '1'
-    tv: '2'
-    tvPack: '2'
+    movie: "1"
+    tv: "2"
+    tvPack: "2"
 videoType:
-  selector: '#autotype'
+  selector: "#autotype"
   map:
-    uhdbluray: '1'
-    bluray: '1'
-    remux: '2'
-    encode: '3'
-    web: '4'
-    hdtv: '6'
-    dvd: '1'
-    dvdrip: '3'
-    other: '7'
+    uhdbluray: "1"
+    bluray: "1"
+    remux: "2"
+    encode: "3"
+    web: "4"
+    hdtv: "6"
+    dvd: "1"
+    dvdrip: "3"
+    other: "7"
 resolution:
-  selector: '#autores'
+  selector: "#autores"
   map:
-    4320p: '1'
-    2160p: '2'
-    1080p: '3'
-    1080i: '4'
-    720p: '5'
-    576p: '6'
-    480p: '8'
+    4320p: "1"
+    2160p: "2"
+    1080p: "3"
+    1080i: "4"
+    720p: "5"
+    576p: "6"
+    480p: "8"

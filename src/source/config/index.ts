@@ -17,7 +17,7 @@ export const CONFIG = {
     '后果',
     '负责',
   ],
-  NEXUS_FORBIDDEN_KEYWORDS: [
+  FORBIDDEN_KEYWORDS: [
     '禁转', '禁轉', '严禁转载', '嚴禁轉載', '谢绝转载', '謝絕轉載', 'exclusive',
   ],
   META_INFO_MATCH_RULES: {
@@ -29,16 +29,42 @@ export const CONFIG = {
     area: /(处理|處理|地区|地區):\s?([^\u4e00-\u9fa5]+)?/i,
     size: /(大小|容量):\s?([^\u4e00-\u9fa5]+)?/i,
   },
-  VIDEO_TYPE_MATCH_MAP: {
-    encode: ['encode', 'x264', 'x265', 'bdrip', 'hdrip', '压制'],
-    remux: ['remux'],
-    uhdbluray: ['uhd', 'ultra', 'UHD原盘'],
-    bluray: ['blu', 'discs', 'bluray原盘'],
-    web: ['webdl'],
-    hdtv: ['hdtv'],
-    dvdrip: ['dvdr'],
-    dvd: ['dvd'],
-  },
+  VIDEO_TYPE_MATCH_MAP: (resolution?: string) => [
+    {
+      type: 'encode',
+      regex: /压制|encode|x264|x265|bdrip|hdrip/i,
+    },
+    {
+      type: 'remux',
+      regex: /remux/i,
+    },
+    {
+      type: 'uhdbluray',
+      regex: /uhd|ultra|UHD原盘|FullDisc/i,
+      condition: () => !resolution || /2160|4k/i.test(resolution),
+    },
+    {
+      type: 'bluray',
+      regex: /blu|discs|bluray原盘|FullDisc/i,
+      condition: () => !resolution || /1080/i.test(resolution),
+    },
+    {
+      type: 'web',
+      regex: /webdl/i,
+    },
+    {
+      type: 'hdtv',
+      regex: /hdtv/i,
+    },
+    {
+      type: 'dvdrip',
+      regex: /dvdr/i,
+    },
+    {
+      type: 'dvd',
+      regex: /dvd/i,
+    },
+  ],
   VIDEO_SOURCE_MATCH_MAP: {
     uhdbluray: /(uhd|2160|4k).*(blu(-)?ray|remux)/i,
     bluray: /(blu(-)?ray|remux)/i,
@@ -77,7 +103,7 @@ export const CONFIG = {
     {
       codec: 'x264',
       regex: /x264/i,
-      condition: /h264|avc/i.test(source) && videoType === 'encode',
+      condition: () => /h264|avc/i.test(source) && videoType === 'encode',
     },
     {
       codec: 'h264',
@@ -86,7 +112,7 @@ export const CONFIG = {
     {
       codec: 'x265',
       regex: /x265/i,
-      condition: /h265|hevc/i.test(source) && videoType === 'encode',
+      condition: () => /h265|hevc/i.test(source) && videoType === 'encode',
     },
     { codec: 'hevc', regex: /hevc|h265/i },
     { codec: 'vc1', regex: /vc-?1/i },
@@ -148,5 +174,12 @@ export const CONFIG = {
       5: '480p',
       6: '2160p',
     },
+  },
+  UNIT3D_BASIC_KEY_MAP: {
+    name: ['Name', '名称', '名稱'],
+    size: ['Size', '体积', '體積'],
+    category: ['Category', '类别', '類別'],
+    type: ['Type', '规格', '規格'],
+    resolution: ['Resolution'],
   },
 };

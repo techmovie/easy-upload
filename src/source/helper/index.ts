@@ -89,14 +89,14 @@ export const refineCategory = (
  * @param {string} source
  * @returns {*}
  */
-export const getVideoTypeFromSource = (source: string) => {
+export const getVideoTypeFromSource = (source: string, resolution?: string) => {
   if (!source) {
     return '';
   }
   const normalized = source.replace(/[.-]/g, '').toLowerCase();
-  for (const [key, type] of Object.entries(CONFIG.VIDEO_TYPE_MATCH_MAP)) {
-    if (type.some((t) => normalized.includes(t))) {
-      return key;
+  for (const { regex, type, condition } of CONFIG.VIDEO_TYPE_MATCH_MAP(resolution)) {
+    if (regex.test(normalized) && (!condition || condition())) {
+      return type;
     }
   }
   return '';
@@ -277,7 +277,7 @@ export const getVideoCodecFromSourceAndVideoType = (
 ) => {
   const formattedSource = source.replace(/\.|-/g, '');
   for (const { codec, regex, condition } of CONFIG.VIDEO_CODEC_RULES(formattedSource, videoType)) {
-    if (regex.test(formattedSource) && (!condition || condition)) {
+    if (regex.test(formattedSource) && (!condition || condition())) {
       return codec;
     }
   }
