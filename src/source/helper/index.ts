@@ -62,7 +62,7 @@ export const refineCategory = (
   const isAnimation = (genre: string) => /动画/.test(genre);
   const isDocumentary = (genre: string) => /纪录/.test(genre);
   const isSeasonPack = (title: string, subtitle: string) =>
-    /全.+?集/.test(subtitle) || /s0?\d{1,2}(?!e|\.)/i.test(title);
+    /全.+?集/.test(subtitle) || title?.match(/s\d+(\s|\.)+/i)?.length;
   const isEpisode = (title: string, subtitle: string) =>
     /(s0?\d{1,2})?e(p)?\d{1,2}/i.test(title) || /第[^\s]集/.test(subtitle);
 

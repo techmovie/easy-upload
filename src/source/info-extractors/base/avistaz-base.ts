@@ -1,6 +1,7 @@
 import {
   convertSizeStringToBytes,
   extractImgsFromBBCode,
+  getAreaCode,
 } from '@/common';
 import {
   formatTorrentTitle,
@@ -9,15 +10,13 @@ import {
   getVideoTypeFromSource,
   getVideoSourceFromTitle,
   getTagsFromSource,
-  getCategoryFromSource,
 } from '@/source/helper/index';
 import { InfoExtractor } from '../registry';
 import { BaseExtractor } from './base-extractor';
 import { CONFIG } from '@/source/config';
-import { BasicInfo } from '@/source/types/unit3d';
 import $ from 'jquery';
 
-export abstract class Unite3DExtractor
+export abstract class AvistaZExtractor
   extends BaseExtractor
   implements InfoExtractor {
   priority = 10;
@@ -26,8 +25,6 @@ export abstract class Unite3DExtractor
 
   async extract (): Promise<TorrentInfo.Info> {
     this.extractBasicInfo();
-    this.extractTitle();
-    this.extractYear();
     this.extractImdbUrl();
     this.extractSource();
     this.extractTags();
@@ -35,44 +32,38 @@ export abstract class Unite3DExtractor
     this.extractMediaDetails();
     this.extractDescription();
     await this.extractScreenshots();
-    this.extractMovieNames();
+    this.extractMovieNameAndYear();
     this.determineIfIsForbidden();
     this.extractComparisonsScreenshots();
     this.extractArea();
-    this.extractPoster();
     this.enhanceInfo();
 
     return this.info;
   }
 
   protected extractBasicInfo () {
-    const basicInfo: BasicInfo = {
+    const basicInfo = {
       category: '',
-      type: '',
+      videoType: '',
       size: '',
       resolution: '',
+      title: '',
     };
-    const formats = $('.torrent__tags li');
-    formats.each((_, item) => {
-      const className = $(item)
-        .attr('class')
-        ?.replace('torrent__', '') as keyof BasicInfo;
-      basicInfo[className] = $(item).text().trim();
+    $('#content-area .block:last table:first>tbody>tr').each((_, element) => {
+      const pageKey = $(element).find('td:first').text() as keyof typeof CONFIG.AVISTAZ_BASIC_KEY_MAP;
+      const value = $(element).find('td:last').text();
+      const infoKey = CONFIG.AVISTAZ_BASIC_KEY_MAP[pageKey] as keyof typeof basicInfo;
+      basicInfo[infoKey] = value.replace(/\n/g, '').trim();
     });
-    const category = getCategoryFromSource(basicInfo.category);
+    this.info.title = formatTorrentTitle(basicInfo.title);
+    const category = basicInfo.category?.toLowerCase().replace('-', '');
     this.info.category = refineCategory(this.info, category);
     this.info.size = convertSizeStringToBytes(basicInfo.size.replace(/\s/g, ''));
     this.info.resolution = basicInfo.resolution;
     this.info.videoType = getVideoTypeFromSource(
-      basicInfo.type,
+      basicInfo.videoType,
       this.info.resolution,
     );
-  }
-
-  protected extractTitle () {
-    const title = $('h1.torrent__name').text().trim();
-    const formattedTitle = formatTorrentTitle(title);
-    this.info.title = formattedTitle;
   }
 
   protected extractYear () {
@@ -81,22 +72,25 @@ export abstract class Unite3DExtractor
   }
 
   protected extractImdbUrl () {
-    this.info.imdbUrl = $('.meta__imdb a').attr('href');
+    this.info.imdbUrl = $('.badge-extra a[href*="www.imdb.com/title"]').attr('href')?.split('?')?.[1] ?? '';
   }
 
   protected extractMediaInfos () {
-    const mediaInfo = $('.bbcode-rendered code').text();
+    const mediaInfo = $('#collapseMediaInfo pre').text();
     this.info.mediaInfos = [mediaInfo];
   }
 
   protected extractDescription () {
-    const description = getFilterBBCode($('.panel__body.bbcode-rendered')[0]);
+    const descriptionBBCode = getFilterBBCode($('.torrent-desc')[0]);
     const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : '';
-    this.info.description = mediaInfoQuote + description;
+    this.info.description = mediaInfoQuote + descriptionBBCode;
   }
 
   protected async extractScreenshots () {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
+    const screenshotsBBCode = $('#collapseScreens a').map(function () {
+      return `[url=${$(this).attr('href')}][img]${$(this).find('img').attr('src')}[/img][/url]`;
+    }).get();
+    const screenshots = await extractImgsFromBBCode(screenshotsBBCode.join('\n'));
     this.info.screenshots = screenshots;
   }
 
@@ -111,9 +105,12 @@ export abstract class Unite3DExtractor
     };
   }
 
-  protected extractMovieNames () {
-    const title = $('.meta__title').text();
-    this.info.movieName = title.replace(/\(\d+\)/g, '').trim();
+  protected extractMovieNameAndYear () {
+    const movieTitle = $('.block-titled h3 a').text();
+    const movieName = movieTitle.split('(')[0].trim();
+    const year = movieTitle.match(/\((\d+)\)/)?.[1] ?? '';
+    this.info.movieName = movieName;
+    this.info.year = year;
   }
 
   protected determineIfIsForbidden () {
@@ -125,8 +122,10 @@ export abstract class Unite3DExtractor
     this.info.isForbidden = isForbidden;
   }
 
-  protected extractPoster () {
-    this.info.poster = $('.meta__poster-link img').attr('src');
+  protected extractArea () {
+    const country = $('.fa-flag~.badge-extra:first a').text();
+    const area = getAreaCode(country);
+    this.info.area = area;
   }
 
   protected enhanceInfo () {}

@@ -40,12 +40,12 @@ export const CONFIG = {
     },
     {
       type: 'uhdbluray',
-      regex: /uhd|ultra|UHD原盘|FullDisc/i,
+      regex: /uhd|ultra|UHD原盘|FullDisc|(BluRay\s*Raw)/i,
       condition: () => !resolution || /2160|4k/i.test(resolution),
     },
     {
       type: 'bluray',
-      regex: /blu|discs|bluray原盘|FullDisc/i,
+      regex: /blu|discs|bluray原盘|FullDisc|(BluRay\s*Raw)/i,
       condition: () => !resolution || /1080/i.test(resolution),
     },
     {
@@ -181,5 +181,12 @@ export const CONFIG = {
     category: ['Category', '类别', '類別'],
     type: ['Type', '规格', '規格'],
     resolution: ['Resolution'],
+  },
+  AVISTAZ_BASIC_KEY_MAP: {
+    Type: 'category',
+    'File Size': 'size',
+    Title: 'title',
+    'Video Quality': 'resolution',
+    'Rip Type': 'videoType',
   },
 };

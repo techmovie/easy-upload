@@ -21,6 +21,7 @@ import './uhd';
 import './gpw';
 import './unit3d';
 import './unit3d-legacy';
+import './avistaz';
 
 export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {
