@@ -124,8 +124,13 @@ export const getVideoSourceFromTitle = (title: string) => {
  * @returns {{ bdInfo: string[]; mediaInfo: string[] }}
  */
 export const getBDInfoOrMediaInfoFromBBCode = (bbcode: string) => {
-  const quoteList = bbcode?.match(/\[quote\](.|\n)+?\[\/quote\]/g) ?? [];
-
+  const quoteList: string[] = [];
+  const quoteRegex = /\[quote\]([^[\]])+?\[\/quote\]/ig;
+  while (bbcode?.match(quoteRegex)?.length) {
+    const matchContent = bbcode?.match(quoteRegex)?.[0] ?? '';
+    quoteList.push(matchContent);
+    bbcode = bbcode.replace(matchContent, '');
+  }
   const cleanQuoteContent = (quote: string) =>
     quote
       .replace(/\[\/?quote\]/g, '')
