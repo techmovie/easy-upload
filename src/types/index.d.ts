@@ -59,7 +59,7 @@ declare namespace TorrentInfo {
     isForbidden?: boolean, // 是否禁转
     poster?: string, // 海报
     tags: MediaTags,
-    otherTags?: MediaTags,
+    otherTags?: Record<string, boolean>,
     hardcodedSub?: boolean, // 是否包含硬字幕
     doubanBookInfo?: BookInfo,
     torrentData?: string
