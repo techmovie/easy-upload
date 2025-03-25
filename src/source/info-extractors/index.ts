@@ -24,6 +24,7 @@ import './unit3d-legacy';
 import './avistaz';
 import './bhd';
 import './btn';
+import './hdb';
 
 export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {
