@@ -23,7 +23,8 @@ describe('getMatchRottenTomatoes', () => {
           audienceScore: 88,
           criticsScore: 89,
         },
-      }, {
+      },
+      {
         title: 'The Matrix',
         releaseYear: 1999,
         rtId: 123456,
@@ -34,7 +35,6 @@ describe('getMatchRottenTomatoes', () => {
         },
       },
       {
-
         title: 'The Matrix Resurrections',
         releaseYear: 2021,
         rtId: 123458,
@@ -44,7 +44,6 @@ describe('getMatchRottenTomatoes', () => {
           criticsScore: 71,
         },
       },
-
     ];
   });
   afterEach(() => {
@@ -80,21 +79,29 @@ describe('getMatchRottenTomatoes', () => {
     expect(result).toEqual(mockData[1]);
   });
 
-  it('if there\'s no best match and the year of closeMatch is compatible', async () => {
+  it("if there's no best match and the year of closeMatch is compatible", async () => {
     vi.mocked(getRottenTomatoesDataByQuery).mockResolvedValue(mockData);
     const result = await getMatchRottenTomatoes('The Matrix Re', '2023', false);
     expect(result).toEqual(mockData[2]);
   });
 
-  it('if there\'s no best match and the year of closeMatch is not compatible', async () => {
+  it("if there's no best match and the year of closeMatch is not compatible", async () => {
     vi.mocked(getRottenTomatoesDataByQuery).mockResolvedValue(mockData);
-    const result = await getMatchRottenTomatoes('The Matrix Rel', '1989', false);
+    const result = await getMatchRottenTomatoes(
+      'The Matrix Rel',
+      '1989',
+      false,
+    );
     expect(result).toEqual(mockData[0]);
   });
 
-  it('if there\'s no best match and the year of first hit is compatible', async () => {
+  it("if there's no best match and the year of first hit is compatible", async () => {
     vi.mocked(getRottenTomatoesDataByQuery).mockResolvedValue(mockData);
-    const result = await getMatchRottenTomatoes('The Matrix Reltest', '1997', false);
+    const result = await getMatchRottenTomatoes(
+      'The Matrix Reltest',
+      '1997',
+      false,
+    );
     expect(result).toEqual(mockData[1]);
   });
 
@@ -106,7 +113,11 @@ describe('getMatchRottenTomatoes', () => {
 
   it('handle the case when no hits found', async () => {
     vi.mocked(getRottenTomatoesDataByQuery).mockResolvedValue([]);
-    const result = await getMatchRottenTomatoes('test movie title', '1989', false);
+    const result = await getMatchRottenTomatoes(
+      'test movie title',
+      '1989',
+      false,
+    );
     expect(result).toEqual({});
   });
 
@@ -130,8 +141,14 @@ describe('getMatchRottenTomatoes', () => {
   });
 
   it('handle the case when request failed', async () => {
-    vi.mocked(getRottenTomatoesDataByQuery).mockRejectedValue(new Error('Request failed'));
-    const result = await getMatchRottenTomatoes('The Matrix Res', '1989', false);
+    vi.mocked(getRottenTomatoesDataByQuery).mockRejectedValue(
+      new Error('Request failed'),
+    );
+    const result = await getMatchRottenTomatoes(
+      'The Matrix Res',
+      '1989',
+      false,
+    );
     expect(result).toEqual({});
   });
 });

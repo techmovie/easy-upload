@@ -34,7 +34,7 @@ export const getBDTypeBasedOnSize = (size: number) => {
  * @param {string} source
  * @returns {string}
  */
-export const getAudioCodecFromSource = (source:string) => {
+export const getAudioCodecFromSource = (source: string) => {
   if (!source) {
     return '';
   }
@@ -55,10 +55,12 @@ export const getAudioCodecFromSource = (source:string) => {
  * @param {boolean} [isBluray=false] is bluray disc or not
  * @returns {MediaInfo | null}
  */
-export const parseMedia = (source:string, isBluray = false) => {
+export const parseMedia = (source: string, isBluray = false) => {
   if (!source) {
     return null;
   }
-  const parser = isBluray ? new BDInfoParser(source) : new MediaInfoParser(source);
+  const parser = isBluray
+    ? new BDInfoParser(source)
+    : new MediaInfoParser(source);
   return parser.parse();
 };

@@ -5,11 +5,11 @@ import { CONFIG } from '../config';
 class SharedNexusSitesExtractor extends NexusPHPExtractor {
   priority = 10;
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return /PTSBAO|PTHome|HDTime|BTSCHOOL|SoulVoice/.test(siteName);
   }
 
-  getMetaInfoRules () {
+  getMetaInfoRules() {
     return {
       ...CONFIG.META_INFO_MATCH_RULES,
       category: /(类型):\s*([^\s]+)?/i,

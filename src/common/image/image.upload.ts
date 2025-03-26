@@ -1,6 +1,4 @@
-import {
-  GMFetch,
-} from '@/common/utils';
+import { GMFetch } from '@/common/utils';
 import { CONFIG } from './image.config';
 import { cachedUrlToFile, withUploadErrorHandling } from './image.utils';
 import { PTPImg, ImgInfo, ImgBoxResponse } from './image.types';
@@ -26,11 +24,14 @@ import {
  * @throws {Error} If the upload fails with a non-ImageUploadError
  * @returns {Promise<ImgInfo[]>}
  */
-export const uploadToHDB = withUploadErrorHandling(async (imgUrls: string[], galleryName: string): Promise<ImgInfo[]> => {
-  const { url, options } = await createHDBRequestConfig(imgUrls, galleryName);
-  const data = await GMFetch<string>(url, options);
-  return await parseHDBResponse(data);
-}, 'HDB');
+export const uploadToHDB = withUploadErrorHandling(
+  async (imgUrls: string[], galleryName: string): Promise<ImgInfo[]> => {
+    const { url, options } = await createHDBRequestConfig(imgUrls, galleryName);
+    const data = await GMFetch<string>(url, options);
+    return await parseHDBResponse(data);
+  },
+  'HDB',
+);
 
 /**
  * Upload images to Imgbox
@@ -42,18 +43,25 @@ export const uploadToHDB = withUploadErrorHandling(async (imgUrls: string[], gal
  * @returns {Promise<ImgInfo[]>}
  */
 
-export const uploadToImgbox = withUploadErrorHandling(async (imgUrls: string[]): Promise<ImgInfo[]> => {
-  const { tokenSecret, authToken } = await getImgboxToken();
-  const files = await Promise.all(
-    imgUrls.map((item) => cachedUrlToFile(item)),
-  );
-  const fileUploadPromises = files.map((file) => {
-    const requestOptions = createImgboxRequestConfig(tokenSecret, authToken, file);
-    return GMFetch<ImgBoxResponse>(CONFIG.URLS.IMGBOX_UPLOAD, requestOptions);
-  });
-  const data = await Promise.all(fileUploadPromises);
-  return parseImgboxResponse(data);
-}, 'Imgbox');
+export const uploadToImgbox = withUploadErrorHandling(
+  async (imgUrls: string[]): Promise<ImgInfo[]> => {
+    const { tokenSecret, authToken } = await getImgboxToken();
+    const files = await Promise.all(
+      imgUrls.map((item) => cachedUrlToFile(item)),
+    );
+    const fileUploadPromises = files.map((file) => {
+      const requestOptions = createImgboxRequestConfig(
+        tokenSecret,
+        authToken,
+        file,
+      );
+      return GMFetch<ImgBoxResponse>(CONFIG.URLS.IMGBOX_UPLOAD, requestOptions);
+    });
+    const data = await Promise.all(fileUploadPromises);
+    return parseImgboxResponse(data);
+  },
+  'Imgbox',
+);
 
 /**
  * Upload images to Pixhost
@@ -64,12 +72,15 @@ export const uploadToImgbox = withUploadErrorHandling(async (imgUrls: string[]):
  * @throws {Error} If the upload fails with a non-ImageUploadError
  * @returns {Promise<ImgInfo[]>}
  */
-export const uploadToPixhost = withUploadErrorHandling(async (imgUrls: string[]): Promise<ImgInfo[]> => {
-  const { url, options } = createPixhostRequestConfig(imgUrls);
-  const data = await GMFetch<string>(url, options);
-  return parsePixhostResponse(data);
-},
-'Pixhost', { validateFirstArg: true, defaultResult: [] });
+export const uploadToPixhost = withUploadErrorHandling(
+  async (imgUrls: string[]): Promise<ImgInfo[]> => {
+    const { url, options } = createPixhostRequestConfig(imgUrls);
+    const data = await GMFetch<string>(url, options);
+    return parsePixhostResponse(data);
+  },
+  'Pixhost',
+  { validateFirstArg: true, defaultResult: [] },
+);
 
 /**
  * Upload images to PTPImg
@@ -82,8 +93,11 @@ export const uploadToPixhost = withUploadErrorHandling(async (imgUrls: string[])
  * @returns {Promise<string[]>}
  */
 
-export const uploadToPtpImg = withUploadErrorHandling(async (imgArray: Array<string | File>): Promise<string[]> => {
-  const { url, options } = createPTPImgRequestConfig(imgArray);
-  const data = await GMFetch<PTPImg[]>(url, options);
-  return parsePTPImgResponse(data);
-}, 'PTPImg');
+export const uploadToPtpImg = withUploadErrorHandling(
+  async (imgArray: Array<string | File>): Promise<string[]> => {
+    const { url, options } = createPTPImgRequestConfig(imgArray);
+    const data = await GMFetch<PTPImg[]>(url, options);
+    return parsePTPImgResponse(data);
+  },
+  'PTPImg',
+);

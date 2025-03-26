@@ -7,7 +7,9 @@ export const getSubTitle = (data: Douban.DoubanData) => {
   if (chineseTitle.match(/[\u4e00-\u9fa5]+/)) {
     title += chineseTitle;
   }
-  const moreTitle = originalTitle.concat(transTitle).filter(item => title !== item);
+  const moreTitle = originalTitle
+    .concat(transTitle)
+    .filter((item) => title !== item);
   let seasonEpisode = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)?.[1] ?? '';
   seasonEpisode = seasonEpisode.replace(/^0/i, '');
   const episode = seasonEpisode ? ` 第${seasonEpisode}集` : '';

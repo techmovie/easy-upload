@@ -3,9 +3,7 @@ import { getOriginalImgUrl } from '../image.url';
 import { getImgInfoFromBBCode, extractImgsFromBBCode } from '../image.info';
 import { CONFIG } from '../image.config';
 
-import {
-  getImageBBCodeMatches,
-} from '../image.utils';
+import { getImageBBCodeMatches } from '../image.utils';
 vi.mock('../image.url', () => ({
   getOriginalImgUrl: vi.fn(),
 }));
@@ -19,12 +17,16 @@ vi.mock('../image.utils', () => ({
 
 describe('getImgInfoFromBBCode', () => {
   it('should throw error if bbcode is empty', async () => {
-    await expect(getImgInfoFromBBCode('')).rejects.toThrow('Invalid BBCode - No BBCode found');
+    await expect(getImgInfoFromBBCode('')).rejects.toThrow(
+      'Invalid BBCode - No BBCode found',
+    );
   });
   it('should throw error if no original image URL found', async () => {
     const bbCode = '[img]https://example.com/thumb1.png[/img]';
     vi.mocked(getOriginalImgUrl).mockResolvedValueOnce('');
-    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow('Invalid BBCode - No original URL found');
+    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow(
+      'Invalid BBCode - No original URL found',
+    );
     expect(getOriginalImgUrl).toBeCalledTimes(1);
     expect(getOriginalImgUrl).toBeCalledWith(bbCode);
   });
@@ -32,12 +34,15 @@ describe('getImgInfoFromBBCode', () => {
     const bbCode = '[url=https://example.com/origina][/url]';
     const originalImgUrl = 'https://example.com/original.png';
     vi.mocked(getOriginalImgUrl).mockResolvedValueOnce(originalImgUrl);
-    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow('Invalid BBCode - No thumbnail URL found');
+    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow(
+      'Invalid BBCode - No thumbnail URL found',
+    );
     expect(getOriginalImgUrl).toBeCalledTimes(1);
     expect(getOriginalImgUrl).toBeCalledWith(bbCode);
   });
   it('should return image info if original and thumbnail URLs are found', async () => {
-    const bbCode = '[url=https://example.com/origina][img]https://example.com/thumb.jpg[/img][/url]';
+    const bbCode =
+      '[url=https://example.com/origina][img]https://example.com/thumb.jpg[/img][/url]';
     const originalImgUrl = 'https://example.com/original.png';
     vi.mocked(getOriginalImgUrl).mockResolvedValueOnce(originalImgUrl);
     const result = await getImgInfoFromBBCode(bbCode);
@@ -68,7 +73,9 @@ describe('getImgInfoFromBBCode', () => {
     const bbCode = '[url=https://example.com/origina][img][/img][/url]';
     const originalImgUrl = 'https://example.com/original.png';
     vi.mocked(getOriginalImgUrl).mockResolvedValueOnce(originalImgUrl);
-    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow('Invalid BBCode - No thumbnail URL found');
+    await expect(getImgInfoFromBBCode(bbCode)).rejects.toThrow(
+      'Invalid BBCode - No thumbnail URL found',
+    );
   });
 });
 

@@ -1,8 +1,16 @@
 import { CONFIG } from './image.config';
 import { GMFetch, $t } from '@/common/utils';
-import { throwUploadError, withUploadErrorHandling, cachedUrlToFile } from '@/common/image/image.utils';
+import {
+  throwUploadError,
+  withUploadErrorHandling,
+  cachedUrlToFile,
+} from '@/common/image/image.utils';
 import { ImgInfo, CheveretoResponse } from '@/common/image/image.types';
-import { getCheveretoToken, createCheveretoRequestConfig, parseCheveretoResponse } from '@/common/image/image.upload.helper';
+import {
+  getCheveretoToken,
+  createCheveretoRequestConfig,
+  parseCheveretoResponse,
+} from '@/common/image/image.upload.helper';
 import { uploadToPtpImg } from './image.upload';
 
 /**
@@ -16,15 +24,25 @@ import { uploadToPtpImg } from './image.upload';
  * @returns {Promise<ImgInfo[]>}
  */
 
-export const transferImgToCheveretoSite = withUploadErrorHandling(async (imgUrls: string[], imgHost: string = CONFIG.URLS.IMGBB): Promise<ImgInfo[]> => {
-  const authToken = await getCheveretoToken(imgHost);
-  const imgUploadPromises = imgUrls.map(async (imgUrl) => {
-    const requestOptions = await createCheveretoRequestConfig(imgUrl, imgHost, authToken);
-    return GMFetch<CheveretoResponse>(imgHost, requestOptions);
-  });
-  const data = await Promise.all(imgUploadPromises);
-  return parseCheveretoResponse(data);
-}, 'Chevereto');
+export const transferImgToCheveretoSite = withUploadErrorHandling(
+  async (
+    imgUrls: string[],
+    imgHost: string = CONFIG.URLS.IMGBB,
+  ): Promise<ImgInfo[]> => {
+    const authToken = await getCheveretoToken(imgHost);
+    const imgUploadPromises = imgUrls.map(async (imgUrl) => {
+      const requestOptions = await createCheveretoRequestConfig(
+        imgUrl,
+        imgHost,
+        authToken,
+      );
+      return GMFetch<CheveretoResponse>(imgHost, requestOptions);
+    });
+    const data = await Promise.all(imgUploadPromises);
+    return parseCheveretoResponse(data);
+  },
+  'Chevereto',
+);
 
 /**
  * Transfer images from other Image hostings to PTPImg

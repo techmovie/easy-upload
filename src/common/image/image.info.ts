@@ -12,7 +12,9 @@ import { getImageBBCodeMatches } from './image.utils';
  * @returns {Promise<ImgInfo>} An object containing the original and thumbnail image URLs
  */
 
-export const getImgInfoFromBBCode = async (bbcode:string):Promise<ImgInfo> => {
+export const getImgInfoFromBBCode = async (
+  bbcode: string,
+): Promise<ImgInfo> => {
   if (!bbcode) {
     throw new Error('Invalid BBCode - No BBCode found');
   }
@@ -37,7 +39,9 @@ export const getImgInfoFromBBCode = async (bbcode:string):Promise<ImgInfo> => {
  * @returns {string[]} An array of filtered image URLs or image BBCode
  */
 
-export const extractImgsFromBBCode = async (bbcode: string): Promise<string[]> => {
+export const extractImgsFromBBCode = async (
+  bbcode: string,
+): Promise<string[]> => {
   if (!bbcode) {
     return [];
   }
@@ -46,11 +50,14 @@ export const extractImgsFromBBCode = async (bbcode: string): Promise<string[]> =
   if (matchImgBBCodes.length < 1) {
     return [];
   }
-  const extractOriginalUrlsOfScreenshotPromises = matchImgBBCodes.map(async (bbcode) => {
-    return await getOriginalImgUrl(bbcode);
-  });
+  const extractOriginalUrlsOfScreenshotPromises = matchImgBBCodes.map(
+    async (bbcode) => {
+      return await getOriginalImgUrl(bbcode);
+    },
+  );
   const { FILTER_IMGS_NAMES } = CONFIG;
-  const screenshotUrls = (await Promise.all(extractOriginalUrlsOfScreenshotPromises))
-    .filter(url => !FILTER_IMGS_NAMES.some(name => url.includes(name)));
+  const screenshotUrls = (
+    await Promise.all(extractOriginalUrlsOfScreenshotPromises)
+  ).filter((url) => !FILTER_IMGS_NAMES.some((name) => url.includes(name)));
   return screenshotUrls;
 };

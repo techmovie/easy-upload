@@ -93,25 +93,27 @@ const FORMAT_RULES: FormatRule[] = [
   {
     key: 'intro',
     title: '简介',
-    formatter: (intro: string) => `\n\n  ${intro.replace(/\n/g, `\n${NBSP.repeat(2)}`)}`,
+    formatter: (intro: string) =>
+      `\n\n  ${intro.replace(/\n/g, `\n${NBSP.repeat(2)}`)}`,
   },
   {
     key: 'awards',
     title: '获奖情况',
-    formatter: (awards: string) => `\n\n  ${awards.replace(/\n/g, `\n${NBSP.repeat(6)}`)}\n`,
+    formatter: (awards: string) =>
+      `\n\n  ${awards.replace(/\n/g, `\n${NBSP.repeat(6)}`)}\n`,
   },
 ];
 export class DoubanFormatter {
   private readonly doubanId: string;
   private readonly type: 'movie' | 'tv';
   private imdbId: string;
-  constructor (id: string, type: 'movie' | 'tv', imdbId: string = '') {
+  constructor(id: string, type: 'movie' | 'tv', imdbId: string = '') {
     this.doubanId = id;
     this.type = type;
     this.imdbId = imdbId;
   }
 
-  private async fetchAllData () {
+  private async fetchAllData() {
     try {
       const [awards, credits, info, imdbData] = await Promise.all([
         getDoubanAwards(this.doubanId),
@@ -121,11 +123,13 @@ export class DoubanFormatter {
       ]);
       return { awards, credits, info, imdbData };
     } catch (e) {
-      throw new Error(`Failed to fetch data for Douban ID: ${this.doubanId} ${(e as Error).message}`);
+      throw new Error(
+        `Failed to fetch data for Douban ID: ${this.doubanId} ${(e as Error).message}`,
+      );
     }
   }
 
-  private async fetchIMDbData () {
+  private async fetchIMDbData() {
     if (!this.imdbId) {
       this.imdbId = await getIMDbIDFromDouban(
         CONFIG.URLS.DOUBAN_SUBJECT(this.doubanId),
@@ -137,14 +141,14 @@ export class DoubanFormatter {
     return null;
   }
 
-  private formatPosterUrl (poster: string) {
+  private formatPosterUrl(poster: string) {
     if (poster.includes('img3')) {
       return poster.replace('img3', 'img1').replace(/m(_ratio_poster)/, 'l$1');
     }
     return poster;
   }
 
-  private formatTitles (data: DoubanMobileData) {
+  private formatTitles(data: DoubanMobileData) {
     const { title, original_title: originalTitle, aka } = data;
     const translatedTitle = [...aka];
     if (originalTitle && originalTitle !== title) {
@@ -156,7 +160,7 @@ export class DoubanFormatter {
     };
   }
 
-  private updateCredits (credits: DoubanMobileCreditsResponse) {
+  private updateCredits(credits: DoubanMobileCreditsResponse) {
     if (!credits || !credits.items || credits.items.length === 0) {
       return '';
     }
@@ -166,7 +170,7 @@ export class DoubanFormatter {
       4: 0,
       5: 0,
     };
-    const result: Record<string, DoubanMobileCredit[]> = { };
+    const result: Record<string, DoubanMobileCredit[]> = {};
     for (const item of credits.items) {
       if (!result[item.category]) {
         result[item.category] = [];
@@ -178,18 +182,18 @@ export class DoubanFormatter {
       const celebrity = items.map((item) => {
         return `${item.name}  ${item.latin_name ?? ''}`;
       });
-      const indentation = indentationMap[category.length as keyof typeof indentationMap] || 0;
+      const indentation =
+        indentationMap[category.length as keyof typeof indentationMap] || 0;
       const celebrityKey = category.split('').join(NBSP.repeat(indentation));
-      const celebrityValue = celebrity.join(`\n${NBSP.repeat(CREDIT_INDENTATION)}`).trim();
+      const celebrityValue = celebrity
+        .join(`\n${NBSP.repeat(CREDIT_INDENTATION)}`)
+        .trim();
       creditsData.push(`◎${celebrityKey}${NBSP.repeat(7)}${celebrityValue}`);
     }
     return creditsData.join('\n');
   }
 
-  private updateRating (
-    data: DoubanMobileData,
-    imdbRating?: IMDBRating | null,
-  ) {
+  private updateRating(data: DoubanMobileData, imdbRating?: IMDBRating | null) {
     const { value, count } = data.rating;
     return {
       doubanRating: value ? `${value} (${count}人评分)` : '',
@@ -201,7 +205,7 @@ export class DoubanFormatter {
     };
   }
 
-  private generateOutput (formatData: FormattedMovieData): string {
+  private generateOutput(formatData: FormattedMovieData): string {
     const result: string[] = [];
 
     for (const rule of FORMAT_RULES) {
@@ -224,7 +228,7 @@ export class DoubanFormatter {
     return result.join('\n').trim();
   }
 
-  public async format () {
+  public async format() {
     const data = await this.fetchAllData();
     if (!data?.info) {
       throw new Error('failed to fetch douban info');
@@ -232,10 +236,8 @@ export class DoubanFormatter {
     const poster = this.formatPosterUrl(data.info?.cover_url);
     const { translatedTitle, originalTitle } = this.formatTitles(data.info);
     const creditsData = this.updateCredits(data?.credits);
-    const { doubanRating, imdbRating, doubanLink, imdbLink } = this.updateRating(
-      data.info,
-      data?.imdbData,
-    );
+    const { doubanRating, imdbRating, doubanLink, imdbLink } =
+      this.updateRating(data.info, data?.imdbData);
     const formatData = {
       ...data.info,
       awards: data.awards,

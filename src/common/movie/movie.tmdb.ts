@@ -1,6 +1,12 @@
 import { CONFIG } from './movie.config';
 import { GMFetch } from '@/common/utils';
-import { TMDBVideoResponse, TMDBVideo, TMDBFindResponse, TMDBMovie, TMDBTV } from './movie.types';
+import {
+  TMDBVideoResponse,
+  TMDBVideo,
+  TMDBFindResponse,
+  TMDBMovie,
+  TMDBTV,
+} from './movie.types';
 
 /**
  * Get TMDB Data by IMDB ID
@@ -10,7 +16,9 @@ import { TMDBVideoResponse, TMDBVideo, TMDBFindResponse, TMDBMovie, TMDBTV } fro
  * @returns {Promise<TMDBMovie | TMDBTV>}
  * @link https://developer.themoviedb.org/reference/find-by-id
  */
-export const getTMDBDataByIMDBId = async (imdbid: string) : Promise<TMDBMovie | TMDBTV> => {
+export const getTMDBDataByIMDBId = async (
+  imdbid: string,
+): Promise<TMDBMovie | TMDBTV> => {
   const url = `${CONFIG.URLS.TMDB_API}/3/find/${imdbid}?api_key=${CONFIG.KEY.TMDB_API_KEY}&language=en&external_source=imdb_id`;
   const data = await GMFetch<TMDBFindResponse>(url, {
     responseType: 'json',
@@ -32,7 +40,9 @@ export const getTMDBDataByIMDBId = async (imdbid: string) : Promise<TMDBMovie | 
  * @returns {Promise<TMDBVideo[]>}
  * @link https://developer.themoviedb.org/reference/movie-videos
  */
-export const getTMDBVideosById = async (tmdbId: string): Promise<TMDBVideo[]> => {
+export const getTMDBVideosById = async (
+  tmdbId: string,
+): Promise<TMDBVideo[]> => {
   //
   const url = `${CONFIG.URLS.TMDB_API}/3/movie/${tmdbId}/videos?api_key=${CONFIG.KEY.TMDB_API_KEY}&language=en`;
   const data = await GMFetch<TMDBVideoResponse>(url, {

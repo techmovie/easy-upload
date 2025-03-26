@@ -14,16 +14,14 @@ import { BaseExtractor } from './base/base-extractor';
 import $ from 'jquery';
 import { CONFIG } from '../config';
 
-class BHDExtractor
-  extends BaseExtractor
-  implements InfoExtractor {
+class BHDExtractor extends BaseExtractor implements InfoExtractor {
   priority = 10;
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'BeyondHD';
   }
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     this.extractBasicInfo();
     this.extractYear();
     this.extractImdbUrl();
@@ -39,7 +37,7 @@ class BHDExtractor
     return this.info;
   }
 
-  protected extractBasicInfo () {
+  protected extractBasicInfo() {
     const basicInfo = {
       Category: '',
       Name: '',
@@ -60,7 +58,9 @@ class BHDExtractor
     });
     const { Category, Name, Source, Type, Size } = basicInfo;
     this.info.title = formatTorrentTitle(Name);
-    const category = getCategoryFromSource(Category.toLowerCase().replace(/s/, ''));
+    const category = getCategoryFromSource(
+      Category.toLowerCase().replace(/s/, ''),
+    );
     this.info.category = refineCategory(this.info, category);
     this.info.size = convertSizeStringToBytes(Size.replace(/\s/g, ''));
     this.info.videoType = this.getVideoType(Source, Type);
@@ -73,7 +73,7 @@ class BHDExtractor
     this.info.otherTags = otherTags;
   }
 
-  protected extractYear () {
+  protected extractYear() {
     const year = $('.year-link').text();
     if (!year) {
       super.extractYear();
@@ -82,44 +82,54 @@ class BHDExtractor
     }
   }
 
-  protected extractImdbUrl () {
+  protected extractImdbUrl() {
     this.info.imdbUrl = $('span[title="IMDb Rating"] a').attr('href');
   }
 
-  protected extractMediaInfos () {
+  protected extractMediaInfos() {
     const mediaInfo = $('#stats-full code').text();
     this.info.mediaInfos = [mediaInfo];
   }
 
-  protected extractDescription () {
-    const descriptionDom = $('.panel-heading:contains(Description)').next('.panel-body').find('.forced-nfo');
+  protected extractDescription() {
+    const descriptionDom = $('.panel-heading:contains(Description)')
+      .next('.panel-body')
+      .find('.forced-nfo');
     const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : '';
+    const mediaInfoQuote =
+      this.info.mediaInfos.length > 0
+        ? `[quote]${this.info.mediaInfos[0]}[/quote]`
+        : '';
     this.info.description = mediaInfoQuote + descriptionBBCode;
     this.info.originalDescription = descriptionBBCode;
   }
 
-  protected async extractScreenshots () {
+  protected async extractScreenshots() {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;
   }
 
-  protected extractMovieName () {
+  protected extractMovieName() {
     const movieName = $('.bhd-title-h1 a.beta-link-blend').text();
     this.info.movieName = movieName;
   }
 
-  protected extractArea () {
+  protected extractArea() {
     const country = $('a[href*="library/movie?countries"]').text();
     const area = getAreaCode(country);
     this.info.area = area;
   }
 
-  protected enhanceInfo () {}
+  protected enhanceInfo() {}
 
-  protected extractComparisonsScreenshots () {
-    const title = $('#screenMain .screenParent').text()?.replace(/\[Show\]|Comparison/g, '')?.trim();
-    const imgs = Array.from($('.screenComparison img')).map(img => $(img)?.attr('src') ?? '');
+  protected extractComparisonsScreenshots() {
+    const title = $('#screenMain .screenParent')
+      .text()
+      ?.replace(/\[Show\]|Comparison/g, '')
+      ?.trim();
+    const imgs = Array.from($('.screenComparison img')).map(
+      (img) => $(img)?.attr('src') ?? '',
+    );
     this.info.comparisons = [
       {
         title,
@@ -129,7 +139,7 @@ class BHDExtractor
     ];
   }
 
-  getVideoType (source:string, type:string) {
+  getVideoType(source: string, type: string) {
     type = type.replace(/\s/g, '');
     if (type.match(/Remux/i)) {
       return 'remux';
@@ -145,9 +155,9 @@ class BHDExtractor
       return 'encode';
     }
     return type;
-  };
+  }
 
-  getSource (source:string, resolution:string) {
+  getSource(source: string, resolution: string) {
     if (resolution.match(/BD100|BD66/i)) {
       return 'uhdbluray';
     }
@@ -160,14 +170,16 @@ class BHDExtractor
     return source.replace(/-/g, '').toLowerCase();
   }
 
-  getEditionTags (basicInfo: Record<string, string>) {
+  getEditionTags(basicInfo: Record<string, string>) {
     const { common, others } = CONFIG.BHD_SOURCE_MEDIA_TAGS_MAP;
     const knownTags: TorrentInfo.MediaTags = {};
     const otherTags: Record<string, boolean> = {
       Hybrid: false,
     };
     const { Video, Audio, Edition, Extras, Hybrid } = basicInfo;
-    const text = [Video, Audio, Edition, Extras].filter(v => Boolean(v)).join(' / ');
+    const text = [Video, Audio, Edition, Extras]
+      .filter((v) => Boolean(v))
+      .join(' / ');
 
     for (const [source, target] of Object.entries(common)) {
       if (text.includes(source)) {
@@ -187,7 +199,7 @@ class BHDExtractor
       knownTags,
       otherTags,
     };
-  };
+  }
 }
 
 registry.register(new BHDExtractor());

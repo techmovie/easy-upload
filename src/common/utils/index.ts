@@ -1,7 +1,19 @@
-import { BROWSER_LANGUAGE, CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
+import {
+  BROWSER_LANGUAGE,
+  CURRENT_SITE_INFO,
+  CURRENT_SITE_NAME,
+} from '@/const';
 import i18nConfig from '@/i18n.json';
-import { SupportedLanguage, TranslationKey, RequestOptions } from '@/common/utils/utils.types';
-import { HTMLToBBCodeConverter, TimeoutError, NetworkError } from './utils.helpers';
+import {
+  SupportedLanguage,
+  TranslationKey,
+  RequestOptions,
+} from '@/common/utils/utils.types';
+import {
+  HTMLToBBCodeConverter,
+  TimeoutError,
+  NetworkError,
+} from './utils.helpers';
 
 export * from './utils.types';
 
@@ -11,7 +23,7 @@ export * from './utils.types';
  * @param {string} key - The key of the URL parameter to retrieve.
  * @returns The value of the URL parameter if found, otherwise an empty string.
  */
-export const getLocationSearchValueByKey = (key:string) => {
+export const getLocationSearchValueByKey = (key: string) => {
   const reg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
   const regArray = window.location.search.substring(1).match(reg);
   if (regArray) {
@@ -37,13 +49,13 @@ export const convertSizeStringToBytes = (size: string) => {
   if (size.match(/bytes/)) {
     return sizeFloat;
   } else if (size.match(/T/i)) {
-    return (sizeFloat * 1024 ** 4);
+    return sizeFloat * 1024 ** 4;
   } else if (size.match(/G/i)) {
-    return (sizeFloat * 1024 ** 3);
+    return sizeFloat * 1024 ** 3;
   } else if (size.match(/M/i)) {
-    return (sizeFloat * 1024 ** 2);
+    return sizeFloat * 1024 ** 2;
   } else if (size.match(/K/i)) {
-    return (sizeFloat * 1024);
+    return sizeFloat * 1024;
   }
   return sizeFloat;
 };
@@ -54,15 +66,13 @@ export const convertSizeStringToBytes = (size: string) => {
  * @param {string} key
  * @returns {*} The translation of the given key
  */
-export const $t = <L extends SupportedLanguage> (key: string) => {
+export const $t = <L extends SupportedLanguage>(key: string) => {
   const languageKey = BROWSER_LANGUAGE as L;
   const translations = i18nConfig[languageKey];
   if (!translations) {
     return key;
   }
-  return key in translations
-    ? translations[key as TranslationKey<L>]
-    : key;
+  return key in translations ? translations[key as TranslationKey<L>] : key;
 };
 
 /**
@@ -142,33 +152,44 @@ export const GMFetch = <T = unknown>(
       onload: (res) => {
         const { statusText, status, response, responseText } = res;
         if (status >= 200 && status < 300) {
-          if (finalOptions.responseType === 'json' && typeof response === 'undefined' && responseText) {
+          if (
+            finalOptions.responseType === 'json' &&
+            typeof response === 'undefined' &&
+            responseText
+          ) {
             try {
               resolve(JSON.parse(responseText) as T);
             } catch (e) {
-              reject(new Error(`Failed to parse JSON: ${e instanceof Error ? e.message : String(e)}`));
+              reject(
+                new Error(
+                  `Failed to parse JSON: ${e instanceof Error ? e.message : String(e)}`,
+                ),
+              );
             }
           } else {
             resolve(response);
           }
         } else {
-          reject(new NetworkError(
-            statusText || `Request failed with status ${status}`,
-            status,
-          ));
+          reject(
+            new NetworkError(
+              statusText || `Request failed with status ${status}`,
+              status,
+            ),
+          );
         }
       },
       ontimeout: () => {
-        reject(new TimeoutError(`Request to ${url} timed out after ${finalOptions.timeout}ms`));
+        reject(
+          new TimeoutError(
+            `Request to ${url} timed out after ${finalOptions.timeout}ms`,
+          ),
+        );
       },
       onprogress: finalOptions?.onprogress,
       onerror: (error) => {
-        const errorMessage = error.error || error.statusText || 'Unknown network error';
-        reject(new NetworkError(
-          errorMessage,
-          error.status,
-          error.statusText,
-        ));
+        const errorMessage =
+          error.error || error.statusText || 'Unknown network error';
+        reject(new NetworkError(errorMessage, error.status, error.statusText));
       },
     });
   });

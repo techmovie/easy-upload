@@ -6,19 +6,19 @@ import $ from 'jquery';
 class OurBitsExtractor extends NexusPHPExtractor {
   priority = 10;
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'OurBits';
   }
 
-  extractDoubanUrl () {
+  extractDoubanUrl() {
     this.info.doubanUrl = $('#doubaninfo .doubannew a').attr('href');
   }
 
-  extractImdbUrl () {
+  extractImdbUrl() {
     this.info.imdbUrl = $('.imdbnew2 a:first').attr('href');
   }
 
-  extractDoubanInfo () {
+  extractDoubanInfo() {
     const doubanInfo = getFilterBBCode($('.doubannew2 .doubaninfo')?.[0]);
     if (!doubanInfo) {
       return;

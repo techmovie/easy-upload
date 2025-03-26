@@ -1,5 +1,9 @@
 import { expect, describe, it, vi } from 'vitest';
-import { getAudioCodecFromSource, getBDTypeBasedOnSize, parseMedia } from '../index';
+import {
+  getAudioCodecFromSource,
+  getBDTypeBasedOnSize,
+  parseMedia,
+} from '../index';
 import { BDInfoParser, MediaInfoParser } from '../media.mediaParser';
 
 describe('getAudioCodecFromSource', () => {
@@ -76,9 +80,10 @@ describe('getBDTypeBasedOnSize', () => {
 });
 
 describe('parseMedia', () => {
-  it('BDInfoParser should be parsed if it\'s bluray', () => {
+  it("BDInfoParser should be parsed if it's bluray", () => {
     const parserSpy = vi
-      .spyOn(BDInfoParser.prototype, 'parse').mockReturnValue({
+      .spyOn(BDInfoParser.prototype, 'parse')
+      .mockReturnValue({
         fileName: '',
         fileSize: 0,
         duration: 0,
@@ -91,9 +96,10 @@ describe('parseMedia', () => {
     expect(parserSpy).toHaveBeenCalledTimes(1);
     parserSpy.mockRestore();
   });
-  it('MediaInfoParser should be parsed if it\'s not bluray', () => {
+  it("MediaInfoParser should be parsed if it's not bluray", () => {
     const parserSpy = vi
-      .spyOn(MediaInfoParser.prototype, 'parse').mockReturnValue({
+      .spyOn(MediaInfoParser.prototype, 'parse')
+      .mockReturnValue({
         fileName: '',
         fileSize: 0,
         duration: 0,

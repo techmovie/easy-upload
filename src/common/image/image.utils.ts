@@ -3,7 +3,10 @@ import { CONFIG } from './image.config';
 import { UrlTransformStrategy } from './image.types';
 import { urlToFile } from './image.url';
 export class ImageUploadError extends Error {
-  constructor (message: string, public readonly originalError?: unknown) {
+  constructor(
+    message: string,
+    public readonly originalError?: unknown,
+  ) {
     super(message);
     this.name = 'ImageUploadError';
   }
@@ -30,31 +33,35 @@ export const cachedUrlToFile = async (url: string): Promise<File> => {
 };
 
 export class HdBitsStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
+  matches(url: string): boolean {
     return url.includes('img.hdbits.org');
   }
 
-  async transform (url: string): Promise<string> {
+  async transform(url: string): Promise<string> {
     const data = await GMFetch<string>(url);
     const doc = new DOMParser().parseFromString(data, 'text/html');
     const imgElem = doc.querySelector('#viewimage');
     if (!imgElem) {
-      throw new Error("Couldn't find image element when retrieving from HDBits");
+      throw new Error(
+        "Couldn't find image element when retrieving from HDBits",
+      );
     }
     const imgSrc = imgElem.getAttribute('src');
     if (!imgSrc) {
-      throw new Error('No valid image source found when retrieving from HDBits');
+      throw new Error(
+        'No valid image source found when retrieving from HDBits',
+      );
     }
     return imgSrc;
   }
 }
 
 export class PterClubStrategy implements UrlTransformStrategy {
-  matches (url: string, bbCode: string): boolean {
+  matches(url: string, bbCode: string): boolean {
     return bbCode.includes('img.pterclub.com');
   }
 
-  async transform (url: string, bbCode: string): Promise<string> {
+  async transform(url: string, bbCode: string): Promise<string> {
     const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
     if (!imgUrl || !imgUrl.includes('.th.')) {
       throw new Error('Invalid PterClub image URL');
@@ -64,11 +71,11 @@ export class PterClubStrategy implements UrlTransformStrategy {
 }
 
 export class ImageBoxStrategy implements UrlTransformStrategy {
-  matches (url: string, bbCode: string): boolean {
+  matches(url: string, bbCode: string): boolean {
     return bbCode.includes('imgbox.com');
   }
 
-  async transform (url: string, bbCode: string): Promise<string> {
+  async transform(url: string, bbCode: string): Promise<string> {
     const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
     if (!imgUrl) {
       throw new Error('Invalid ImageBox image BBCode');
@@ -83,11 +90,11 @@ export class ImageBoxStrategy implements UrlTransformStrategy {
 }
 
 export class ImageBamStrategy implements UrlTransformStrategy {
-  matches (url: string): boolean {
+  matches(url: string): boolean {
     return url.includes('imagebam.com');
   }
 
-  async transform (url: string): Promise<string> {
+  async transform(url: string): Promise<string> {
     const originalPage = await GMFetch<string>(url);
     const doc = new DOMParser().parseFromString(originalPage, 'text/html');
     const imgElem = doc.querySelector('.main-image');
@@ -107,11 +114,11 @@ export class ImageBamStrategy implements UrlTransformStrategy {
 }
 
 export class BeyondHdStrategy implements UrlTransformStrategy {
-  matches (url: string, bbCode: string): boolean {
+  matches(url: string, bbCode: string): boolean {
     return bbCode.includes('beyondhd.co');
   }
 
-  async transform (url: string, bbCode: string): Promise<string> {
+  async transform(url: string, bbCode: string): Promise<string> {
     const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
     if (!imgUrl) {
       throw new Error('Invalid BeyondHD image BBCode');
@@ -124,11 +131,11 @@ export class BeyondHdStrategy implements UrlTransformStrategy {
 }
 
 export class PixHostStrategy implements UrlTransformStrategy {
-  matches (url: string, bbCode: string): boolean {
+  matches(url: string, bbCode: string): boolean {
     return bbCode.includes('pixhost.to');
   }
 
-  async transform (url: string, bbCode: string): Promise<string> {
+  async transform(url: string, bbCode: string): Promise<string> {
     const hostNumber = bbCode.match(/img\]https:\/\/t(\d+)\./)?.[1];
     if (!hostNumber || !url.includes('show')) {
       throw new Error('Invalid PixHost image BBCode');
@@ -162,8 +169,8 @@ export const withUploadErrorHandling = async <P extends unknown[], R>(
   uploadFn: (...args: P) => Promise<R>,
   serviceName: string,
   options: {
-    validateFirstArg?: boolean
-    defaultResult?: R
+    validateFirstArg?: boolean;
+    defaultResult?: R;
   } = {},
 ): Promise<(...args: P) => Promise<R>> => {
   const { validateFirstArg = true, defaultResult = [] as unknown as R } =

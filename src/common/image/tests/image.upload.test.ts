@@ -7,9 +7,7 @@ import {
 } from '../image.upload';
 import { GMFetch } from '@/common/utils';
 
-import {
-  cachedUrlToFile,
-} from '../image.utils';
+import { cachedUrlToFile } from '../image.utils';
 import {
   createHDBRequestConfig,
   parseHDBResponse,

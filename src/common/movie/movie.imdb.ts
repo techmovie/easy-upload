@@ -1,6 +1,10 @@
 import { CONFIG } from './movie.config';
 import { GMFetch } from '@/common/utils';
-import { IMDBDataResponse, IMDBRatingResponse, IMDBRating } from './movie.types';
+import {
+  IMDBDataResponse,
+  IMDBRatingResponse,
+  IMDBRating,
+} from './movie.types';
 
 /**
  * Get IMDB data from PT-GEN API
@@ -10,13 +14,18 @@ import { IMDBDataResponse, IMDBRatingResponse, IMDBRating } from './movie.types'
  * @returns {Promise<IMDBDataResponse>}
  * @throws {Error} if no IMDB URL is provided or the request fails
  */
-export const getIMDBData = async (imdbUrl: string): Promise<IMDBDataResponse> => {
+export const getIMDBData = async (
+  imdbUrl: string,
+): Promise<IMDBDataResponse> => {
   if (!imdbUrl) {
     throw new Error('No IMDB URL provided');
   }
-  const data = await GMFetch<IMDBDataResponse>(CONFIG.URLS.PT_GEN_API(imdbUrl), {
-    responseType: 'json',
-  });
+  const data = await GMFetch<IMDBDataResponse>(
+    CONFIG.URLS.PT_GEN_API(imdbUrl),
+    {
+      responseType: 'json',
+    },
+  );
   if (!data || !data.success) {
     throw new Error(data?.error || 'Failed to get IMDB data');
   }
@@ -31,7 +40,7 @@ export const getIMDBData = async (imdbUrl: string): Promise<IMDBDataResponse> =>
  * @returns {Promise<IMDBRating>}
  * @throws {Error} if no IMDB ID is provided or the request fails
  */
-export const getIMDBRating = async (imdbId:string): Promise<IMDBRating> => {
+export const getIMDBRating = async (imdbId: string): Promise<IMDBRating> => {
   if (!imdbId) {
     throw new Error('No IMDB ID provided');
   }

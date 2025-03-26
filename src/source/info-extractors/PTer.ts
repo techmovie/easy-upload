@@ -7,27 +7,35 @@ import $ from 'jquery';
 class PTerExtractor extends NexusPHPExtractor {
   priority = 10;
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'PTer';
   }
 
-  extractDescription () {
+  extractDescription() {
     let description: string;
     if ($('#descrcopyandpaster')[0]) {
-      description = ($('#descrcopyandpaster').val() as string)
-        ?.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, 'quote]');
+      description = ($('#descrcopyandpaster').val() as string)?.replace(
+        /hide(=(MediaInfo|BDInfo))?\]/gi,
+        'quote]',
+      );
     } else {
       description = getFilterBBCode($('#kdescr')[0]);
     }
     this.info.description = description.replace(/\[img\d\]/g, '[img]');
   }
 
-  extractTags () {
+  extractTags() {
     const tags: TorrentInfo.MediaTags = {};
     const tagImgs = $("td.rowhead:contains('类别与标签')").next().find('img');
-    const links = Array.from(tagImgs.map((_, item) => {
-      return $(item).attr('src')?.replace(/(lang\/chs\/)|(\.gif)/g, '') ?? '';
-    }));
+    const links = Array.from(
+      tagImgs.map((_, item) => {
+        return (
+          $(item)
+            .attr('src')
+            ?.replace(/(lang\/chs\/)|(\.gif)/g, '') ?? ''
+        );
+      }),
+    );
     const tagRules = {
       chinese_subtitle: 'pter-zz',
       chinese_audio: 'pter-gy',
@@ -44,7 +52,7 @@ class PTerExtractor extends NexusPHPExtractor {
     };
   }
 
-  getMetaInfoRules () {
+  getMetaInfoRules() {
     return {
       ...CONFIG.META_INFO_MATCH_RULES,
       category: /(类型):\s*([^\s]+)?/i,

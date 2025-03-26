@@ -43,11 +43,14 @@ export const getDoubanAwards = async (doubanId: string) => {
  * @returns {Promise<string>}
  */
 export const getIMDbIDFromDouban = async (doubanId: string) => {
-  const doubanPage = await GMFetch<string>(CONFIG.URLS.DOUBAN_SUBJECT(doubanId));
+  const doubanPage = await GMFetch<string>(
+    CONFIG.URLS.DOUBAN_SUBJECT(doubanId),
+  );
   const dom = new DOMParser().parseFromString(doubanPage, 'text/html');
   const spans = dom.querySelectorAll('#info > span.pl');
   const spansContainsIMDb = Array.from(spans).filter((span) =>
-    span.textContent?.includes('IMDb'));
+    span.textContent?.includes('IMDb'),
+  );
   const imdbId = spansContainsIMDb[0]?.nextSibling?.nodeValue?.trim() ?? '';
   return imdbId;
 };
@@ -99,7 +102,8 @@ export const getDoubanBasicDataByQuery = async (
   } else {
     const { href, textContent } = linkDom as HTMLAnchorElement;
     const season = textContent?.match(/第(.+?)季/)?.[1] ?? '';
-    const doubanId = decodeURIComponent(href).match(/subject\/(\d+)/)?.[1] ?? '';
+    const doubanId =
+      decodeURIComponent(href).match(/subject\/(\d+)/)?.[1] ?? '';
     return {
       id: doubanId,
       season,
@@ -117,7 +121,10 @@ export const getDoubanBasicDataByQuery = async (
  * @param {('tv' | 'movie')} type
  * @returns {Promise<DoubanMobileCreditsResponse>}
  */
-export const getDoubanCreditsData = async (id: string, type: 'tv' | 'movie') => {
+export const getDoubanCreditsData = async (
+  id: string,
+  type: 'tv' | 'movie',
+) => {
   const url = `${CONFIG.URLS.DOUBAN_MOBILE_API}/${type}/${id}/credits?for_mobile=1&ck=`;
   const data = await GMFetch<DoubanMobileCreditsResponse>(url, {
     headers: {
@@ -143,7 +150,11 @@ export const getDoubanBookInfo = async (doubanUrl: string) => {
   return data;
 };
 
-export const getDoubanInfoByIdOrDoubanUrl = async (query: string, type: 'movie'| 'tv' = 'movie', imdbId?:string) => {
+export const getDoubanInfoByIdOrDoubanUrl = async (
+  query: string,
+  type: 'movie' | 'tv' = 'movie',
+  imdbId?: string,
+) => {
   let doubanId = query;
   if (!/^d/.test(query)) {
     doubanId = query?.match(/douban\.com\/subject\/(\d+)/)?.[1] ?? '';

@@ -1,4 +1,13 @@
-import { expect, it, vi, beforeEach, afterEach, describe, beforeAll, afterAll } from 'vitest';
+import {
+  expect,
+  it,
+  vi,
+  beforeEach,
+  afterEach,
+  describe,
+  beforeAll,
+  afterAll,
+} from 'vitest';
 
 import {
   createHDBRequestConfig,
@@ -152,7 +161,9 @@ describe('parseHDBResponse', () => {
       expect.fail('Should have thrown an error');
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
-      expect((error as Error).message).toContain('Failed to get image info from BBCode');
+      expect((error as Error).message).toContain(
+        'Failed to get image info from BBCode',
+      );
     }
   });
 });
@@ -172,13 +183,16 @@ describe('getImgboxToken', () => {
     });
     expect(GMFetch).toHaveBeenCalledTimes(2);
     expect(GMFetch).toHaveBeenCalledWith(CONFIG.URLS.IMGBOX);
-    expect(GMFetch).toHaveBeenCalledWith(`${CONFIG.URLS.IMGBOX}/ajax/token/generate`, {
-      responseType: 'json',
-      method: 'POST',
-      headers: {
-        'X-CSRF-Token': 'token',
+    expect(GMFetch).toHaveBeenCalledWith(
+      `${CONFIG.URLS.IMGBOX}/ajax/token/generate`,
+      {
+        responseType: 'json',
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': 'token',
+        },
       },
-    });
+    );
   });
   it('should throw error if authToken is empty', async () => {
     const rawHtml = '<meta content="" name="csrf-token" />';
@@ -205,7 +219,9 @@ describe('getImgboxToken', () => {
     }
   });
   it('should throw error when second GMFetch fails', async () => {
-    vi.mocked(GMFetch).mockResolvedValueOnce('<meta content="token" name="csrf-token" />');
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<meta content="token" name="csrf-token" />',
+    );
     vi.mocked(GMFetch).mockRejectedValueOnce(new Error('Failed to fetch'));
     try {
       await getImgboxToken();
@@ -241,15 +257,18 @@ describe('createImgboxRequestConfig', () => {
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
     const options = createImgboxRequestConfig(tokenSecret, authToken, file);
     expect(createFormData).toHaveBeenCalledTimes(1);
-    expect(createFormData).toHaveBeenCalledWith({
-      token_id: tokenSecret.token_id,
-      token_secret: tokenSecret.token_secret,
-      content_type: '1',
-      thumbnail_size: '350r',
-      gallery_id: 'null',
-      gallery_secret: 'null',
-      comments_enabled: '0',
-    }, [{ fieldName: 'files', file }]);
+    expect(createFormData).toHaveBeenCalledWith(
+      {
+        token_id: tokenSecret.token_id,
+        token_secret: tokenSecret.token_secret,
+        content_type: '1',
+        thumbnail_size: '350r',
+        gallery_id: 'null',
+        gallery_secret: 'null',
+        comments_enabled: '0',
+      },
+      [{ fieldName: 'files', file }],
+    );
     expect(options.method).toBe('POST');
     expect(options.headers).toEqual({
       'X-CSRF-Token': authToken,
@@ -278,11 +297,13 @@ describe('parseImgboxResponse', () => {
       },
     ]);
   });
-  it('should throw error if provided data doesn\'t contain files', async () => {
+  it("should throw error if provided data doesn't contain files", async () => {
     try {
-      await parseImgboxResponse([{
-        files: [],
-      }]);
+      await parseImgboxResponse([
+        {
+          files: [],
+        },
+      ]);
       expect.fail('Should have thrown an error');
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
@@ -298,7 +319,10 @@ describe('parseImgboxResponse', () => {
 
 describe('createPixhostRequestConfig', () => {
   it('should create Pixhost request config correctly', () => {
-    const imgUrls = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'];
+    const imgUrls = [
+      'http://example.com/image1.jpg',
+      'http://example.com/image2.jpg',
+    ];
     const params = encodeURI(
       `imgs=${imgUrls.join('\n')}&content_type=1&max_th_size=300`,
     );
@@ -325,7 +349,8 @@ describe('createPixhostRequestConfig', () => {
 
 describe('parsePixhostResponse', () => {
   it('should parse Pixhost response correctly', () => {
-    const data = 'upload_results = {"images":[{"th_url":"http://example.com/thumb.jpg","show_url":"http://example.com/original.jpg"}]};';
+    const data =
+      'upload_results = {"images":[{"th_url":"http://example.com/thumb.jpg","show_url":"http://example.com/original.jpg"}]};';
     const imgInfo = parsePixhostResponse(data);
     expect(imgInfo).toEqual([
       {
@@ -344,7 +369,7 @@ describe('parsePixhostResponse', () => {
       expect((error as Error).message).toContain('Empty Result');
     }
   });
-  it('should throw error if data doesn\'t contain images', () => {
+  it("should throw error if data doesn't contain images", () => {
     try {
       parsePixhostResponse('upload_results =');
       expect.fail('Should have thrown an error');
@@ -361,7 +386,9 @@ describe('parsePixhostResponse', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
       expect(error).toBeInstanceOf(ImageUploadError);
-      expect((error as Error).message).toContain('No images found in the response');
+      expect((error as Error).message).toContain(
+        'No images found in the response',
+      );
     }
   });
 });
@@ -383,19 +410,23 @@ describe('createPTPImgRequestConfig', () => {
     expect(options.data).toBeInstanceOf(FormData);
     expect(options.responseType).toBe('json');
     expect(createFormData).toHaveBeenCalledTimes(1);
-    expect(createFormData).toHaveBeenCalledWith(
-      { api_key: 'api key' },
-      [{ fieldName: 'file-upload', file: files }],
-    );
+    expect(createFormData).toHaveBeenCalledWith({ api_key: 'api key' }, [
+      { fieldName: 'file-upload', file: files },
+    ]);
   });
   it('should create PTPImg request config correctly if links are passed', () => {
-    const links = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'];
+    const links = [
+      'http://example.com/image1.jpg',
+      'http://example.com/image2.jpg',
+    ];
     vi.mocked(GM_getValue).mockReturnValueOnce('api key');
     const { url, options } = createPTPImgRequestConfig(links);
     expect(url).toBe(CONFIG.URLS.PTPIMG_UPLOAD);
     expect(options.method).toBe('POST');
     expect(options.responseType).toBe('json');
-    expect(options.data).toBe('link-upload=http://example.com/image1.jpg\nhttp://example.com/image2.jpg&api_key=api key');
+    expect(options.data).toBe(
+      'link-upload=http://example.com/image1.jpg\nhttp://example.com/image2.jpg&api_key=api key',
+    );
     expect(options.headers).toEqual({
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
     });
@@ -438,7 +469,9 @@ describe('parsePTPImgResponse', () => {
 describe('getCheveretoToken', () => {
   it('should parse Chevereto token correctly', async () => {
     const imgHost = 'http://example.com/json';
-    vi.mocked(GMFetch).mockResolvedValueOnce('PF.obj.config.auth_token = "token";');
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      'PF.obj.config.auth_token = "token";',
+    );
     const authToken = await getCheveretoToken(imgHost);
     expect(authToken).toBe('token');
     expect(GMFetch).toHaveBeenCalledTimes(1);
@@ -490,16 +523,23 @@ describe('createCheveretoRequestConfig', () => {
     const fileData = new File([], 'image.jpg');
     vi.mocked(cachedUrlToFile).mockResolvedValueOnce(fileData);
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
-    const options = await createCheveretoRequestConfig(imgUrl, imgHost, authToken);
+    const options = await createCheveretoRequestConfig(
+      imgUrl,
+      imgHost,
+      authToken,
+    );
     expect(cachedUrlToFile).toHaveBeenCalledTimes(1);
     expect(cachedUrlToFile).toHaveBeenCalledWith(imgUrl);
     expect(createFormData).toHaveBeenCalledTimes(1);
-    expect(createFormData).toHaveBeenCalledWith({
-      type: 'file',
-      action: 'upload',
-      timestamp: expect.any(String),
-      auth_token: authToken,
-    }, [{ fieldName: 'source', file: fileData }]);
+    expect(createFormData).toHaveBeenCalledWith(
+      {
+        type: 'file',
+        action: 'upload',
+        timestamp: expect.any(String),
+        auth_token: authToken,
+      },
+      [{ fieldName: 'source', file: fileData }],
+    );
     expect(options.method).toBe('POST');
     expect(options.data).toBeInstanceOf(FormData);
   });
@@ -510,16 +550,23 @@ describe('createCheveretoRequestConfig', () => {
     const fileData = new File([], 'image.jpg');
     vi.mocked(cachedUrlToFile).mockResolvedValueOnce(fileData);
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
-    const options = await createCheveretoRequestConfig(imgUrl, imgHost, authToken);
+    const options = await createCheveretoRequestConfig(
+      imgUrl,
+      imgHost,
+      authToken,
+    );
     expect(cachedUrlToFile).toHaveBeenCalledTimes(1);
     expect(cachedUrlToFile).toHaveBeenCalledWith(imgUrl);
     expect(createFormData).toHaveBeenCalledTimes(1);
-    expect(createFormData).toHaveBeenCalledWith({
-      type: 'file',
-      action: 'upload',
-      timestamp: expect.any(String),
-      auth_token: authToken,
-    }, [{ fieldName: 'source', file: fileData }]);
+    expect(createFormData).toHaveBeenCalledWith(
+      {
+        type: 'file',
+        action: 'upload',
+        timestamp: expect.any(String),
+        auth_token: authToken,
+      },
+      [{ fieldName: 'source', file: fileData }],
+    );
     expect(options.method).toBe('POST');
     expect(options.data).toBeInstanceOf(FormData);
   });
@@ -528,7 +575,11 @@ describe('createCheveretoRequestConfig', () => {
     const imgHost = 'http://example.com/json';
     const authToken = 'token';
     vi.mocked(createFormData).mockReturnValueOnce(new FormData());
-    const options = await createCheveretoRequestConfig(imgUrl, imgHost, authToken);
+    const options = await createCheveretoRequestConfig(
+      imgUrl,
+      imgHost,
+      authToken,
+    );
     expect(createFormData).toHaveBeenCalledTimes(1);
     expect(createFormData).toHaveBeenCalledWith({
       type: 'url',

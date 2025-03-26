@@ -24,7 +24,9 @@ Subtitle: English / 35.278 kbps`;
     const result = mediaParser.parse();
     expect(result.duration).toBe(2 * 3600 + 18 * 60 + 47);
     expect(result.fileSize).toBe(47576622216);
-    expect(result.fileName).toBe('Anora.2024.1080p.FRA.Blu-ray.AVC.DTS-HD.MA.5.1');
+    expect(result.fileName).toBe(
+      'Anora.2024.1080p.FRA.Blu-ray.AVC.DTS-HD.MA.5.1',
+    );
     expect(result.videoTracks).toHaveLength(1);
     expect(result.audioTracks).toHaveLength(3);
     expect(result.subtitleTracks).toHaveLength(3);
@@ -139,7 +141,9 @@ Subtitle: English / 35.278 kbps`;
     const result = mediaParser.parse();
     expect(result.duration).toBe(1 * 3600 + 39 * 60 + 42.017);
     expect(result.fileSize).toBe(59644244389);
-    expect(result.fileName).toBe('Moana 2 2024 UHD BluRay 2160p HEVC Atmos TrueHD7.1-MTeam');
+    expect(result.fileName).toBe(
+      'Moana 2 2024 UHD BluRay 2160p HEVC Atmos TrueHD7.1-MTeam',
+    );
     expect(result.videoTracks).toHaveLength(2);
     expect(result.audioTracks).toHaveLength(6);
     expect(result.subtitleTracks).toHaveLength(9);
@@ -333,7 +337,9 @@ Menu
     const result = mediaParser.parse();
     expect(result.duration).toBe(2 * 3600 + 20 * 60);
     expect(result.fileSize).toBe(25.1 * 1024 ** 3);
-    expect(result.fileName).toBe('A.Complete.Unknown.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.H.265-STRUGGLER.mkv');
+    expect(result.fileName).toBe(
+      'A.Complete.Unknown.2024.2160p.WEB-DL.DDP5.1.Atmos.DV.H.265-STRUGGLER.mkv',
+    );
     expect(result.format).toBe('Matroska');
     expect(result.videoTracks).toHaveLength(1);
     expect(result.audioTracks).toHaveLength(1);
@@ -589,7 +595,9 @@ Menu
     console.log(result);
     expect(result.duration).toBe(1 * 3600 + 22 * 60);
     expect(result.fileSize).toBe(4.19 * 1024 ** 3);
-    expect(result.fileName).toBe('Shao.Lin.Ying.Xiong.Bang.AKA.Shaolin.Abbot.AKA.Abbot.Of.Shaolin.AKA.A.Slice.Of.Death.1979.720p.BluRay.FLAC.2.0.x264-ZAL.mkv');
+    expect(result.fileName).toBe(
+      'Shao.Lin.Ying.Xiong.Bang.AKA.Shaolin.Abbot.AKA.Abbot.Of.Shaolin.AKA.A.Slice.Of.Death.1979.720p.BluRay.FLAC.2.0.x264-ZAL.mkv',
+    );
     expect(result.videoTracks).toHaveLength(1);
     expect(result.audioTracks).toHaveLength(3);
     expect(result.subtitleTracks).toHaveLength(2);

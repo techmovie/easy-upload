@@ -21,12 +21,15 @@ import { BaseExtractor } from './base-extractor';
 import { CONFIG } from '@/source/config';
 import $ from 'jquery';
 
-export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExtractor {
+export abstract class NexusPHPExtractor
+  extends BaseExtractor
+  implements InfoExtractor
+{
   priority = 10;
 
-  abstract canHandle (siteName: string, siteType: string): boolean
+  abstract canHandle(siteName: string, siteType: string): boolean;
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     this.extractTitle();
     this.extractSubtitle();
     this.extractYear();
@@ -55,47 +58,62 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     return this.info;
   }
 
-  protected extractTitle () {
-    const title = $('#top').text().split(/\s{3,}/)?.[0]?.trim();
+  protected extractTitle() {
+    const title = $('#top')
+      .text()
+      .split(/\s{3,}/)?.[0]
+      ?.trim();
     const formattedTitle = formatTorrentTitle(title);
     this.info.title = formattedTitle;
   }
 
-  protected extractSubtitle () {
-    this.info.subtitle = $("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
+  protected extractSubtitle() {
+    this.info.subtitle = $(
+      "td.rowhead:contains('副标题'), td.rowhead:contains('副標題')",
+    )
+      .next()
+      .text();
   }
 
-  protected extractImdbUrl () {
-    const imdbUrl = $('#kimdb>a').attr('href') ||
-    this.info.description.match(/http(s)?:\/\/www\.imdb\.com\/title\/tt\d+/)?.[0] || '';
+  protected extractImdbUrl() {
+    const imdbUrl =
+      $('#kimdb>a').attr('href') ||
+      this.info.description.match(
+        /http(s)?:\/\/www\.imdb\.com\/title\/tt\d+/,
+      )?.[0] ||
+      '';
     this.info.imdbUrl = imdbUrl;
   }
 
-  protected extractDoubanUrl () {
-    const doubanUrl = this.info.description.match(/https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/)?.[0];
+  protected extractDoubanUrl() {
+    const doubanUrl = this.info.description.match(
+      /https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/,
+    )?.[0];
     this.info.doubanUrl = doubanUrl;
   }
 
-  protected extractDescription (): void | Promise<void> {
+  protected extractDescription(): void | Promise<void> {
     const bbCode = getFilterBBCode($('#kdescr')[0]);
     this.info.description = bbCode.replace(/\u00A0\u3000/g, ' ');
   }
 
-  protected extractMediaInfos () {
-    const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(this.info.description);
+  protected extractMediaInfos() {
+    const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(
+      this.info.description,
+    );
     this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
   }
 
-  protected async extractScreenshots () {
+  protected async extractScreenshots() {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;
   }
 
-  protected extractSource () {
+  protected extractSource() {
     this.info.source = getVideoSourceFromTitle(this.info.title);
   }
 
-  protected extractTags () {
+  protected extractTags() {
     const tagsContentFromPage = $("td.rowhead:contains('标签')").next().text();
     this.info.tags = {
       ...this.info.tags,
@@ -103,22 +121,23 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
     };
   }
 
-  protected extractMovieNames () {
+  protected extractMovieNames() {
     const { description } = this.info;
     const originalName = description.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
     const translateName = description.match(/(译\s+名)\s+(.+)/)?.[2] ?? '';
     if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
       this.info.movieName = originalName;
     } else {
-      this.info.movieName = translateName.match(/(\w|\s){2,}/)?.[0]?.trim() ?? '';
+      this.info.movieName =
+        translateName.match(/(\w|\s){2,}/)?.[0]?.trim() ?? '';
     }
   }
 
-  protected getMetaInfoRules (): Record<string, RegExp> {
+  protected getMetaInfoRules(): Record<string, RegExp> {
     return CONFIG.META_INFO_MATCH_RULES;
   }
 
-  protected extractMetaInfo () {
+  protected extractMetaInfo() {
     const result = {
       category: '',
       videoType: '',
@@ -128,49 +147,61 @@ export abstract class NexusPHPExtractor extends BaseExtractor implements InfoExt
       area: '',
       size: '',
     };
-    const metaInfo = $("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')")
-      .next().text().replace(/：/g, ':');
+    const metaInfo = $(
+      "td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')",
+    )
+      .next()
+      .text()
+      .replace(/：/g, ':');
     const rules = this.getMetaInfoRules();
     for (const [key, regex] of Object.entries(rules)) {
       const matchValue = metaInfo.match(regex)?.[2] ?? '';
       if (matchValue) {
-        const value = matchValue?.replace(/\s/g, '')?.trim()?.toLowerCase() ?? '';
+        const value =
+          matchValue?.replace(/\s/g, '')?.trim()?.toLowerCase() ?? '';
         result[key as keyof typeof result] = value;
       }
     }
     console.log(result);
-    const initialCategory = getCategoryFromSource(result.category || this.info.description);
+    const initialCategory = getCategoryFromSource(
+      result.category || this.info.description,
+    );
     this.info.category = refineCategory(this.info, initialCategory);
     this.info.size = convertSizeStringToBytes(result.size);
-    this.info.videoType = getVideoTypeFromSource(result.videoType || this.info.title);
+    this.info.videoType = getVideoTypeFromSource(
+      result.videoType || this.info.title,
+    );
     this.info.area = getAreaCode(result.area);
     if (!this.info.videoCodec) {
-      this.info.videoCodec = getVideoCodecFromSourceAndVideoType(this.info.title || result.videoCodec, this.info.videoType);
+      this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+        this.info.title || result.videoCodec,
+        this.info.videoType,
+      );
     }
     if (!this.info.audioCodec) {
-      this.info.audioCodec = getAudioCodecFromSource(result.audioCodec || this.info.title);
+      this.info.audioCodec = getAudioCodecFromSource(
+        result.audioCodec || this.info.title,
+      );
     }
     if (!this.info.resolution) {
-      this.info.resolution = getResolutionFromSource(result.resolution || this.info.title);
+      this.info.resolution = getResolutionFromSource(
+        result.resolution || this.info.title,
+      );
     }
   }
 
-  protected determineIfIsForbidden () {
+  protected determineIfIsForbidden() {
     const { title, subtitle, description } = this.info;
     const combinedContent = title + subtitle + description;
-    const isForbidden = CONFIG.NEXUS_FORBIDDEN_KEYWORDS.some((keyword) => combinedContent.includes(keyword));
+    const isForbidden = CONFIG.FORBIDDEN_KEYWORDS.some((keyword) =>
+      combinedContent.includes(keyword),
+    );
     this.info.isForbidden = isForbidden;
   }
 
-  protected extractDoubanInfo () {
+  protected extractDoubanInfo() {}
 
-  }
+  protected enhanceInfo() {}
 
-  protected enhanceInfo () {
-
-  }
-
-  protected extractComparisonsScreenshots () {
-
-  }
+  protected extractComparisonsScreenshots() {}
 }

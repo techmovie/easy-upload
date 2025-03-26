@@ -9,12 +9,18 @@ import { getRottenTomatoesDataByQuery } from './movie.helper';
  * @param {boolean} isTV
  * @returns {Promise<RottenTomatoesHit>}
  */
-export const getMatchRottenTomatoes = async (title: string, year?: string, isTV?: boolean) => {
+export const getMatchRottenTomatoes = async (
+  title: string,
+  year?: string,
+  isTV?: boolean,
+) => {
   try {
     const MAX_YEAR_DIFF = 2;
     const releaseYear = parseInt(year || '1800', 10);
     const searchResultHits = await getRottenTomatoesDataByQuery(title);
-    const filteredHits = searchResultHits.filter(hit => hit.type === (isTV ? 'tv' : 'movie'));
+    const filteredHits = searchResultHits.filter(
+      (hit) => hit.type === (isTV ? 'tv' : 'movie'),
+    );
     if (!filteredHits.length) return {};
     filteredHits.sort((a, b) => {
       const diffA = Math.abs(a.releaseYear - releaseYear);
@@ -27,7 +33,7 @@ export const getMatchRottenTomatoes = async (title: string, year?: string, isTV?
 
     let bestMatch, closeMatch;
     for (const hit of filteredHits) {
-      const itemTitle = (hit.title)?.toLowerCase() || '';
+      const itemTitle = hit.title?.toLowerCase() || '';
       if (itemTitle === normalizedTitle) {
         bestMatch = hit;
       } else if (itemTitle.startsWith(normalizedTitle)) {
@@ -39,10 +45,16 @@ export const getMatchRottenTomatoes = async (title: string, year?: string, isTV?
     const isYearCompatible = (rtYear: number): boolean =>
       Math.abs(rtYear - releaseYear) <= MAX_YEAR_DIFF;
 
-    if (releaseYear && (!bestMatch || !isYearCompatible(bestMatch.releaseYear))) {
+    if (
+      releaseYear &&
+      (!bestMatch || !isYearCompatible(bestMatch.releaseYear))
+    ) {
       if (closeMatch && isYearCompatible(closeMatch.releaseYear)) {
         bestMatch = closeMatch;
-      } else if (filteredHits.length > 0 && isYearCompatible(filteredHits[0].releaseYear)) {
+      } else if (
+        filteredHits.length > 0 &&
+        isYearCompatible(filteredHits[0].releaseYear)
+      ) {
         bestMatch = filteredHits[0];
       }
     }

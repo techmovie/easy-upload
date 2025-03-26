@@ -6,4 +6,4 @@ export type MediaDetail = {
   audioLanguages: string[];
   subtitleLanguages: string[];
   hdrFormats: string[];
-}
+};

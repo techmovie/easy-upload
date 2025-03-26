@@ -15,17 +15,15 @@ import { InfoExtractor, registry } from './registry';
 import { BaseExtractor } from './base/base-extractor';
 import $ from 'jquery';
 
-class HDBExtractor
-  extends BaseExtractor
-  implements InfoExtractor {
+class HDBExtractor extends BaseExtractor implements InfoExtractor {
   priority = 10;
   torrentId = getLocationSearchValueByKey('id');
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'HDBits';
   }
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     this.extractTitle();
     this.getBasicInfo();
     this.extractMovieDetails();
@@ -38,12 +36,12 @@ class HDBExtractor
     return this.info;
   }
 
-  extractTitle () {
+  extractTitle() {
     const title = $('h1').eq(0).text();
     this.info.title = formatTorrentTitle(title);
   }
 
-  getBasicInfo () {
+  getBasicInfo() {
     const videoTypeMap = {
       'Blu-ray/HD DVD': 'bluray',
       Capture: 'hdtv',
@@ -58,15 +56,21 @@ class HDBExtractor
     const videoType = splitArray[1].split(',')[1].replace(/\)/g, '').trim();
     this.info.size = convertSizeStringToBytes(size);
     this.info.category = refineCategory(this.info, category);
-    this.info.videoType = videoTypeMap[videoType as keyof typeof videoTypeMap] ?? videoType;
+    this.info.videoType =
+      videoTypeMap[videoType as keyof typeof videoTypeMap] ?? videoType;
     this.info.source = getCategoryFromSource(this.info.title);
   }
 
-  protected extractMovieDetails () {
+  protected extractMovieDetails() {
     const isMovieType = $('.contentlayout h1').length > 0;
-    const IMDBLinkDom = isMovieType ? $('.contentlayout h1') : $('#details .showlinks li').eq(1);
+    const IMDBLinkDom = isMovieType
+      ? $('.contentlayout h1')
+      : $('#details .showlinks li').eq(1);
     if (isMovieType) {
-      const IMDBYear = IMDBLinkDom.prop('lastChild').nodeValue.replace(/\s|\(|\)/g, '');
+      const IMDBYear = IMDBLinkDom.prop('lastChild').nodeValue.replace(
+        /\s|\(|\)/g,
+        '',
+      );
       const movieName = IMDBLinkDom.find('a').text();
       this.info.movieName = movieName;
       if (!IMDBYear) {
@@ -78,33 +82,39 @@ class HDBExtractor
     this.info.imdbUrl = IMDBLinkDom.find('a').attr('href') ?? '';
   }
 
-  async extractMediaInfos () {
-    const res = await GMFetch<string>(`/details/mediainfo?id=${this.torrentId}`);
+  async extractMediaInfos() {
+    const res = await GMFetch<string>(
+      `/details/mediainfo?id=${this.torrentId}`,
+    );
     const data = res.replace(/\r\n/g, '\n');
     if (data) {
       this.info.mediaInfos = [data];
     }
   }
 
-  protected extractDescription () {
+  protected extractDescription() {
     const editDom = $('#details tr').has('a:contains(Edit torrent)');
-    const descriptionDom = editDom.length > 0 ? editDom.prev() : $('#details >tbody >tr:contains(tags) + tr');
+    const descriptionDom =
+      editDom.length > 0
+        ? editDom.prev()
+        : $('#details >tbody >tr:contains(tags) + tr');
     let descriptionBBCode = getFilterBBCode(descriptionDom.find('>td')[0]);
-    descriptionBBCode = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)?.[1] ?? '';
+    descriptionBBCode =
+      descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)?.[1] ?? '';
     this.info.description = descriptionBBCode;
   }
 
-  protected async extractScreenshots () {
+  protected async extractScreenshots() {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;
   }
 
-  protected extractMovieName () {
+  protected extractMovieName() {
     const movieName = $('.bhd-title-h1 a.beta-link-blend').text();
     this.info.movieName = movieName;
   }
 
-  protected extractArea () {
+  protected extractArea() {
     const country = $('#imdbinfo th:contains(Country)').next().text();
     this.info.area = getAreaCode(country);
   }

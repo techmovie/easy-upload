@@ -7,15 +7,20 @@ import $ from 'jquery';
 class PuTaoExtractor extends NexusPHPExtractor {
   priority = 10;
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'PuTao';
   }
 
-  extractTitle (): void {
-    this.info.title = formatTorrentTitle($('h1').text().replace(/\[.+?\]|\(.+?\)/g, '')?.trim());
+  extractTitle(): void {
+    this.info.title = formatTorrentTitle(
+      $('h1')
+        .text()
+        .replace(/\[.+?\]|\(.+?\)/g, '')
+        ?.trim(),
+    );
   }
 
-  getMetaInfoRules () {
+  getMetaInfoRules() {
     return {
       ...CONFIG.META_INFO_MATCH_RULES,
       category: /(类型):\s*([^\s]+)?/i,

@@ -27,7 +27,7 @@ vi.mock(import('../image.utils'), async (importOriginal) => {
 describe('getOriginalImgUrl', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       vi.mocked(strategy.matches).mockReset();
       vi.mocked(strategy.transform).mockReset();
     });
@@ -39,7 +39,7 @@ describe('getOriginalImgUrl', () => {
   it('should extract URL from [img] BBCode', async () => {
     const bbcode = '[img]https://example.com/original.png[img]';
     const result = await getOriginalImgUrl(bbcode);
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       expect(strategy.matches).not.toHaveBeenCalled();
       expect(strategy.transform).not.toHaveBeenCalled();
     });
@@ -48,7 +48,7 @@ describe('getOriginalImgUrl', () => {
   it('should extract raw URL without BBCode', async () => {
     const bbcode = 'https://example.com/original.png';
     const result = await getOriginalImgUrl(bbcode);
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       expect(strategy.matches).not.toHaveBeenCalled();
       expect(strategy.transform).not.toHaveBeenCalled();
     });
@@ -61,9 +61,11 @@ describe('getOriginalImgUrl', () => {
   });
   it('should throw error when [url=...] BBCode with no URL', async () => {
     const bbcode = '[url=]Test Image[/url]';
-    await expect(getOriginalImgUrl(bbcode)).rejects.toThrow('Invalid BBCode - No valid image URL found');
+    await expect(getOriginalImgUrl(bbcode)).rejects.toThrow(
+      'Invalid BBCode - No valid image URL found',
+    );
   });
-  it('should return image url even it\'s not wrapped in valid bbcode tag', async () => {
+  it("should return image url even it's not wrapped in valid bbcode tag", async () => {
     const bbcode = '[invalid]http://example.com/original.png[/invalid]';
     const result = await getOriginalImgUrl(bbcode);
     expect(result).toBe('http://example.com/original.png');
@@ -74,7 +76,8 @@ describe('getOriginalImgUrl', () => {
     expect(result).toBe('');
   });
   it('spaces or new lines should be trimmed', async () => {
-    const bbcode1 = '[url=https://example.com/original.png  ]\n[img]https://example.com/thumb1.png[/img]\n[/url]';
+    const bbcode1 =
+      '[url=https://example.com/original.png  ]\n[img]https://example.com/thumb1.png[/img]\n[/url]';
     const result1 = await getOriginalImgUrl(bbcode1);
     expect(result1).toBe('https://example.com/original.png');
     const bbcode2 = '   https://example.com/original.png   \n';
@@ -83,13 +86,18 @@ describe('getOriginalImgUrl', () => {
   });
   it("should throw error if there's no image url in the bbcode", async () => {
     const bbcode = '[url=invalidurl][/url]';
-    await expect(getOriginalImgUrl(bbcode)).rejects.toThrow('Invalid BBCode - No valid image URL found');
+    await expect(getOriginalImgUrl(bbcode)).rejects.toThrow(
+      'Invalid BBCode - No valid image URL found',
+    );
   });
   it('should throw error if bbcode is not provided', async () => {
-    await expect(getOriginalImgUrl('')).rejects.toThrow('Invalid BBCode - No BBCode found');
+    await expect(getOriginalImgUrl('')).rejects.toThrow(
+      'Invalid BBCode - No BBCode found',
+    );
   });
   it('one of the strategies should be applied', async () => {
-    const bbcode = '[url=https://img.hdbits.org/image][img]https://img.hdbits.org/image.jpg[/img][/url]';
+    const bbcode =
+      '[url=https://img.hdbits.org/image][img]https://img.hdbits.org/image.jpg[/img][/url]';
     const extractedUrl = 'https://img.hdbits.org/image';
     const originalUrl = 'https://img.hdbits.org/image.png';
     vi.mocked(URLStrategies[0].matches).mockReturnValueOnce(true);
@@ -111,13 +119,17 @@ describe('getOriginalImgUrl', () => {
 
     const result = await getOriginalImgUrl(bbcode);
 
-    expect(URLStrategies[0].transform).toHaveBeenCalledWith(extractedUrl, bbcode);
+    expect(URLStrategies[0].transform).toHaveBeenCalledWith(
+      extractedUrl,
+      bbcode,
+    );
     expect(URLStrategies[1].transform).not.toHaveBeenCalled();
 
     expect(result).toBe(transformedUrl1);
   });
   it('should return the extracted URL if no strategy matches for [url=...] BBCode', async () => {
-    const bbcode = '[url=https://example.com/original.png][img]https://example.com/thumb1.png[/img][/url]';
+    const bbcode =
+      '[url=https://example.com/original.png][img]https://example.com/thumb1.png[/img][/url]';
     const extractedUrl = 'https://example.com/original.png';
     URLStrategies.forEach((strategy) => {
       vi.mocked(strategy.matches).mockReturnValueOnce(false);
@@ -126,7 +138,7 @@ describe('getOriginalImgUrl', () => {
     URLStrategies.forEach((strategy) => {
       expect(strategy.matches).toBeCalledWith(extractedUrl, bbcode);
     });
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       expect(strategy.transform).not.toHaveBeenCalled();
     });
     expect(result).toBe(extractedUrl);
@@ -137,9 +149,10 @@ describe('getOriginalImgUrl', () => {
     expect(result).toBe(url);
   });
   it('should extract URL from complex BBCode with multiple brackets', async () => {
-    const bbcode = '[url=https://example.com/image.jpg][b]Complex [i]Test[/i] Image[/b][/url]';
+    const bbcode =
+      '[url=https://example.com/image.jpg][b]Complex [i]Test[/i] Image[/b][/url]';
     const extractedUrl = 'https://example.com/image.jpg';
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       vi.mocked(strategy.matches).mockReturnValue(false);
     });
 

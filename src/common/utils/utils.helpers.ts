@@ -4,7 +4,7 @@ type BBCodeTagsAccumulator = {
 };
 
 type SiteType = string;
-type SiteMatch = string | RegExp
+type SiteMatch = string | RegExp;
 
 interface BBCodeConverterResult {
   content?: string;
@@ -15,7 +15,7 @@ interface BBCodeConverterResult {
 export class HTMLToBBCodeConverter {
   private readonly siteInfo: { siteType: SiteType; siteName: string };
 
-  constructor (siteInfo: { siteType: SiteType; siteName: string }) {
+  constructor(siteInfo: { siteType: SiteType; siteName: string }) {
     this.siteInfo = siteInfo;
   }
 
@@ -26,7 +26,7 @@ export class HTMLToBBCodeConverter {
    * @param {SiteMatch} siteMatch
    * @returns {boolean}
    */
-  private isMatchingSite (siteMatch: SiteMatch): boolean {
+  private isMatchingSite(siteMatch: SiteMatch): boolean {
     const { siteName } = this.siteInfo;
 
     if (typeof siteMatch === 'string') {
@@ -42,8 +42,12 @@ export class HTMLToBBCodeConverter {
    * @param {string} text
    * @returns {boolean}
    */
-  private isSpecialControlText (text: string): boolean {
-    return !!text.trim().match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/);
+  private isSpecialControlText(text: string): boolean {
+    return !!text
+      .trim()
+      .match(
+        /^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/,
+      );
   }
 
   /**
@@ -54,14 +58,16 @@ export class HTMLToBBCodeConverter {
    * @returns {string}
    */
   private convertRgbToHex = (rgb: string): string => {
-    const rgbMatch = rgb?.match(/^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*/i);
+    const rgbMatch = rgb?.match(
+      /^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*/i,
+    );
 
     if (!rgbMatch || rgbMatch.length < 4) {
       return '';
     }
 
-    const hexComponents = rgbMatch.slice(1, 4).map(component => {
-      return (`0${parseInt(component, 10).toString(16)}`).slice(-2);
+    const hexComponents = rgbMatch.slice(1, 4).map((component) => {
+      return `0${parseInt(component, 10).toString(16)}`.slice(-2);
     });
 
     return `#${hexComponents.join('')}`;
@@ -74,7 +80,7 @@ export class HTMLToBBCodeConverter {
    * @param {string} color
    * @returns {string}
    */
-  private normalizeColorFormat (color: string): string {
+  private normalizeColorFormat(color: string): string {
     return /rgba?/.test(color) ? this.convertRgbToHex(color) : color;
   }
 
@@ -87,7 +93,7 @@ export class HTMLToBBCodeConverter {
    * @param {string | null
    * @returns {void}
    */
-  private addBBCodeTags (
+  private addBBCodeTags(
     accumulator: BBCodeTagsAccumulator,
     openTag: string | null,
     closeTag: string | null = null,
@@ -103,9 +109,11 @@ export class HTMLToBBCodeConverter {
    * @param {HTMLImageElement} imgElement
    * @returns {string}
    */
-  private convertImageToBBCode (imgElement: HTMLImageElement): string {
+  private convertImageToBBCode(imgElement: HTMLImageElement): string {
     const { src, title } = imgElement;
-    const dataSrc = imgElement.getAttribute('data-src') || imgElement.getAttribute('data-echo');
+    const dataSrc =
+      imgElement.getAttribute('data-src') ||
+      imgElement.getAttribute('data-echo');
 
     // emoji
     if (title === ':m:') {
@@ -126,9 +134,11 @@ export class HTMLToBBCodeConverter {
    * @param {string | null} dataSrc
    * @returns {string}
    */
-  private determineImageUrl (src: string, dataSrc: string | null): string {
+  private determineImageUrl(src: string, dataSrc: string | null): string {
     if (dataSrc) {
-      return dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
+      return dataSrc.match(/(http(s)?:)?\/\//)
+        ? dataSrc
+        : `${location.origin}/${dataSrc}`;
     }
 
     if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
@@ -144,7 +154,9 @@ export class HTMLToBBCodeConverter {
    * @param {HTMLAnchorElement} anchorElement
    * @returns {BBCodeConverterResult}
    */
-  private convertLinkToBBCode (anchorElement: HTMLAnchorElement): BBCodeConverterResult {
+  private convertLinkToBBCode(
+    anchorElement: HTMLAnchorElement,
+  ): BBCodeConverterResult {
     const { href, textContent } = anchorElement;
     if (!href || href.length === 0) {
       return {};
@@ -164,8 +176,10 @@ export class HTMLToBBCodeConverter {
     }
 
     // Ignore JavaScript links or "show" links on specific sites
-    if (href.match(/javascript:void/) ||
-        (textContent === 'show' && this.isMatchingSite('HDT'))) {
+    if (
+      href.match(/javascript:void/) ||
+      (textContent === 'show' && this.isMatchingSite('HDT'))
+    ) {
       return {};
     }
 
@@ -183,7 +197,7 @@ export class HTMLToBBCodeConverter {
    * @param {BBCodeTagsAccumulator} accumulator
    * @returns {(string | null)}
    */
-  private handleSpecialDivElement (
+  private handleSpecialDivElement(
     element: HTMLElement,
     accumulator: BBCodeTagsAccumulator,
   ): string | null {
@@ -254,13 +268,15 @@ export class HTMLToBBCodeConverter {
    * @param {BBCodeTagsAccumulator} accumulator
    * @returns {(string | null)}
    */
-  private handleTDElement (accumulator: BBCodeTagsAccumulator): string | null {
+  private handleTDElement(accumulator: BBCodeTagsAccumulator): string | null {
     const { siteType } = this.siteInfo;
     const addTags = this.addBBCodeTags.bind(this, accumulator);
 
-    if (this.isMatchingSite(/^(TTG|HDBits|KG|HDSpace)/) ||
-        this.isMatchingSite('HDT') ||
-        siteType === 'UNIT3D') {
+    if (
+      this.isMatchingSite(/^(TTG|HDBits|KG|HDSpace)/) ||
+      this.isMatchingSite('HDT') ||
+      siteType === 'UNIT3D'
+    ) {
       addTags('[quote]', '[/quote]');
     } else if (this.isMatchingSite('EMP')) {
       addTags('');
@@ -280,13 +296,15 @@ export class HTMLToBBCodeConverter {
    * @param {BBCodeTagsAccumulator} accumulator
    * @returns {void}
    */
-  private handleBRElement (accumulator: BBCodeTagsAccumulator): void {
+  private handleBRElement(accumulator: BBCodeTagsAccumulator): void {
     const { siteType } = this.siteInfo;
     const siteName = this.siteInfo.siteName;
     const addTags = this.addBBCodeTags.bind(this, accumulator);
 
-    if ((siteType === 'NexusPHP' && siteName !== 'OurBits') ||
-        siteName?.match(/^(UHDBits|HDBits|BTN)/)) {
+    if (
+      (siteType === 'NexusPHP' && siteName !== 'OurBits') ||
+      siteName?.match(/^(UHDBits|HDBits|BTN)/)
+    ) {
       addTags('');
     } else {
       addTags('\n');
@@ -301,7 +319,10 @@ export class HTMLToBBCodeConverter {
    * @param {BBCodeTagsAccumulator} accumulator
    * @returns {void}
    */
-  private handleInlineStyles (element: HTMLElement, accumulator: BBCodeTagsAccumulator): void {
+  private handleInlineStyles(
+    element: HTMLElement,
+    accumulator: BBCodeTagsAccumulator,
+  ): void {
     const { style } = element;
     const addTags = this.addBBCodeTags.bind(this, accumulator);
 
@@ -320,7 +341,10 @@ export class HTMLToBBCodeConverter {
       addTags('[i]', '[/i]');
     }
 
-    if (style.textDecoration === 'underline' || style.textDecoration === 'overline') {
+    if (
+      style.textDecoration === 'underline' ||
+      style.textDecoration === 'overline'
+    ) {
       addTags('[u]', '[/u]');
     }
 
@@ -342,7 +366,7 @@ export class HTMLToBBCodeConverter {
    * @param {BBCodeTagsAccumulator} accumulator
    * @returns {(string | null)}
    */
-  private handleElementByTagName (
+  private handleElementByTagName(
     tagName: string,
     element: HTMLElement,
     accumulator: BBCodeTagsAccumulator,
@@ -426,7 +450,10 @@ export class HTMLToBBCodeConverter {
       case 'FONT': {
         const fontElement = element as HTMLFontElement;
         if (fontElement.color) {
-          addTags(`[color=${this.normalizeColorFormat(fontElement.color)}]`, '[/color]');
+          addTags(
+            `[color=${this.normalizeColorFormat(fontElement.color)}]`,
+            '[/color]',
+          );
         }
         if (fontElement.size) {
           addTags(`[size=${fontElement.size}]`, '[/size]');
@@ -487,8 +514,9 @@ export class HTMLToBBCodeConverter {
    * @param {Element | ChildNode} node
    * @returns {string}
    */
-  public convert (node: Element | ChildNode): string {
-    if (node.nodeType === 3) { // text node
+  public convert(node: Element | ChildNode): string {
+    if (node.nodeType === 3) {
+      // text node
       // only the textContent of document node could be null, which is not possible here
       const textContent = node.textContent as string;
       if (this.isSpecialControlText(textContent)) {
@@ -508,7 +536,11 @@ export class HTMLToBBCodeConverter {
       closingTags: [],
     };
 
-    const specialTagResult = this.handleElementByTagName(tagName, element, accumulator);
+    const specialTagResult = this.handleElementByTagName(
+      tagName,
+      element,
+      accumulator,
+    );
     if (specialTagResult !== null) {
       return specialTagResult;
     }
@@ -516,7 +548,7 @@ export class HTMLToBBCodeConverter {
     this.handleInlineStyles(element, accumulator);
 
     const bbCodeParts: string[] = [];
-    element.childNodes.forEach(childNode => {
+    element.childNodes.forEach((childNode) => {
       const childCode = this.convert(childNode);
       if (childCode) {
         bbCodeParts.push(childCode);
@@ -534,7 +566,7 @@ export class NetworkError extends Error {
   public readonly status?: number;
   public readonly statusText?: string;
 
-  constructor (message: string, status?: number, statusText?: string) {
+  constructor(message: string, status?: number, statusText?: string) {
     super(message);
     this.name = 'NetworkError';
     this.status = status;
@@ -543,7 +575,7 @@ export class NetworkError extends Error {
 }
 
 export class TimeoutError extends Error {
-  constructor (message: string = 'Request timed out') {
+  constructor(message: string = 'Request timed out') {
     super(message);
     this.name = 'TimeoutError';
   }

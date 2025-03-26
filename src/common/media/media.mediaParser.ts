@@ -5,7 +5,7 @@ import { convertSizeStringToBytes } from '@/common/utils';
 abstract class MediaParser {
   protected source: string;
   protected result: MediaInfo;
-  constructor (source: string) {
+  constructor(source: string) {
     this.source = source;
     this.result = {
       fileName: '',
@@ -18,21 +18,21 @@ abstract class MediaParser {
     };
   }
 
-  abstract parse(): MediaInfo
+  abstract parse(): MediaInfo;
 
-  abstract parseVideoSection(videos: Record<string, string>[]): VideoTrack[]
+  abstract parseVideoSection(videos: Record<string, string>[]): VideoTrack[];
 
-  abstract parseAudioSection(audios: Record<string, string>[]): AudioTrack[]
+  abstract parseAudioSection(audios: Record<string, string>[]): AudioTrack[];
 
   abstract parseSubtitleSection(
-    subtitles: Record<string, string>[]
-  ): SubtitleTrack[]
+    subtitles: Record<string, string>[],
+  ): SubtitleTrack[];
 
-  abstract splitIntoSections(): Record<string, Record<string, string>[]>
+  abstract splitIntoSections(): Record<string, Record<string, string>[]>;
 
-  abstract parseDuration(duration: string): number
+  abstract parseDuration(duration: string): number;
 
-  getHdrType (hdrFormat: string): string {
+  getHdrType(hdrFormat: string): string {
     if (!hdrFormat) return '';
 
     if (/Dolby\s*Vision/i.test(hdrFormat)) return 'DV';
@@ -45,7 +45,7 @@ abstract class MediaParser {
 }
 
 export class MediaInfoParser extends MediaParser {
-  splitIntoSections () {
+  splitIntoSections() {
     const lines = this.source.split('\n');
     const sections: Record<string, Record<string, string>[]> = {};
 
@@ -84,7 +84,7 @@ export class MediaInfoParser extends MediaParser {
     return sections;
   }
 
-  parseGeneralSection (general: Record<string, string>) {
+  parseGeneralSection(general: Record<string, string>) {
     if (!general) return;
     this.result.fileSize = convertSizeStringToBytes(general['File size']);
     this.result.duration = this.parseDuration(general.Duration);
@@ -92,7 +92,7 @@ export class MediaInfoParser extends MediaParser {
     this.result.fileName = general['Complete name'];
   }
 
-  parseVideoSection (videos: Record<string, string>[]) {
+  parseVideoSection(videos: Record<string, string>[]) {
     if (!videos || videos.length === 0) return [];
     const videoTracks: VideoTrack[] = [];
     for (const video of videos) {
@@ -101,7 +101,7 @@ export class MediaInfoParser extends MediaParser {
     return videoTracks;
   }
 
-  parseAudioSection (audios: Record<string, string>[]) {
+  parseAudioSection(audios: Record<string, string>[]) {
     if (!audios || audios.length === 0) return [];
     const audioTracks: AudioTrack[] = [];
     for (const audio of audios) {
@@ -110,7 +110,7 @@ export class MediaInfoParser extends MediaParser {
     return audioTracks;
   }
 
-  parseSubtitleSection (subtitles: Record<string, string>[]) {
+  parseSubtitleSection(subtitles: Record<string, string>[]) {
     if (!subtitles || subtitles.length === 0) return [];
     const subtitleTracks: SubtitleTrack[] = [];
     for (const subtitle of subtitles) {
@@ -132,7 +132,7 @@ export class MediaInfoParser extends MediaParser {
     return subtitleTracks;
   }
 
-  parseAudio (audio: Record<string, string>): AudioTrack {
+  parseAudio(audio: Record<string, string>): AudioTrack {
     const {
       Format: audioFormat = '',
       'Format profile': formatProfile = '',
@@ -166,7 +166,7 @@ export class MediaInfoParser extends MediaParser {
     };
   }
 
-  parseVideo (video: Record<string, string>, generalFormat: string): VideoTrack {
+  parseVideo(video: Record<string, string>, generalFormat: string): VideoTrack {
     const {
       Format: videoFormat = '',
       'Format version': videoFormatVersion = '',
@@ -219,7 +219,7 @@ export class MediaInfoParser extends MediaParser {
     };
   }
 
-  parseDuration (duration: string) {
+  parseDuration(duration: string) {
     const hour = duration.match(/(\d+)\s*h/)?.[1] ?? '0';
     const minute = duration.match(/(\d+)\s*min/)?.[1] ?? '0';
     const second = duration.match(/(\d+)\s*s/)?.[1] ?? '0';
@@ -230,7 +230,7 @@ export class MediaInfoParser extends MediaParser {
     );
   }
 
-  parseResolution (
+  parseResolution(
     width: number,
     height: number,
     scanType: string = '',
@@ -260,30 +260,34 @@ export class MediaInfoParser extends MediaParser {
     return `${width}x${height}`;
   }
 
-  private determineAudioCodec (
+  private determineAudioCodec(
     format: string,
     commercialName: string,
     formatProfile: string,
   ): string {
     const codecRules = [
       {
-        match: () => /MLP FBA/i.test(format) && /Dolby Atmos/i.test(commercialName),
+        match: () =>
+          /MLP FBA/i.test(format) && /Dolby Atmos/i.test(commercialName),
         codec: 'atmos',
       },
       { match: () => /MLP FBA/i.test(format), codec: 'truehd' },
       {
-        match: () => /AC-3/i.test(format) && /Dolby Digital Plus/i.test(commercialName),
+        match: () =>
+          /AC-3/i.test(format) && /Dolby Digital Plus/i.test(commercialName),
         codec: 'dd+',
       },
       { match: () => /E-AC-3/i.test(format), codec: 'dd+' },
       {
-        match: () => /AC-3/i.test(format) && /Dolby Digital/i.test(commercialName),
+        match: () =>
+          /AC-3/i.test(format) && /Dolby Digital/i.test(commercialName),
         codec: 'dd',
       },
       { match: () => /AC-3/i.test(format), codec: 'ac3' },
       { match: () => /DTS XLL X/i.test(format), codec: 'dtsx' },
       {
-        match: () => /DTS/i.test(format) && /DTS-HD Master Audio/i.test(commercialName),
+        match: () =>
+          /DTS/i.test(format) && /DTS-HD Master Audio/i.test(commercialName),
         codec: 'dtshdma',
       },
       {
@@ -291,7 +295,8 @@ export class MediaInfoParser extends MediaParser {
         codec: 'dtshdma',
       },
       {
-        match: () => /DTS/i.test(format) && /High Resolution/i.test(commercialName),
+        match: () =>
+          /DTS/i.test(format) && /High Resolution/i.test(commercialName),
         codec: 'dtshd',
       },
       { match: () => /DTS/i.test(format), codec: 'dts' },
@@ -307,7 +312,7 @@ export class MediaInfoParser extends MediaParser {
     return matchedRule ? matchedRule.codec : '';
   }
 
-  parse (): MediaInfo {
+  parse(): MediaInfo {
     const sections = this.splitIntoSections();
     this.parseGeneralSection(sections?.General?.[0]);
     const videoTracks = this.parseVideoSection(sections?.Video);
@@ -324,7 +329,7 @@ export class MediaInfoParser extends MediaParser {
 }
 
 export class BDInfoParser extends MediaParser {
-  splitIntoSections () {
+  splitIntoSections() {
     const lines = this.source.split('\n');
     const sectionTypeConfig = [
       { match: /Disc Label|DISC INFO/i, typeName: 'general' },
@@ -372,7 +377,9 @@ export class BDInfoParser extends MediaParser {
         continue;
       }
       if (currentSectionType) {
-        const [key, value, ...extra] = trimmedLine.split(':').map((s) => s.trim());
+        const [key, value, ...extra] = trimmedLine
+          .split(':')
+          .map((s) => s.trim());
         if (key && value && !key.includes('/') && !value.includes('/')) {
           if (extra.length > 0) {
             currentSectionLines[key] = `${value}:${extra.join(':').trim()}`;
@@ -380,11 +387,16 @@ export class BDInfoParser extends MediaParser {
             currentSectionLines[key] = value.trim();
           }
         } else if (key.trim()) {
-          if (!key.includes('--') && !key.match(/Bitrate\s*Description|PLAYLIST REPORT/i)) {
+          if (
+            !key.includes('--') &&
+            !key.match(/Bitrate\s*Description|PLAYLIST REPORT/i)
+          ) {
             if (!sections[currentSectionType]) {
               sections[currentSectionType] = [];
             }
-            sections[currentSectionType].push({ [currentSectionLineIndex]: trimmedLine });
+            sections[currentSectionType].push({
+              [currentSectionLineIndex]: trimmedLine,
+            });
           }
         }
       }
@@ -399,16 +411,20 @@ export class BDInfoParser extends MediaParser {
     return sections;
   }
 
-  parseGeneralSection (general: Record<string, string>) {
+  parseGeneralSection(general: Record<string, string>) {
     if (!general) {
       return;
     }
-    this.result.fileSize = convertSizeStringToBytes(general?.['Disc Size']?.replace(/,/g, ''));
-    this.result.duration = this.parseDuration(general?.Length?.replace(/\s/g, '')); ;
+    this.result.fileSize = convertSizeStringToBytes(
+      general?.['Disc Size']?.replace(/,/g, ''),
+    );
+    this.result.duration = this.parseDuration(
+      general?.Length?.replace(/\s/g, ''),
+    );
     this.result.fileName = general?.['Disc Label'];
   }
 
-  parseVideoSection (videos: Record<string, string>[]): VideoTrack[] {
+  parseVideoSection(videos: Record<string, string>[]): VideoTrack[] {
     if (!videos || videos.length === 0) return [];
     const videoTracks: VideoTrack[] = [];
     for (const video of videos) {
@@ -417,7 +433,7 @@ export class BDInfoParser extends MediaParser {
     return videoTracks;
   }
 
-  parseVideo (video: string): VideoTrack {
+  parseVideo(video: string): VideoTrack {
     const videoCodec = video.match(/(\w|\s|-|\/)+?Video/i)?.[0] ?? '';
     const codec = /HEVC/i.test(videoCodec) ? 'hevc' : 'h264';
     const resolution = video.match(/(\d+)p/i)?.[0] ?? '';
@@ -432,7 +448,7 @@ export class BDInfoParser extends MediaParser {
     };
   }
 
-  parseAudioSection (audios: Record<string, string>[]): AudioTrack[] {
+  parseAudioSection(audios: Record<string, string>[]): AudioTrack[] {
     if (!audios || audios.length === 0) return [];
     const audioTracks: AudioTrack[] = [];
     for (const audio of audios) {
@@ -441,7 +457,7 @@ export class BDInfoParser extends MediaParser {
     return audioTracks;
   }
 
-  private parseAudio (audio: string): AudioTrack {
+  private parseAudio(audio: string): AudioTrack {
     const audioCodec = audio.match(/(\w|\s|-|\/)+?Audio/i)?.[0] ?? '';
     const codec = getAudioCodecFromSource(audioCodec);
     const isQuickSummaryType = /Audio\s*\//.test(audio);
@@ -459,7 +475,7 @@ export class BDInfoParser extends MediaParser {
     };
   }
 
-  parseSubtitleSection (subtitles: Record<string, string>[]): SubtitleTrack[] {
+  parseSubtitleSection(subtitles: Record<string, string>[]): SubtitleTrack[] {
     if (!subtitles || subtitles.length === 0) return [];
     const subtitleTracks: SubtitleTrack[] = [];
     for (const subtitle of subtitles) {
@@ -468,7 +484,7 @@ export class BDInfoParser extends MediaParser {
     return subtitleTracks;
   }
 
-  private parseSubtitle (subtitle: string): SubtitleTrack {
+  private parseSubtitle(subtitle: string): SubtitleTrack {
     const subtitleSplits = subtitle.split('/');
     const firstAudioSplit = subtitleSplits?.[0]?.trim();
     let language = firstAudioSplit;
@@ -480,18 +496,18 @@ export class BDInfoParser extends MediaParser {
     };
   }
 
-  parseDuration (duration: string) {
+  parseDuration(duration: string) {
     const [hour, minute, second] = duration.split(':');
     return (
-      parseFloat(hour) * 3600 +
-      parseFloat(minute) * 60 +
-      parseFloat(second)
+      parseFloat(hour) * 3600 + parseFloat(minute) * 60 + parseFloat(second)
     );
   }
 
-  parse (): MediaInfo {
+  parse(): MediaInfo {
     const sections = this.splitIntoSections();
-    this.parseGeneralSection(sections?.general?.[sections?.general?.length > 1 ? 1 : 0]);
+    this.parseGeneralSection(
+      sections?.general?.[sections?.general?.length > 1 ? 1 : 0],
+    );
     const videoTracks = this.parseVideoSection(sections?.video);
     const audioTracks = this.parseAudioSection(sections?.audio);
     const subtitleTracks = this.parseSubtitleSection(sections?.subtitle);

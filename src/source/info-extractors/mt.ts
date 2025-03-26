@@ -22,19 +22,19 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
   priority = 10;
   torrentId: string = '';
 
-  canHandle (siteName: string): boolean {
+  canHandle(siteName: string): boolean {
     return siteName === 'MTeam';
   }
 
-  extractTitle (title: string) {
+  extractTitle(title: string) {
     this.info.title = formatTorrentTitle(title);
   }
 
-  extractResolution (standardId: keyof typeof CONFIG.MT_SPECS_MAP.standard) {
+  extractResolution(standardId: keyof typeof CONFIG.MT_SPECS_MAP.standard) {
     this.info.resolution = CONFIG.MT_SPECS_MAP.standard[standardId];
   }
 
-  extractSource (sourceId: keyof typeof CONFIG.MT_SPECS_MAP.source) {
+  extractSource(sourceId: keyof typeof CONFIG.MT_SPECS_MAP.source) {
     let sourceName = CONFIG.MT_SPECS_MAP.source[sourceId];
     if (sourceName === 'bluray' && this.info.resolution === '2160p') {
       sourceName = 'uhdbluray';
@@ -42,7 +42,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     this.info.source = sourceName;
   }
 
-  extractVideoType (mediumId: keyof typeof CONFIG.MT_SPECS_MAP.medium) {
+  extractVideoType(mediumId: keyof typeof CONFIG.MT_SPECS_MAP.medium) {
     const { resolution, title } = this.info;
     if (!mediumId) {
       this.info.videoType = getVideoTypeFromSource(title);
@@ -58,7 +58,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     this.info.videoType = videoType;
   }
 
-  extractCategory (categoryId: string) {
+  extractCategory(categoryId: string) {
     const catMap = PT_SITE.MTeam.category.map;
     for (const [key, value] of Object.entries(catMap)) {
       if (value.includes(categoryId)) {
@@ -67,21 +67,27 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     }
   }
 
-  extractCodec () {
+  extractCodec() {
     const { title, videoType } = this.info;
-    this.info.videoCodec = getVideoCodecFromSourceAndVideoType(title, videoType);
+    this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+      title,
+      videoType,
+    );
     this.info.audioCodec = getAudioCodecFromSource(title);
   }
 
-  async extractScreenshots () {
+  async extractScreenshots() {
     this.info.screenshots = await extractImgsFromBBCode(this.info.description);
   }
 
-  extractMediaDetails () {
+  extractMediaDetails() {
     if (!this.info.mediaInfos?.[0]) {
       return;
     }
-    const mediaInfo = parseMedia(this.info.mediaInfos?.[0], this.isVideoTypeBluray());
+    const mediaInfo = parseMedia(
+      this.info.mediaInfos?.[0],
+      this.isVideoTypeBluray(),
+    );
     if (!mediaInfo) {
       return;
     }
@@ -95,22 +101,22 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     this.info.tags = getMediaTags(mediaDetail);
   }
 
-  extractDescription (descr: string) {
+  extractDescription(descr: string) {
     this.info.description = descr.replace(/!\[\]\((.+?)\)/g, '[img]$1[/img]');
   }
 
-  isVideoTypeBluray () {
+  isVideoTypeBluray() {
     return /bluray/i.test(this.info.videoType);
   }
 
-  getMovieInfo (data: IMDbInfo) {
+  getMovieInfo(data: IMDbInfo) {
     const { year, title, photo } = data;
     this.info.year = year;
     this.info.movieName = title;
     this.info.poster = photo.full || photo.thumb;
   }
 
-  setRequestHeaders () {
+  setRequestHeaders() {
     const version = CONFIG.MT_REQUEST_VERSION;
     const webVersion = `${version.replace(/\./g, '')}0`;
     const ts = `${Math.floor(Date.now() / 1e3)}`;
@@ -128,14 +134,14 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     };
   }
 
-  async getIMDbDataFromAPI () {
+  async getIMDbDataFromAPI() {
     const formdata = createFormData({
       code: this.info.imdbUrl,
     });
     const res = await GMFetch<{
       data: IMDbInfo;
-      code: string
-      message: string
+      code: string;
+      message: string;
     }>(`${CONFIG.MT_BASE_API_URL}/torrent/imdbInfo`, {
       data: formdata,
       method: 'POST',
@@ -148,11 +154,11 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     return res.data;
   }
 
-  async getTorrentURLFormAPI () {
+  async getTorrentURLFormAPI() {
     const res = await GMFetch<{
-      code: string
-      message: string
-      data: string
+      code: string;
+      message: string;
+      data: string;
     }>(`${CONFIG.MT_BASE_API_URL}/torrent/genDlToken`, {
       method: 'POST',
       data: createFormData({
@@ -164,16 +170,16 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     if (res.code === '0') {
       CURRENT_SITE_INFO.torrentLink = res.data;
     }
-  };
+  }
 
-  async getTorrentDetailFromAPI () {
+  async getTorrentDetailFromAPI() {
     const formdata = createFormData({
       id: this.torrentId,
     });
     const res = await GMFetch<{
       data: TorrentDetailInfo;
-      code: string
-      message: string
+      code: string;
+      message: string;
     }>(`${CONFIG.MT_BASE_API_URL}/torrent/detail`, {
       data: formdata,
       method: 'POST',
@@ -186,7 +192,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     return res.data;
   }
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     const torrentId = location.pathname.match(/detail\/(\d+)/)?.[1];
     if (!torrentId) {
       return this.info;

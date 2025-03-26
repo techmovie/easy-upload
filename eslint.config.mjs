@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import stylisticTs from '@stylistic/eslint-plugin-ts';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,56 +17,63 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [{
-  ignores: ['**/dist'],
-}, ...compat.extends(
-  'preact',
-  'standard',
-  'plugin:@typescript-eslint/eslint-recommended',
-  'plugin:@typescript-eslint/recommended',
-), {
-  files: [
-    '**/*.js',
-    '**/*.mjs',
-    '**/*.cjs',
-    '**/*.ts',
-    '**/*.tsx',
-  ],
-  plugins: {
-    react,
-    '@typescript-eslint': typescriptEslint,
-    '@stylistic/ts': stylisticTs,
+export default [
+  {
+    ignores: ['**/dist'],
   },
-
-  languageOptions: {
-    globals: {
-      ...globals.browser,
-      ...globals.greasemonkey,
+  ...compat.extends(
+    'preact',
+    'standard',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ),
+  {
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs', '**/*.ts', '**/*.tsx'],
+    plugins: {
+      react,
+      '@typescript-eslint': typescriptEslint,
+      '@stylistic/ts': stylisticTs,
+      prettier: prettierPlugin,
     },
 
-    parser: tsParser,
-    ecmaVersion: 2020,
-    sourceType: 'script',
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.greasemonkey,
+      },
 
-    parserOptions: {
-      ecmaFeatures: {
-        jsx: true,
+      parser: tsParser,
+      ecmaVersion: 2020,
+      sourceType: 'script',
+
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
-  },
 
-  settings: {
-    jest: {
-      version: 26,
+    settings: {
+      jest: {
+        version: 26,
+      },
+    },
+
+    rules: {
+      'no-use-before-define': 0,
+      semi: ['error', 'always'],
+      'no-undef': 0,
+      'comma-dangle': ['error', 'always-multiline'],
+      indent: 'off',
+      '@stylistic/ts/indent': ['error', 2],
+      '@stylistic/ts/type-annotation-spacing': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+        },
+      ],
     },
   },
-
-  rules: {
-    'no-use-before-define': 0,
-    semi: ['error', 'always'],
-    'no-undef': 0,
-    'comma-dangle': ['error', 'always-multiline'],
-    indent: 'off',
-    '@stylistic/ts/indent': ['error', 2],
-  },
-}];
+];

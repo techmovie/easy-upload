@@ -25,8 +25,9 @@ import './avistaz';
 import './bhd';
 import './btn';
 import './hdb';
+import './kg';
 
-export async function getTorrentInfo (): Promise<TorrentInfo.Info | null> {
+export async function getTorrentInfo(): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {
     console.log('No site info found');
     return null;

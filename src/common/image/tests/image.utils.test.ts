@@ -41,69 +41,103 @@ describe('HdBitsStrategy', () => {
   });
   it('should transform img.hdbits.org urls correctly', async () => {
     const strategy = new HdBitsStrategy();
-    vi.mocked(GMFetch).mockResolvedValueOnce('<img id="viewimage" src="https://img.hdbits.org/image.png" />');
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<img id="viewimage" src="https://img.hdbits.org/image.png" />',
+    );
     const result = await strategy.transform('https://img.hdbits.org/image');
     expect(result).toBe('https://img.hdbits.org/image.png');
   });
   it('should handle GMFetch errors during transformation', async () => {
     const strategy = new HdBitsStrategy();
     vi.mocked(GMFetch).mockRejectedValueOnce(new Error('Network error'));
-    await expect(strategy.transform('https://img.hdbits.org/image')).rejects.toThrow('Network error');
+    await expect(
+      strategy.transform('https://img.hdbits.org/image'),
+    ).rejects.toThrow('Network error');
   });
   it('should handle missing viewimage element', async () => {
     const strategy = new HdBitsStrategy();
-    vi.mocked(GMFetch).mockResolvedValueOnce('<img src="https://img.hdbits.org/image.png" />');
-    await expect(strategy.transform('https://img.hdbits.org/image')).rejects.toThrow("Couldn't find image element when retrieving from HDBits");
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<img src="https://img.hdbits.org/image.png" />',
+    );
+    await expect(
+      strategy.transform('https://img.hdbits.org/image'),
+    ).rejects.toThrow(
+      "Couldn't find image element when retrieving from HDBits",
+    );
   });
   it('should handle empty src attribute', async () => {
     const strategy = new HdBitsStrategy();
     vi.mocked(GMFetch).mockResolvedValueOnce('<img id="viewimage" src="" />');
-    await expect(strategy.transform('https://img.hdbits.org/image')).rejects.toThrow('No valid image source found when retrieving from HDBits');
+    await expect(
+      strategy.transform('https://img.hdbits.org/image'),
+    ).rejects.toThrow(
+      'No valid image source found when retrieving from HDBits',
+    );
   });
 });
 
 describe('PterClubStrategy', () => {
   it('should match pterclub.com urls or not', () => {
     const strategy = new PterClubStrategy();
-    expect(strategy.matches('', '[img]https://img.pterclub.com/image.jpg[/img]')).toBe(true);
-    expect(strategy.matches('', '[img]https://example.com/image.jpg[/img]')).toBe(false);
+    expect(
+      strategy.matches('', '[img]https://img.pterclub.com/image.jpg[/img]'),
+    ).toBe(true);
+    expect(
+      strategy.matches('', '[img]https://example.com/image.jpg[/img]'),
+    ).toBe(false);
     expect(strategy.matches('', '')).toBe(false);
   });
   it('should transform pterclub.com urls correctly', async () => {
     const strategy = new PterClubStrategy();
-    const result = await strategy.transform('', '[img]https://img.pterclub.com/image.th.png[/img]');
+    const result = await strategy.transform(
+      '',
+      '[img]https://img.pterclub.com/image.th.png[/img]',
+    );
     expect(result).toBe('https://img.pterclub.com/image.png');
   });
   it('should handle invalid BBCode during transformation', async () => {
     const strategy = new PterClubStrategy();
-    await expect(strategy.transform('', 'invalid bbcode'))
-      .rejects.toThrow('Invalid PterClub image URL');
+    await expect(strategy.transform('', 'invalid bbcode')).rejects.toThrow(
+      'Invalid PterClub image URL',
+    );
   });
 });
 
 describe('ImageBoxStrategy', () => {
   it('should match imgbox.com urls or not', () => {
     const strategy = new ImageBoxStrategy();
-    expect(strategy.matches('', '[img]https://imgbox.com/image.jpg[/img]')).toBe(true);
-    expect(strategy.matches('', '[img]https://example.com/image.jpg[/img]')).toBe(false);
+    expect(
+      strategy.matches('', '[img]https://imgbox.com/image.jpg[/img]'),
+    ).toBe(true);
+    expect(
+      strategy.matches('', '[img]https://example.com/image.jpg[/img]'),
+    ).toBe(false);
     expect(strategy.matches('', '')).toBe(false);
   });
   it('should transform imgbox.com urls correctly', async () => {
     const strategy = new ImageBoxStrategy();
-    const result = await strategy.transform('', '[img]https://thumbs2.imgbox.com/aa/60/aXwtuXfH_t.png[/img]');
+    const result = await strategy.transform(
+      '',
+      '[img]https://thumbs2.imgbox.com/aa/60/aXwtuXfH_t.png[/img]',
+    );
     expect(result).toBe('https://images2.imgbox.com/aa/60/aXwtuXfH_o.png');
-    const result2 = await strategy.transform('', '[img]https://thumbs99.imgbox.com/aa/60/aXwtuXfH_t.png[/img]');
+    const result2 = await strategy.transform(
+      '',
+      '[img]https://thumbs99.imgbox.com/aa/60/aXwtuXfH_t.png[/img]',
+    );
     expect(result2).toBe('https://images99.imgbox.com/aa/60/aXwtuXfH_o.png');
   });
   it('should handle invalid BBCode during transformation', async () => {
     const strategy = new ImageBoxStrategy();
-    await expect(strategy.transform('', 'invalid bbcode'))
-      .rejects.toThrow('Invalid ImageBox image BBCode');
+    await expect(strategy.transform('', 'invalid bbcode')).rejects.toThrow(
+      'Invalid ImageBox image BBCode',
+    );
   });
   it('should handle malformed imgbox urls', async () => {
     const strategy = new ImageBoxStrategy();
-    await expect(strategy.transform('', '[img]https://thumbs2.imgbox.com/invalid[/img]'))
-      .rejects.toThrow('Invalid ImageBox image URL');
+    await expect(
+      strategy.transform('', '[img]https://thumbs2.imgbox.com/invalid[/img]'),
+    ).rejects.toThrow('Invalid ImageBox image URL');
   });
 });
 
@@ -116,24 +150,40 @@ describe('ImageBamStrategy', () => {
   });
   it('should transform imagebam.com urls correctly', async () => {
     const strategy = new ImageBamStrategy();
-    vi.mocked(GMFetch).mockResolvedValueOnce('<img class="main-image" src="https://example.com/image.png" />');
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<img class="main-image" src="https://example.com/image.png" />',
+    );
     const result = await strategy.transform('https://imagebam.com/image');
     expect(result).toBe('https://example.com/image.png');
   });
   it('should handle GMFetch errors during transformation', async () => {
     const strategy = new ImageBamStrategy();
     vi.mocked(GMFetch).mockRejectedValueOnce(new Error('Network error'));
-    await expect(strategy.transform('https://imagebam.com/image')).rejects.toThrow('Network error');
+    await expect(
+      strategy.transform('https://imagebam.com/image'),
+    ).rejects.toThrow('Network error');
   });
   it('should handle missing main-image element', async () => {
     const strategy = new ImageBamStrategy();
-    vi.mocked(GMFetch).mockResolvedValueOnce('<img src="https://example.com/image.png" />');
-    await expect(strategy.transform('https://imagebam.com/image')).rejects.toThrow("Couldn't find image element when retrieving from ImageBam");
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<img src="https://example.com/image.png" />',
+    );
+    await expect(
+      strategy.transform('https://imagebam.com/image'),
+    ).rejects.toThrow(
+      "Couldn't find image element when retrieving from ImageBam",
+    );
   });
   it('should handle empty src attribute', async () => {
     const strategy = new ImageBamStrategy();
-    vi.mocked(GMFetch).mockResolvedValueOnce('<img class="main-image" src="" />');
-    await expect(strategy.transform('https://imagebam.com/image')).rejects.toThrow('No valid image source found when retrieving from ImageBam');
+    vi.mocked(GMFetch).mockResolvedValueOnce(
+      '<img class="main-image" src="" />',
+    );
+    await expect(
+      strategy.transform('https://imagebam.com/image'),
+    ).rejects.toThrow(
+      'No valid image source found when retrieving from ImageBam',
+    );
   });
 });
 
@@ -146,20 +196,28 @@ describe('BeyondHdStrategy', () => {
   });
   it('should transform beyondhd.co urls correctly', async () => {
     const strategy = new BeyondHdStrategy();
-    const resultForTh = await strategy.transform('', '[img]https://beyondhd.co/image.th.png[/img]');
+    const resultForTh = await strategy.transform(
+      '',
+      '[img]https://beyondhd.co/image.th.png[/img]',
+    );
     expect(resultForTh).toBe('https://beyondhd.co/image.png');
-    const resultForMd = await strategy.transform('', '[img]https://beyondhd.co/image.md.png[/img]');
+    const resultForMd = await strategy.transform(
+      '',
+      '[img]https://beyondhd.co/image.md.png[/img]',
+    );
     expect(resultForMd).toBe('https://beyondhd.co/image.png');
   });
   it('should handle invalid BBCode during transformation', async () => {
     const strategy = new BeyondHdStrategy();
-    await expect(strategy.transform('', 'invalid bbcode'))
-      .rejects.toThrow('Invalid BeyondHD image BBCode');
+    await expect(strategy.transform('', 'invalid bbcode')).rejects.toThrow(
+      'Invalid BeyondHD image BBCode',
+    );
   });
   it('should handle malformed beyondhd urls', async () => {
     const strategy = new BeyondHdStrategy();
-    await expect(strategy.transform('', '[img]https://beyondhd.co/invalid[/img]'))
-      .rejects.toThrow('Invalid BeyondHD image URL');
+    await expect(
+      strategy.transform('', '[img]https://beyondhd.co/invalid[/img]'),
+    ).rejects.toThrow('Invalid BeyondHD image URL');
   });
 });
 
@@ -172,21 +230,35 @@ describe('PixHostStrategy', () => {
   });
   it('should transform pixhost.to urls correctly', async () => {
     const strategy = new PixHostStrategy();
-    const result = await strategy.transform('https://pixhost.to/show/img.png', '[img]https://t12.pixhost.to/thumbs/img.png[/img]');
+    const result = await strategy.transform(
+      'https://pixhost.to/show/img.png',
+      '[img]https://t12.pixhost.to/thumbs/img.png[/img]',
+    );
     expect(result).toBe('https://img12.pixhost.to/images/img.png');
   });
   it('should handle different pixhost subdomain patterns', async () => {
     const strategy = new PixHostStrategy();
-    await expect(strategy.transform('https://pixhost.to/show/img.png', '[img]https://pixhost.to/show/img.png[/img]')).rejects.toThrow('Invalid PixHost image BBCode');
+    await expect(
+      strategy.transform(
+        'https://pixhost.to/show/img.png',
+        '[img]https://pixhost.to/show/img.png[/img]',
+      ),
+    ).rejects.toThrow('Invalid PixHost image BBCode');
   });
   it('should handle malformed pixhost urls', async () => {
     const strategy = new PixHostStrategy();
-    await expect(strategy.transform('https://pixhost.to/show/img.png', '[img]https://pixhost.to/invalid[/img]'))
-      .rejects.toThrow('Invalid PixHost image BBCode');
-    await expect(strategy.transform('', '[img]https://pixhost.to/invalid[/img]'))
-      .rejects.toThrow('Invalid PixHost image BBCode');
-    await expect(strategy.transform('https://pixhost.to/show/img.png', ''))
-      .rejects.toThrow('Invalid PixHost image BBCode');
+    await expect(
+      strategy.transform(
+        'https://pixhost.to/show/img.png',
+        '[img]https://pixhost.to/invalid[/img]',
+      ),
+    ).rejects.toThrow('Invalid PixHost image BBCode');
+    await expect(
+      strategy.transform('', '[img]https://pixhost.to/invalid[/img]'),
+    ).rejects.toThrow('Invalid PixHost image BBCode');
+    await expect(
+      strategy.transform('https://pixhost.to/show/img.png', ''),
+    ).rejects.toThrow('Invalid PixHost image BBCode');
   });
 });
 
@@ -195,7 +267,7 @@ describe('URL Strategies', () => {
     expect(URLStrategies).toBeDefined();
     expect(URLStrategies.length).toBeGreaterThan(0);
 
-    URLStrategies.forEach(strategy => {
+    URLStrategies.forEach((strategy) => {
       expect(typeof strategy.matches).toBe('function');
       expect(typeof strategy.transform).toBe('function');
     });
@@ -204,7 +276,9 @@ describe('URL Strategies', () => {
 
 describe('throwUploadError', () => {
   it('should throw ImageUploadError with default message', () => {
-    expect(() => throwUploadError()).toThrow($t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED));
+    expect(() => throwUploadError()).toThrow(
+      $t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED),
+    );
   });
   it('should throw ImageUploadError with custom message', () => {
     expect(() => throwUploadError('Custom message')).toThrow('Custom message');
@@ -225,7 +299,10 @@ describe('throwUploadError', () => {
 describe('withUploadErrorHandling', () => {
   it('should call the upload function with the provided arguments', async () => {
     const mockUploadFn = vi.fn().mockResolvedValueOnce('result');
-    const wrappedFn = await withUploadErrorHandling(mockUploadFn, 'Test Service');
+    const wrappedFn = await withUploadErrorHandling(
+      mockUploadFn,
+      'Test Service',
+    );
     const result = await wrappedFn('arg1', 'arg2', 123);
     expect(mockUploadFn).toBeCalledTimes(1);
     expect(mockUploadFn).toBeCalledWith('arg1', 'arg2', 123);
@@ -233,7 +310,11 @@ describe('withUploadErrorHandling', () => {
   });
   it('should return the default result when first argument is null and validateFirstArg is true', async () => {
     const mockUploadFn = vi.fn().mockResolvedValueOnce('result');
-    const wrappedFn = await withUploadErrorHandling(mockUploadFn, 'Test Service', { validateFirstArg: true });
+    const wrappedFn = await withUploadErrorHandling(
+      mockUploadFn,
+      'Test Service',
+      { validateFirstArg: true },
+    );
     const result = await wrappedFn(null, 'arg2', 123);
     expect(mockUploadFn).toBeCalledTimes(0);
     expect(result).toEqual([]);
@@ -336,7 +417,9 @@ describe('withUploadErrorHandling', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(ImageUploadError);
       expect((error as ImageUploadError).message).toContain('TestService');
-      expect((error as ImageUploadError).message).toContain('Deep nested error');
+      expect((error as ImageUploadError).message).toContain(
+        'Deep nested error',
+      );
       expect((error as ImageUploadError).originalError).toBe(originalError);
     }
   });
@@ -358,7 +441,11 @@ describe('withUploadErrorHandling', () => {
     await wrappedFn(['item1', 'item2'], complexArg, new Map());
 
     expect(mockUploadFn).toHaveBeenCalledTimes(1);
-    expect(mockUploadFn).toHaveBeenCalledWith(['item1', 'item2'], complexArg, new Map());
+    expect(mockUploadFn).toHaveBeenCalledWith(
+      ['item1', 'item2'],
+      complexArg,
+      new Map(),
+    );
   });
   it('should handle unknown error', async () => {
     const mockUploadFn = vi.fn().mockRejectedValue('random error');
@@ -406,8 +493,12 @@ describe('cachedUrlToFile', () => {
     expect(urlToFile).toHaveBeenCalledWith(url);
   });
   it('should handle multiple urls', async () => {
-    const file1 = new File(['file content'], 'file1.txt', { type: 'text/plain' });
-    const file2 = new File(['file content'], 'file2.txt', { type: 'text/plain' });
+    const file1 = new File(['file content'], 'file1.txt', {
+      type: 'text/plain',
+    });
+    const file2 = new File(['file content'], 'file2.txt', {
+      type: 'text/plain',
+    });
     const url1 = 'https://example.com/file3.txt';
     const url2 = 'https://example.com/file4.txt';
     vi.mocked(urlToFile).mockImplementation((url) => {
@@ -437,12 +528,16 @@ describe('cachedUrlToFile', () => {
   });
   it('should handle empty URL correctly', async () => {
     const emptyUrl = '';
-    await expect(cachedUrlToFile(emptyUrl)).rejects.toThrow('URL is required to convert to file');
+    await expect(cachedUrlToFile(emptyUrl)).rejects.toThrow(
+      'URL is required to convert to file',
+    );
     expect(urlToFile).not.toHaveBeenCalled();
   });
   it('should return the promise from cache before it resolves', async () => {
     const url = 'https://example.com/image.jpg';
-    const mockFile = new File(['test content'], 'image.jpg', { type: 'image/jpeg' });
+    const mockFile = new File(['test content'], 'image.jpg', {
+      type: 'image/jpeg',
+    });
 
     let resolvePromise: (value: File) => void;
     const delayedPromise = new Promise<File>((resolve) => {
@@ -470,14 +565,16 @@ describe('getImageBBCodeMatches', () => {
     expect(matches![0]).toBe('[img]https://example.com/image.jpg[/img]');
   });
   it('should return matches for [img] bbcode with multiple URLs', () => {
-    const bbcode = '[img]https://example.com/image1.jpg[/img][img]https://example.com/image2.jpg[/img]';
+    const bbcode =
+      '[img]https://example.com/image1.jpg[/img][img]https://example.com/image2.jpg[/img]';
     const matches = getImageBBCodeMatches(bbcode);
     expect(matches).toHaveLength(2);
     expect(matches![0]).toBe('[img]https://example.com/image1.jpg[/img]');
     expect(matches![1]).toBe('[img]https://example.com/image2.jpg[/img]');
   });
   it('should return matches for [img] bbcode with multiple URLs and other text', () => {
-    const bbcode = 'Some text [img]https://example.com/image1.jpg[/img] and [img]https://example.com/image2.jpg[/img]';
+    const bbcode =
+      'Some text [img]https://example.com/image1.jpg[/img] and [img]https://example.com/image2.jpg[/img]';
     const matches = getImageBBCodeMatches(bbcode);
     expect(matches).toHaveLength(2);
     expect(matches![0]).toBe('[img]https://example.com/image1.jpg[/img]');
@@ -489,7 +586,8 @@ describe('getImageBBCodeMatches', () => {
     expect(matches).toEqual([]);
   });
   it('should return matches for combined [url] and [img] bbcode', () => {
-    const bbcode = '[url=https://example.com/image.jpg][img]https://example.com/image.jpg[/img][/url]';
+    const bbcode =
+      '[url=https://example.com/image.jpg][img]https://example.com/image.jpg[/img][/url]';
     const matches = getImageBBCodeMatches(bbcode);
     expect(matches).toHaveLength(1);
     expect(matches![0]).toBe(bbcode);
@@ -499,8 +597,12 @@ describe('getImageBBCodeMatches', () => {
       '[url=https://example.com/image2.jpg][img]https://example.com/image2.jpg[/img][/url]`;
     const matches = getImageBBCodeMatches(bbcode);
     expect(matches).toHaveLength(2);
-    expect(matches![0]).toBe('[url=https://example.com/image1.jpg][img]https://example.com/image1.jpg[/img][/url]');
-    expect(matches![1]).toBe('[url=https://example.com/image2.jpg][img]https://example.com/image2.jpg[/img][/url]');
+    expect(matches![0]).toBe(
+      '[url=https://example.com/image1.jpg][img]https://example.com/image1.jpg[/img][/url]',
+    );
+    expect(matches![1]).toBe(
+      '[url=https://example.com/image2.jpg][img]https://example.com/image2.jpg[/img][/url]',
+    );
   });
   it('should return [] for combined [url] and [img] bbcode with invalid URLs', () => {
     const bbcode = '[url=invalid][img]invalid[/img][/url]';

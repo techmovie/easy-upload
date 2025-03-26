@@ -3,7 +3,6 @@ import { uploadToPtpImg } from '../image.upload';
 import {
   transferImgToCheveretoSite,
   transferImgsToPtpimg,
-
 } from '../image.transfer';
 import { GMFetch } from '@/common/utils';
 import {
@@ -100,10 +99,19 @@ describe('transferImgToCheveretoSite', () => {
 
 describe('transferImgsToPtpimg', () => {
   it('should transfer images to Ptpimg and return image URLs', async () => {
-    const urls = ['http://example.com/image1.jpg', 'http://example.com/image2.jpg'];
-    vi.mocked(await uploadToPtpImg).mockResolvedValueOnce(['http://ptpimg.me/img1.png', 'http://ptpimg.me/img2.png']);
+    const urls = [
+      'http://example.com/image1.jpg',
+      'http://example.com/image2.jpg',
+    ];
+    vi.mocked(await uploadToPtpImg).mockResolvedValueOnce([
+      'http://ptpimg.me/img1.png',
+      'http://ptpimg.me/img2.png',
+    ]);
     const result = await transferImgsToPtpimg(urls);
-    expect(result).toEqual(['http://ptpimg.me/img1.png', 'http://ptpimg.me/img2.png']);
+    expect(result).toEqual([
+      'http://ptpimg.me/img1.png',
+      'http://ptpimg.me/img2.png',
+    ]);
     expect(uploadToPtpImg).toHaveBeenCalledWith(urls);
     expect(uploadToPtpImg).toHaveBeenCalledTimes(1);
     expect(cachedUrlToFile).not.toHaveBeenCalled();
@@ -118,12 +126,23 @@ describe('transferImgsToPtpimg', () => {
     expect(uploadToPtpImg).not.toHaveBeenCalled();
   });
   it('should upload images to Ptpimg if images are hosted on HDBits', async () => {
-    const urls = ['http://i.hdbits.org/img1.png', 'http://i.hdbits.org/img2.png'];
+    const urls = [
+      'http://i.hdbits.org/img1.png',
+      'http://i.hdbits.org/img2.png',
+    ];
     const files = [new File([''], 'img1.png'), new File([''], 'img2.png')];
-    vi.mocked(cachedUrlToFile).mockResolvedValueOnce(files[0]).mockResolvedValueOnce(files[1]);
-    vi.mocked(await uploadToPtpImg).mockResolvedValueOnce(['http://ptpimg.me/img1.png', 'http://ptpimg.me/img2.png']);
+    vi.mocked(cachedUrlToFile)
+      .mockResolvedValueOnce(files[0])
+      .mockResolvedValueOnce(files[1]);
+    vi.mocked(await uploadToPtpImg).mockResolvedValueOnce([
+      'http://ptpimg.me/img1.png',
+      'http://ptpimg.me/img2.png',
+    ]);
     const result = await transferImgsToPtpimg(urls);
-    expect(result).toEqual(['http://ptpimg.me/img1.png', 'http://ptpimg.me/img2.png']);
+    expect(result).toEqual([
+      'http://ptpimg.me/img1.png',
+      'http://ptpimg.me/img2.png',
+    ]);
     expect(cachedUrlToFile).toHaveBeenCalledTimes(2);
     expect(uploadToPtpImg).toHaveBeenCalledWith(files);
   });

@@ -9,7 +9,11 @@ import {
 } from '@/common/utils';
 import * as constants from '@/const';
 import type { SiteName } from '@/const';
-import { NetworkError, TimeoutError, HTMLToBBCodeConverter } from '../utils.helpers';
+import {
+  NetworkError,
+  TimeoutError,
+  HTMLToBBCodeConverter,
+} from '../utils.helpers';
 
 vi.mock(import('@/const'), async (importOriginal) => {
   const actual = await importOriginal();
@@ -60,9 +64,12 @@ describe('utils function', () => {
       expect(getLocationSearchValueByKey('foo')).toBe('bar');
     });
     it('should return the value of the URL parameter by its key even if it contains special characters', () => {
-      window.location.search = '?query=hello%20world&redirect=https%3A%2F%2Fexample.com';
+      window.location.search =
+        '?query=hello%20world&redirect=https%3A%2F%2Fexample.com';
       expect(getLocationSearchValueByKey('query')).toBe('hello world');
-      expect(getLocationSearchValueByKey('redirect')).toBe('https://example.com');
+      expect(getLocationSearchValueByKey('redirect')).toBe(
+        'https://example.com',
+      );
     });
     it('should return an empty string if the key is not found', () => {
       window.location.search = '?key=value';
@@ -89,7 +96,9 @@ describe('utils function', () => {
       expect(convertSizeStringToBytes('10K')).toBe(10 * 1024);
       expect(convertSizeStringToBytes('5M')).toBe(5 * 1024 * 1024);
       expect(convertSizeStringToBytes('2G')).toBe(2 * 1024 * 1024 * 1024);
-      expect(convertSizeStringToBytes('1T')).toBe(1 * 1024 * 1024 * 1024 * 1024);
+      expect(convertSizeStringToBytes('1T')).toBe(
+        1 * 1024 * 1024 * 1024 * 1024,
+      );
     });
     it('should return 0 if the input string is empty', () => {
       expect(convertSizeStringToBytes('')).toBe(0);
@@ -151,7 +160,9 @@ describe('utils function', () => {
         });
       });
       vi.stubGlobal('GM_xmlhttpRequest', gmXHR);
-      const result = await GMFetch('http://example.com', { responseType: 'json' });
+      const result = await GMFetch('http://example.com', {
+        responseType: 'json',
+      });
       expect(result).toEqual({ foo: 'bar' });
       expect(gmXHR).toHaveBeenCalled();
     });
@@ -334,7 +345,9 @@ describe('utils function', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         expect(error).toBeInstanceOf(NetworkError);
-        expect((error as NetworkError).message).toBe('Request failed with status 500');
+        expect((error as NetworkError).message).toBe(
+          'Request failed with status 500',
+        );
         expect(gmXHR).toHaveBeenCalled();
       }
     });
@@ -411,29 +424,43 @@ describe('createFormData', () => {
   });
   it('should handle File objects', () => {
     const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    const formData = createFormData({ key1: 'value1' }, [{
-      fieldName: 'file',
-      file,
-    }]);
+    const formData = createFormData({ key1: 'value1' }, [
+      {
+        fieldName: 'file',
+        file,
+      },
+    ]);
     expect(formData.get('file')).toBe(file);
     expect(formData.get('key1')).toBe('value1');
   });
   it('should handle multiple File objects', () => {
-    const file1 = new File(['file content'], 'file1.txt', { type: 'text/plain' });
-    const file2 = new File(['file content'], 'file2.txt', { type: 'text/plain' });
-    const formData = createFormData({ key1: 'value1' }, [{ fieldName: 'file', file: [file1, file2] }]);
+    const file1 = new File(['file content'], 'file1.txt', {
+      type: 'text/plain',
+    });
+    const file2 = new File(['file content'], 'file2.txt', {
+      type: 'text/plain',
+    });
+    const formData = createFormData({ key1: 'value1' }, [
+      { fieldName: 'file', file: [file1, file2] },
+    ]);
     expect(formData.get('file[0]')).toBe(file1);
     expect(formData.get('file[1]')).toBe(file2);
   });
 
   it('should throw error when filedName includes brackets', () => {
     const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    expect(() => createFormData({ key1: 'value1' }, [{ fieldName: 'file[0]', file }])).toThrow('FieldName should not include []');
-    expect(() => createFormData({ key1: 'value1' }, [{ fieldName: 'file[]', file }])).toThrow('FieldName should not include []');
+    expect(() =>
+      createFormData({ key1: 'value1' }, [{ fieldName: 'file[0]', file }]),
+    ).toThrow('FieldName should not include []');
+    expect(() =>
+      createFormData({ key1: 'value1' }, [{ fieldName: 'file[]', file }]),
+    ).toThrow('FieldName should not include []');
   });
 
   it('should throw error when File is passed from object', () => {
     const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    expect(() => createFormData({ file, key1: 'value1' })).toThrow('Files should be passed as a separate argument');
+    expect(() => createFormData({ file, key1: 'value1' })).toThrow(
+      'Files should be passed as a separate argument',
+    );
   });
 });
