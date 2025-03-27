@@ -1,6 +1,5 @@
 import {
   convertSizeStringToBytes,
-  extractImgsFromBBCode,
   getAreaCode,
   getAudioCodecFromSource,
 } from '@/common';
@@ -91,11 +90,6 @@ class HDTExtractor extends BaseExtractor implements InfoExtractor {
       },
     );
     this.info.description = descriptionBBCode;
-  }
-
-  protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
   }
 
   private getVideoType(type: string, title: string) {

@@ -1,10 +1,19 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
-import { getAreaCode, parseMedia } from '@/common';
+import {
+  getAreaCode,
+  parseMedia,
+  getAudioCodecFromSource,
+  extractImgsFromBBCode,
+} from '@/common';
 import {
   extractDetailsFromMediaInfo,
   getMediaTags,
   getResolutionFromSource,
   getBDInfoOrMediaInfoFromBBCode,
+  getVideoSourceFromTitle,
+  getVideoTypeFromSource,
+  getTagsFromSource,
+  getVideoCodecFromSourceAndVideoType,
 } from '@/source/helper/index';
 
 export abstract class BaseExtractor {
@@ -87,5 +96,27 @@ export abstract class BaseExtractor {
 
   protected isVideoTypeBluray() {
     return /bluray/i.test(this.info.videoType);
+  }
+
+  protected extractMetaInfo() {
+    const { title, resolution } = this.info;
+    const source = getVideoSourceFromTitle(title);
+    const videoType = getVideoTypeFromSource(title, resolution);
+    const tags = getTagsFromSource(title);
+    const videoCodec = getVideoCodecFromSourceAndVideoType(title, videoType);
+    const audioCodec = getAudioCodecFromSource(title);
+    this.info = {
+      ...this.info,
+      source,
+      videoType,
+      tags,
+      videoCodec,
+      audioCodec,
+    };
+  }
+
+  protected async extractScreenshots() {
+    const screenshots = await extractImgsFromBBCode(this.info.description);
+    this.info.screenshots = screenshots;
   }
 }

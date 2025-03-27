@@ -1,6 +1,5 @@
 import {
   convertSizeStringToBytes,
-  extractImgsFromBBCode,
   GMFetch,
   getLocationSearchValueByKey,
   getAreaCode,
@@ -102,11 +101,6 @@ class HDBExtractor extends BaseExtractor implements InfoExtractor {
     descriptionBBCode =
       descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)?.[1] ?? '';
     this.info.description = descriptionBBCode;
-  }
-
-  protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
   }
 
   protected extractMovieName() {

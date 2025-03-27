@@ -1,9 +1,4 @@
-import {
-  convertSizeStringToBytes,
-  extractImgsFromBBCode,
-  getAreaCode,
-  GMFetch,
-} from '@/common';
+import { convertSizeStringToBytes, getAreaCode, GMFetch } from '@/common';
 import {
   formatTorrentTitle,
   getFilterBBCode,
@@ -106,11 +101,6 @@ class BTNExtractor extends GazelleExtractor implements InfoExtractor {
       this.info.description = descriptionBBCode;
       resolve();
     });
-  }
-
-  protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
   }
 
   protected extractMovieName() {

@@ -1,4 +1,4 @@
-import { convertSizeStringToBytes, extractImgsFromBBCode } from '@/common';
+import { convertSizeStringToBytes } from '@/common';
 import {
   formatTorrentTitle,
   getFilterBBCode,
@@ -99,11 +99,6 @@ export abstract class Unite3DExtractor
         ? `[quote]${this.info.mediaInfos[0]}[/quote]`
         : '';
     this.info.description = mediaInfoQuote + description;
-  }
-
-  protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
   }
 
   protected extractSource() {

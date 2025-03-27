@@ -27,6 +27,7 @@ import './btn';
 import './hdb';
 // import './kg';
 import './hdt';
+import './hdspace';
 
 export async function getTorrentInfo(): Promise<TorrentInfo.Info | null> {
   if (!CURRENT_SITE_INFO) {
