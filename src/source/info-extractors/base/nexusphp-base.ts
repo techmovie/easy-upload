@@ -97,13 +97,6 @@ export abstract class NexusPHPExtractor
     this.info.description = bbCode.replace(/\u00A0\u3000/g, ' ');
   }
 
-  protected extractMediaInfos() {
-    const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(
-      this.info.description,
-    );
-    this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
-  }
-
   protected async extractScreenshots() {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;

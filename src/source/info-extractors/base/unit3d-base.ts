@@ -1,7 +1,4 @@
-import {
-  convertSizeStringToBytes,
-  extractImgsFromBBCode,
-} from '@/common';
+import { convertSizeStringToBytes, extractImgsFromBBCode } from '@/common';
 import {
   formatTorrentTitle,
   getFilterBBCode,
@@ -19,12 +16,13 @@ import $ from 'jquery';
 
 export abstract class Unite3DExtractor
   extends BaseExtractor
-  implements InfoExtractor {
+  implements InfoExtractor
+{
   priority = 10;
 
-  abstract canHandle(siteName: string, siteType: string): boolean
+  abstract canHandle(siteName: string, siteType: string): boolean;
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     this.extractBasicInfo();
     this.extractTitle();
     this.extractYear();
@@ -45,7 +43,7 @@ export abstract class Unite3DExtractor
     return this.info;
   }
 
-  protected extractBasicInfo () {
+  protected extractBasicInfo() {
     const basicInfo: BasicInfo = {
       category: '',
       type: '',
@@ -61,7 +59,9 @@ export abstract class Unite3DExtractor
     });
     const category = getCategoryFromSource(basicInfo.category);
     this.info.category = refineCategory(this.info, category);
-    this.info.size = convertSizeStringToBytes(basicInfo.size.replace(/\s/g, ''));
+    this.info.size = convertSizeStringToBytes(
+      basicInfo.size.replace(/\s/g, ''),
+    );
     this.info.resolution = basicInfo.resolution;
     this.info.videoType = getVideoTypeFromSource(
       basicInfo.type,
@@ -69,54 +69,60 @@ export abstract class Unite3DExtractor
     );
   }
 
-  protected extractTitle () {
+  protected extractTitle() {
     const title = $('h1.torrent__name').text().trim();
     const formattedTitle = formatTorrentTitle(title);
     this.info.title = formattedTitle;
   }
 
-  protected extractYear () {
-    const year = $('.meta__title').text().match(/\((\d{4})\)/)?.[1] ?? '';
+  protected extractYear() {
+    const year =
+      $('.meta__title')
+        .text()
+        .match(/\((\d{4})\)/)?.[1] ?? '';
     this.info.year = year;
   }
 
-  protected extractImdbUrl () {
+  protected extractImdbUrl() {
     this.info.imdbUrl = $('.meta__imdb a').attr('href');
   }
 
-  protected extractMediaInfos () {
+  protected extractMediaInfos() {
     const mediaInfo = $('.bbcode-rendered code').text();
     this.info.mediaInfos = [mediaInfo];
   }
 
-  protected extractDescription () {
+  protected extractDescription() {
     const description = getFilterBBCode($('.panel__body.bbcode-rendered')[0]);
-    const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : '';
+    const mediaInfoQuote =
+      this.info.mediaInfos.length > 0
+        ? `[quote]${this.info.mediaInfos[0]}[/quote]`
+        : '';
     this.info.description = mediaInfoQuote + description;
   }
 
-  protected async extractScreenshots () {
+  protected async extractScreenshots() {
     const screenshots = await extractImgsFromBBCode(this.info.description);
     this.info.screenshots = screenshots;
   }
 
-  protected extractSource () {
+  protected extractSource() {
     this.info.source = getVideoSourceFromTitle(this.info.title);
   }
 
-  protected extractTags () {
+  protected extractTags() {
     this.info.tags = {
       ...this.info.tags,
       ...getTagsFromSource(this.info.title),
     };
   }
 
-  protected extractMovieNames () {
+  protected extractMovieNames() {
     const title = $('.meta__title').text();
     this.info.movieName = title.replace(/\(\d+\)/g, '').trim();
   }
 
-  protected determineIfIsForbidden () {
+  protected determineIfIsForbidden() {
     const { title, subtitle, description } = this.info;
     const combinedContent = title + subtitle + description;
     const isForbidden = CONFIG.FORBIDDEN_KEYWORDS.some((keyword) =>
@@ -125,11 +131,11 @@ export abstract class Unite3DExtractor
     this.info.isForbidden = isForbidden;
   }
 
-  protected extractPoster () {
+  protected extractPoster() {
     this.info.poster = $('.meta__poster-link img').attr('src');
   }
 
-  protected enhanceInfo () {}
+  protected enhanceInfo() {}
 
-  protected extractComparisonsScreenshots () {}
+  protected extractComparisonsScreenshots() {}
 }

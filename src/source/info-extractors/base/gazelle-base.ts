@@ -6,38 +6,39 @@ import $ from 'jquery';
 
 export abstract class GazelleExtractor
   extends BaseExtractor
-  implements InfoExtractor {
+  implements InfoExtractor
+{
   priority = 5;
   torrentId = '';
   torrentHeaderDom: JQuery<HTMLElement> = $();
 
-  abstract canHandle(siteName: string, siteType: string): boolean
+  abstract canHandle(siteName: string, siteType: string): boolean;
 
-  async extract (): Promise<TorrentInfo.Info> {
+  async extract(): Promise<TorrentInfo.Info> {
     return this.info;
   }
 
-  protected extractTorrentId () {
+  protected extractTorrentId() {
     const torrentId = getLocationSearchValueByKey('torrentid');
     this.torrentId = torrentId;
   }
 
-  protected getTorrentHeaderDom () {}
+  protected getTorrentHeaderDom() {}
 
-  protected extractMovieNames () {}
+  protected extractMovieNames() {}
 
-  protected extractMediaInfos () {}
+  protected extractMediaInfos() {}
 
-  protected extractYear () {}
+  protected extractYear() {}
 
-  protected extractTorrentLink () {
+  protected extractTorrentLink() {
     const torrentLink = this.torrentHeaderDom
       .find('a[title="Download"]')
       .attr('href');
     CURRENT_SITE_INFO.torrentLink = torrentLink;
   }
 
-  protected getSource = (source:string, codes:string, resolution:string) => {
+  protected getSource = (source: string, codes: string, resolution: string) => {
     if (codes.match(/BD100|BD66/i)) {
       return 'uhdbluray';
     }
@@ -47,29 +48,29 @@ export abstract class GazelleExtractor
     return source.replace(/-/g, '').toLowerCase();
   };
 
-  protected extractImdbUrl () {}
+  protected extractImdbUrl() {}
 
-  protected extractScreenshots () {}
+  protected extractScreenshots() {}
 
-  protected extractCategory () {}
+  protected extractCategory() {}
 
-  protected async extractDescription () {}
+  protected async extractDescription() {}
 
-  protected extractComparisonsScreenshots () {}
+  protected extractComparisonsScreenshots() {}
 
-  protected extractMetaInfo () {}
+  protected extractMetaInfo() {}
 
-  protected extractTags () {}
+  protected extractTags() {}
 
-  protected extractTitle () {}
+  protected extractTitle() {}
 
-  protected extractSize () {}
+  protected extractSize() {}
 
-  protected extractArea () {}
+  protected extractArea() {}
 
-  protected extractIsHardcodedSub () {}
+  protected extractIsHardcodedSub() {}
 
-  protected extractPoster () {}
+  protected extractPoster() {}
 
-  protected enhanceInfo () {}
+  protected enhanceInfo() {}
 }

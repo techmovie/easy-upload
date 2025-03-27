@@ -18,7 +18,13 @@ export const CONFIG = {
     '负责',
   ],
   FORBIDDEN_KEYWORDS: [
-    '禁转', '禁轉', '严禁转载', '嚴禁轉載', '谢绝转载', '謝絕轉載', 'exclusive',
+    '禁转',
+    '禁轉',
+    '严禁转载',
+    '嚴禁轉載',
+    '谢绝转载',
+    '謝絕轉載',
+    'exclusive',
   ],
   META_INFO_MATCH_RULES: {
     resolution: /(分辨率|解析度|格式):\s?([^\u4e00-\u9fa5]+)?/i,
@@ -120,7 +126,7 @@ export const CONFIG = {
     { codec: 'mpeg4', regex: /mpeg-?4/i },
     { codec: 'vvc', regex: /vvc/i },
   ],
-  MEDIA_TAG_RULES: (source:string) => [
+  MEDIA_TAG_RULES: (source: string) => [
     { regex: /diy/i, tag: 'diy' },
     {
       regex: /国配|国语|普通话|国粤/i,

@@ -1,11 +1,16 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
 import { getAreaCode, parseMedia } from '@/common';
-import { extractDetailsFromMediaInfo, getMediaTags } from '@/source/helper/index';
+import {
+  extractDetailsFromMediaInfo,
+  getMediaTags,
+  getResolutionFromSource,
+  getBDInfoOrMediaInfoFromBBCode,
+} from '@/source/helper/index';
 
 export abstract class BaseExtractor {
   protected info: TorrentInfo.Info;
 
-  constructor () {
+  constructor() {
     this.info = {
       title: '',
       year: '',
@@ -33,20 +38,21 @@ export abstract class BaseExtractor {
     };
   }
 
-  protected extractYear () {
+  protected extractYear() {
     const year = this.info.title.match(/(18|19|20)\d{2}/g) ?? [];
-    this.info.year = year.length > 0 ? year.pop() as string : '';
+    this.info.year = year.length > 0 ? (year.pop() as string) : '';
   }
 
-  protected extractArea () {
+  protected extractArea() {
     const { area, description } = this.info;
     if (!area) {
-      const areaMatch = description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
+      const areaMatch =
+        description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
       this.info.area = getAreaCode(areaMatch);
     }
   }
 
-  protected extractMediaDetails () {
+  protected extractMediaDetails() {
     const { mediaInfos, tags } = this.info;
     if (!mediaInfos?.[0]) {
       return;
@@ -68,7 +74,18 @@ export abstract class BaseExtractor {
     };
   }
 
-  protected isVideoTypeBluray () {
+  protected extractMediaInfos() {
+    const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(
+      this.info.description,
+    );
+    this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
+  }
+
+  protected extractResolution() {
+    this.info.resolution = getResolutionFromSource(this.info.title);
+  }
+
+  protected isVideoTypeBluray() {
     return /bluray/i.test(this.info.videoType);
   }
 }

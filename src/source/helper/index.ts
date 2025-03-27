@@ -94,7 +94,9 @@ export const getVideoTypeFromSource = (source: string, resolution?: string) => {
     return '';
   }
   const normalized = source.replace(/[.-]/g, '').toLowerCase();
-  for (const { regex, type, condition } of CONFIG.VIDEO_TYPE_MATCH_MAP(resolution)) {
+  for (const { regex, type, condition } of CONFIG.VIDEO_TYPE_MATCH_MAP(
+    resolution,
+  )) {
     if (regex.test(normalized) && (!condition || condition())) {
       return type;
     }
@@ -125,7 +127,7 @@ export const getVideoSourceFromTitle = (title: string) => {
  */
 export const getBDInfoOrMediaInfoFromBBCode = (bbcode: string) => {
   const quoteList: string[] = [];
-  const quoteRegex = /\[quote\]([^[\]])+?\[\/quote\]/ig;
+  const quoteRegex = /\[quote\]([^[\]])+?\[\/quote\]/gi;
   while (bbcode?.match(quoteRegex)?.length) {
     const matchContent = bbcode?.match(quoteRegex)?.[0] ?? '';
     quoteList.push(matchContent);
@@ -281,8 +283,11 @@ export const getVideoCodecFromSourceAndVideoType = (
   videoType = '',
 ) => {
   const formattedSource = source.replace(/\.|-/g, '');
-  for (const { codec, regex, condition } of CONFIG.VIDEO_CODEC_RULES(formattedSource, videoType)) {
-    if (regex.test(formattedSource) && (!condition || condition())) {
+  for (const { codec, regex, condition } of CONFIG.VIDEO_CODEC_RULES(
+    formattedSource,
+    videoType,
+  )) {
+    if (regex.test(formattedSource) || (condition && condition())) {
       return codec;
     }
   }
@@ -295,7 +300,7 @@ export const getVideoCodecFromSourceAndVideoType = (
  * @param {string} source
  * @returns {*}
  */
-export const getCategoryFromSource = (source:string) => {
+export const getCategoryFromSource = (source: string) => {
   if (!source) {
     return '';
   }
@@ -308,6 +313,6 @@ export const getCategoryFromSource = (source:string) => {
   return '';
 };
 
-export const replaceRegSymbols = (string:string) => {
+export const replaceRegSymbols = (string: string) => {
   return string.replace(/([*.?+$^[\](){}|\\/])/g, '\\$1');
 };
