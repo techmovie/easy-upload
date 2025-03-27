@@ -1,19 +1,9 @@
-import {
-  convertSizeStringToBytes,
-  GMFetch,
-  getLocationSearchValueByKey,
-  getAreaCode,
-  getAudioCodecFromSource,
-} from '@/common';
+import { convertSizeStringToBytes, GMFetch, getAreaCode } from '@/common';
 import {
   formatTorrentTitle,
   getFilterBBCode,
   refineCategory,
   getCategoryFromSource,
-  getVideoSourceFromTitle,
-  getVideoTypeFromSource,
-  getTagsFromSource,
-  getVideoCodecFromSourceAndVideoType,
 } from '@/source/helper/index';
 import { InfoExtractor, registry } from './registry';
 import { BaseExtractor } from './base/base-extractor';
@@ -59,23 +49,6 @@ class HDSpaceExtractor extends BaseExtractor implements InfoExtractor {
     const categoryValue = this.getTdTextByKey('Category');
     const category = getCategoryFromSource(categoryValue) || 'movie';
     this.info.category = refineCategory(this.info, category);
-  }
-
-  extractMetaInfo() {
-    const { title, resolution } = this.info;
-    const source = getVideoSourceFromTitle(title);
-    const videoType = getVideoTypeFromSource(title, resolution);
-    const tags = getTagsFromSource(title);
-    const videoCodec = getVideoCodecFromSourceAndVideoType(title, videoType);
-    const audioCodec = getAudioCodecFromSource(title);
-    this.info = {
-      ...this.info,
-      source,
-      videoType,
-      tags,
-      videoCodec,
-      audioCodec,
-    };
   }
 
   protected async extractMovieDetails() {

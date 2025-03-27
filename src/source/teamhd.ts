@@ -1,9 +1,14 @@
 import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO } from '../const';
 import {
-  formatTorrentTitle, parseMedia,
-  getInfoFromBDInfo, convertSizeStringToBytes, GMFetch,
-  getPreciseCategory, getSourceFromTitle,
-  getTagsFromSubtitle, extractImgsFromBBCode,
+  formatTorrentTitle,
+  parseMedia,
+  getInfoFromBDInfo,
+  convertSizeStringToBytes,
+  GMFetch,
+  getPreciseCategory,
+  getSourceFromTitle,
+  getTagsFromSubtitle,
+  extractImgsFromBBCode,
 } from '../common';
 import $ from 'jquery';
 
@@ -31,23 +36,42 @@ const getTorrentInfo = async () => {
   const movieName = basicInfoText.match(/(.+)\(\d{4}\)/)?.[1].trim() ?? '';
   const resolution = basicInfoText.match(/(\s*(\d+(p|i)))$/i)?.[2] ?? '';
   const videoType = getVideoType(basicInfoText, resolution);
-  const size = convertSizeStringToBytes($('#details_hop').text().match(/-\s*(.+?GB)/)?.[1] ?? '');
-  const category = getCategory($('#details_hop a[href*="browse/cat"]').attr('href') || '');
-  const fileName = $('.download').attr('href')?.match(/name=(.+)/)
-    ?.[1].replace(/\.torrent/g, '')
-    ?.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, '') ?? '';
+  const size = convertSizeStringToBytes(
+    $('#details_hop')
+      .text()
+      .match(/-\s*(.+?GB)/)?.[1] ?? '',
+  );
+  const category = getCategory(
+    $('#details_hop a[href*="browse/cat"]').attr('href') || '',
+  );
+  const fileName =
+    $('.download')
+      .attr('href')
+      ?.match(/name=(.+)/)?.[1]
+      .replace(/\.torrent/g, '')
+      ?.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, '') ?? '';
   const title = formatTorrentTitle(fileName);
   const source = getSourceFromTitle(title);
   const tags = getTagsFromSubtitle(title);
   const isBluray = videoType.match(/bluray/i);
-  const mediaInfo = $('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
-  const bdInfo = $('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
-  const eacLogs = $('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
+  const mediaInfo = $(
+    '.card-header:contains("MediaInfo") + .card-collapse .card-body',
+  ).text();
+  const bdInfo = $(
+    '.card-header:contains("BDInfo") + .card-collapse .card-body',
+  ).text();
+  const eacLogs = $(
+    '.card-header:contains("eac3to Log") + .card-collapse .card-body',
+  ).text();
   const mediaInfoOrBDInfo = isBluray ? bdInfo : mediaInfo;
-  const screenshotsBBCode = $('#details a[href*="teamhd.org/redirector.php"]').map(function () {
-    const url = $(this).attr('href')?.replace(/.+?url=/g, '');
-    return `[url=${url}][img]${$(this).find('img').attr('src')}[/img][/url]`;
-  }).get();
+  const screenshotsBBCode = $('#details a[href*="teamhd.org/redirector.php"]')
+    .map(function () {
+      const url = $(this)
+        .attr('href')
+        ?.replace(/.+?url=/g, '');
+      return `[url=${url}][img]${$(this).find('img').attr('src')}[/img][/url]`;
+    })
+    .get();
   const screenshots = await extractImgsFromBBCode(screenshotsBBCode.join('\n'));
 
   const getInfoFunc = isBluray ? getInfoFromBDInfo : parseMedia;
@@ -73,7 +97,7 @@ const getTorrentInfo = async () => {
     imdbUrl: '',
   };
 };
-const getCategory = (link:string) => {
+const getCategory = (link: string) => {
   const catNum = link?.match(/cat(\d+)/)?.[1] ?? '';
   const map = {
     29: 'movie',
@@ -85,7 +109,7 @@ const getCategory = (link:string) => {
   };
   return map[parseInt(catNum, 10) as keyof typeof map] || '';
 };
-const getVideoType = (type:string, resolution:string) => {
+const getVideoType = (type: string, resolution: string) => {
   if (type.match(/Remux/i)) {
     return 'remux';
   } else if (type.match(/Blu-Ray.+?Disc/i)) {

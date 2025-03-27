@@ -14,23 +14,40 @@ export default async () => {
   const isMovie = typeText !== 'TV-Series';
   // const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
   const tags: (string | null)[] = [];
-  $('td.heading:contains(Tags)').eq(0).next().children().each((_, child) => {
-    tags.push(child.textContent);
-  });
-  const size = $('td.heading:contains(Size)').eq(0).next().text()
-    .replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_, size) => size.replace(/,/g, ''));
+  $('td.heading:contains(Tags)')
+    .eq(0)
+    .next()
+    .children()
+    .each((_, child) => {
+      tags.push(child.textContent);
+    });
+  const size = $('td.heading:contains(Size)')
+    .eq(0)
+    .next()
+    .text()
+    .replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_, size) =>
+      size.replace(/,/g, ''),
+    );
   const title = $('h1').eq(0).text();
   const imdbNumber = $('span:contains("IMDB id:") a').text();
   const descContainer = $('td.heading:contains(Description)').eq(0).next();
   const desc = descContainer.text();
   const rawDesc = descContainer.html();
   TORRENT_INFO.mediaInfos = [$('td[style~=dotted]').text()];
-  const { videoCodec, audioCodec, resolution = '', mediaTags = {} } = getInfoFromBDInfo(TORRENT_INFO.mediaInfos[0]);
+  const {
+    videoCodec,
+    audioCodec,
+    resolution = '',
+    mediaTags = {},
+  } = getInfoFromBDInfo(TORRENT_INFO.mediaInfos[0]);
   TORRENT_INFO.size = parseInt(size, 10);
   TORRENT_INFO.title = formatTorrentTitle(title);
   TORRENT_INFO.description = desc;
   TORRENT_INFO.screenshots = getImagesFromDesc(rawDesc);
-  TORRENT_INFO.year = $('span.gr_hsep:contains(Year)').text().replace('Year: ', '').trim();
+  TORRENT_INFO.year = $('span.gr_hsep:contains(Year)')
+    .text()
+    .replace('Year: ', '')
+    .trim();
   TORRENT_INFO.movieName = $('div.gr_tdsep h1:first-child').text();
   TORRENT_INFO.imdbUrl = `https://www.imdb.com/title/tt${imdbNumber}/`;
   TORRENT_INFO.category = isMovie ? 'movie' : 'tvPack';
@@ -42,7 +59,7 @@ export default async () => {
   TORRENT_INFO.tags = mediaTags;
 };
 
-function getImagesFromDesc (desc: string) {
+function getImagesFromDesc(desc: string) {
   const screenshots: string[] = [];
   if (!desc) {
     return screenshots;
@@ -52,7 +69,9 @@ function getImagesFromDesc (desc: string) {
     return screenshots;
   }
   for (const m of matches) {
-    screenshots.push(`https://hostik.cinematik.net/gal/ori/${m[0]}/${m[1]}/${m}.jpg`);
+    screenshots.push(
+      `https://hostik.cinematik.net/gal/ori/${m[0]}/${m[1]}/${m}.jpg`,
+    );
   }
   return screenshots;
 }
