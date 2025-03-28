@@ -47,7 +47,7 @@ class GPWExtractor extends GazelleExtractor {
     this.extractArea();
     this.extractDoubanUrl();
     this.extractImdbUrl();
-    this.extractScreenshots();
+    this.extractScreenshotsForGPW();
     this.extractCategory();
     this.extractMetaInfo();
     this.extractDescription();
@@ -128,7 +128,7 @@ class GPWExtractor extends GazelleExtractor {
       : '';
   }
 
-  protected extractScreenshots() {
+  private extractScreenshotsForGPW() {
     const imgList: string[] = [];
     const imageDom = this.torrentHeaderDom
       .next('.TableTorrent-rowDetail')

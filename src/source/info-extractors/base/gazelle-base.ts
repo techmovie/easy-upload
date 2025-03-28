@@ -50,8 +50,6 @@ export abstract class GazelleExtractor
 
   protected extractImdbUrl() {}
 
-  protected extractScreenshots() {}
-
   protected extractCategory() {}
 
   protected async extractDescription() {}
