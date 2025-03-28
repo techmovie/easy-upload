@@ -26,7 +26,6 @@
 |   HDArea    |            ✅             |           ✅            |
 |   HDAtmos   |            ❌             |           ✅            |
 |   HDBits    |            ✅             |           ✅            |
-|   HDChina   |            ✅             |           ✅            |
 |   HDDolby   |            ✅             |           ✅            |
 |   HDFans    |            ✅             |           ✅            |
 |   HDHome    |            ✅             |           ✅            |
@@ -71,7 +70,6 @@
 |    TJUPT    |            ✅             |           ✅            |
 |     TLF     |            ✅             |           ✅            |
 |     TTG     |            ✅             |           ✅            |
-|   TeamHD    |            ✅             |           ❌            |
 |   UHDBits   |            ✅             |           ✅            |
 |   ZHUQUE    |            ❌             |           ✅            |
 |    agsv     |            ✅             |           ✅            |
