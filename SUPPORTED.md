@@ -20,7 +20,6 @@
 |  Concertos  |            ❌             |           ✅            |
 |  DicMusic   |            ✅             |           ✅            |
 |   DiscFan   |            ✅             |           ✅            |
-|     EMP     |            ✅             |           ❌            |
 |     GPW     |            ✅             |           ✅            |
 |   HD4FANS   |            ✅             |           ✅            |
 |   HDArea    |            ✅             |           ✅            |
