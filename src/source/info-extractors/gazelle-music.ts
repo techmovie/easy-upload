@@ -107,17 +107,22 @@ class GZMusicExtractor extends GazelleExtractor implements InfoExtractor {
   }
 
   extractSubtitle() {
-    const prev = this.torrentHeaderDom
-      .prev()
-      .find('strong')
-      .contents()
-      .last()
-      .text()
-      .trim();
-    const post = this.torrentHeaderDom
-      .find('td:first-child a[onclick*="$("]')
-      .text();
-    this.info.subtitle = `${prev} / ${post}`;
+    // 2025 – Influenza Media / INFLUENZA311 / ▶ [WEB / FLAC / 24bit Lossless]
+    const {
+      media,
+      encoding,
+      format,
+      remasterRecordLabel,
+      remasterCatalogueNumber,
+    } = this.siteTorrentInfo;
+    let subtitle = `[${media} / ${encoding} / ${format}]`;
+    if (remasterRecordLabel) {
+      subtitle += ` / ${remasterRecordLabel}`;
+    }
+    if (remasterCatalogueNumber) {
+      subtitle += ` / ${remasterCatalogueNumber}`;
+    }
+    this.info.subtitle = subtitle;
   }
 
   extractCategory() {

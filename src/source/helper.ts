@@ -9,46 +9,46 @@ import $ from 'jquery';
  * 格式化视频分类
  * @param {category} category
  */
-const getCategory = (category:string) => {
+const getCategory = (category: string) => {
   if (!category) {
     return '';
   }
   category = category.replace(/[.-]/g, '').toLowerCase();
-  if (category.match(/movie|bd|ultra|电影/ig)) {
+  if (category.match(/movie|bd|ultra|电影/gi)) {
     return 'movie';
-  } else if (category.match(/综艺/ig)) {
+  } else if (category.match(/综艺/gi)) {
     return 'variety';
-  } else if (category.match(/tv|drama|剧集|电视/ig)) {
+  } else if (category.match(/tv|drama|剧集|电视/gi)) {
     return 'tv';
-  } else if (category.match(/TVSeries/ig)) {
+  } else if (category.match(/TVSeries/gi)) {
     return 'tvPack';
-  } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
+  } else if (category.match(/document|纪录|紀錄|Doc/gi)) {
     return 'documentary';
-  } else if (category.match(/sport|体育/ig)) {
+  } else if (category.match(/sport|体育/gi)) {
     return 'sport';
-  } else if (category.match(/mv|演唱|concert/ig)) {
+  } else if (category.match(/mv|演唱|concert/gi)) {
     return 'concert';
-  } else if (category.match(/anim|动(画|漫)/ig)) {
+  } else if (category.match(/anim|动(画|漫)/gi)) {
     return 'cartoon';
-  } else if (category.match(/App|软件|Software|軟體/ig)) {
+  } else if (category.match(/App|软件|Software|軟體/gi)) {
     return 'app';
-  } else if (category.match(/电子书|小说|Ebook/ig)) {
+  } else if (category.match(/电子书|小说|Ebook/gi)) {
     return 'ebook';
-  } else if (category.match(/有声书|AudioBook/ig)) {
+  } else if (category.match(/有声书|AudioBook/gi)) {
     return 'audiobook';
-  } else if (category.match(/杂志|magazine/ig)) {
+  } else if (category.match(/杂志|magazine/gi)) {
     return 'magazine';
-  } else if (category.match(/漫画|comics/ig)) {
+  } else if (category.match(/漫画|comics/gi)) {
     return 'comics';
-  } else if (category.match(/公开课/ig)) {
+  } else if (category.match(/公开课/gi)) {
     return 'onlineCourse';
-  } else if (category.match(/资料/ig)) {
+  } else if (category.match(/资料/gi)) {
     return 'ebook';
   }
   return '';
 };
 
-const getFormat = (data:string) => {
+const getFormat = (data: string) => {
   if (data.match(/pdf/i)) {
     return 'pdf';
   } else if (data.match(/EPUB/i)) {
@@ -69,7 +69,7 @@ const getFormat = (data:string) => {
   return 'other';
 };
 
-const blobToBase64 = (blob:Blob):Promise<string> => {
+const blobToBase64 = (blob: Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
@@ -82,7 +82,11 @@ const blobToBase64 = (blob:Blob):Promise<string> => {
   });
 };
 
-const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteName:string) => {
+const getTorrentFileData = async (
+  selector = '',
+  torrentLink = '',
+  targetSiteName: string,
+) => {
   let downloadLink = torrentLink || $(selector).attr('href');
   if (!downloadLink) {
     console.warn('Failed to get torrent file download link');
@@ -100,7 +104,9 @@ const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteNam
       timeout: 10000,
     });
     const result = await parseTorrent(Buffer.from(file));
-    const siteInfo = PT_SITE[targetSiteName as keyof typeof PT_SITE] as Site.SiteInfo;
+    const siteInfo = PT_SITE[
+      targetSiteName as keyof typeof PT_SITE
+    ] as Site.SiteInfo;
     const announceUrl = siteInfo?.torrent?.announce || 'tracker.com';
     const buf = toTorrentFile({
       ...result,
@@ -120,8 +126,4 @@ const getTorrentFileData = async (selector = '', torrentLink = '', targetSiteNam
     return '';
   }
 };
-export {
-  getCategory,
-  getFormat,
-  getTorrentFileData,
-};
+export { getCategory, getFormat, getTorrentFileData };

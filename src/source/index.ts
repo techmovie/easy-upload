@@ -25,7 +25,7 @@ import './info-extractors/avistaz';
 import './info-extractors/bhd';
 import './info-extractors/btn';
 import './info-extractors/hdb';
-// import './info-extractors/kg';
+import './info-extractors/kg';
 import './info-extractors/hdt';
 import './info-extractors/hdspace';
 import './info-extractors/gazelle-music';
