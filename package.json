@@ -94,7 +94,7 @@
   },
   "dependencies": {
     "@preact/compat": "^17.0.3",
-    "dompurify": "^3.1.7",
+    "dompurify": "^3.2.4",
     "jquery": "^3.7.1",
     "path-browserify": "^1.0.1",
     "preact": "^10.24.1",

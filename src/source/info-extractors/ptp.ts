@@ -24,7 +24,7 @@ class PTPExtractor extends GazelleExtractor {
     this.extractYear();
     this.extractTorrentLink();
     this.extractImdbUrl();
-    this.extractScreenshots();
+    this.extractScreenshotsForPTP();
     this.extractCategory();
     await this.extractDescription();
     this.extractComparisonsScreenshots();
@@ -87,7 +87,7 @@ class PTPExtractor extends GazelleExtractor {
     this.info.imdbUrl = $('#imdb-title-link')?.attr('href') ?? '';
   }
 
-  protected extractScreenshots() {
+  private extractScreenshotsForPTP() {
     const imgList = [];
     const torrentInfoPanel = $('.movie-page__torrent__panel');
     const imageDom = torrentInfoPanel.find('.bbcode__image');

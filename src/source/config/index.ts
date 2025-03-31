@@ -88,13 +88,15 @@ export const CONFIG = {
     cartoon: /anim|动(画|漫)/gi,
     sport: /sport|体育/gi,
     concert: /mv|演唱|concert/gi,
-    app: /App|软件|Software|軟體/gi,
+    app: /App|软件|Software|軟體|Applications/gi,
     ebook: /电子书|小说|Ebook/gi,
     audiobook: /有声书|AudioBook/gi,
     magazine: /杂志|magazine/gi,
     comics: /漫画|comics/gi,
     onlineCourse: /公开课/gi,
     documentary: /纪录片|documentary|记录/gi,
+    other: /Learning Videos|Comedy/,
+    music: /music|音乐/gi,
   },
   RESOLUTION_MAP: {
     '4320p': /4320p|8k/i,
@@ -234,4 +236,9 @@ export const CONFIG = {
       Commentary: 'with_commentary',
     },
   },
+  MUSIC_LOG_API_MAP: (logScore: number, torrentId: string, logId: string) => ({
+    RED: `/torrents.php?action=loglist&torrentid=${torrentId}`,
+    Orpheus: `/view.php?type=riplog&id=${torrentId}.${logId}`,
+    DicMusic: `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`,
+  }),
 };

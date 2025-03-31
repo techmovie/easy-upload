@@ -1,18 +1,7 @@
 export interface GPWSiteTorrentInfo {
   status: string;
   response: {
-    group: {
-      description: string;
-      conver: string;
-      name: string;
-      subName: string;
-      year: string;
-      releaseType: string;
-      categoryId: string;
-      imdbId: string;
-      doubanId: string;
-      region: string;
-    };
+    group: GPWSiteGroup;
     torrent: GPWSiteTorrent;
   };
 }

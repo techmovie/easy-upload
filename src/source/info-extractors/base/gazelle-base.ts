@@ -52,8 +52,6 @@ export abstract class GazelleExtractor
 
   protected extractCategory() {}
 
-  protected async extractDescription() {}
-
   protected extractComparisonsScreenshots() {}
 
   protected extractMetaInfo() {}

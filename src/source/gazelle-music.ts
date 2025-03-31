@@ -18,10 +18,13 @@ export default async () => {
   }
 };
 
-async function getTorrentInfo (torrentId:string) {
-  const { response } = await GMFetch(`/ajax.php?action=torrent&id=${torrentId}`, {
-    responseType: 'json',
-  });
+async function getTorrentInfo(torrentId: string) {
+  const { response } = await GMFetch(
+    `/ajax.php?action=torrent&id=${torrentId}`,
+    {
+      responseType: 'json',
+    },
+  );
   if (response.group) {
     if (CURRENT_SITE_NAME === 'DicMusic') {
       response.group.name = getUTF8String(response.group.name);
@@ -33,7 +36,16 @@ async function getTorrentInfo (torrentId:string) {
     }
   }
   const { torrent, group } = response as MusicJson.Info;
-  const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags, wikiBody } = group;
+  const {
+    name,
+    year,
+    wikiImage,
+    musicInfo,
+    categoryName,
+    bbBody,
+    tags,
+    wikiBody,
+  } = group;
   const { format, media, encoding, logScore, ripLogIds = [] } = torrent;
   const catMap = {
     Applications: 'app',
@@ -51,10 +63,16 @@ async function getTorrentInfo (torrentId:string) {
   description = DOMPurify.sanitize(description);
   const descSource = new DOMParser().parseFromString(description, 'text/html');
   if (descSource.documentElement.textContent) {
-    description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, '').replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, '').replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');
+    description = descSource.documentElement.textContent
+      .replace(/\[\/?artist\]/g, '')
+      .replace(
+        /\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g,
+        '',
+      )
+      .replace(/(?<=(\[\/b\]|,)[\s\\.a-zA-Z]*)\[\/url\]/g, '');
   }
   const log = [];
-  if (ripLogIds.length > 0) {
+  if (ripLogIds?.length > 0) {
     for (let i = 1; i < ripLogIds.length; i++) {
       log.push(await getLog(logScore, torrentId, ripLogIds[i]));
     }
@@ -66,7 +84,9 @@ async function getTorrentInfo (torrentId:string) {
   }
   response.torrent.log = log;
 
-  CURRENT_SITE_INFO.torrentLink = $(`#torrent${torrentId} a[href*="action=download"]`).attr('href');
+  CURRENT_SITE_INFO.torrentLink = $(
+    `#torrent${torrentId} a[href*="action=download"]`,
+  ).attr('href');
 
   return {
     title: $('.header h2').text(),
@@ -80,7 +100,7 @@ async function getTorrentInfo (torrentId:string) {
     musicInfo: {
       name,
       tags,
-      artists: musicInfo.artists.map(item => item.name),
+      artists: musicInfo.artists.map((item) => item.name),
       media,
       encoding,
       log,
@@ -89,14 +109,14 @@ async function getTorrentInfo (torrentId:string) {
   };
 }
 
-function getUTF8String (entityString:string) {
+function getUTF8String(entityString: string) {
   const tempElement = document.createElement('textarea');
   tempElement.innerHTML = entityString;
   const utf8String = tempElement.value;
   return utf8String;
 }
 
-async function getLog (logScore:number, torrentId:string, ripLogId:string) {
+async function getLog(logScore: number, torrentId: string, ripLogId: string) {
   let url = `/torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
   if (CURRENT_SITE_NAME === 'RED') {
     url = `/torrents.php?action=loglist&torrentid=${torrentId}`;
