@@ -5,49 +5,6 @@ import { CURRENT_SITE_INFO, PT_SITE } from '../const';
 import { toast } from 'sonner';
 import $ from 'jquery';
 
-/**
- * 格式化视频分类
- * @param {category} category
- */
-const getCategory = (category: string) => {
-  if (!category) {
-    return '';
-  }
-  category = category.replace(/[.-]/g, '').toLowerCase();
-  if (category.match(/movie|bd|ultra|电影/gi)) {
-    return 'movie';
-  } else if (category.match(/综艺/gi)) {
-    return 'variety';
-  } else if (category.match(/tv|drama|剧集|电视/gi)) {
-    return 'tv';
-  } else if (category.match(/TVSeries/gi)) {
-    return 'tvPack';
-  } else if (category.match(/document|纪录|紀錄|Doc/gi)) {
-    return 'documentary';
-  } else if (category.match(/sport|体育/gi)) {
-    return 'sport';
-  } else if (category.match(/mv|演唱|concert/gi)) {
-    return 'concert';
-  } else if (category.match(/anim|动(画|漫)/gi)) {
-    return 'cartoon';
-  } else if (category.match(/App|软件|Software|軟體/gi)) {
-    return 'app';
-  } else if (category.match(/电子书|小说|Ebook/gi)) {
-    return 'ebook';
-  } else if (category.match(/有声书|AudioBook/gi)) {
-    return 'audiobook';
-  } else if (category.match(/杂志|magazine/gi)) {
-    return 'magazine';
-  } else if (category.match(/漫画|comics/gi)) {
-    return 'comics';
-  } else if (category.match(/公开课/gi)) {
-    return 'onlineCourse';
-  } else if (category.match(/资料/gi)) {
-    return 'ebook';
-  }
-  return '';
-};
-
 const getFormat = (data: string) => {
   if (data.match(/pdf/i)) {
     return 'pdf';
@@ -126,4 +83,4 @@ const getTorrentFileData = async (
     return '';
   }
 };
-export { getCategory, getFormat, getTorrentFileData };
+export { getFormat, getTorrentFileData };

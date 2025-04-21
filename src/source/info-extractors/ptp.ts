@@ -47,7 +47,8 @@ class PTPExtractor extends GazelleExtractor {
     const ptpMovieTitle =
       $('.page__title')
         .text()
-        ?.match(/]?([^[]+)/)?.[1]
+        ?.replace(/\[.+?\]/g, '')
+        ?.replace(/by.+/, '')
         ?.trim() ?? '';
     const [movieName, movieAkaName = ''] = ptpMovieTitle.split(' AKA ');
     this.info.movieAkaName = movieAkaName;

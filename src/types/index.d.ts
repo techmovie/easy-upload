@@ -75,6 +75,7 @@ declare namespace TorrentInfo {
       encoding: string;
       log: string[];
     };
+    image?: string;
   }
 
   interface TargetTorrentInfo extends Info {
@@ -90,7 +91,7 @@ declare namespace Site {
   interface SelectorMap {
     selector: string;
     map: {
-      [key: string]: string;
+      [key: string]: string | string[];
     };
   }
   interface SiteInfo {

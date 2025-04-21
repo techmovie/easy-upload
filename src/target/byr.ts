@@ -2,11 +2,18 @@ import { PT_SITE } from '../const';
 import { parseMedia } from '../common';
 import $ from 'jquery';
 
-export default (info:TorrentInfo.Info) => {
+export default (info: TorrentInfo.Info) => {
   const currentSiteInfo = PT_SITE.BYR;
   const {
-    title, description, doubanInfo,
-    category, videoType, mediaInfos, subtitle, imdbUrl, doubanUrl,
+    title,
+    description,
+    doubanInfo,
+    category,
+    videoType,
+    mediaInfos,
+    subtitle,
+    imdbUrl,
+    doubanUrl,
   } = info;
   $(currentSiteInfo.subtitle.selector).val(subtitle || '');
   $(currentSiteInfo.imdb.selector).val(imdbUrl || '');
@@ -19,7 +26,8 @@ export default (info:TorrentInfo.Info) => {
   let area = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
   area = area.replace(/\[\/?.+?\]/g, '');
   const originalName = fullDescription.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
-  const translateName = fullDescription.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
+  const translateName =
+    fullDescription.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
   const movieType = fullDescription.match(/(类\s+别)\s+(.+)/)?.[2] ?? '';
   const language = fullDescription.match(/(语\s+言)\s+(.+)/)?.[2] ?? '';
   let chineseName = originalName;
@@ -47,11 +55,16 @@ export default (info:TorrentInfo.Info) => {
       亚洲: '14',
       其他: '1',
     };
-    $('select[name="second_type"]').val((typeMap[selector as keyof typeof typeMap]));
+    $('select[name="second_type"]').val(
+      typeMap[selector as keyof typeof typeMap],
+    );
     $('select[name="second_type"]')[0].dispatchEvent(new Event('change'));
     const movieTypeArr = movieType.split(/\s\//);
     $('#movie_type').val(movieTypeArr.join('/'));
-    fillField(selector, category === 'movie' ? 'movie_country' : 'show_country');
+    fillField(
+      selector,
+      category === 'movie' ? 'movie_country' : 'show_country',
+    );
     $('#movie_cname').val(chineseName);
   } else if (category.match(/tv/)) {
     let selector = 'movie_country';
@@ -73,7 +86,9 @@ export default (info:TorrentInfo.Info) => {
       日韩: '18',
       其他: '2',
     };
-    $('select[name="second_type"]').val((typeMap[selector as keyof typeof typeMap]));
+    $('select[name="second_type"]').val(
+      typeMap[selector as keyof typeof typeMap],
+    );
     $('select[name="second_type"]')[0].dispatchEvent(new Event('change'));
     fillField(selector, 'tv_type');
     $('#tv_ename').val(title);
@@ -103,7 +118,9 @@ export default (info:TorrentInfo.Info) => {
       日韩: '28',
       其他: '5',
     };
-    $('select[name="second_type"]').val((typeMap[selector as keyof typeof typeMap]));
+    $('select[name="second_type"]').val(
+      typeMap[selector as keyof typeof typeMap],
+    );
     $('select[name="second_type"]')[0].dispatchEvent(new Event('change'));
     fillField(selector, 'show_country');
     $('#show_cname').val(chineseName);
@@ -122,18 +139,28 @@ export default (info:TorrentInfo.Info) => {
     }
     fillField(languageVal, 'show_language');
   }
-  function bbcode2Html (bbcode:string) {
-    let html = bbcode.replace(/\[\*\]([^\n]+)/ig, '<li>$1</li>');
+  function bbcode2Html(bbcode: string) {
+    let html = bbcode.replace(/\[\*\]([^\n]+)/gi, '<li>$1</li>');
     html = html.replace(/(\r\n)|\n/g, '<br>');
-    html = html.replace(/\[(quote|hide=.+?)\]/ig, '<fieldset><legend>引用</legend>');
-    html = html.replace(/\[(\/)(quote|hide)\]/ig, '<$1fieldset>');
-    html = html.replace(/(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g, '<a href="$1"><img src="$2"/></a>');
+    html = html.replace(
+      /\[(quote|hide=.+?)\]/gi,
+      '<fieldset><legend>引用</legend>',
+    );
+    html = html.replace(/\[(\/)(quote|hide)\]/gi, '<$1fieldset>');
+    html = html.replace(
+      /(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g,
+      '<a href="$1"><img src="$2"/></a>',
+    );
     html = html.replace(/\[img\](.+?)\[\/img]/g, '<img src="$1"/>');
-    html = html.replace(/\[(\/)?(left|right|center)\]/ig, '<$1$2>');
-    html = html.replace(/\[(\/)?b\]/ig, '<$1strong>');
-    html = html.replace(/\[color=(.+?)\]/ig, '<span style="color: $1">').replace(/\[\/color\]/g, '</span>');
-    html = html.replace(/\[size=(.+?)\]/ig, '<font size="$1">').replace(/\[\/size\]/g, '</font>');
-    html = html.replace(/\[url=(.+?)\](.+?)\[\/url\]/ig, '<a href="$1">$2</a>');
+    html = html.replace(/\[(\/)?(left|right|center)\]/gi, '<$1$2>');
+    html = html.replace(/\[(\/)?b\]/gi, '<$1strong>');
+    html = html
+      .replace(/\[color=(.+?)\]/gi, '<span style="color: $1">')
+      .replace(/\[\/color\]/g, '</span>');
+    html = html
+      .replace(/\[size=(.+?)\]/gi, '<font size="$1">')
+      .replace(/\[\/size\]/g, '</font>');
+    html = html.replace(/\[url=(.+?)\](.+?)\[\/url\]/gi, '<a href="$1">$2</a>');
     return html;
   }
 };

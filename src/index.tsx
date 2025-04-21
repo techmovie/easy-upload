@@ -31,13 +31,13 @@ if (CURRENT_SITE_NAME) {
     if (torrentInfoRaw) {
       torrentInfo = JSON.parse(decodeURIComponent(torrentInfoRaw));
     } else if (torrentTimestamp) {
-      torrentInfo = GM_getValue('uploadInfo');
+      torrentInfo = GM_getValue('cachedTorrentInfo');
     }
     fillTargetForm(torrentInfo as TorrentInfo.Info);
   }
   if (
     CURRENT_SITE_INFO.asSource &&
-    !location.href.match(/upload|offer/gi) &&
+    !location.href.match(/upload|offer|create/gi) &&
     !(
       CURRENT_SITE_INFO.search &&
       location.pathname.match(CURRENT_SITE_INFO.search.path) &&
@@ -48,6 +48,7 @@ if (CURRENT_SITE_NAME) {
     getTorrentInfo().then((info) => {
       // 向当前所在站点添加按钮等内容
       console.log(info);
+      GM_setValue('cachedTorrentInfo', info);
     });
 
     let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement | null;
@@ -68,11 +69,6 @@ if (CURRENT_SITE_NAME) {
       const torrentId = getLocationSearchValueByKey('torrentid');
       if (CURRENT_SITE_NAME === 'GPW') {
         refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
-      } else if (CURRENT_SITE_NAME === 'EMP') {
-        const groupId = getLocationSearchValueByKey('id');
-        refNode = document.querySelector(
-          `.groupid_${groupId}.torrentdetails>td`,
-        );
       } else if (CURRENT_SITE_NAME === 'MTV') {
         refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
       } else {

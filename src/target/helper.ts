@@ -1,114 +1,53 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME, HDB_TEAM } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
 import {
-  getBDTypeBasedOnSize, getTMDBDataByIMDBId, getIdByIMDbUrl,
+  getBDTypeBasedOnSize,
+  getTMDBDataByIMDBId,
+  getIdByIMDbUrl,
 } from '../common';
 import {
-  getTeamName, matchSelectForm, filterNexusDescription,
-  isChineseTacker, buildPTPDescription, filterEmptyTags, setSelectValue,
+  matchSelectForm,
+  filterNexusDescription,
+  isChineseTacker,
+  buildPTPDescription,
+  filterEmptyTags,
+  setSelectValue,
   base64ToBlob,
 } from './common';
 import { SITE_OPERATIONS } from './site-operations';
 import $ from 'jquery';
 
-type SelectKey = 'videoCodec' | 'videoType' | 'resolution' | 'source' | 'area'
+type SelectKey = 'videoCodec' | 'videoType' | 'resolution' | 'source' | 'area';
 
 interface SiteOperation {
-  titleHandler?: (info: TorrentInfo.TargetTorrentInfo) => TorrentInfo.TargetTorrentInfo
-  beforeHandler?: () => void
-  handleDescription?: (info: TorrentInfo.TargetTorrentInfo) => string
-  afterHandler?: (info: TorrentInfo.TargetTorrentInfo) => void
+  titleHandler?: (
+    info: TorrentInfo.TargetTorrentInfo,
+  ) => TorrentInfo.TargetTorrentInfo;
+  beforeHandler?: () => void;
+  handleDescription?: (info: TorrentInfo.TargetTorrentInfo) => string;
+  afterHandler?: (info: TorrentInfo.TargetTorrentInfo) => void;
 }
 
 export default class ExportHelper {
   info: TorrentInfo.TargetTorrentInfo;
   currentSiteInfo: Site.SiteInfo;
   operation: SiteOperation;
-  constructor (info:TorrentInfo.TargetTorrentInfo) {
+  constructor(info: TorrentInfo.TargetTorrentInfo) {
     this.info = info;
     this.currentSiteInfo = CURRENT_SITE_INFO;
-    this.operation = SITE_OPERATIONS[CURRENT_SITE_NAME as keyof typeof SITE_OPERATIONS];
+    this.operation =
+      SITE_OPERATIONS[CURRENT_SITE_NAME as keyof typeof SITE_OPERATIONS];
   }
 
-  prepareToFillInfo () {
-    if (this.operation?.beforeHandler) {
-      this.operation.beforeHandler();
-    }
-  }
-
-  fillTeamName () {
-    const teamConfig = this.currentSiteInfo.team;
-    const teamName = getTeamName(this.info);
-    interface Team {
-      [key: string]: string
-    }
-    if (teamName && teamConfig) {
-      const formateTeamName = teamConfig.map[teamName.toLowerCase() as keyof Team];
-      const matchValue = formateTeamName || teamConfig.map.other;
-      if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === 'BTSCHOOL') {
-        $(teamConfig.selector).val(teamConfig.map.hdbint);
-        return;
-      }
-      if (CURRENT_SITE_NAME === 'UHDBits') {
-        $('#team').val(teamName === 'other' ? 'Unknown' : teamName);
-        return;
-      }
-
-      if (matchValue) {
-        $(teamConfig.selector).val(matchValue.toLowerCase());
-      }
-    }
-  }
-
-  disableTorrentChange () {
-    const nameSelector = this.currentSiteInfo.name?.selector ?? '';
-    if (nameSelector.match(/^#\w+/)) {
-      const nameDom = $(nameSelector).clone().attr('name', '').hide();
-      $(nameSelector).attr('id', '').after(nameDom);
-    }
-  }
-
-  getThanksQuote () {
-    const isChineseSite = isChineseTacker(this.currentSiteInfo.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
-    let thanksQuote = `转自[b]${this.info.sourceSite}[/b]，感谢原发布者！`;
-    if (!isChineseSite) {
-      thanksQuote = `Torrent from [b]${this.info.sourceSite}[/b].\nAll thanks to the original uploader！`;
-    }
-    return `[quote]${thanksQuote}[/quote]\n\n`;
-  }
-
-  getChineseName () {
-    const { description, subtitle } = this.info;
-    const originalName = description.match(/(片\s+名)\s+(.+)?/)?.[2] ?? '';
-    const translateName = description.match(/(译\s+名)\s+(.+)/)?.[2]?.split('/')?.[0] ?? '';
-    let chineseName = originalName;
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : '';
-    }
-    if (chineseName === '' && subtitle !== '' && subtitle !== undefined) {
-      chineseName = this.info?.subtitle?.replace(/【|】.*/g, '').split('/')?.[0] ?? '';
-    }
-    return chineseName.trim();
-  }
-
-  torrentTitleHandler () {
-    const fixedTitle = this.info.title.replace('H 265', 'H.265').replace('H 264', 'H.264');
-    this.info.title = fixedTitle;
-    if (this.operation?.titleHandler) {
-      this.info = this.operation.titleHandler(this.info);
-    }
+  torrentTitleHandler() {
     // 北洋站没有配置name
     if (this.currentSiteInfo.name) {
-      if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
-        this.info.title = this.info.title.replace(/\s/ig, '.');
-      } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
-        this.info.title = `[${this.getChineseName()}]${this.info.title}`;
+      if (CURRENT_SITE_NAME.match(/MTV/)) {
+        this.info.title = this.info.title.replace(/\s/gi, '.');
       }
-      $(this.currentSiteInfo.name.selector).val(this.info.title);
     }
-    return this.info;
   }
 
-  imdbHandler () {
+  imdbHandler() {
     const imdbSelector = this.currentSiteInfo?.imdb?.selector;
     if (!imdbSelector) {
       return;
@@ -118,30 +57,40 @@ export default class ExportHelper {
 
     if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
       $(imdbSelector).val(imdbId?.replace('tt', '') ?? '');
-    } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST|HUNO/)) {
+    } else if (
+      CURRENT_SITE_NAME.match(
+        /Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST|HUNO/,
+      )
+    ) {
       let tmdbId = '';
-      const fillIMDBId = this.currentSiteInfo.siteType === 'UNIT3D' ? imdbId.replace('tt', '') : imdbId;
+      const fillIMDBId =
+        this.currentSiteInfo.siteType === 'UNIT3D'
+          ? imdbId.replace('tt', '')
+          : imdbId;
       $(imdbSelector).val(fillIMDBId);
-      getTMDBDataByIMDBId(imdbId).then(data => {
+      getTMDBDataByIMDBId(imdbId).then((data) => {
         tmdbId = data.id;
         $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
       });
-      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|LST|HUNO/)) {
-        $('#torrent').on('change', () => {
-          $(imdbSelector).val(fillIMDBId);
-          $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
-          $('#automal').val(0);
-        });
-      }
+      $('#torrent').on('change', () => {
+        $(imdbSelector).val(fillIMDBId);
+        $(this.currentSiteInfo.tmdb.selector).val(tmdbId);
+        $('#automal').val(0);
+      });
     } else {
       $(imdbSelector).val(this.info.imdbUrl || '');
     }
   }
 
-  fillBasicAttributes () {
+  fillBasicAttributes() {
     // 填写四个常见的信息
-    const commonInfoKeys = ['subtitle', 'douban', 'area', 'audioCodec'] as const;
-    commonInfoKeys.forEach(key => {
+    const commonInfoKeys = [
+      'subtitle',
+      'douban',
+      'area',
+      'audioCodec',
+    ] as const;
+    commonInfoKeys.forEach((key) => {
       const siteInfo = this.currentSiteInfo[key];
       if (siteInfo && siteInfo.selector) {
         let value = this.info[key as 'subtitle' | 'area' | 'audioCodec'];
@@ -155,16 +104,28 @@ export default class ExportHelper {
     });
   }
 
-  descriptionHandler () {
-    let { mediaInfos, isBluray, screenshots = [], description = '', doubanInfo, poster } = this.info;
+  descriptionHandler() {
+    let {
+      mediaInfos,
+      isBluray,
+      screenshots = [],
+      description = '',
+      doubanInfo,
+      poster,
+    } = this.info;
     // 内站直接填写完整简介
     if (description) {
       // 去简介前的空格和换行
       if (this.currentSiteInfo.siteType.match(/NexusPHP|TTG|MTeam/)) {
-        description = description.replace(/\[(right|left|center)\]/gi, '[quote]').replace(/\[\/(right|left|center)\]/gi, '[/quote]');
+        description = description
+          .replace(/\[(right|left|center)\]/gi, '[quote]')
+          .replace(/\[\/(right|left|center)\]/gi, '[/quote]');
       }
       description = description.replace(/^(\s+)/g, '');
-      if (isChineseTacker(this.currentSiteInfo.siteType) && CURRENT_SITE_NAME !== 'SSD') {
+      if (
+        isChineseTacker(this.currentSiteInfo.siteType) &&
+        CURRENT_SITE_NAME !== 'SSD'
+      ) {
         // 需要拼接豆瓣信息的内站
         if (doubanInfo) {
           description = `${doubanInfo}\n${description}`;
@@ -180,20 +141,23 @@ export default class ExportHelper {
 
     if (this.currentSiteInfo.mediaInfo) {
       if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU|HUNO)/)) {
-        const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
+        const selector = isBluray
+          ? 'textarea[name="bdinfo"]'
+          : this.currentSiteInfo.mediaInfo.selector;
         $(selector).val(mediaInfos[0]);
         description = description.replace(mediaInfos[0].trim(), '');
       } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
         $(this.currentSiteInfo.bdinfo.selector).val(mediaInfos[0]);
         this.info.mediaInfos = [];
-      } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) { // HDB只填入mediainfo bdinfo放在简介里
+      } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
+        // HDB只填入mediainfo bdinfo放在简介里
         $(this.currentSiteInfo.mediaInfo.selector).val(mediaInfos[0]);
         description = description.replace(mediaInfos[0].trim(), '');
       }
     }
     // 删除简介中的截图
     if (this.currentSiteInfo.screenshots) {
-      screenshots.forEach(img => {
+      screenshots.forEach((img) => {
         if (description.includes(img)) {
           description = description.replace(img, '');
           if (!img.match(/\[url=.+?\[url]/)) {
@@ -206,7 +170,9 @@ export default class ExportHelper {
     // 海报填写
     if (this.currentSiteInfo.poster) {
       if (!poster) {
-        const doubanPosterImage = (description + doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
+        const doubanPosterImage = (description + doubanInfo).match(
+          /\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/,
+        );
         if (doubanPosterImage && doubanPosterImage[1]) {
           poster = doubanPosterImage[1];
         } else {
@@ -227,7 +193,7 @@ export default class ExportHelper {
         description = buildPTPDescription(this.info);
       }
       if (screenshots.length > 0) {
-        screenshots.forEach(img => {
+        screenshots.forEach((img) => {
           const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](\n*)?`);
           if (description.match(regStr)) {
             description = description.replace(regStr, (p1, p2) => {
@@ -243,11 +209,17 @@ export default class ExportHelper {
     }
 
     if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|HUNO/)) {
-      description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, '[$2]$3[/$2]');
-      description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
-        const slash = p1 || '';
-        return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
-      });
+      description = description.replace(
+        /\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g,
+        '[$2]$3[/$2]',
+      );
+      description = description.replace(
+        /\[(\/)?hide(?:=(.+?))?\]/g,
+        (match, p1, p2) => {
+          const slash = p1 || '';
+          return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
+        },
+      );
     }
 
     if (this.operation?.handleDescription) {
@@ -259,14 +231,20 @@ export default class ExportHelper {
     // 过滤空标签
     description = filterEmptyTags(description);
 
-    const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed') || '';
+    const thanksQuoteClosed =
+      GM_getValue('easy-seed.thanks-quote-closed') || '';
     if (!thanksQuoteClosed && this.info.sourceSite !== undefined) {
       description = this.getThanksQuote() + description.trim();
     }
     $(this.currentSiteInfo.description?.selector).val(description);
 
-    if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_INFO.description.selector === '#bbcode-description') {
-      $(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(new Event('input'));
+    if (
+      CURRENT_SITE_INFO.siteType === 'UNIT3D' &&
+      CURRENT_SITE_INFO.description.selector === '#bbcode-description'
+    ) {
+      $(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(
+        new Event('input'),
+      );
     }
 
     this.info = {
@@ -275,7 +253,7 @@ export default class ExportHelper {
     };
   }
 
-  categoryHandler () {
+  categoryHandler() {
     const { isBluray, category, videoType } = this.info;
     if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
       // videoType和category交换
@@ -292,25 +270,44 @@ export default class ExportHelper {
     }
     if (this.currentSiteInfo.category) {
       const category = this.currentSiteInfo.category.map[this.info.category];
-      const keyArray = ['videoCodec', 'videoType', 'resolution', 'source', 'area'];
+      const keyArray = [
+        'videoCodec',
+        'videoType',
+        'resolution',
+        'source',
+        'area',
+      ];
       let finalSelectArray: string[] = [];
       if (Array.isArray(category)) {
         finalSelectArray = [...category];
-        keyArray.forEach(key => {
-          finalSelectArray = matchSelectForm(this.currentSiteInfo, this.info, key as SelectKey, finalSelectArray);
+        keyArray.forEach((key) => {
+          finalSelectArray = matchSelectForm(
+            this.currentSiteInfo,
+            this.info,
+            key as SelectKey,
+            finalSelectArray,
+          );
           if (finalSelectArray.length === 1) {
-            setSelectValue(this.currentSiteInfo.category.selector, finalSelectArray[0]);
+            setSelectValue(
+              this.currentSiteInfo.category.selector,
+              finalSelectArray[0],
+            );
           }
         });
       } else {
-        [...keyArray, 'category'].forEach(key => {
-          matchSelectForm(this.currentSiteInfo, this.info, key as SelectKey, finalSelectArray);
+        [...keyArray, 'category'].forEach((key) => {
+          matchSelectForm(
+            this.currentSiteInfo,
+            this.info,
+            key as SelectKey,
+            finalSelectArray,
+          );
         });
       }
     }
   }
 
-  fillRemainingInfo () {
+  fillRemainingInfo() {
     if (this.currentSiteInfo.format) {
       const formatData = this.currentSiteInfo.format;
       $(formatData.selector).val(formatData.map[this.info.format as string]);
@@ -330,7 +327,7 @@ export default class ExportHelper {
     }
     // 标签勾选
     if (this.currentSiteInfo.tags) {
-      Object.keys(this.info.tags).forEach(key => {
+      Object.keys(this.info.tags).forEach((key) => {
         if (this.info.tags[key] && this.currentSiteInfo.tags[key]) {
           $(this.currentSiteInfo.tags[key]).attr('checked', 'true');
         }
@@ -339,15 +336,19 @@ export default class ExportHelper {
     // 填入制作组
     this.fillTeamName();
 
-    if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
+    if (
+      CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)
+    ) {
       setTimeout(() => {
         const event = new Event('change');
-        document.querySelector(this.currentSiteInfo.category.selector)?.dispatchEvent(event);
+        document
+          .querySelector(this.currentSiteInfo.category.selector)
+          ?.dispatchEvent(event);
       }, 1000);
     }
   }
 
-  dealWithMoreSites () {
+  dealWithMoreSites() {
     if (this.operation?.afterHandler) {
       this.operation.afterHandler(this.info);
     }
@@ -366,7 +367,10 @@ export default class ExportHelper {
       }
     }
     // 单独处理UNIT3D剧集
-    if (this.currentSiteInfo.siteType === 'UNIT3D' && this.info.category.match(/tv/)) {
+    if (
+      this.currentSiteInfo.siteType === 'UNIT3D' &&
+      this.info.category.match(/tv/)
+    ) {
       const season = this.info.title.match(/S0?(\d{1,2})/i)?.[1] ?? 1;
       const episode = this.info.title.match(/EP?0?(\d{1,3})/i)?.[1] ?? 0;
       $('#season_number').val(season);
@@ -381,7 +385,8 @@ export default class ExportHelper {
           tvPack: '433',
           documentary: '418',
         };
-        const ipadCat = categoryMap[this.info.category as keyof typeof categoryMap];
+        const ipadCat =
+          categoryMap[this.info.category as keyof typeof categoryMap];
         if (ipadCat) {
           $('#browsecat').val(ipadCat);
         }
@@ -389,14 +394,16 @@ export default class ExportHelper {
     }
   }
 
-  fillTorrentFile () {
+  fillTorrentFile() {
     const { torrentData } = this.info;
     if (CURRENT_SITE_INFO.torrent) {
       const fileInput = $(CURRENT_SITE_INFO.torrent.selector);
       if (torrentData && fileInput.length > 0) {
         const blob = base64ToBlob(torrentData);
         const torrentFileName = this.info.title?.replace(/\s/g, '.');
-        const file = new File([blob], `${torrentFileName}.torrent`, { type: 'application/x-bittorrent' });
+        const file = new File([blob], `${torrentFileName}.torrent`, {
+          type: 'application/x-bittorrent',
+        });
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
         const uploadInput = fileInput[0] as HTMLInputElement;

@@ -1,71 +1,44 @@
-import { CURRENT_SITE_NAME } from '../const';
-import TargetHelper from './helper';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
+import { registry } from './target-filler/registry';
 
-import handlePTP from './ptp';
-import handleGPW from './gpw';
-import handleNPU from './npubits';
-import handleBYR from './byr';
-import handleSC from './sc';
-import handleKG from './kg';
-import handleBHD from './bhd';
-import handleZQ from './zhuque';
-import autoFill from './autofill';
-import handleMT from './mt';
-import handleRED from './red';
-import handleGazelleMusic from './gazelle-music';
-import handleHDRoute from './hdr';
-import handleITS from './its';
-import handlePTN from './ptn';
+import './target-filler/52pt';
+import './target-filler/Bib';
+import './target-filler/BTSCHOOL';
+import './target-filler/Concertos';
+import './target-filler/HDBits';
+import './target-filler/HDFans';
+import './target-filler/HDRoute';
+import './target-filler/HDT';
+import './target-filler/HDTime';
+import './target-filler/HDU';
+import './target-filler/KEEPFRDS';
+import './target-filler/NYPT';
+import './target-filler/PTN';
+import './target-filler/PTSBAO';
+import './target-filler/RedLeaves';
+import './target-filler/SpeedApp';
+import './target-filler/SSD';
+import './target-filler/TTG';
+import './target-filler/UHDBits';
+import './target-filler/UNIT3D';
+import './target-filler/NexusPHP';
 
-const siteHandlers: { [key: string]: (info: TorrentInfo.Info) => void } = {
-  PTP: handlePTP,
-  GPW: handleGPW,
-  NPUBits: handleNPU,
-  BYR: handleBYR,
-  SC: handleSC,
-  KG: handleKG,
-  BeyondHD: handleBHD,
-  ZHUQUE: handleZQ,
-  MTeam: handleMT,
-  RED: handleRED,
-  HDRoute: handleHDRoute,
-  DicMusic: handleGazelleMusic,
-  Orpheus: handleGazelleMusic,
-  iTS: handleITS,
-  PTN: handlePTN,
-};
-
-const fillTargetForm = (info: TorrentInfo.Info) => {
-  autoFill(info || {});
+export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {
+    console.warn('No torrent info provided for filling form');
     return;
   }
-  console.log(info);
-  const handler = siteHandlers[CURRENT_SITE_NAME];
-  if (handler) {
-    handler(info);
-  }
-  const targetTorrentInfo: TorrentInfo.TargetTorrentInfo = { ...info };
-  const isBluray = !!info?.videoType?.match(/bluray/i);
-  targetTorrentInfo.isBluray = isBluray;
-  const targetHelper = new TargetHelper(targetTorrentInfo);
-  // 避免选择种子文件后自动改变种子名称
-  targetHelper.disableTorrentChange();
-  targetHelper.fillTorrentFile();
 
-  if (!!handler && !CURRENT_SITE_NAME.match(/TJUPT|HDRoute|PTN|iTS/)) {
-    return;
-  }
-  targetHelper.prepareToFillInfo();
-  targetHelper.torrentTitleHandler();
-  targetHelper.imdbHandler();
-  targetHelper.descriptionHandler();
-  targetHelper.fillBasicAttributes();
-  targetHelper.categoryHandler();
-  targetHelper.fillRemainingInfo();
-  targetHelper.dealWithMoreSites();
-};
+  console.log('Filling form with info:', info);
 
-export {
-  fillTargetForm,
+  const filler = registry.getApplicableFiller(
+    CURRENT_SITE_NAME,
+    CURRENT_SITE_INFO.siteType,
+  );
+
+  if (filler) {
+    filler.fill(info);
+  } else {
+    console.warn(`No specialized filler found for site: ${CURRENT_SITE_NAME}`);
+  }
 };
