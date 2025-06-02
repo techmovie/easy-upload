@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 class Bib extends BaseFiller implements TargetFiller {
   priority = 10;
+  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'Bib';

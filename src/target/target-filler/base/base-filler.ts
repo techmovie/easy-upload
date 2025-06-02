@@ -14,17 +14,20 @@ export abstract class BaseFiller {
   info: TorrentInfo.Info | null = null;
   siteInfo: Site.SiteInfo = CURRENT_SITE_INFO;
   imdbId: string = '';
+  isCustomSite: boolean = false;
   fill(info: TorrentInfo.Info): void {
     this.info = info;
-    this.prepareToFillInfo();
-    this.fillTorrentTitle();
-    this.disableTorrentChange();
+    if (!this.isCustomSite) {
+      this.prepareToFillInfo();
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillDescription();
+      this.fillBasicAttributes();
+      this.fillCategory();
+      this.fillRemainingInfo();
+    }
     this.fillTorrentFile();
-    this.fillIMDb();
-    this.fillDescription();
-    this.fillBasicAttributes();
-    this.fillCategory();
-    this.fillRemainingInfo();
     this.postProcess();
   }
 
@@ -110,14 +113,13 @@ export abstract class BaseFiller {
     const thanksQuoteClosed =
       GM_getValue('easy-seed.thanks-quote-closed') || '';
     if (!thanksQuoteClosed && sourceSite) {
-      fixedDescription = this.getThanksQuote() + description.trim();
+      fixedDescription = this.getThanksQuote() + fixedDescription.trim();
     }
     this.info!.description = fixedDescription;
   }
 
   private addOrFilterDescription(description: string) {
     const { doubanInfo, sourceSiteType, screenshots } = this.info!;
-
     const IfAddDoubanInfo =
       this.isChineseTacker(this.siteInfo.siteType) &&
       CURRENT_SITE_NAME !== 'SSD';
@@ -217,7 +219,7 @@ export abstract class BaseFiller {
     return `[quote]${thanksQuote}[/quote]\n\n`;
   }
 
-  private isChineseTacker = (siteType: string) => {
+  protected isChineseTacker = (siteType: string) => {
     return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
   };
 

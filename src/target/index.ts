@@ -22,6 +22,7 @@ import './target-filler/TTG';
 import './target-filler/UHDBits';
 import './target-filler/UNIT3D';
 import './target-filler/NexusPHP';
+import './target-filler/BeyondHD';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {

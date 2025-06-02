@@ -111,7 +111,10 @@ export const filterNexusDescription = (
       }
     });
   }
-  return `${filterDescription}\n${screenshots.join('\n')}`;
+  if (screenshots.length > 0) {
+    filterDescription += `\n${screenshots.map((v) => `[img]${v}[/img]`).join('\n')}\n\n`;
+  }
+  return filterDescription;
 };
 
 export const buildPTPDescription = (info: TorrentInfo.Info) => {

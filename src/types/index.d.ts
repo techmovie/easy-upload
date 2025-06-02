@@ -104,8 +104,8 @@ declare namespace Site {
     uploadPath: string;
     seedDomSelector: string;
     torrentDownloadLinkSelector?: string;
-    needDoubanInfo?: false;
-    needDoubanBookInfo?: false;
+    needDoubanInfo?: boolean;
+    needDoubanBookInfo?: boolean;
     douban: Selector;
     area: SelectorMap;
     mediaInfo: Selector;
