@@ -15,7 +15,7 @@ export abstract class BaseFiller {
   siteInfo: Site.SiteInfo = CURRENT_SITE_INFO;
   imdbId: string = '';
   isCustomSite: boolean = false;
-  fill(info: TorrentInfo.Info): void {
+  async fill(info: TorrentInfo.Info): Promise<void> {
     this.info = info;
     if (!this.isCustomSite) {
       this.prepareToFillInfo();
@@ -28,7 +28,10 @@ export abstract class BaseFiller {
       this.fillRemainingInfo();
     }
     this.fillTorrentFile();
-    this.postProcess();
+    const postProcessResult = this.postProcess();
+    if (postProcessResult instanceof Promise) {
+      await postProcessResult;
+    }
   }
 
   disableTorrentChange() {
@@ -380,5 +383,5 @@ export abstract class BaseFiller {
     }
   }
 
-  protected postProcess() {}
+  protected postProcess(): void | Promise<void> {}
 }
