@@ -1,5 +1,5 @@
 import { getRottenTomatoesDataByQuery } from './movie.helper';
-
+import type { RottenTomatoesHit } from './movie.types';
 /**
  * Try Best to get Rotten Tomatoes match by title and year.
  *
@@ -13,7 +13,7 @@ export const getMatchRottenTomatoes = async (
   title: string,
   year?: string,
   isTV?: boolean,
-) => {
+): Promise<RottenTomatoesHit | null> => {
   try {
     const MAX_YEAR_DIFF = 2;
     const releaseYear = parseInt(year || '1800', 10);
@@ -21,7 +21,7 @@ export const getMatchRottenTomatoes = async (
     const filteredHits = searchResultHits.filter(
       (hit) => hit.type === (isTV ? 'tv' : 'movie'),
     );
-    if (!filteredHits.length) return {};
+    if (!filteredHits.length) return null;
     filteredHits.sort((a, b) => {
       const diffA = Math.abs(a.releaseYear - releaseYear);
       const diffB = Math.abs(b.releaseYear - releaseYear);
@@ -64,6 +64,6 @@ export const getMatchRottenTomatoes = async (
     return bestMatch;
   } catch (error) {
     console.error('Error fetching data from Rotten Tomatoes:', error);
-    return {};
+    return null;
   }
 };

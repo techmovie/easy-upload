@@ -29,6 +29,12 @@ import './target-filler/RED';
 import './target-filler/KG';
 import './target-filler/PTP';
 import './target-filler/MTeam';
+import './target-filler/GazelleMusic';
+import './target-filler/GPW';
+import './target-filler/ZHUQUE';
+import './target-filler/iTS';
+import './target-filler/BYR';
+import './target-filler/PTer';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {

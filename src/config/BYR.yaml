@@ -8,13 +8,13 @@ uploadPath: /upload.php
 
 search:
   path: /torrents.php
-  imdbOptionKey: '4'
-  nameOptionKey: '0'
+  imdbOptionKey: "4"
+  nameOptionKey: "0"
   params:
-    incldead: '0'
-    search_area: '{optionKey}'
-    search: '{imdb}'
-    sort: '5'
+    incldead: "0"
+    search_area: "{optionKey}"
+    search: "{imdb}"
+    sort: "5"
     type: desc
 subtitle:
   selector: 'input[name="small_descr"]'
@@ -23,4 +23,4 @@ imdb:
 douban:
   selector: 'input[name="dburl"]'
 torrent:
-  selector: '#torrent'
+  selector: "#torrent"

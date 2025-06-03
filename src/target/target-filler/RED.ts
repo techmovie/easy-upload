@@ -56,6 +56,7 @@ class RED extends BaseFiller implements TargetFiller {
     }
 
     this.fillReleaseInfo(musicJson.torrent);
+    this.fillTorrentFile();
   }
 
   private async searchAndRedirectToGroup(

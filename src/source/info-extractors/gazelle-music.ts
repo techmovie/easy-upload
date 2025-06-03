@@ -131,8 +131,7 @@ class GZMusicExtractor extends GazelleExtractor implements InfoExtractor {
 
   protected extractTorrentLink(): void {
     const torrentLink = this.torrentHeaderDom
-      .prev()
-      .find('a[title="Download"]')
+      .find('a[href*="download"]')
       .attr('href');
     CURRENT_SITE_INFO.torrentLink = torrentLink;
   }

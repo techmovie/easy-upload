@@ -133,7 +133,7 @@ const UploadSiteList = () => {
       };
       url = url.replace(
         '/upload.php',
-        `/upload.php?type=${catMap[torrentCacheInfo.category as keyof typeof catMap]}`,
+        `/upload.php?type=${catMap[torrentCacheInfo.category as keyof typeof catMap]}&ckeditor=1`,
       );
     }
     if (url.match(PT_SITE.PTP.host)) {
