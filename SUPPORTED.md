@@ -44,7 +44,6 @@
 |     MDU     |            ✅             |           ✅            |
 |     MTV     |            ✅             |           ✅            |
 |    MTeam    |            ✅             |           ✅            |
-|   NPUBits   |            ❌             |           ✅            |
 |    NYPT     |            ✅             |           ✅            |
 |   Orpheus   |            ✅             |           ✅            |
 |   OurBits   |            ✅             |           ✅            |
