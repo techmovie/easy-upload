@@ -24,6 +24,11 @@ import './target-filler/UNIT3D';
 import './target-filler/NexusPHP';
 import './target-filler/BeyondHD';
 import './target-filler/SC';
+import './target-filler/TJUPT';
+import './target-filler/RED';
+import './target-filler/KG';
+import './target-filler/PTP';
+import './target-filler/MTeam';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {

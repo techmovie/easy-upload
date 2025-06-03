@@ -10,14 +10,14 @@ import {
 
 class SC extends BaseFiller implements TargetFiller {
   priority = 10;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'SC';
   }
 
-  protected async postProcess() {
-    const { imdbUrl = '' } = this.info!;
+  async fill(info: TorrentInfo.Info) {
+    this.info = info;
+    const { imdbUrl = '' } = this.info;
     const imdbId = getIdByIMDbUrl(imdbUrl);
     $('#catalogue_number').val(imdbId);
     $('#imdb_autofill').trigger('click');
@@ -25,6 +25,7 @@ class SC extends BaseFiller implements TargetFiller {
     $('.modesw').trigger('click');
     $('#release_desc').val(this.buildDescription());
     await this.fillIMDbInfo(imdbUrl);
+    this.fillTorrentFile();
   }
 
   private buildDescription() {

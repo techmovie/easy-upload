@@ -1,189 +1,189 @@
-url: 'https://kp.m-team.cc'
+url: "https://kp.m-team.cc"
 host: m-team.cc
 siteType: MTeam
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABdFBMVEUAAAACAgCCajIDAgEHBgImHw5XSCFcSyNTRCAeGAtpVihSQx9yXSxaSSJxXStZSSKxkUR9ZzCafjvNqE+TeDihhD6niUAdFwsAAAAGBQJ3Yi46MBYAAAAHBQJqVyhmVCcAAAAAAAA1LBSGbjMAAAAgGwx1YC0AAAAAAABENxqNdDYAAAAnIA9NPx0IBwMzKROmiUBSQx8IBgMaFQqCajLOqU86MBa9m0lEOBqSeDhyXStsWSlVRSAuJhJrWClxXCtmVCcjHQ1kUiZvWyoqIxBVRiByXixmVCckHg7rwFruw1zvxFzjulf0yV72yl/uw1v0yF7tw1v1yV74zGD3y1/3yl/1yV/4y1/5zGDxxl3lvFjku1jwxVzIpE3qwFrWsFL5zWDCn0vft1bHpE3MqE/Wr1LvxVz4zF/ctVXet1ZKPBzas1Tyx11ZSSK4l0f6zWDdtlVJPBzYsVNYSCK2lUbetlVIOxvXsFNXSCG1lEXpv1r///+72WvcAAAASXRSTlMAAAAAAKvo6uaQ+OL75/vn++v2/vX5+ogrXOazQ1/e2RsBoO85geUyDrfyRI3Hb6f5y2GA7P79/vz9+/nkwfn7+e35++73+/ejS5QV5gAAAAFiS0dEe0/StfwAAAAHdElNRQflBAoGJSzOxqaDAAAA40lEQVQY02NgZWNHAxycDFyeXqjA24ebgcfXDw348zLwBaALBvKTJhjkFxwSHBoU5hceEREaBFMZKSAoFBXq5ycsIhodAhUMFxOXkJSKCY6VlpGViwuFCEbKKzAoKsUnKKswMqkmRkAEA9TUmTU0kxK0tFkUdZKhgiEpunr6Bn4hqYZGxiZpMNvTTc3M/fyCQjIsLCPh7gzJzMoOCfLzy8nNy4c7KaSgsCgE6OzI4pIIP9IErUCCpWiC1pEBAUEZZeV+AQEB3hWVIQG+VTYMtnZ89nwOjk5W9vZ8zi6ubvZ87h4AngBo3AG4MQYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDY6Mzc6NDQrMDA6MDDepEzfAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA2OjM3OjQ0KzAwOjAwr/n0YwAAAABJRU5ErkJggg==
 asSource: true
 asTarget: true
 uploadPath: /upload
-seedDomSelector: '.detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)'
+seedDomSelector: ".detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)"
 search:
   path: /browse
-  replaceKey: ['tt', 'https://www.imdb.com/title/tt']
+  replaceKey: ["tt", "https://www.imdb.com/title/tt"]
   params:
-    keyword: '{imdb}'
+    keyword: "{imdb}"
 name:
-  selector: '#name'
+  selector: "#name"
 subtitle:
-  selector: '#smallDescr'
+  selector: "#smallDescr"
 description:
-  selector: '#descr'
+  selector: "#descr"
 mediainfo:
-  selector: '#mediainfo'
+  selector: "#mediainfo"
 imdb:
-  selector: '#imdb'
+  selector: "#imdb"
 douban:
-  selector: '#douban'
+  selector: "#douban"
 tags:
   diy: 'input[value="diy"]'
   chinese_subtitle: 'input[value="sub"]'
   chinese_audio: 'input[value="dub"]'
 torrent:
-  selector: '#torrent-input'
+  selector: "#torrent-input"
 category:
-  selector: '#category'
+  selector: "#category"
   map:
     movie:
-      - '401'
-      - '419'
-      - '420'
-      - '421'
-      - '439'
+      - "401"
+      - "419"
+      - "420"
+      - "421"
+      - "439"
     tv:
-      - '403'
-      - '402'
-      - '435'
-      - '438'
+      - "403"
+      - "402"
+      - "435"
+      - "438"
     tvPack:
-      - '403'
-      - '402'
-      - '435'
-      - '438'
-    documentary: '404'
-    concert: '406'
-    sport: '407'
-    music: '434'
-    cartoon: '405'
-    app: '422'
-    ebook: '427'
-    magazine: '427'
-    audioBook: '427'
+      - "403"
+      - "402"
+      - "435"
+      - "438"
+    documentary: "404"
+    concert: "406"
+    sport: "407"
+    music: "434"
+    cartoon: "405"
+    app: "422"
+    ebook: "427"
+    magazine: "427"
+    audioBook: "427"
 videoCodec:
-  selector: '#videoCodec'
+  selector: "#videoCodec"
   map:
-    h264: '1'
-    hevc: '16'
-    h265: '16'
-    x264: '1'
-    x265: '16'
-    mpeg2: '4'
-    mpeg4: '15'
-    vc1: '2'
-    xvid: '3'
-    av1: '19'
+    h264: "1"
+    hevc: "16"
+    h265: "16"
+    x264: "1"
+    x265: "16"
+    mpeg2: "4"
+    mpeg4: "15"
+    vc1: "2"
+    xvid: "3"
+    av1: "19"
 audioCodec:
-  selector: '#audioCodec'
+  selector: "#audioCodec"
   map:
-    aac: '6'
-    ac3: '8'
-    dd: '8'
-    dd+: '8'
-    flac: '1'
-    dts: '3'
-    truehd: '9'
-    lpcm: '7'
-    dtshdma: '11'
-    atmos: '10'
-    dtsx: '3'
-    ape: '2'
-    wav: '7'
-    other: '7'
-    mp3: '4'
+    aac: "6"
+    ac3: "8"
+    dd: "8"
+    dd+: "8"
+    flac: "1"
+    dts: "3"
+    truehd: "9"
+    lpcm: "7"
+    dtshdma: "11"
+    atmos: "10"
+    dtsx: "3"
+    ape: "2"
+    wav: "7"
+    other: "7"
+    mp3: "4"
 source:
-  selector: '#source'
+  selector: "#source"
   map:
-    uhdbluray: '1'
-    bluray: '1'
-    hdtv: '4'
-    dvd: '3'
-    web: '8'
-    vhs: '6'
-    hddvd: '6'
+    uhdbluray: "1"
+    bluray: "1"
+    hdtv: "4"
+    dvd: "3"
+    web: "8"
+    vhs: "6"
+    hddvd: "6"
 videoType:
-  selector: '#medium'
+  selector: "#medium"
   map:
     uhdbluray:
-      - '1'
-      - '421'
-      - '438'
+      - "1"
+      - "421"
+      - "438"
     bluray:
-      - '1'
-      - '421'
-      - '438'
+      - "1"
+      - "421"
+      - "438"
     remux:
-      - '3'
-      - '439'
+      - "3"
+      - "439"
     encode:
-      - '7'
-      - '401'
-      - '419'
-      - '403'
-      - '402'
+      - "7"
+      - "401"
+      - "419"
+      - "403"
+      - "402"
     web:
-      - '10'
-      - '419'
-      - '402'
+      - "10"
+      - "419"
+      - "402"
     hdtv:
-      - '5'
-      - '419'
-      - '402'
+      - "5"
+      - "419"
+      - "402"
     dvd:
-      - '6'
-      - '420'
-      - '435'
+      - "6"
+      - "420"
+      - "435"
     dvdrip:
-      - '7'
-      - '401'
-      - '403'
-    other: ''
+      - "7"
+      - "401"
+      - "403"
+    other: ""
 resolution:
-  selector: '#standard'
+  selector: "#standard"
   map:
     2160p:
-      - '6'
-      - '419'
-      - '402'
+      - "6"
+      - "419"
+      - "402"
     1080p:
-      - '1'
-      - '419'
-      - '402'
+      - "1"
+      - "419"
+      - "402"
     1080i:
-      - '2'
-      - '419'
-      - '402'
+      - "2"
+      - "419"
+      - "402"
     720p:
-      - '3'
-      - '419'
-      - '402'
+      - "3"
+      - "419"
+      - "402"
     576p:
-      - '5'
-      - '401'
-      - '403'
+      - "5"
+      - "401"
+      - "403"
     480p:
-      - '5'
-      - '401'
-      - '403'
+      - "5"
+      - "401"
+      - "403"
 area:
-  selector: '#processing'
+  selector: "#processing"
   map:
-    CN: '1'
-    US: '2'
-    EU: '2'
-    HK: '3'
-    TW: '3'
-    JP: '4'
-    KR: '5'
-    OT: '6'
+    CN: "1"
+    US: "2"
+    EU: "2"
+    HK: "3"
+    TW: "3"
+    JP: "4"
+    KR: "5"
+    OT: "6"
 team:
-  selector: '#team'
+  selector: "#team"
   map:
-    mteam: '9'
-    tnp: '23'
-    kishd: '7'
-    bmdru: '6'
-    onehd: '18'
-    cnhk: '19'
-    stbox: '20'
-    r2hd: '21'
-    pack: '8'
-    geek: '24'
-    qhstudio: '34'
+    mteam: "9"
+    tnp: "23"
+    kishd: "7"
+    bmdru: "6"
+    onehd: "18"
+    cnhk: "19"
+    stbox: "20"
+    r2hd: "21"
+    pack: "8"
+    geek: "24"
+    qhstudio: "34"

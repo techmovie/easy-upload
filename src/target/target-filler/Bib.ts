@@ -4,16 +4,14 @@ import $ from 'jquery';
 
 class Bib extends BaseFiller implements TargetFiller {
   priority = 10;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'Bib';
   }
 
-  protected postProcess() {
-    if (!this.info!.doubanBookInfo) {
-      return;
-    }
+  fill(info: TorrentInfo.Info) {
+    this.info = info;
+    if (!this.info || !this.info.doubanBookInfo) return;
     const {
       year,
       pager,
@@ -23,7 +21,7 @@ class Bib extends BaseFiller implements TargetFiller {
       ISBN,
       book_intro: intro,
       poster,
-    } = this.info!.doubanBookInfo;
+    } = this.info.doubanBookInfo;
     $('#AuthorsField').val(author.join(','));
     $('#PublishersField').val(publisher);
     $('#IsbnField').val(ISBN);
@@ -38,6 +36,7 @@ class Bib extends BaseFiller implements TargetFiller {
     $('#ImageField').val(poster);
     const event = new Event('change');
     document.getElementById('DescriptionField')?.dispatchEvent(event);
+    this.fillTorrentFile();
   }
 }
 

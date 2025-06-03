@@ -36,6 +36,7 @@ class PTPExtractor extends GazelleExtractor {
     this.extractArea();
     this.extractIsHardcodedSub();
     this.enhanceInfo();
+    this.extractTags();
     return this.info;
   }
 

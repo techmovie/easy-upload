@@ -14,6 +14,31 @@ declare namespace TorrentInfo {
     diy?: boolean;
     the_criterion_collection?: boolean;
     exclusive?: boolean;
+    '2_disc_set'?: boolean;
+    '2d_3d_edition'?: boolean;
+    '2_in_1'?: boolean;
+    '3d_anaglyph'?: boolean;
+    '3d_full_sbs'?: boolean;
+    '3d_half_ou'?: boolean;
+    '3d_half_sbs'?: boolean;
+    '4k_remaster'?: boolean;
+    '4k_restoration'?: boolean;
+    director_s_cut?: boolean;
+    dual_audio?: boolean;
+    english_dub?: boolean;
+    extended_edition?: boolean;
+    extras?: boolean;
+    masters_of_cinema?: boolean;
+    scene?: boolean;
+    theatrical_cut?: boolean;
+    two_disc_set?: boolean;
+    remux?: boolean;
+    rifftrax?: boolean;
+    uncut?: boolean;
+    unrated?: boolean;
+    warner_archive_collection?: boolean;
+    with_commentary?: boolean;
+    '10_bit'?: boolean;
   }
   interface comparison {
     title?: string;

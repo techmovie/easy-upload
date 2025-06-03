@@ -5,7 +5,7 @@ import {
   getTeamName,
   filterNexusDescription,
 } from '@/target/helper/index';
-import { SelectFillKey, siteIMDbTypeMap } from '@/target/types';
+import { SelectFillKey, siteIMDbTypeMap, SiteIMDbType } from '@/target/types';
 import { getIdByIMDbUrl, getTMDBDataByIMDBId } from '@/common';
 import $ from 'jquery';
 
@@ -15,23 +15,18 @@ export abstract class BaseFiller {
   siteInfo: Site.SiteInfo = CURRENT_SITE_INFO;
   imdbId: string = '';
   isCustomSite: boolean = false;
-  async fill(info: TorrentInfo.Info): Promise<void> {
+  fill(info: TorrentInfo.Info) {
     this.info = info;
-    if (!this.isCustomSite) {
-      this.prepareToFillInfo();
-      this.fillTorrentTitle();
-      this.disableTorrentChange();
-      this.fillIMDb();
-      this.fillDescription();
-      this.fillBasicAttributes();
-      this.fillCategory();
-      this.fillRemainingInfo();
-    }
+    this.prepareToFillInfo();
+    this.fillTorrentTitle();
+    this.disableTorrentChange();
+    this.fillIMDb();
+    this.fillDescription();
+    this.fillBasicAttributes();
+    this.fillCategory();
+    this.fillRemainingInfo();
     this.fillTorrentFile();
-    const postProcessResult = this.postProcess();
-    if (postProcessResult instanceof Promise) {
-      await postProcessResult;
-    }
+    this.postProcess();
   }
 
   disableTorrentChange() {
@@ -59,7 +54,20 @@ export abstract class BaseFiller {
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
       const uploadInput = fileInput[0] as HTMLInputElement;
-      uploadInput.files = dataTransfer.files;
+      if (CURRENT_SITE_NAME === 'MTeam') {
+        setTimeout(() => {
+          const lastValue = uploadInput.files;
+          uploadInput.files = dataTransfer.files;
+          const tracker = uploadInput._valueTracker;
+          if (tracker) {
+            tracker.setValue(lastValue);
+          }
+          const event = new Event('change', { bubbles: true });
+          uploadInput.dispatchEvent(event);
+        }, 100);
+      } else {
+        uploadInput.files = dataTransfer.files;
+      }
     }
   }
 
@@ -89,9 +97,9 @@ export abstract class BaseFiller {
       return;
     }
     const stripTTIMBb = this.imdbId?.replace('tt', '') ?? '';
-    if (siteIMDbTypeMap[CURRENT_SITE_NAME] === siteIMDbTypeMap.StripTT) {
+    if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.StripTT) {
       $(imdbConfig.selector).val(stripTTIMBb);
-    } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === siteIMDbTypeMap.UNIT3D) {
+    } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.UNIT3D) {
       $(imdbConfig.selector).val(stripTTIMBb);
       const { id: imdbId } = await getTMDBDataByIMDBId(this.imdbId);
       $(tmdbConfig.selector).val(imdbId);

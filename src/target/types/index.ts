@@ -24,3 +24,15 @@ export const siteIMDbTypeMap: Record<string, SiteIMDbType> = {
   LST: SiteIMDbType.UNIT3D,
   HUNO: SiteIMDbType.UNIT3D,
 };
+
+export interface REDSearchResultResponse {
+  status: string;
+  response: {
+    results: {
+      groupId: number;
+      groupName: string;
+      artist: string;
+      groupYear: number;
+    }[];
+  };
+}

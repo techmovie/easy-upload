@@ -1,4 +1,4 @@
-url: 'https://passthepopcorn.me'
+url: "https://passthepopcorn.me"
 host: passthepopcorn.me
 siteType: gazelle
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABU1BMVEUAAAACAgIEBAQDAwMBAQF7e3u+vr56enoXFxecnJy6urpSUlIuLi6vr6+xsbH///+wsLAhISHg4OB2dnZCQkL8/Px6fHy8vr95ensWFhebm528vL1UVFQuLS6xr7C9vbydnJsXFxZ7e3q/v718fHsXDAoiFQ8gGQ4eHAwfHw4LCwYIDQgQGw8PGxMPHBYNHBkHDg0GCAoOFx0MEBgODxgSDxoOChIDAQGcSj7oh1zgrVng0VrU2lk6Ohc4WzB2x29auXpZv5Fc0rcpY1gXKDVYl8Vae7ZYYqhwXKxZPnYBAQKxVkj/nWv/yWf+8Wj1+WhDQxtAaTiI5oFp145n3alr89Qwc2YaLj1mr+RojtJmcsODa8hoSIkCAQOxVEf/mmn/xWX+7Wbx92ZBQho/ZzeG4X5n04tm2aVp7tAvcGQaLTxkrN9mi85kb7+AacRmR4YCAQJn073lAAAAAWJLR0QPGLoA2QAAAAd0SU1FB+UEDAMAJuVAAk0AAAC+SURBVBjTY2BgZGJkYGZiYWFmZmFhYgZzGRhZ2dg5OLm4eXh5ebi5ODnY2ViBivj4BQSF+IVFREVFhPmFBAX4+YDKxcQlJKWkZWTl5GRl5BUUlZRVgPpV1dQ1NLW0dXT19A0MjYxNTM0YGMwtLK2sbWzt7B0cnZxdXN3cPTy9GMy9fXz9/AMCg4JDQsPCIyKjomNiGczj4hMSk5JTUtPSMzKzsnNy8/IL6CiI1UnYHI/Vm1gDBHvQYQtkbNEBAFOfVLHCxSMQAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEyVDAzOjAwOjM4KzAwOjAw8nDEugAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMlQwMzowMDozOCswMDowMIMtfAYAAAAASUVORK5CYII=
@@ -10,71 +10,133 @@ search:
   path: /torrents.php
   params:
     action: advanced
-    searchstr: '{imdb}'
+    searchstr: "{imdb}"
 sourceInfo:
   editionTags:
     HDR10: hdr10
     HDR10+: hdr10_plus
     Dolby Atmos: dolby_atmos
     Dolby Vision: dolby_vision
+    10-bit: 10_bit
+    2-Disc Set: 2_disc_set
+    2D/3D Edition: 2d_3d_edition
+    2in1: 2_in_1
+    3D: 3d
+    3D Anaglyph: 3d_anaglyph
+    3D Full SBS: 3d_full_sbs
+    3D Half OU: 3d_half_ou
+    3D Half SBS: 3d_half_sbs
+    4K Remaster: 4k_remaster
+    4K Restoration: 4k_restoration
+    "Director's Cut": director_s_cut
+    Dual Audio: dual_audio
+    English Dub: english_dub
+    Extended Cut: extended_edition
+    Extended Edition: extended_edition
+    Extras: extras
+    Masters of Cinema: masters_of_cinema
+    Scene: scene
+    The Criterion Collection: the_criterion_collection
+    Theatrical Cut: theatrical_cut
+    Trumpable: null
+    Two-Disc Set: two_disc_set
+    Remux: remux
+    Rifftrax: rifftrax
+    Uncut: uncut
+    Unrated: unrated
+    Warner Archive Collection: warner_archive_collection
+    With Commentary: with_commentary
+targetInfo:
+  editionTags:
+    2_disc_set: 2-Disc Set
+    2_in_1: 2in1
+    2d_3d_edition: 2D/3D Edition
+    3d_anaglyph: 3D Anaglyph
+    3d_full_sbs: 3D Full SBS
+    3d_half_ou: 3D Half OU
+    3d_half_sbs: 3D Half SBS
+    4k_remaster: 4K Remaster
+    4k_restoration: 4K Restoration
+    director_s_cut: Director's Cut
+    dual_audio: Dual Audio
+    english_dub: English Dub
+    extended_edition: Extended Edition
+    extras: Extras
+    masters_of_cinema: Masters of Cinema
+    scene: sc
+    the_criterion_collection: The Criterion Collection
+    theatrical_cut: Theatrical Cut
+    two_disc_set: 2-Disc Set
+    remux: Remux
+    rifftrax: Rifftrax
+    uncut: Uncut
+    unrated: Unrated
+    warner_archive_collection: Warner Archive Collection
+    with_commentary: With Commentary
+    10_bit: 10-bit
+    dts_x: DTS:X
+    dolby_atmos: Dolby Atmos
+    dolby_vision: Dolby Vision
+    hdr10: HDR10
+    hdr10plus: HDR10+
 description:
-  selector: '#release_desc'
-poster: '#image'
+  selector: "#release_desc"
+poster: "#image"
 imdb:
-  selector: '#imdb'
+  selector: "#imdb"
 anonymous:
   selector: 'input[name="uplver"]'
 mediaInfo:
-  selector: '#Media_BDInfo'
+  selector: "#Media_BDInfo"
 screenshots:
-  selector: '#url_vimages'
+  selector: "#url_vimages"
 torrent:
-  selector: '#file'
+  selector: "#file"
 category:
-  selector: '#categories'
+  selector: "#categories"
   map:
-    movie: 'Feature Film'
-    tv: 'Miniseries'
-    tvPack: 'Miniseries'
-    documentary: 'Feature Film'
-    concert: 'Live Performance'
+    movie: "Feature Film"
+    tv: "Miniseries"
+    tvPack: "Miniseries"
+    documentary: "Feature Film"
+    concert: "Live Performance"
 videoCodec:
-  selector: '#codec'
+  selector: "#codec"
   map:
-    h264: 'H.264'
-    hevc: 'H.265'
-    x264: 'x264'
-    x265: 'x265'
-    h265: 'H.265'
-    mpeg2: 'Other'
-    mpeg4: 'H.264'
-    vc1: 'Other'
-    xvid: 'XviD'
-    DVD5: 'DVD5'
-    DVD9: 'DVD9'
-    BD100: 'BD100'
-    BD66: 'BD66'
-    BD50: 'BD50'
-    BD25: 'BD25'
+    h264: "H.264"
+    hevc: "H.265"
+    x264: "x264"
+    x265: "x265"
+    h265: "H.265"
+    mpeg2: "Other"
+    mpeg4: "H.264"
+    vc1: "Other"
+    xvid: "XviD"
+    DVD5: "DVD5"
+    DVD9: "DVD9"
+    BD100: "BD100"
+    BD66: "BD66"
+    BD50: "BD50"
+    BD25: "BD25"
 source:
-  selector: '#source'
+  selector: "#source"
   map:
-    uhdbluray: 'Blu-ray'
-    bluray: 'Blu-ray'
-    hdtv: 'HDTV'
-    dvd: 'DVD'
-    web: 'WEB'
-    vhs: 'VHS'
-    hddvd: 'HD-DVD'
+    uhdbluray: "Blu-ray"
+    bluray: "Blu-ray"
+    hdtv: "HDTV"
+    dvd: "DVD"
+    web: "WEB"
+    vhs: "VHS"
+    hddvd: "HD-DVD"
 resolution:
-  selector: '#resolution'
+  selector: "#resolution"
   map:
-    2160p: '2160p'
-    1080p: '1080p'
-    1080i: '1080i'
-    720p: '720p'
-    576p: '576p'
-    480p: '480p'
-    NTSC: 'NTSC'
-    PAL: 'PAL'
+    2160p: "2160p"
+    1080p: "1080p"
+    1080i: "1080i"
+    720p: "720p"
+    576p: "576p"
+    480p: "480p"
+    NTSC: "NTSC"
+    PAL: "PAL"
     other: Other

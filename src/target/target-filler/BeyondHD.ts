@@ -12,7 +12,6 @@ import { PT_SITE } from '@/const';
 class BeyondHD extends BaseFiller implements TargetFiller {
   priority = 10;
   bhdSiteInfo = PT_SITE.BeyondHD;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'BeyondHD';
@@ -69,7 +68,6 @@ class BeyondHD extends BaseFiller implements TargetFiller {
   private buildDescription() {
     let { sourceSiteType, description, mediaInfos, comparisons, screenshots } =
       this.info!;
-    console.log(description);
     if (this.isChineseTacker(sourceSiteType)) {
       description = filterNexusDescription(description, screenshots);
     }
@@ -88,15 +86,18 @@ class BeyondHD extends BaseFiller implements TargetFiller {
     return description.trim();
   }
 
-  protected postProcess() {
+  fill(info: TorrentInfo.Info) {
+    this.info = info;
     this.fillTorrentTitle();
     this.disableTorrentChange();
     this.fillIMDb();
     this.fillTMDBId();
     this.selectTag();
     this.fillDescription();
+    this.fillMediaInfo(info.description);
     this.fillCategory();
     this.fillRemainingInfo();
+    this.fillTorrentFile();
   }
 
   private buildDVDTitle(info: TorrentInfo.Info) {
