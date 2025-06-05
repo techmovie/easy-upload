@@ -35,6 +35,7 @@ import './target-filler/ZHUQUE';
 import './target-filler/iTS';
 import './target-filler/BYR';
 import './target-filler/PTer';
+import './target-filler/MTV';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {
