@@ -59,7 +59,6 @@
 |  PrivateHD  |            ✅             |           ❌            |
 |    PuTao    |            ✅             |           ✅            |
 |     RED     |            ✅             |           ✅            |
-|  RedLeaves  |            ✅             |           ✅            |
 |     SC      |            ❌             |           ✅            |
 |     SSD     |            ✅             |           ✅            |
 |  SoulVoice  |            ✅             |           ✅            |
