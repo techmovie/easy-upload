@@ -2,7 +2,7 @@ import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
 import { registry } from './info-extractors/registry';
 
 import './info-extractors/nexusphp';
-import './info-extractors/pter';
+import './info-extractors/PTer';
 import './info-extractors/ssd';
 import './info-extractors/hdarea';
 import './info-extractors/putao';
