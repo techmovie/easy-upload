@@ -122,7 +122,7 @@ export interface DoubanData {
   awards?: string;
   tags?: string[];
   format?: string;
-  credits?: DoubanMobileCredits[];
+  credits?: DoubanMobileCredit[];
 }
 interface DoubanMobilePerson {
   name: string;
@@ -195,6 +195,7 @@ export interface FormattedMovieData extends DoubanMobileData {
   creditsData: string;
   translatedTitle: string[];
   originalTitle: string;
+  format: string;
 }
 
 export type FormatRule = {

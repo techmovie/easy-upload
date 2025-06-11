@@ -1,19 +1,23 @@
-import { useState } from 'preact/hooks';
+import { useState, useCallback } from 'preact/hooks';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
 import {
-  CURRENT_SITE_INFO, CURRENT_SITE_NAME, TORRENT_INFO,
-} from '../const';
-import {
-  $t, getDoubanBasicDataByQuery, getDoubanInfo, getDoubanBookInfo,
-  getSubTitle, getAreaCode, getPreciseCategory,
-} from '../common';
+  $t,
+  getDoubanBasicDataByQuery,
+  getDoubanBookInfo,
+  getAreaCode,
+  getDoubanInfoByIdOrDoubanUrl,
+  getSubTitleFromDoubanInfo,
+} from '@/common';
 import { toast } from 'sonner';
 import $ from 'jquery';
+import { refineCategory } from '@/source/helper/index';
+import { useTorrentInfo } from '@/hooks/useTorrentInfo';
 
-const getTvSeasonData = async (data:Douban.Season) => {
-  const { title: torrentTitle } = TORRENT_INFO;
+const getTvSeasonData = async (data: Douban.Season, torrentTitle: string) => {
   const { season = '', title } = data;
   if (season) {
-    const seasonNumber = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
+    const seasonNumber =
+      torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
     if (parseInt(seasonNumber, 10) === 1) {
       return data;
     }
@@ -22,46 +26,67 @@ const getTvSeasonData = async (data:Douban.Season) => {
     return response;
   }
 };
-const updateTorrentInfo = (data: Douban.DoubanData) => {
-  const desc = data.format;
-  TORRENT_INFO.doubanInfo = data.format;
-  TORRENT_INFO.subtitle = getSubTitle(data);
-  const areaMatch = desc?.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
-  if (areaMatch) {
-    TORRENT_INFO.area = getAreaCode(areaMatch);
-  }
-  const category = TORRENT_INFO.category;
-  TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-};
+
 const Douban = () => {
+  const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
+
   const [btnText, setBtnText] = useState('获取豆瓣简介');
   const [bookBtnText, setBookBtnText] = useState('获取豆瓣读书简介');
   const [btnDisable, setBtnDisable] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const doubanClosed = GM_getValue('easy-seed.douban-closed') || '';
-  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
-  const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) &&
-   !doubanClosed;
 
-  const getDoubanData = async () => {
+  const doubanClosed = GM_getValue<boolean>('easy-seed.douban-closed');
+  const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
+  const showSearch =
+    (needDoubanBookInfo || needDoubanInfo || !torrentInfo.doubanUrl) &&
+    !doubanClosed;
+
+  const handleDoubanInfoUpdate = useCallback(
+    (formatDoubanInfo: string) => {
+      updateTorrentInfo((prevInfo) => {
+        const areaMatch =
+          formatDoubanInfo?.match(/(产\s+地|国\s+家)\s+(.+)/)?.[2] ?? '';
+        const area = areaMatch ? getAreaCode(areaMatch) : prevInfo.area;
+
+        return {
+          ...prevInfo,
+          doubanInfo: formatDoubanInfo,
+          area,
+          category: refineCategory({ ...prevInfo, area }, prevInfo.category),
+        };
+      });
+    },
+    [updateTorrentInfo],
+  );
+
+  const getDoubanData = useCallback(async () => {
+    if (btnDisable) return;
+
     try {
       setBtnText('获取中...');
       setBtnDisable(true);
-      // https://github.com/techmovie/DouBan-Info-for-PT
+
       const scriptDoubanLink = $('.douban-dom').attr('douban-link');
-      const doubanLink = $('.page__title>a').attr('href') ||
+      const doubanLink =
+        $('.page__title>a').attr('href') ||
         scriptDoubanLink ||
-        TORRENT_INFO.doubanUrl || searchValue;
+        torrentInfo.doubanUrl ||
+        searchValue;
+
       let doubanUrl = '';
+
       if (doubanLink && doubanLink.match(/movie\.douban\.com/)) {
         doubanUrl = doubanLink;
       } else {
-        const { imdbUrl, movieName } = TORRENT_INFO;
-        const doubanData = await getDoubanBasicDataByQuery(imdbUrl || movieName);
+        const { imdbUrl, movieName } = torrentInfo;
+        const doubanData = await getDoubanBasicDataByQuery(
+          imdbUrl || movieName,
+        );
+
         if (doubanData) {
           let { id, season = '' } = doubanData;
           if (season) {
-            const tvData = await getTvSeasonData(doubanData);
+            const tvData = await getTvSeasonData(doubanData, torrentInfo.title);
             if (tvData) {
               id = tvData.id;
             }
@@ -69,85 +94,124 @@ const Douban = () => {
           doubanUrl = `https://movie.douban.com/subject/${id}`;
         }
       }
+
       if (doubanUrl) {
-        TORRENT_INFO.doubanUrl = doubanUrl;
+        updateTorrentInfo({ doubanUrl });
         setSearchValue(doubanUrl);
-        if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
-          const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
-          const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
-          if (movieData) {
+
+        // 如果描述中没有片名/译名，获取完整豆瓣信息
+        if (!torrentInfo.description.match(/(片|译)\s*名/)) {
+          const isTVCategory = !!torrentInfo.category.match(/tv/);
+          const formatDoubanInfo = await getDoubanInfoByIdOrDoubanUrl(
+            doubanUrl,
+            isTVCategory ? 'tv' : 'movie',
+          );
+
+          if (formatDoubanInfo.format) {
             toast.success($t('获取成功'));
-            updateTorrentInfo(movieData);
+            handleDoubanInfoUpdate(formatDoubanInfo.format);
+            const subtitle = getSubTitleFromDoubanInfo(
+              formatDoubanInfo,
+              torrentInfo,
+            );
+            updateTorrentInfo({
+              subtitle,
+            });
           }
         } else {
           toast.success($t('获取成功'));
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error('获取豆瓣数据失败:', error);
+      toast.error($t('获取失败'));
     } finally {
       setBtnText('获取豆瓣简介');
       setBtnDisable(false);
     }
-  };
-  const getBookData = () => {
-    let { doubanUrl } = TORRENT_INFO;
+  }, [
+    btnDisable,
+    searchValue,
+    torrentInfo,
+    updateTorrentInfo,
+    handleDoubanInfoUpdate,
+  ]);
+  const getBookData = useCallback(async () => {
+    if (btnDisable) return;
+
+    const doubanUrl = torrentInfo.doubanUrl || searchValue;
+
     if (!doubanUrl) {
-      doubanUrl = searchValue;
-    } else {
-      setSearchValue(doubanUrl);
+      toast.error($t('缺少豆瓣链接'));
+      return;
     }
-    if (doubanUrl) {
+
+    try {
       setBookBtnText('获取中...');
       setBtnDisable(true);
-      getDoubanBookInfo(doubanUrl).then(data => {
-        if (data) {
-          TORRENT_INFO.title = data.chineseTitle || data.foreignTitle;
-          TORRENT_INFO.poster = data.poster;
-          TORRENT_INFO.description = data.book_intro || '';
-          TORRENT_INFO.doubanBookInfo = data || null;
-        }
+      setSearchValue(doubanUrl);
+
+      const data = await getDoubanBookInfo(doubanUrl);
+
+      if (data) {
+        updateTorrentInfo({
+          title: data.chinese_title || data.foreign_title,
+          poster: data.poster,
+          description: data.book_intro || '',
+          doubanBookInfo: data,
+        });
+
         toast.success($t('获取成功'));
-      }).catch(error => {
-        console.log(error);
-        toast.error(error.message);
-      }).finally(() => {
-        setBookBtnText('获取豆瓣读书简介');
-        setBtnDisable(false);
-      });
-    } else {
-      toast.error($t('缺少豆瓣链接'));
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('获取豆瓣图书数据失败:', error);
+      toast.error(error.message);
+    } finally {
+      setBookBtnText('获取豆瓣读书简介');
+      setBtnDisable(false);
     }
-  };
-  return showSearch
-    ? <>
+  }, [btnDisable, searchValue, torrentInfo.doubanUrl, updateTorrentInfo]);
+
+  if (!showSearch) return null;
+  return (
+    <>
       <div className="function-list-item">
         <div className="douban-section">
-          <input type="text"
+          <input
+            type="text"
             placeholder={$t('手动输入豆瓣链接')}
             value={searchValue}
-            onChange={(e) => setSearchValue((e.target as HTMLInputElement).value)} />
+            onChange={(e) =>
+              setSearchValue((e.target as HTMLInputElement).value)
+            }
+          />
         </div>
       </div>
-      <div className="function-list-item" >
+      <div className="function-list-item">
         <div className="douban-section">
-          {
-            (showSearch && CURRENT_SITE_NAME !== 'SoulVoice') && <button
+          {CURRENT_SITE_NAME !== 'SoulVoice' ? (
+            <button
               id="douban-info"
               disabled={btnDisable}
               className={btnDisable ? 'is-disabled' : ''}
-              onClick={getDoubanData}>{$t(btnText)}</button>
-          }
-          {
-            (showSearch && CURRENT_SITE_NAME === 'SoulVoice') && <button
+              onClick={getDoubanData}
+            >
+              {$t(btnText)}
+            </button>
+          ) : (
+            <button
               disabled={btnDisable}
               className={btnDisable ? 'is-disabled' : ''}
               id="douban-book-info"
-              onClick={getBookData}>{$t(bookBtnText)}</button>
-          }
+              onClick={getBookData}
+            >
+              {$t(bookBtnText)}
+            </button>
+          )}
         </div>
-      </div >
+      </div>
     </>
-    : null;
+  );
 };
 export default Douban;

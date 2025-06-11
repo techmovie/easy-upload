@@ -6,6 +6,7 @@ import { getLocationSearchValueByKey } from '@/common';
 import { fillTargetForm } from './target';
 import { getTorrentInfo } from '@/source';
 import { fillSearchImdb } from './site-dom/quick-search';
+import { torrentInfoStore } from '@/components/torrentInfoStore';
 import './site-dom/ptpimg';
 import './site-dom/AnalyzeUploadPage';
 import './style.css';
@@ -46,9 +47,9 @@ if (CURRENT_SITE_NAME) {
     )
   ) {
     getTorrentInfo().then((info) => {
-      // 向当前所在站点添加按钮等内容
       console.log(info);
-      GM_setValue('cachedTorrentInfo', info);
+      if (!info) return;
+      torrentInfoStore.setInfo(info);
     });
 
     let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement | null;

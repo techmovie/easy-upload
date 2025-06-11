@@ -131,9 +131,7 @@ export class DoubanFormatter {
 
   private async fetchIMDbData() {
     if (!this.imdbId) {
-      this.imdbId = await getIMDbIDFromDouban(
-        CONFIG.URLS.DOUBAN_SUBJECT(this.doubanId),
-      );
+      this.imdbId = await getIMDbIDFromDouban(this.doubanId);
     }
     if (this.imdbId) {
       return await getIMDBRating(this.imdbId);
@@ -238,7 +236,7 @@ export class DoubanFormatter {
     const creditsData = this.updateCredits(data?.credits);
     const { doubanRating, imdbRating, doubanLink, imdbLink } =
       this.updateRating(data.info, data?.imdbData);
-    const formatData = {
+    const formatData: FormattedMovieData = {
       ...data.info,
       awards: data.awards,
       poster,
@@ -249,7 +247,11 @@ export class DoubanFormatter {
       imdbRating,
       doubanLink,
       imdbLink,
+      format: '',
     };
-    return this.generateOutput(formatData);
+    return {
+      ...formatData,
+      format: this.generateOutput(formatData),
+    };
   }
 }

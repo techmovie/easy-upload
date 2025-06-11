@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
-import { useSiteConfig } from '@/components/hooks/useSiteConfig';
-import { useQuickSearch } from '@/components/hooks/useQuickSearch';
+import { useSiteConfig } from '@/hooks/useSiteConfig';
+import { useQuickSearch } from '@/hooks/useQuickSearch';
 import FunctionList from '@/components/FunctionList';
 import SearchList from '@/components/SearchList';
 import UploadSiteList from '@/components/UploadSiteList';
