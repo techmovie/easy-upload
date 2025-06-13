@@ -1,6 +1,4 @@
-import {
-  CURRENT_SITE_INFO, CURRENT_SITE_NAME,
-} from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
 import { getLocationSearchValueByKey, GMFetch } from '../common';
 import $ from 'jquery';
 
@@ -12,7 +10,7 @@ const filterBluTorrent = (imdb = '', name = '') => {
   }
   const token = $('meta[name="csrf_token"]').attr('content');
   const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
-  GMFetch<string>(url).then(data => {
+  GMFetch<string>(url).then((data) => {
     $('#facetedSearch').html(data);
   });
 };
@@ -21,7 +19,10 @@ const fillSearchImdb = () => {
   const imdbParam = getLocationSearchValueByKey('imdb');
   const nameParam = getLocationSearchValueByKey('name');
   if (imdbParam || nameParam) {
-    if (CURRENT_SITE_INFO.siteType === 'UNIT3D' && CURRENT_SITE_NAME !== 'Blutopia') {
+    if (
+      CURRENT_SITE_INFO.siteType === 'UNIT3D' &&
+      CURRENT_SITE_NAME !== 'Blutopia'
+    ) {
       filterBluTorrent(imdbParam, nameParam);
     } else if (CURRENT_SITE_NAME === 'PTN') {
       $('#movieimdb').val(imdbParam);
@@ -29,6 +30,4 @@ const fillSearchImdb = () => {
     }
   }
 };
-export {
-  fillSearchImdb,
-};
+export { fillSearchImdb };

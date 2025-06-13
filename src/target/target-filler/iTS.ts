@@ -299,7 +299,7 @@ class ITS extends BaseFiller implements TargetFiller {
     replaceParams: Record<string, string>,
     poster: string,
   ): Promise<void> {
-    const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key') || '';
+    const ptpImgApiKey = GM_getValue('easy-upload.ptp-img-api-key') || '';
 
     if (ptpImgApiKey && poster) {
       try {

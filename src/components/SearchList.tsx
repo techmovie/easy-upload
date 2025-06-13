@@ -9,11 +9,11 @@ type SiteCategory = 'commonSites' | 'subtitlesSites';
 
 const SearchList = () => {
   const searchListSetting = GM_getValue<string[]>(
-    'easy-seed.enabled-search-site-list',
+    'easy-upload.enabled-search-site-list',
     [],
   );
   const siteFaviconClosed = GM_getValue<boolean>(
-    'easy-seed.site-favicon-closed',
+    'easy-upload.site-favicon-closed',
     false,
   );
 

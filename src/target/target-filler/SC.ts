@@ -92,7 +92,7 @@ class SC extends BaseFiller implements TargetFiller {
 
     try {
       let uploadedUrl: string | undefined;
-      const ptpImgApiKey = GM_getValue('easy-seed.ptp-img-api-key');
+      const ptpImgApiKey = GM_getValue('easy-upload.ptp-img-api-key');
 
       if (ptpImgApiKey) {
         const uploadResult = await (await uploadToPtpImg)([posterUrl]);

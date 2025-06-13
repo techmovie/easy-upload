@@ -1,6 +1,6 @@
 import i18nConfig from '@/i18n.json';
 
-export type SupportedLanguage = 'en' | 'zh' | 'ko';
+export type SupportedLanguage = 'en' | 'ko';
 
 export type TranslationKey<L extends SupportedLanguage> =
   keyof (typeof i18nConfig)[L];

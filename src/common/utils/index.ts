@@ -113,9 +113,6 @@ export const createFormData = <T extends Record<string, unknown>>(
 
   if (files) {
     files.forEach(({ fieldName, file }) => {
-      if (fieldName.match(/\[.*\]/)) {
-        throw new Error('FieldName should not include []');
-      }
       if (Array.isArray(file)) {
         file.forEach((f, index) => {
           formData.append(`${fieldName}[${index}]`, f);

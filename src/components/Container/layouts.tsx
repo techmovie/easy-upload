@@ -76,7 +76,7 @@ export const NexusPHPLayout = ({
   quickSearchClosed: boolean;
 }) => {
   const baseTitleClass = ['title-td', 'rowhead', 'nowrap'];
-  const baseContentClass = ['easy-seed-td', 'rowfollow'];
+  const baseContentClass = ['easy-upload-td', 'rowfollow'];
   if (CURRENT_SITE_NAME === 'HDT') {
     baseTitleClass.push('detailsleft');
     baseContentClass.push('detailshash');
@@ -156,7 +156,7 @@ export const SpeedAppLayout = ({
   <>
     <div className="custom-site">
       {children.title}
-      <div className="easy-seed-td" style={{ flexWrap: 'wrap' }}>
+      <div className="easy-upload-td" style={{ flexWrap: 'wrap' }}>
         <div
           id="seed-dom"
           className={BROWSER_LANGUAGE === 'en' ? 'use-eng' : ''}

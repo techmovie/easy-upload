@@ -1,5 +1,5 @@
 import { useCallback } from 'preact/hooks';
-import { SORTED_SITE_KEYS, PT_SITE, TORRENT_INFO } from '@/const';
+import { SORTED_SITE_KEYS, PT_SITE } from '@/const';
 import { convertSizeStringToBytes, GMFetch } from '@/common';
 import { getQuickSearchUrl } from '@/components/common';
 import $ from 'jquery';
@@ -8,7 +8,7 @@ export const useQuickSearch = () => {
   const checkQuickResult = useCallback(async () => {
     try {
       let searchListSetting = GM_getValue<string[]>(
-        'easy-seed.enabled-search-site-list',
+        'easy-upload.enabled-search-site-list',
         [],
       );
 
@@ -29,7 +29,8 @@ export const useQuickSearch = () => {
           const dom = new DOMParser().parseFromString(domString, 'text/html');
 
           const { list, name, size, url: urlDom } = resultConfig;
-          const { title, size: searchSize } = TORRENT_INFO;
+          const { title, size: searchSize } =
+            GM_getValue<TorrentInfo.Info>('cachedTorrentInfo');
 
           const torrentList = $(list, dom);
           const sameTorrent = Array.prototype.find.call(torrentList, (item) => {

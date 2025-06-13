@@ -1,19 +1,24 @@
-import {
-  CURRENT_SITE_NAME,
-  PT_SITE, TORRENT_INFO,
-} from '../const';
-import {
-  getIdByIMDbUrl,
-} from '../common';
-const getQuickSearchUrl = (siteName:string) => {
+import { CURRENT_SITE_NAME, PT_SITE } from '@/const';
+import { getIdByIMDbUrl } from '@/common';
+const getQuickSearchUrl = (siteName: string) => {
   const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
+  const torrentInfo = GM_getValue<TorrentInfo.Info>('cachedTorrentInfo');
   const searchConfig = siteInfo.search;
-  const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-  let imdbId = getIdByIMDbUrl(TORRENT_INFO.imdbUrl as string);
+  const {
+    params = {},
+    imdbOptionKey,
+    nameOptionKey,
+    path,
+    replaceKey,
+  } = searchConfig;
+  const { movieAkaName, movieName, title, musicJson, imdbUrl } = torrentInfo;
+  let imdbId = getIdByIMDbUrl(imdbUrl as string);
   let searchKeyWord = '';
-  const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
-  if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
-  siteInfo.siteType !== 'AvistaZ') {
+  if (
+    imdbId &&
+    !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
+    siteInfo.siteType !== 'AvistaZ'
+  ) {
     if (replaceKey) {
       searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
     } else {
@@ -26,15 +31,21 @@ const getQuickSearchUrl = (siteName:string) => {
     searchKeyWord = movieAkaName || movieName || title;
     imdbId = '';
   }
-  let searchParams = Object.keys(params).map(key => {
-    return `${key}=${params[key]}`;
-  }).join('&');
+  let searchParams = Object.keys(params)
+    .map((key) => {
+      return `${key}=${params[key]}`;
+    })
+    .join('&');
   if (imdbId) {
-    searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
-      .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey || '');
+    searchParams = searchParams
+      .replace(/\w+={name}&{0,1}?/, '')
+      .replace(/{imdb}/, searchKeyWord)
+      .replace(/{optionKey}/, imdbOptionKey || '');
   } else {
     if (searchParams.match(/{name}/)) {
-      searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
+      searchParams = searchParams
+        .replace(/\w+={imdb}&{0,1}?/, '')
+        .replace(/{name}/, searchKeyWord);
     } else {
       searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
     }
@@ -47,6 +58,4 @@ const getQuickSearchUrl = (siteName:string) => {
   }
   return url;
 };
-export {
-  getQuickSearchUrl,
-};
+export { getQuickSearchUrl };

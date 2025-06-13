@@ -41,7 +41,7 @@ const Container = () => {
     <h4>
       {$t('一键转种')}
       <Toaster position="top-right" richColors />
-      <span id="easy-seed-setting" className="easy-seed-setting-btn" />
+      <span id="easy-upload-setting" className="easy-upload-setting-btn" />
       <ConfigSvg
         onClick={() => setSettingPanelOpen(true)}
         className="setting-svg"
@@ -52,7 +52,7 @@ const Container = () => {
   const LayoutComponent =
     SiteLayouts[siteType as keyof typeof SiteLayouts] || SiteLayouts.NexusPHP;
   const quickSearchClosed = GM_getValue<boolean>(
-    'easy-seed.quick-search-closed',
+    'easy-upload.quick-search-closed',
     false,
   );
   return (

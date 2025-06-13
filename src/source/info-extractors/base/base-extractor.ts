@@ -40,7 +40,7 @@ export abstract class BaseExtractor {
       comparisons: [],
       movieName: '',
       sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: CURRENT_SITE_INFO.siteType,
+      sourceSiteType: CURRENT_SITE_INFO?.siteType,
       mediaInfos: [],
       tags: {},
       size: 0,

@@ -100,15 +100,16 @@ export const createImgboxRequestConfig = (
       token_id: tokenId,
       token_secret: secret,
       content_type: '1',
-      thumbnail_size: '350r',
+      thumbnail_size: '350c',
       gallery_id: 'null',
       gallery_secret: 'null',
       comments_enabled: '0',
     },
-    [{ fieldName: 'files', file }],
+    [{ fieldName: 'files[]', file }],
   );
   const options: RequestOptions = {
     method: 'POST',
+    responseType: 'json',
     headers: {
       'X-CSRF-Token': authToken,
     },
@@ -185,7 +186,7 @@ export const parsePixhostResponse = (data: string): ImgInfo[] => {
 export const createPTPImgRequestConfig = (
   imgArray: Array<string | File>,
 ): { url: string; options: RequestOptions } => {
-  const apiKey = GM_getValue('easy-seed.ptp-img-api-key', '');
+  const apiKey = GM_getValue('easy-upload.ptp-img-api-key', '');
   if (!apiKey) {
     throwUploadError(
       `${$t(CONFIG.ERROR_MESSAGES.PTPIMG_UPLOAD_FAILED)} ${$t(CONFIG.ERROR_MESSAGES.NO_API_KEY)}`,
@@ -272,6 +273,7 @@ export const createCheveretoRequestConfig = async (
   return {
     method: 'POST',
     data: formData,
+    responseType: 'json',
   };
 };
 

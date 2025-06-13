@@ -27,20 +27,20 @@ const SettingPanel = ({
   const [siteList, setSiteList] = useState<SiteConfig[]>([]);
   const [featureList, setFeatureList] = useState<FeatureConfig[]>([]);
   const [ptpImgApiKey, setPtpImgApiKey] = useState(
-    GM_getValue<string>('easy-seed.ptp-img-api-key', ''),
+    GM_getValue<string>('easy-upload.ptp-img-api-key', ''),
   );
 
   useEffect(() => {
     const targetSitesEnabled = GM_getValue<string[]>(
-      'easy-seed.enabled-target-sites',
+      'easy-upload.enabled-target-sites',
       [],
     );
     const batchSeedSiteEnabled = GM_getValue<string[]>(
-      'easy-seed.enabled-batch-seed-sites',
+      'easy-upload.enabled-batch-seed-sites',
       [],
     );
     const searchSitesEnabled = GM_getValue<string[]>(
-      'easy-seed.enabled-search-site-list',
+      'easy-upload.enabled-search-site-list',
       [],
     );
 
@@ -55,7 +55,7 @@ const SettingPanel = ({
 
     const initialFeatureList = FeatureSwitchList.map((feature) => ({
       ...feature,
-      checked: GM_getValue<boolean>(`easy-seed.${feature.name}`, false),
+      checked: GM_getValue<boolean>(`easy-upload.${feature.name}`, false),
     }));
 
     setFeatureList(initialFeatureList);
@@ -75,15 +75,15 @@ const SettingPanel = ({
         },
       );
 
-      GM_setValue('easy-seed.enabled-target-sites', targetSitesEnabled);
-      GM_setValue('easy-seed.enabled-search-site-list', searchSitesEnabled);
-      GM_setValue('easy-seed.enabled-batch-seed-sites', batchSeedSiteEnabled);
+      GM_setValue('easy-upload.enabled-target-sites', targetSitesEnabled);
+      GM_setValue('easy-upload.enabled-search-site-list', searchSitesEnabled);
+      GM_setValue('easy-upload.enabled-batch-seed-sites', batchSeedSiteEnabled);
 
-      GM_setValue('easy-seed.ptp-img-api-key', ptpImgApiKey);
+      GM_setValue('easy-upload.ptp-img-api-key', ptpImgApiKey);
 
       featureList.forEach((feature) => {
         GM_setValue(
-          `easy-seed.${feature.name}`,
+          `easy-upload.${feature.name}`,
           feature.checked ? 'checked' : '',
         );
       });
@@ -186,7 +186,7 @@ const SettingPanel = ({
   }, [featureList, handleFeatureChange]);
 
   return (
-    <div className="easy-seed-setting-panel">
+    <div className="easy-upload-setting-panel">
       <div className="panel-content-wrap">
         <div className="panel-content">
           {renderSiteConfigSections}
@@ -205,7 +205,7 @@ const SettingPanel = ({
               />
               <a
                 target="_blank"
-                href="https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
+                href="https://github.com/techmovie/easy-upload/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey"
                 rel="noreferrer"
               >
                 {$t('如何获取？')}

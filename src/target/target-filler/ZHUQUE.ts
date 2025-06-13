@@ -141,7 +141,10 @@ class ZHUQUE extends BaseFiller implements TargetFiller {
       }
     }
 
-    const thanksQuoteClosed = GM_getValue('easy-seed.thanks-quote-closed', '');
+    const thanksQuoteClosed = GM_getValue(
+      'easy-upload.thanks-quote-closed',
+      '',
+    );
     if (!thanksQuoteClosed && this.info.sourceSite !== undefined) {
       description = `\`\`\`\n转自 ${this.info.sourceSite} ，感谢原发布者！\n\`\`\`\n${description}`;
     }

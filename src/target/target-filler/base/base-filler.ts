@@ -122,7 +122,7 @@ export abstract class BaseFiller {
     fixedDescription = this.fillScreenshots(fixedDescription);
     fixedDescription = this.fillPoster(fixedDescription);
     const thanksQuoteClosed =
-      GM_getValue('easy-seed.thanks-quote-closed') || '';
+      GM_getValue('easy-upload.thanks-quote-closed') || '';
     if (!thanksQuoteClosed && sourceSite) {
       fixedDescription = this.getThanksQuote() + fixedDescription.trim();
     }

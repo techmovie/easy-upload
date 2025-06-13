@@ -94,13 +94,13 @@ td.title-td h4{
 .search-list li:last-child span{
   display: none;
 }
-.easy-seed-function-list{
+.easy-upload-function-list{
   display: flex;
   justify-content: space-around; 
   padding: 6px 20px;
   flex-wrap: wrap;
 }
-.easy-seed-function-list button{
+.easy-upload-function-list button{
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -122,12 +122,12 @@ td.title-td h4{
   margin:0;
   margin-right: 5px;
 }
-.easy-seed-function-list button:hover {
+.easy-upload-function-list button:hover {
   background: #fff;
   border-color: #409eff;
   color: #409eff
 }
-.easy-seed-function-list button.is-disabled, .easy-seed-function-list button.is-disabled:hover {
+.easy-upload-function-list button.is-disabled, .easy-upload-function-list button.is-disabled:hover {
   color: #c0c4cc;
   cursor: not-allowed;
   background-image: none;
@@ -206,7 +206,7 @@ td.title-td h4{
 #kdescr img{
   max-width: 100%;
 }
-.easy-seed-setting-btn{
+.easy-upload-setting-btn{
   display: inline-flex;
   align-items: center;
   margin-left: 3px;
@@ -223,7 +223,7 @@ svg.setting-svg{
     transform: rotate(360deg);
   }
 }
-.easy-seed-setting-panel{
+.easy-upload-setting-panel{
   position: fixed;
   top: 0;
   right: 0;
@@ -255,11 +255,11 @@ svg.setting-svg{
   font-size: 14px;
   display:inline-block;
 }
-.easy-seed-setting-panel *{
+.easy-upload-setting-panel *{
   padding: 0;
   margin: 0;
 }
-.easy-seed-setting-panel input[type="text"]{
+.easy-upload-setting-panel input[type="text"]{
   -webkit-appearance: none;
   background-color: #fff;
   background-image: none;
@@ -276,21 +276,21 @@ svg.setting-svg{
   padding: 0 12px;
   transition: border-color .2s cubic-bezier(.645,.045,.355,1);
 }
-.easy-seed-setting-panel input[type="text"]::placeholder {
+.easy-upload-setting-panel input[type="text"]::placeholder {
   color: #c0c4cc
 }
-.easy-seed-setting-panel input[type="text"]:hover {
+.easy-upload-setting-panel input[type="text"]:hover {
   border-color: #c0c4cc
 }
-.easy-seed-setting-panel input[type="text"]:focus {
+.easy-upload-setting-panel input[type="text"]:focus {
     outline: none;
     border-color: #409eff
 }
-.easy-seed-setting-panel h3,.easy-seed-setting-panel h1{ 
+.easy-upload-setting-panel h3,.easy-upload-setting-panel h1{ 
   color: #000;
   margin-bottom: 15px;
 }
-.easy-seed-setting-panel .panel-content-wrap{
+.easy-upload-setting-panel .panel-content-wrap{
   margin-top: 200px;
   max-width: 800px;
   box-sizing: border-box;
@@ -302,11 +302,11 @@ svg.setting-svg{
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
   padding: 20px 10px 10px 20px;
 }
-.easy-seed-setting-panel .panel-content{
+.easy-upload-setting-panel .panel-content{
   height: 500px;
   overflow-y: auto;
 }
-.easy-seed-setting-panel .panel-content ul{
+.easy-upload-setting-panel .panel-content ul{
   list-style: none;
   display: flex;
   flex-direction:row;
@@ -314,19 +314,19 @@ svg.setting-svg{
   margin: 0 auto;
   padding: 0 10px;
 }
-.easy-seed-setting-panel .panel-content li{
+.easy-upload-setting-panel .panel-content li{
   width: 90px;
   text-align: left;
   margin-bottom: 10px;
 }
-.easy-seed-setting-panel .panel-content label{
+.easy-upload-setting-panel .panel-content label{
   cursor: pointer;
   color: #000 !important;
   font-size: 12px;
   display: flex;
   align-items: center;
 }
-.easy-seed-setting-panel .panel-content label input{
+.easy-upload-setting-panel .panel-content label input{
   margin: 0;
   margin-right: 3px;
   padding:0;
@@ -336,7 +336,7 @@ svg.setting-svg{
   margin-bottom: 10px;
   font-size: 12px;
 }
-.easy-seed-setting-panel button{
+.easy-upload-setting-panel button{
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -359,29 +359,29 @@ svg.setting-svg{
   margin-right: 5px;
   margin-bottom: 10px;
 }
-.easy-seed-setting-panel button:hover {
+.easy-upload-setting-panel button:hover {
   background: #fff;
   border-color: #409eff;
   color: #409eff
 }
-.easy-seed-setting-panel .confirm-btns {
+.easy-upload-setting-panel .confirm-btns {
   padding-top: 15px;
 }
-.easy-seed-setting-panel .img-upload-setting{
+.easy-upload-setting-panel .img-upload-setting{
   margin-bottom: 10px;
 }
-.easy-seed-setting-panel .img-upload-setting label{
+.easy-upload-setting-panel .img-upload-setting label{
   justify-content: center;
 }
-.easy-seed-setting-panel .img-upload-setting label input{
+.easy-upload-setting-panel .img-upload-setting label input{
   margin-left: 8px;
   margin-right: 8px;
 }
-.easy-seed-setting-panel .img-upload-setting label a{
+.easy-upload-setting-panel .img-upload-setting label a{
   color: #000;
   font-weight: 500;
 }
-.easy-seed-setting-panel .img-upload-setting label a:hover{
+.easy-upload-setting-panel .img-upload-setting label a:hover{
   color: #f7d584;
 }
 .feature-list{
@@ -396,12 +396,12 @@ svg.setting-svg{
   margin-bottom: 8px;
   text-align: center;
 }
-.easy-seed-setting-panel .save-setting-btn{
+.easy-upload-setting-panel .save-setting-btn{
   background-color: #007bff;
   border-color: #007bff;
   color:#fff;
 }
-.easy-seed-setting-panel .save-setting-btn:hover{
+.easy-upload-setting-panel .save-setting-btn:hover{
   background: #66b1ff;
   border-color: #66b1ff;
   color: #fff
@@ -490,7 +490,7 @@ svg.setting-svg{
   line-height: initial;
   margin-right: 10px;
 }
-.custom-site .easy-seed-function-list{
+.custom-site .easy-upload-function-list{
   flex: 1;
 }
 .custom-site img{
@@ -499,7 +499,7 @@ svg.setting-svg{
 tr.pad[id*="torrent_"]{
   font-family: 'Proxima Nova','Lato','Segoe UI',sans-serif;
 }
-.easy-seed-function-list .copy-img{
+#seed-dom .easy-upload-function-list .copy-img{
   margin-left: 5px;
 }
 .quick-search{
@@ -521,13 +521,13 @@ tr.pad[id*="torrent_"]{
 }
 #seed-dom .ptp-title-wrapper .site-list li:first-child{
   padding: 0;
-  padding-left: 95px;
+  padding-left: 125px;
 }
 #seed-dom .ptp-title-wrapper .search-list li:first-child{
-  padding-left: 65px;
+  padding-left: 70px;
 }
 #seed-dom.use-eng  .ptp-title-wrapper .search-list li:first-child{
-  padding-left: 85px;
+  padding-left: 95px;
 }
 #batch-search-btn{
   color: #409eff;

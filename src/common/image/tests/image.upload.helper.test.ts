@@ -262,12 +262,12 @@ describe('createImgboxRequestConfig', () => {
         token_id: tokenSecret.token_id,
         token_secret: tokenSecret.token_secret,
         content_type: '1',
-        thumbnail_size: '350r',
+        thumbnail_size: '350c',
         gallery_id: 'null',
         gallery_secret: 'null',
         comments_enabled: '0',
       },
-      [{ fieldName: 'files', file }],
+      [{ fieldName: 'files[]', file }],
     );
     expect(options.method).toBe('POST');
     expect(options.headers).toEqual({

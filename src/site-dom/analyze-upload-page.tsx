@@ -2,8 +2,8 @@
 import { toast, Toaster } from 'sonner';
 import { render } from 'preact';
 import YAML from 'yaml';
-import { $t } from '../common';
-import { CURRENT_SITE_INFO } from '../const';
+import { $t } from '@/common';
+import { CURRENT_SITE_INFO } from '@/const';
 const AnalyzeUploadPage = () => {
   const analyzeForm = () => {
     const baseUrl = window.location.origin;
@@ -17,12 +17,12 @@ const AnalyzeUploadPage = () => {
     const formElements = document.querySelectorAll('input, select, textarea');
     const formConfig: any = {};
 
-    formElements.forEach(element => {
+    formElements.forEach((element) => {
       const name = element.getAttribute('name');
       if (!name) return;
 
       if (element instanceof HTMLSelectElement) {
-        const options = Array.from(element.options).map(opt => ({
+        const options = Array.from(element.options).map((opt) => ({
           text: opt.text,
           value: opt.value,
         }));
@@ -44,9 +44,11 @@ const AnalyzeUploadPage = () => {
       }
     });
     const yamlContent = YAML.stringify({ ...formConfig, ...baseConfig });
-    navigator.clipboard.writeText(`\`\`\`yaml\n${yamlContent}\`\`\``).then(() => {
-      toast.success($t('配置已复制到剪贴板,请黏贴到创建的Github Issue中'));
-    });
+    navigator.clipboard
+      .writeText(`\`\`\`yaml\n${yamlContent}\`\`\``)
+      .then(() => {
+        toast.success($t('配置已复制到剪贴板,请黏贴到创建的Github Issue中'));
+      });
   };
 
   return (
@@ -73,7 +75,11 @@ const AnalyzeUploadPage = () => {
   );
 };
 
-if (location.pathname.includes('upload') && !CURRENT_SITE_INFO?.asTarget) {
+if (
+  location.pathname.includes('upload') &&
+  !CURRENT_SITE_INFO?.asTarget &&
+  window.self === window.top
+) {
   const div = document.createElement('div');
   render(<AnalyzeUploadPage />, div);
   document.body.appendChild(div);

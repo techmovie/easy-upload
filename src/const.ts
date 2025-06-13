@@ -1,71 +1,50 @@
 import { PT_SITE } from './config.json';
 
-const BROWSER_LANGUAGE = navigator.language.toLowerCase().split('-')[0];
+export const BROWSER_LANGUAGE = navigator.language.toLowerCase().split('-')[0];
 
-type SiteName = keyof typeof PT_SITE;
-const getSiteName = (host: string) => {
-  let siteName = '' as SiteName | '';
+export type SiteName = keyof typeof PT_SITE;
+
+const siteRegexCache = new Map<SiteName, RegExp>();
+
+export const getSiteName = (host: string): SiteName | '' => {
   try {
-    Object.keys(PT_SITE).forEach((key) => {
-      const siteKey = key as SiteName;
-      const hostName = PT_SITE[siteKey].host;
-      const matchReg = new RegExp(hostName, 'i');
-      if (hostName && host.match(matchReg)) {
-        siteName = siteKey;
+    const siteEntry = Object.entries(PT_SITE).find(([siteKey, siteInfo]) => {
+      const hostName = 'host' in siteInfo ? siteInfo.host : '';
+      if (!hostName) return false;
+      const siteKeyTyped = siteKey as SiteName;
+      if (!siteRegexCache.has(siteKeyTyped)) {
+        siteRegexCache.set(siteKeyTyped, new RegExp(hostName, 'i'));
       }
+      return siteRegexCache.get(siteKeyTyped)!.test(host);
     });
-    return siteName;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.message !== 'end loop') {
-      console.log(error);
-    }
+
+    return siteEntry ? (siteEntry[0] as SiteName) : '';
+  } catch (error) {
+    console.error(error);
     return '';
   }
 };
-const getSortedSiteKeys = () => {
+
+const CHINESE_REGEX = /[\u4e00-\u9fa5]+/;
+
+export const getSortedSiteKeys = (): SiteName[] => {
   return Object.keys(PT_SITE).sort((a, b) => {
-    const isChineseReg = /[\u4e00-\u9fa5]+/;
-    if (isChineseReg.test(a) && !isChineseReg.test(b)) {
-      return 1;
-    }
-    if (!isChineseReg.test(a) && isChineseReg.test(b)) {
-      return -1;
-    }
+    const aHasChinese = CHINESE_REGEX.test(a);
+    const bHasChinese = CHINESE_REGEX.test(b);
+
+    if (aHasChinese && !bHasChinese) return 1;
+    if (!aHasChinese && bHasChinese) return -1;
+
     return a.toLowerCase().localeCompare(b.toLowerCase());
-  });
+  }) as SiteName[];
 };
-const SORTED_SITE_KEYS = getSortedSiteKeys();
-const CURRENT_SITE_NAME = getSiteName(location.host);
-const CURRENT_SITE_INFO = PT_SITE[
-  CURRENT_SITE_NAME as keyof typeof PT_SITE
-] as Site.SiteInfo;
-const HDB_TEAM = [
-  'Chotab',
-  'CRiSC',
-  'CtrlHD',
-  'DON',
-  'EA',
-  'EbP',
-  'Geek',
-  'LolHD',
-  'NTb',
-  'RightSiZE',
-  'SA89',
-  'SbR',
-  'TayTo',
-  'VietHD',
-];
 
-const TORRENT_INFO = GM_getValue<TorrentInfo.Info>('cachedTorrentInfo');
+export const SORTED_SITE_KEYS = getSortedSiteKeys();
 
-export {
-  CURRENT_SITE_NAME,
-  CURRENT_SITE_INFO,
-  PT_SITE,
-  HDB_TEAM,
-  SORTED_SITE_KEYS,
-  BROWSER_LANGUAGE,
-  SiteName,
-  TORRENT_INFO,
-};
+export const CURRENT_SITE_NAME = getSiteName(location.host);
+
+export const CURRENT_SITE_INFO = CURRENT_SITE_NAME
+  ? (PT_SITE[CURRENT_SITE_NAME] as Site.SiteInfo)
+  : (undefined as unknown as Site.SiteInfo);
+
+export { PT_SITE };
