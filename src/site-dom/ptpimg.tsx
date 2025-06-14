@@ -23,6 +23,6 @@ if (location.host === 'ptpimg.me') {
       </div>,
       div,
     );
-    document.querySelector('.well')?.appendChild(div);
+    document.querySelector('#form_file_upload')?.after(div);
   }
 }

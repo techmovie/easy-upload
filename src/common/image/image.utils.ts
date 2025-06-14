@@ -63,7 +63,7 @@ export class PterClubStrategy implements UrlTransformStrategy {
 
   async transform(url: string, bbCode: string): Promise<string> {
     const imgUrl = bbCode.match(/img\](([^[])+)/)?.[1] ?? '';
-    if (!imgUrl || !imgUrl.includes('.th.')) {
+    if (!imgUrl) {
       throw new Error('Invalid PterClub image URL');
     }
     return imgUrl.replace(/\.th/g, '');

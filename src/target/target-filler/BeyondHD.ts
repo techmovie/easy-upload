@@ -137,9 +137,7 @@ class BeyondHD extends BaseFiller implements TargetFiller {
     if (editionTags.length > 0) {
       for (const tag of editionTags) {
         setTimeout(() => {
-          document
-            .querySelector(`.bhd-tag #${tag}`)
-            ?.dispatchEvent(new Event('click'));
+          $(`.bhd-tag #${tag}`)?.[0]?.dispatchEvent(new Event('click'));
         }, 0);
         if (tag && editionOption.includes(tag)) {
           $('select[name="edition"]').val(tag);

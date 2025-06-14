@@ -27,20 +27,31 @@ class PTer extends BaseFiller implements TargetFiller {
   }
 
   protected processDescription() {
-    let { description, comparisons, mediaInfos } = this.info!;
-    mediaInfos.forEach((info) => {
-      if (info.match(/Disc Title|Disc Label/i)) {
-        description = description.replace(
-          `[quote]${info}[/quote]`,
-          `[hide=BDInfo]${info}[/hide]`,
+    let { description, comparisons } = this.info!;
+    const quoteRegex = /\[quote\]([\s\S]*?)\[\/quote\]/g;
+    let modifiedDescription = description;
+    let match;
+    while ((match = quoteRegex.exec(description)) !== null) {
+      const fullMatch = match[0];
+      const quoteContent = match[1];
+      if (quoteContent.match(/Disc Title|Disc Label/i)) {
+        const replacement = `[hide=BDInfo]${quoteContent}[/hide]`;
+        modifiedDescription = modifiedDescription.replace(
+          fullMatch,
+          replacement,
         );
-      } else {
-        description = description.replace(
-          `[quote]${info}[/quote]`,
-          `[hide=mediainfo]${info}[/hide]`,
+      } else if (
+        quoteContent.match(/(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i)
+      ) {
+        const replacement = `[hide=mediainfo]${quoteContent}[/hide]`;
+        modifiedDescription = modifiedDescription.replace(
+          fullMatch,
+          replacement,
         );
       }
-    });
+    }
+
+    description = modifiedDescription;
     if (comparisons?.length) {
       for (const comparison of comparisons) {
         const { title, imgs } = comparison;

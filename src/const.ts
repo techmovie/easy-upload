@@ -13,7 +13,7 @@ export const getSiteName = (host: string): SiteName | '' => {
       if (!hostName) return false;
       const siteKeyTyped = siteKey as SiteName;
       if (!siteRegexCache.has(siteKeyTyped)) {
-        siteRegexCache.set(siteKeyTyped, new RegExp(hostName, 'i'));
+        siteRegexCache.set(siteKeyTyped, new RegExp(`^${hostName}`, 'i'));
       }
       return siteRegexCache.get(siteKeyTyped)!.test(host);
     });

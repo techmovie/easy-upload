@@ -137,6 +137,7 @@ class PTPExtractor extends GazelleExtractor {
       .map((line) => {
         return line.trim();
       })
+      .filter(Boolean)
       .join('\n')
       .replace(/http:\/\/ptpimg.me/g, 'https://ptpimg.me'); // torrents.php?action=get_description&id=284503
     const originalDescription = descriptionData;

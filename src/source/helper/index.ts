@@ -7,9 +7,9 @@ import { MediaDetail } from '@/source/types';
  * format torrent title to remove dots
  *
  * @param {string} title
- * @returns {*}
+ * @returns {string}
  */
-export const formatTorrentTitle = (title: string) => {
+export const formatTorrentTitle = (title: string): string => {
   // preserve the dot in 5.1 H.264
   return (
     title

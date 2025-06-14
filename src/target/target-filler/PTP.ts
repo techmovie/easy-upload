@@ -15,7 +15,7 @@ class PTP extends BaseFiller implements TargetFiller {
     return siteName === 'PTP';
   }
 
-  afill(info: TorrentInfo.Info): void {
+  fill(info: TorrentInfo.Info): void {
     this.info = info;
 
     if (!this.info) return;
