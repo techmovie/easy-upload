@@ -9,11 +9,13 @@ export enum SiteIMDbType {
   Standard = 'standard',
   StripTT = 'strip_tt',
   UNIT3D = 'unit3d',
+  IMDbID = 'imdb_id',
 }
 
 export const siteIMDbTypeMap: Record<string, SiteIMDbType> = {
   HDRoute: SiteIMDbType.StripTT,
   HDSpace: SiteIMDbType.StripTT,
+  BeyondHD: SiteIMDbType.IMDbID,
   Blutopia: SiteIMDbType.UNIT3D,
   fearnopeer: SiteIMDbType.UNIT3D,
   HDPOST: SiteIMDbType.UNIT3D,

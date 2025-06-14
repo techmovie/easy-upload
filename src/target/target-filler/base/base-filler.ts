@@ -101,13 +101,15 @@ export abstract class BaseFiller {
       $(imdbConfig.selector).val(stripTTIMBb);
     } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.UNIT3D) {
       $(imdbConfig.selector).val(stripTTIMBb);
-      const { id: imdbId } = await getTMDBDataByIMDBId(this.imdbId);
-      $(tmdbConfig.selector).val(imdbId);
+      const { id: tmdbId } = await getTMDBDataByIMDBId(this.imdbId);
+      $(tmdbConfig.selector).val(tmdbId);
       $('#torrent').on('change', () => {
         $(imdbConfig).val(stripTTIMBb);
-        $(tmdbConfig.selector).val(imdbId);
+        $(tmdbConfig.selector).val(tmdbId);
         $('#automal').val(0);
       });
+    } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.IMDbID) {
+      $(imdbConfig.selector).val(this.imdbId);
     } else {
       $(imdbConfig.selector).val(imdbUrl);
     }
