@@ -106,8 +106,8 @@ describe('utils function', () => {
     it('should return 0 if the input string is invalid', () => {
       expect(convertSizeStringToBytes('invalid')).toBe(0);
     });
-    it('should return 0 if the input string is not suffixed with K, M, G, or T', () => {
-      expect(convertSizeStringToBytes('10')).toBe(0);
+    it('should return the input number if the input string is not suffixed with K, M, G, or T', () => {
+      expect(convertSizeStringToBytes('10')).toBe(10);
     });
     it('should return 0 if the input string is not a number', () => {
       expect(convertSizeStringToBytes('invalidK')).toBe(0);
@@ -447,14 +447,12 @@ describe('createFormData', () => {
     expect(formData.get('file[1]')).toBe(file2);
   });
 
-  it('should throw error when filedName includes brackets', () => {
+  it('should not throw error when filedName includes brackets', () => {
     const file = new File(['file content'], 'file.txt', { type: 'text/plain' });
-    expect(() =>
-      createFormData({ key1: 'value1' }, [{ fieldName: 'file[0]', file }]),
-    ).toThrow('FieldName should not include []');
-    expect(() =>
-      createFormData({ key1: 'value1' }, [{ fieldName: 'file[]', file }]),
-    ).toThrow('FieldName should not include []');
+    const formData = createFormData({ key1: 'value1' }, [
+      { fieldName: 'file[]', file },
+    ]);
+    expect(formData.get('file[]')).toBe(file);
   });
 
   it('should throw error when File is passed from object', () => {

@@ -55,10 +55,10 @@ describe('getMatchRottenTomatoes', () => {
     expect(result).toEqual(mockData[1]);
   });
 
-  it('should return empty if type not match', async () => {
+  it('should return null if type not match', async () => {
     vi.mocked(getRottenTomatoesDataByQuery).mockResolvedValue(mockData);
     const result = await getMatchRottenTomatoes('The Matrix', '1999', true);
-    expect(result).toEqual({});
+    expect(result).toEqual(null);
   });
 
   it('if the year is compatible,return the best match one', async () => {
@@ -118,7 +118,7 @@ describe('getMatchRottenTomatoes', () => {
       '1989',
       false,
     );
-    expect(result).toEqual({});
+    expect(result).toEqual(null);
   });
 
   it('the closeMatch is selected at the end', async () => {
@@ -149,6 +149,6 @@ describe('getMatchRottenTomatoes', () => {
       '1989',
       false,
     );
-    expect(result).toEqual({});
+    expect(result).toEqual(null);
   });
 });
