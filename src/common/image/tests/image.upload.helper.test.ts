@@ -102,8 +102,7 @@ describe('createHDBRequestConfig', () => {
 
 describe('parseHDBResponse', () => {
   it('should parse HDB response correctly', async () => {
-    const data = `[url=http://example.com/image1.jpg][img]http://example.com/image1.jpg[/img][/url]
-    [url=http://example.com/image2.jpg][img]http://example.com/image2.jpg[/img][/url]`;
+    const data = `[url=http://example.com/image1.jpg][img]http://example.com/image1.jpg[/img][/url] [url=http://example.com/image2.jpg][img]http://example.com/image2.jpg[/img][/url]`;
     const imgInfo1 = {
       original: 'http://example.com/image1.jpg',
       thumbnail: 'http://example.com/image1.jpg',
@@ -117,8 +116,8 @@ describe('parseHDBResponse', () => {
       .mockResolvedValueOnce(imgInfo2);
     const imgInfos = await parseHDBResponse(data);
     expect(getImgInfoFromBBCode).toHaveBeenCalledTimes(2);
-    expect(getImgInfoFromBBCode).toHaveBeenCalledWith(data.split('\n')[0]);
-    expect(getImgInfoFromBBCode).toHaveBeenCalledWith(data.split('\n')[1]);
+    expect(getImgInfoFromBBCode).toHaveBeenCalledWith(data.split(' ')[0]);
+    expect(getImgInfoFromBBCode).toHaveBeenCalledWith(data.split(' ')[1]);
     expect(imgInfos).toEqual([imgInfo1, imgInfo2]);
   });
   it('should throw error if data is empty', async () => {

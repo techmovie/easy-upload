@@ -53,10 +53,12 @@ export abstract class BaseExtractor {
   }
 
   protected extractArea() {
-    const { area, description } = this.info;
+    const { area, description, doubanInfo } = this.info;
     if (!area) {
       const areaMatch =
-        description?.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)?.[2] ?? '';
+        (description + doubanInfo)?.match(
+          /(产\s*地|国\s*家|地\s*区)】?\s*(.+)/,
+        )?.[2] ?? '';
       this.info.area = getAreaCode(areaMatch);
     }
   }

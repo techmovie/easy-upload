@@ -4,23 +4,23 @@ export const BROWSER_LANGUAGE = navigator.language.toLowerCase().split('-')[0];
 
 export type SiteName = keyof typeof PT_SITE;
 
-const siteRegexCache = new Map<SiteName, RegExp>();
-
 export const getSiteName = (host: string): SiteName | '' => {
+  let siteName = '' as SiteName | '';
   try {
-    const siteEntry = Object.entries(PT_SITE).find(([siteKey, siteInfo]) => {
-      const hostName = 'host' in siteInfo ? siteInfo.host : '';
-      if (!hostName) return false;
-      const siteKeyTyped = siteKey as SiteName;
-      if (!siteRegexCache.has(siteKeyTyped)) {
-        siteRegexCache.set(siteKeyTyped, new RegExp(`^${hostName}`, 'i'));
+    Object.keys(PT_SITE).forEach((key) => {
+      const siteKey = key as SiteName;
+      const hostName = PT_SITE[siteKey].host;
+      const matchReg = new RegExp(hostName, 'i');
+      if (hostName && host.match(matchReg)) {
+        siteName = siteKey;
       }
-      return siteRegexCache.get(siteKeyTyped)!.test(host);
     });
-
-    return siteEntry ? (siteEntry[0] as SiteName) : '';
-  } catch (error) {
-    console.error(error);
+    return siteName;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.message !== 'end loop') {
+      console.log(error);
+    }
     return '';
   }
 };

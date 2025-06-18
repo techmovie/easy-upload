@@ -167,7 +167,7 @@ export const getDoubanInfoByIdOrDoubanUrl = async (
   imdbId?: string,
 ): Promise<FormattedMovieData> => {
   let doubanId = query;
-  if (!/^d/.test(query)) {
+  if (!/^\d/.test(query)) {
     doubanId = query?.match(/douban\.com\/subject\/(\d+)/)?.[1] ?? '';
   }
   const parser = new DoubanFormatter(doubanId, type, imdbId);

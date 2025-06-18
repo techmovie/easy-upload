@@ -135,8 +135,7 @@ class HanHanExtractor extends NexusPHPExtractor {
       imdbId,
     );
     if (doubanInfo) {
-      this.info.description += doubanInfo;
-      this.info.doubanInfo = doubanInfo;
+      this.info.doubanInfo = doubanInfo.format;
     }
   }
 

@@ -82,12 +82,16 @@ class HDBExtractor extends BaseExtractor implements InfoExtractor {
   }
 
   async extractMediaInfos() {
-    const res = await GMFetch<string>(
-      `/details/mediainfo?id=${this.torrentId}`,
-    );
-    const data = res.replace(/\r\n/g, '\n');
-    if (data) {
-      this.info.mediaInfos = [data];
+    try {
+      const res = await GMFetch<string>(
+        `/details/mediainfo?id=${this.torrentId}`,
+      );
+      const data = res.replace(/\r\n/g, '\n');
+      if (data) {
+        this.info.mediaInfos = [data];
+      }
+    } catch (error) {
+      console.log(`Error parsing mediainfo for ${this.info.title}:`, error);
     }
   }
 

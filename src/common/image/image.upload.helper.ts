@@ -44,7 +44,7 @@ export const parseHDBResponse = async (data: string): Promise<ImgInfo[]> => {
   if (!data || data.includes('error')) {
     throwUploadError(`${$t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED)} - ${data}`);
   }
-  const urls = data.split('\n').filter((url) => url.trim().length > 0);
+  const urls = data.split(' ').filter((url) => url.trim().length > 0);
   if (urls.length < 1) {
     throwUploadError(
       `${$t(CONFIG.ERROR_MESSAGES.UPLOAD_FAILED)} - Empty Result`,

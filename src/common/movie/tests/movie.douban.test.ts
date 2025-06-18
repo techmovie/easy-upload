@@ -227,6 +227,12 @@ describe('getDoubanBasicDataByQuery', () => {
       CONFIG.URLS.DOUBAN_SUGGEST_API('tt123456'),
     );
   });
+
+  it('should throw error if no query provided', async () => {
+    await expect(getDoubanBasicDataByQuery('')).rejects.toThrow(
+      'No query provided',
+    );
+  });
 });
 
 describe('getDoubanCreditsData', () => {

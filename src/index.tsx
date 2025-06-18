@@ -47,7 +47,6 @@ const SPECIAL_SITE_CONFIGS = {
     },
     MTeam: (app: HTMLElement) => {
       setupMTeamObserver(app);
-      return true;
     },
     default: (app: HTMLDivElement, refNode?: HTMLElement) => {
       Array.from(app.childNodes).forEach((child) => {
@@ -60,7 +59,10 @@ const SPECIAL_SITE_CONFIGS = {
 function setupMTeamObserver(app: HTMLElement) {
   const targetNode = document.getElementById('root');
   if (!targetNode) return;
-
+  if (document.querySelector(CURRENT_SITE_INFO.seedDomSelector)) {
+    insertScriptDomToMT(app);
+    return;
+  }
   const config = { childList: true, subtree: true };
   const observer = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
@@ -68,12 +70,7 @@ function setupMTeamObserver(app: HTMLElement) {
         const targetElement = $(CURRENT_SITE_INFO.seedDomSelector)[0];
         if (targetElement) {
           observer.disconnect();
-
-          if (targetElement.parentNode) {
-            Array.from(app.childNodes).forEach((child) => {
-              targetElement.parentNode?.insertBefore(child, targetElement);
-            });
-          }
+          insertScriptDomToMT(app);
           break;
         }
       }
@@ -81,6 +78,13 @@ function setupMTeamObserver(app: HTMLElement) {
   });
 
   observer.observe(targetNode, config);
+}
+
+function insertScriptDomToMT(app: HTMLElement) {
+  const refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement | null;
+  Array.from(app.childNodes).forEach((child) => {
+    refNode?.parentNode?.insertBefore(child, refNode);
+  });
 }
 
 function extractTorrentInfoFromHash() {
@@ -147,7 +151,8 @@ function renderApp() {
   }
   const specialHandler =
     appendMethods[CURRENT_SITE_NAME as keyof typeof appendMethods];
-  if (specialHandler && specialHandler(app, refNode)) {
+  if (specialHandler) {
+    specialHandler(app, refNode);
     return;
   }
   appendMethods.default(app, refNode);

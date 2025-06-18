@@ -132,7 +132,6 @@ const Transfer = () => {
       } else if (imgHost === 'imgbox') {
         uploadedImgs = await (await uploadToImgbox)(images);
       }
-
       const imgsBBCodeArray = uploadedImgs.map(
         (img) => `[url=${img.original}][img]${img.thumbnail}[/img][/url]`,
       );

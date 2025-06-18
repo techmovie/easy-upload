@@ -6,6 +6,7 @@ import {
   getMediaTags,
   getVideoCodecFromSourceAndVideoType,
   getVideoTypeFromSource,
+  getVideoSourceFromTitle,
 } from '@/source/helper/index';
 import { IMDbInfo, TorrentDetailInfo } from '@/types/mt';
 import { CONFIG } from '@/source/config';
@@ -30,13 +31,15 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     this.info.title = formatTorrentTitle(title);
   }
 
-  extractResolution(standardId: keyof typeof CONFIG.MT_SPECS_MAP.standard) {
+  extractMTResolution(standardId: keyof typeof CONFIG.MT_SPECS_MAP.standard) {
     this.info.resolution = CONFIG.MT_SPECS_MAP.standard[standardId];
   }
 
   extractSource(sourceId: keyof typeof CONFIG.MT_SPECS_MAP.source) {
     let sourceName = CONFIG.MT_SPECS_MAP.source[sourceId];
-    if (sourceName === 'bluray' && this.info.resolution === '2160p') {
+    if (!sourceName) {
+      sourceName = getVideoSourceFromTitle(this.info.title);
+    } else if (sourceName === 'bluray' && this.info.resolution === '2160p') {
       sourceName = 'uhdbluray';
     }
     this.info.source = sourceName;
@@ -135,9 +138,11 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
   }
 
   async getIMDbDataFromAPI() {
+    const { imdbUrl } = this.info;
     const formdata = createFormData({
-      code: this.info.imdbUrl,
+      code: imdbUrl,
     });
+
     const res = await GMFetch<{
       data: IMDbInfo;
       code: string;
@@ -214,7 +219,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     } = torrentDetail;
     this.extractTitle(name);
     this.extractYear();
-    this.extractResolution(standard);
+    this.extractMTResolution(standard);
     this.extractDescription(descr);
     this.extractSource(source);
     this.extractVideoType(medium);
@@ -222,9 +227,12 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     this.extractCategory(category);
     this.info.subtitle = smallDescr;
     this.info.size = parseInt(size, 10);
-    this.info.imdbUrl = imdb;
-    const imdbData = await this.getIMDbDataFromAPI();
-    this.getMovieInfo(imdbData);
+
+    if (imdb) {
+      this.info.imdbUrl = imdb;
+      const imdbData = await this.getIMDbDataFromAPI();
+      this.getMovieInfo(imdbData);
+    }
     this.info.doubanUrl = douban;
     this.extractScreenshots();
     this.info.mediaInfos = [mediainfo];
