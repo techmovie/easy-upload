@@ -12,7 +12,7 @@ let result = `
 | Site name  | Source(supports transfer) | Target(allows transfer) |
 | :--------: | :-----------------------: | :---------------------: |
 `;
-Object.keys(PT_SITE).forEach(key => {
+Object.keys(PT_SITE).forEach((key) => {
   const { asSource, asTarget } = PT_SITE[key];
   if (!asSource && !asTarget) return;
   result += `|  ${key}    |            ${asSource ? '✅' : '❌ '}             |            ${asTarget ? '✅' : '❌ '}           |\n`;
