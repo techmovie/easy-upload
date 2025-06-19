@@ -40,7 +40,7 @@ export const getDoubanAwards = async (doubanId: string): Promise<string> => {
  * Get IMDb ID from Douban URL
  *
  * @async
- * @param {string} doubanItemUrl
+ * @param {string} doubanId
  * @returns {Promise<string>}
  */
 export const getIMDbIDFromDouban = async (
@@ -120,6 +120,29 @@ export const getDoubanBasicDataByQuery = async (
       title: textContent as string,
     };
   }
+};
+
+/**
+ * Get TV Season Data from Douban
+ *
+ * @async
+ * @param {DoubanBasicData} doubanData
+ * @param {string} torrentTitle
+ * @returns {Promise<DoubanBasicData>}
+ */
+export const getDoubanTVItemData = async (
+  doubanData: DoubanBasicData,
+  torrentTitle: string,
+): Promise<DoubanBasicData> => {
+  const { title } = doubanData;
+  const seasonNumber =
+    torrentTitle?.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
+  if (parseInt(seasonNumber, 10) === 1) {
+    return doubanData;
+  }
+  const query = title?.replace(/第.+?季/, `第${seasonNumber}季`);
+  const response = await getDoubanBasicDataByQuery(query);
+  return response;
 };
 
 /**

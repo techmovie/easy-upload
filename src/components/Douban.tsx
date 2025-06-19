@@ -7,25 +7,12 @@ import {
   getAreaCode,
   getDoubanInfoByIdOrDoubanUrl,
   getSubTitleFromDoubanInfo,
+  getDoubanTVItemData,
 } from '@/common';
 import { toast } from 'sonner';
 import $ from 'jquery';
 import { refineCategory } from '@/source/helper/index';
 import { useTorrentInfo } from '@/hooks/useTorrentInfo';
-
-const getTvSeasonData = async (data: Douban.Season, torrentTitle: string) => {
-  const { season = '', title } = data;
-  if (season) {
-    const seasonNumber =
-      torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)?.[1] ?? '1';
-    if (parseInt(seasonNumber, 10) === 1) {
-      return data;
-    }
-    const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
-    const response = await getDoubanBasicDataByQuery(query);
-    return response;
-  }
-};
 
 const Douban = () => {
   const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
@@ -86,7 +73,10 @@ const Douban = () => {
         if (doubanData) {
           let { id, season = '' } = doubanData;
           if (season) {
-            const tvData = await getTvSeasonData(doubanData, torrentInfo.title);
+            const tvData = await getDoubanTVItemData(
+              doubanData,
+              torrentInfo.title,
+            );
             if (tvData) {
               id = tvData.id;
             }

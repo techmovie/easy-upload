@@ -35,6 +35,7 @@ import './target-filler/iTS';
 import './target-filler/BYR';
 import './target-filler/PTer';
 import './target-filler/MTV';
+import autofill from './autofill';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {
   if (!info) {
@@ -43,6 +44,8 @@ export const fillTargetForm = (info: TorrentInfo.Info): void => {
   }
 
   console.log('Filling form with info:', info);
+
+  autofill(info);
 
   const filler = registry.getApplicableFiller(
     CURRENT_SITE_NAME,
