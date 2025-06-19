@@ -33,7 +33,7 @@ import './target-filler/GPW';
 import './target-filler/ZHUQUE';
 import './target-filler/iTS';
 import './target-filler/BYR';
-import './target-filler/PTer';
+import './target-filler/Pter';
 import './target-filler/MTV';
 import autofill from './autofill';
 
