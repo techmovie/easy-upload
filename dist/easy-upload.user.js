@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         6.1.4
+// @version         7.0.0-beta.1
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -40,7 +40,7 @@
 // @grant           GM_xmlhttpRequest
 // ==/UserScript==
 
-(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(" td.title-td{min-width:80px;vertical-align:middle!important}td.title-td h4{text-align:right;margin:0;font-size:13px;font-weight:500;height:100%;display:flex;align-items:center;justify-content:flex-end}#seed-dom button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:6px 16px;font-size:13px;border-radius:4px;margin:0 5px 0 0}#seed-dom button:hover{background:#fff;border-color:#409eff;color:#409eff}#seed-dom button.is-disabled,#seed-dom button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.site-list,.search-list{margin:0;padding:0;list-style:none;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.site-list .site-icon,.search-list .site-icon{width:12px;margin-right:5px}.ptp-search-list{display:flex;align-items:center;padding-top:10px;justify-content:center}.ptp-search-list h4{margin:0 15px 0 0;min-width:60px}#seed-dom ul li,.search-list li,.site-list li{font-weight:600;line-height:24px;margin:0 5px 0 0;padding:0;display:flex;align-items:center}#seed-dom ul li a,.search-list li a,.site-list li a{padding-right:3px;display:inline-flex;align-items:center;cursor:pointer}.search-list li:last-child span{display:none}.easy-seed-function-list{display:flex;justify-content:space-around;padding:6px 20px;flex-wrap:wrap}.easy-seed-function-list button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 0 0}.easy-seed-function-list button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-seed-function-list button.is-disabled,.easy-seed-function-list button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.function-list-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.function-list-item input{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.function-list-item select{border:0;font-family:inherit;padding:5px;font-size:14px;border-radius:3px;text-transform:none}.function-list-item input::placeholder{color:#c0c4cc}.function-list-item input:hover{border-color:#c0c4cc}.function-list-item input:focus{outline:none;border-color:#409eff}.hdb-tr{display:flex}.hdb-tr td:last-child{flex:1}.hdb-tr td:first-child>h4{width:100px}.function-list-item h4{margin:0 10px 0 0;padding:0;font-weight:600;font-size:14px}.upload-section,.douban-section,.douban-book-section{display:flex;justify-content:center;align-items:center}.upload-section #nsfw{margin-left:0;position:static}.upload-section label{padding-left:0}#kdescr img{max-width:100%}.easy-seed-setting-btn{display:inline-flex;align-items:center;margin-left:3px}svg.setting-svg{height:20px;width:20px;vertical-align:middle;animation:5s linear rotate infinite;cursor:pointer}@keyframes rotate{to{transform:rotate(360deg)}}.easy-seed-setting-panel{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2000;background:rgba(0,0,0,.5);color:#000}#batch-seed-btn,#auto-fill-douban{border-color:transparent;color:#409eff;background:transparent;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}#batch-seed-btn:hover,#auto-fill-douban:hover{color:#66b1ff;border-color:transparent;background-color:transparent}#batch-seed-btn:active,#auto-fill-douban:active{color:#3a8ee6;background-color:transparent}#auto-fill-douban{font-size:14px;display:inline-block}.easy-seed-setting-panel *{padding:0;margin:0}.easy-seed-setting-panel input[type=text]{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.easy-seed-setting-panel input[type=text]::placeholder{color:#c0c4cc}.easy-seed-setting-panel input[type=text]:hover{border-color:#c0c4cc}.easy-seed-setting-panel input[type=text]:focus{outline:none;border-color:#409eff}.easy-seed-setting-panel h3,.easy-seed-setting-panel h1{color:#000;margin-bottom:15px}.easy-seed-setting-panel .panel-content-wrap{max-width:800px;box-sizing:border-box;margin:50px auto;border-radius:8px;background:#fff;position:relative;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.3);padding:20px 10px 10px 20px}.easy-seed-setting-panel .panel-content{height:500px;overflow-y:auto}.easy-seed-setting-panel .panel-content ul{list-style:none;display:flex;flex-direction:row;flex-wrap:wrap;margin:0 auto;padding:0 10px}.easy-seed-setting-panel .panel-content li{width:90px;text-align:left;margin-bottom:10px}.easy-seed-setting-panel .panel-content label{cursor:pointer;color:#000!important;font-size:12px;display:flex;align-items:center}.easy-seed-setting-panel .panel-content label input{margin:0 3px 0 0;padding:0}.panel-content p{display:block;margin-bottom:10px;font-size:12px}.easy-seed-setting-panel button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 10px 0}.easy-seed-setting-panel button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-seed-setting-panel .confirm-btns{padding-top:15px}.easy-seed-setting-panel .img-upload-setting{margin-bottom:10px}.easy-seed-setting-panel .img-upload-setting label{justify-content:center}.easy-seed-setting-panel .img-upload-setting label input{margin-left:8px;margin-right:8px}.easy-seed-setting-panel .img-upload-setting label a{color:#000;font-weight:500}.easy-seed-setting-panel .img-upload-setting label a:hover{color:#f7d584}.feature-list{display:flex;flex-wrap:wrap;justify-content:space-between;padding:0 50px}.feature-list .site-enable-setting{width:250px;padding-top:5px;margin-bottom:8px;text-align:center}.easy-seed-setting-panel .save-setting-btn{background-color:#007bff;border-color:#007bff;color:#fff}.easy-seed-setting-panel .save-setting-btn:hover{background:#66b1ff;border-color:#66b1ff;color:#fff}.ptp-api-key-btn{text-align:center}.easy-notification{box-sizing:border-box;position:fixed;transition:opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;overflow:hidden;right:0;margin:0 24px 0 0;color:rgba(0,0,0,.85);font-size:14px;line-height:1.5715;z-index:2010}.easy-notification-enter{right:16px;transform:translate(0)}.easy-notification-notice{position:relative;width:300px;max-width:calc(100vw - 48px);margin-bottom:16px;margin-left:auto;padding:16px 24px;overflow:hidden;line-height:1.5715;word-wrap:break-word;background:#fff;border-radius:2px;box-sizing:border-box;box-shadow:0 2px 12px rgba(0,0,0,.1)}.notification-message{margin-bottom:8px;color:rgba(0,0,0,.85);font-size:16px;line-height:24px}.notification-description{font-size:14px;line-height:21px;margin:6px 0 0;text-align:justify;padding-right:10px}.notification-description p{margin:0}.easy-notification-notice-close svg{height:14px;width:14px;font-size:14px}.easy-notification-notice-close{position:absolute;top:13px;right:15px;cursor:pointer;color:#909399;font-size:16px}.easy-notification-notice-close:hover{color:#606266}#transfer-progress{display:none}.custom-site{display:flex;align-items:center;width:100%}.custom-site h4{flex-shrink:0;margin:0 10px 0 0;line-height:initial}.custom-site .easy-seed-function-list{flex:1}.custom-site img{border-radius:0}tr.pad[id*=torrent_]{font-family:Proxima Nova,Lato,Segoe UI,sans-serif}.easy-seed-function-list .copy-img{margin-left:5px}.quick-search{cursor:pointer;color:#409eff;font-weight:600}.ptp-title-wrapper{position:relative}#seed-dom .ptp-title-wrapper h4{position:absolute;left:0;top:0;margin:0!important;display:flex!important;align-items:center;line-height:24px}#seed-dom .ptp-title-wrapper .site-list li:first-child{padding:0 0 0 95px}#seed-dom .ptp-title-wrapper .search-list li:first-child{padding-left:65px}#seed-dom.use-eng .ptp-title-wrapper .search-list li:first-child{padding-left:85px}#batch-search-btn{color:#409eff;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}.douban-config{display:flex;justify-content:center}.douban-config textarea{resize:none;width:300px;height:100px;margin-left:6px} ");
+(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(" td.title-td{min-width:80px;vertical-align:middle!important}td.title-td h4{text-align:right;margin:0;font-size:13px;font-weight:500;height:100%;display:flex;align-items:center;justify-content:flex-end}#seed-dom button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:6px 16px;font-size:13px;border-radius:4px;margin:0 5px 0 0}#seed-dom button:hover{background:#fff;border-color:#409eff;color:#409eff}#seed-dom button.is-disabled,#seed-dom button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.site-list,.search-list{margin:0;padding:0;list-style:none;display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.site-list .site-icon,.search-list .site-icon{width:12px;margin-right:5px}.ptp-search-list{display:flex;align-items:center;padding-top:10px;justify-content:center}.ptp-search-list h4{margin:0 15px 0 0;min-width:60px}#seed-dom ul li,.search-list li,.site-list li{font-weight:600;line-height:24px;margin:0 5px 0 0;padding:0;display:flex;align-items:center}#seed-dom ul li a,.search-list li a,.site-list li a{padding-right:3px;display:inline-flex;align-items:center;cursor:pointer}.search-list li:last-child span{display:none}.easy-upload-function-list{display:flex;justify-content:space-around;padding:6px 20px;flex-wrap:wrap}.easy-upload-function-list button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 0 0}.easy-upload-function-list button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-upload-function-list button.is-disabled,.easy-upload-function-list button.is-disabled:hover{color:#c0c4cc;cursor:not-allowed;background-image:none;background-color:#fff;border-color:#ebeef5}.function-list-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.function-list-item input{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.function-list-item select{border:0;font-family:inherit;padding:5px;font-size:14px;border-radius:3px;text-transform:none}.function-list-item input::placeholder{color:#c0c4cc}.function-list-item input:hover{border-color:#c0c4cc}.function-list-item input:focus{outline:none;border-color:#409eff}.hdb-tr{display:flex}.hdb-tr td:last-child{flex:1}.hdb-tr td:first-child>h4{width:100px}.function-list-item h4{margin:0 10px 0 0;padding:0;font-weight:600;font-size:14px}.upload-section,.douban-section,.douban-book-section{display:flex;justify-content:center;align-items:center}.upload-section #nsfw{margin-left:0;position:static}.upload-section label{padding-left:0}#kdescr img{max-width:100%}.easy-upload-setting-btn{display:inline-flex;align-items:center;margin-left:3px}svg.setting-svg{height:20px;width:20px;vertical-align:middle;animation:5s linear rotate infinite;cursor:pointer}@keyframes rotate{to{transform:rotate(360deg)}}.easy-upload-setting-panel{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2000;background:rgba(0,0,0,.5);color:#000}#batch-seed-btn,#auto-fill-douban{border-color:transparent;color:#409eff;background:transparent;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}#batch-seed-btn:hover,#auto-fill-douban:hover{color:#66b1ff;border-color:transparent;background-color:transparent}#batch-seed-btn:active,#auto-fill-douban:active{color:#3a8ee6;background-color:transparent}#auto-fill-douban{font-size:14px;display:inline-block}.easy-upload-setting-panel *{padding:0;margin:0}.easy-upload-setting-panel input[type=text]{-webkit-appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #dcdfe6;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:34px;line-height:40px;outline:none;width:200px;padding:0 12px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.easy-upload-setting-panel input[type=text]::placeholder{color:#c0c4cc}.easy-upload-setting-panel input[type=text]:hover{border-color:#c0c4cc}.easy-upload-setting-panel input[type=text]:focus{outline:none;border-color:#409eff}.easy-upload-setting-panel h3,.easy-upload-setting-panel h1{color:#000;margin-bottom:15px}.easy-upload-setting-panel .panel-content-wrap{max-width:800px;box-sizing:border-box;margin:50px auto;border-radius:8px;background:#fff;position:relative;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.3);padding:20px 10px 10px 20px}.easy-upload-setting-panel .panel-content{height:500px;overflow-y:auto}.easy-upload-setting-panel .panel-content ul{list-style:none;display:flex;flex-direction:row;flex-wrap:wrap;margin:0 auto;padding:0 10px}.easy-upload-setting-panel .panel-content li{width:90px;text-align:left;margin-bottom:10px}.easy-upload-setting-panel .panel-content label{cursor:pointer;color:#000!important;font-size:12px;display:flex;align-items:center}.easy-upload-setting-panel .panel-content label input{margin:0 3px 0 0;padding:0}.panel-content p{display:block;margin-bottom:10px;font-size:12px}.easy-upload-setting-panel button{line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #dcdfe6;color:#606266;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:none;transition:.1s;font-weight:500;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;padding:8px 20px;font-size:14px;border-radius:4px;margin:0 5px 10px 0}.easy-upload-setting-panel button:hover{background:#fff;border-color:#409eff;color:#409eff}.easy-upload-setting-panel .confirm-btns{padding-top:15px}.easy-upload-setting-panel .img-upload-setting{margin-bottom:10px}.easy-upload-setting-panel .img-upload-setting label{justify-content:center}.easy-upload-setting-panel .img-upload-setting label input{margin-left:8px;margin-right:8px}.easy-upload-setting-panel .img-upload-setting label a{color:#000;font-weight:500}.easy-upload-setting-panel .img-upload-setting label a:hover{color:#f7d584}.feature-list{display:flex;flex-wrap:wrap;justify-content:space-between;padding:0 50px}.feature-list .site-enable-setting{width:250px;padding-top:5px;margin-bottom:8px;text-align:center}.easy-upload-setting-panel .save-setting-btn{background-color:#007bff;border-color:#007bff;color:#fff}.easy-upload-setting-panel .save-setting-btn:hover{background:#66b1ff;border-color:#66b1ff;color:#fff}.ptp-api-key-btn{text-align:center}.easy-notification{box-sizing:border-box;position:fixed;transition:opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;overflow:hidden;right:0;margin:0 24px 0 0;color:rgba(0,0,0,.85);font-size:14px;line-height:1.5715;z-index:2010}.easy-notification-enter{right:16px;transform:translate(0)}.easy-notification-notice{position:relative;width:300px;max-width:calc(100vw - 48px);margin-bottom:16px;margin-left:auto;padding:16px 24px;overflow:hidden;line-height:1.5715;word-wrap:break-word;background:#fff;border-radius:2px;box-sizing:border-box;box-shadow:0 2px 12px rgba(0,0,0,.1)}.notification-message{margin-bottom:8px;color:rgba(0,0,0,.85);font-size:16px;line-height:24px}.notification-description{font-size:14px;line-height:21px;margin:6px 0 0;text-align:justify;padding-right:10px}.notification-description p{margin:0}.easy-notification-notice-close svg{height:14px;width:14px;font-size:14px}.easy-notification-notice-close{position:absolute;top:13px;right:15px;cursor:pointer;color:#909399;font-size:16px}.easy-notification-notice-close:hover{color:#606266}#transfer-progress{display:none}.custom-site{display:flex;align-items:center;width:100%}.custom-site h4{flex-shrink:0;margin:0 10px 0 0;line-height:initial}.custom-site .easy-upload-function-list{flex:1}.custom-site img{border-radius:0}tr.pad[id*=torrent_]{font-family:Proxima Nova,Lato,Segoe UI,sans-serif}#seed-dom .easy-upload-function-list .copy-img{margin-left:5px}.quick-search{cursor:pointer;color:#409eff;font-weight:600}.ptp-title-wrapper{position:relative}#seed-dom .ptp-title-wrapper h4{position:absolute;left:0;top:0;margin:0!important;display:flex!important;align-items:center;line-height:24px}#seed-dom .ptp-title-wrapper .site-list li:first-child{padding:0 0 0 140px}#seed-dom .ptp-title-wrapper .search-list li:first-child{padding-left:70px}#seed-dom.use-eng .ptp-title-wrapper .search-list li:first-child{padding-left:95px}#batch-search-btn{color:#409eff;padding-left:0;padding-right:0;font-weight:600;cursor:pointer}.douban-config{display:flex;justify-content:center}.douban-config textarea{resize:none;width:300px;height:100px;margin-left:6px} ");
 
 (function (preact, $$2) {
   'use strict';
@@ -76,7 +76,7 @@
       }
     return target;
   };
-  var _a, _d, _e;
+  var _a;
   var f$1 = 0;
   function u$1(e2, t2, n, o2, i, u2) {
     t2 || (t2 = {});
@@ -440,9 +440,9 @@
       }
     },
     ACM: {
-      url: "https://asiancinema.me",
-      host: "asiancinema.me",
-      siteType: "UNIT3D",
+      url: "https://eiga.moi",
+      host: "eiga.moi",
+      siteType: "UNIT3D-Legacy",
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQKBjskFFwRbgAAA11JREFUOMvNlM1vlGUUxc+5zzPvfLT2y5a0BqglgAFCcaGIYaEhAYIaTYgxLo1x5wL+BBf+Ay6NceOChYnGjVVj4wchkAhE1AKKWqopTBinZdrpFGbe97nHBSaSqNENiWd3N79zF/f+gP97ePdwfXwbIJFkXxbsfjfVEjwJvmZ5q1luLffyPmBs6T8AFzbuAIASyAmS0wHaJWhURCHghqA5gHNmpYbkPrkw97fACACXJ3aitdhEdXJ8E8nnSDxF6SFBQ3dquQrgssC3Bc6C1vynDePM1iNYT034g/0bPOCAES9JPgUgI5AgQOQoiL2QfqUw7yE254c3czlU9ciBd/Du6eN4YfHMHWD0hOpwjqXO0DSgpwHfSiGn/JRJ35kxJto0iZql4mSlu3alUe6rLo1MjnW7nfrVmx/kM3/AAIDvbX8GvWT9g5X8FUDH5BqN8FPB/UT0dI7GsoDtJMo91+lWebAWgX3mvsGNdYgnvZ1dZTmlo1feR7ydVSBxdDVkmwENy3wpwD8xaNal+q3lFRN4KY/lEIdHNlWYDko6IFOfyKrLrBgMq0RoAEDslPtJoObw+wAESCuSfoCrDRKLGyd94PZKjhCrA0EPJ/k4oWsulZ22X+CTIH+cWm81Xtv/KuJyrAlAj1ACZAAoB+QAjagwoVMbKhm0pfCiL5IysC7P52Vhj2h7BZ7/cqT/bMmxHtusAMItRbZA3JY4koTdAr+FuNauj7B/fHXCSulFSlsMyA06E3udz0tCIw+VZ53Wy5NXE7EeO8wQPLW6sXJN4E0BEw4eKmCNLuM3Ycr7k6r7otJhQg+AnId0pp63ry38ki8e3DnYJJQ7ilsSERvVGrbYSGfZV644eNHBDQIedVpw8KccqOWwPVRpkoRTWofUTpXx8HXnUj7anTj36dnX/zzszB2XrQdaeQ4WPxQ4lqRdIB4H8BggAiShLsGvDJhh8gtZeaD0/L4nihgy3f0p4cLCF5jaeBTd+sCaD/pvhcW1PGZDuWW1gjEWFnu5xUYRsvOJ8YRkH2We/wzFHmESEi4tzPxVDoeOvAmTYqKNJXK303YDnAAEya8bcN7A760ITZnS7Mcv/7u+dhx+Cy4hkOWBEMfMbFAk5Hl7NbXrF7cdy+PF40ifvXHvhHrP8zvmB8JDHarovgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNC0xMFQwNjo1OTozNiswMDowMLWCrh8AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDQtMTBUMDY6NTk6MzYrMDA6MDDE3xajAAAAAElFTkSuQmCC",
       asSource: true,
       asTarget: true,
@@ -1017,83 +1017,6 @@
         selector: "#torrent"
       }
     },
-    Bdc: {
-      url: "https://broadcity.in",
-      host: "broadcity.in",
-      siteType: "Bdc",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5QQMAxMX1XFD5QAABLtJREFUOMs11FtvXFcBhuF3rX2aPcdte8b2xIc4cRIl8di1pbg0QQJEUVGlChASSL2g6v/ggt4gfglcAAKJG0gFEpSUEtJUNK1NfIo99ng84/GcPMc9s9davTD9fsCr7+oR7k9/YQAwBiMkGoHuXmIuSojWOQx7YBQIgbEshJ+EzDRM5LFTAQKN0ZqvZ1+1DEgbVITXrzMRtkhOOjizy+D54LoYYaGiEdcDn5Qj2Dqusn/RIUrnsD0PdARGYGNAWDY6HBAbNFiOjXl9/T652Wu4qQAZ85GWhdKaTDzG7WySjBjz+ctd/viPZzyr1GhHE1h+GozCNlIgtMa0qohOFWd+FiuTh0weP53AHg/oVEoYY1h5tMlrd5cJEh73C/fIBin0n/7F80oXpQWOLbDste99YLp1TLXIeDCgYWfZO21wcHpO+7LF4fYWf/j17/j7k6fEgzRezCPSiiCX5eatBRgNcDrbJNQ+vguWtfLtDyjvobod0lMzPLh/g598a433337Iu29+g0ert0lNZDhpXhKk4hzu71MqlVkvLJIaPWE59hGbkx+T0Gc8O81h02tiOheAZIykcrDNl4My333tJv1Oi3a7ybs/fItuOKTVHXB4VMIdbBM/fcGo/pQpv0Jf9qh15ijWAmw6FzAagBswjKBZq5FYyjKZTuFnAobDkN5lm+LxMXgT3F0Y8Mb0Z+jKkJ1ynvYgTbmRZb95EyN9bNNrg9YYYWHbDou5PD94520cx0aNQoJUkpNSid2jCtPXIn60csYb0zWev1rgRfcdnnzyBWrYRiWTBF4fW0QjMBrCPmlLsX7vFg83N/jk6afsF0/YWC2wVihQuL9Gr/tvArlFZ+jzm/9skJxJcnzSJDbeI51vortz2FJKLBXCRZXRoE513qN6dkaz1WJ6eob5uTylwwNebr9k/UaRqcSYSkNw8GqH709X+NV7RxSLdX7/DM5rOWxleWQnJymsr/Bg83U2H2ywsHidVDpNsVTmww//yuPHf+Nw65BFf8hYWXxzNeSXiWMSjuKLQ8WfP43x/CiJyXiI7Js/M4WM4dHKMrfu3MESgnqjQeO8ylHxmK2dPXYPioRDwWzW8J2NPg/uDBFa0u4n+OiF4LNdaDrXcG6vYbupACV7VM9r9LodKuc1vny5y3m5jNGaiWyW1cJd6o1Lms0Bj5/H+ed2hOe5xJNztJtdhN3Az8QZJ6cQzo9/btSrz1mSbVaXZpnM5Wh3+7i2RSadYnZmhqmJNHvFUy5aXcIwAgOuazM3naF5fsZ/X5XZCZOEcyvYuD4iv8y1nOBhYZ7r1xcJIwXGYEmJ7/skEnHmF5cY9PsoFSEAbcAShqOjODvDOMOGREoLWxiFTE2wc9mi+ZePSXR/i+M4eH4chEQI8GIxhJCMwyFKRWilGA2HhGFINzVPLb2ESAQIrbCN1iAt6iZGredCqYNoV7DV6ApWQFoWUlro/8eMECjbx2Ty4PhYmTiWlKAVthACoxVOPIm4sYKZmkGf/g9TL2H6bUw0ItIKDAjbRfguIp7BnppHzt1DpLNX0qsxQogrsQWgozFCWohgBpkIMI0S5uIEc3mBGfUBEG4ckc4isguIyXlwvKvHOkIIAQa+AvwANNpBILcLAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEyVDAzOjE5OjIzKzAwOjAwAUZk1AAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMlQwMzoxOToyMyswMDowMHAb3GgAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      needDoubanInfo: true,
-      search: {
-        path: "/browse.php",
-        imdbOptionKey: "t_genre",
-        nameOptionKey: "t_name",
-        params: {
-          imdb: "{imdb}",
-          search_area: "{optionKey}"
-        }
-      },
-      seedDomSelector: "#details>table>tbody>tr:nth-child(11)",
-      name: {
-        selector: "#subject"
-      },
-      description: {
-        selector: 'textarea[name="message"]'
-      },
-      imdb: {
-        selector: 'input[name="t_link"]'
-      },
-      anonymous: {
-        selector: 'input[name="anonymous"]'
-      },
-      videoType: {
-        map: {
-          uhdbluray: "1",
-          bluray: "2",
-          remux: "3",
-          encode: "6",
-          web: "5",
-          hdtv: "4",
-          dvd: "7",
-          dvdrip: "7",
-          other: "15"
-        }
-      },
-      resolution: {
-        map: {
-          "2160p": {
-            remux: "2",
-            encode: "2",
-            web: "6"
-          },
-          "1080p": {
-            remux: "4",
-            hdtv: "4",
-            encode: "4",
-            web: "5"
-          },
-          "720p": {
-            hdtv: "4",
-            encode: "4",
-            web: "5"
-          },
-          "576p": {
-            encode: "23",
-            web: "5",
-            dvdrip: "36",
-            dvd: "10"
-          },
-          "480p": {
-            encode: "23",
-            web: "5",
-            dvdrip: "36",
-            dvd: "10"
-          }
-        }
-      }
-    },
     BeyondHD: {
       url: "https://beyond-hd.me",
       host: "beyond-hd.me",
@@ -1178,7 +1101,11 @@
           unrated: "Unrated",
           webdl: "WEBDL",
           webrip: "WEBRip",
-          with_commentary: "Commentary"
+          with_commentary: "Commentary",
+          dolby_vision: "DV",
+          hdr10: "HDR10",
+          "hdr10_plus?": "HDR10+",
+          hlg: "HLG"
         }
       },
       name: {
@@ -1798,7 +1725,7 @@
     Concertos: {
       url: "https://concertos.live",
       host: "concertos.live",
-      siteType: "UNIT3D",
+      siteType: "UNIT3D-Legacy",
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAACVBMVEU0mNs0mNv///8qabEFAAAAAXRSTlMAQObYZgAAAAFiS0dEAmYLfGQAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfnChsDLyO4AL7jAAAHQnpUWHRSYXcgcHJvZmlsZSB0eXBlIHhtcAAAeJztXduuqzgMffdXnE+AOBf4HHaBt5HmcT5/lk0LLfe2WzNGyq7U0pDYXr7FxOeo9M9ff9OfP3/KUJYV8Y37VKUilpHjTwzJuyK6GGKKdey4da7rf35+eucwXkcvIyFx8C0Xvk2FZ8ytYk2+Sk3CwsCp8V3wEZ8gyIxFznHPXdHwLVXcpCpiYWyFWSxdId/jLXaJ5R4JB0jjYy9ycDPcGKerJBMZjP3ICj+ucEWofBsKciJcn3SIg+s4uhbylMxcYSRxjbGSA9dcsWPvbhh1XGAsuh6fNd5L9uRaHWxkSN8h9OzlBN5wDZAOskRugvPexwkgKcLhpoCskser4Aag+qR/rkuY5DqVOyn/Wl4qj8O7w3tLAxHXJk6wkuglVQAHTcn9SZa5RBAHxoNpXKxFdwST9rGDiPcJULwDb6haJISmmwXU+2tmNbHFEpRK1E3WxDVMElvArSBzIQBhhEKsOrCiI14gxSvaKyCzi7dJcyQTIUHAwiDeI3qCNAPHcuJ4xJDgqxWoAgJUJ1fvAR1X02P5EvWxgkW/vkXUgTV9qmQQbJ+Zrij7hSsn70OKgzPsMaU9rpItEtwNc/rg1AF7tRZSh5AfTCOOWzSr5l/I5eG2cS2IJqlooYv7oneVT3C5gK/1Pr85u8eaiR0tA3MMTzUvwlMCM0B74msuCNE+3rh7SW4Fzd1REp3nMXklEEUG1Iw+ZAed6Wq+qXFGVrTG67SEwfvhkzu6c640U3q8I60GLyPIl0iheHfQw48kMc2gxVyWgSg9Uz2QpIW8atNUT2segtCqJPLXaHrfkmRBlE5JoltTHKQol9KIMPSRNCuEdyTS3NjAySUHtjKZO4ARV0gSfYjBLiZhITNpPnUD5jL9NbKxIjywVjQmqVbQsgp/OD1uWpc2uNXi30E2qR4S15LRGZGH/RV5A95feygV25psllG2eTik7u1b8qwS3JJoyr1YKBGvNuk0fcFLIInOcKJqqZAallwBG0fxfCkzWmRIRokFiVsdQhWCwVJ2YrniCIIQHlI4dQWM47ubnGFiT0v+e+55XyjhzWncB2UdcfdSZumUAcCaziA/aiRIhkyDK4CCE2v1ROrXyDvRCVKFJ74OOHDHCt8BBhpBiYGxJahRNpqEOwVKXLceClUwuG0QGq3jB3CQqYBtgkQeroOqH/4g9RTeA+6wgBM3hWcDUhR7CWrcdJLIdFK9ALIpjxB6Bxh2DrUyCKb6dQUtFj6KTbhDKtfJr62Q6L/Feir95BkA/EDmsV1rrT/bsJeb2OaWDU5TASGVJesejE0Tnve0j0D5okmmrclHkObsSEmcCtV9Z6BXbzh0hme4L+xpL1SPNJcSYjCIIljSyAf77Aox+lAWyeS4AplSLOhLkq1FvHteprxbpdBLmbLLc2K5mrNfxXf9+HADfz8fIKj8fydANkNkP0DkU4pjsByDhLYXvGdNuqtWIYHQUGkILwbvqBtj6+RugTlQA+QpH8yg0Qiv9lL50lT6LncNJ4/nvR4crNQgLzZGVbsiybGtltbdzEdz8x5Zl86a98i6tLRWEnXGKfeds+rZVHuY+mirTHm3SqGxTDnkv681WofynPt2Ut9TKU3Hue+cBek4951LffTmE9omSzrOfYeuIRIhaDslAyJ4Pp1bT6dMM/bY0FYQngnY54pl4dmL4mqnJnqCqidaUY+6hmos3I/Hxoi6PxX4o3m0xeGxMFSP3BBvcmA2MmD1vfsLORscH19fOG8ROIQW6nOctxjTFoFDyLNVcsjSBagOtvEaoq8AV5hMs1erWjzDPg5bnp4aA98PqMPDfluz6DFt4wF5XIYgrZNkg1uovNcNSlyAR/Prk84Lp6Ml6yxplUC9RmCXZU3HPJ+ja37UO62glVDUk+rhiF7ibn5If6LQ+ub1XxM6zpwXgnZuG7gItHfBWIa2uq9dFdrSMP+3RF8QOvKyS0F7L2SMQ/sm/q1BO3wUvRK0k0ca14B28lH0GtDeCRnz0D6Pf4PQvitmbEE7eRB1DWiHRxpXgnbeyy4A7dOQMQntd+LfBrSdHuT1oG0b5oLQznrZJaB9FjJGof1G/FuBNmGxItEXhLYMc0lo57zsItA+CRmz0L6PfzvQdv7J8PWgrRvmotBO9rKvAe39kDEM7dv4twRt539nXA9abmZahZabmUah5WamVWi5mWkVWm5mGoWWm5lWoeVmplVouZlpFFpuZlqFlpuZRqHlZqZVaLmZaRVabmYahZabmVah5WamUWi5mWkVWm5mWoWWm5lGoeVmplVouZlpFFpuZlqFlpuZVqHlZqZRaLmZaRVabmZahZabmUah5WamVWi5mWkUWm5mWoWWm5lWoeVmplFouZlpFVpuZhqFlpuZVqHlZqZVaLmZaRRabmZahZabmUah5WamVWi5mWkVWm5mGoWWm5mPpas/zCs/nqA/xpnS8Ju69C9khqnUdh3WhAAAAAFvck5UAc+id5oAAACZSURBVDjL1dOxEQMxCATAU0AJ9EMJCkT/rfzYL/HcRXbgwGTsD9L8cAKocnHvmdRbMrz6DiMFUsAFLBlGMlSfdOADLvAMbLCfwnIBCEAgBCYYFgQgEAIBhgmB+HcYwWBtDVGZaGAKrpCfg803jAO2t1hw1npGTMEVKgn3p9XA7kw8gHZJ/f4k6A8D34BX4HbZSSTN9H7fXnUBXz+QkWPfUykAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjdUMDM6NDc6MzUrMDA6MDBKPrQ3AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI3VDAzOjQ3OjM1KzAwOjAwO2MMiwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yN1QwMzo0NzozNSswMDowMGx2LVQAAAATdEVYdGRjOmZvcm1hdABpbWFnZS9wbmf/uRs+AAAAFXRFWHRwaG90b3Nob3A6Q29sb3JNb2RlADNWArNAAAAAJnRFWHRwaG90b3Nob3A6SUNDUHJvZmlsZQBzUkdCIElFQzYxOTY2LTIuMRwvbAsAAAAQdEVYdHhtcDpDb2xvclNwYWNlADEFDsjRAAAAKHRFWHR4bXA6Q3JlYXRlRGF0ZQAyMDE4LTA0LTE1VDE4OjE0OjIxKzAyOjAwX6YhzgAAADN0RVh0eG1wOkNyZWF0b3JUb29sAEFkb2JlIFBob3Rvc2hvcCBDQyAyMDE3IChNYWNpbnRvc2gpmllTCQAAACp0RVh0eG1wOk1ldGFkYXRhRGF0ZQAyMDE4LTA0LTE1VDE4OjMzOjE2KzAyOjAwJmTVnAAAACh0RVh0eG1wOk1vZGlmeURhdGUAMjAxOC0wNC0xNVQxODozMzoxNiswMjowMBrAhiIAAAAWdEVYdHhtcDpQaXhlbFhEaW1lbnNpb24ANjTJIcZzAAAAFnRFWHR4bXA6UGl4ZWxZRGltZW5zaW9uADY0FLcf9gAAAEt0RVh0eG1wTU06RG9jdW1lbnRJRABhZG9iZTpkb2NpZDpwaG90b3Nob3A6MGI0NjQyYjktODE1OS0xMTdiLWI3MzQtOWVjODc3YWYyZDliEBg3pQAAAD10RVh0eG1wTU06SW5zdGFuY2VJRAB4bXAuaWlkOjlmMThhNDc5LWIwYTUtNDczMS1hNjcxLTZhYTllMjAyNjdhMl6RzKYAAABFdEVYdHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRAB4bXAuZGlkOmMwOGUxNmM1LTZkNGYtNGVlMy04ZGVkLWYzMTJiZWIyMWVlOSZ+IrEAAAAASUVORK5CYII=",
       asSource: false,
       asTarget: true,
@@ -1962,14 +1889,6 @@
         }
       }
     },
-    EMP: {
-      url: "https://www.empornium.is",
-      host: "empornium.(is|me|sx)",
-      siteType: "gazelle",
-      asSource: true,
-      asTarget: false,
-      uploadPath: "/upload.php"
-    },
     FL: {
       url: "https://filelist.io",
       host: "filelist.io",
@@ -2014,38 +1933,14 @@
       },
       sourceInfo: {
         editionTags: {
-          "10-bit": "10_bit",
-          "2D/3D版": "2d_3d_edition",
-          "4K修复版": "4k_restoration",
-          "4K重制版": "4k_remaster",
-          DIY: "diy",
-          "DTS:X": "dts_x",
-          "HDR10+": "hdr10plus",
-          HDR10: "hdr10",
-          Remux: "remux",
-          Rifftrax: "rifftrax",
-          "半高3D": "3d_half_ou",
-          "半宽3D": "3d_half_sbs",
-          "标准收藏": "the_criterion_collection",
-          "重制版": "remaster",
-          "导演剪辑版": "director_s_cut",
-          "电影大师": "masters_of_cinema",
-          "杜比全景声": "dolby_atmos",
-          "杜比视界": "dolby_vision",
-          "额外内容": "extras",
-          "二合一": "2_in_1",
-          "红蓝3D": "3d_anaglyph",
-          "华纳档案馆": "warner_archive_collection",
-          "加长版": "extended_edition",
-          "评论音轨": "with_commentary",
-          "全宽3D": "3d_full_sbs",
-          "双碟套装": "2_disc_set",
-          "双音轨": "dual_audio",
-          "未分级版": "unrated",
-          "未删减版": "uncut",
-          "英语配音": "english_dub",
-          "影院版": "theatrical_cut",
-          "中字": "chinese_subtitle"
+          "10_bit": "10_bit",
+          hdr10: "hdr10",
+          hdr10plus: "hdr10_plus",
+          dolby_vision: "dolby_vision",
+          dts_x: "dts_x",
+          dolby_atmos: "dolby_atmos",
+          chinese_dubbed: "chinese_audio",
+          special_effects_subtitles: "special_effects_subtitles"
         }
       },
       targetInfo: {
@@ -2066,7 +1961,7 @@
           extended_edition: "extended_edition",
           extras: "extras",
           masters_of_cinema: "masters_of_cinema",
-          scene: null,
+          scene: "sc",
           the_criterion_collection: "the_criterion_collection",
           theatrical_cut: "theatrical_cut",
           two_disc_set: "2_disc_set",
@@ -2662,263 +2557,6 @@
           encode: "3",
           web: "6",
           hdtv: "4"
-        }
-      }
-    },
-    HDChina: {
-      url: "https://hdchina.org",
-      host: "hdchina.org",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACPVBMVEUQYakSYqkRYqkPYKgTY6oRYamIsNRpm8kHW6YjbrCgwN0+f7ldlMS90+e+1Oe70uY9frkGWqUKXaceaq6oxd/G2epjl8YFWqWPtdYEWaQsc7Pf6vNSjcGDrdLl7vWRtteNs9ZHhbwudbSGr9OPtdeUuNgAVaIocbGHsNQLXaff6fMmb7BrncmQtte80+eevtwibK9FhLzj7PVSjMDA1ei3z+X3+vze6fPk7fX4+vxOir+0zeRRjMBtn8ro8PYLXqcMXqeLstUAU6Elb7AKXaZQi8BtnsqErtPW5PBbk8RaksOjwt1flcVTjcGTt9iOtNapxuCAq9EpcbLH2utKh75yoszg6vTd6PIDWKRNib7g6/Tm7vZ5ps8kbrAOYKgXZqscaa0sdLMNX6gYZqsrc7ItdLMdaq4LXaYOXqcMXaYIWqUNX6cOX6cKXKYLXKUqgMA1jsoNXqY0jMgqgL8VZ646k84dcbUofr4zi8gWaK4fc7Yid7lEoNdOq98rgcAUZq1auehFodYLW6Qcb7NnyfMsgsFCndRYt+YdcbQthMILW6URYqpWtOZBnNRZuOkbbrNWtedEn9ZlxvMrgcFBm9RWteYccLQ2j8sSZKtXtudDn9YQYqkbbrJYt+hmx/Rt0Po6lM5ZuOdBnNMgdLdNqd4ZbLFCndUIV6JAm9JYuOdAmtNCnNRDntYyicZFoNc+l9EXaa9gwe1DndVEn9cwiMUccLNoyvRSr+I0jMkWaa4KWqQXaq9Mqd1Zuen///9eDam/AAAAAWJLR0S+pNyDwwAAAAd0SU1FB+UECgYZKlRWekkAAAGBSURBVBjTY2BgZGJmYGFlYmFhYWUGsliAXAZGNnYOTi5uHl4+fgFBIWERUTFxoBSvhKSUtIysnLyEgqKSsoSKKjsTUFBBTV1aRoNPU5NPQ0ZLW01Hl5GBRU/fwNDIWMOEkdFEQ0ZaSpOJkYGBxdTM3MLSCiHIDLKO39rG1s4GLmjvIASyyNHJ2RxoposL0ExzZzVXNyaY7e4enl7ePr52tr5+/kCLAgLFg4JDQu3Cwq0iIqWjomMcGBgYYoXjWNTjExKlpOKTklOkUtPimBmYHdIzmO0zM+2FsrJzMjWzcpOACpnz8gsKGYqKC0tKy8orKkurMoCCDNU1tXX1DY1NzS2tbe0dLZ1dQLHunt7yvv4JE5v6J02eMnXapOkzgI7vnjlr9pwZc2GC8+YvyAGqXLho8ZKlM5ctX9pSvGLltEmrVq9hYmBYO3Hd+g3tGzdN7F2zecvWbduX7QDZvmNNBsOquXNrdy7bsWv3nr1r84BBz8wAVM7U3d0NpIFWdAMJAMLpbshyyXdQAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA0LTEwVDA2OjI1OjQyKzAwOjAweA92GAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNC0xMFQwNjoyNTo0MiswMDowMAlSzqQAAAAASUVORK5CYII=",
-      asSource: true,
-      asTarget: true,
-      seedDomSelector: ".table_details>tbody>tr:nth-child(1)",
-      uploadPath: "/upload.php",
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: ".torrent_list>tbody>tr",
-          url: '.tbname td a[href*="details.php?id="]',
-          name: '.tbname td a[href*="details.php?id="]',
-          size: ".t_size"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      poster: "#cover",
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="douban_id"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: [
-            "20",
-            "17",
-            "16",
-            "9",
-            "410",
-            "27"
-          ],
-          tv: [
-            "13",
-            "25",
-            "26",
-            "24",
-            "27"
-          ],
-          tvPack: [
-            "20",
-            "21",
-            "22",
-            "23",
-            "27"
-          ],
-          documentary: [
-            "20",
-            "5",
-            "27"
-          ],
-          concert: "402",
-          sport: "15",
-          cartoon: "14",
-          variety: "401",
-          music: "408",
-          ebook: "404",
-          other: "409"
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "10",
-          x264: "6",
-          x265: "10",
-          h265: "10",
-          mpeg2: "4",
-          mpeg4: [
-            "1",
-            "27"
-          ],
-          vc1: "2",
-          xvid: "3",
-          dvd: "4"
-        }
-      },
-      audioCodec: {
-        selector: 'select[name="audiocodec_sel"]',
-        map: {
-          aac: "6",
-          ac3: "8",
-          dd: "8",
-          "dd+": "8",
-          dts: "3",
-          truehd: "13",
-          lpcm: "11",
-          dtshdma: "12",
-          atmos: "15",
-          dtsx: "14",
-          flac: "1"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel"]',
-        map: {
-          uhdbluray: [
-            "11",
-            "20",
-            "410"
-          ],
-          bluray: [
-            "11",
-            "20"
-          ],
-          remux: "6",
-          encode: "5",
-          web: "21",
-          hdtv: "13",
-          dvd: "14",
-          dvdrip: "4",
-          other: "15"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel"]',
-        map: {
-          "2160p": [
-            "17",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23",
-            "410"
-          ],
-          "1080p": [
-            "11",
-            "17",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "1080i": [
-            "12",
-            "16",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "720p": [
-            "13",
-            "9",
-            "13",
-            "25",
-            "26",
-            "24",
-            "21",
-            "22",
-            "23"
-          ],
-          "576p": "15",
-          "480p": "15"
-        }
-      },
-      area: {
-        map: {
-          CN: [
-            "25",
-            "22"
-          ],
-          US: [
-            "13",
-            "21"
-          ],
-          EU: [
-            "13",
-            "21"
-          ],
-          HK: [
-            "25",
-            "22"
-          ],
-          TW: [
-            "25",
-            "22"
-          ],
-          JP: [
-            "24",
-            "23"
-          ],
-          KR: [
-            "26",
-            "23"
-          ]
-        }
-      },
-      team: {
-        selector: 'select[name="team_sel"]',
-        map: {
-          hdchina: "15",
-          hdctv: "16",
-          ihd: "12",
-          hdwing: "10",
-          hdwtv: "11",
-          kishd: "17",
-          openmv: "7",
-          hdc: "22",
-          diy: "23",
-          khq: "6",
-          exren: "30",
-          joma: "26",
-          anonymous: "25",
-          crss: "24",
-          ebp: "18",
-          don: "19",
-          esir: "20",
-          trollhd: "29",
-          wiki: "9",
-          beast: "4",
-          cmct: "2",
-          ngb: "8",
-          lu9998: "21",
-          taichi: "28",
-          u2: "27",
-          enichi: "31",
-          arey: "32",
-          other: "5"
         }
       }
     },
@@ -4477,7 +4115,7 @@
     HUNO: {
       url: "https://hawke.uno",
       host: "hawke.uno",
-      siteType: "UNIT3D",
+      siteType: "UNIT3D-Legacy",
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAADOklEQVR4nL1U32/TVhT+kpUXeIAW/gd4Ytr+gT1XCBC/JJAm8RYJTaNqrmP73sRxC+w/mJCmTUKa4AUhBLET0rERDbQ9dR1FRRRBW8UJELa2lC52nNj1QddpsoYB2st2pE86Oj76fI6+7x7gf4gEiLp4TxBRQiLufW/IhkplCNhKJGsU1whIVExzaCtJr0b0NrFJyf5EREkU1vfgOu2O6z3izR+Zppms6/ruZ+n0HjLNZH/izbxLJsNeG4bdzMNy52B7q7C8FVjebNJqckzRDmKf71higteZmK0pYqXGxKrD+JzDeL6q68MxcZ+0sL4PRf8J7hLh9sYGii2K8UMYJX4lwrXl2XtfarOReYFe6vmormSprgj6U89vuMYFmT9ZSvN9XbIr1WFMBY9QIULB9VH0QvxEFMP2gmSp1QH7nvafVOkpE53nighW+AStigmqKSJ0GPdfZyepoRmPHpw5Mwzcak/EkxWabdzqEMptH5Zr4cZ6CRXq4Otp+mj0ixCH1TCfEuRzo7OQ1ktVxq2GlvNfqDmqMt6Wk77IGBNAuTOPckCw3Qh2K0DBH+2L9TMdw9lvKXlwLMIRLfrklE6vFHGs97nGxGhdEYGjiKihGtRQs/OA7UWw3BB3iGB5dtz5zfQ2mNJCAI5kKjiRJZwQlJC51PEzc2g6ldomc0fh9pqYJIfxsKaIaJCw4BZjEum9HuHRdxNS15NwGC++GiDsrWy5EYqtEHbzQH/lu3QcY9/1V/5Urqzmjv+9snagLoWRK2tyZWMeKHpGLIolRWkTyp02brol3PyrjDsU4OJvXVEOqeFkilNLzwULjJerab3UUHPtWJS03naN8/RczRnApaVdmAoe9m0jhZGW+XGLbZTL9PFJlRaZ6DzbYptYEMb99ew5eqkZD38/PbarO/uN13theY8Hje13jf1LbOyZe2f1mcj8iv7QzaieyZLE8qaxa4p4vDiW2Tv49G6v7oTdzMH27sP2lmNY3kzSbmoo0HZKpbYvMqHVGJ9xmFiOofD7TiabW9C0nb13/q7jkECZRnB1bWSgtpnLCzM3Pj7ijI+PyBz/OA4fOl9xbfB89Ug+fL7ejn9/YP/7eAMLS3CiKim0CAAAAABJRU5ErkJggg==",
       asSource: true,
       asTarget: true,
@@ -5042,7 +4680,7 @@
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABXFBMVEUAAAAAAAEAAQABAAABAQAAAAAAAAEBAAEAAAAAAQAAAQABAAAAAAEAAAAAAQAAAAABAAAAAAAAAAABAQALCgoKCgoBAADQ0dC2treTkpMoKSmBgICAgIABAACTk5MAAACTkpIBAQEAAAEBAQEAAAEAAQABAAAAAQABAAABAAEAAQABAAAAAAEBAAEBAAEBAAAAAAABAQEAAQAAAAEBAQAEBAQhICAREREAAQH8/PwoKCk+Pz/q6ur//v/9/P13d3d2dnbz8vLz8/Pz8/I3NzexsbH+//5gYWBVVVVISEgyMjJoaGny8/Pg4OBoaWn///5/fn7////p6eiQkZEUFBTp6enJyMg3NjdQUVCys7L8/fzGx8bJyciEhYRgYGE0NDVra2ppaGlHR0bo6Ojs7e37+vr9/Pz9/f2NjY14eXn8/P309PRnZmfV1dXIycgNDQ0gICEHBwcDAgMCAgOj429fAAAALnRSTlMAAAAAADCX2fn52ZcJmv7+CQnCmjD+MJiX2dn5+fnZ2ZeXMP6aCcKa/pqX2fmXK9ig8QAAAAFiS0dEUZRpfCoAAAAHdElNRQfnChsDMwGLF6JaAAAA90lEQVQY0xWOZ1PDMBiD3yQEWiBNE/YsZc9Y2AbMCIXSsqEUCLPsvdf/v8PRJ+k53UlEZJBdXZNI1tbZJsUy6p1UwIBJuE46Bp7POVjAIQDf06AhCCAk4syZY1Bjk7ZianoGUgmZaqaW2Tnw+YVwMbe0nF/Jt1JbWBCiuLq2vrG5tb2z204dpYJke+X9g0MgOmJJ6iwdM6ZOTs/OJaIK66Lu8sXl1fXN7d09gqjCM9Tz8Pj0/PIavr1DfXwiS72unhdf3z+A/P3rs/UxgIGr+Bh4v0XWgK+gNIrxYLqKTMsbciG4ZGp4xCPdIDLt0bHEeGbCtkwy/wE9US4qeYwieAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMy0xMC0yN1QwMzo1MTowMSswMDowMPxuOEAAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjMtMTAtMjdUMDM6NTE6MDErMDA6MDCNM4D8AAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIzLTEwLTI3VDAzOjUxOjAxKzAwOjAw2iahIwAAAABJRU5ErkJggg==",
       asSource: true,
       asTarget: true,
-      uploadPath: "/upload/1",
+      uploadPath: "/torrents/create?category_id=1",
       needDoubanInfo: true,
       seedDomSelector: "#meta-info+.meta-general>.panel:first",
       torrentDownloadLinkSelector: 'a[href*="/download/torrent/"]',
@@ -5271,7 +4909,7 @@
     MDU: {
       url: "https://monikadesign.uk",
       host: "monikadesign.uk",
-      siteType: "UNIT3D",
+      siteType: "UNIT3D-Legacy",
       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5woaCDIPwV02mAAABU1JREFUOMtt1GtoW2Ucx/Hf8zznnDQnJycnl6ZJ27Tp1q1pu/uYl21O1M0Lc47hi050IoqCgoL6SnzhCxVviIKIU/ECU7Ra3ECHoqKi3VS2eSmua7t2abusNmuTNE3OOTnXxxcDL+D//f/z7vcl+J/bvWY9jlbm8Ug8g13ZLG685iqgL4vCsR/x7WwBXxXmkAhIaLRm8dqbB//zSwDgtrZeMB/ILFgwKEchLuCVUAJPKm77xkRyRzqh9YtBSbAFMlNsmMP3Hvrgj4MP3ee/Mfgl1uaySF25Dc89+zQAQAAAn1EQisBykO52uG+a4L+8zeu7r7dDj67q6cwlVqUpaxLhAzBcd/7Yxic+/mFs+uBocfqMnIrwhYlxDAwMYHBw8BIoMAZfZEJy0bufWe6OFseb6K7XV2QEW44kwwg2h+G7PgihaGIspRI8yJiw58GBfS9+NzZ1GJHoHIxlDgAUAN7Lj2D7RE1vBNkXGiNSp+2uUWuWbEVksGQUluXBc314TABTFdBwCL19K7I37Np6i+pytv3UT5wIIv4G7+i7HE/dvonKlrMmRhwk13UCqgz55q0Q00k0dAs2J3AEBiEWgUcZXN1ELhm/7s5d2wce+30E+eJ5HBn8DGT//v2wz0zBpjS5pWi8lYuHb+7ZuQXW5Aw6912NBhPAKAcHAaEEWjiEqm7COjcHNZPAdNWYOTaav0mVg2eGRsfBvMoSPEIwa+nZ3rbmWN/Kzh3N3WkSbE9ATUZRMm3Mc4apqg4lFYfS0QYe07BYWoYEHz6BVl42inuVyPfPnxwBZYqCkueIFnjQqZsRSgkRZAmhSAgsGMSi52GyLmB4to5oTy/EeAwnJ+ZwqlRDvakJEmMWE+nG14ySuvuKfgg5TYPr+1rNdSXJ8sYoIXA9DjnIwClF7+Z1WB9pxmVLVSTiEQgCQUCLQmvncEQPYYEaohJwYg5tUZXgsrCmKw3CIbuenxMK5bzneKa+VAsGJBW8WIYbCiOuhtGXUgFG4IPg6v4O6C0qSqUyiFGzHfASoZSIjEIgAQlhSVosVqoe15SGaTb0Rr4YNBjFwnIRku0ikG5GLBwGIRSu60BUQhA5wMenUK5VqvPF0ilRDhbKDQs0JIpYXK7r0yF+aNE0y1PzFwvnzxd5ZeYiGlUdhV/PwLctcEpACCAKIogUQK1SxdLoFP4sloaf+fqnQzNzcwZx6mDRdAt+GBlH2KX8fZlUVp0rBnXu86WqrsW62uUQ8cC5i3BrCqIsg3CgOnsBY9//OHb29OTx4wuLL+3NZWeHT0/gwEOPXYoDAPTHk9hRqqGQSV/mO45z4913Pdy7ae2B+IVJJEMUHge8TMYru3z05AdHi4ZhDJ2+WP5tW67z5xs29+DxE3m8887bl7a8dfPlUAJNOGFUWVciYzYJgXUbdu7c0LV6Jc6OyFhu1NHWKGMuf4F/Pll89euhTz9TWuKVb2amjbUb1+PgyDh+PnECAMAAoHtFN/ZsuApxJbqvu63jw66O9gOLF+ZbVuRWo6NnNSqWi4sOh6doNJxIaXWb55vbO9UjHw15Nrx6TIlgfGryH7CjNYMtK/vBfd/q6GrPNKcTPcTn4vmz56AlEwgRAnOuCM/jsA23I6Wot7WmU7fGNQ110zwWVyPeyZHf/wW2ZbCpswcQSaWrL/u53bB/FQRBMHQ9XK2UA1JApNOHj/JyftZ2mLQQjWrDSij0giLL7wZFUd91xTa8e3jon2IDwCcvvw4mCX+nnHMulctLKyOxSK/453zrwvg48TgW/CZ1LH3ttglX141Gw4TZsNAcj2PvA/cAAP4C8IBVZiJ4EWwAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMTAtMjZUMDg6NTA6MTQrMDA6MDDEn1J1AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTEwLTI2VDA4OjUwOjE1KzAwOjAwE7XhfQAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0xMC0yNlQwODo1MDoxNSswMDowMESgwKIAAAAASUVORK5CYII=",
       asSource: true,
       asTarget: true,
@@ -5416,7 +5054,8 @@
           "https://www.imdb.com/title/tt"
         ],
         params: {
-          keyword: "{imdb}"
+          keyword: "{imdb}",
+          sort: "size%3Adescend"
         }
       },
       name: {
@@ -5634,131 +5273,6 @@
           pack: "8",
           geek: "24",
           qhstudio: "34"
-        }
-      }
-    },
-    NPUBits: {
-      url: "https://npupt.com",
-      host: "npupt.com",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAJA0lEQVRYw22XWZBcZ3XHf+d83+3b06NZpFkkS0KrQcKbhG15I7bAEWUCJilcJhWokIQXXlxFpfKSxxR5dfFoCheQvMcpVwpTAttyEmGrvEiIaEMCixFgLFn7zGiW7r7fdw4P97ZGNvkeum/fvt3nnP9Z/v8jT5/8uktO5OR4FjQ7lToRAw/gGVPB3QkIAO7O4JhQ33cnN9fuTlYIBhaE0DyfVCiswIseUUo8OFEr59vD38K0APXagVgRLGAkMrk2qIKZIVIbMhzMUYyMA4aIkCyjqrgb0jirbvTFURKVOCJClbo8391PNMuolBStFq2yQFVBelSiRMu1ISBJbUYw3DMuNA4JmOMC5ISrsGR9FhbmKYZKiuAUOkwbxbVP3xJVt49bgVeZ6AmMxKpyFcVQoCgjWAEScKvI2kBNBnXMEorgA2QkYGZYEJInrs/P8ubxo8wtzDGyZpyJdoedO3Yw0hnCKSi7fZbc6OeKlJXonglSR1602rSLEiPX8Ekku+PiKEK2CosliCEOySpmLvyeC5evsHXjBjZMrWPm2gwpZ35/+RJXfnuWR3bdx5ZUMVmWeC4JpdJNfaItI1TErIpLDa0iuEABJAwAEcHcmuICVIkAAidmZnj5yEFOzvyGu27fwcO7dlPlxNDoKrZt3c7siROM0maqXM24raKXMte6XUgCXqBZ0ZD7BAAJqCuFew0poAgCqEhdC0GZX1rg4vWr9HJicfEGrViybs0ki71lfnTgVQ787H+ZWjPJzk3b+epffJlqaJjDJ06x5ImzH5znX5//HocO/4IytHCB6BSYKwFBMMwjaItAhbrWhgVcoN/v89qhn/HKm6/zxN69PLl3H9PT61gzPMJbp4/DUKSav8H6sQnev3CZzZu3cujoYarrV3ngvvuZX+oyPj7KxzZswawFkokm1sAMeKhbiAwEsmSiU39yZbGfOH/1Kq12yelTZxgvx3ho90O8d/53dHSEsZFxhsc30OsuMtyCtasn2HvnA4hmLl++zi/PnGbT5EZmry8w3ZkEF6KuzJS6pQC8KX1xshjRHffE2HCHp554kk6nQ6GBN955i1cO/Q9T66cYGxpm5rfnOHP+LMsLi3zhM5/lyrXLzC3NImVBSD0o2rz5xkHu3bmTLZMTAMSB0ZvGUeqYa0dEBMdRFdrmTA6Pcua9c0yvnuC2iSmSG+TMtaUbfPfH/8GRk0dREV4+9jaf2nQ7n3/gcTZNjrN2aIyJu3fjeYl1t03S9YxJbQ3lw04oob4rAWne3RXVwLlzMzz778/x4oH9jAx1aIeSdjnGxYVZjp09hZYFRSG8e+5dXnrrdVaNTTM1OkV3foHFhTlu2zjNoSNH+NHLryIS6o5q0GbgjOOIKOqGiYI7iJGA9dPreGrfF9mxeRsbp9dRZWe+l2i/16I0Z6Fl9BAwYe2qcTLLnL8xy/tXLvLWkcN87sHH2HvnY6T+Ai/YfvTW/NdOCNpcryBigIE7a8fX8jef+Uv2bL2HuUtzHD95Auv22bJlE6HdhrkeYS4xFEa4745dlCkxhNMKLdKys74zxeN3Pczu7fcgIsQVZhtALuAgNZMQRECUejIEzAV3oQKmblvP9Mb1dEKb3vuLrO9M8IVdj/Fnu+9laPUoC8tLLGognb+EurFv3+O8e+kcI51h3OuAbqbgo0ccEGlKUolekEVRF1BBzWm1hnGMK705Zq9e5KVnf8iWtbeTWeD0707zzplfMd2Z5MEH7uDA2wf5zr89x8e3bWXt6CjrJ6YwlboLXGq6gYZCbzpRRwuOqBFQnEB0BVGUwPWlef7v+Anu/MQONqzZTHbh3B9mWO73iEH4wQvfZ8Paf+Lh3Xv4+uwsnXabLRs3UC32EPM6BbcKjI8eV29qo4VYjYi4IhK5eOMaP//5O9x19x2sWzNBP/XQEBgdGWdscorKCvbcOU9Hx5gqJvm7J/6a68tz9BYX6HoPpEmBSK1iBo6szATAjSCBnBM5BDQLURIXZi9w+PhR9uy6l8nVq8i5j2kk0Wd8fA1C5MEdG3l4x6eJpmCZID26WrLsN0ADinx4EH3IcHOCKO6OBCFWBkWbX39wjlMnj/HInodYMzqK54S5YmqYJNQKSmk3nRTIgIaI5EzpJS0rKKj/909ScCsK7o6LYmJEC3hUjp09yZnfnOHzj+5jvDNKsh5ZAwElupMIBG3X7CWC0cdVyERiKAkpU2qJe8A01ggMIv9oCtwdNwgesKAcPPY2V65c4q8ef4JWLDFLBGlhUiE4uOAWcRWEULe1KSqOI5jUYrVuMF8pwoGx/8+ZIErlmZde209ZFnz5z5+sR1M2YiwQd9QF9wqkapg1IRqBBBqh0RWOIZYRddwzKvbhOTBIx0BsqioX5q/y4wM/YcfW7Tz2qYdwzxgVGgvcDRNDsqGaMBEEQclkMkJEMARtftfDvUfOGQ8tEhBNBqLT8dAUpIJKh+O//gWvH3mbz376UXZu3g6WEAfVWoybZELTqk5AHII45oZ7FySAg2kgkUjep+9dVJ3g9Q4RA/UyogiaDIkl2Xu8eOA/uT43z99+6WlGRkZwdxKCBgVzQsOZJo6INQXbFLTWFY6nemswRbwiBEE0U1mm5WGlCzKOesRDh9N/eJef/vd+dm67nac+91UEwTEUHRAEaC3TaxduETMOUPd3vSxZo65q1MgQPRCi05deTceuELTNpeoGL7/4X5z/4Dxf+9JXuGfbTkgJk8GmMxApDVGIkj3dpPGGR4HY5NyaxyLiTkUkqoEUBOsQU1UrIlR58eBPeO3oGzx697388z88Q6ccZXl5kUpyvdGIrGxBKjeN1p0T6gqSRk251fK9WdeSOAVKSokUMrkfcBdCERE1YhDh4JE3eObpv+f+T+4iV4m56moTtdMXB5Obg6mGE8xuHdmGi+ImjUNS0y0goiyTwHqYGOQ2vaoLJlhUohSRf/nHZyhlmIvzVxAZQJ0ambBi3LU2aGbEZkQPjkmtIcNNjXPL91KRcAoPuMyRCWSrKEJEvnHqmy7uWAbPYFJBLppJJZjYimwazIvGIa3pkkErizji3lC7Nq81QlmUiOAiSDTQiIjzR+cqxZ4jQT8JAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA3LTA5VDA2OjQxOjU2KzAwOjAwWD97mAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNy0wOVQwNjo0MTo1NiswMDowMCliwyQAAAAASUVORK5CYII=",
-      asSource: false,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
-      search: {
-        path: "/torrents.php",
-        params: {
-          incldead: "0",
-          search: "{name}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: "#torrents_table>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(3)>center:first"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: "#small_descr"
-      },
-      description: {
-        selector: "#descr"
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]',
-        value: "yes"
-      },
-      torrent: {
-        selector: 'input[name="file"]'
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: "402",
-          tvPack: "402",
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          variety: "403",
-          music: "414",
-          app: "408",
-          ebook: "411",
-          magazine: "411",
-          audioBook: "411"
-        }
-      },
-      area: {
-        selector: "#source_sel",
-        map: {
-          CN: "6",
-          US: "5",
-          EU: "5",
-          HK: "6",
-          TW: "6",
-          JP: "5",
-          KR: "5",
-          OT: "7"
-        }
-      },
-      videoCodec: {
-        selector: 4,
-        map: {
-          h264: "H264",
-          hevc: "x265",
-          x264: "x264",
-          x265: "x265",
-          h265: "x265",
-          mpeg2: "MPEG2",
-          mpeg4: "H264",
-          xvid: "Xvid",
-          dvd: "MPEG2"
-        }
-      },
-      videoType: {
-        selector: 2,
-        map: {
-          uhdbluray: "BluRay",
-          bluray: "BluRay",
-          remux: "Remux",
-          encode: "BluRay",
-          web: "WEB-DL",
-          hdtv: "HDTV",
-          dvd: "DVD",
-          dvdrip: "DVDRip",
-          other: ""
-        }
-      },
-      resolution: {
-        selector: 3,
-        map: {
-          "2160p": "2160p",
-          "1080p": "1080p",
-          "1080i": "1080i",
-          "720p": "720p",
-          "576p": "576p",
-          "480p": "480p"
-        }
-      },
-      team: {
-        selector: 5,
-        map: {
-          wiki: "WiKi",
-          cmct: "CMCT",
-          mteam: "MTeam",
-          epic: "EPiC",
-          hdchina: "HDChina",
-          hds: "HDS",
-          beast: "beAst",
-          ctrlhd: "CtrlHD",
-          chd: "CHD"
         }
       }
     },
@@ -6168,6 +5682,10 @@
       },
       sourceInfo: {
         editionTags: {
+          HDR10: "hdr10",
+          "HDR10+": "hdr10_plus",
+          "Dolby Atmos": "dolby_atmos",
+          "Dolby Vision": "dolby_vision",
           "10-bit": "10_bit",
           "2-Disc Set": "2_disc_set",
           "2D/3D Edition": "2d_3d_edition",
@@ -6180,15 +5698,11 @@
           "4K Remaster": "4k_remaster",
           "4K Restoration": "4k_restoration",
           "Director's Cut": "director_s_cut",
-          "Dolby Atmos": "dolby_atmos",
-          "Dolby Vision": "dolby_vision",
           "Dual Audio": "dual_audio",
           "English Dub": "english_dub",
           "Extended Cut": "extended_edition",
           "Extended Edition": "extended_edition",
           Extras: "extras",
-          HDR10: "hdr10",
-          "HDR10+": "hdr10_plus",
           "Masters of Cinema": "masters_of_cinema",
           Scene: "scene",
           "The Criterion Collection": "the_criterion_collection",
@@ -6201,6 +5715,41 @@
           Unrated: "unrated",
           "Warner Archive Collection": "warner_archive_collection",
           "With Commentary": "with_commentary"
+        }
+      },
+      targetInfo: {
+        editionTags: {
+          "2_disc_set": "2-Disc Set",
+          "2_in_1": "2in1",
+          "2d_3d_edition": "2D/3D Edition",
+          "3d_anaglyph": "3D Anaglyph",
+          "3d_full_sbs": "3D Full SBS",
+          "3d_half_ou": "3D Half OU",
+          "3d_half_sbs": "3D Half SBS",
+          "4k_remaster": "4K Remaster",
+          "4k_restoration": "4K Restoration",
+          director_s_cut: "Director's Cut",
+          dual_audio: "Dual Audio",
+          english_dub: "English Dub",
+          extended_edition: "Extended Edition",
+          extras: "Extras",
+          masters_of_cinema: "Masters of Cinema",
+          scene: "sc",
+          the_criterion_collection: "The Criterion Collection",
+          theatrical_cut: "Theatrical Cut",
+          two_disc_set: "2-Disc Set",
+          remux: "Remux",
+          rifftrax: "Rifftrax",
+          uncut: "Uncut",
+          unrated: "Unrated",
+          warner_archive_collection: "Warner Archive Collection",
+          with_commentary: "With Commentary",
+          "10_bit": "10-bit",
+          dts_x: "DTS:X",
+          dolby_atmos: "Dolby Atmos",
+          dolby_vision: "Dolby Vision",
+          hdr10: "HDR10",
+          hdr10plus: "HDR10+"
         }
       },
       description: {
@@ -7004,140 +6553,6 @@
       },
       torrent: {
         selector: "#file"
-      }
-    },
-    RedLeaves: {
-      url: "https://leaves.red",
-      host: "leaves.red",
-      siteType: "NexusPHP",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAMwElEQVR42u2beZBc1XXGf9+9r2eRhAxCZhVYVoQRmM2AiYURiM3lUDFYuAqXHRw7KQcSU068lKGyENsxqYIABlIhVZg4ONhVCXgJwSwJUMaKBIGQFCbELAYSwmaMAphF0sz0e+fLH69npkfM9DIzilJFztSdmX59+yzfO+/ec885Ldu8mSntaAV2NOmuo3febswtvTWkJaBH6ysBFkYoGVkERgJZgLrybI4l9l2xmddfybz0UoOBQTCmjJqfnFi6dCsvbx5gdKxgwGNYmQDU5u3HbngJgAQF22uY9CHMI4JLwTv9r9zSPqmQh7cbc2vrkSgwfA44G/EZzF/saKOnABBpbHvxTijWtLn1QqyrgTORzwBe2NHGtwAY2V68343zO95wVRwneAr4OHDdjgYgQWa7DOfjO8gdxPyN4aodDUCxfdgK8PHd5/ksYBlwGlACpJQ67gWREpIw8xO/FNZ8YyDkam+I1b1sa4JTMA8jfknW46PNUSICzfDZ0VFRViVJg/MDQK7mexE0obTGpJ3U+11aifln5CO2jm79z7Fmk6TpY7StW81YM5FS37vXeKARUwAYaG6eV/MVwVhjeHWzGJoSeHSHzbtI+gGkI4eHFr04NDhAxBRdiRCLFpolSzbzs2eCPgLZBTJ/CnoEcckUADYXi+cVAICcfGhy9P05O5YvGBq6RWqsKVIas6YCGBK5MAMDIqIzuBPvWp8Cf1loKeL6beeloPaJ+RqGtwD7zwY4Gxq5OCqn+AY0kco3DkocBs2wvhiKAZMVH1HlJ1G6ErS0JeBIgqL9ISiGVG0D2RxJOrCS9pgtv3Ag+Aj4duNr2t9rNsXCnUqGF1RU5RsBEKDsw158cfCbVclBRR2Fts9YIbESeGQCAFMvVU7dV+we6Z1zBdOAzWUi3Ql6cnzLi0gUuSLl2lumGF7/cyH4vNGRREqe1klce2cbABpfqzWzW/WlvfeZH3fSW4wuC2LdOABjFQwOlzQKTwJgg1ie0E3AOwFy7ij/7e0vklvoJRs5UHhOA3vZPFg/bt0Hjd8zoWyC4YUxecMAwzoHj44b3wMdOAWAbe95yISM0+wGYq8Owitgaz8QZNKnM5lqrMGuO5tly0aoqtaNN2fZfM8w0AfL5VMAaH8hYHxNkA1W/wOWdBD+suVrgGbv+uqEBIszkGR+/tIAoyOZXPicQLM5S+wzIwCTT46w60xLnz8ZWNhB+FKZlTYP9a6v96iI0/JgyeYt4oH7lvDwvy8+vSr5s6LRf6whKARD0wIw3eyWW5CIXkYF3tJFhT2V+Ic+19uJvELKzf1HtuibY2UizS6jmekZgPb7gFoHlK7jtS6sDnZopAp9p4ezUus+6FAMkkhFXFs0YkHS1K2wDxoSnrC7DwxFkHoAoLtZIlZkx1/3vlumXVEFVKdAOmpWZrfIuDCeOAH250Su999OA3i6KwDiVCU/gLitN8GRhDPoV+ZifEv6yyZNLMKze4o0+ecNw/yoK45ocZAOw76wF3FGzwaDR0M6fe5Blp4XaXRuADC566m1cbaNH/fI4HcitB6iy3wjlIHTwEM98e7Izq+3Z5PmXBmyhN0akQinh4EtXT+H10hpMSp+t/NMIVfPKsqVPSwvo11lS/9R5cmXcy+NyYRElaBqmKoRT1ve0M1TJaPEOU6N7yP+qzPIaRnSih60uQnYMDMjQL5fmowf5qE22IofZZRMQoh0VS97gVz+WpQjlGX64w7TDT4SOLgjN3sT9mPA0TNPEk5bHsCvzCcAbfwrQYjI8beWu0Z7Jv1CQkc7czXwbAeEO2ZuZdMsGldHynuqcwnuuaoa/ElUk8FqPynhZcCxwCpgL+EVoCHMk8DzwA1Y/ygby7UXwBWdGI4NJHZ/Yey8IqrTnt5r8PKhES6eJfR/lyNuBN/ljq7nu7OLKYGaNhyzpIVijXU5HnI65KR3C04hOAHxi3Q7dVn/asWVhmuSBOY24OSZpkcSgyPVqzm8x+jgwFZFPFFlr+g9ShaGZxNepYirIqWPdp7NJ4T/CuC9k9XhNv1rlgcI/z7wuMy9mC8i1nQ1vkbxCKG/TOhl7JNtzqT2jmkpV2ZkOC9+dVHxhVyBsy5Cve7zIrl8ORMrbR3azXhgs/Ad215M1MfDowyfBe4TPCS4oMdVdyba2eg2waV1Onp6smoQBpte1xwsGR3U1yA91AsGhtdFHC48gnqqON9ueNZMDaWSxS4W77f4quHIORg9hVqngjMtPoq4p6Mx4rBUsW6gWSH5S+72DIhXTRzT1MCTZcqfAq/qpkvluHIkgtGqHm0A6N8s/ZHlL8yX8dvQQcDbgFc7TQrpYwQ4/G3jDR2mjglOQjwgvJvCX+ymgNF3C/IdA8oUOVHkySc/jU+JlC5BOm+7QGD2BDpWYGROBQ6SjMRFMzwFI5KPNdxXH851A7BbN/FlVJeXBFkiZ5HypItNQCHA8p/ArD3hJWBkDoeVDDrTTgw2dHORfdk25/3XEWuBe43AXAde3RV7c5XQRlH3I3k857ctADUIIoJLHJw/CwO2SnwN8sXATyc16IeFP0ywCJskPmd8V8uIe7APGDde5hLBGd24CW6x/JtJWpCkDwEXRfiwKqYLhdsWHpsLHL6014xNi/a2OQO4R5H2gupdqPpzJd0H/Hc7GJYx0x5tlivxsZFSVBVk+LyssxJpteEZK2F0LvjzPYD5mOFLCX1F8ivg7wjONVpetUnW+rW71t1rlZHBraSHgJT1dcSv9wVDbej1TvFbKXgpURDZEhxgdBj4HSrZJ8QexvtI7AbsTt0gUWDuNxyRxkvLTq3KVSDSxzHf6MGtDKwH9gb2a7veDDjA5om1G19sAXBsC4Ay3uAJGFLWjYgP9A1CzWo9FV+NQjcmTDJUGYqRjLMZVYnQWxMsNTGaU15YoSUu8o+o4pUcFciYBNb7hW/tUfQYdZi/7VnnjrBPBjhuYx0JFm5OY3ibBRE+NSVtRLy3f0fgODLHyf458O2IuBZr42jRpJEKBlKmDDaBNimMwygLquD1ETPYMENFhSudLvTdPkRPH7WKW7Kmtm10Pw3Wub73UbvUbGlnw284pQ2SnhT6luWzZU4U7JekRSjlMCQHqYqMaYxVIixkCkc8L4nUlk+Pyf+bwJPAo9S70XT0GsR1nijktzD54epdugIgiVRnUc4z9JTH64NK4EXgOcOo4G2GZ6j4hMxDkesFKZGoolxsc0ijaCx1VLvlZnNBc6AYTqQlwGLkFViHs211yoIUX69y+cnxS2vvrOOyfjukLkLcZLhC5sR5AqCgXgR3r++nSPCHhfyQBHUXo1alnHcpo7m5iljQoLE70v6ktI/QSsS+mCXMFEPXu8635DSt8L7I0o/l6iRZ77HSV8AnTTPtZ9S5ubf3wK+lo7F8q+BsRXq6mQ0BSUJol6jKuxupoJGFW+03ZaPRqmF2k6K7hX+omAcA2ugeOU4WXhmpWBuwMhMJ8wLoEOP3dTUekZtG8veamfMSehzqCnWLPgl6F3CO8RlY10+pYPZcGvLvTdT45hEAQFTS40OjI4+XuaAsir1E/AH4VOpeoQlTx+e3aJPN7alI10Xxyq1pNDcdiyBXDaxDwB+U+VWLfcHYbho+Q06nKOKWPpW8HFhfq/DGR6ToKQGhet0cb0lw67eTCWWwDxZxIfiUadDHyjfavlOOUEpPGT0SxHOFYtHYQF5dRrGmKFmNORy8ZztkLTpSEmXSrSn0gQJ/v5d7b/RPgs92ekYK9ZQW9eTv8R1EILO8cFw7Mji0Bjq4pL1EcJLEMPYW4WUZDihLDxbNhfUilUpmzPtL+wnvlMp4zdZNlk+kbrRe2kHpp4B17d0k0wIwPNI90zUTfiKNjg02V1YpWt/4mH6WiGMmUJvyDlhtiM5MTaRGwtRJT/0AxzJJFwOfnqKfDNbNIn0YvLmbpxRV7u/E0y6n2fBPy0LHp0r3ADt3mD0rGW30muDV9keQugr025G4QsGZmAMhPRV563WQ/qXRHKZKVVfGxdYF/XdZjFOd09OjyemoUGykh+TE7AR5q1vd5KLVJNlK7jn5CcyXiVQXZiJh9d6lnFQ3G81pAI8BB4JvqIGZt57D2n70kzCEoWqdWKnRmG5yq1epNwjmsTLkFxHrBGtzFffMnd+EjVskXdRehHfXrGnvNK+lsVa2Zv3Q6MjqZP8ycOccWT5n6wjb98+nntsNgG3guBl8gtAqiQsEDwIT3+3r+EmxSXCuSCsQj2zP77Zux6/MjFvDo4jzgfOTdXCZy6MtDstlXmV5L6Fh6gVuE3Cv7PVO/L3R5p6LRP/3AJgBFuvBKpcPRg6KsYXDkctlCXaKurPseUG3DrPtoNP/f3n6zU1vegD+B8tDKtug1mgKAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTEwLTI3VDAzOjQ5OjIwKzAwOjAwymWrvQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0xMC0yN1QwMzo0OToyMCswMDowMLs4EwEAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjMtMTAtMjdUMDM6NDk6MjArMDA6MDDsLTLeAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: true,
-      uploadPath: "/upload.php",
-      seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)",
-      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
-      search: {
-        path: "/torrents.php",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
-        params: {
-          incldead: "0",
-          search_area: "{optionKey}",
-          search: "{imdb}",
-          sort: "5",
-          type: "desc"
-        },
-        result: {
-          list: "#torrenttable>tbody>tr",
-          url: '.torrentname td a[href*="details.php?id="]',
-          name: '.torrentname td a[href*="details.php?id="]',
-          size: "td:nth-child(5)"
-        }
-      },
-      name: {
-        selector: "#name"
-      },
-      subtitle: {
-        selector: 'input[name="small_descr"]'
-      },
-      description: {
-        selector: "#descr"
-      },
-      imdb: {
-        selector: 'input[name="url"][type="text"]'
-      },
-      douban: {
-        selector: 'input[name="pt_gen"]'
-      },
-      mediaInfo: {
-        selector: 'textarea[name="technical_info"]'
-      },
-      anonymous: {
-        selector: 'input[name="uplver"]'
-      },
-      torrent: {
-        selector: 'input[name="file"]'
-      },
-      tags: {
-        chinese_audio: "#leaves-tag5",
-        diy: "#leaves-tag4",
-        cantonese_audio: "#leaves-tag18",
-        chinese_subtitle: "#leaves-tag6",
-        HDR: "#leaves-tag7",
-        DolbyVision: "#leaves-tag17"
-      },
-      category: {
-        selector: "#browsecat",
-        map: {
-          movie: "401",
-          tv: [
-            "402",
-            "403"
-          ],
-          documentary: "404",
-          concert: "406",
-          sport: "407",
-          cartoon: "405",
-          music: [
-            "406",
-            "408",
-            "409"
-          ]
-        }
-      },
-      videoCodec: {
-        selector: 'select[name="codec_sel"]',
-        map: {
-          h264: "1",
-          hevc: "10",
-          x264: "1",
-          x265: "10",
-          h265: "10",
-          mpeg2: "5",
-          mpeg4: "4",
-          vc1: "2",
-          xvid: "3",
-          dvd: "5"
-        }
-      },
-      videoType: {
-        selector: 'select[name="medium_sel[5]"]',
-        map: {
-          uhdbluray: "1",
-          bluray: "1",
-          remux: "3",
-          encode: "7",
-          web: "8",
-          hdtv: "5",
-          dvd: "6",
-          dvdrip: "6",
-          other: "6"
-        }
-      },
-      area: {
-        selector: 'select[name="processing_sel[5]"]',
-        map: {
-          CN: "2",
-          US: "3",
-          EU: "3",
-          HK: "1",
-          TW: "1",
-          JP: "4",
-          KR: "5",
-          IND: "6",
-          OT: "6"
-        }
-      },
-      resolution: {
-        selector: 'select[name="standard_sel[5]"]',
-        map: {
-          "2160p": "5",
-          "1080p": "1",
-          "1080i": "2",
-          "720p": "3",
-          "576p": "4",
-          "480p": "4"
-        }
       }
     },
     SC: {
@@ -8027,24 +7442,6 @@
         }
       }
     },
-    TeamHD: {
-      url: "https://teamhd.org",
-      host: "teamhd.org",
-      siteType: "TeamHD",
-      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA/1BMVEUnb4xDgZs/fpkdaIc5epUtc48haokeaYcwdJFXj6ZTjKQvdJAha4keaIcwdZE1eJRAf5knbozu8/bV4+kdaIe1zdd4pLcydpLs8vUmboyFrb44Y3s4Y3qbU1CcU1Cxy9KAqrne6elPiaCudHH9/fj39O/59vHr3trBlJD17+qdVVK1f3zx6OTGnpqzfXn38+6dV1Tk7u3R4OP3+vb6+POrb2yVucRDgZrk7eycVFH59/KscG2vdHH49O+eV1Wrbmrr39rKpKD8/Pfv5ODz7Oj07ejIoZ0qcI0lbYsuc48ha4mdVlOkYl+iXluCq7w3eZUkbYuGrr+iwc3a5uv////JDiEOAAAAEnRSTlP8/Pz8/Pz8/Pz8/Pz8/Pz8/Pxv/XQeAAAAAWJLR0RU5AOIpQAAAAd0SU1FB+UGFAUQNy7SYEwAAACnSURBVBjTXc/VDsJAEAXQHYo7Q3G6uBUvUtyd4v//LyxsQlru25xkjBAAk2AGsFgBwGYH4kAMiiHEcAQxGosjEUSeRJLnBxL9RiJCKs3KTDaXLxRLZT1UqFyt1Q1AaaPZYtBWFKXDQe72GPRVVR1wGI7GxpbJdGaA+WKpG7pab7a7z9r9gcHxdNa0Cz/s/3S83thX9wfiU3whOgm43OxvjxfAJ/gBAm8tFB1sxKb5KwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0yMFQwNToxNjo1NSswMDowMJkzpLEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMjBUMDU6MTY6NTUrMDA6MDDobhwNAAAAAElFTkSuQmCC",
-      asSource: true,
-      asTarget: false,
-      seedDomSelector: "#details_hop",
-      torrentDownloadLinkSelector: 'a[href*="download.php?id="]',
-      needDoubanInfo: true,
-      search: {
-        path: "/browse",
-        params: {
-          incldead: "0",
-          search: "{name}"
-        }
-      }
-    },
     UHDBits: {
       url: "https://uhdbits.org",
       host: "uhdbits.org",
@@ -8137,11 +7534,13 @@
       needDoubanInfo: false,
       search: {
         path: "/torrent/search",
-        imdbOptionKey: "4",
-        nameOptionKey: "0",
+        imdbOptionKey: "imdbid",
+        nameOptionKey: "title",
         params: {
-          search_area: "{optionKey}",
-          search: "{imdb}"
+          type: "{optionKey}",
+          keyword: "{imdb}",
+          sorter: "seeding",
+          order: "desc"
         }
       },
       name: {
@@ -8177,7 +7576,7 @@
       tags: {
         chinese_audio: 'input.ant-checkbox-input[value="603"]',
         chinese_subtitle: 'input.ant-checkbox-input[value="604"]',
-        hdr: 'input.ant-checkbox-input[value="613"]',
+        hdr10: 'input.ant-checkbox-input[value="613"]',
         dolby_vision: 'input.ant-checkbox-input[value="611"]'
       },
       category: {
@@ -8477,10 +7876,9 @@
       asSource: false,
       asTarget: false,
       search: {
-        path: "/search/{name}",
+        path: "/search",
         params: {
-          t: -1,
-          ob: "size_desc"
+          query: "{name}"
         }
       }
     },
@@ -8524,50 +7922,6 @@
       }
     }
   };
-  const TORRENT_INFO = {
-    title: "",
-    subtitle: "",
-    description: "",
-    originalDescription: "",
-    year: "",
-    category: "",
-    videoType: "",
-    format: "",
-    source: "",
-    videoCodec: "",
-    audioCodec: "",
-    resolution: "",
-    area: "",
-    doubanUrl: "",
-    doubanInfo: "",
-    imdbUrl: "",
-    tags: {
-      diy: false,
-      chinese_audio: false,
-      cantonese_audio: false,
-      chinese_subtitle: false,
-      dolby_atoms: false,
-      dts_x: false,
-      hdr: false,
-      dolby_vision: false
-    },
-    otherTags: {},
-    mediaInfos: [],
-    screenshots: [],
-    comparisons: [],
-    movieAkaName: "",
-    movieName: "",
-    sourceSite: "",
-    sourceSiteType: "",
-    size: 0,
-    isForbidden: false,
-    poster: ""
-  };
-  const DOUBAN_SUGGEST_API = "https://www.douban.com/search?cat=1002&q={query}";
-  const DOUBAN_MOBILE_API = "https://m.douban.com/rexxar/api/v2";
-  const PT_GEN_API = "https://media.pttool.workers.dev";
-  const TMDB_API_URL = "https://api.tmdb.org";
-  const TMDB_API_KEY = "3d62cb1443c6b34b61262ab332aaf78c";
   const BROWSER_LANGUAGE = navigator.language.toLowerCase().split("-")[0];
   const getSiteName = (host) => {
     let siteName = "";
@@ -8588,771 +7942,118 @@
       return "";
     }
   };
+  const CHINESE_REGEX = /[\u4e00-\u9fa5]+/;
   const getSortedSiteKeys = () => {
     return Object.keys(PT_SITE).sort((a2, b) => {
-      const isChineseReg = /[\u4e00-\u9fa5]+/;
-      if (isChineseReg.test(a2) && !isChineseReg.test(b)) {
-        return 1;
-      }
-      if (!isChineseReg.test(a2) && isChineseReg.test(b)) {
-        return -1;
-      }
+      const aHasChinese = CHINESE_REGEX.test(a2);
+      const bHasChinese = CHINESE_REGEX.test(b);
+      if (aHasChinese && !bHasChinese) return 1;
+      if (!aHasChinese && bHasChinese) return -1;
       return a2.toLowerCase().localeCompare(b.toLowerCase());
     });
   };
   const SORTED_SITE_KEYS = getSortedSiteKeys();
-  const EUROPE_LIST = ["Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kazakhstan", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "North Macedonia", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "UK", "Vatican City"];
   const CURRENT_SITE_NAME = getSiteName(location.host);
-  const CURRENT_SITE_INFO = PT_SITE[CURRENT_SITE_NAME];
-  const HDB_TEAM = ["Chotab", "CRiSC", "CtrlHD", "DON", "EA", "EbP", "Geek", "LolHD", "NTb", "RightSiZE", "SA89", "SbR", "TayTo", "VietHD"];
-  var t, r, u, i$2, o = 0, f = [], c = preact.options, e = c.__b, a = c.__r, v$1 = c.diffed, l = c.__c, m = c.unmount, s = c.__;
-  function d(n, t2) {
-    c.__h && c.__h(r, n, o || t2), o = 0;
-    var u2 = r.__H || (r.__H = { __: [], __h: [] });
-    return n >= u2.__.length && u2.__.push({}), u2.__[n];
-  }
-  function h(n) {
-    return o = 1, p(D$1, n);
-  }
-  function p(n, u2, i) {
-    var o2 = d(t++, 2);
-    if (o2.t = n, !o2.__c && (o2.__ = [i ? i(u2) : D$1(void 0, u2), function(n2) {
-      var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n2);
-      t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
-    }], o2.__c = r, !r.u)) {
-      var f2 = function(n2, t2, r2) {
-        if (!o2.__c.__H) return true;
-        var u3 = o2.__c.__H.__.filter(function(n3) {
-          return !!n3.__c;
-        });
-        if (u3.every(function(n3) {
-          return !n3.__N;
-        })) return !c2 || c2.call(this, n2, t2, r2);
-        var i2 = false;
-        return u3.forEach(function(n3) {
-          if (n3.__N) {
-            var t3 = n3.__[0];
-            n3.__ = n3.__N, n3.__N = void 0, t3 !== n3.__[0] && (i2 = true);
-          }
-        }), !(!i2 && o2.__c.props === n2) && (!c2 || c2.call(this, n2, t2, r2));
-      };
-      r.u = true;
-      var c2 = r.shouldComponentUpdate, e2 = r.componentWillUpdate;
-      r.componentWillUpdate = function(n2, t2, r2) {
-        if (this.__e) {
-          var u3 = c2;
-          c2 = void 0, f2(n2, t2, r2), c2 = u3;
-        }
-        e2 && e2.call(this, n2, t2, r2);
-      }, r.shouldComponentUpdate = f2;
-    }
-    return o2.__N || o2.__;
-  }
-  function y(n, u2) {
-    var i = d(t++, 3);
-    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__H.__h.push(i));
-  }
-  function _(n, u2) {
-    var i = d(t++, 4);
-    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__h.push(i));
-  }
-  function A$1(n) {
-    return o = 5, T$1(function() {
-      return { current: n };
-    }, []);
-  }
-  function F$1(n, t2, r2) {
-    o = 6, _(function() {
-      return "function" == typeof n ? (n(t2()), function() {
-        return n(null);
-      }) : n ? (n.current = t2(), function() {
-        return n.current = null;
-      }) : void 0;
-    }, null == r2 ? r2 : r2.concat(n));
-  }
-  function T$1(n, r2) {
-    var u2 = d(t++, 7);
-    return C$1(u2.__H, r2) && (u2.__ = n(), u2.__H = r2, u2.__h = n), u2.__;
-  }
-  function q$1(n, t2) {
-    return o = 8, T$1(function() {
-      return n;
-    }, t2);
-  }
-  function x$1(n) {
-    var u2 = r.context[n.__c], i = d(t++, 9);
-    return i.c = n, u2 ? (null == i.__ && (i.__ = true, u2.sub(r)), u2.props.value) : n.__;
-  }
-  function P$1(n, t2) {
-    c.useDebugValue && c.useDebugValue(t2 ? t2(n) : n);
-  }
-  function g$1() {
-    var n = d(t++, 11);
-    if (!n.__) {
-      for (var u2 = r.__v; null !== u2 && !u2.__m && null !== u2.__; ) u2 = u2.__;
-      var i = u2.__m || (u2.__m = [0, 0]);
-      n.__ = "P" + i[0] + "-" + i[1]++;
-    }
-    return n.__;
-  }
-  function j$1() {
-    for (var n; n = f.shift(); ) if (n.__P && n.__H) try {
-      n.__H.__h.forEach(z$1), n.__H.__h.forEach(B$1), n.__H.__h = [];
-    } catch (t2) {
-      n.__H.__h = [], c.__e(t2, n.__v);
-    }
-  }
-  c.__b = function(n) {
-    r = null, e && e(n);
-  }, c.__ = function(n, t2) {
-    n && t2.__k && t2.__k.__m && (n.__m = t2.__k.__m), s && s(n, t2);
-  }, c.__r = function(n) {
-    a && a(n), t = 0;
-    var i = (r = n.__c).__H;
-    i && (u === r ? (i.__h = [], r.__h = [], i.__.forEach(function(n2) {
-      n2.__N && (n2.__ = n2.__N), n2.i = n2.__N = void 0;
-    })) : (i.__h.forEach(z$1), i.__h.forEach(B$1), i.__h = [], t = 0)), u = r;
-  }, c.diffed = function(n) {
-    v$1 && v$1(n);
-    var t2 = n.__c;
-    t2 && t2.__H && (t2.__H.__h.length && (1 !== f.push(t2) && i$2 === c.requestAnimationFrame || ((i$2 = c.requestAnimationFrame) || w$1)(j$1)), t2.__H.__.forEach(function(n2) {
-      n2.i && (n2.__H = n2.i), n2.i = void 0;
-    })), u = r = null;
-  }, c.__c = function(n, t2) {
-    t2.some(function(n2) {
-      try {
-        n2.__h.forEach(z$1), n2.__h = n2.__h.filter(function(n3) {
-          return !n3.__ || B$1(n3);
-        });
-      } catch (r2) {
-        t2.some(function(n3) {
-          n3.__h && (n3.__h = []);
-        }), t2 = [], c.__e(r2, n2.__v);
-      }
-    }), l && l(n, t2);
-  }, c.unmount = function(n) {
-    m && m(n);
-    var t2, r2 = n.__c;
-    r2 && r2.__H && (r2.__H.__.forEach(function(n2) {
-      try {
-        z$1(n2);
-      } catch (n3) {
-        t2 = n3;
-      }
-    }), r2.__H = void 0, t2 && c.__e(t2, r2.__v));
+  const CURRENT_SITE_INFO = CURRENT_SITE_NAME ? PT_SITE[CURRENT_SITE_NAME] : void 0;
+  const CONFIG$4 = {
+    URLS: {
+      IMGBOX: "https://imgbox.com",
+      PTPIMG: "https://ptpimg.me",
+      HDB_UPLOAD: "https://img.hdbits.org/upload_api.php",
+      IMGBOX_UPLOAD: "https://imgbox.com/upload/process",
+      PIXHOST_UPLOAD: "https://pixhost.to/remote/",
+      PTPIMG_UPLOAD: "https://ptpimg.me/upload.php",
+      IMGBB: "https://imgbb.com/json"
+    },
+    ERROR_MESSAGES: {
+      UPLOAD_FAILED: "上传失败，请重试",
+      PTPIMG_UPLOAD_FAILED: "ptpimg上传失败",
+      NO_API_KEY: "请到配置面板中填入ptpimg的api_key",
+      NO_TRANSFER_NEEDED: "无需转存"
+    },
+    FILTER_IMGS_NAMES: [
+      "poster.jpg",
+      "2019/01/04/info.png",
+      "MoreScreens",
+      "PTer.png",
+      "ms.png",
+      "trans.gif",
+      "PTerREMUX.png",
+      "PTerWEB.png",
+      "CS.png",
+      "Ourbits_info",
+      "GDJT",
+      "douban",
+      "logo",
+      "2019/03/28/5c9cb8f8216d7.png",
+      "_front",
+      "info_01.png",
+      "screens.png",
+      "04/6b/Ggp5ReQb_o",
+      "ce/e7/KCmGFMOB_o"
+    ]
   };
-  var k$1 = "function" == typeof requestAnimationFrame;
-  function w$1(n) {
-    var t2, r2 = function() {
-      clearTimeout(u2), k$1 && cancelAnimationFrame(t2), setTimeout(n);
-    }, u2 = setTimeout(r2, 100);
-    k$1 && (t2 = requestAnimationFrame(r2));
-  }
-  function z$1(n) {
-    var t2 = r, u2 = n.__c;
-    "function" == typeof u2 && (n.__c = void 0, u2()), r = t2;
-  }
-  function B$1(n) {
-    var t2 = r;
-    n.__c = n.__(), r = t2;
-  }
-  function C$1(n, t2) {
-    return !n || n.length !== t2.length || t2.some(function(t3, r2) {
-      return t3 !== n[r2];
-    });
-  }
-  function D$1(n, t2) {
-    return "function" == typeof t2 ? t2(n) : t2;
-  }
-  function g(n, t2) {
-    for (var e2 in n) if ("__source" !== e2 && !(e2 in t2)) return true;
-    for (var r2 in t2) if ("__source" !== r2 && n[r2] !== t2[r2]) return true;
-    return false;
-  }
-  function E(n, t2) {
-    this.props = n, this.context = t2;
-  }
-  function C(n, e2) {
-    function r2(n2) {
-      var t2 = this.props.ref, r3 = t2 == n2.ref;
-      return !r3 && t2 && (t2.call ? t2(null) : t2.current = null), e2 ? !e2(this.props, n2) || !r3 : g(this.props, n2);
-    }
-    function u2(e3) {
-      return this.shouldComponentUpdate = r2, preact.createElement(n, e3);
-    }
-    return u2.displayName = "Memo(" + (n.displayName || n.name) + ")", u2.prototype.isReactComponent = true, u2.__f = true, u2;
-  }
-  (E.prototype = new preact.Component()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n, t2) {
-    return g(this.props, n) || g(this.state, t2);
-  };
-  var x = preact.options.__b;
-  preact.options.__b = function(n) {
-    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), x && x(n);
-  };
-  var R = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function w(n) {
-    function t2(t3) {
-      if (!("ref" in t3)) return n(t3, null);
-      var e2 = t3.ref;
-      delete t3.ref;
-      var r2 = n(t3, e2);
-      return t3.ref = e2, r2;
-    }
-    return t2.$$typeof = R, t2.render = t2, t2.prototype.isReactComponent = t2.__f = true, t2.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t2;
-  }
-  var k = function(n, t2) {
-    return null == n ? null : preact.toChildArray(preact.toChildArray(n).map(t2));
-  }, I = { map: k, forEach: k, count: function(n) {
-    return n ? preact.toChildArray(n).length : 0;
-  }, only: function(n) {
-    var t2 = preact.toChildArray(n);
-    if (1 !== t2.length) throw "Children.only";
-    return t2[0];
-  }, toArray: preact.toChildArray }, N = preact.options.__e;
-  preact.options.__e = function(n, t2, e2, r2) {
-    if (n.then) {
-      for (var u2, o2 = t2; o2 = o2.__; ) if ((u2 = o2.__c) && u2.__c) return null == t2.__e && (t2.__e = e2.__e, t2.__k = e2.__k), u2.__c(n, t2);
-    }
-    N(n, t2, e2, r2);
-  };
-  var M = preact.options.unmount;
-  function T(n, t2, e2) {
-    return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function(n2) {
-      "function" == typeof n2.__c && n2.__c();
-    }), n.__c.__H = null), null != (n = function(n2, t3) {
-      for (var e3 in t3) n2[e3] = t3[e3];
-      return n2;
-    }({}, n)).__c && (n.__c.__P === e2 && (n.__c.__P = t2), n.__c = null), n.__k = n.__k && n.__k.map(function(n2) {
-      return T(n2, t2, e2);
-    })), n;
-  }
-  function A(n, t2, e2) {
-    return n && e2 && (n.__v = null, n.__k = n.__k && n.__k.map(function(n2) {
-      return A(n2, t2, e2);
-    }), n.__c && n.__c.__P === t2 && (n.__e && e2.appendChild(n.__e), n.__c.__e = true, n.__c.__P = e2)), n;
-  }
-  function D() {
-    this.__u = 0, this.t = null, this.__b = null;
-  }
-  function L(n) {
-    var t2 = n.__.__c;
-    return t2 && t2.__a && t2.__a(n);
-  }
-  function O(n) {
-    var e2, r2, u2;
-    function o2(o3) {
-      if (e2 || (e2 = n()).then(function(n2) {
-        r2 = n2.default || n2;
-      }, function(n2) {
-        u2 = n2;
-      }), u2) throw u2;
-      if (!r2) throw e2;
-      return preact.createElement(r2, o3);
-    }
-    return o2.displayName = "Lazy", o2.__f = true, o2;
-  }
-  function F() {
-    this.u = null, this.o = null;
-  }
-  preact.options.unmount = function(n) {
-    var t2 = n.__c;
-    t2 && t2.__R && t2.__R(), t2 && 32 & n.__u && (n.type = null), M && M(n);
-  }, (D.prototype = new preact.Component()).__c = function(n, t2) {
-    var e2 = t2.__c, r2 = this;
-    null == r2.t && (r2.t = []), r2.t.push(e2);
-    var u2 = L(r2.__v), o2 = false, i = function() {
-      o2 || (o2 = true, e2.__R = null, u2 ? u2(c2) : c2());
-    };
-    e2.__R = i;
-    var c2 = function() {
-      if (!--r2.__u) {
-        if (r2.state.__a) {
-          var n2 = r2.state.__a;
-          r2.__v.__k[0] = A(n2, n2.__c.__P, n2.__c.__O);
-        }
-        var t3;
-        for (r2.setState({ __a: r2.__b = null }); t3 = r2.t.pop(); ) t3.forceUpdate();
-      }
-    };
-    r2.__u++ || 32 & t2.__u || r2.setState({ __a: r2.__b = r2.__v.__k[0] }), n.then(i, i);
-  }, D.prototype.componentWillUnmount = function() {
-    this.t = [];
-  }, D.prototype.render = function(n, e2) {
-    if (this.__b) {
-      if (this.__v.__k) {
-        var r2 = document.createElement("div"), o2 = this.__v.__k[0].__c;
-        this.__v.__k[0] = T(this.__b, r2, o2.__O = o2.__P);
-      }
-      this.__b = null;
-    }
-    var i = e2.__a && preact.createElement(preact.Fragment, null, n.fallback);
-    return i && (i.__u &= -33), [preact.createElement(preact.Fragment, null, e2.__a ? null : n.children), i];
-  };
-  var U$1 = function(n, t2, e2) {
-    if (++e2[1] === e2[0] && n.o.delete(t2), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e2 = n.u; e2; ) {
-      for (; e2.length > 3; ) e2.pop()();
-      if (e2[1] < e2[0]) break;
-      n.u = e2 = e2[2];
-    }
-  };
-  function V(n) {
-    return this.getChildContext = function() {
-      return n.context;
-    }, n.children;
-  }
-  function W(n) {
-    var e2 = this, r2 = n.i;
-    e2.componentWillUnmount = function() {
-      preact.render(null, e2.l), e2.l = null, e2.i = null;
-    }, e2.i && e2.i !== r2 && e2.componentWillUnmount(), e2.l || (e2.i = r2, e2.l = { nodeType: 1, parentNode: r2, childNodes: [], contains: function() {
-      return true;
-    }, appendChild: function(n2) {
-      this.childNodes.push(n2), e2.i.appendChild(n2);
-    }, insertBefore: function(n2, t2) {
-      this.childNodes.push(n2), e2.i.appendChild(n2);
-    }, removeChild: function(n2) {
-      this.childNodes.splice(this.childNodes.indexOf(n2) >>> 1, 1), e2.i.removeChild(n2);
-    } }), preact.render(preact.createElement(V, { context: e2.context }, n.__v), e2.l);
-  }
-  function P(n, e2) {
-    var r2 = preact.createElement(W, { __v: n, i: e2 });
-    return r2.containerInfo = e2, r2;
-  }
-  (F.prototype = new preact.Component()).__a = function(n) {
-    var t2 = this, e2 = L(t2.__v), r2 = t2.o.get(n);
-    return r2[0]++, function(u2) {
-      var o2 = function() {
-        t2.props.revealOrder ? (r2.push(u2), U$1(t2, n, r2)) : u2();
-      };
-      e2 ? e2(o2) : o2();
-    };
-  }, F.prototype.render = function(n) {
-    this.u = null, this.o = /* @__PURE__ */ new Map();
-    var t2 = preact.toChildArray(n.children);
-    n.revealOrder && "b" === n.revealOrder[0] && t2.reverse();
-    for (var e2 = t2.length; e2--; ) this.o.set(t2[e2], this.u = [1, 0, this.u]);
-    return n.children;
-  }, F.prototype.componentDidUpdate = F.prototype.componentDidMount = function() {
-    var n = this;
-    this.o.forEach(function(t2, e2) {
-      U$1(n, e2, t2);
-    });
-  };
-  var j = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103, z = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, B = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, H = /[A-Z0-9]/g, Z = "undefined" != typeof document, Y = function(n) {
-    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
-  };
-  function $$1(n, t2, e2) {
-    return null == t2.__k && (t2.textContent = ""), preact.render(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
-  }
-  function q(n, t2, e2) {
-    return preact.hydrate(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
-  }
-  preact.Component.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function(t2) {
-    Object.defineProperty(preact.Component.prototype, t2, { configurable: true, get: function() {
-      return this["UNSAFE_" + t2];
-    }, set: function(n) {
-      Object.defineProperty(this, t2, { configurable: true, writable: true, value: n });
-    } });
-  });
-  var G = preact.options.event;
-  function J() {
-  }
-  function K() {
-    return this.cancelBubble;
-  }
-  function Q() {
-    return this.defaultPrevented;
-  }
-  preact.options.event = function(n) {
-    return G && (n = G(n)), n.persist = J, n.isPropagationStopped = K, n.isDefaultPrevented = Q, n.nativeEvent = n;
-  };
-  var X, nn = { enumerable: false, configurable: true, get: function() {
-    return this.class;
-  } }, tn = preact.options.vnode;
-  preact.options.vnode = function(n) {
-    "string" == typeof n.type && function(n2) {
-      var t2 = n2.props, e2 = n2.type, u2 = {}, o2 = -1 === e2.indexOf("-");
-      for (var i in t2) {
-        var c2 = t2[i];
-        if (!("value" === i && "defaultValue" in t2 && null == c2 || Z && "children" === i && "noscript" === e2 || "class" === i || "className" === i)) {
-          var f2 = i.toLowerCase();
-          "defaultValue" === i && "value" in t2 && null == t2.value ? i = "value" : "download" === i && true === c2 ? c2 = "" : "translate" === f2 && "no" === c2 ? c2 = false : "o" === f2[0] && "n" === f2[1] ? "ondoubleclick" === f2 ? i = "ondblclick" : "onchange" !== f2 || "input" !== e2 && "textarea" !== e2 || Y(t2.type) ? "onfocus" === f2 ? i = "onfocusin" : "onblur" === f2 ? i = "onfocusout" : B.test(i) && (i = f2) : f2 = i = "oninput" : o2 && z.test(i) ? i = i.replace(H, "-$&").toLowerCase() : null === c2 && (c2 = void 0), "oninput" === f2 && u2[i = f2] && (i = "oninputCapture"), u2[i] = c2;
-        }
-      }
-      "select" == e2 && u2.multiple && Array.isArray(u2.value) && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
-        n3.props.selected = -1 != u2.value.indexOf(n3.props.value);
-      })), "select" == e2 && null != u2.defaultValue && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
-        n3.props.selected = u2.multiple ? -1 != u2.defaultValue.indexOf(n3.props.value) : u2.defaultValue == n3.props.value;
-      })), t2.class && !t2.className ? (u2.class = t2.class, Object.defineProperty(u2, "className", nn)) : (t2.className && !t2.class || t2.class && t2.className) && (u2.class = u2.className = t2.className), n2.props = u2;
-    }(n), n.$$typeof = j, tn && tn(n);
-  };
-  var en$1 = preact.options.__r;
-  preact.options.__r = function(n) {
-    en$1 && en$1(n), X = n.__c;
-  };
-  var rn = preact.options.diffed;
-  preact.options.diffed = function(n) {
-    rn && rn(n);
-    var t2 = n.props, e2 = n.__e;
-    null != e2 && "textarea" === n.type && "value" in t2 && t2.value !== e2.value && (e2.value = null == t2.value ? "" : t2.value), X = null;
-  };
-  var un = { ReactCurrentDispatcher: { current: { readContext: function(n) {
-    return X.__n[n.__c].props.value;
-  }, useCallback: q$1, useContext: x$1, useDebugValue: P$1, useDeferredValue: _n, useEffect: y, useId: g$1, useImperativeHandle: F$1, useInsertionEffect: Sn, useLayoutEffect: _, useMemo: T$1, useReducer: p, useRef: A$1, useState: h, useSyncExternalStore: En, useTransition: bn } } };
-  function cn(n) {
-    return preact.createElement.bind(null, n);
-  }
-  function fn(n) {
-    return !!n && n.$$typeof === j;
-  }
-  function ln(n) {
-    return fn(n) && n.type === preact.Fragment;
-  }
-  function an(n) {
-    return !!n && !!n.displayName && ("string" == typeof n.displayName || n.displayName instanceof String) && n.displayName.startsWith("Memo(");
-  }
-  function sn(n) {
-    return fn(n) ? preact.cloneElement.apply(null, arguments) : n;
-  }
-  function hn(n) {
-    return !!n.__k && (preact.render(null, n), true);
-  }
-  function vn(n) {
-    return n && (n.base || 1 === n.nodeType && n) || null;
-  }
-  var dn = function(n, t2) {
-    return n(t2);
-  }, pn = function(n, t2) {
-    return n(t2);
-  }, mn = preact.Fragment;
-  function yn(n) {
-    n();
-  }
-  function _n(n) {
-    return n;
-  }
-  function bn() {
-    return [false, yn];
-  }
-  var Sn = _, gn = fn;
-  function En(n, t2) {
-    var e2 = t2(), r2 = h({ h: { __: e2, v: t2 } }), u2 = r2[0].h, o2 = r2[1];
-    return _(function() {
-      u2.__ = e2, u2.v = t2, Cn(u2) && o2({ h: u2 });
-    }, [n, e2, t2]), y(function() {
-      return Cn(u2) && o2({ h: u2 }), n(function() {
-        Cn(u2) && o2({ h: u2 });
-      });
-    }, [n]), e2;
-  }
-  function Cn(n) {
-    var t2, e2, r2 = n.v, u2 = n.__;
-    try {
-      var o2 = r2();
-      return !((t2 = u2) === (e2 = o2) && (0 !== t2 || 1 / t2 == 1 / e2) || t2 != t2 && e2 != e2);
-    } catch (n2) {
-      return true;
-    }
-  }
-  var xn = { useState: h, useId: g$1, useReducer: p, useEffect: y, useLayoutEffect: _, useInsertionEffect: Sn, useTransition: bn, useDeferredValue: _n, useSyncExternalStore: En, startTransition: yn, useRef: A$1, useImperativeHandle: F$1, useMemo: T$1, useCallback: q$1, useContext: x$1, useDebugValue: P$1, version: "18.3.1", Children: I, render: $$1, hydrate: q, unmountComponentAtNode: hn, createPortal: P, createElement: preact.createElement, createContext: preact.createContext, createFactory: cn, cloneElement: sn, createRef: preact.createRef, Fragment: preact.Fragment, isValidElement: fn, isElement: gn, isFragment: ln, isMemo: an, findDOMNode: vn, Component: preact.Component, PureComponent: E, memo: C, forwardRef: w, flushSync: pn, unstable_batchedUpdates: dn, StrictMode: mn, Suspense: D, SuspenseList: F, lazy: O, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: un };
-  var Ct = (s2) => {
-    switch (s2) {
-      case "success":
-        return $t$1;
-      case "info":
-        return _t;
-      case "warning":
-        return Wt;
-      case "error":
-        return Ut;
-      default:
-        return null;
-    }
-  }, Ft = Array(12).fill(0), It = ({ visible: s2 }) => xn.createElement("div", { className: "sonner-loading-wrapper", "data-visible": s2 }, xn.createElement("div", { className: "sonner-spinner" }, Ft.map((o2, t2) => xn.createElement("div", { className: "sonner-loading-bar", key: `spinner-bar-${t2}` })))), $t$1 = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z", clipRule: "evenodd" })), Wt = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z", clipRule: "evenodd" })), _t = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z", clipRule: "evenodd" })), Ut = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z", clipRule: "evenodd" }));
-  var Dt = () => {
-    let [s2, o2] = xn.useState(document.hidden);
-    return xn.useEffect(() => {
-      let t2 = () => {
-        o2(document.hidden);
-      };
-      return document.addEventListener("visibilitychange", t2), () => window.removeEventListener("visibilitychange", t2);
-    }, []), s2;
-  };
-  var ct = 1, ut = class {
-    constructor() {
-      this.subscribe = (o2) => (this.subscribers.push(o2), () => {
-        let t2 = this.subscribers.indexOf(o2);
-        this.subscribers.splice(t2, 1);
-      });
-      this.publish = (o2) => {
-        this.subscribers.forEach((t2) => t2(o2));
-      };
-      this.addToast = (o2) => {
-        this.publish(o2), this.toasts = [...this.toasts, o2];
-      };
-      this.create = (o2) => {
-        var b;
-        let _a2 = o2, { message: t2 } = _a2, n = __objRest(_a2, ["message"]), h2 = typeof (o2 == null ? void 0 : o2.id) == "number" || ((b = o2.id) == null ? void 0 : b.length) > 0 ? o2.id : ct++, u2 = this.toasts.find((d2) => d2.id === h2), g2 = o2.dismissible === void 0 ? true : o2.dismissible;
-        return u2 ? this.toasts = this.toasts.map((d2) => d2.id === h2 ? (this.publish(__spreadProps(__spreadValues(__spreadValues({}, d2), o2), { id: h2, title: t2 })), __spreadProps(__spreadValues(__spreadValues({}, d2), o2), { id: h2, dismissible: g2, title: t2 })) : d2) : this.addToast(__spreadProps(__spreadValues({ title: t2 }, n), { dismissible: g2, id: h2 })), h2;
-      };
-      this.dismiss = (o2) => (o2 || this.toasts.forEach((t2) => {
-        this.subscribers.forEach((n) => n({ id: t2.id, dismiss: true }));
-      }), this.subscribers.forEach((t2) => t2({ id: o2, dismiss: true })), o2);
-      this.message = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { message: o2 }));
-      this.error = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { message: o2, type: "error" }));
-      this.success = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "success", message: o2 }));
-      this.info = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "info", message: o2 }));
-      this.warning = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "warning", message: o2 }));
-      this.loading = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "loading", message: o2 }));
-      this.promise = (o2, t2) => {
-        if (!t2) return;
-        let n;
-        t2.loading !== void 0 && (n = this.create(__spreadProps(__spreadValues({}, t2), { promise: o2, type: "loading", message: t2.loading, description: typeof t2.description != "function" ? t2.description : void 0 })));
-        let h2 = o2 instanceof Promise ? o2 : o2(), u2 = n !== void 0;
-        return h2.then(async (g2) => {
-          if (Ot(g2) && !g2.ok) {
-            u2 = false;
-            let b = typeof t2.error == "function" ? await t2.error(`HTTP error! status: ${g2.status}`) : t2.error, d2 = typeof t2.description == "function" ? await t2.description(`HTTP error! status: ${g2.status}`) : t2.description;
-            this.create({ id: n, type: "error", message: b, description: d2 });
-          } else if (t2.success !== void 0) {
-            u2 = false;
-            let b = typeof t2.success == "function" ? await t2.success(g2) : t2.success, d2 = typeof t2.description == "function" ? await t2.description(g2) : t2.description;
-            this.create({ id: n, type: "success", message: b, description: d2 });
-          }
-        }).catch(async (g2) => {
-          if (t2.error !== void 0) {
-            u2 = false;
-            let b = typeof t2.error == "function" ? await t2.error(g2) : t2.error, d2 = typeof t2.description == "function" ? await t2.description(g2) : t2.description;
-            this.create({ id: n, type: "error", message: b, description: d2 });
-          }
-        }).finally(() => {
-          var g2;
-          u2 && (this.dismiss(n), n = void 0), (g2 = t2.finally) == null || g2.call(t2);
-        }), n;
-      };
-      this.custom = (o2, t2) => {
-        let n = (t2 == null ? void 0 : t2.id) || ct++;
-        return this.create(__spreadValues({ jsx: o2(n), id: n }, t2)), n;
-      };
-      this.subscribers = [], this.toasts = [];
-    }
-  }, v = new ut(), Vt = (s2, o2) => {
-    let t2 = (o2 == null ? void 0 : o2.id) || ct++;
-    return v.addToast(__spreadProps(__spreadValues({ title: s2 }, o2), { id: t2 })), t2;
-  }, Ot = (s2) => s2 && typeof s2 == "object" && "ok" in s2 && typeof s2.ok == "boolean" && "status" in s2 && typeof s2.status == "number", Kt = Vt, Xt = () => v.toasts, Jt = Object.assign(Kt, { success: v.success, info: v.info, warning: v.warning, error: v.error, custom: v.custom, message: v.message, promise: v.promise, dismiss: v.dismiss, loading: v.loading }, { getHistory: Xt });
-  function ft(s2, { insertAt: o2 } = {}) {
-    if (typeof document == "undefined") return;
-    let t2 = document.head || document.getElementsByTagName("head")[0], n = document.createElement("style");
-    n.type = "text/css", o2 === "top" && t2.firstChild ? t2.insertBefore(n, t2.firstChild) : t2.appendChild(n), n.styleSheet ? n.styleSheet.cssText = s2 : n.appendChild(document.createTextNode(s2));
-  }
-  ft(`:where(html[dir="ltr"]),:where([data-sonner-toaster][dir="ltr"]){--toast-icon-margin-start: -3px;--toast-icon-margin-end: 4px;--toast-svg-margin-start: -1px;--toast-svg-margin-end: 0px;--toast-button-margin-start: auto;--toast-button-margin-end: 0;--toast-close-button-start: 0;--toast-close-button-end: unset;--toast-close-button-transform: translate(-35%, -35%)}:where(html[dir="rtl"]),:where([data-sonner-toaster][dir="rtl"]){--toast-icon-margin-start: 4px;--toast-icon-margin-end: -3px;--toast-svg-margin-start: 0px;--toast-svg-margin-end: -1px;--toast-button-margin-start: 0;--toast-button-margin-end: auto;--toast-close-button-start: unset;--toast-close-button-end: 0;--toast-close-button-transform: translate(35%, -35%)}:where([data-sonner-toaster]){position:fixed;width:var(--width);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;--gray1: hsl(0, 0%, 99%);--gray2: hsl(0, 0%, 97.3%);--gray3: hsl(0, 0%, 95.1%);--gray4: hsl(0, 0%, 93%);--gray5: hsl(0, 0%, 90.9%);--gray6: hsl(0, 0%, 88.7%);--gray7: hsl(0, 0%, 85.8%);--gray8: hsl(0, 0%, 78%);--gray9: hsl(0, 0%, 56.1%);--gray10: hsl(0, 0%, 52.3%);--gray11: hsl(0, 0%, 43.5%);--gray12: hsl(0, 0%, 9%);--border-radius: 8px;box-sizing:border-box;padding:0;margin:0;list-style:none;outline:none;z-index:999999999}:where([data-sonner-toaster][data-x-position="right"]){right:max(var(--offset),env(safe-area-inset-right))}:where([data-sonner-toaster][data-x-position="left"]){left:max(var(--offset),env(safe-area-inset-left))}:where([data-sonner-toaster][data-x-position="center"]){left:50%;transform:translate(-50%)}:where([data-sonner-toaster][data-y-position="top"]){top:max(var(--offset),env(safe-area-inset-top))}:where([data-sonner-toaster][data-y-position="bottom"]){bottom:max(var(--offset),env(safe-area-inset-bottom))}:where([data-sonner-toast]){--y: translateY(100%);--lift-amount: calc(var(--lift) * var(--gap));z-index:var(--z-index);position:absolute;opacity:0;transform:var(--y);filter:blur(0);touch-action:none;transition:transform .4s,opacity .4s,height .4s,box-shadow .2s;box-sizing:border-box;outline:none;overflow-wrap:anywhere}:where([data-sonner-toast][data-styled="true"]){padding:16px;background:var(--normal-bg);border:1px solid var(--normal-border);color:var(--normal-text);border-radius:var(--border-radius);box-shadow:0 4px 12px #0000001a;width:var(--width);font-size:13px;display:flex;align-items:center;gap:6px}:where([data-sonner-toast]:focus-visible){box-shadow:0 4px 12px #0000001a,0 0 0 2px #0003}:where([data-sonner-toast][data-y-position="top"]){top:0;--y: translateY(-100%);--lift: 1;--lift-amount: calc(1 * var(--gap))}:where([data-sonner-toast][data-y-position="bottom"]){bottom:0;--y: translateY(100%);--lift: -1;--lift-amount: calc(var(--lift) * var(--gap))}:where([data-sonner-toast]) :where([data-description]){font-weight:400;line-height:1.4;color:inherit}:where([data-sonner-toast]) :where([data-title]){font-weight:500;line-height:1.5;color:inherit}:where([data-sonner-toast]) :where([data-icon]){display:flex;height:16px;width:16px;position:relative;justify-content:flex-start;align-items:center;flex-shrink:0;margin-left:var(--toast-icon-margin-start);margin-right:var(--toast-icon-margin-end)}:where([data-sonner-toast][data-promise="true"]) :where([data-icon])>svg{opacity:0;transform:scale(.8);transform-origin:center;animation:sonner-fade-in .3s ease forwards}:where([data-sonner-toast]) :where([data-icon])>*{flex-shrink:0}:where([data-sonner-toast]) :where([data-icon]) svg{margin-left:var(--toast-svg-margin-start);margin-right:var(--toast-svg-margin-end)}:where([data-sonner-toast]) :where([data-content]){display:flex;flex-direction:column;gap:2px}[data-sonner-toast][data-styled=true] [data-button]{border-radius:4px;padding-left:8px;padding-right:8px;height:24px;font-size:12px;color:var(--normal-bg);background:var(--normal-text);margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end);border:none;cursor:pointer;outline:none;display:flex;align-items:center;flex-shrink:0;transition:opacity .4s,box-shadow .2s}:where([data-sonner-toast]) :where([data-button]):focus-visible{box-shadow:0 0 0 2px #0006}:where([data-sonner-toast]) :where([data-button]):first-of-type{margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end)}:where([data-sonner-toast]) :where([data-cancel]){color:var(--normal-text);background:rgba(0,0,0,.08)}:where([data-sonner-toast][data-theme="dark"]) :where([data-cancel]){background:rgba(255,255,255,.3)}:where([data-sonner-toast]) :where([data-close-button]){position:absolute;left:var(--toast-close-button-start);right:var(--toast-close-button-end);top:0;height:20px;width:20px;display:flex;justify-content:center;align-items:center;padding:0;background:var(--gray1);color:var(--gray12);border:1px solid var(--gray4);transform:var(--toast-close-button-transform);border-radius:50%;cursor:pointer;z-index:1;transition:opacity .1s,background .2s,border-color .2s}:where([data-sonner-toast]) :where([data-close-button]):focus-visible{box-shadow:0 4px 12px #0000001a,0 0 0 2px #0003}:where([data-sonner-toast]) :where([data-disabled="true"]){cursor:not-allowed}:where([data-sonner-toast]):hover :where([data-close-button]):hover{background:var(--gray2);border-color:var(--gray5)}:where([data-sonner-toast][data-swiping="true"]):before{content:"";position:absolute;left:0;right:0;height:100%;z-index:-1}:where([data-sonner-toast][data-y-position="top"][data-swiping="true"]):before{bottom:50%;transform:scaleY(3) translateY(50%)}:where([data-sonner-toast][data-y-position="bottom"][data-swiping="true"]):before{top:50%;transform:scaleY(3) translateY(-50%)}:where([data-sonner-toast][data-swiping="false"][data-removed="true"]):before{content:"";position:absolute;inset:0;transform:scaleY(2)}:where([data-sonner-toast]):after{content:"";position:absolute;left:0;height:calc(var(--gap) + 1px);bottom:100%;width:100%}:where([data-sonner-toast][data-mounted="true"]){--y: translateY(0);opacity:1}:where([data-sonner-toast][data-expanded="false"][data-front="false"]){--scale: var(--toasts-before) * .05 + 1;--y: translateY(calc(var(--lift-amount) * var(--toasts-before))) scale(calc(-1 * var(--scale)));height:var(--front-toast-height)}:where([data-sonner-toast])>*{transition:opacity .4s}:where([data-sonner-toast][data-expanded="false"][data-front="false"][data-styled="true"])>*{opacity:0}:where([data-sonner-toast][data-visible="false"]){opacity:0;pointer-events:none}:where([data-sonner-toast][data-mounted="true"][data-expanded="true"]){--y: translateY(calc(var(--lift) * var(--offset)));height:var(--initial-height)}:where([data-sonner-toast][data-removed="true"][data-front="true"][data-swipe-out="false"]){--y: translateY(calc(var(--lift) * -100%));opacity:0}:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="true"]){--y: translateY(calc(var(--lift) * var(--offset) + var(--lift) * -100%));opacity:0}:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="false"]){--y: translateY(40%);opacity:0;transition:transform .5s,opacity .2s}:where([data-sonner-toast][data-removed="true"][data-front="false"]):before{height:calc(var(--initial-height) + 20%)}[data-sonner-toast][data-swiping=true]{transform:var(--y) translateY(var(--swipe-amount, 0px));transition:none}[data-sonner-toast][data-swipe-out=true][data-y-position=bottom],[data-sonner-toast][data-swipe-out=true][data-y-position=top]{animation:swipe-out .2s ease-out forwards}@keyframes swipe-out{0%{transform:translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount)));opacity:1}to{transform:translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount) + var(--lift) * -100%));opacity:0}}@media (max-width: 600px){[data-sonner-toaster]{position:fixed;--mobile-offset: 16px;right:var(--mobile-offset);left:var(--mobile-offset);width:100%}[data-sonner-toaster] [data-sonner-toast]{left:0;right:0;width:calc(100% - var(--mobile-offset) * 2)}[data-sonner-toaster][data-x-position=left]{left:var(--mobile-offset)}[data-sonner-toaster][data-y-position=bottom]{bottom:20px}[data-sonner-toaster][data-y-position=top]{top:20px}[data-sonner-toaster][data-x-position=center]{left:var(--mobile-offset);right:var(--mobile-offset);transform:none}}[data-sonner-toaster][data-theme=light]{--normal-bg: #fff;--normal-border: var(--gray4);--normal-text: var(--gray12);--success-bg: hsl(143, 85%, 96%);--success-border: hsl(145, 92%, 91%);--success-text: hsl(140, 100%, 27%);--info-bg: hsl(208, 100%, 97%);--info-border: hsl(221, 91%, 91%);--info-text: hsl(210, 92%, 45%);--warning-bg: hsl(49, 100%, 97%);--warning-border: hsl(49, 91%, 91%);--warning-text: hsl(31, 92%, 45%);--error-bg: hsl(359, 100%, 97%);--error-border: hsl(359, 100%, 94%);--error-text: hsl(360, 100%, 45%)}[data-sonner-toaster][data-theme=light] [data-sonner-toast][data-invert=true]{--normal-bg: #000;--normal-border: hsl(0, 0%, 20%);--normal-text: var(--gray1)}[data-sonner-toaster][data-theme=dark] [data-sonner-toast][data-invert=true]{--normal-bg: #fff;--normal-border: var(--gray3);--normal-text: var(--gray12)}[data-sonner-toaster][data-theme=dark]{--normal-bg: #000;--normal-border: hsl(0, 0%, 20%);--normal-text: var(--gray1);--success-bg: hsl(150, 100%, 6%);--success-border: hsl(147, 100%, 12%);--success-text: hsl(150, 86%, 65%);--info-bg: hsl(215, 100%, 6%);--info-border: hsl(223, 100%, 12%);--info-text: hsl(216, 87%, 65%);--warning-bg: hsl(64, 100%, 6%);--warning-border: hsl(60, 100%, 12%);--warning-text: hsl(46, 87%, 65%);--error-bg: hsl(358, 76%, 10%);--error-border: hsl(357, 89%, 16%);--error-text: hsl(358, 100%, 81%)}[data-rich-colors=true][data-sonner-toast][data-type=success],[data-rich-colors=true][data-sonner-toast][data-type=success] [data-close-button]{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}[data-rich-colors=true][data-sonner-toast][data-type=info],[data-rich-colors=true][data-sonner-toast][data-type=info] [data-close-button]{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}[data-rich-colors=true][data-sonner-toast][data-type=warning],[data-rich-colors=true][data-sonner-toast][data-type=warning] [data-close-button]{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}[data-rich-colors=true][data-sonner-toast][data-type=error],[data-rich-colors=true][data-sonner-toast][data-type=error] [data-close-button]{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}.sonner-loading-wrapper{--size: 16px;height:var(--size);width:var(--size);position:absolute;inset:0;z-index:10}.sonner-loading-wrapper[data-visible=false]{transform-origin:center;animation:sonner-fade-out .2s ease forwards}.sonner-spinner{position:relative;top:50%;left:50%;height:var(--size);width:var(--size)}.sonner-loading-bar{animation:sonner-spin 1.2s linear infinite;background:var(--gray11);border-radius:6px;height:8%;left:-10%;position:absolute;top:-3.9%;width:24%}.sonner-loading-bar:nth-child(1){animation-delay:-1.2s;transform:rotate(.0001deg) translate(146%)}.sonner-loading-bar:nth-child(2){animation-delay:-1.1s;transform:rotate(30deg) translate(146%)}.sonner-loading-bar:nth-child(3){animation-delay:-1s;transform:rotate(60deg) translate(146%)}.sonner-loading-bar:nth-child(4){animation-delay:-.9s;transform:rotate(90deg) translate(146%)}.sonner-loading-bar:nth-child(5){animation-delay:-.8s;transform:rotate(120deg) translate(146%)}.sonner-loading-bar:nth-child(6){animation-delay:-.7s;transform:rotate(150deg) translate(146%)}.sonner-loading-bar:nth-child(7){animation-delay:-.6s;transform:rotate(180deg) translate(146%)}.sonner-loading-bar:nth-child(8){animation-delay:-.5s;transform:rotate(210deg) translate(146%)}.sonner-loading-bar:nth-child(9){animation-delay:-.4s;transform:rotate(240deg) translate(146%)}.sonner-loading-bar:nth-child(10){animation-delay:-.3s;transform:rotate(270deg) translate(146%)}.sonner-loading-bar:nth-child(11){animation-delay:-.2s;transform:rotate(300deg) translate(146%)}.sonner-loading-bar:nth-child(12){animation-delay:-.1s;transform:rotate(330deg) translate(146%)}@keyframes sonner-fade-in{0%{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}@keyframes sonner-fade-out{0%{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.8)}}@keyframes sonner-spin{0%{opacity:1}to{opacity:.15}}@media (prefers-reduced-motion){[data-sonner-toast],[data-sonner-toast]>*,.sonner-loading-bar{transition:none!important;animation:none!important}}.sonner-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transform-origin:center;transition:opacity .2s,transform .2s}.sonner-loader[data-visible=false]{opacity:0;transform:scale(.8) translate(-50%,-50%)}
-`);
-  function U(s2) {
-    return s2.label !== void 0;
-  }
-  var qt = 3, Qt = "32px", Zt = 4e3, te = 356, ee = 14, oe = 20, ae = 200;
-  function ne(...s2) {
-    return s2.filter(Boolean).join(" ");
-  }
-  var se = (s2) => {
-    var yt, xt, vt, wt, Tt, St, Rt, Et, Nt, Pt;
-    let { invert: o2, toast: t2, unstyled: n, interacting: h2, setHeights: u2, visibleToasts: g2, heights: b, index: d2, toasts: q2, expanded: $2, removeToast: V2, defaultRichColors: Q2, closeButton: i, style: O2, cancelButtonStyle: K2, actionButtonStyle: Z2, className: tt = "", descriptionClassName: et = "", duration: X2, position: ot, gap: w2, loadingIcon: j2, expandByDefault: W2, classNames: r2, icons: I2, closeButtonAriaLabel: at = "Close toast", pauseWhenPageIsHidden: k2, cn: T2 } = s2, [z2, nt] = xn.useState(false), [D2, H2] = xn.useState(false), [st, N2] = xn.useState(false), [M2, rt] = xn.useState(false), [c2, m2] = xn.useState(0), [y2, S] = xn.useState(0), A2 = xn.useRef(null), l2 = xn.useRef(null), _2 = d2 === 0, J2 = d2 + 1 <= g2, x2 = t2.type, P2 = t2.dismissible !== false, Mt = t2.className || "", At = t2.descriptionClassName || "", G2 = xn.useMemo(() => b.findIndex((a2) => a2.toastId === t2.id) || 0, [b, t2.id]), Lt = xn.useMemo(() => {
-      var a2;
-      return (a2 = t2.closeButton) != null ? a2 : i;
-    }, [t2.closeButton, i]), mt = xn.useMemo(() => t2.duration || X2 || Zt, [t2.duration, X2]), it = xn.useRef(0), Y2 = xn.useRef(0), pt = xn.useRef(0), F2 = xn.useRef(null), [gt, zt] = ot.split("-"), ht = xn.useMemo(() => b.reduce((a2, f2, p2) => p2 >= G2 ? a2 : a2 + f2.height, 0), [b, G2]), bt = Dt(), jt = t2.invert || o2, lt = x2 === "loading";
-    Y2.current = xn.useMemo(() => G2 * w2 + ht, [G2, ht]), xn.useEffect(() => {
-      nt(true);
-    }, []), xn.useLayoutEffect(() => {
-      if (!z2) return;
-      let a2 = l2.current, f2 = a2.style.height;
-      a2.style.height = "auto";
-      let p2 = a2.getBoundingClientRect().height;
-      a2.style.height = f2, S(p2), u2((B2) => B2.find((R2) => R2.toastId === t2.id) ? B2.map((R2) => R2.toastId === t2.id ? __spreadProps(__spreadValues({}, R2), { height: p2 }) : R2) : [{ toastId: t2.id, height: p2, position: t2.position }, ...B2]);
-    }, [z2, t2.title, t2.description, u2, t2.id]);
-    let L2 = xn.useCallback(() => {
-      H2(true), m2(Y2.current), u2((a2) => a2.filter((f2) => f2.toastId !== t2.id)), setTimeout(() => {
-        V2(t2);
-      }, ae);
-    }, [t2, V2, u2, Y2]);
-    xn.useEffect(() => {
-      if (t2.promise && x2 === "loading" || t2.duration === 1 / 0 || t2.type === "loading") return;
-      let a2, f2 = mt;
-      return $2 || h2 || k2 && bt ? (() => {
-        if (pt.current < it.current) {
-          let C2 = (/* @__PURE__ */ new Date()).getTime() - it.current;
-          f2 = f2 - C2;
-        }
-        pt.current = (/* @__PURE__ */ new Date()).getTime();
-      })() : (() => {
-        f2 !== 1 / 0 && (it.current = (/* @__PURE__ */ new Date()).getTime(), a2 = setTimeout(() => {
-          var C2;
-          (C2 = t2.onAutoClose) == null || C2.call(t2, t2), L2();
-        }, f2));
-      })(), () => clearTimeout(a2);
-    }, [$2, h2, W2, t2, mt, L2, t2.promise, x2, k2, bt]), xn.useEffect(() => {
-      let a2 = l2.current;
-      if (a2) {
-        let f2 = a2.getBoundingClientRect().height;
-        return S(f2), u2((p2) => [{ toastId: t2.id, height: f2, position: t2.position }, ...p2]), () => u2((p2) => p2.filter((B2) => B2.toastId !== t2.id));
-      }
-    }, [u2, t2.id]), xn.useEffect(() => {
-      t2.delete && L2();
-    }, [L2, t2.delete]);
-    function Yt() {
-      return I2 != null && I2.loading ? xn.createElement("div", { className: "sonner-loader", "data-visible": x2 === "loading" }, I2.loading) : j2 ? xn.createElement("div", { className: "sonner-loader", "data-visible": x2 === "loading" }, j2) : xn.createElement(It, { visible: x2 === "loading" });
-    }
-    return xn.createElement("li", { "aria-live": t2.important ? "assertive" : "polite", "aria-atomic": "true", role: "status", tabIndex: 0, ref: l2, className: T2(tt, Mt, r2 == null ? void 0 : r2.toast, (yt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : yt.toast, r2 == null ? void 0 : r2.default, r2 == null ? void 0 : r2[x2], (xt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : xt[x2]), "data-sonner-toast": "", "data-rich-colors": (vt = t2.richColors) != null ? vt : Q2, "data-styled": !(t2.jsx || t2.unstyled || n), "data-mounted": z2, "data-promise": !!t2.promise, "data-removed": D2, "data-visible": J2, "data-y-position": gt, "data-x-position": zt, "data-index": d2, "data-front": _2, "data-swiping": st, "data-dismissible": P2, "data-type": x2, "data-invert": jt, "data-swipe-out": M2, "data-expanded": !!($2 || W2 && z2), style: __spreadValues(__spreadValues({ "--index": d2, "--toasts-before": d2, "--z-index": q2.length - d2, "--offset": `${D2 ? c2 : Y2.current}px`, "--initial-height": W2 ? "auto" : `${y2}px` }, O2), t2.style), onPointerDown: (a2) => {
-      lt || !P2 || (A2.current = /* @__PURE__ */ new Date(), m2(Y2.current), a2.target.setPointerCapture(a2.pointerId), a2.target.tagName !== "BUTTON" && (N2(true), F2.current = { x: a2.clientX, y: a2.clientY }));
-    }, onPointerUp: () => {
-      var B2, C2, R2, dt;
-      if (M2 || !P2) return;
-      F2.current = null;
-      let a2 = Number(((B2 = l2.current) == null ? void 0 : B2.style.getPropertyValue("--swipe-amount").replace("px", "")) || 0), f2 = (/* @__PURE__ */ new Date()).getTime() - ((C2 = A2.current) == null ? void 0 : C2.getTime()), p2 = Math.abs(a2) / f2;
-      if (Math.abs(a2) >= oe || p2 > 0.11) {
-        m2(Y2.current), (R2 = t2.onDismiss) == null || R2.call(t2, t2), L2(), rt(true);
-        return;
-      }
-      (dt = l2.current) == null || dt.style.setProperty("--swipe-amount", "0px"), N2(false);
-    }, onPointerMove: (a2) => {
-      var Bt;
-      if (!F2.current || !P2) return;
-      let f2 = a2.clientY - F2.current.y, p2 = a2.clientX - F2.current.x, C2 = (gt === "top" ? Math.min : Math.max)(0, f2), R2 = a2.pointerType === "touch" ? 10 : 2;
-      Math.abs(C2) > R2 ? (Bt = l2.current) == null || Bt.style.setProperty("--swipe-amount", `${f2}px`) : Math.abs(p2) > R2 && (F2.current = null);
-    } }, Lt && !t2.jsx ? xn.createElement("button", { "aria-label": at, "data-disabled": lt, "data-close-button": true, onClick: lt || !P2 ? () => {
-    } : () => {
-      var a2;
-      L2(), (a2 = t2.onDismiss) == null || a2.call(t2, t2);
-    }, className: T2(r2 == null ? void 0 : r2.closeButton, (wt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : wt.closeButton) }, xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "12", height: "12", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, xn.createElement("line", { x1: "18", y1: "6", x2: "6", y2: "18" }), xn.createElement("line", { x1: "6", y1: "6", x2: "18", y2: "18" }))) : null, t2.jsx || xn.isValidElement(t2.title) ? t2.jsx || t2.title : xn.createElement(xn.Fragment, null, x2 || t2.icon || t2.promise ? xn.createElement("div", { "data-icon": "", className: T2(r2 == null ? void 0 : r2.icon, (Tt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Tt.icon) }, t2.promise || t2.type === "loading" && !t2.icon ? t2.icon || Yt() : null, t2.type !== "loading" ? t2.icon || (I2 == null ? void 0 : I2[x2]) || Ct(x2) : null) : null, xn.createElement("div", { "data-content": "", className: T2(r2 == null ? void 0 : r2.content, (St = t2 == null ? void 0 : t2.classNames) == null ? void 0 : St.content) }, xn.createElement("div", { "data-title": "", className: T2(r2 == null ? void 0 : r2.title, (Rt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Rt.title) }, t2.title), t2.description ? xn.createElement("div", { "data-description": "", className: T2(et, At, r2 == null ? void 0 : r2.description, (Et = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Et.description) }, t2.description) : null), xn.isValidElement(t2.cancel) ? t2.cancel : t2.cancel && U(t2.cancel) ? xn.createElement("button", { "data-button": true, "data-cancel": true, style: t2.cancelButtonStyle || K2, onClick: (a2) => {
-      var f2, p2;
-      U(t2.cancel) && P2 && ((p2 = (f2 = t2.cancel).onClick) == null || p2.call(f2, a2), L2());
-    }, className: T2(r2 == null ? void 0 : r2.cancelButton, (Nt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Nt.cancelButton) }, t2.cancel.label) : null, xn.isValidElement(t2.action) ? t2.action : t2.action && U(t2.action) ? xn.createElement("button", { "data-button": true, "data-action": true, style: t2.actionButtonStyle || Z2, onClick: (a2) => {
-      var f2, p2;
-      U(t2.action) && (a2.defaultPrevented || ((p2 = (f2 = t2.action).onClick) == null || p2.call(f2, a2), L2()));
-    }, className: T2(r2 == null ? void 0 : r2.actionButton, (Pt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Pt.actionButton) }, t2.action.label) : null));
-  };
-  function Ht() {
-    if (typeof window == "undefined" || typeof document == "undefined") return "ltr";
-    let s2 = document.documentElement.getAttribute("dir");
-    return s2 === "auto" || !s2 ? window.getComputedStyle(document.documentElement).direction : s2;
-  }
-  var Te = (s2) => {
-    let { invert: o2, position: t2 = "bottom-right", hotkey: n = ["altKey", "KeyT"], expand: h2, closeButton: u2, className: g2, offset: b, theme: d2 = "light", richColors: q2, duration: $2, style: V2, visibleToasts: Q2 = qt, toastOptions: i, dir: O2 = Ht(), gap: K2 = ee, loadingIcon: Z2, icons: tt, containerAriaLabel: et = "Notifications", pauseWhenPageIsHidden: X2, cn: ot = ne } = s2, [w2, j2] = xn.useState([]), W2 = xn.useMemo(() => Array.from(new Set([t2].concat(w2.filter((c2) => c2.position).map((c2) => c2.position)))), [w2, t2]), [r2, I2] = xn.useState([]), [at, k2] = xn.useState(false), [T2, z2] = xn.useState(false), [nt, D2] = xn.useState(d2 !== "system" ? d2 : typeof window != "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"), H2 = xn.useRef(null), st = n.join("+").replace(/Key/g, "").replace(/Digit/g, ""), N2 = xn.useRef(null), M2 = xn.useRef(false), rt = xn.useCallback((c2) => {
-      var m2;
-      (m2 = w2.find((y2) => y2.id === c2.id)) != null && m2.delete || v.dismiss(c2.id), j2((y2) => y2.filter(({ id: S }) => S !== c2.id));
-    }, [w2]);
-    return xn.useEffect(() => v.subscribe((c2) => {
-      if (c2.dismiss) {
-        j2((m2) => m2.map((y2) => y2.id === c2.id ? __spreadProps(__spreadValues({}, y2), { delete: true }) : y2));
-        return;
-      }
-      setTimeout(() => {
-        xn.flushSync(() => {
-          j2((m2) => {
-            let y2 = m2.findIndex((S) => S.id === c2.id);
-            return y2 !== -1 ? [...m2.slice(0, y2), __spreadValues(__spreadValues({}, m2[y2]), c2), ...m2.slice(y2 + 1)] : [c2, ...m2];
-          });
-        });
-      });
-    }), []), xn.useEffect(() => {
-      if (d2 !== "system") {
-        D2(d2);
-        return;
-      }
-      d2 === "system" && (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? D2("dark") : D2("light")), typeof window != "undefined" && window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: c2 }) => {
-        D2(c2 ? "dark" : "light");
-      });
-    }, [d2]), xn.useEffect(() => {
-      w2.length <= 1 && k2(false);
-    }, [w2]), xn.useEffect(() => {
-      let c2 = (m2) => {
-        var S, A2;
-        n.every((l2) => m2[l2] || m2.code === l2) && (k2(true), (S = H2.current) == null || S.focus()), m2.code === "Escape" && (document.activeElement === H2.current || (A2 = H2.current) != null && A2.contains(document.activeElement)) && k2(false);
-      };
-      return document.addEventListener("keydown", c2), () => document.removeEventListener("keydown", c2);
-    }, [n]), xn.useEffect(() => {
-      if (H2.current) return () => {
-        N2.current && (N2.current.focus({ preventScroll: true }), N2.current = null, M2.current = false);
-      };
-    }, [H2.current]), w2.length ? xn.createElement("section", { "aria-label": `${et} ${st}`, tabIndex: -1 }, W2.map((c2, m2) => {
-      var A2;
-      let [y2, S] = c2.split("-");
-      return xn.createElement("ol", { key: c2, dir: O2 === "auto" ? Ht() : O2, tabIndex: -1, ref: H2, className: g2, "data-sonner-toaster": true, "data-theme": nt, "data-y-position": y2, "data-x-position": S, style: __spreadValues({ "--front-toast-height": `${((A2 = r2[0]) == null ? void 0 : A2.height) || 0}px`, "--offset": typeof b == "number" ? `${b}px` : b || Qt, "--width": `${te}px`, "--gap": `${K2}px` }, V2), onBlur: (l2) => {
-        M2.current && !l2.currentTarget.contains(l2.relatedTarget) && (M2.current = false, N2.current && (N2.current.focus({ preventScroll: true }), N2.current = null));
-      }, onFocus: (l2) => {
-        l2.target instanceof HTMLElement && l2.target.dataset.dismissible === "false" || M2.current || (M2.current = true, N2.current = l2.relatedTarget);
-      }, onMouseEnter: () => k2(true), onMouseMove: () => k2(true), onMouseLeave: () => {
-        T2 || k2(false);
-      }, onPointerDown: (l2) => {
-        l2.target instanceof HTMLElement && l2.target.dataset.dismissible === "false" || z2(true);
-      }, onPointerUp: () => z2(false) }, w2.filter((l2) => !l2.position && m2 === 0 || l2.position === c2).map((l2, _2) => {
-        var J2, x2;
-        return xn.createElement(se, { key: l2.id, icons: tt, index: _2, toast: l2, defaultRichColors: q2, duration: (J2 = i == null ? void 0 : i.duration) != null ? J2 : $2, className: i == null ? void 0 : i.className, descriptionClassName: i == null ? void 0 : i.descriptionClassName, invert: o2, visibleToasts: Q2, closeButton: (x2 = i == null ? void 0 : i.closeButton) != null ? x2 : u2, interacting: T2, position: c2, style: i == null ? void 0 : i.style, unstyled: i == null ? void 0 : i.unstyled, classNames: i == null ? void 0 : i.classNames, cancelButtonStyle: i == null ? void 0 : i.cancelButtonStyle, actionButtonStyle: i == null ? void 0 : i.actionButtonStyle, removeToast: rt, toasts: w2.filter((P2) => P2.position == l2.position), heights: r2.filter((P2) => P2.position == l2.position), setHeights: I2, expandByDefault: h2, gap: K2, loadingIcon: Z2, expanded: at, pauseWhenPageIsHidden: X2, cn: ot });
-      }));
-    })) : null;
-  };
-  const en = {
-    "豆瓣链接获取失败": "Failed to get Douban link",
-    "豆瓣ID获取失败": "Failed to get Douban ID",
-    "获取豆瓣信息失败": "Failed to get Douban data",
-    "缺少IMDB信息": "Missing IMDB information",
-    "获取失败": "Request failed",
-    "获取成功": "Data request successful",
+  const en$1 = {
+    "豆瓣链接获取失败": "Failed to retrieve Douban link",
+    "豆瓣ID获取失败": "Failed to retrieve Douban ID",
+    "获取豆瓣信息失败": "Failed to retrieve Douban information",
+    "缺少IMDB信息": "IMDB information missing",
+    "获取失败": "Retrieval failed",
+    "获取成功": "Retrieved successfully",
     "请求失败": "Request failed",
     "上传失败，请重试": "Upload failed, please try again",
-    "封面上传失败": "Failed to upload poster",
+    "封面上传失败": "Poster upload failed",
     "ptpimg上传失败": "PtpImg upload failed",
-    "请到配置面板中填入ptpimg的api_key": "Please enter the API_KEY of ptpimg in the setting panel",
+    "请到配置面板中填入ptpimg的api_key": "Please enter your PtpImg API key in the settings panel",
     "数据加载中...": "Loading data...",
-    "获取图片列表失败": "Failed to get list of images",
+    "获取图片列表失败": "Failed to retrieve image list",
     "转换中...": "Converting...",
-    "转换成功！": "Converted!",
-    "获取中...": "Requesting...",
-    "缺少豆瓣链接": "Missing Douban link",
-    "本种子可能禁止转载，确定要继续转载么？": "Transfer of this torrent may be prohibited, are you sure to continue?",
-    "请等待页面加载完成": "Please wait for the page to load",
-    "手动输入豆瓣链接": "Enter the Douban link",
-    "获取豆瓣简介": "Get data of Douban",
-    "获取豆瓣读书简介": "Get data of Douban Book",
+    "转换成功！": "Conversion successful!",
+    "获取中...": "Retrieving...",
+    "缺少豆瓣链接": "Douban link missing",
+    "本种子可能禁止转载，确定要继续转载么？": "This torrent may be prohibited from transfer. Are you sure you want to continue?",
+    "手动输入豆瓣链接": "Enter Douban link manually",
+    "获取豆瓣简介": "Retrieve Douban info",
+    "获取豆瓣读书简介": "Retrieve Douban Book info",
     "转缩略图": "Convert to thumbnails",
     "快速检索": "Quick search",
     "一键群转": "Batch transfer",
-    "快捷操作": "Quick operation",
-    "一键转种": "Transfer to",
-    "转种站点启用": "Select sites for the 'Transfer to' section",
-    "批量转种启用": "Select sites for the 'Batch transfer' button",
-    "一键批量转发到以下选中的站点": "One-click batch transfer to the selected sites below",
-    "站点搜索启用": "Select sites for the 'Quick search' section",
-    "图床配置": "Image Host Settings",
-    "如何获取？": "How to get it?",
-    "额外功能关闭": "Turn off extra features",
-    "关闭转缩略图功能": "Remove the 'Convert to thumbnails' button",
-    "关闭站点图标显示": "Remove the icons",
+    "快捷操作": "Quick actions",
+    "一键转种": "One-click transfer",
+    "转种站点启用": "Enable sites for transfer",
+    "批量转种启用": "Enable sites for batch transfer",
+    "一键批量转发到以下选中的站点": "One-click batch transfer to selected sites below",
+    "站点搜索启用": "Enable sites for search",
+    "图床配置": "Image hosting settings",
+    "如何获取？": "How to obtain?",
+    "额外功能关闭": "Disable extra features",
+    "关闭转缩略图功能": "Disable thumbnail conversion",
+    "关闭站点图标显示": "Hide site icons",
+    "关闭转存图片功能": "Disable image rehosting",
     "保存": "Save",
     "取消": "Cancel",
     "错误": "Error",
     "成功": "Success",
     "保存本地站点设置失败": "Failed to save local site settings",
-    "请先设置群转列表": "Please set up the batch transfer list first",
-    "转种页面已打开，请前往对应页面操作": "The transfer pages have been opened, please go to the corresponding page to operate",
-    "提示": "Hint",
-    "转存截图": "Upload screenshots to another host",
-    "无需转存": "No need to upload",
-    "上传中，请稍候...": "Uploading, be patient",
-    "不显示致谢内容": "Do not include thanks",
+    "请先设置群转列表": "Please configure batch transfer list first",
+    "转种页面已打开，请前往对应页面操作": "Transfer pages opened. Please navigate to the corresponding pages to proceed",
+    "提示": "Tip",
+    "转存截图": "Rehost screenshots",
+    "无需转存": "No upload needed",
+    "上传中，请稍候...": "Uploading, please wait...",
+    "不显示致谢内容": "Hide acknowledgments",
     "拷贝": "Copy",
     "已拷贝": "Copied",
-    "不显示豆瓣按钮和豆瓣链接": "Hide Douban button & link field",
-    "请填写正确链接": "Please fill the correct link",
+    "不显示豆瓣按钮和豆瓣链接": "Hide Douban button and link field",
+    "请填写正确链接": "Please enter a valid link",
     "批量检索": "Batch search",
-    "同时打开多个搜索标签页": "Open multiple search tabs at the same time",
-    "豆瓣配置": "Douban Config",
-    "豆瓣Cookie": "Douban Cookie",
-    "请配置豆瓣Cookie": "Please configure douban cookie",
-    "关闭快速检索": "Disable QuickSearch",
-    "种子文件下载失败": "Failed to download torrent file",
-    "请手动下载": "Please download it manually",
-    "获取页面配置": "Retrieve Site Config",
-    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "The configuration has been copied to the clipboard, please paste it into the created Github Issue."
+    "同时打开多个搜索标签页": "Open multiple search tabs simultaneously",
+    "豆瓣配置": "Douban configuration",
+    "关闭快速检索": "Disable quick search",
+    "种子文件下载失败": "Torrent file download failed",
+    "请手动下载": "Please download manually",
+    "获取页面配置": "Retrieve page configuration",
+    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "Configuration copied to clipboard. Please paste it into a new GitHub issue"
   };
   const ko = {
     "豆瓣链接获取失败": "더우반 링크 얻기 실패",
@@ -9373,7 +8074,6 @@
     "获取中...": "요청 중...",
     "缺少豆瓣链接": "더우반 링크 누락",
     "本种子可能禁止转载，确定要继续转载么？": "이 토렌트의 전송이 금지될 수 있습니다, 계속하겠습니까?",
-    "请等待页面加载完成": "페이지가 불러올 때까지 기다려주세요.",
     "手动输入豆瓣链接": "더우반 링크 입력",
     "获取豆瓣简介": "더우반의 데이터 얻기",
     "获取豆瓣读书简介": "더우반 도서 데이터 얻기",
@@ -9391,6 +8091,7 @@
     "额外功能关闭": "추가 기능 끄기",
     "关闭转缩略图功能": "썸네일로 변환 버튼 제거하기",
     "关闭站点图标显示": "아이콘 제거하기",
+    "关闭转存图片功能": "이미지 리호스팅 기능 끄기",
     "保存": "저장",
     "取消": "취소",
     "错误": "오류",
@@ -9410,1709 +8111,2206 @@
     "批量检索": "일괄 검색",
     "同时打开多个搜索标签页": "여러 검색 탭 동시에 열기",
     "豆瓣配置": "더우반 구성",
-    "豆瓣Cookie": "더우반 쿠키",
-    "请配置豆瓣Cookie": "더우반 쿠키를 구성하세요.",
     "关闭快速检索": "빠른검색 비활성화",
     "种子文件下载失败": "토렌트 파일 다운로드 실패",
     "请手动下载": "수동으로 다운로드해주세요",
     "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "설정이 클립보드에 복사되었습니다. 생성한 Github Issue에 붙여넣으세요.",
     "获取页面配置": "페이지 설정 가져오기"
   };
-  const zh = {
-    "豆瓣链接获取失败": "豆瓣链接获取失败",
-    "豆瓣ID获取失败": "豆瓣ID获取失败",
-    "获取豆瓣信息失败": "获取豆瓣信息失败",
-    "缺少IMDB信息": "缺少IMDB信息",
-    "获取失败": "获取失败",
-    "获取成功": "获取成功",
-    "请求失败": "请求失败",
-    "上传失败，请重试": "上传失败，请重试",
-    "封面上传失败": "封面上传失败",
-    "数据加载中...": "数据加载中...",
-    "ptpimg上传失败": "ptpimg上传失败",
-    "请到配置面板中填入ptpimg的api_key": "请到配置面板中填入ptpimg的api_key",
-    "获取图片列表失败": "获取图片列表失败",
-    "转换中...": "转换中...",
-    "转换成功！": "转换成功！",
-    "获取中...": "获取中...",
-    "缺少豆瓣链接": "缺少豆瓣链接",
-    "本种子可能禁止转载，确定要继续转载么？": "本种子可能禁止转载，确定要继续转载么？",
-    "请等待页面加载完成": "请等待页面加载完成",
-    "手动输入豆瓣链接": "手动输入豆瓣链接",
-    "获取豆瓣简介": "获取豆瓣简介",
-    "获取豆瓣读书简介": "获取豆瓣读书简介",
-    "转缩略图": "转缩略图",
-    "快速检索": "快速检索",
-    "一键群转": "一键群转",
-    "快捷操作": "快捷操作",
-    "一键转种": "一键转种",
-    "转种站点启用": "转种站点启用",
-    "批量转种启用": "批量转种启用",
-    "一键批量转发到以下选中的站点": "一键批量转发到以下选中的站点",
-    "站点搜索启用": "站点搜索启用",
-    "图床配置": "图床配置",
-    "如何获取？": "如何获取？",
-    "额外功能关闭": "额外功能关闭",
-    "关闭转缩略图功能": "关闭转缩略图功能",
-    "关闭站点图标显示": "关闭站点图标显示",
-    "保存": "保存",
-    "取消": "取消",
-    "错误": "错误",
-    "成功": "成功",
-    "保存本地站点设置失败": "保存本地站点设置失败",
-    "请先设置群转列表": "请先设置群转列表",
-    "转种页面已打开，请前往对应页面操作": "转种页面已打开，请前往对应页面操作",
-    "提示": "提示",
-    "转存截图": "转存截图",
-    "无需转存": "无需转存",
-    "上传中，请稍候...": "上传中，请稍候...",
-    "不显示致谢内容": "不显示致谢内容",
-    "拷贝": "拷贝",
-    "已拷贝": "已拷贝",
-    "不显示豆瓣按钮和豆瓣链接": "不显示豆瓣按钮和豆瓣链接",
-    "请填写正确链接": "请填写正确链接",
-    "批量检索": "批量检索",
-    "同时打开多个搜索标签页": "同时打开多个搜索标签页",
-    "豆瓣配置": "豆瓣配置",
-    "豆瓣Cookie": "豆瓣Cookie",
-    "请配置豆瓣Cookie": "请配置豆瓣Cookie",
-    "关闭快速检索": "关闭快速检索",
-    "种子文件下载失败": "种子文件下载失败",
-    "请手动下载": "请手动下载",
-    "获取页面配置": "获取页面配置",
-    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "配置已复制到剪贴板,请黏贴到创建的Github Issue中"
-  };
   const i18nConfig = {
-    en,
-    ko,
-    zh
+    en: en$1,
+    ko
   };
-  const getUrlParam = (key) => {
+  class HTMLToBBCodeConverter {
+    constructor(siteInfo) {
+      this.convertRgbToHex = (rgb) => {
+        const rgbMatch = rgb == null ? void 0 : rgb.match(
+          /^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*/i
+        );
+        if (!rgbMatch || rgbMatch.length < 4) {
+          return "";
+        }
+        const hexComponents = rgbMatch.slice(1, 4).map((component) => {
+          return `0${parseInt(component, 10).toString(16)}`.slice(-2);
+        });
+        return `#${hexComponents.join("")}`;
+      };
+      this.siteInfo = siteInfo;
+    }
+    /**
+     * Check if the site matches the given site match
+     *
+     * @private
+     * @param {SiteMatch} siteMatch
+     * @returns {boolean}
+     */
+    isMatchingSite(siteMatch) {
+      const { siteName } = this.siteInfo;
+      if (typeof siteMatch === "string") {
+        return siteName === siteMatch;
+      }
+      return !!siteName.match(siteMatch);
+    }
+    /**
+     * Check if the text is a special control text (should be ignored)
+     *
+     * @private
+     * @param {string} text
+     * @returns {boolean}
+     */
+    isSpecialControlText(text2) {
+      return !!text2.trim().match(
+        /^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/
+      );
+    }
+    /**
+     * Normalize the color format
+     *
+     * @private
+     * @param {string} color
+     * @returns {string}
+     */
+    normalizeColorFormat(color) {
+      return /rgba?/.test(color) ? this.convertRgbToHex(color) : color;
+    }
+    /**
+     * Add BBCode tags to the accumulator
+     *
+     * @private
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @param {string | null} openTag
+     * @param {string | null
+     * @returns {void}
+     */
+    addBBCodeTags(accumulator, openTag, closeTag = null) {
+      if (openTag !== null) accumulator.openingTags.push(openTag);
+      if (closeTag !== null) accumulator.closingTags.unshift(closeTag);
+    }
+    /**
+     * Convert image element to BBCode
+     *
+     * @private
+     * @param {HTMLImageElement} imgElement
+     * @returns {string}
+     */
+    convertImageToBBCode(imgElement) {
+      const { src, title } = imgElement;
+      const dataSrc = imgElement.getAttribute("data-src") || imgElement.getAttribute("data-echo");
+      if (title === ":m:") {
+        return ":m:";
+      }
+      const imgUrl = this.determineImageUrl(src, dataSrc);
+      if (!imgUrl) return "";
+      return `[img]${imgUrl}[/img]`;
+    }
+    /**
+     * Determine the image URL
+     *
+     * @private
+     * @param {string} src
+     * @param {string | null} dataSrc
+     * @returns {string}
+     */
+    determineImageUrl(src, dataSrc) {
+      if (dataSrc) {
+        return dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
+      }
+      if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
+        return src;
+      }
+      return "";
+    }
+    /**
+     * Convert anchor element to BBCode
+     *
+     * @private
+     * @param {HTMLAnchorElement} anchorElement
+     * @returns {BBCodeConverterResult}
+     */
+    convertLinkToBBCode(anchorElement) {
+      const { href, textContent } = anchorElement;
+      if (!href || href.length === 0) {
+        return {};
+      }
+      if (this.isMatchingSite("HDSpace")) {
+        const div = anchorElement.querySelector("div");
+        if (div && div.id) {
+          const img = div.querySelector("img");
+          if (img) {
+            const imgUrl = img.getAttribute("src");
+            return {
+              content: `[url=${href}][img]${imgUrl}[/img][/url]`
+            };
+          }
+        }
+      }
+      if (href.match(/javascript:void/) || textContent === "show" && this.isMatchingSite("HDT")) {
+        return {};
+      }
+      return {
+        openTag: `[url=${href}]`,
+        closeTag: "[/url]"
+      };
+    }
+    /**
+     * handle special cases for div element
+     *
+     * @private
+     * @param {HTMLElement} element
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @returns {(string | null)}
+     */
+    handleSpecialDivElement(element, accumulator) {
+      var _a2, _b;
+      const { className, id } = element;
+      const { siteType } = this.siteInfo;
+      const addTags = this.addBBCodeTags.bind(this, accumulator);
+      if (className === "codemain") {
+        if (element.children.length > 0) {
+          addTags("\n[quote]", "[/quote]");
+          return null;
+        }
+        return "";
+      }
+      if (className === "hidden" && this.isMatchingSite("HDT")) {
+        addTags("\n[quote]", "[/quote]");
+        return null;
+      }
+      if (className.match("spoiler") && this.isMatchingSite("KG")) {
+        if (className === "spoiler-content") {
+          addTags("\n[quote]", "[/quote]");
+        } else if (className === "spoiler-header") {
+          return "";
+        }
+        return null;
+      }
+      if (this.isMatchingSite("BeyondHD")) {
+        if (className === "spoilerChild") {
+          const firstChildTag = (_b = (_a2 = element.children[0]) == null ? void 0 : _a2.tagName) == null ? void 0 : _b.toUpperCase();
+          if (firstChildTag === "BLOCKQUOTE" || firstChildTag === "PRE") {
+            addTags("\n", "");
+          } else {
+            addTags("\n[quote]", "[/quote]");
+          }
+        } else if (id === "screenMain") {
+          return "\n";
+        } else if (className === "spoilerHide") {
+          return "";
+        }
+        return null;
+      }
+      if (siteType === "AvistaZ") {
+        if (className === "spoiler-text") {
+          addTags("\n[quote]", "[/quote]");
+          return null;
+        }
+        if (className === "spoiler-toggle") {
+          return "";
+        }
+      }
+      if (className.match(/codetop|highlight/)) {
+        return "";
+      }
+      addTags("\n", "\n");
+      return null;
+    }
+    /**
+     * handle special cases for TD element
+     *
+     * @private
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @returns {(string | null)}
+     */
+    handleTDElement(accumulator) {
+      const { siteType } = this.siteInfo;
+      const addTags = this.addBBCodeTags.bind(this, accumulator);
+      if (this.isMatchingSite(/^(TTG|HDBits|KG|HDSpace)/) || this.isMatchingSite("HDT") || siteType === "UNIT3D") {
+        addTags("[quote]", "[/quote]");
+      } else if (this.isMatchingSite("EMP")) {
+        addTags("");
+      } else if (this.isMatchingSite("PTer")) {
+        addTags(null, null);
+      } else {
+        return "";
+      }
+      return null;
+    }
+    /**
+     * handle BR element
+     *
+     * @private
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @returns {void}
+     */
+    handleBRElement(accumulator) {
+      const { siteType } = this.siteInfo;
+      const siteName = this.siteInfo.siteName;
+      const addTags = this.addBBCodeTags.bind(this, accumulator);
+      if (siteType === "NexusPHP" && siteName !== "OurBits" || (siteName == null ? void 0 : siteName.match(/^(UHDBits|HDBits|BTN)/))) {
+        addTags("");
+      } else {
+        addTags("\n");
+      }
+    }
+    /**
+     * handle inline styles
+     *
+     * @private
+     * @param {HTMLElement} element
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @returns {void}
+     */
+    handleInlineStyles(element, accumulator) {
+      const { style } = element;
+      const addTags = this.addBBCodeTags.bind(this, accumulator);
+      if (style.textAlign) {
+        const alignment = style.textAlign.toUpperCase();
+        if (alignment === "LEFT") addTags("[left]", "[/left]");
+        else if (alignment === "RIGHT") addTags("[right]", "[/right]");
+        else if (alignment === "CENTER") addTags("[center]", "[/center]");
+      }
+      if (style.fontWeight === "bold" || parseInt(style.fontWeight, 10) >= 600) {
+        addTags("[b]", "[/b]");
+      }
+      if (style.fontStyle === "italic") {
+        addTags("[i]", "[/i]");
+      }
+      if (style.textDecoration === "underline" || style.textDecoration === "overline") {
+        addTags("[u]", "[/u]");
+      }
+      if (style.textDecoration === "line-through") {
+        addTags("[s]", "[/s]");
+      }
+      if (style.color && style.color.trim() !== "") {
+        addTags(`[color=${this.normalizeColorFormat(style.color)}]`, "[/color]");
+      }
+    }
+    /**
+     * handle element by tag name
+     *
+     * @private
+     * @param {string} tagName
+     * @param {HTMLElement} element
+     * @param {BBCodeTagsAccumulator} accumulator
+     * @returns {(string | null)}
+     */
+    handleElementByTagName(tagName, element, accumulator) {
+      var _a2, _b, _c;
+      const addTags = this.addBBCodeTags.bind(this, accumulator);
+      const { siteType } = this.siteInfo;
+      switch (tagName) {
+        case "SCRIPT":
+          return "";
+        case "UL":
+          addTags(null, null);
+          break;
+        case "OL":
+          addTags("[list=1]", "[/list]");
+          break;
+        case "LI": {
+          const { className } = element;
+          if (siteType === "UNIT3D" && className) {
+            return `[quote]${(_a2 = element.textContent) == null ? void 0 : _a2.trim()}[/quote]`;
+          }
+          addTags("[*]", "\n");
+          break;
+        }
+        case "B":
+          addTags("[b]", "[/b]");
+          break;
+        case "U":
+          addTags("[u]", "[/u]");
+          break;
+        case "I":
+          addTags("[i]", "[/i]");
+          break;
+        case "DIV":
+          return this.handleSpecialDivElement(element, accumulator);
+        case "P":
+          addTags("\n");
+          break;
+        case "BR":
+          this.handleBRElement(accumulator);
+          break;
+        case "SPAN": {
+          const { className } = element;
+          if (className == null ? void 0 : className.match(/size/)) {
+            const matchSize = (_c = (_b = className.match(/size(\d)/)) == null ? void 0 : _b[1]) != null ? _c : "";
+            if (matchSize) {
+              addTags(`[size=${matchSize}]`, "[/size]");
+            }
+          } else {
+            addTags(null, null);
+          }
+          break;
+        }
+        case "BLOCKQUOTE":
+        case "PRE":
+        case "FIELDSET":
+          addTags("[quote]", "[/quote]");
+          break;
+        case "CENTER":
+          addTags("[center]", "[/center]");
+          break;
+        case "TD":
+          return this.handleTDElement(accumulator);
+        case "IMG":
+          return this.convertImageToBBCode(element);
+        case "FONT": {
+          const fontElement = element;
+          if (fontElement.color) {
+            addTags(
+              `[color=${this.normalizeColorFormat(fontElement.color)}]`,
+              "[/color]"
+            );
+          }
+          if (fontElement.size) {
+            addTags(`[size=${fontElement.size}]`, "[/size]");
+          }
+          break;
+        }
+        case "A": {
+          const result = this.convertLinkToBBCode(element);
+          if (result.content) return result.content;
+          if (result.openTag) addTags(result.openTag, result.closeTag);
+          if (Object.keys(result).length < 1) return "";
+          break;
+        }
+        case "H1":
+          addTags('[b][size="7"]', "[/size][/b]\n");
+          break;
+        case "H2":
+          addTags('[b][size="6"]', "[/size][/b]\n");
+          break;
+        case "H3":
+          addTags('[b][size="5"]', "[/size][/b]\n");
+          break;
+        case "H4":
+          addTags('[b][size="4"]', "[/size][/b]\n");
+          break;
+        case "STRONG":
+          addTags("[b]", "[/b]");
+          break;
+        case "TABLE": {
+          if (this.isMatchingSite("PTer") && element.className === "table") {
+            return "";
+          }
+          addTags("");
+          break;
+        }
+        case "TH":
+          addTags("");
+          break;
+        default:
+          addTags(null, null);
+      }
+      return null;
+    }
+    /**
+     * Convert HTML node to BBCode
+     *
+     * @param {Element | ChildNode} node
+     * @returns {string}
+     */
+    convert(node) {
+      if (node.nodeType === 3) {
+        const textContent = node.textContent;
+        if (this.isSpecialControlText(textContent)) {
+          return "";
+        }
+        return textContent;
+      }
+      if (node.nodeType !== 1) {
+        return "";
+      }
+      const element = node;
+      const tagName = element.tagName.toUpperCase();
+      const accumulator = {
+        openingTags: [],
+        closingTags: []
+      };
+      const specialTagResult = this.handleElementByTagName(
+        tagName,
+        element,
+        accumulator
+      );
+      if (specialTagResult !== null) {
+        return specialTagResult;
+      }
+      this.handleInlineStyles(element, accumulator);
+      const bbCodeParts = [];
+      element.childNodes.forEach((childNode) => {
+        const childCode = this.convert(childNode);
+        if (childCode) {
+          bbCodeParts.push(childCode);
+        }
+      });
+      return accumulator.openingTags.concat(bbCodeParts).concat(accumulator.closingTags).join("");
+    }
+  }
+  class NetworkError extends Error {
+    constructor(message, status, statusText) {
+      super(message);
+      this.name = "NetworkError";
+      this.status = status;
+      this.statusText = statusText;
+    }
+  }
+  class TimeoutError extends Error {
+    constructor(message = "Request timed out") {
+      super(message);
+      this.name = "TimeoutError";
+    }
+  }
+  const getLocationSearchValueByKey = (key) => {
     const reg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
-    const regArray = location.search.substring(1).match(reg);
+    const regArray = window.location.search.substring(1).match(reg);
     if (regArray) {
       return decodeURIComponent(regArray[2]);
     }
     return "";
   };
-  const getSize = (size) => {
+  const convertSizeStringToBytes = (size) => {
     if (!size) {
       return 0;
     }
-    if (size.match(/T/i)) {
-      return parseFloat(size) * 1024 * 1024 * 1024 * 1024 || 0;
-    } else if (size.match(/G/i)) {
-      return parseFloat(size) * 1024 * 1024 * 1024 || 0;
-    } else if (size.match(/M/i)) {
-      return parseFloat(size) * 1024 * 1024 || 0;
-    } else if (size.match(/K/i)) {
-      return parseFloat(size) * 1024 || 0;
+    const sizeFloat = parseFloat(size);
+    if (isNaN(sizeFloat)) {
+      return 0;
     }
-    return 0;
+    if (size.match(/bytes/)) {
+      return sizeFloat;
+    } else if (size.match(/T/i)) {
+      return sizeFloat * 1024 ** 4;
+    } else if (size.match(/G/i)) {
+      return sizeFloat * 1024 ** 3;
+    } else if (size.match(/M/i)) {
+      return sizeFloat * 1024 ** 2;
+    } else if (size.match(/K/i)) {
+      return sizeFloat * 1024;
+    }
+    return sizeFloat;
   };
-  const $t = (key) => {
+  const $t$1 = (key) => {
     const languageKey = BROWSER_LANGUAGE;
-    return i18nConfig[languageKey][key] || key;
+    const translations = i18nConfig[languageKey];
+    if (!translations) {
+      return key;
+    }
+    return key in translations ? translations[key] : key;
+  };
+  const htmlToBBCode = (node) => {
+    const converter = new HTMLToBBCodeConverter({
+      siteType: CURRENT_SITE_INFO.siteType,
+      siteName: CURRENT_SITE_NAME
+    });
+    return converter.convert(node);
+  };
+  const createFormData = (fields, files) => {
+    const formData = new FormData();
+    Object.entries(fields).forEach(([key, value]) => {
+      if (value instanceof File) {
+        throw new Error("Files should be passed as a separate argument");
+      }
+      formData.append(key, String(value));
+    });
+    if (files) {
+      files.forEach(({ fieldName, file }) => {
+        if (Array.isArray(file)) {
+          file.forEach((f2, index) => {
+            formData.append(`${fieldName}[${index}]`, f2);
+          });
+        } else {
+          formData.append(fieldName, file);
+        }
+      });
+    }
+    return formData;
+  };
+  const GMFetch = (url, options2) => {
+    return new Promise((resolve28, reject) => {
+      const finalOptions = __spreadValues({
+        method: "GET"
+      }, options2);
+      GM_xmlhttpRequest(__spreadProps(__spreadValues({
+        url
+      }, finalOptions), {
+        onload: (res) => {
+          const { statusText, status, response, responseText } = res;
+          if (status >= 200 && status < 300) {
+            if (finalOptions.responseType === "json" && typeof response === "undefined" && responseText) {
+              try {
+                resolve28(JSON.parse(responseText));
+              } catch (e2) {
+                reject(
+                  new Error(
+                    `Failed to parse JSON: ${e2 instanceof Error ? e2.message : String(e2)}`
+                  )
+                );
+              }
+            } else {
+              resolve28(response);
+            }
+          } else {
+            reject(
+              new NetworkError(
+                statusText || `Request failed with status ${status}`,
+                status
+              )
+            );
+          }
+        },
+        ontimeout: () => {
+          reject(
+            new TimeoutError(
+              `Request to ${url} timed out after ${finalOptions.timeout}ms`
+            )
+          );
+        },
+        onprogress: finalOptions == null ? void 0 : finalOptions.onprogress,
+        onerror: (error) => {
+          const errorMessage = error.error || error.statusText || "Unknown network error";
+          reject(new NetworkError(errorMessage, error.status, error.statusText));
+        }
+      }));
+    });
+  };
+  const getOriginalImgUrl = async (urlBBcode) => {
+    var _a2, _b, _c;
+    if (!urlBBcode) {
+      throw new Error("Invalid BBCode - No BBCode found");
+    }
+    const urlBBCodeMatch = urlBBcode.match(/\[url=(http(s)*:([^\]]+)?)/);
+    const directUrlMatch = urlBBcode.match(/http(s)*:([^[])+/);
+    if (urlBBCodeMatch) {
+      const imgUrl = urlBBCodeMatch[1];
+      for (const strategy of URLStrategies) {
+        if (strategy.matches(imgUrl, urlBBcode)) {
+          return await strategy.transform(imgUrl, urlBBcode);
+        }
+      }
+      return imgUrl.trim();
+    } else if (urlBBcode.match(/\[img\]/)) {
+      return (_c = (_b = (_a2 = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _a2[1]) == null ? void 0 : _b.trim()) != null ? _c : "";
+    } else if (directUrlMatch) {
+      return directUrlMatch[0].trim();
+    }
+    throw new Error("Invalid BBCode - No valid image URL found");
   };
   const urlToFile = async (url) => {
     var _a2, _b;
-    const filename = (_b = (_a2 = url.match(/\/([^/]+)$/)) == null ? void 0 : _a2[1]) != null ? _b : "filename";
-    const data = await fetch(url, {
+    const filename = (_b = (_a2 = url.match(/\/([^/]+?)(\?|$)/)) == null ? void 0 : _a2[1]) != null ? _b : "filename";
+    const data = await GMFetch(url, {
       responseType: "blob"
     });
     const file = new File([data], filename, { type: data.type });
     return file;
   };
-  const getValue = (key, needParse = true) => {
-    const data = GM_getValue(key);
-    if (data && needParse) {
-      return JSON.parse(data);
+  class ImageUploadError extends Error {
+    constructor(message, originalError) {
+      super(message);
+      this.originalError = originalError;
+      this.name = "ImageUploadError";
     }
-    return data;
+  }
+  const throwUploadError = (message, originalError) => {
+    const errorMessage = message || $t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED);
+    throw new ImageUploadError(errorMessage, originalError);
   };
-  const rgb2hex = (rgb) => {
-    var _a2;
-    const result = (_a2 = rgb == null ? void 0 : rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i)) != null ? _a2 : [];
-    return result.length === 4 ? `#${`0${parseInt(result[1], 10).toString(16)}`.slice(-2)}${`0${parseInt(result[2], 10).toString(16)}`.slice(-2)}${`0${parseInt(result[3], 10).toString(16)}`.slice(-2)}` : "";
+  const urlFileCache = /* @__PURE__ */ new Map();
+  const cachedUrlToFile = async (url) => {
+    if (!url) {
+      throw new Error("URL is required to convert to file");
+    }
+    if (!urlFileCache.has(url)) {
+      urlFileCache.set(url, urlToFile(url));
+    }
+    return urlFileCache.get(url);
   };
-  const ensureProperColor = (color) => {
-    if (/rgba?/.test(color)) return rgb2hex(color);
-    return color;
-  };
-  const htmlToBBCode = (node) => {
-    var _a2, _b, _c, _d2, _e2;
-    const bbCodes = [];
-    const pre = [];
-    const post = [];
-    const pp = wrappingBBCodeTag.bind(null, { pre, post });
-    switch (node.nodeType) {
-      case 1: {
-        switch (node.tagName.toUpperCase()) {
-          case "SCRIPT": {
-            return "";
-          }
-          case "UL": {
-            pp(null, null);
-            break;
-          }
-          case "OL": {
-            pp("[list=1]", "[/list]");
-            break;
-          }
-          case "LI": {
-            const { className } = node;
-            if (CURRENT_SITE_INFO.siteType === "UNIT3D" && className) {
-              return `[quote]${(_a2 = node == null ? void 0 : node.textContent) == null ? void 0 : _a2.trim()}[/quote]`;
-            }
-            pp("[*]", "\n");
-            break;
-          }
-          case "B": {
-            pp("[b]", "[/b]");
-            break;
-          }
-          case "U": {
-            pp("[u]", "[/u]");
-            break;
-          }
-          case "I": {
-            pp("[i]", "[/i]");
-            break;
-          }
-          case "DIV": {
-            const { className, id } = node;
-            if (className === "codemain") {
-              if (node.children[0]) {
-                pp("\n[quote]", "[/quote]");
-                break;
-              } else {
-                return "";
-              }
-            } else if (className === "hidden" && CURRENT_SITE_NAME === "HDT") {
-              pp("\n[quote]", "[/quote]");
-              break;
-            } else if (className.match("spoiler") && CURRENT_SITE_NAME === "KG") {
-              if (className === "spoiler-content") {
-                pp("\n[quote]", "[/quote]");
-              } else if (className === "spoiler-header") {
-                return "";
-              }
-              break;
-            } else if (CURRENT_SITE_NAME === "BeyondHD") {
-              if (className === "spoilerChild") {
-                if (node.children[0].tagName.toUpperCase() === "BLOCKQUOTE" || node.children[0].tagName.toUpperCase() === "PRE") pp("\n", "");
-                else pp("\n[quote]", "[/quote]");
-              } else if (id === "screenMain") {
-                return "\n";
-              } else if (className === "spoilerHide") {
-                return "";
-              }
-              break;
-            } else if (className === "spoiler-text" && CURRENT_SITE_INFO.siteType === "AvistaZ") {
-              pp("\n[quote]", "[/quote]");
-              break;
-            } else if (className === "spoiler-toggle" && CURRENT_SITE_INFO.siteType === "AvistaZ") {
-              return "";
-            } else if (className.match(/codetop|highlight/) && CURRENT_SITE_INFO.siteType === "Bdc") {
-              return "";
-            } else {
-              pp("\n", "\n");
-              break;
-            }
-          }
-          case "P": {
-            pp("\n");
-            break;
-          }
-          case "BR": {
-            if (CURRENT_SITE_INFO.siteType === "NexusPHP" && CURRENT_SITE_NAME !== "OurBits" || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/^(UHDBits|HDBits|BTN)/))) {
-              pp("");
-            } else {
-              pp("\n");
-            }
-            break;
-          }
-          case "SPAN": {
-            const { className } = node;
-            if (className.match(/size/)) {
-              const matchSize = (_c = (_b = className.match(/size(\d)/)) == null ? void 0 : _b[1]) != null ? _c : "";
-              if (matchSize) {
-                pp(`[size=${matchSize}]`, "[/size]");
-              }
-            } else {
-              pp(null, null);
-            }
-            break;
-          }
-          case "BLOCKQUOTE":
-          case "PRE":
-          case "FIELDSET": {
-            pp("[quote]", "[/quote]");
-            break;
-          }
-          case "CENTER": {
-            pp("[center]", "[/center]");
-            break;
-          }
-          case "TD": {
-            if ((CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/^(TTG|HDBits|KG|HDSpace)/)) || CURRENT_SITE_NAME === "HDT" || CURRENT_SITE_INFO.siteType === "UNIT3D") {
-              pp("[quote]", "[/quote]");
-              break;
-            } else if (CURRENT_SITE_NAME.match(/EMP|Bdc/)) {
-              pp("");
-              break;
-            } else if (CURRENT_SITE_NAME === "PTer") {
-              pp(null, null);
-              break;
-            } else {
-              return "";
-            }
-          }
-          case "IMG": {
-            let imgUrl = "";
-            const { src, title } = node;
-            const dataSrc = node.getAttribute("data-src") || node.getAttribute("data-echo");
-            const layerSrc = node.getAttribute("layer-src");
-            if (title === ":m:") {
-              return ":m:";
-            }
-            if (layerSrc) {
-              imgUrl = layerSrc;
-            } else if (dataSrc) {
-              imgUrl = dataSrc.match(/(http(s)?:)?\/\//) ? dataSrc : `${location.origin}/${dataSrc}`;
-            } else if (src && src.match(/broadcity\.eu\/images\/44846549843542759058\.png/)) {
-              return "";
-            } else if (src && !src.match(/ico_\w+.gif|jinzhuan|thumbsup|kralimarko/)) {
-              imgUrl = src;
-            } else {
-              return "";
-            }
-            return `[img]${imgUrl}[/img]`;
-          }
-          case "FONT": {
-            const { color: color2, size } = node;
-            if (color2) {
-              pp(`[color=${ensureProperColor(color2)}]`, "[/color]");
-            }
-            if (size) {
-              pp(`[size=${size}]`, "[/size]");
-            }
-            break;
-          }
-          case "A": {
-            const { href, textContent } = node;
-            if (href && href.length > 0) {
-              if (CURRENT_SITE_NAME === "HDSpace") {
-                const div = $(node).find("div");
-                if (div[0] && div.attr("id")) {
-                  const imgUrl = div.find("img").attr("src");
-                  return `[url=${href}][img]${imgUrl}[/img][/url]`;
-                }
-              } else if (href.match(/javascript:void/) || textContent === "show" && CURRENT_SITE_NAME === "HDT") {
-                return "";
-              } else {
-                pp(`[url=${href}]`, "[/url]");
-              }
-            }
-            break;
-          }
-          case "H1": {
-            pp('[b][size="7"]', "[/size][/b]\n");
-            break;
-          }
-          case "H2": {
-            pp('[b][size="6"]', "[/size][/b]\n");
-            break;
-          }
-          case "H3": {
-            pp('[b][size="5"]', "[/size][/b]\n");
-            break;
-          }
-          case "H4": {
-            pp('[b][size="4"]', "[/size][/b]\n");
-            break;
-          }
-          case "STRONG": {
-            pp("[b]", "[/b]");
-            break;
-          }
-          case "TABLE": {
-            if (CURRENT_SITE_NAME === "PTer" && node.className === "table") {
-              return "";
-            }
-            pp("");
-            break;
-          }
-          case "TH": {
-            pp("");
-            break;
-          }
-        }
-        const { textAlign, fontWeight, fontStyle, textDecoration, color } = node.style;
-        if (textAlign) {
-          switch (textAlign.toUpperCase()) {
-            case "LEFT": {
-              pp("[left]", "[/left]");
-              break;
-            }
-            case "RIGHT": {
-              pp("[right]", "[/right]");
-              break;
-            }
-            case "CENTER": {
-              pp("[center]", "[/center]");
-              break;
-            }
-          }
-        }
-        if (fontWeight === "bold" || ~~fontWeight >= 600) {
-          pp("[b]", "[/b]");
-        }
-        if (fontStyle === "italic") pp("[i]", "[/i]");
-        if (textDecoration === "underline") pp("[u]", "[/u]");
-        if (color && color.trim() !== "") pp(`[color=${ensureProperColor(color)}]`, "[/color]");
-        break;
+  class HdBitsStrategy {
+    matches(url) {
+      return url.includes("img.hdbits.org");
+    }
+    async transform(url) {
+      const data = await GMFetch(url);
+      const doc = new DOMParser().parseFromString(data, "text/html");
+      const imgElem = doc.querySelector("#viewimage");
+      if (!imgElem) {
+        throw new Error(
+          "Couldn't find image element when retrieving from HDBits"
+        );
       }
-      case 3: {
-        if ((_e2 = (_d2 = node == null ? void 0 : node.textContent) == null ? void 0 : _d2.trim()) == null ? void 0 : _e2.match(/^(引用|Quote|代码|代碼|Show|Hide|Hidden text|Hidden content|\[show\]|\[Show\])/)) {
-          return "";
-        }
-        return node.textContent;
+      const imgSrc = imgElem.getAttribute("src");
+      if (!imgSrc) {
+        throw new Error(
+          "No valid image source found when retrieving from HDBits"
+        );
       }
-      default:
-        return null;
+      return imgSrc;
     }
-    node.childNodes.forEach((node2) => {
-      const code2 = htmlToBBCode(node2);
-      if (code2) {
-        bbCodes.push(code2);
+  }
+  class PterClubStrategy {
+    matches(url, bbCode) {
+      return bbCode.includes("img.pterclub.com");
+    }
+    async transform(url, bbCode) {
+      var _a2, _b;
+      const imgUrl = (_b = (_a2 = bbCode.match(/img\](([^[])+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      if (!imgUrl) {
+        throw new Error("Invalid PterClub image URL");
       }
-    });
-    return pre.concat(bbCodes).concat(post).join("");
-  };
-  const wrappingBBCodeTag = ({ pre, post }, preTag, poTag) => {
-    const isPre = typeof pre !== "undefined" && pre !== null;
-    const isPost = typeof post !== "undefined" && post !== null;
-    if (isPre) {
-      pre.unshift(preTag);
+      return imgUrl.replace(/\.th/g, "");
     }
-    if (isPost) {
-      post.push(poTag);
+  }
+  class ImageBoxStrategy {
+    matches(url, bbCode) {
+      return bbCode.includes("imgbox.com");
     }
-  };
-  const handleError = (error) => {
-    const errorMessage = error.message || error;
-    Jt.error(errorMessage);
-  };
-  const fetch = (url, options2) => {
-    return new Promise((resolve28, reject) => {
-      GM_xmlhttpRequest(__spreadProps(__spreadValues({
-        method: "GET",
-        url,
-        responseType: "json"
-      }, options2), {
-        onload: (res) => {
-          const { statusText, status, response } = res;
-          if (status !== 200) {
-            reject(new Error(statusText || `${status}`));
-          } else {
-            resolve28(response);
+    async transform(url, bbCode) {
+      var _a2, _b;
+      const imgUrl = (_b = (_a2 = bbCode.match(/img\](([^[])+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      if (!imgUrl) {
+        throw new Error("Invalid ImageBox image BBCode");
+      }
+      if (!imgUrl.match(/thumbs\d.+?_t\.(png|jpg)/)) {
+        throw new Error("Invalid ImageBox image URL");
+      }
+      return imgUrl.replace(/thumbs(\d)/, "images$1").replace(/_t(\.(png|jpg))/, "_o.$2");
+    }
+  }
+  class ImageBamStrategy {
+    matches(url) {
+      return url.includes("imagebam.com");
+    }
+    async transform(url) {
+      const originalPage = await GMFetch(url);
+      const doc = new DOMParser().parseFromString(originalPage, "text/html");
+      const imgElem = doc.querySelector(".main-image");
+      if (!imgElem) {
+        throw new Error(
+          "Couldn't find image element when retrieving from ImageBam"
+        );
+      }
+      const imgSrc = imgElem.getAttribute("src");
+      if (!imgSrc) {
+        throw new Error(
+          "No valid image source found when retrieving from ImageBam"
+        );
+      }
+      return imgSrc;
+    }
+  }
+  class BeyondHdStrategy {
+    matches(url, bbCode) {
+      return bbCode.includes("beyondhd.co");
+    }
+    async transform(url, bbCode) {
+      var _a2, _b;
+      const imgUrl = (_b = (_a2 = bbCode.match(/img\](([^[])+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      if (!imgUrl) {
+        throw new Error("Invalid BeyondHD image BBCode");
+      }
+      if (!imgUrl.match(/\.(th|md)\.(png|jpg|gif)/)) {
+        throw new Error("Invalid BeyondHD image URL");
+      }
+      return imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, ".$2");
+    }
+  }
+  class PixHostStrategy {
+    matches(url, bbCode) {
+      return bbCode.includes("pixhost.to");
+    }
+    async transform(url, bbCode) {
+      var _a2;
+      const hostNumber = (_a2 = bbCode.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _a2[1];
+      if (!hostNumber || !url.includes("show")) {
+        throw new Error("Invalid PixHost image BBCode");
+      }
+      return url.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
+    }
+  }
+  const URLStrategies = [
+    new HdBitsStrategy(),
+    new PterClubStrategy(),
+    new ImageBoxStrategy(),
+    new ImageBamStrategy(),
+    new BeyondHdStrategy(),
+    new PixHostStrategy()
+  ];
+  const withUploadErrorHandling = async (uploadFn, serviceName, options2 = {}) => {
+    const { validateFirstArg = true, defaultResult = [] } = options2;
+    return async (...args) => {
+      try {
+        if (validateFirstArg) {
+          const firstArg = args[0];
+          if (firstArg === void 0 || firstArg === null || Array.isArray(firstArg) && firstArg.length === 0) {
+            return defaultResult;
           }
-        },
-        ontimeout: () => {
-          reject(new Error("timeout"));
-        },
-        onerror: (error) => {
-          reject(error);
         }
-      }));
-    });
-  };
-  const uploadToHDB = async (screenshots, galleryName) => {
-    const apiUrl = "https://img.hdbits.org/upload_api.php";
-    try {
-      const promiseArray = screenshots.map((item) => {
-        return urlToFile(item);
-      });
-      const fileArray = await Promise.all(promiseArray);
-      const formData = new FormData();
-      formData.append("galleryoption", "1");
-      formData.append("galleryname", galleryName);
-      fileArray.forEach((file) => {
-        formData.append("images_files[]", file);
-      });
-      const data = await fetch(apiUrl, {
-        data: formData,
-        method: "POST"
-      });
-      if (data.includes("error")) {
-        throw data;
+        return await uploadFn(...args);
+      } catch (error) {
+        if (error instanceof ImageUploadError) {
+          throw error;
+        }
+        const errorMessage = error instanceof Error ? `${error.name}: ${error.message}` : "Unknown error";
+        throwUploadError(
+          `${$t$1(
+          CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED
+        )} - ${serviceName}. ${errorMessage}`,
+          error
+        );
+        return defaultResult;
       }
-      return data;
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  const uploadToImgbox = async (screenshot, authToken, tokenSecret) => {
-    const file = await urlToFile(screenshot);
-    const { token_id: tokenId, token_secret: secret } = tokenSecret;
-    const options2 = {
-      method: "POST",
-      headers: {
-        "X-CSRF-Token": authToken
-      },
-      data: {}
     };
-    const formData = new FormData();
-    formData.append("token_id", tokenId);
-    formData.append("token_secret", secret);
-    formData.append("content_type", "1");
-    formData.append("thumbnail_size", "350r");
-    formData.append("gallery_id", "null");
-    formData.append("gallery_secret", "null");
-    formData.append("comments_enabled", "0");
-    formData.append("files[]", file);
-    options2.data = formData;
-    const data = await fetch("https://imgbox.com/upload/process", options2);
-    if (data && data.files && data.files.length) {
-      return data.files[0];
-    }
   };
-  const uploadToPixhost = async (screenshots) => {
-    try {
-      const params = encodeURI(`imgs=${screenshots.join("\n")}&content_type=1&max_th_size=300`);
-      const data = await fetch("https://pixhost.to/remote/", {
-        method: "POST",
-        data: params,
-        timeout: 3e5,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-        }
-      });
-      const result = data.match(/(upload_results = )({.*})(;)/);
-      if (!result) {
-        throw $t("上传失败，请重试");
-      }
-      let imgResultList = [];
-      if (data && data.length) {
-        imgResultList = JSON.parse(data[2]).images;
-        if (imgResultList.length < 1) {
-          throw new Error($t("上传失败，请重试"));
-        }
-        return imgResultList;
-      }
-      throw new Error($t("上传失败，请重试"));
-    } catch (error) {
-      handleError(error);
+  const getImageBBCodeMatches = (bbcode) => {
+    const matches = bbcode.match(
+      /(\[url=(http(s)*:\/{2}.+?)\])?\[img\](http(s)?:.+?)\[\/img](\[\/url\])?/gi
+    );
+    if (!matches) {
+      return [];
     }
+    return Array.from(matches);
   };
-  const getOriginalImgUrl = async (urlBBcode) => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m;
-    let imgUrl = urlBBcode;
-    if (urlBBcode.match(/\[url=http(s)*:.+/)) {
-      imgUrl = (_b = (_a2 = urlBBcode.match(/=(([^\]])+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-      if (imgUrl.match(/img\.hdbits\.org/)) {
-        const data = await fetch(imgUrl, {
-          responseType: void 0
-        });
-        const doc = new DOMParser().parseFromString(data, "text/html");
-        imgUrl = $("#viewimage", doc).attr("src");
-      } else if (urlBBcode.match(/img\.pterclub\.com/)) {
-        imgUrl = (_d2 = (_c = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-        imgUrl = imgUrl.replace(/\.th/g, "");
-      } else if (urlBBcode.match(/https?:\/\/imgbox\.com/)) {
-        imgUrl = (_f = (_e2 = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _e2[1]) != null ? _f : "";
-        imgUrl = imgUrl.replace(/thumbs(\d)/, "images$1").replace(/_t(\.png)/, "_o.png");
-      } else if (imgUrl.match(/imagebam\.com/)) {
-        const originalPage = await fetch(imgUrl, {
-          responseType: void 0
-        });
-        const doc = new DOMParser().parseFromString(originalPage, "text/html");
-        imgUrl = $(".main-image", doc).attr("src");
-      } else if (imgUrl.match(/beyondhd\.co/)) {
-        imgUrl = (_h = (_g = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _g[1]) != null ? _h : "";
-        imgUrl = imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, ".$2");
-      } else if (!imgUrl.match(/\.(jpg|png|gif|bmp|webp)$/)) {
-        imgUrl = (_j = (_i = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _i[1]) != null ? _j : "";
-      } else if (urlBBcode.match(/https:\/\/pixhost\.to/)) {
-        const hostNumber = (_k = urlBBcode.match(/img\]https:\/\/t(\d+)\./)) == null ? void 0 : _k[1];
-        imgUrl = imgUrl.replace(/(pixhost\.to)\/show/, `img${hostNumber}.$1/images`);
-      }
-    } else if (urlBBcode.match(/\[img\]/)) {
-      imgUrl = (_m = (_l = urlBBcode.match(/img\](([^[])+)/)) == null ? void 0 : _l[1]) != null ? _m : "";
+  const getImgInfoFromBBCode = async (bbcode) => {
+    var _a2, _b, _c;
+    if (!bbcode) {
+      throw new Error("Invalid BBCode - No BBCode found");
     }
-    return imgUrl;
+    const originalUrl = await getOriginalImgUrl(bbcode);
+    if (!originalUrl) {
+      throw new Error("Invalid BBCode - No original URL found");
+    }
+    const thumbnailUrl = (_c = (_b = (_a2 = bbcode.match(/\[img\]((.|\s)*?)\[/)) == null ? void 0 : _a2[1]) == null ? void 0 : _b.trim()) != null ? _c : "";
+    if (!thumbnailUrl) {
+      throw new Error("Invalid BBCode - No thumbnail URL found");
+    }
+    return {
+      original: originalUrl,
+      thumbnail: thumbnailUrl
+    };
   };
-  const getFilterImages = (bbcode) => {
-    var _a2;
+  const extractImgsFromBBCode = async (bbcode) => {
     if (!bbcode) {
       return [];
     }
-    let allImages = Array.from((_a2 = bbcode.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig)) != null ? _a2 : []);
-    if (allImages && allImages.length > 0) {
-      allImages = allImages.map((img) => {
-        if (img.match(/\[url=.+?\]/)) {
-          return `${img}[/url]`;
-        }
-        return img;
-      });
-      return allImages.filter((item) => {
-        return !item.match(/poster\.jpg|2019\/01\/04\/info\.png|MoreScreens|PTer\.png|ms\.png|trans\.gif|PTerREMUX\.png|PTerWEB\.png|CS\.png|Ourbits_info|GDJT|douban|logo|(2019\/03\/28\/5c9cb8f8216d7\.png)|_front|(info_01\.png)|(screens\.png)|(04\/6b\/Ggp5ReQb_o)|(ce\/e7\/KCmGFMOB_o)/);
-      });
+    const imgBBCodeMatches = getImageBBCodeMatches(bbcode);
+    const matchImgBBCodes = Array.from(imgBBCodeMatches);
+    if (matchImgBBCodes.length < 1) {
+      return [];
     }
-    return [];
+    const extractOriginalUrlsOfScreenshotPromises = matchImgBBCodes.map(
+      async (bbcode2) => {
+        return await getOriginalImgUrl(bbcode2);
+      }
+    );
+    const { FILTER_IMGS_NAMES } = CONFIG$4;
+    const screenshotUrls = (await Promise.all(extractOriginalUrlsOfScreenshotPromises)).filter((url) => !FILTER_IMGS_NAMES.some((name) => url.includes(name)));
+    return screenshotUrls;
   };
-  const getScreenshotsFromBBCode = async (bbcode) => {
-    const allImages = getFilterImages(bbcode);
-    if (allImages && allImages.length > 0) {
-      const result = [];
-      for (const img of allImages) {
-        const originalUrl = await getOriginalImgUrl(img);
-        if (originalUrl !== void 0) {
-          result.push(originalUrl);
+  const createHDBRequestConfig = async (imgUrls, galleryName) => {
+    const imgFiles = await Promise.all(
+      imgUrls.map((item) => cachedUrlToFile(item))
+    );
+    const formData = createFormData(
+      {
+        galleryoption: "1",
+        galleryname: galleryName
+      },
+      [
+        {
+          fieldName: "images_files",
+          file: imgFiles
         }
-      }
-      return result;
-    }
-    return [];
-  };
-  const transferImgs = async (screenshot, authToken, imgHost = "https://imgbb.com/json") => {
-    try {
-      const isHdbHost = !!screenshot.match(/i\.hdbits\.org/);
-      const formData = new FormData();
-      if (isHdbHost || imgHost.includes("gifyu")) {
-        const promiseArray = [urlToFile(screenshot)];
-        const [fileData] = await Promise.all(promiseArray);
-        formData.append("type", "file");
-        formData.append("source", fileData);
-      } else {
-        formData.append("type", "url");
-        formData.append("source", screenshot);
-      }
-      formData.append("action", "upload");
-      formData.append("timestamp", `${Date.now()}`);
-      formData.append("auth_token", authToken);
-      const res = await fetch(imgHost, {
-        method: "POST",
+      ]
+    );
+    return {
+      url: CONFIG$4.URLS.HDB_UPLOAD,
+      options: {
         data: formData,
-        timeout: 3e5
-      });
+        method: "POST"
+      }
+    };
+  };
+  const parseHDBResponse = async (data) => {
+    if (!data || data.includes("error")) {
+      throwUploadError(`${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - ${data}`);
+    }
+    const urls = data.split(" ").filter((url) => url.trim().length > 0);
+    if (urls.length < 1) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Empty Result`
+      );
+    }
+    const promiseResult = urls.map((urlBBcode) => {
+      return getImgInfoFromBBCode(urlBBcode);
+    });
+    return Promise.all(promiseResult);
+  };
+  const getImgboxToken = async () => {
+    var _a2, _b;
+    const rawHtml = await GMFetch(CONFIG$4.URLS.IMGBOX);
+    const authToken = (_b = (_a2 = rawHtml.match(/content="(.+)" name="csrf-token"/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    if (!authToken) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Invalid AuthToken`
+      );
+    }
+    const tokenSecret = await GMFetch(
+      `${CONFIG$4.URLS.IMGBOX}/ajax/token/generate`,
+      {
+        responseType: "json",
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": authToken
+        }
+      }
+    );
+    if (!tokenSecret || !tokenSecret.token_id || !tokenSecret.token_secret) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Invalid Token`
+      );
+    }
+    return {
+      tokenSecret,
+      authToken
+    };
+  };
+  const createImgboxRequestConfig = (tokenSecret, authToken, file) => {
+    const { token_id: tokenId, token_secret: secret } = tokenSecret;
+    const formData = createFormData(
+      {
+        token_id: tokenId,
+        token_secret: secret,
+        content_type: "1",
+        thumbnail_size: "350c",
+        gallery_id: "null",
+        gallery_secret: "null",
+        comments_enabled: "0"
+      },
+      [{ fieldName: "files[]", file }]
+    );
+    const options2 = {
+      method: "POST",
+      responseType: "json",
+      headers: {
+        "X-CSRF-Token": authToken
+      },
+      data: formData
+    };
+    return options2;
+  };
+  const parseImgboxResponse = (data) => {
+    const imgResultList = data.map((result) => {
+      if (result && result.files && result.files.length) {
+        return result.files[0];
+      }
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} -  Empty Data to Parse`
+      );
+      return null;
+    }).filter((item) => item !== null);
+    return imgResultList.map((item) => {
+      return {
+        original: item.original_url,
+        thumbnail: item.thumbnail_url
+      };
+    });
+  };
+  const createPixhostRequestConfig = (imgUrls) => {
+    if (imgUrls.length < 1) {
+      throwUploadError(`${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Empty URLs`);
+    }
+    const params = encodeURI(
+      `imgs=${imgUrls.join("\n")}&content_type=1&max_th_size=300`
+    );
+    const options2 = {
+      method: "POST",
+      data: params,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+      }
+    };
+    return {
+      url: CONFIG$4.URLS.PIXHOST_UPLOAD,
+      options: options2
+    };
+  };
+  const parsePixhostResponse = (data) => {
+    const result = data.match(/(upload_results = )({.*})(;)/);
+    if (!result || result.length < 3) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Empty Result`
+      );
+      return [];
+    }
+    const parsedData = JSON.parse(result[2]);
+    const imgResultList = parsedData.images;
+    if (!imgResultList || imgResultList.length < 1) {
+      throwUploadError("No images found in the response");
+      return [];
+    }
+    return imgResultList.map((item) => {
+      return {
+        thumbnail: item.th_url,
+        original: item.show_url
+      };
+    });
+  };
+  const createPTPImgRequestConfig = (imgArray) => {
+    const apiKey = GM_getValue("easy-upload.ptp-img-api-key", "");
+    if (!apiKey) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.PTPIMG_UPLOAD_FAILED)} ${$t$1(CONFIG$4.ERROR_MESSAGES.NO_API_KEY)}`
+      );
+    }
+    const options2 = {
+      method: "POST",
+      responseType: "json"
+    };
+    const isFileUpload = imgArray.length > 0 && imgArray[0] instanceof File;
+    if (isFileUpload) {
+      const fileArray = imgArray.filter(
+        (item) => item instanceof File
+      );
+      const formData = createFormData({ api_key: apiKey }, [
+        { fieldName: "file-upload", file: fileArray }
+      ]);
+      options2.data = formData;
+    } else {
+      const linkArray = imgArray.filter(
+        (item) => typeof item === "string"
+      );
+      options2.headers = {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+      };
+      options2.data = `link-upload=${linkArray.join("\n")}&api_key=${apiKey}`;
+    }
+    return {
+      url: CONFIG$4.URLS.PTPIMG_UPLOAD,
+      options: options2
+    };
+  };
+  const parsePTPImgResponse = (data) => {
+    if (!data || !Array.isArray(data) || data.length < 1) {
+      throwUploadError();
+      return [];
+    }
+    return data.map((img) => `${CONFIG$4.URLS.PTPIMG}/${img.code}.${img.ext}`);
+  };
+  const getCheveretoToken = async (imgHost) => {
+    var _a2, _b;
+    const rawHtml = await GMFetch(imgHost.replace("/json", ""));
+    const authToken = (_b = (_a2 = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    if (!authToken) {
+      throwUploadError(
+        `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} - Invalid AuthToken`
+      );
+    }
+    return authToken;
+  };
+  const createCheveretoRequestConfig = async (imgUrl, imgHost, authToken) => {
+    const isHdbHost = !!imgUrl.match(/i\.hdbits\.org/);
+    let formData;
+    const options2 = {
+      action: "upload",
+      timestamp: `${Date.now()}`,
+      auth_token: authToken
+    };
+    if (isHdbHost || imgHost.includes("gifyu")) {
+      const fileData = await cachedUrlToFile(imgUrl);
+      formData = createFormData(
+        __spreadValues({
+          type: "file"
+        }, options2),
+        [{ fieldName: "source", file: fileData }]
+      );
+    } else {
+      formData = createFormData(__spreadValues({
+        type: "url",
+        source: imgUrl
+      }, options2));
+    }
+    return {
+      method: "POST",
+      data: formData,
+      responseType: "json"
+    };
+  };
+  const parseCheveretoResponse = (data) => {
+    const imgResultList = data.map((res) => {
       if (res.status_txt !== "OK") {
-        throw $t("上传失败，请重试");
+        throwUploadError(
+          `${$t$1(CONFIG$4.ERROR_MESSAGES.UPLOAD_FAILED)} ${res.status_txt}`
+        );
+        return null;
       }
       if (res.image) {
         return res.image;
       }
-      throw $t("上传失败，请重试");
-    } catch (error) {
-      console.log("err:", error);
-      handleError(error);
-    }
-  };
-  const uploadToPtpImg = async (imgArray, isFiles = false) => {
-    try {
-      const apiKey = getValue("easy-seed.ptp-img-api-key", false);
-      if (!apiKey) {
-        Jt.error(`${$t("ptpimg上传失败")} ${$t("请到配置面板中填入ptpimg的api_key")}`);
-        return;
-      }
-      const options2 = {
-        method: "POST",
-        responseType: "json"
-      };
-      if (isFiles) {
-        const formData = new FormData();
-        imgArray.forEach((img, index) => {
-          formData.append(`file-upload[${index}]`, img);
-        });
-        formData.append("api_key", apiKey);
-        options2.data = formData;
-      } else {
-        const data2 = `link-upload=${imgArray.join("\n")}&api_key=${apiKey}`;
-        options2.headers = {
-          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-        };
-        options2.data = data2;
-      }
-      const data = await fetch("https://ptpimg.me/upload.php", options2);
-      if (!data) {
-        throw $t("上传失败，请重试");
-      }
-      let imgResultList = [];
-      if (data && data.length) {
-        imgResultList = data.map((img) => {
-          return `https://ptpimg.me/${img.code}.${img.ext}`;
-        });
-        return imgResultList;
-      }
-      throw $t("上传失败，请重试");
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  const saveScreenshotsToPtpimg = async (imgArray) => {
-    try {
-      const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
-      const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
-      if (isPtpHost) {
-        throw $t("无需转存");
-      } else if (isHdbHost) {
-        const promiseArray = imgArray.map((item) => {
-          return urlToFile(item);
-        });
-        const fileArray = await Promise.all(promiseArray);
-        const data = uploadToPtpImg(fileArray, true);
-        return data;
-      } else {
-        const data = await uploadToPtpImg(imgArray);
-        return data;
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  const formatTorrentTitle = (title) => {
-    return title.replace(/\.(?!(\d+))/ig, " ").replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/ig, " ").trim();
-  };
-  const getPreciseCategory = (torrentInfo2, category) => {
-    var _a2, _b;
-    const { description, title, subtitle, doubanInfo } = torrentInfo2;
-    const movieGenre = (_b = (_a2 = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-    if (movieGenre.match(/动画/)) {
-      return "cartoon";
-    } else if (movieGenre.match(/纪录/)) {
-      return "documentary";
-    } else if ((subtitle == null ? void 0 : subtitle.match(/全.+?集/)) || title.match(/s0?\d{1,2}[^(e|.e)]/i)) {
-      return "tvPack";
-    }
-    if (category == null ? void 0 : category.match(/tv/)) {
-      if (title.match(/(s0?\d{1,2})?e(p)?\d{1,2}/i) || (subtitle == null ? void 0 : subtitle.match(/第[^\s]集/))) {
-        return "tv";
-      }
-      return "tvPack";
-    }
-    return category;
-  };
-  const getAudioCodecFromTitle = (title) => {
-    if (!title) {
-      return "";
-    }
-    title = title.replace(/:|-|\s/g, "");
-    if (title.match(/atmos/i)) {
-      return "atmos";
-    } else if (title.match(/dtshdma/i)) {
-      return "dtshdma";
-    } else if (title.match(/dtsx/i)) {
-      return "dtsx";
-    } else if (title.match(/dts/i)) {
-      return "dts";
-    } else if (title.match(/truehd/i)) {
-      return "truehd";
-    } else if (title.match(/lpcm/i)) {
-      return "lpcm";
-    } else if (title.match(/flac/i)) {
-      return "flac";
-    } else if (title.match(/aac/i)) {
-      return "aac";
-    } else if (title.match(/DD\+|DDP|DolbyDigitalPlus/i)) {
-      return "dd+";
-    } else if (title.match(/DD|DolbyDigital/i)) {
-      return "dd";
-    } else if (title.match(/ac3/i)) {
-      return "ac3";
-    }
-    return "";
-  };
-  const getVideoCodecFromTitle = (title, videoType = "") => {
-    title = title.replace(/\.|-/g, "");
-    if (title.match(/x264/i) || title.match(/h264|avc/i) && videoType === "encode") {
-      return "x264";
-    } else if (title.match(/h264|AVC/i)) {
-      return "h264";
-    } else if (title.match(/x265/i) || title.match(/h265|hevc/i) && videoType === "encode") {
-      return "x265";
-    } else if (title.match(/hevc|h265/i)) {
-      return "hevc";
-    } else if (title.match(/vc-?1/i)) {
-      return "vc1";
-    } else if (title.match(/mpeg-?2/i)) {
-      return "mpeg2";
-    } else if (title.match(/mpeg-?4/i)) {
-      return "mpeg4";
-    } else if (title.match(/vvc/i)) {
-      return "vvc";
-    }
-    return "";
-  };
-  const getSourceFromTitle = (title) => {
-    if (title.match(/(uhd|2160|4k).*(blu(-)?ray|remux)/i)) {
-      return "uhdbluray";
-    } else if (title.match(/blu(-)?ray|remux/i)) {
-      return "bluray";
-    } else if (title.match(/hdtv/i)) {
-      return "hdtv";
-    } else if (title.match(/web(-?(rip|dl))+/i)) {
-      return "web";
-    } else if (title.match(/hddvd/i)) {
-      return "hddvd";
-    } else if (title.match(/dvd/i)) {
-      return "dvd";
-    } else if (title.match(/vhs/i)) {
-      return "vhs";
-    }
-    return "other";
-  };
-  const getSubTitle = (data) => {
-    var _a2, _b;
-    const { chineseTitle, thisTitle: originalTitle, transTitle } = data;
-    let title = "";
-    if (chineseTitle.match(/[\u4e00-\u9fa5]+/)) {
-      title += chineseTitle;
-    }
-    const moreTitle = originalTitle.concat(transTitle).filter((item) => title !== item);
-    let seasonEpisode = (_b = (_a2 = TORRENT_INFO.title.match(/S\d+EP?(\d+)?/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    seasonEpisode = seasonEpisode.replace(/^0/i, "");
-    const episode = seasonEpisode ? ` 第${seasonEpisode}集` : "";
-    const hardcodedSub = TORRENT_INFO.hardcodedSub ? "| 硬字幕" : "";
-    return `${title}${moreTitle.length > 0 ? "/" : ""}${moreTitle.join("/")}${episode} ${hardcodedSub}`;
-  };
-  const getFilterBBCode = (content) => {
-    var _a2;
-    if (content) {
-      const bbCodes = htmlToBBCode(content);
-      return (_a2 = bbCodes == null ? void 0 : bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
-        if (p1 && p1.match(/温馨提示|郑重|PT站|网上搜集|本种子|商业盈利|商业用途|带宽|寬帶|法律责任|Quote:|正版|商用|注明|后果|负责/)) {
-          return "";
-        }
-        return match;
-      })) != null ? _a2 : "";
-    }
-    return "";
-  };
-  const getTagsFromSubtitle = (title) => {
-    const tags2 = {};
-    if (title.match(/diy/i)) {
-      tags2.diy = true;
-    }
-    if (title.match(/国配|国语|普通话|国粤/i) && !title.match(/多国语(言|字幕)/)) {
-      tags2.chinese_audio = true;
-    }
-    if (title.match(/Atmos|杜比全景声/i)) {
-      tags2.dolby_atoms = true;
-    }
-    if (title.match(/HDR/i)) {
-      if (title.match(/HDR10\+/i)) {
-        tags2.hdr10_plus = true;
-      } else {
-        tags2.hdr = true;
-      }
-    }
-    if (title.match(/DoVi|(Dolby\s*Vision)|杜比视界/i)) {
-      tags2.dolby_vision = true;
-    }
-    if (title.match(/粤/i)) {
-      tags2.cantonese_audio = true;
-    }
-    if (title.match(/简繁|繁简|繁体|简体|中字|中英|中文/i) && !title.match(/无中(字|文)/)) {
-      tags2.chinese_subtitle = true;
-    }
-    if (title.match(/Criterion|CC标准/i)) {
-      tags2.the_criterion_collection = true;
-    }
-    if (title.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|禁止转载|exclusive/)) {
-      tags2.exclusive = true;
-    }
-    return tags2;
-  };
-  const replaceRegSymbols = (string2) => {
-    return string2.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
-  };
-  const getSpecsFromMediainfo$1 = (isBluray, mediaInfo) => {
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfo);
-    if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
+      throwUploadError();
+      return null;
+    }).filter((item) => item !== null);
+    return imgResultList.map((item) => {
       return {
-        videoCodec,
-        audioCodec,
-        resolution,
-        mediaTags
+        original: item.url,
+        thumbnail: item.thumb.url
+      };
+    });
+  };
+  const uploadToHDB = withUploadErrorHandling(
+    async (imgUrls, galleryName) => {
+      const { url, options: options2 } = await createHDBRequestConfig(imgUrls, galleryName);
+      const data = await GMFetch(url, options2);
+      return await parseHDBResponse(data);
+    },
+    "HDB"
+  );
+  const uploadToImgbox = withUploadErrorHandling(
+    async (imgUrls) => {
+      const { tokenSecret, authToken } = await getImgboxToken();
+      const files = await Promise.all(
+        imgUrls.map((item) => cachedUrlToFile(item))
+      );
+      const fileUploadPromises = files.map((file) => {
+        const requestOptions = createImgboxRequestConfig(
+          tokenSecret,
+          authToken,
+          file
+        );
+        return GMFetch(CONFIG$4.URLS.IMGBOX_UPLOAD, requestOptions);
+      });
+      const data = await Promise.all(fileUploadPromises);
+      return parseImgboxResponse(data);
+    },
+    "Imgbox"
+  );
+  const uploadToPixhost = withUploadErrorHandling(
+    async (imgUrls) => {
+      const { url, options: options2 } = createPixhostRequestConfig(imgUrls);
+      const data = await GMFetch(url, options2);
+      return parsePixhostResponse(data);
+    },
+    "Pixhost",
+    { validateFirstArg: true, defaultResult: [] }
+  );
+  const uploadToPtpImg = withUploadErrorHandling(
+    async (imgArray) => {
+      const { url, options: options2 } = createPTPImgRequestConfig(imgArray);
+      const data = await GMFetch(url, options2);
+      return parsePTPImgResponse(data);
+    },
+    "PTPImg"
+  );
+  const transferImgToCheveretoSite = withUploadErrorHandling(
+    async (imgUrls, imgHost = CONFIG$4.URLS.IMGBB) => {
+      const authToken = await getCheveretoToken(imgHost);
+      const imgUploadPromises = imgUrls.map(async (imgUrl) => {
+        const requestOptions = await createCheveretoRequestConfig(
+          imgUrl,
+          imgHost,
+          authToken
+        );
+        return GMFetch(imgHost, requestOptions);
+      });
+      const data = await Promise.all(imgUploadPromises);
+      return parseCheveretoResponse(data);
+    },
+    "Chevereto"
+  );
+  const transferImgsToPtpimg = async (imgArray) => {
+    if (!imgArray || imgArray.length < 1) {
+      return [];
+    }
+    const uploadFn = await uploadToPtpImg;
+    const isHdbHost = !!imgArray[0].match(/i\.hdbits\.org/);
+    const isPtpHost = !!imgArray[0].match(/ptpimg\.me/);
+    if (isPtpHost) {
+      throwUploadError($t$1(CONFIG$4.ERROR_MESSAGES.NO_TRANSFER_NEEDED));
+    } else if (isHdbHost) {
+      const fileArray = await Promise.all(
+        imgArray.map((item) => cachedUrlToFile(item))
+      );
+      return await uploadFn(fileArray);
+    }
+    return await uploadFn(imgArray);
+  };
+  const CONFIG$3 = {
+    CODEC_RULES: [
+      { codec: "atmos", regex: /atmos/i },
+      { codec: "dtshdma", regex: /dtshdma|DTSHD Master/i },
+      { codec: "dtsx", regex: /dtsx/i },
+      { codec: "dts", regex: /dts/i },
+      { codec: "truehd", regex: /truehd/i },
+      { codec: "lpcm", regex: /lpcm/i },
+      { codec: "flac", regex: /flac/i },
+      { codec: "aac", regex: /aac/i },
+      { codec: "dd+", regex: /DD\+|DDP|DolbyDigitalPlus/i },
+      { codec: "dd", regex: /DD|DolbyDigital/i },
+      { codec: "ac3", regex: /ac3/i }
+    ]
+  };
+  class MediaParser {
+    constructor(source) {
+      this.source = source;
+      this.result = {
+        fileName: "",
+        fileSize: 0,
+        duration: 0,
+        format: "",
+        audioTracks: [],
+        subtitleTracks: [],
+        videoTracks: []
       };
     }
-    return {};
-  };
-  const getBDInfoOrMediaInfo = (bbcode) => {
-    var _a2, _b, _c;
-    const quoteList = (_a2 = bbcode == null ? void 0 : bbcode.match(/\[quote\](.|\n)+?\[\/quote\]/g)) != null ? _a2 : [];
-    const bdinfo = [];
-    const mediaInfo = [];
-    quoteList.forEach((quote) => {
-      const quoteContent = quote.replace(/\[\/?quote\]/g, "").replace(/\u200D/g, "");
-      if (quoteContent.match(/Disc\s?Size|\.mpls/i)) {
-        bdinfo.push(quoteContent);
-      }
-      if (quoteContent.match(/(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i)) {
-        mediaInfo.push(quoteContent);
-      }
-    });
-    if (!bdinfo.length) {
-      const bdinfoMatch = (_c = (_b = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)) == null ? void 0 : _b[0]) != null ? _c : "";
-      if (bdinfoMatch) {
-        bdinfo.push(bdinfoMatch);
-      }
-    }
-    return {
-      bdinfo,
-      mediaInfo
-    };
-  };
-  const getBDType = (size) => {
-    const GBSize = size / 1e9;
-    if (GBSize < 5) {
-      return "DVD5";
-    } else if (GBSize < 9) {
-      return "DVD9";
-    } else if (GBSize < 25) {
-      return "BD25";
-    } else if (GBSize < 50) {
-      return "BD50";
-    } else if (GBSize < 66) {
-      return "BD66";
-    } else if (GBSize < 100) {
-      return "BD100";
-    }
-  };
-  const getInfoFromMediaInfo = (mediaInfo) => {
-    var _a2, _b, _c;
-    if (!mediaInfo) {
-      return {};
-    }
-    const mediaArray = mediaInfo.split(/\n\s*\n/).filter((item) => !!item.trim());
-    const [generalPart, videoPart] = mediaArray;
-    const secondVideoPart = mediaArray.filter((item) => item.startsWith("Video #2"));
-    const [audioPart, ...otherAudioPart] = mediaArray.filter((item) => item.startsWith("Audio"));
-    const textPart = mediaArray.filter((item) => item.startsWith("Text"));
-    const completeName = getMediaValueByKey("Complete name", generalPart);
-    const format2 = (_c = (_b = (_a2 = completeName == null ? void 0 : completeName.match(/\.(\w+)$/i)) == null ? void 0 : _a2[1]) == null ? void 0 : _b.toLowerCase()) != null ? _c : "";
-    const fileName = completeName.replace(/\.\w+$/i, "");
-    const fileSize = getSize(getMediaValueByKey("File size", generalPart));
-    const { videoCodec, hdrFormat, isDV } = getVideoCodecByMediaInfo(videoPart, generalPart, secondVideoPart);
-    const { audioCodec, channelName, languageArray } = getAudioCodecByMediaInfo(audioPart, otherAudioPart);
-    const subtitleLanguageArray = textPart.map((item) => {
-      return getMediaValueByKey("Language", item);
-    }).filter((sub) => !!sub);
-    const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
-    const resolution = getResolution$4(videoPart);
-    return {
-      fileName,
-      fileSize,
-      format: format2,
-      subtitles: subtitleLanguageArray,
-      videoCodec,
-      audioCodec,
-      resolution,
-      mediaTags
-    };
-  };
-  const getMediaValueByKey = (key, mediaInfo) => {
-    var _a2, _b;
-    if (!mediaInfo) {
+    getHdrType(hdrFormat) {
+      if (!hdrFormat) return "";
+      if (/Dolby\s*Vision/i.test(hdrFormat)) return "DV";
+      if (/HDR10\+/i.test(hdrFormat)) return "HDR10+";
+      if (/HDR10/i.test(hdrFormat)) return "HDR10";
+      if (/HLG/i.test(hdrFormat)) return "HLG";
       return "";
     }
-    const keyRegStr = key.replace(/\s/, "\\s*").replace(/(\(|\))/g, "\\$1");
-    const reg = new RegExp(`${keyRegStr}\\s*:\\s([^\\n]+)`, "i");
-    return (_b = (_a2 = mediaInfo.match(reg)) == null ? void 0 : _a2[1]) != null ? _b : "";
-  };
-  const getResolution$4 = (mediaInfo) => {
-    const height = parseInt(getMediaValueByKey("Height", mediaInfo).replace(/\s/g, ""), 10);
-    const width = parseInt(getMediaValueByKey("Width", mediaInfo).replace(/\s/g, ""), 10);
-    const ScanType = getMediaValueByKey("Scan type", mediaInfo);
-    if (height > 1080) {
-      return "2160p";
-    } else if (height > 720 && (ScanType === "Progressive" || !ScanType)) {
-      return "1080p";
-    } else if (height > 720 && ScanType !== "Progressive") {
-      return "1080i";
-    } else if (height > 576 || width > 1024) {
-      return "720p";
-    } else if (height > 480 || width === 1024) {
-      return "576p";
-    } else if (width >= 840 || height === 480) {
-      return "480p";
-    } else if (width && height) {
+  }
+  class MediaInfoParser extends MediaParser {
+    splitIntoSections() {
+      const lines = this.source.split("\n");
+      const sections = {};
+      let currentSectionLines = {};
+      let currentSectionType = "";
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        const sectionHeaderMatch = trimmedLine.match(/^([a-zA-Z]+)(\s*#\d+)?$/);
+        if (sectionHeaderMatch) {
+          if (currentSectionType && Object.keys(currentSectionLines).length > 0) {
+            if (sections[currentSectionType]) {
+              sections[currentSectionType].push(currentSectionLines);
+            } else {
+              sections[currentSectionType] = [currentSectionLines];
+            }
+          }
+          currentSectionType = sectionHeaderMatch[1];
+          currentSectionLines = {};
+          continue;
+        }
+        if (currentSectionType) {
+          const [key, value] = trimmedLine.split(":").map((s2) => s2.trim());
+          if (key && value) {
+            currentSectionLines[key] = value;
+          }
+        }
+      }
+      if (currentSectionType && Object.keys(currentSectionLines).length > 0) {
+        if (sections[currentSectionType]) {
+          sections[currentSectionType].push(currentSectionLines);
+        } else {
+          sections[currentSectionType] = [currentSectionLines];
+        }
+      }
+      return sections;
+    }
+    parseGeneralSection(general) {
+      if (!general) return;
+      this.result.fileSize = convertSizeStringToBytes(general["File size"]);
+      this.result.duration = this.parseDuration(general.Duration);
+      this.result.format = general.Format;
+      this.result.fileName = general["Complete name"];
+    }
+    parseVideoSection(videos) {
+      if (!videos || videos.length === 0) return [];
+      const videoTracks = [];
+      for (const video of videos) {
+        videoTracks.push(this.parseVideo(video, this.result.format));
+      }
+      return videoTracks;
+    }
+    parseAudioSection(audios) {
+      if (!audios || audios.length === 0) return [];
+      const audioTracks = [];
+      for (const audio of audios) {
+        audioTracks.push(this.parseAudio(audio));
+      }
+      return audioTracks;
+    }
+    parseSubtitleSection(subtitles) {
+      if (!subtitles || subtitles.length === 0) return [];
+      const subtitleTracks = [];
+      for (const subtitle of subtitles) {
+        const {
+          ID: id = "",
+          Title: title = "",
+          Language: language = "",
+          Default: isDefault = "",
+          Forced: isForced = ""
+        } = subtitle;
+        subtitleTracks.push({
+          id,
+          title,
+          language,
+          default: isDefault === "Yes",
+          forced: isForced === "Yes"
+        });
+      }
+      return subtitleTracks;
+    }
+    parseAudio(audio) {
+      const {
+        Format: audioFormat = "",
+        "Format profile": formatProfile = "",
+        "Commercial name": commercialName = "",
+        "Channel(s)": audioChannels = "",
+        ID: id = "",
+        Default: isDefault = "",
+        Forced: isForced = "",
+        Language: language = ""
+      } = audio;
+      let channelName = "";
+      const channelNumber = parseInt(audioChannels, 10);
+      if (channelNumber && channelNumber >= 6) {
+        channelName = `${channelNumber - 1}.1`;
+      } else {
+        channelName = `${channelNumber}.0`;
+      }
+      const codec = this.determineAudioCodec(
+        audioFormat,
+        commercialName,
+        formatProfile
+      );
+      return {
+        channelName,
+        language,
+        default: isDefault === "Yes",
+        forced: isForced === "Yes",
+        id,
+        codec
+      };
+    }
+    parseVideo(video, generalFormat) {
+      const {
+        Format: videoFormat = "",
+        "Format version": videoFormatVersion = "",
+        "Codec ID": videoCodeId = "",
+        "HDR format": hdrFormat = "",
+        "Encoding settings": encodingSettings,
+        Default: isDefault = "",
+        Forced: isForced = "",
+        ID: id = "",
+        Width = "",
+        Height = "",
+        "Scan type": scanType = ""
+      } = video;
+      const isEncoded = !!encodingSettings;
+      const formatCodecMap = {
+        "DVD Video": "mpeg2",
+        "MPEG-4": "mpeg4"
+      };
+      let videoCodec = formatCodecMap[generalFormat] || "";
+      if (!videoCodec) {
+        if (videoFormat === "MPEG Video" && videoFormatVersion === "Version 2") {
+          videoCodec = "mpeg2";
+        } else if (/xvid/i.test(videoCodeId)) {
+          videoCodec = "xvid";
+        } else if (/HEVC/i.test(videoFormat)) {
+          videoCodec = isEncoded ? "x265" : "hevc";
+        } else if (/AVC/i.test(videoFormat)) {
+          videoCodec = isEncoded ? "x264" : "h264";
+        } else if (/VC-1/i.test(videoFormat)) {
+          videoCodec = "vc1";
+        } else if (/vvc/i.test(videoFormat)) {
+          videoCodec = "vvc";
+        }
+      }
+      const hdrType = this.getHdrType(hdrFormat);
+      const videoWidth = parseInt(Width.replace(/\s/g, ""), 10);
+      const videoHeight = parseInt(Height.replace(/\s/g, ""), 10);
+      const resolution = this.parseResolution(videoWidth, videoHeight, scanType);
+      return {
+        hdrType,
+        codec: videoCodec,
+        isEncoded,
+        default: isDefault === "Yes",
+        forced: isForced === "Yes",
+        id,
+        resolution
+      };
+    }
+    parseDuration(duration) {
+      var _a2, _b, _c, _d, _e, _f;
+      const hour = (_b = (_a2 = duration.match(/(\d+)\s*h/)) == null ? void 0 : _a2[1]) != null ? _b : "0";
+      const minute = (_d = (_c = duration.match(/(\d+)\s*min/)) == null ? void 0 : _c[1]) != null ? _d : "0";
+      const second = (_f = (_e = duration.match(/(\d+)\s*s/)) == null ? void 0 : _e[1]) != null ? _f : "0";
+      return parseInt(hour, 10) * 3600 + parseInt(minute, 10) * 60 + parseInt(second, 10);
+    }
+    parseResolution(width, height, scanType = "") {
+      if (!width || !height || isNaN(width) || isNaN(height)) {
+        return "";
+      }
+      if (width === 7680 && height === 4320) return "4320p";
+      if (width === 3840 && height === 2160) return "2160p";
+      if (height >= 2160 || width >= 3840) {
+        return "2160p";
+      } else if (height >= 1080 || width >= 1920) {
+        const isProgressive = scanType === "Progressive" || !scanType;
+        return `1080${isProgressive ? "p" : "i"}`;
+      } else if (height >= 720 || width >= 1280) {
+        return "720p";
+      } else if (height >= 576 || width >= 1024) {
+        return "576p";
+      } else if (width >= 840 || height === 480) {
+        return "480p";
+      } else if (height >= 360) {
+        return "360p";
+      } else if (height >= 240) {
+        return "240p";
+      }
       return `${width}x${height}`;
     }
+    determineAudioCodec(format2, commercialName, formatProfile) {
+      const codecRules = [
+        {
+          match: () => /MLP FBA/i.test(format2) && /Dolby Atmos/i.test(commercialName),
+          codec: "atmos"
+        },
+        { match: () => /MLP FBA/i.test(format2), codec: "truehd" },
+        {
+          match: () => /AC-3/i.test(format2) && /Dolby Digital Plus/i.test(commercialName),
+          codec: "dd+"
+        },
+        { match: () => /E-AC-3/i.test(format2), codec: "dd+" },
+        {
+          match: () => /AC-3/i.test(format2) && /Dolby Digital/i.test(commercialName),
+          codec: "dd"
+        },
+        { match: () => /AC-3/i.test(format2), codec: "ac3" },
+        { match: () => /DTS XLL X/i.test(format2), codec: "dtsx" },
+        {
+          match: () => /DTS/i.test(format2) && /DTS-HD Master Audio/i.test(commercialName),
+          codec: "dtshdma"
+        },
+        {
+          match: () => /DTS/i.test(format2) && /MA \/ Core/i.test(formatProfile),
+          codec: "dtshdma"
+        },
+        {
+          match: () => /DTS/i.test(format2) && /High Resolution/i.test(commercialName),
+          codec: "dtshd"
+        },
+        { match: () => /DTS/i.test(format2), codec: "dts" },
+        { match: () => /FLAC/i.test(format2), codec: "flac" },
+        { match: () => /AAC/i.test(format2), codec: "aac" },
+        { match: () => /LPCM/i.test(format2), codec: "lpcm" },
+        { match: () => /MP3/i.test(format2), codec: "mp3" },
+        { match: () => /Opus/i.test(format2), codec: "opus" },
+        { match: () => /Vorbis/i.test(format2), codec: "vorbis" }
+      ];
+      const matchedRule = codecRules.find((rule) => rule.match());
+      return matchedRule ? matchedRule.codec : "";
+    }
+    parse() {
+      var _a2;
+      const sections = this.splitIntoSections();
+      this.parseGeneralSection((_a2 = sections == null ? void 0 : sections.General) == null ? void 0 : _a2[0]);
+      const videoTracks = this.parseVideoSection(sections == null ? void 0 : sections.Video);
+      const audioTracks = this.parseAudioSection(sections == null ? void 0 : sections.Audio);
+      const subtitleTracks = this.parseSubtitleSection(sections == null ? void 0 : sections.Text);
+      return __spreadProps(__spreadValues({}, this.result), {
+        videoTracks,
+        audioTracks,
+        subtitleTracks
+      });
+    }
+  }
+  class BDInfoParser extends MediaParser {
+    splitIntoSections() {
+      const lines = this.source.split("\n");
+      const sectionTypeConfig = [
+        { match: /Disc Label|DISC INFO/i, typeName: "general" },
+        { match: /\*?VIDEO:/i, typeName: "video" },
+        { match: /\*?AUDIO:/i, typeName: "audio" },
+        { match: /\*?SUBTITLE(S)?/i, typeName: "subtitle" }
+      ];
+      const sections = {};
+      let currentSectionLines = {};
+      let currentSectionType = "";
+      let currentSectionLineIndex = 0;
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        const sectionHeaderMatch = sectionTypeConfig.filter(
+          (config) => trimmedLine.match(config.match)
+        );
+        if (sectionHeaderMatch.length > 0) {
+          currentSectionLineIndex = 0;
+          if (currentSectionType && Object.keys(currentSectionLines).length > 0) {
+            if (sections[currentSectionType]) {
+              sections[currentSectionType].push(currentSectionLines);
+            } else {
+              sections[currentSectionType] = [currentSectionLines];
+            }
+          }
+          currentSectionType = sectionHeaderMatch[0].typeName;
+          const [key, value, ...extra] = trimmedLine.split(":");
+          if (key && value) {
+            if (extra.length > 0) {
+              currentSectionLines = {
+                [key]: `${value}:${extra.join(":").trim()}`
+              };
+            } else {
+              currentSectionLines = {
+                [key]: value.trim()
+              };
+            }
+          } else {
+            currentSectionLines = {};
+          }
+          continue;
+        }
+        if (currentSectionType) {
+          const [key, value, ...extra] = trimmedLine.split(":").map((s2) => s2.trim());
+          if (key && value && !key.includes("/") && !value.includes("/")) {
+            if (extra.length > 0) {
+              currentSectionLines[key] = `${value}:${extra.join(":").trim()}`;
+            } else {
+              currentSectionLines[key] = value.trim();
+            }
+          } else if (key.trim()) {
+            if (!key.includes("--") && !key.match(/Bitrate\s*Description|PLAYLIST REPORT/i)) {
+              if (!sections[currentSectionType]) {
+                sections[currentSectionType] = [];
+              }
+              sections[currentSectionType].push({
+                [currentSectionLineIndex]: trimmedLine
+              });
+            }
+          }
+        }
+      }
+      if (currentSectionType && Object.keys(currentSectionLines).length > 0) {
+        if (sections[currentSectionType]) {
+          sections[currentSectionType].push(currentSectionLines);
+        } else {
+          sections[currentSectionType] = [currentSectionLines];
+        }
+      }
+      return sections;
+    }
+    parseGeneralSection(general) {
+      var _a2, _b;
+      if (!general) {
+        return;
+      }
+      this.result.fileSize = convertSizeStringToBytes(
+        (_a2 = general == null ? void 0 : general["Disc Size"]) == null ? void 0 : _a2.replace(/,/g, "")
+      );
+      this.result.duration = this.parseDuration(
+        (_b = general == null ? void 0 : general.Length) == null ? void 0 : _b.replace(/\s/g, "")
+      );
+      this.result.fileName = general == null ? void 0 : general["Disc Label"];
+    }
+    parseVideoSection(videos) {
+      if (!videos || videos.length === 0) return [];
+      const videoTracks = [];
+      for (const video of videos) {
+        videoTracks.push(this.parseVideo(Object.values(video)[0]));
+      }
+      return videoTracks;
+    }
+    parseVideo(video) {
+      var _a2, _b, _c, _d;
+      const videoCodec = (_b = (_a2 = video.match(/(\w|\s|-|\/)+?Video/i)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      const codec = /HEVC/i.test(videoCodec) ? "hevc" : "h264";
+      const resolution = (_d = (_c = video.match(/(\d+)p/i)) == null ? void 0 : _c[0]) != null ? _d : "";
+      const hdrType = this.getHdrType(video);
+      return {
+        hdrType,
+        codec,
+        resolution,
+        default: false,
+        forced: false,
+        isEncoded: false
+      };
+    }
+    parseAudioSection(audios) {
+      if (!audios || audios.length === 0) return [];
+      const audioTracks = [];
+      for (const audio of audios) {
+        audioTracks.push(this.parseAudio(Object.values(audio)[0]));
+      }
+      return audioTracks;
+    }
+    parseAudio(audio) {
+      var _a2, _b, _c, _d, _e, _f;
+      const audioCodec = (_b = (_a2 = audio.match(/(\w|\s|-|\/)+?Audio/i)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      const codec = getAudioCodecFromSource(audioCodec);
+      const isQuickSummaryType = /Audio\s*\//.test(audio);
+      let language;
+      if (isQuickSummaryType) {
+        language = audio.split("/")[0].trim();
+      } else {
+        language = (_d = (_c = audio.match(/Audio\s*(\w+)/i)) == null ? void 0 : _c[1]) != null ? _d : "";
+      }
+      const channelName = (_f = (_e = audio.match(/(\d+\.\d)/)) == null ? void 0 : _e[0]) != null ? _f : "";
+      return {
+        channelName,
+        language,
+        codec
+      };
+    }
+    parseSubtitleSection(subtitles) {
+      if (!subtitles || subtitles.length === 0) return [];
+      const subtitleTracks = [];
+      for (const subtitle of subtitles) {
+        subtitleTracks.push(this.parseSubtitle(Object.values(subtitle)[0]));
+      }
+      return subtitleTracks;
+    }
+    parseSubtitle(subtitle) {
+      var _a2, _b, _c;
+      const subtitleSplits = subtitle.split("/");
+      const firstAudioSplit = (_a2 = subtitleSplits == null ? void 0 : subtitleSplits[0]) == null ? void 0 : _a2.trim();
+      let language = firstAudioSplit;
+      if (subtitleSplits.length < 2) {
+        language = (_c = (_b = subtitle.match(/Graphics\s*(\w+)/)) == null ? void 0 : _b[1]) != null ? _c : "";
+      }
+      return {
+        language
+      };
+    }
+    parseDuration(duration) {
+      const [hour, minute, second] = duration.split(":");
+      return parseFloat(hour) * 3600 + parseFloat(minute) * 60 + parseFloat(second);
+    }
+    parse() {
+      var _a2, _b;
+      const sections = this.splitIntoSections();
+      this.parseGeneralSection(
+        (_b = sections == null ? void 0 : sections.general) == null ? void 0 : _b[((_a2 = sections == null ? void 0 : sections.general) == null ? void 0 : _a2.length) > 1 ? 1 : 0]
+      );
+      const videoTracks = this.parseVideoSection(sections == null ? void 0 : sections.video);
+      const audioTracks = this.parseAudioSection(sections == null ? void 0 : sections.audio);
+      const subtitleTracks = this.parseSubtitleSection(sections == null ? void 0 : sections.subtitle);
+      return __spreadProps(__spreadValues({}, this.result), {
+        videoTracks,
+        audioTracks,
+        subtitleTracks
+      });
+    }
+  }
+  const getBDTypeBasedOnSize = (size) => {
+    const GBSize = size / 1024 ** 3;
+    const DISK_TYPES = [
+      { maxSize: 5, type: "DVD5" },
+      { maxSize: 9, type: "DVD9" },
+      { maxSize: 25, type: "BD25" },
+      { maxSize: 50, type: "BD50" },
+      { maxSize: 66, type: "BD66" },
+      { maxSize: 100, type: "BD100" }
+    ];
+    for (const { maxSize, type } of DISK_TYPES) {
+      if (GBSize < maxSize) {
+        return type;
+      }
+    }
+    return "Unknown";
+  };
+  const getAudioCodecFromSource = (source) => {
+    if (!source) {
+      return "";
+    }
+    const formattedSource = source.replace(/:|-|\s|\./g, "");
+    const { CODEC_RULES } = CONFIG$3;
+    for (const { codec, regex } of CODEC_RULES) {
+      if (regex.test(formattedSource)) {
+        return codec;
+      }
+    }
     return "";
   };
-  const getMediaTags = (audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV) => {
-    const hasChineseAudio = languageArray.includes("Chinese");
-    const hasChineseSubtitle = subtitleLanguageArray.includes("Chinese");
-    const mediaTags = {};
-    if (hasChineseAudio) {
-      mediaTags.chinese_audio = true;
+  const parseMedia = (source, isBluray = false) => {
+    if (!source) {
+      return null;
     }
-    if (languageArray.includes("Cantonese")) {
-      mediaTags.cantonese_audio = true;
+    const parser = isBluray ? new BDInfoParser(source) : new MediaInfoParser(source);
+    return parser.parse();
+  };
+  const CONFIG$2 = {
+    URLS: {
+      TMDB_API: "https://api.themoviedb.org",
+      DOUBAN_SEARCH_API: "https://omit.mkrobot.org/movie/infos",
+      DOUBAN_SUGGEST_API: (query) => `https://www.douban.com/search?cat=1002&q=${query}`,
+      DOUBAN_SUBJECT: (id) => `https://movie.douban.com/subject/${id}/`,
+      IMDB_URL: (id) => `https://www.imdb.com/title/${id}/`,
+      DOUBAN_MOBILE_API: "https://m.douban.com/rexxar/api/v2",
+      PT_GEN_API: (url) => `https://media.pttool.workers.dev?url=${url}`,
+      IMDB_RATING_API: (id) => `https://p.media-imdb.com/static-content/documents/v1/title/${id}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`,
+      ROTTEN_TOMATOES_API: "https://79frdp12pn-1.algolianet.com/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript%20(4.24.0)%3B%20Browser%20(lite)&x-algolia-api-key=175588f6e5f8319b27702e4cc4013561&x-algolia-application-id=79FRDP12PN"
+    },
+    KEY: {
+      TMDB_API_KEY: "4a06eb7286be2d481fdb30e0a6b4ad77"
+    },
+    REGION_PATTERNS: {
+      US: /USA|US|Canada|CA|美国|加拿大|United States/i,
+      EU: /欧|英|法|德|俄|意|苏联|西班牙|EU/i,
+      JP: /Japan|日本|JP/i,
+      KR: /Korea|韩国|KR/i,
+      TW: /Taiwan|台湾|TW/i,
+      HK: /Hong\s?Kong|香港|HK/i,
+      IN: /India|印度|IN/i,
+      AU: /Australia|澳大利亚|AU/i,
+      CN: /CN|China|大陆|中|内地|Mainland/i
+    },
+    EUROPE_LIST: [
+      "Albania",
+      "Andorra",
+      "Armenia",
+      "Austria",
+      "Azerbaijan",
+      "Belarus",
+      "Belgium",
+      "Bosnia and Herzegovina",
+      "Bulgaria",
+      "Croatia",
+      "Cyprus",
+      "Czech Republic",
+      "Denmark",
+      "Estonia",
+      "Finland",
+      "France",
+      "Georgia",
+      "Germany",
+      "Greece",
+      "Hungary",
+      "Iceland",
+      "Ireland",
+      "Italy",
+      "Kazakhstan",
+      "Latvia",
+      "Liechtenstein",
+      "Lithuania",
+      "Luxembourg",
+      "Malta",
+      "Moldova",
+      "Monaco",
+      "Montenegro",
+      "Netherlands",
+      "North Macedonia",
+      "Norway",
+      "Poland",
+      "Portugal",
+      "Romania",
+      "Russia",
+      "San Marino",
+      "Serbia",
+      "Slovakia",
+      "Slovenia",
+      "Spain",
+      "Sweden",
+      "Switzerland",
+      "Turkey",
+      "Ukraine",
+      "United Kingdom",
+      "UK",
+      "Vatican City"
+    ]
+  };
+  const getIMDBData = async (imdbUrl) => {
+    if (!imdbUrl) {
+      throw new Error("No IMDB URL provided");
     }
-    if (hasChineseSubtitle) {
-      mediaTags.chinese_subtitle = true;
-    }
-    if (hdrFormat) {
-      if (hdrFormat.match(/HDR10\+/i)) {
-        mediaTags.hdr10_plus = true;
-      } else if (hdrFormat.match(/HDR/i)) {
-        mediaTags.hdr = true;
+    const data = await GMFetch(
+      CONFIG$2.URLS.PT_GEN_API(imdbUrl),
+      {
+        responseType: "json"
       }
+    );
+    if (!data || !data.success) {
+      throw new Error((data == null ? void 0 : data.error) || "Failed to get IMDB data");
     }
-    if (isDV) {
-      mediaTags.dolby_vision = true;
-    }
-    if (audioCodec.match(/dtsx|atmos/ig)) {
-      mediaTags.dts_x = true;
-    } else if (audioCodec.match(/atmos/ig)) {
-      mediaTags.dolby_atmos = true;
-    }
-    return mediaTags;
+    return data;
   };
-  const getVideoCodecByMediaInfo = (mainVideo, generalPart, secondVideo) => {
-    const generalFormat = getMediaValueByKey("Format", generalPart);
-    const videoFormat = getMediaValueByKey("Format", mainVideo);
-    const videoFormatVersion = getMediaValueByKey("Format version", mainVideo);
-    const videoCodeId = getMediaValueByKey("Codec ID", mainVideo);
-    const hdrFormat = getMediaValueByKey("HDR format", mainVideo);
-    const isDV = hdrFormat.match(/Dolby\s*Vision/i) || secondVideo.length > 0 && getMediaValueByKey("HDR format", secondVideo[0]).match(/Dolby\s*Vision/i);
-    const isEncoded = !!getMediaValueByKey("Encoding settings", mainVideo);
-    let videoCodec = "";
-    if (generalFormat === "DVD Video") {
-      videoCodec = "mpeg2";
-    } else if (generalFormat === "MPEG-4") {
-      videoCodec = "mpeg4";
-    } else if (videoFormat === "MPEG Video" && videoFormatVersion === "Version 2") {
-      videoCodec = "mpeg2";
-    } else if (videoCodeId.match(/xvid/i)) {
-      videoCodec = "xvid";
-    } else if (videoFormat.match(/HEVC/i) && !isEncoded) {
-      videoCodec = "hevc";
-    } else if (videoFormat.match(/HEVC/i) && isEncoded) {
-      videoCodec = "x265";
-    } else if (videoFormat.match(/AVC/i) && isEncoded) {
-      videoCodec = "x264";
-    } else if (videoFormat.match(/AVC/i) && !isEncoded) {
-      videoCodec = "h264";
-    } else if (videoFormat.match(/VC-1/i)) {
-      videoCodec = "vc1";
-    } else if (videoFormat.match(/vvc/i)) {
-      videoCodec = "vvc";
+  const getIMDBRating = async (imdbId) => {
+    var _a2, _b, _c, _d, _e;
+    if (!imdbId) {
+      throw new Error("No IMDB ID provided");
     }
-    return {
-      videoCodec,
-      hdrFormat,
-      isDV: !!isDV
-    };
-  };
-  const getAudioCodecByMediaInfo = (mainAudio, otherAudio) => {
-    const audioFormat = getMediaValueByKey("Format", mainAudio);
-    const audioChannels = getMediaValueByKey("Channel(s)", mainAudio);
-    const commercialName = getMediaValueByKey("Commercial name", mainAudio);
-    const formateProfile = getMediaValueByKey("Format profile", mainAudio);
-    const languageArray = [mainAudio, ...otherAudio].map((item) => {
-      return getMediaValueByKey("Language", item);
-    });
-    let channelName = "";
-    let audioCodec = "";
-    const channelNumber = parseInt(audioChannels, 10);
-    if (channelNumber && channelNumber >= 6) {
-      channelName = `${channelNumber - 1}.1`;
-    } else {
-      channelName = `${channelNumber}.0`;
+    const url = CONFIG$2.URLS.IMDB_RATING_API(imdbId);
+    const data = await GMFetch(url);
+    const matchData = (_b = (_a2 = data == null ? void 0 : data.match(/[^(]+\((.+)\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    if (!matchData) {
+      throw new Error("No rating data found");
     }
-    if (audioFormat.match(/MLP FBA/i) && commercialName.match(/Dolby Atmos/i)) {
-      audioCodec = "atmos";
-    } else if (audioFormat.match(/MLP FBA/i) && !commercialName.match(/Dolby Atmos/i)) {
-      audioCodec = "truehd";
-    } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital Plus/i)) {
-      audioCodec = "dd+";
-    } else if (audioFormat.match(/AC-3/i) && commercialName.match(/Dolby Digital/i)) {
-      audioCodec = "dd";
-    } else if (audioFormat.match(/AC-3/i)) {
-      audioCodec = "ac3";
-    } else if (audioFormat.match(/DTS XLL X/i)) {
-      audioCodec = "dtsx";
-    } else if (audioFormat.match(/DTS/i) && commercialName.match(/DTS-HD Master Audio/i)) {
-      audioCodec = "dtshdma";
-    } else if (audioFormat.match(/DTS/i) && formateProfile.match(/MA \/ Core/i)) {
-      audioCodec = "dtshdma";
-    } else if (audioFormat.match(/DTS/i)) {
-      audioCodec = "dts";
-    } else if (audioFormat.match(/FLAC/i)) {
-      audioCodec = "flac";
-    } else if (audioFormat.match(/AAC/i)) {
-      audioCodec = "aac";
-    } else if (audioFormat.match(/LPCM/i)) {
-      audioCodec = "lpcm";
-    }
-    return {
-      audioCodec,
-      channelName,
-      languageArray
-    };
-  };
-  const getInfoFromBDInfo = (bdInfo) => {
-    var _a2, _b, _c, _d2, _e2;
-    if (!bdInfo) {
-      return {};
-    }
-    const splitArray = bdInfo.split("Disc Title");
-    if (splitArray.length > 2) {
-      bdInfo = splitArray[1];
-    }
-    const videoMatch = bdInfo.match(/VIDEO:(\s|Codec|Bitrate|Description|Language|-)*((.|\n)*)AUDIO:/i);
-    const hasFileInfo = bdInfo.match(/FILES:/i);
-    const subtitleReg = new RegExp(`SUBTITLE(S)*:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${hasFileInfo ? "FILES:" : ""}`, "i");
-    const subtitleMatch = bdInfo.match(subtitleReg);
-    const audioReg = new RegExp(`AUDIO:(\\s|Codec|Bitrate|Description|Language|-)*((.|\\n)*)${subtitleMatch ? "(SUBTITLE(S)?)" : hasFileInfo ? "FILES:" : ""}`, "i");
-    const audioMatch = bdInfo.match(audioReg);
-    const fileSize = (_b = (_a2 = bdInfo.match(/Disc\s*Size:\s*((\d|,| )+)bytes/)) == null ? void 0 : _a2[1]) == null ? void 0 : _b.replace(/,/g, "");
-    const quickSummaryStyle = !bdInfo.match(/PLAYLIST REPORT/i);
-    const videoPart = splitBDMediaInfo(videoMatch, 2);
-    const [mainVideo = "", otherVideo = ""] = videoPart;
-    const videoCodec = mainVideo.match(/2160/) ? "hevc" : "h264";
-    const hdrFormat = (_d2 = (_c = mainVideo.match(/\/\s*HDR(\d)*(\+)*\s*\//i)) == null ? void 0 : _c[0]) != null ? _d2 : "";
-    const isDV = !!otherVideo.match(/\/\s*Dolby\s*Vision\s*/i);
-    const audioPart = splitBDMediaInfo(audioMatch, 2);
-    const subtitlePart = splitBDMediaInfo(subtitleMatch, 3);
-    const resolution = (_e2 = mainVideo.match(/\d{3,4}(p|i)/)) == null ? void 0 : _e2[0];
-    const { audioCodec = "", channelName = "", languageArray = [] } = getBDAudioInfo(audioPart, quickSummaryStyle);
-    const subtitleLanguageArray = subtitlePart.map((item) => {
-      var _a3, _b2, _c2, _d3;
-      const quickStyleMatch = (_b2 = (_a3 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-      const normalMatch = (_d3 = (_c2 = item.match(/Graphics\s*(\w+)\s*(\d|\.)+\s*kbps/i)) == null ? void 0 : _c2[1]) != null ? _d3 : "";
-      const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
-      return language;
-    }).filter((sub) => !!sub);
-    const mediaTags = getMediaTags(audioCodec, channelName, languageArray, subtitleLanguageArray, hdrFormat, isDV);
-    return {
-      fileSize,
-      videoCodec,
-      subtitles: subtitleLanguageArray,
-      audioCodec,
-      resolution,
-      mediaTags,
-      format: "m2ts"
-    };
-  };
-  const splitBDMediaInfo = (matchArray, matchIndex) => {
-    var _a2, _b;
-    return (_b = (_a2 = matchArray == null ? void 0 : matchArray[matchIndex]) == null ? void 0 : _a2.split("\n").filter((item) => !!item)) != null ? _b : [];
-  };
-  const getBDAudioInfo = (audioPart, quickSummaryStyle) => {
-    var _a2, _b;
-    if (audioPart.length < 1) {
-      return {};
-    }
-    const sortArray = audioPart.sort((a2, b) => {
-      var _a3, _b2, _c, _d2;
-      const firstBitrate = parseInt((_b2 = (_a3 = a2.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _a3[1]) != null ? _b2 : "", 10);
-      const lastBitrate = parseInt((_d2 = (_c = b.match(/\/\s*(\d+)\s*kbps/i)) == null ? void 0 : _c[1]) != null ? _d2 : "", 10);
-      return lastBitrate - firstBitrate;
-    });
-    const [mainAudio, secondAudio] = sortArray;
-    const mainAudioCodec = getAudioCodecFromTitle(mainAudio);
-    const secondAudioCodec = getAudioCodecFromTitle(secondAudio);
-    let audioCodec = mainAudioCodec;
-    let channelName = (_a2 = mainAudio.match(/\d\.\d/)) == null ? void 0 : _a2[0];
-    if (mainAudioCodec === "lpcm" && secondAudioCodec === "dtshdma") {
-      audioCodec = secondAudioCodec;
-      channelName = (_b = mainAudio.match(/\d\.\d/)) == null ? void 0 : _b[0];
-    }
-    const languageArray = sortArray.map((item) => {
-      var _a3, _b2, _c, _d2;
-      const quickStyleMatch = (_b2 = (_a3 = item.match(/(\w+)\s*\//)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-      const normalMatch = (_d2 = (_c = item.match(/Audio\s*(\w+)\s*\d+\s*kbps/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-      const language = quickSummaryStyle ? quickStyleMatch : normalMatch;
-      return language;
-    });
-    return {
-      audioCodec,
-      channelName,
-      languageArray
-    };
-  };
-  const getAreaCode = (area) => {
-    const europeList = EUROPE_LIST;
-    if (area) {
-      if (area.match(/USA|US|Canada|CA|美国|加拿大|United States/i)) {
-        return "US";
-      } else if (europeList.includes(area) || area.match(/欧|英|法|德|俄|意|苏联|EU/i)) {
-        return "EU";
-      } else if (area.match(/Japan|日本|JP/i)) {
-        return "JP";
-      } else if (area.match(/Korea|韩国|KR/i)) {
-        return "KR";
-      } else if (area.match(/Taiwan|台湾|TW/i)) {
-        return "TW";
-      } else if (area.match(/Hong\s?Kong|香港|HK/i)) {
-        return "HK";
-      } else if (area.match(/CN|China|大陆|中|内地|Mainland/i)) {
-        return "CN";
-      }
-    }
-    return "OT";
-  };
-  const getTMDBIdByIMDBId = async (imdbid) => {
     try {
-      const url = `${TMDB_API_URL}/3/find/${imdbid}?api_key=${TMDB_API_KEY}&language=en&external_source=imdb_id`;
-      const data = await fetch(url);
-      const isMovie = data.movie_results && data.movie_results.length > 0;
-      const isTV = data.tv_results && data.tv_results.length > 0;
-      if (!isMovie && !isTV) {
-        throw $t("请求失败");
-      }
-      const tmdbData = isMovie ? data.movie_results[0] : data.tv_results[0];
-      return tmdbData;
-    } catch (error) {
-      console.log("getTMDBIdByIMDBId:", error);
-      return {};
+      const ratingData = JSON.parse(matchData);
+      return __spreadProps(__spreadValues({}, ratingData.resource), {
+        id: (_e = (_d = (_c = ratingData.resource) == null ? void 0 : _c.id.match(/tt\d+/)) == null ? void 0 : _d[0]) != null ? _e : ""
+      });
+    } catch (e2) {
+      throw new Error("Failed to parse rating data");
     }
   };
-  const getTMDBVideos = async (tmdbId) => {
-    const url = `${TMDB_API_URL}/3/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}&language=en`;
-    const data = await fetch(url);
-    return data.results || [];
-  };
-  const getIMDBIdByUrl = (imdbLink) => {
-    const imdbIdArray = /tt\d+/.exec(imdbLink);
+  const getIdByIMDbUrl = (imdbUrl) => {
+    const imdbIdArray = /tt\d+/.exec(imdbUrl);
     if (imdbIdArray && imdbIdArray[0]) {
       return imdbIdArray[0];
     }
     return "";
   };
-  const getIMDBData = async (imdbUrl) => {
-    try {
-      if (!imdbUrl) {
-        throw new Error("$t(缺少IMDB信息)");
+  const NBSP = " ";
+  const CREDIT_INDENTATION = 24;
+  const FORMAT_RULES = [
+    {
+      key: "poster",
+      title: "",
+      formatter: (url) => `[img]${url}[/img]
+`
+    },
+    {
+      key: "translatedTitle",
+      title: "译名",
+      formatter: (title) => title.join(" / ")
+    },
+    {
+      key: "originalTitle",
+      title: "片名"
+    },
+    {
+      key: "year",
+      title: "年代"
+    },
+    {
+      key: "countries",
+      title: "产地",
+      formatter: (countries) => countries.join(" / ")
+    },
+    {
+      key: "genres",
+      title: "类别",
+      formatter: (genres) => genres.join(" / ")
+    },
+    {
+      key: "languages",
+      title: "语言",
+      formatter: (languages) => languages.join(" / ")
+    },
+    {
+      key: "pubdate",
+      title: "上映日期",
+      formatter: (dates) => dates.join(" / ")
+    },
+    {
+      key: "imdbRating",
+      title: "IMDb评分"
+    },
+    {
+      key: "imdbLink",
+      title: "IMDb链接"
+    },
+    {
+      key: "doubanRating",
+      title: "豆瓣评分"
+    },
+    {
+      key: "doubanLink",
+      title: "豆瓣链接"
+    },
+    {
+      key: "episodes_count",
+      title: "集数"
+    },
+    {
+      key: "durations",
+      title: "片长",
+      formatter: (durations) => durations.join(" / ")
+    },
+    {
+      key: "tags",
+      title: "标签",
+      formatter: (tags2) => tags2.join(" | ")
+    },
+    {
+      key: "creditsData",
+      formatter: (creditsData) => `
+${creditsData}`
+    },
+    {
+      key: "intro",
+      title: "简介",
+      formatter: (intro) => `
+
+  ${intro.replace(/\n/g, `
+${NBSP.repeat(2)}`)}`
+    },
+    {
+      key: "awards",
+      title: "获奖情况",
+      formatter: (awards) => `
+
+  ${awards.replace(/\n/g, `
+${NBSP.repeat(6)}`)}
+`
+    }
+  ];
+  class DoubanFormatter {
+    constructor(id, type, imdbId = "") {
+      this.doubanId = id;
+      this.type = type;
+      this.imdbId = imdbId;
+    }
+    async fetchAllData() {
+      try {
+        const [awards, credits, info, imdbData] = await Promise.all([
+          getDoubanAwards(this.doubanId),
+          getDoubanCreditsData(this.doubanId, this.type),
+          getMobileDoubanInfo(this.doubanId, this.type),
+          this.fetchIMDbData()
+        ]);
+        return { awards, credits, info, imdbData };
+      } catch (e2) {
+        throw new Error(
+          `Failed to fetch data for Douban ID: ${this.doubanId} ${e2.message}`
+        );
       }
-      const data = await fetch(`${PT_GEN_API}?url=${imdbUrl}`);
-      if (data && data.success) {
-        return data;
+    }
+    async fetchIMDbData() {
+      if (!this.imdbId) {
+        this.imdbId = await getIMDbIDFromDouban(this.doubanId);
       }
-      throw data.error || $t("请求失败");
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  const getDoubanAwards = async (doubanId) => {
-    const data = await fetch(`https://movie.douban.com/subject/${doubanId}/awards/`, {
-      responseType: void 0
-    });
-    const doc = new DOMParser().parseFromString(data, "text/html");
-    const linkDom = doc.querySelector("#content > div > div.article");
-    return linkDom == null ? void 0 : linkDom.innerHTML.replace(/[ \n]/g, "").replace(/<\/li><li>/g, "</li> <li>").replace(/<\/a><span/g, "</a> <span").replace(/<(div|ul)[^>]*>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/ +\n/g, "\n").trim();
-  };
-  const getIMDBFromDouban = async (doubanLink) => {
-    var _a2, _b, _c, _d2;
-    const doubanPage = await fetch(doubanLink, {
-      responseType: void 0
-    });
-    const dom = new DOMParser().parseFromString(doubanPage, "text/html");
-    const imdbId = (_d2 = (_c = (_b = (_a2 = $$2('#info span.pl:contains("IMDb")', dom)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()) != null ? _d2 : "";
-    return imdbId;
-  };
-  const getMobileDoubanInfo = async (doubanUrl, isTV) => {
-    var _a2, _b, _c, _d2;
-    try {
-      if (doubanUrl) {
-        const doubanId = (_b = (_a2 = doubanUrl.match(/subject\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-        if (!doubanId) {
-          throw $t("豆瓣ID获取失败");
-        }
-        const catPath = isTV ? "tv" : "movie";
-        const url = `${DOUBAN_MOBILE_API}/${catPath}/${doubanId}`;
-        const options2 = {
-          headers: {
-            Referer: `https://m.douban.com/${catPath}/subject/${doubanId}`
-          },
-          cookie: "",
-          anonymous: false
-        };
-        const cookie = getValue("easy-seed.douban-cookie", false);
-        const ckValue = (_d2 = (_c = cookie == null ? void 0 : cookie.match(/ck=([^;]+)?/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-        if (cookie) {
-          options2.cookie = cookie;
-          options2.anonymous = true;
-        }
-        const data = await fetch(`${url}?for_mobile=1&ck=${ckValue}`, options2);
-        if (data && data.title === "未知电影") {
-          throw $t("请配置豆瓣Cookie");
-        }
-        if (data && data.id) {
-          const creditsData = await fetch(`${url}/credits`, options2);
-          data.credits = creditsData.credits;
-          const awards = await getDoubanAwards(doubanId);
-          data.awards = awards;
-          return await formatDoubanInfo(data);
-        }
-        throw $t("获取豆瓣信息失败");
-      } else {
-        throw $t("豆瓣链接获取失败");
+      if (this.imdbId) {
+        return await getIMDBRating(this.imdbId);
       }
-    } catch (error) {
-      handleError(error);
+      return null;
     }
-  };
-  const getIMDBRating = async (imdbId) => {
-    var _a2, _b, _c, _d2, _e2;
-    const url = `https://p.media-imdb.com/static-content/documents/v1/title/${imdbId}/ratings%3Fjsonp=imdb.rating.run:imdb.api.title.ratings/data.json`;
-    const data = await fetch(url, {
-      responseType: void 0
-    });
-    const { resource } = (_c = JSON.parse((_b = (_a2 = data.match(/[^(]+\((.+)\)/)) == null ? void 0 : _a2[1]) != null ? _b : "")) != null ? _c : {};
-    return {
-      count: resource == null ? void 0 : resource.ratingCount,
-      value: resource == null ? void 0 : resource.rating,
-      id: (_e2 = (_d2 = resource == null ? void 0 : resource.id.match(/tt\d+/)) == null ? void 0 : _d2[0]) != null ? _e2 : ""
-    };
-  };
-  const formatDoubanInfo = async (data) => {
-    var _a2, _b;
-    const {
-      rating,
-      pubdate,
-      year,
-      languages,
-      genres,
-      title,
-      intro,
-      actors,
-      durations,
-      cover_url: coverUrl,
-      countries,
-      url,
-      original_title: originalTitle,
-      directors,
-      aka,
-      episodes_count: epCount,
-      credits,
-      awards
-    } = data;
-    const { imdbUrl } = TORRENT_INFO;
-    let imdbId = "";
-    if (!imdbUrl) {
-      imdbId = await getIMDBFromDouban(url);
-    } else {
-      imdbId = getIMDBIdByUrl(imdbUrl);
+    formatPosterUrl(poster) {
+      if (poster.includes("img3")) {
+        return poster.replace("img3", "img1").replace(/m(_ratio_poster)/, "l$1");
+      }
+      return poster;
     }
-    let imdbRate = {
-      id: "",
-      value: "0",
-      count: "0"
-    };
-    if (imdbId) {
-      imdbRate = await getIMDBRating(imdbId);
+    formatTitles(data) {
+      const { title, original_title: originalTitle, aka } = data;
+      const translatedTitle = [...aka];
+      if (originalTitle && originalTitle !== title) {
+        translatedTitle.unshift(title);
+      }
+      return {
+        translatedTitle: Array.from(new Set(translatedTitle)).filter(Boolean),
+        originalTitle: originalTitle || title
+      };
     }
-    let foreignTitle = "";
-    if (originalTitle && title !== originalTitle) {
-      foreignTitle = originalTitle;
-    }
-    let poster = coverUrl;
-    if (poster.includes("img3")) {
-      poster = poster.replace("img3", "img1").replace(/m(_ratio_poster)/, "l$1");
-    }
-    const formatData = {
-      imdbId: imdbRate.id,
-      imdbLink: `https://www.imdb.com/title/${imdbRate.id}/`,
-      imdbAverageRating: imdbRate.value,
-      imdbVotes: imdbRate.count,
-      imdbRating: `${(_a2 = imdbRate == null ? void 0 : imdbRate.value) != null ? _a2 : 0}/10 from ${(_b = imdbRate == null ? void 0 : imdbRate.count) != null ? _b : 0} users`,
-      chineseTitle: title,
-      foreignTitle,
-      aka,
-      transTitle: Array.from(/* @__PURE__ */ new Set([originalTitle ? title : "", ...aka])).filter(Boolean),
-      thisTitle: [originalTitle || title],
-      // original_title
-      year,
-      playDate: pubdate,
-      region: countries.join(" / "),
-      genre: genres,
-      language: languages,
-      episodes: epCount > 0 ? `${epCount}` : "",
-      duration: durations.join(" / "),
-      introduction: intro,
-      doubanLink: url,
-      doubanRatingAverage: rating.value,
-      doubanVotes: `${rating.count}`,
-      doubanRating: `${rating.value}/10 from ${rating.count} users`,
-      poster,
-      director: directors,
-      cast: actors,
-      writer: [],
-      credits,
-      awards
-    };
-    formatData.format = getDoubanFormat(formatData);
-    return formatData;
-  };
-  const getDoubanFormat = (data) => {
-    const {
-      poster,
-      thisTitle,
-      transTitle,
-      genre,
-      year: movieYear,
-      region,
-      language,
-      playDate,
-      imdbRating,
-      imdbLink,
-      doubanRating,
-      doubanLink,
-      episodes: showEpisodes,
-      duration: movieDuration,
-      introduction,
-      awards,
-      tags: tags2,
-      credits = []
-    } = data;
-    const spaceStr = " ".repeat(7);
-    const creditsData = credits.map((credit) => {
-      const celebrity = credit.celebrities.map((item) => {
-        return `${item.name} ${item.latin_name}`;
-      });
-      const repeatMap = {
+    updateCredits(credits) {
+      if (!credits || !credits.items || credits.items.length === 0) {
+        return "";
+      }
+      const indentationMap = {
         2: 7,
         3: 2,
         4: 0,
         5: 0
       };
-      const celebrityKey = credit.title.split("").join(" ".repeat((repeatMap == null ? void 0 : repeatMap[credit.title.length]) || 0));
-      const celebrityValue = celebrity.join(`
-${" ".repeat(24)}`).trim();
-      return `◎${celebrityKey}${spaceStr}${celebrityValue}`;
-    });
-    let descr = poster ? `[img]${poster}[/img]
-
-` : "";
-    descr += transTitle ? `◎译${spaceStr}名${spaceStr}${transTitle.join(" / ")}
-` : "";
-    descr += thisTitle ? `◎片${spaceStr}名${spaceStr}${thisTitle.join(" / ")}
-` : "";
-    descr += movieYear ? `◎年${spaceStr}代${spaceStr}${movieYear.trim()}
-` : "";
-    descr += region ? `◎产${spaceStr}地${spaceStr}${region}
-` : "";
-    descr += genre ? `◎类${spaceStr}别${spaceStr}${genre.join(" / ")}
-` : "";
-    descr += language ? `◎语${spaceStr}言${spaceStr}${language.join(" / ")}
-` : "";
-    descr += playDate ? `◎上映日期${spaceStr} ${playDate.join(" / ")}
-` : "";
-    descr += imdbRating ? `◎IMDb评分${spaceStr}${imdbRating}
-` : "";
-    descr += imdbLink ? `◎IMDb链接${spaceStr}${imdbLink}
-` : "";
-    descr += doubanRating ? `◎豆瓣评分${spaceStr} ${doubanRating}
-` : "";
-    descr += doubanLink ? `◎豆瓣链接${spaceStr} ${doubanLink}
-` : "";
-    descr += showEpisodes ? `◎集${spaceStr}数${spaceStr}${showEpisodes}
-` : "";
-    descr += movieDuration ? `◎片${spaceStr}长${spaceStr}${movieDuration}
-` : "";
-    descr += creditsData.length > 0 ? creditsData.join("\n") : "";
-    descr += tags2 && tags2.length > 0 ? `
-◎标${spaceStr}签${spaceStr}${tags2.join(" | ")} 
-` : "";
-    descr += introduction ? `
-◎简${spaceStr}介
-
-  ${introduction.replace(/\n/g, `
-${" ".repeat(2)}`)} 
-` : "";
-    descr += awards ? `
-◎获奖情况
-
-　　${awards.replace(/\n/g, `
-${" ".repeat(6)}`)} 
-` : "";
-    return descr.trim();
-  };
-  const getDoubanIdByIMDB = async (query) => {
-    var _a2, _b, _c, _d2;
-    try {
-      const imdbId = getIMDBIdByUrl(query);
-      const params = imdbId || query;
-      const url = DOUBAN_SUGGEST_API.replace("{query}", params);
-      const options2 = {
-        cookie: "",
-        anonymous: false,
-        responseType: void 0
+      const result = {};
+      for (const item of credits.items) {
+        if (!result[item.category]) {
+          result[item.category] = [];
+        }
+        result[item.category].push(item);
+      }
+      const creditsData = [];
+      for (const [category, items] of Object.entries(result)) {
+        const celebrity = items.map((item) => {
+          var _a2;
+          return `${item.name}  ${(_a2 = item.latin_name) != null ? _a2 : ""}`;
+        });
+        const indentation = indentationMap[category.length] || 0;
+        const celebrityKey = category.split("").join(NBSP.repeat(indentation));
+        const celebrityValue = celebrity.join(`
+${NBSP.repeat(CREDIT_INDENTATION)}`).trim();
+        creditsData.push(`◎${celebrityKey}${NBSP.repeat(7)}${celebrityValue}`);
+      }
+      return creditsData.join("\n");
+    }
+    updateRating(data, imdbRating) {
+      var _a2, _b;
+      const { value, count } = data.rating;
+      return {
+        doubanRating: value ? `${value} (${count}人评分)` : "",
+        imdbRating: `${(_a2 = imdbRating == null ? void 0 : imdbRating.rating) != null ? _a2 : 0}/10 from ${(_b = imdbRating == null ? void 0 : imdbRating.ratingCount) != null ? _b : 0} users`,
+        doubanLink: CONFIG$2.URLS.DOUBAN_SUBJECT(this.doubanId),
+        imdbLink: this.imdbId ? CONFIG$2.URLS.IMDB_URL(this.imdbId) : ""
       };
-      const cookie = getValue("easy-seed.douban-cookie", false);
-      if (cookie) {
-        options2.cookie = cookie;
-        options2.anonymous = true;
+    }
+    generateOutput(formatData) {
+      const result = [];
+      for (const rule of FORMAT_RULES) {
+        const value = formatData[rule.key];
+        if (value) {
+          const formattedValue = rule.formatter ? rule.formatter(value) : value;
+          const { title } = rule;
+          if (!title) {
+            result.push(formattedValue);
+            continue;
+          }
+          let prefix = title + NBSP.repeat(7);
+          if (title.length === 2) {
+            prefix = title.split("").join(NBSP.repeat(7)) + NBSP.repeat(7);
+          }
+          result.push(`◎${prefix}${formattedValue}`);
+        }
       }
-      const data = await fetch(url, options2);
-      const doc = new DOMParser().parseFromString(data, "text/html");
-      const linkDom = doc.querySelector(".result-list .result h3 a");
-      if (!linkDom) {
-        throw $t("豆瓣ID获取失败");
-      } else {
-        const { href, textContent } = linkDom;
-        const season = (_b = (_a2 = textContent == null ? void 0 : textContent.match(/第(.+?)季/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-        const doubanId = (_d2 = (_c = decodeURIComponent(href).match(/subject\/(\d+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-        return {
-          id: doubanId,
-          season,
-          title: textContent || ""
-        };
+      return result.join("\n").trim();
+    }
+    async format() {
+      var _a2;
+      const data = await this.fetchAllData();
+      if (!(data == null ? void 0 : data.info)) {
+        throw new Error("failed to fetch douban info");
       }
-    } catch (error) {
-      handleError(error);
+      const poster = this.formatPosterUrl((_a2 = data.info) == null ? void 0 : _a2.cover_url);
+      const { translatedTitle, originalTitle } = this.formatTitles(data.info);
+      const creditsData = this.updateCredits(data == null ? void 0 : data.credits);
+      const { doubanRating, imdbRating, doubanLink, imdbLink } = this.updateRating(data.info, data == null ? void 0 : data.imdbData);
+      const formatData = __spreadProps(__spreadValues({}, data.info), {
+        awards: data.awards,
+        poster,
+        translatedTitle,
+        originalTitle,
+        creditsData,
+        doubanRating,
+        imdbRating,
+        doubanLink,
+        imdbLink,
+        format: ""
+      });
+      return __spreadProps(__spreadValues({}, formatData), {
+        format: this.generateOutput(formatData)
+      });
+    }
+  }
+  const getDoubanAwards = async (doubanId) => {
+    const url = `${CONFIG$2.URLS.DOUBAN_SUBJECT(doubanId)}awards/`;
+    const data = await GMFetch(url);
+    const doc = new DOMParser().parseFromString(data, "text/html");
+    const awardsDom = doc.querySelector("#content > div > div.article");
+    if (!awardsDom) {
+      return "";
+    }
+    return awardsDom == null ? void 0 : awardsDom.innerHTML.replace(/[ \n]/g, "").replace(/<\/li><li>/g, "</li> <li>").replace(/<\/a><span/g, "</a> <span").replace(/<(div|ul)[^>]*>/g, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/ +\n/g, "\n").trim();
+  };
+  const getIMDbIDFromDouban = async (doubanId) => {
+    var _a2, _b, _c, _d;
+    const doubanPage = await GMFetch(
+      CONFIG$2.URLS.DOUBAN_SUBJECT(doubanId)
+    );
+    const dom = new DOMParser().parseFromString(doubanPage, "text/html");
+    const spans = dom.querySelectorAll("#info > span.pl");
+    const spansContainsIMDb = Array.from(spans).filter(
+      (span) => {
+        var _a3;
+        return (_a3 = span.textContent) == null ? void 0 : _a3.includes("IMDb");
+      }
+    );
+    const imdbId = (_d = (_c = (_b = (_a2 = spansContainsIMDb[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()) != null ? _d : "";
+    return imdbId;
+  };
+  const getMobileDoubanInfo = async (id, type) => {
+    if (!id) {
+      throw new Error("No Douban ID found");
+    }
+    const url = `${CONFIG$2.URLS.DOUBAN_MOBILE_API}/${type}/${id}`;
+    const data = await GMFetch(`${url}?for_mobile=1&ck=`, {
+      headers: {
+        Referer: `https://m.douban.com/${type}/subject/${id}`
+      },
+      responseType: "json"
+    });
+    if (data && data.title === "未知电影") {
+      throw new Error("Please login in Douban to and try again");
+    }
+    return data;
+  };
+  const getDoubanBasicDataByQuery = async (query) => {
+    var _a2, _b, _c, _d;
+    if (!query) {
+      throw new Error("No query provided");
+    }
+    const imdbId = getIdByIMDbUrl(query);
+    const searchParams = imdbId || query;
+    const url = CONFIG$2.URLS.DOUBAN_SUGGEST_API(searchParams);
+    const data = await GMFetch(url);
+    const doc = new DOMParser().parseFromString(data, "text/html");
+    const linkDom = doc.querySelector(".result-list .result h3 a");
+    if (!linkDom) {
+      throw new Error("No Douban Item was found");
+    } else {
+      const { href, textContent } = linkDom;
+      const season = (_b = (_a2 = textContent == null ? void 0 : textContent.match(/第(.+?)季/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      const doubanId = (_d = (_c = decodeURIComponent(href).match(/subject\/(\d+)/)) == null ? void 0 : _c[1]) != null ? _d : "";
+      return {
+        id: doubanId,
+        season,
+        isTV: !!season,
+        title: textContent
+      };
     }
   };
-  const getDoubanInfo = async (doubanUrl, isTV) => {
-    try {
-      if (doubanUrl) {
-        const doubanInfo = await getMobileDoubanInfo(doubanUrl, isTV);
-        return doubanInfo;
-      }
-      throw $t("豆瓣链接获取失败");
-    } catch (error) {
-      handleError(error);
+  const getDoubanTVItemData = async (doubanData, torrentTitle) => {
+    var _a2, _b;
+    const { title } = doubanData;
+    const seasonNumber = (_b = (_a2 = torrentTitle == null ? void 0 : torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a2[1]) != null ? _b : "1";
+    if (parseInt(seasonNumber, 10) === 1) {
+      return doubanData;
     }
+    const query = title == null ? void 0 : title.replace(/第.+?季/, `第${seasonNumber}季`);
+    const response = await getDoubanBasicDataByQuery(query);
+    return response;
+  };
+  const getDoubanCreditsData = async (id, type) => {
+    const url = `${CONFIG$2.URLS.DOUBAN_MOBILE_API}/${type}/${id}/credits?for_mobile=1&ck=`;
+    const data = await GMFetch(url, {
+      headers: {
+        Referer: `https://m.douban.com/${type}/subject/${id}`
+      },
+      responseType: "json"
+    });
+    return data;
   };
   const getDoubanBookInfo = async (doubanUrl) => {
-    const reqUrl = `${PT_GEN_API}?url=${doubanUrl}`;
-    const data = await fetch(reqUrl);
-    const { chinese_title: chineseTitle, origin_title: originalTitle } = data;
-    let foreignTitle = "";
-    if (chineseTitle !== originalTitle) {
-      foreignTitle = originalTitle;
-    }
-    if (data) {
-      return __spreadProps(__spreadValues({}, data), {
-        chineseTitle,
-        foreignTitle
-      });
-    }
+    const reqUrl = CONFIG$2.URLS.PT_GEN_API(doubanUrl);
+    const data = await GMFetch(reqUrl, {
+      responseType: "json"
+    });
+    return data;
   };
-  const getRtIdFromTitle = async (title, tv, year) => {
-    var _a2;
-    console.log("%s", title, year);
-    const MAX_YEAR_DIFF = 2;
-    tv = tv || false;
-    const yearVal = parseInt(year, 10) || 1800;
-    const url = `https://www.rottentomatoes.com/api/private/v2.0/search/?limit=2&q=${title}`;
-    const data = await fetch(url);
-    const movies = tv ? data.tvSeries : data.movies;
-    if (!Array.isArray(movies) || movies.length < 1) {
-      console.log("no search results");
-      return {};
-    }
-    const sorted = movies.concat();
-    if (year && sorted) {
-      sorted.sort((a2, b) => {
-        if (Math.abs(a2.year - yearVal) !== Math.abs(b.year - yearVal)) {
-          return Math.abs(a2.year - yearVal) - Math.abs(b.year - yearVal);
-        }
-        return b.year - a2.year;
-      });
-    }
-    let bestMatch, closeMatch;
-    for (const m2 of sorted) {
-      m2.title = m2.title || m2.name;
-      if (m2.title.toLowerCase() === title.toLowerCase()) {
-        bestMatch = bestMatch || m2;
-        console.log("bestMatch", bestMatch);
-      } else if (m2.title.toLowerCase().startsWith(title.toLowerCase())) {
-        closeMatch = closeMatch || m2;
-        console.log("closeMatch", closeMatch);
-      }
-      if (bestMatch && closeMatch) {
-        break;
-      }
-    }
-    const yearComp = (imdb, rt) => {
-      return rt - imdb <= MAX_YEAR_DIFF && imdb - rt < MAX_YEAR_DIFF;
-    };
-    if (yearVal && (!bestMatch || !yearComp(yearVal, bestMatch.year))) {
-      if (closeMatch && yearComp(yearVal, closeMatch.year)) {
-        bestMatch = closeMatch;
-      } else if (yearComp(yearVal, sorted[0].year)) {
-        bestMatch = sorted[0];
-      }
-    }
-    bestMatch = bestMatch || closeMatch || movies[0];
-    if (bestMatch) {
-      const id = bestMatch && bestMatch.url.replace(/\/s\d{2}\/?$/, "");
-      const score = (_a2 = bestMatch == null ? void 0 : bestMatch.meterScore) != null ? _a2 : "0";
-      return {
-        id,
-        score
-      };
-    }
-    console.log("no match found on rt");
-    return {};
-  };
-  const getTvSeasonData$1 = async (data) => {
+  const getDoubanInfoByIdOrDoubanUrl = async (query, type = "movie", imdbId) => {
     var _a2, _b;
-    const { title: torrentTitle } = TORRENT_INFO;
-    const { season = "", title } = data;
-    if (season) {
-      const seasonNumber = (_b = (_a2 = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a2[1]) != null ? _b : "1";
-      if (parseInt(seasonNumber, 10) === 1) {
-        return data;
-      }
-      const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
-      const response = await getDoubanIdByIMDB(query);
-      return response;
+    let doubanId = query;
+    if (!/^\d/.test(query)) {
+      doubanId = (_b = (_a2 = query == null ? void 0 : query.match(/douban\.com\/subject\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
     }
+    const parser = new DoubanFormatter(doubanId, type, imdbId);
+    return await parser.format();
   };
-  const getScreenshotsBBCode = (imgArray) => {
-    return imgArray.map((img) => {
-      if (img.match(/\[url=.+\]/i)) {
-        return img;
-      }
-      return `[img]${img}[/img]`;
+  const getTMDBDataByIMDBId = async (imdbid) => {
+    const url = `${CONFIG$2.URLS.TMDB_API}/3/find/${imdbid}?api_key=${CONFIG$2.KEY.TMDB_API_KEY}&language=en&external_source=imdb_id`;
+    const data = await GMFetch(url, {
+      responseType: "json"
     });
+    const movieFound = data.movie_results && data.movie_results.length > 0;
+    const tvFound = data.tv_results && data.tv_results.length > 0;
+    if (!movieFound && !tvFound) {
+      throw new Error("No movie or TV found");
+    }
+    const tmdbData = movieFound ? data.movie_results[0] : data.tv_results[0];
+    return tmdbData;
   };
-  const getTeamName = (info) => {
+  const getTMDBVideosById = async (tmdbId) => {
+    var _a2;
+    const url = `${CONFIG$2.URLS.TMDB_API}/3/movie/${tmdbId}/videos?api_key=${CONFIG$2.KEY.TMDB_API_KEY}&language=en`;
+    const data = await GMFetch(url, {
+      responseType: "json"
+    });
+    if (!(data == null ? void 0 : data.results) || ((_a2 = data == null ? void 0 : data.results) == null ? void 0 : _a2.length) === 0) {
+      throw new Error("No TMDB videos found");
+    }
+    return data.results;
+  };
+  const getAreaCode = (area) => {
+    const europeList = CONFIG$2.EUROPE_LIST;
+    if (!area) return "OT";
+    if (europeList.includes(area)) return "EU";
+    for (const [code2, pattern] of Object.entries(CONFIG$2.REGION_PATTERNS)) {
+      if (pattern.test(area)) return code2;
+    }
+    return "OT";
+  };
+  const getRottenTomatoesDataByQuery = async (query) => {
     var _a2, _b, _c;
-    const teamMatch = info.title.match(/-([^-]+)$/);
-    let teamName = (_c = (_b = (_a2 = teamMatch == null ? void 0 : teamMatch[1]) == null ? void 0 : _a2.replace(/-/g, "")) == null ? void 0 : _b.split("@")) != null ? _c : "";
-    if (teamName) {
-      teamName = teamName.length > 1 ? teamName[1] : teamName[0];
-    } else {
-      teamName = "other";
-    }
-    return teamName;
-  };
-  const matchSelectForm = (siteInfo, movieInfo, key, selectArray) => {
-    const valueArray = siteInfo[key] ? siteInfo[key].map[movieInfo[key]] : "";
-    if (Array.isArray(valueArray) && selectArray) {
-      if (siteInfo[key].selector) {
-        setSelectValue(siteInfo[key].selector, valueArray.shift());
+    const res = await GMFetch(
+      CONFIG$2.URLS.ROTTEN_TOMATOES_API,
+      {
+        data: {
+          requests: [
+            {
+              indexName: "content_rt",
+              query
+            }
+          ]
+        },
+        responseType: "json"
       }
-      if (selectArray.length > 1) {
-        selectArray = selectArray.filter((item) => valueArray.includes(item));
-      }
-    } else if (siteInfo[key] && siteInfo[key].selector) {
-      setSelectValue(siteInfo[key].selector, valueArray);
-    }
-    return selectArray;
+    );
+    return (_c = (_b = (_a2 = res == null ? void 0 : res.results) == null ? void 0 : _a2[0]) == null ? void 0 : _b.hits) != null ? _c : [];
   };
-  function setSelectValue(selector, value) {
-    if (CURRENT_SITE_NAME === "MTeam") {
-      const select = document.querySelector(selector);
-      if (select) {
-        const lastValue = select.value;
-        select.value = value;
-        const tracker = select._valueTracker;
-        if (tracker) {
-          tracker.setValue(lastValue);
+  const getMatchRottenTomatoes = async (title, year, isTV) => {
+    var _a2;
+    try {
+      const MAX_YEAR_DIFF = 2;
+      const releaseYear = parseInt(year || "1800", 10);
+      const searchResultHits = await getRottenTomatoesDataByQuery(title);
+      const filteredHits = searchResultHits.filter(
+        (hit) => hit.type === (isTV ? "tv" : "movie")
+      );
+      if (!filteredHits.length) return null;
+      filteredHits.sort((a2, b) => {
+        const diffA = Math.abs(a2.releaseYear - releaseYear);
+        const diffB = Math.abs(b.releaseYear - releaseYear);
+        return diffA !== diffB ? diffA - diffB : b.releaseYear - a2.releaseYear;
+      });
+      const normalizedTitle = title.toLowerCase();
+      let bestMatch, closeMatch;
+      for (const hit of filteredHits) {
+        const itemTitle = ((_a2 = hit.title) == null ? void 0 : _a2.toLowerCase()) || "";
+        if (itemTitle === normalizedTitle) {
+          bestMatch = hit;
+        } else if (itemTitle.startsWith(normalizedTitle)) {
+          closeMatch = closeMatch || hit;
         }
-        const event = new Event("change", { bubbles: true });
-        select.dispatchEvent(event);
-        setTimeout(() => {
-          Array.from(document.querySelectorAll(".ant-select-item-option-active .ant-select-item-option-content")).forEach((el) => {
-            el.dispatchEvent(new Event("click", { bubbles: true }));
-          });
-        }, 1e3);
+        if (bestMatch) break;
       }
-    } else {
-      $$2(selector).val(value);
+      const isYearCompatible = (rtYear) => Math.abs(rtYear - releaseYear) <= MAX_YEAR_DIFF;
+      if (releaseYear && (!bestMatch || !isYearCompatible(bestMatch.releaseYear))) {
+        if (closeMatch && isYearCompatible(closeMatch.releaseYear)) {
+          bestMatch = closeMatch;
+        } else if (filteredHits.length > 0 && isYearCompatible(filteredHits[0].releaseYear)) {
+          bestMatch = filteredHits[0];
+        }
+      }
+      bestMatch = bestMatch || closeMatch || searchResultHits[0];
+      return bestMatch;
+    } catch (error) {
+      console.error("Error fetching data from Rotten Tomatoes:", error);
+      return null;
+    }
+  };
+  const getSubTitleFromDoubanInfo = (data, torrentInfo) => {
+    var _a2, _b;
+    const { originalTitle, translatedTitle, title: doubanDefaultTitle } = data;
+    let title = "";
+    if (doubanDefaultTitle.match(/[\u4e00-\u9fa5]+/)) {
+      title += doubanDefaultTitle;
+    }
+    const moreTitle = [originalTitle, ...translatedTitle].filter(
+      (item) => title !== item
+    );
+    const { title: torrentTitle, hardcodedSub } = torrentInfo;
+    let seasonEpisode = (_b = (_a2 = torrentTitle.match(/S\d+EP?(\d+)?/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    seasonEpisode = seasonEpisode.replace(/^0/i, "");
+    const episode = seasonEpisode ? ` 第${seasonEpisode}集` : "";
+    const hardcodedSubStr = hardcodedSub ? "| 硬字幕" : "";
+    return `${title}${moreTitle.length > 0 ? "/" : ""}${moreTitle.join("/")}${episode} ${hardcodedSubStr}`;
+  };
+  class FillerRegistry {
+    constructor() {
+      this.fillers = [];
+    }
+    register(filler) {
+      this.fillers.push(filler);
+      this.fillers.sort((a2, b) => b.priority - a2.priority);
+    }
+    getApplicableFiller(siteName, siteType) {
+      return this.fillers.find((filler) => filler.canHandle(siteName, siteType)) || null;
     }
   }
-  function buildPTPDescription(info) {
-    let text2 = info.originalDescription || "";
-    text2 = text2.replace(/http:\/\/ptpimg\.me/g, "https://ptpimg.me");
-    for (const mediainfo of info.mediaInfos) {
-      text2 = text2.replace(mediainfo, "");
-    }
-    text2 = text2.replace(/\[(mediainfo|bdinfo)\][\s\S]*?\[\/(mediainfo|bdinfo)\]/gi, "");
-    text2 = text2.replace(/^(?!\[img\])https:\/\/ptpimg.me.*?png(?!\[\/img\])$/gim, (imgUrl) => {
-      return `[img]${imgUrl}[/img]`;
-    });
-    text2 = text2.replace(/\[comparison.*\][\s\S]*\[\/comparison\]/gi, (comparisonText) => {
-      return comparisonText.replace(/\[img\]/g, "").replace(/\[\/img\]/g, "").split("https://ptpimg.me").join("\nhttps://ptpimg.me").replace(/\s*\n\s*/g, "\n");
-    });
-    text2 = text2.replace(/\[hide(.*)?\]\s*\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\[\/hide\]/gi, (imgText) => {
-      var _a2;
-      const imgs = [];
-      for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
-        imgs.push(urlMatch[1]);
-      }
-      const rawTitle = ((_a2 = imgText.match(/^\[hide=(.*?)\]/)) == null ? void 0 : _a2[1]) || "";
-      const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map((v2) => v2.trim());
-      if (comparisonTitles.length >= 2) {
-        return `[comparison=${comparisonTitles.join(", ")}]
-${imgs.join("\n")}
-[/comparison]
-`;
-      }
-      const hideTitle = rawTitle ? `=${rawTitle}` : "";
-      return `[hide${hideTitle}]
-[img]${imgs.join("[/img]\n[img]")}[/img]
-[/hide]
-`;
-    });
-    text2 = `${text2}
-
-`;
-    text2 = text2.replace(/\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\n\n/gi, (imgText) => {
-      const imgs = [];
-      for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/ig)) {
-        imgs.push(urlMatch[1]);
-      }
-      return `[hide]
-[img]${imgs.join("[/img]\n[img]")}[/img]
-[/hide]
-`;
-    });
-    text2 = text2.replace(/\[img=(.+)?\](\n\n)?/gi, "[img]$1[/img]");
-    text2 = text2.replace(/\[(\/)?IMG\]/g, "[$1img]");
-    text2 = text2.replace(/\n\s*\n/g, "\n\n");
-    return text2.trim();
-  }
-  const isChineseTacker = (siteType) => {
-    return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
-  };
-  const filterNexusDescription = (info) => {
-    const { description } = info;
-    let filterDescription = "";
-    const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
-    if (quoteList && quoteList.length > 0) {
-      quoteList.forEach((quote) => {
-        const isMediaInfoOrBDInfo = quote.match(/Disc\s?Size|\.mpls|Unique\s?ID|唯一ID|Resolution/i);
-        if (!quote.match(/[\u4e00-\u9fa5]+/i) || isMediaInfoOrBDInfo) {
-          filterDescription += `${quote}
-`;
-        }
-      });
-    }
-    const allImages = getFilterImages(description);
-    return `${filterDescription}
-${allImages.join("")}`;
-  };
-  const filterEmptyTags = (description) => {
-    const reg = new RegExp("\\[(?!info)([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]", "g");
-    if (description.match(reg)) {
-      description = description.replace(reg, (_match, p1, p2) => {
-        if (p1 === p2) {
-          return "";
-        }
-        return _match;
-      });
-      return filterEmptyTags(description);
-    }
-    return description;
-  };
-  const fixTorrentTitle = (title, isWebSource) => {
-    let fixedTitle = title.replace(" DoVi ", " DV ").replace(" DDP ", " DD+ ");
-    if (isWebSource) fixedTitle = fixedTitle.replace(" HEVC", " H.265");
-    return fixedTitle;
-  };
+  const registry$1 = new FillerRegistry();
   const base64ToBlob = (base64, contentType = "application/x-bittorrent", sliceSize = 512) => {
     const regStr = new RegExp(`data:${contentType};base64,`, "i");
     const byteCharacters = window.atob(base64.replace(regStr, ""));
@@ -11128,147 +10326,1424 @@ ${allImages.join("")}`;
     }
     return new Blob(byteArrays, { type: contentType });
   };
-  const handleITS = async (info) => {
-    var _a2, _b, _c, _d2, _e2, _f, _g;
-    let template = `[center]
-
-  [img]$poster$[/img]
-  
-  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size]
-
-
-  [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
-  $synopsis$
-  
-  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
-  [youtube]$youtubeUrl$[/youtube]
-
-  [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
-  [box][hide]$SCREENSHOTS$[/hide][/box]
-  
-  [/center]`;
-    const collectionMap = {};
-    $$2('select[name="collection_id1"] option').each(function() {
-      const option = $$2(this);
-      collectionMap[option.text()] = option.val();
-    });
-    const collectionValueArr = [];
-    const teamName = getTeamName(info);
-    if (collectionMap[teamName]) {
-      collectionValueArr.push(collectionMap[teamName]);
-    }
-    const { imdbUrl, category, screenshots, comparisons = [], resolution, movieName } = info;
-    if (!resolution.match(/2160|1080|720/) && category === "movie") {
-      $$2('select[name="type"]').val("67");
-    }
-    const screenshotsBBCode = getScreenshotsBBCode(screenshots);
-    template = template.replace("$SCREENSHOTS$", screenshotsBBCode.join("\n"));
-    const comparisonImgs = comparisons.flatMap((v2) => v2.imgs);
-    if (comparisonImgs.length > 0) {
-      const comparisonImgsBBCode = getScreenshotsBBCode(comparisonImgs);
-      template = template.replace(/(\[\/center\])$/, `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]
-
-
-    [box][hide]${comparisonImgsBBCode.join(" ")}[/hide][/box]
-
-$1`);
-    }
-    if (category.match(/tv|movie|cartoon|documentary/)) {
-      $$2('textarea[name="descr"]').val($t("数据加载中..."));
-      try {
-        const replaceParams = {
-          tmdbUrl: "",
-          tmdbScore: "0",
-          imdbScore: "0",
-          imdbUrl,
-          poster: "",
-          synopsis: "",
-          rtUrl: "",
-          rtScore: "0",
-          youtubeUrl: ""
-        };
-        const imdbData = await getIMDBData(imdbUrl);
-        if (imdbData) {
-          const {
-            poster = "",
-            imdb_rating_average: imdbRate,
-            description = "",
-            directors = [],
-            details,
-            aka,
-            year
-          } = imdbData;
-          let language = details.Languages || "";
-          language = (_c = (_b = (_a2 = language == null ? void 0 : language.split("|")) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim()) != null ? _c : "";
-          const director = directors.map((item) => item.name)[0];
-          if (collectionMap[director]) {
-            collectionValueArr.push(collectionMap[director]);
-          }
-          if (collectionMap[language]) {
-            collectionValueArr.push(collectionMap[language]);
-          }
-          collectionValueArr.forEach((value, index) => {
-            $$2(`select[name="collection_id${index + 1}"]`).val(value);
-          });
-          replaceParams.poster = poster;
-          replaceParams.synopsis = description;
-          replaceParams.imdbScore = imdbRate;
-          const searchMovieName = movieName || ((_d2 = aka.filter((item) => item.country.match(/(World-wide)|UK|USA/))) == null ? void 0 : _d2[0].title);
-          const rtInfo = await getRtIdFromTitle(searchMovieName, !!category.match(/tv/), year);
-          const { score = 0, id = "" } = rtInfo;
-          replaceParams.rtScore = `${score}%`;
-          replaceParams.rtUrl = `https://www.rottentomatoes.com/${id}`;
-          const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") || "";
-          if (ptpImgApiKey) {
-            const ptpImgPoster = await uploadToPtpImg([poster]);
-            replaceParams.poster = ptpImgPoster ? ptpImgPoster[0] : "";
-          }
+  const filterEmptyTags = (description) => {
+    const reg = new RegExp(
+      "\\[(?!info)([a-zA-Z]+\\d?)(?:=(?:\\w|\\s)+)?\\]\\s*\\[\\/(\\w+)\\]",
+      "g"
+    );
+    if (description.match(reg)) {
+      description = description.replace(reg, (_match, p1, p2) => {
+        if (p1 === p2) {
+          return "";
         }
-        const imdbId = getIMDBIdByUrl(imdbUrl);
-        const { id: tmdbId, vote_average: tmdbRate } = await getTMDBIdByIMDBId(imdbId);
-        if (tmdbId) {
-          replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
-          replaceParams.tmdbScore = tmdbRate;
-          const videos = await getTMDBVideos(tmdbId);
-          const youtubeId = (_g = (_f = (_e2 = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _e2[0]) == null ? void 0 : _f.key) != null ? _g : "";
-          if (youtubeId.length > 0) {
-            replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
-          }
+        return _match;
+      });
+      return filterEmptyTags(description);
+    }
+    return description;
+  };
+  const getTeamName = (title) => {
+    var _a2, _b, _c;
+    const teamMatch = title.match(/-([^-]+)$/);
+    let teamName = (_c = (_b = (_a2 = teamMatch == null ? void 0 : teamMatch[1]) == null ? void 0 : _a2.replace(/-/g, "")) == null ? void 0 : _b.split("@")) != null ? _c : "";
+    if (teamName) {
+      teamName = teamName.length > 1 ? teamName[1] : teamName[0];
+    } else {
+      teamName = "other";
+    }
+    return teamName;
+  };
+  const fixTorrentTitle = (title, isWebSource) => {
+    let fixedTitle = title.replace(" DoVi ", " DV ").replace(" DDP ", " DD+ ");
+    if (isWebSource) fixedTitle = fixedTitle.replace(" HEVC", " H.265");
+    return fixedTitle;
+  };
+  const extractChineseMovieName = (description, subtitle) => {
+    var _a2, _b, _c, _d, _e, _f, _g, _h, _i;
+    const originalName = (_b = (_a2 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+    const translateName = (_f = (_e = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
+    let chineseName = originalName;
+    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+    }
+    if (chineseName === "" && subtitle !== "" && subtitle !== void 0) {
+      chineseName = (_h = (_g = subtitle == null ? void 0 : subtitle.replace(/【|】.*/g, "").split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+    }
+    return (_i = chineseName == null ? void 0 : chineseName.trim()) != null ? _i : "";
+  };
+  const replaceAlignTagsToQuote = (description) => {
+    description = description.replace(/\[(right|left|center)\]/gi, "[quote]").replace(/\[\/(right|left|center)\]/gi, "[/quote]");
+    return description;
+  };
+  const filterNexusDescription = (description, screenshots) => {
+    let filterDescription = "";
+    const quoteList = description.match(/\[quote(=\w+)?\](.|\n)+?\[\/quote\]/g);
+    if (quoteList && quoteList.length > 0) {
+      quoteList.forEach((quote) => {
+        const isMediaInfoOrBDInfo = quote.match(
+          /Disc\s?Size|\.mpls|Unique\s?ID|唯一ID|Resolution/i
+        );
+        if (!quote.match(/[\u4e00-\u9fa5]+/i) || isMediaInfoOrBDInfo) {
+          filterDescription += `${quote}
+`;
         }
-        Object.keys(replaceParams).forEach((key) => {
-          template = template.replace(`$${key}$`, replaceParams[key] || "");
+      });
+    }
+    if (screenshots.length > 0) {
+      filterDescription += `
+${screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
+
+`;
+    }
+    return filterDescription;
+  };
+  const buildPTPDescription = (info) => {
+    let text2 = info.originalDescription || "";
+    text2 = text2.replace(/http:\/\/ptpimg\.me/g, "https://ptpimg.me");
+    for (const mediainfo of info.mediaInfos) {
+      text2 = text2.replace(mediainfo, "");
+    }
+    text2 = text2.replace(
+      /\[(mediainfo|bdinfo)\][\s\S]*?\[\/(mediainfo|bdinfo)\]/gi,
+      ""
+    );
+    text2 = text2.replace(
+      /^(?!\[img\])https:\/\/ptpimg.me.*?png(?!\[\/img\])$/gim,
+      (imgUrl) => {
+        return `[img]${imgUrl}[/img]`;
+      }
+    );
+    text2 = text2.replace(
+      /\[comparison.*\][\s\S]*\[\/comparison\]/gi,
+      (comparisonText) => {
+        return comparisonText.replace(/\[img\]/g, "").replace(/\[\/img\]/g, "").split("https://ptpimg.me").join("\nhttps://ptpimg.me").replace(/\s*\n\s*/g, "\n");
+      }
+    );
+    text2 = text2.replace(
+      /\[hide(.*)?\]\s*\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\[\/hide\]/gi,
+      (imgText) => {
+        var _a2;
+        const imgs = [];
+        for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/gi)) {
+          imgs.push(urlMatch[1]);
+        }
+        const rawTitle = ((_a2 = imgText.match(/^\[hide=(.*?)\]/)) == null ? void 0 : _a2[1]) || "";
+        const comparisonTitles = rawTitle.trim().split(/\||\/|,|vs\.?| - /i).map((v2) => v2.trim());
+        if (comparisonTitles.length >= 2) {
+          return `[comparison=${comparisonTitles.join(", ")}]
+${imgs.join("\n")}
+[/comparison]
+`;
+        }
+        const hideTitle = rawTitle ? `=${rawTitle}` : "";
+        return `[hide${hideTitle}]
+[img]${imgs.join("[/img]\n[img]")}[/img]
+[/hide]
+`;
+      }
+    );
+    text2 = `${text2}
+
+`;
+    text2 = text2.replace(
+      /\[url=https:\/\/ptpimg.me.*?png\]\[img\][\s\S]*?\n\n/gi,
+      (imgText) => {
+        const imgs = [];
+        for (const urlMatch of imgText.matchAll(/\[url=(.*?)\]/gi)) {
+          imgs.push(urlMatch[1]);
+        }
+        return `[hide]
+[img]${imgs.join("[/img]\n[img]")}[/img]
+[/hide]
+`;
+      }
+    );
+    text2 = text2.replace(/\[img=(.+)?\](\n\n)?/gi, "[img]$1[/img]");
+    text2 = text2.replace(/\[(\/)?IMG\]/g, "[$1img]");
+    text2 = text2.replace(/\n\s*\n/g, "\n\n");
+    return text2.trim();
+  };
+  var SiteIMDbType = /* @__PURE__ */ ((SiteIMDbType2) => {
+    SiteIMDbType2["Standard"] = "standard";
+    SiteIMDbType2["StripTT"] = "strip_tt";
+    SiteIMDbType2["UNIT3D"] = "unit3d";
+    SiteIMDbType2["IMDbID"] = "imdb_id";
+    return SiteIMDbType2;
+  })(SiteIMDbType || {});
+  const siteIMDbTypeMap = {
+    HDRoute: "strip_tt",
+    HDSpace: "strip_tt",
+    BeyondHD: "imdb_id",
+    Blutopia: "unit3d",
+    fearnopeer: "unit3d",
+    HDPOST: "unit3d",
+    ACM: "unit3d",
+    Aither: "unit3d",
+    Concertos: "unit3d",
+    MDU: "unit3d",
+    LST: "unit3d",
+    HUNO: "unit3d"
+    /* UNIT3D */
+  };
+  class BaseFiller {
+    constructor() {
+      this.priority = 5;
+      this.info = null;
+      this.siteInfo = CURRENT_SITE_INFO;
+      this.imdbId = "";
+      this.isCustomSite = false;
+      this.isChineseTacker = (siteType) => {
+        return siteType.match(/NexusPHP|TTG|TNode|MTeam/);
+      };
+      this.mapAndFilterSelectValues = (key, selectArray) => {
+        var _a2;
+        const { siteInfo } = this;
+        if (!siteInfo[key] || !this.info[key]) {
+          return selectArray || [];
+        }
+        const mappedValue = (_a2 = siteInfo[key].map) == null ? void 0 : _a2[this.info[key]];
+        if (!mappedValue) {
+          return selectArray || [];
+        }
+        if (Array.isArray(mappedValue)) {
+          if (siteInfo[key].selector) {
+            const valuesCopy = [...mappedValue];
+            const firstValue = valuesCopy.shift();
+            this.setSelectValue(siteInfo[key].selector, firstValue || "");
+          }
+          if (Array.isArray(selectArray) && selectArray.length > 1) {
+            return selectArray.filter((item) => mappedValue.includes(item));
+          }
+          return selectArray || [];
+        } else if (siteInfo[key].selector) {
+          this.setSelectValue(siteInfo[key].selector, mappedValue);
+          return selectArray || [];
+        }
+        return selectArray || [];
+      };
+    }
+    fill(info) {
+      this.info = info;
+      this.prepareToFillInfo();
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillDescription();
+      this.fillBasicAttributes();
+      this.fillCategory();
+      this.fillRemainingInfo();
+      this.fillTorrentFile();
+      this.postProcess();
+    }
+    disableTorrentChange() {
+      var _a2, _b;
+      const nameSelector = (_b = (_a2 = this.siteInfo.name) == null ? void 0 : _a2.selector) != null ? _b : "";
+      if (nameSelector.match(/^#\w+/)) {
+        const nameDom = $$2(nameSelector).clone().attr("name", "").hide();
+        $$2(nameSelector).attr("id", "").after(nameDom);
+      }
+    }
+    fillTorrentFile() {
+      const { torrentData, title } = this.info;
+      const { torrent } = this.siteInfo;
+      if (!torrent) {
+        return;
+      }
+      const fileInput = $$2(torrent.selector);
+      if (torrentData && fileInput.length > 0) {
+        const blob = base64ToBlob(torrentData);
+        const torrentFileName = title == null ? void 0 : title.replace(/\s/g, ".");
+        const file = new File([blob], `${torrentFileName}.torrent`, {
+          type: "application/x-bittorrent"
         });
-        $$2('textarea[name="descr"]').val(template);
-      } catch (error) {
-        $$2('textarea[name="descr"]').val(error.message);
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        const uploadInput = fileInput[0];
+        if (CURRENT_SITE_NAME === "MTeam") {
+          setTimeout(() => {
+            const lastValue = uploadInput.files;
+            uploadInput.files = dataTransfer.files;
+            const tracker = uploadInput._valueTracker;
+            if (tracker) {
+              tracker.setValue(lastValue);
+            }
+            const event = new Event("change", { bubbles: true });
+            uploadInput.dispatchEvent(event);
+          }, 100);
+        } else {
+          uploadInput.files = dataTransfer.files;
+        }
       }
     }
-  };
-  const handleTJUPT = (info) => {
-    const observer = new MutationObserver(() => {
-      if ($$2("#ename")[0] && $$2("#cname")[0]) {
-        fillInfo(info);
-        observer.disconnect();
+    prepareToFillInfo() {
+    }
+    processTorrentTitle() {
+      const { title } = this.info;
+      const fixedTitle = title.replace("H 265", "H.265").replace("H 264", "H.264");
+      this.info.title = fixedTitle;
+    }
+    fillTorrentTitle() {
+      this.processTorrentTitle();
+      const { name } = this.siteInfo;
+      if (name) {
+        $$2(name.selector).val(this.info.title);
       }
-    });
-    const config = { childList: true, subtree: true };
-    observer.observe(document.body, config);
+    }
+    async fillIMDb() {
+      var _a2, _b;
+      const { imdbUrl = "" } = this.info;
+      const { imdb: imdbConfig, tmdb: tmdbConfig } = this.siteInfo;
+      this.imdbId = getIdByIMDbUrl(imdbUrl);
+      if (!(imdbConfig == null ? void 0 : imdbConfig.selector)) {
+        return;
+      }
+      const stripTTIMBb = (_b = (_a2 = this.imdbId) == null ? void 0 : _a2.replace("tt", "")) != null ? _b : "";
+      if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.StripTT) {
+        $$2(imdbConfig.selector).val(stripTTIMBb);
+      } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.UNIT3D) {
+        $$2(imdbConfig.selector).val(stripTTIMBb);
+        const { id: tmdbId } = await getTMDBDataByIMDBId(this.imdbId);
+        $$2(tmdbConfig.selector).val(tmdbId);
+        $$2("#torrent").on("change", () => {
+          $$2(imdbConfig).val(stripTTIMBb);
+          $$2(tmdbConfig.selector).val(tmdbId);
+          $$2("#automal").val(0);
+        });
+      } else if (siteIMDbTypeMap[CURRENT_SITE_NAME] === SiteIMDbType.IMDbID) {
+        $$2(imdbConfig.selector).val(this.imdbId);
+      } else {
+        $$2(imdbConfig.selector).val(imdbUrl);
+      }
+    }
+    processDescription() {
+      const { description, sourceSite } = this.info;
+      let fixedDescription = description.replace(/^(\s+)/g, "");
+      fixedDescription = filterEmptyTags(fixedDescription);
+      fixedDescription = this.addOrFilterDescription(fixedDescription);
+      fixedDescription = this.fillMediaInfo(fixedDescription);
+      fixedDescription = this.fillScreenshots(fixedDescription);
+      fixedDescription = this.fillPoster(fixedDescription);
+      const thanksQuoteClosed = GM_getValue("easy-upload.thanks-quote-closed") || "";
+      if (!thanksQuoteClosed && sourceSite) {
+        fixedDescription = this.getThanksQuote() + fixedDescription.trim();
+      }
+      this.info.description = fixedDescription;
+    }
+    addOrFilterDescription(description) {
+      const { doubanInfo, sourceSiteType, screenshots } = this.info;
+      const IfAddDoubanInfo = this.isChineseTacker(this.siteInfo.siteType) && CURRENT_SITE_NAME !== "SSD";
+      const ifFilterNexusDescription = this.isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== "Bib";
+      if (IfAddDoubanInfo) {
+        if (doubanInfo) {
+          description = `${doubanInfo}
+${description}`;
+        }
+      } else if (ifFilterNexusDescription) {
+        description = filterNexusDescription(description, screenshots);
+      }
+      return description;
+    }
+    fillMediaInfo(description) {
+      const { mediaInfo } = this.siteInfo;
+      if (!mediaInfo) {
+        return description;
+      }
+      const { mediaInfos, videoType } = this.info;
+      if (!mediaInfos || mediaInfos.length === 0) {
+        return description;
+      }
+      const isBluray = /bluray/i.test(videoType);
+      if (this.siteInfo.siteType === "UNIT3D") {
+        const selector = isBluray ? 'textarea[name="bdinfo"]' : this.siteInfo.mediaInfo.selector;
+        $$2(selector).val(mediaInfos[0]);
+        description = description.replace(mediaInfos[0].trim(), "");
+      } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
+        $$2(this.siteInfo.bdinfo.selector).val(mediaInfos[0]);
+        this.info.mediaInfos = [];
+      } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
+        $$2(this.siteInfo.mediaInfo.selector).val(mediaInfos[0]);
+        description = description.replace(mediaInfos[0].trim(), "");
+      }
+      return description;
+    }
+    fillScreenshots(description) {
+      const { screenshots } = this.info;
+      if (this.siteInfo.screenshots) {
+        screenshots.forEach((img) => {
+          if (description.includes(img)) {
+            description = description.replace(img, "");
+            if (!img.match(/\[url=.+?\[url]/)) {
+              description = description.replace(/\[img\]\[\/img\]\n*/g, "");
+            }
+          }
+        });
+      }
+      return description;
+    }
+    fillPoster(description) {
+      var _a2, _b;
+      let { doubanInfo, poster } = this.info;
+      if (this.siteInfo.poster) {
+        if (!poster) {
+          const doubanPosterImage = (description + doubanInfo).match(
+            /\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/
+          );
+          if (doubanPosterImage && doubanPosterImage[1]) {
+            poster = doubanPosterImage[1];
+          } else {
+            poster = (_b = (_a2 = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+          }
+        }
+        if (poster) {
+          $$2(this.siteInfo.poster).val(poster);
+          if (CURRENT_SITE_NAME === "HDRoute") {
+            $$2('input[name="poster"]').val(poster);
+            description = description.replace(poster, "");
+          }
+        }
+      }
+      return description;
+    }
+    fillDescription() {
+      var _a2;
+      this.processDescription();
+      $$2((_a2 = this.siteInfo.description) == null ? void 0 : _a2.selector).val(this.info.description);
+    }
+    getThanksQuote() {
+      const { sourceSite } = this.info;
+      const isChineseSite = this.isChineseTacker(this.siteInfo.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
+      let thanksQuote = `转自[b]${sourceSite}[/b]，感谢原发布者！`;
+      if (!isChineseSite) {
+        thanksQuote = `Torrent from [b]${sourceSite}[/b].
+All thanks to the original uploader!`;
+      }
+      return `[quote]${thanksQuote}[/quote]
+
+`;
+    }
+    fillBasicAttributes() {
+      const commonInfoKeys = [
+        "subtitle",
+        "douban",
+        "area",
+        "audioCodec"
+      ];
+      const { doubanUrl } = this.info;
+      commonInfoKeys.forEach((key) => {
+        const siteInfo = this.siteInfo[key];
+        if (siteInfo && siteInfo.selector) {
+          let value = this.info[key];
+          if (key === "douban") {
+            value = doubanUrl;
+          } else if (key === "area" || key === "audioCodec") {
+            value = siteInfo.map[value];
+          }
+          $$2(siteInfo.selector).val(value || "");
+        }
+      });
+    }
+    setSelectValue(selector, value) {
+      const selectElement = $$2(selector);
+      if (selectElement.length > 0) {
+        selectElement.val(value).trigger("change");
+      }
+    }
+    fillCategory() {
+      const categoryConfig = this.siteInfo.category;
+      const { category: categoryKey } = this.info;
+      if (!categoryConfig || !categoryKey) {
+        return;
+      }
+      const categoryMapValue = categoryConfig.map[categoryKey];
+      const keyArray = [
+        "videoCodec",
+        "videoType",
+        "resolution",
+        "source",
+        "area"
+      ];
+      let finalSelectArray = [];
+      if (Array.isArray(categoryMapValue)) {
+        finalSelectArray = [...categoryMapValue];
+        keyArray.forEach((key) => {
+          finalSelectArray = this.mapAndFilterSelectValues(
+            key,
+            finalSelectArray
+          );
+          if (finalSelectArray.length === 1) {
+            this.setSelectValue(categoryConfig.selector, finalSelectArray[0]);
+          }
+        });
+      } else {
+        [...keyArray, "category"].forEach((key) => {
+          this.mapAndFilterSelectValues(key, finalSelectArray);
+        });
+      }
+    }
+    fillRemainingInfo() {
+      const {
+        format: formatConfig,
+        image: imageConfig,
+        anonymous: anonymousConfig,
+        tags: tagsConfig
+      } = this.siteInfo;
+      const { format: format2, image, tags: tags2 } = this.info;
+      if (formatConfig) {
+        $$2(formatConfig.selector).val(formatConfig.map[format2]);
+      }
+      if (imageConfig) {
+        $$2(imageConfig.selector).val(image || "");
+      }
+      if (anonymousConfig) {
+        const { selector, value = "" } = anonymousConfig;
+        if (value) {
+          $$2(selector).val(value);
+        } else {
+          $$2(selector).attr("checked", "true");
+        }
+      }
+      if (tagsConfig) {
+        Object.keys(tags2).forEach((key) => {
+          if (tags2[key] && tagsConfig[key]) {
+            $$2(tagsConfig[key]).attr("checked", "true");
+          }
+        });
+      }
+      this.fillTeamName();
+    }
+    fillTeamName() {
+      const teamConfig = this.siteInfo.team;
+      const { title } = this.info;
+      if (!teamConfig || !title) {
+        return;
+      }
+      const teamName = getTeamName(title);
+      if (!teamName) {
+        return;
+      }
+      if (teamName && teamConfig) {
+        const formateTeamName = teamConfig.map[teamName.toLowerCase()];
+        const matchValue = formateTeamName || teamConfig.map.other;
+        if (matchValue) {
+          $$2(teamConfig.selector).val(matchValue.toLowerCase());
+        }
+      }
+    }
+    postProcess() {
+    }
+  }
+  class Filler52pt extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "52pt";
+    }
+    postProcess() {
+      const { tags: tags2, videoType, resolution } = this.info;
+      let videoTypeValue = videoType;
+      if (videoType.match(/bluray/)) {
+        if (tags2.chinese_audio || tags2.cantonese_audio || tags2.chinese_subtitle) {
+          videoTypeValue = videoType === "bluray" ? "14" : "15";
+        }
+      } else if (videoType === "remux" && resolution === "2160p") {
+        videoTypeValue = "5";
+      }
+      $$2(this.siteInfo.videoType.selector).val(videoTypeValue);
+    }
+  }
+  registry$1.register(new Filler52pt());
+  class Bib extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "Bib";
+    }
+    fill(info) {
+      var _a2;
+      this.info = info;
+      if (!this.info || !this.info.doubanBookInfo) return;
+      const {
+        year,
+        pager,
+        translator,
+        author,
+        publisher,
+        ISBN,
+        book_intro: intro,
+        poster
+      } = this.info.doubanBookInfo;
+      $$2("#AuthorsField").val(author.join(","));
+      $$2("#PublishersField").val(publisher);
+      $$2("#IsbnField").val(ISBN);
+      $$2("#YearField").val(year);
+      $$2("#PagesField").val(pager);
+      $$2("#LanguageField").val("17");
+      $$2("#inputFileID").replaceWith(
+        '<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>'
+      );
+      $$2("#TranslatorsField").val(translator.join(","));
+      $$2("#DescriptionField").val(intro);
+      $$2("#ImageField").val(poster);
+      const event = new Event("change");
+      (_a2 = document.getElementById("DescriptionField")) == null ? void 0 : _a2.dispatchEvent(event);
+      this.fillTorrentFile();
+    }
+  }
+  registry$1.register(new Bib());
+  const CONFIG$1 = {
+    HDB_TEAM: [
+      "Chotab",
+      "CRiSC",
+      "CtrlHD",
+      "DON",
+      "EA",
+      "EbP",
+      "Geek",
+      "LolHD",
+      "NTb",
+      "RightSiZE",
+      "SA89",
+      "SbR",
+      "TayTo",
+      "VietHD"
+    ]
   };
-  function fillInfo(info) {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j;
-    const { title, description, doubanInfo, category, tags: tags2 } = info;
-    $$2("#ename").val(title);
-    const fullDescription = description + doubanInfo;
-    let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-    area = area.replace(/\[\/?.+?\]/g, "");
-    const originalName = (_d2 = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d2 : "";
-    const translateName = (_h = (_g = (_f = (_e2 = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e2[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
-    const language = (_j = (_i = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
-    if (area) {
+  class BTSCHOOL extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "BTSCHOOL";
+    }
+    postProcess() {
+      var _a2, _b;
+      const { doubanUrl } = this.info;
+      $$2(this.siteInfo.imdb.selector).val(this.imdbId);
+      if (doubanUrl) {
+        const doubanId = (_b = (_a2 = doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+        $$2(this.siteInfo.douban.selector).val(doubanId);
+      }
+    }
+    fillTeamName() {
+      const { title } = this.info;
+      const teamConfig = this.siteInfo.team;
+      const teamName = getTeamName(title);
+      if (CONFIG$1.HDB_TEAM.includes(teamName)) {
+        $$2(teamConfig.selector).val(teamConfig.map.hdbint);
+      }
+    }
+  }
+  registry$1.register(new BTSCHOOL());
+  class Concertos extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "Concertos";
+    }
+    processTorrentTitle() {
+      let { description, mediaInfos } = this.info;
+      $$2("#add").trigger("click");
+      $$2(".sceditor-button.sceditor-button-source.has-icon")[0].click();
+      mediaInfos.forEach((mediaInfo) => {
+        description = description.replace(mediaInfo.trim(), "");
+      });
+      this.info.description = description;
+    }
+    processDescription() {
+      let { description, mediaInfos } = this.info;
+      $$2("#add").trigger("click");
+      $$2(".sceditor-button.sceditor-button-source.has-icon")[0].click();
+      mediaInfos.forEach((mediaInfo) => {
+        description = description.replace(mediaInfo.trim(), "");
+      });
+      this.info.description = description;
+      super.processDescription();
+    }
+  }
+  registry$1.register(new Concertos());
+  class HDBits extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDBits";
+    }
+    processTorrentTitle() {
+      super.processTorrentTitle();
+      const { title, videoType, movieName, movieAkaName } = this.info;
+      let mediaTitle = title.replace(
+        /([^\d]+)\s+([12][90]\d{2})/,
+        (_2, p1, p2) => {
+          return `${movieName || movieAkaName} ${p2}`;
+        }
+      );
+      if (videoType === "remux") {
+        mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/gi, "");
+      }
+      this.info.title = mediaTitle;
+    }
+  }
+  registry$1.register(new HDBits());
+  class HDFans extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDFans";
+    }
+    postProcess() {
+      const { videoType, resolution, tags: tags2 } = this.info;
+      if (videoType === "remux") {
+        $$2(this.siteInfo.videoType.selector).val(
+          resolution === "2160p" ? "10" : "8"
+        );
+      } else if (videoType === "encode") {
+        const map2 = {
+          "2160p": "9",
+          "1080p": "5",
+          "1080i": "5",
+          "720p": "11"
+        };
+        $$2(this.siteInfo.videoType.selector).val(
+          map2[resolution] || "16"
+        );
+      }
+      if (tags2.diy) {
+        $$2(this.siteInfo.videoType.selector).val(
+          resolution === "2160p" ? "2" : "4"
+        );
+      }
+    }
+  }
+  registry$1.register(new HDFans());
+  class HDRoute extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDRoute";
+    }
+    postProcess() {
+      var _a2, _b, _c, _d, _e, _f;
+      const { description, doubanInfo, subtitle = "" } = this.info;
+      const fullDescription = description + doubanInfo;
+      const imdbRank = (_b = (_a2 = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      const chineseName = extractChineseMovieName(description, subtitle);
+      const summary = (_f = (_e = (_d = (_c = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d.split("/")) == null ? void 0 : _e[0]) != null ? _f : "";
+      $$2("#upload-imdb").val(imdbRank);
+      $$2("#title_chs").val(chineseName);
+      $$2("#upload_introduction").val(summary);
+    }
+  }
+  registry$1.register(new HDRoute());
+  class HDT extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDT";
+    }
+    processDescription() {
+      let { description } = this.info;
+      description = description.replace(/(\[\/img\])(\[img\])/g, "$1 $2").replace(/(\[\/url\])(\[url)/g, "$1 $2");
+      this.info.description = description;
+      super.processDescription();
+    }
+    postProcess() {
+      let { category, imdbUrl = "" } = this.info;
+      if (category !== "tvPack") {
+        $$2('select[name="season"').val("true");
+      }
+      if (!/.+\/$/.test(imdbUrl) && /tt\d+/.test(imdbUrl)) {
+        imdbUrl += "/";
+      }
+      $$2(this.siteInfo.imdb.selector).val(imdbUrl);
+    }
+  }
+  registry$1.register(new HDT());
+  class HDTime extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDTime";
+    }
+    postProcess() {
+      if (this.info.videoType.match(/bluray/i)) {
+        $$2(this.siteInfo.category.selector).val("424");
+      }
+    }
+  }
+  registry$1.register(new HDTime());
+  class HDU extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDU";
+    }
+    postProcess() {
+      let videoTypeValue = "";
+      const { resolution, videoType, category } = this.info;
+      const isTV = category.match(/tv/);
+      if (videoType === "remux") {
+        if (resolution === "2160p") {
+          videoTypeValue = isTV ? "16" : "15";
+        } else {
+          videoTypeValue = isTV ? "12" : "3";
+        }
+      }
+      if (isTV) {
+        if (videoType === "encode") {
+          videoTypeValue = "14";
+        } else if (videoType === "web") {
+          videoTypeValue = "13";
+        }
+      }
+      if (videoTypeValue) {
+        $$2(this.siteInfo.videoType.selector).val(videoTypeValue);
+      }
+    }
+  }
+  registry$1.register(new HDU());
+  class KEEPFRDS extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "KEEPFRDS";
+    }
+    processTorrentTitle() {
+      const { category, title, subtitle } = this.info;
+      if (category === "music") {
+        const subtitle2 = title;
+        if (subtitle2 !== void 0) {
+          this.info.title = subtitle2;
+          this.info.subtitle = subtitle2;
+        }
+      } else if (subtitle === "") {
+        this.info.subtitle = title;
+      }
+    }
+    processDescription() {
+      var _a2;
+      let {
+        description,
+        sourceSite,
+        mediaInfos,
+        originalDescription,
+        screenshots,
+        category,
+        title,
+        subtitle
+      } = this.info;
+      description = description.replace(/\[\/?(center|code)\]/g, "");
+      if (sourceSite === "PTP") {
+        description = (_a2 = originalDescription == null ? void 0 : originalDescription.replace(/^(\s+)/g, "")) != null ? _a2 : "";
+        description = filterEmptyTags(description);
+        description = description.replace(/http:\/\/ptpimg/g, "https://ptpimg");
+        screenshots.forEach((screenshot) => {
+          const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
+          if (!description.match(regStr)) {
+            const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
+            if (description.match(regOldFormat)) {
+              description = description.replace(
+                regOldFormat,
+                `[img]${screenshot}[/img]`
+              );
+            } else {
+              description = description.replace(
+                new RegExp(`(?<!\\[img\\])${screenshot}`, "gi"),
+                `[img]${screenshot}[/img]`
+              );
+            }
+          }
+        });
+      } else if (sourceSite === "RED") {
+        description = description.replace(/\[#\]/g, "[*]");
+      }
+      $("#torrent").on("change", () => {
+        if (category !== "music") {
+          $(this.siteInfo.name.selector).val(title);
+          if (subtitle) $(this.siteInfo.subtitle.selector).val(subtitle);
+        } else {
+          $(this.siteInfo.name.selector).val(subtitle || "");
+          if (subtitle) $(this.siteInfo.subtitle.selector).val(title);
+        }
+      });
+      mediaInfos == null ? void 0 : mediaInfos.forEach((mediaInfo) => {
+        if (!/\[mediainfo\]/.test(description)) {
+          description = description.replace(
+            `[quote]${mediaInfo}[/quote]`,
+            `[mediainfo]${mediaInfo}[/mediainfo]`
+          );
+        }
+      });
+      this.info.description = description;
+      super.processDescription();
+    }
+  }
+  registry$1.register(new KEEPFRDS());
+  class NYPT extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "NYPT";
+    }
+    postProcess() {
+      const { category, title } = this.info;
+      $$2("#browsecat").trigger("change");
+      const domTimeout = setTimeout(() => {
+        const catMap = {
+          movie: "#movie_enname",
+          tv: "#series_enname",
+          tvPack: "#series_enname",
+          documentary: "#doc_enname",
+          variety: "#show_enname",
+          cartoon: "#anime_enname"
+        };
+        const selector = catMap[category];
+        if (selector) {
+          $$2(selector).val(title);
+        }
+        clearTimeout(domTimeout);
+      }, 2e3);
+    }
+  }
+  registry$1.register(new NYPT());
+  class PTN extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "PTN";
+    }
+    processDescription() {
+      let { description, imdbUrl } = this.info;
+      description = `${imdbUrl}
+
+${description}`;
+      this.info.description = description;
+      super.processDescription();
+    }
+    postProcess() {
+      const { resolution, videoType, source } = this.info;
+      let format2 = "";
+      const formatMap2 = {
+        remux: "Remux",
+        web: "WebRip",
+        dvd: "DVDR",
+        dvdrip: "DVDRip",
+        "720p": "720P",
+        "1080p": "1080P",
+        "2160p": "2160P"
+      };
+      if (videoType.match(/bluray/)) {
+        format2 = "BluRay";
+      } else if (videoType === "encode" && source === "bluray") {
+        format2 = formatMap2[resolution];
+      } else {
+        format2 = formatMap2[videoType] || "";
+      }
+      $$2("#format").val(format2);
+    }
+  }
+  registry$1.register(new PTN());
+  class PTSBAO extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "PTSBAO";
+    }
+    prepareToFillInfo() {
+      if (localStorage.getItem("autosave")) {
+        localStorage.removeItem("autosave");
+      }
+    }
+    postProcess() {
+      $$2('a[data-sceditor-command="source"]')[0].click();
+      $$2(this.siteInfo.description.selector).val(this.info.description);
+    }
+  }
+  registry$1.register(new PTSBAO());
+  class SpeedApp extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "SpeedApp";
+    }
+    processDescription() {
+      let { description } = this.info;
+      description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
+      this.info.description = description;
+      super.processDescription();
+    }
+    postProcess() {
+      let { imdbUrl = "" } = this.info;
+      if (!/.+\/$/.test(imdbUrl) && /tt\d+/.test(imdbUrl)) {
+        imdbUrl += "/";
+      }
+      $$2(this.siteInfo.imdb.selector).val(imdbUrl);
+    }
+  }
+  registry$1.register(new SpeedApp());
+  class SSD extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "SSD";
+    }
+    processTorrentTitle() {
+      super.processTorrentTitle();
+      const { title } = this.info;
+      this.info.title = title.replace(/\s/gi, ".");
+    }
+    postProcess() {
+      const { category, title, doubanUrl, imdbUrl, screenshots, subtitle } = this.info;
+      if (category === "tvPack" || title.match(/Trilogy|Collection/i) || subtitle && subtitle.match(/合集/)) {
+        $$2('input[name="pack"]').attr("checked", "true");
+      }
+      $$2(this.siteInfo.imdb.selector).val(doubanUrl || imdbUrl);
+      $$2(this.siteInfo.screenshots.selector).val(screenshots.join("\n"));
+    }
+  }
+  registry$1.register(new SSD());
+  class TTG extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "TTG";
+    }
+    processDescription() {
+      super.processDescription();
+      const { description } = this.info;
+      this.info.description = replaceAlignTagsToQuote(description);
+    }
+    postProcess() {
+      var _a2, _b;
+      const { doubanUrl } = this.info;
+      if (doubanUrl) {
+        const doubanId = (_b = (_a2 = doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+        $$2(this.siteInfo.douban.selector).val(doubanId);
+      }
+    }
+  }
+  registry$1.register(new TTG());
+  class UHDBits extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "UHDBits";
+    }
+    postProcess() {
+      const { title } = this.info;
+      $$2(this.siteInfo.imdb.selector).val(this.imdbId);
+      if (title.match(/web-?rip/i)) {
+        $$2(this.siteInfo.videoType.selector).val("WEBRip");
+      }
+      const teamName = getTeamName(title);
+      $$2("#team").val(teamName === "other" ? "Unknown" : teamName);
+      $$2("#imdb_button").trigger("click");
+    }
+  }
+  registry$1.register(new UHDBits());
+  class UNIT3D extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType.includes("UNIT3D");
+    }
+    processDescription() {
+      super.processDescription();
+      let { description, sourceSite, screenshots } = this.info;
+      if (sourceSite === "PTP") {
+        description = buildPTPDescription(this.info);
+      }
+      if (screenshots.length > 0) {
+        screenshots.forEach((img) => {
+          const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
+*)?`);
+          if (description.match(regStr)) {
+            description = description.replace(regStr, (p1, p2) => {
+              return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
+            });
+          }
+        });
+      }
+      if (description.match(/mobile\.webp\[\/img/gi)) {
+        description = description.replace(/\[img\]/g, "[img=350x350]");
+      }
+      description = description.replace(
+        /\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g,
+        "[$2]$3[/$2]"
+      );
+      description = description.replace(
+        /\[(\/)?hide(?:=(.+?))?\]/g,
+        (_2, p1, p2) => {
+          const slash = p1 || "";
+          return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
+        }
+      );
+      this.info.description = description;
+    }
+    processTorrentTitle() {
+      super.processTorrentTitle();
+      const { title, source } = this.info;
+      const isWebSource = !!source.match(/web/gi);
+      const fixedTitle = fixTorrentTitle(title, isWebSource);
+      this.info.title = fixedTitle;
+    }
+  }
+  registry$1.register(new UNIT3D());
+  class NexusPHP extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType === "NexusPHP";
+    }
+    processDescription() {
+      super.processDescription();
+      const { description } = this.info;
+      this.info.description = replaceAlignTagsToQuote(description);
+    }
+    processTorrentTitle() {
+      super.processTorrentTitle();
+      const { title, source } = this.info;
+      const isWebSource = !!source.match(/web/gi);
+      const fixedTitle = fixTorrentTitle(title, isWebSource);
+      this.info.title = fixedTitle;
+    }
+  }
+  registry$1.register(new NexusPHP());
+  class BeyondHD extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.bhdSiteInfo = PT_SITE.BeyondHD;
+    }
+    canHandle(siteName) {
+      return siteName === "BeyondHD";
+    }
+    processTorrentTitle() {
+      let title = this.info.title;
+      if (this.info.videoType === "dvd") {
+        title = this.buildDVDTitle(this.info);
+      }
+      this.info.title = title;
+    }
+    fillCategory() {
+      const { category, videoType, size } = this.info;
+      const isBluray = videoType.match(/bluray/i);
+      this.info.category = videoType;
+      this.info.videoType = category;
+      if (isBluray || videoType === "dvd") {
+        let bdType = getBDTypeBasedOnSize(size);
+        if (videoType === "uhdbluray" && bdType === "BD50") {
+          bdType = "UHD50";
+        }
+        this.info.category = bdType || "";
+      }
+      super.fillCategory();
+    }
+    processDescription() {
+      let { description, sourceSite, originalDescription, screenshots } = this.info;
+      if (sourceSite === "PTP") {
+        description = buildPTPDescription(this.info);
+      } else if (sourceSite.match(/BeyondHD|UHDBits/)) {
+        description = originalDescription || "";
+      } else {
+        description = this.buildDescription();
+      }
+      if (screenshots.length > 0) {
+        screenshots.forEach((img) => {
+          const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
+*)?`);
+          if (description.match(regStr)) {
+            description = description.replace(regStr, (_2, p2) => {
+              return `[url=${p2}][img=350x350]${p2}[/img][/url]
+`;
+            });
+          }
+        });
+      }
+      this.info.description = description;
+    }
+    buildDescription() {
+      var _a2;
+      let { sourceSiteType, description, mediaInfos, comparisons, screenshots } = this.info;
+      if (this.isChineseTacker(sourceSiteType)) {
+        description = filterNexusDescription(description, screenshots);
+      }
+      description = description.replace(`[quote]${(_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : ""}[/quote]`, "").replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "");
+      if (comparisons && comparisons.length > 0) {
+        for (const comparison of comparisons) {
+          description += `
+${comparison.reason}[comparison=${comparison.title}]
+${comparison.imgs.join("\n")}
+[/comparison]
+
+`;
+        }
+      }
+      if (screenshots.length > 0) {
+        description += `${screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
+
+`;
+      }
+      return description.trim();
+    }
+    fill(info) {
+      this.info = info;
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillTMDBId();
+      this.selectTag();
+      this.fillDescription();
+      this.fillMediaInfo(info.description);
+      this.fillCategory();
+      this.fillRemainingInfo();
+      this.fillTorrentFile();
+    }
+    buildDVDTitle(info) {
+      var _a2, _b;
+      const { movieName, movieAkaName, year, mediaInfos, size, audioCodec } = info;
+      const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
+      const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
+      const dvdType = getBDTypeBasedOnSize(size);
+      const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
+      const audio = audioCodec === "ac3" ? "dd" : audioCodec;
+      const audioName = `${audio == null ? void 0 : audio.toUpperCase()}${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
+      const akaName = movieAkaName ? ` AKA ${movieAkaName} ` : " ";
+      return `${movieName}${akaName}${year} ${scanType} ${dvdType} ${audioName}`;
+    }
+    fillTMDBId() {
+      const imdbId = getIdByIMDbUrl(this.info.imdbUrl || "");
+      getTMDBDataByIMDBId(imdbId).then((data) => {
+        $$2(this.siteInfo.tmdb.selector).val(data.id);
+      });
+    }
+    selectTag() {
+      const editionTags = Object.keys(this.info.tags).map(
+        (tag) => this.info.tags[tag] && this.bhdSiteInfo.targetInfo.editionTags[tag]
+      ).filter(Boolean);
+      const editionOption = Array.from($$2('select[name="edition"] option')).map(
+        (opt) => $$2(opt).attr("value")
+      );
+      if (editionTags.length > 0) {
+        for (const tag of editionTags) {
+          setTimeout(() => {
+            var _a2, _b;
+            (_b = (_a2 = $$2(`.bhd-tag #${tag}`)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.dispatchEvent(new Event("click"));
+          }, 0);
+          if (tag && editionOption.includes(tag)) {
+            $$2('select[name="edition"]').val(tag);
+          }
+        }
+      }
+    }
+  }
+  registry$1.register(new BeyondHD());
+  class SC extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "SC";
+    }
+    async fill(info) {
+      this.info = info;
+      const { imdbUrl = "" } = this.info;
+      const imdbId = getIdByIMDbUrl(imdbUrl);
+      $$2("#catalogue_number").val(imdbId);
+      $$2("#imdb_autofill").trigger("click");
+      this.fillMedia();
+      $$2(".modesw").trigger("click");
+      $$2("#release_desc").val(this.buildDescription());
+      await this.fillIMDbInfo(imdbUrl);
+      this.fillTorrentFile();
+    }
+    buildDescription() {
+      const { screenshots, mediaInfos } = this.info;
+      const parts = [];
+      if (screenshots.length > 0) {
+        const screenshotSection = screenshots.slice(0, 3).map((img) => `[img]${img}[/img]`).join("");
+        parts.push(screenshotSection);
+      }
+      if (mediaInfos.length > 0) {
+        const mediaInfoSection = mediaInfos.map((mediaInfo) => `[hide=MediaInfo]${mediaInfo}[/hide]`).join("\n\n");
+        parts.push(mediaInfoSection);
+      }
+      return parts.join("\n\n");
+    }
+    fillMedia() {
+      const { videoType, resolution } = this.info;
+      let mediaValue;
+      if (videoType.match(/bluray/i)) {
+        mediaValue = "BDMV";
+      } else if (videoType === "DVD") {
+        mediaValue = "DVD-R";
+      } else if (parseInt(resolution, 10) < 720) {
+        mediaValue = "SD";
+      } else {
+        mediaValue = resolution;
+      }
+      $$2("#media").val(mediaValue);
+    }
+    async fillIMDbInfo(imdbUrl) {
+      var _a2, _b, _c;
+      if (imdbUrl) {
+        try {
+          const imdbData = await getIMDBData(imdbUrl);
+          if (!imdbData) {
+            return;
+          }
+          if ((_a2 = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a2.country) {
+            $$2("#country").val(imdbData.details.country);
+          }
+          const akaName = imdbData && ((_b = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b["Also known as"]);
+          const originalName = (_c = imdbData == null ? void 0 : imdbData.name) != null ? _c : "";
+          if (akaName && akaName !== originalName) {
+            $$2("#alternate_title").val(imdbData.details["Also known as"]);
+            $$2("#title").val(originalName);
+          }
+          await this.uploadPoster(imdbData.poster);
+        } catch (error) {
+          console.error("Error filling IMDB data:", error);
+        }
+      }
+    }
+    async uploadPoster(posterUrl) {
+      var _a2;
+      if (!posterUrl) return;
+      try {
+        let uploadedUrl;
+        const ptpImgApiKey = GM_getValue("easy-upload.ptp-img-api-key");
+        if (ptpImgApiKey) {
+          const uploadResult = await (await uploadToPtpImg)([posterUrl]);
+          uploadedUrl = Array.isArray(uploadResult) && uploadResult.length > 0 ? uploadResult[0] : void 0;
+        } else {
+          const data = await (await transferImgToCheveretoSite)([posterUrl], "https://gifyu.com/json");
+          uploadedUrl = (_a2 = data[0]) == null ? void 0 : _a2.original;
+        }
+        if (uploadedUrl) {
+          $$2("#image").val(uploadedUrl);
+        }
+      } catch (error) {
+        console.error("Failed to upload poster:", error);
+      }
+    }
+  }
+  registry$1.register(new SC());
+  class TJUPT extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.isCustomSite = true;
+    }
+    canHandle(siteName) {
+      return siteName === "TJUPT";
+    }
+    fill(info) {
+      this.info = info;
+      this.fillBasicAttributes();
+      this.fillCategory();
+      this.fillIMDb();
+      this.processDescription();
+      this.fillDescription();
+      this.fillTorrentFile();
+      const observer = new MutationObserver(() => {
+        if ($$2("#ename")[0] && $$2("#cname")[0]) {
+          this.fillSiteSpecificInfo();
+          observer.disconnect();
+        }
+      });
+      const config = { childList: true, subtree: true };
+      observer.observe(document.body, config);
+    }
+    fillSiteSpecificInfo() {
+      var _a2, _b;
+      if (!this.info) return;
+      const { title, description, doubanInfo, category, tags: tags2 } = this.info;
+      $$2("#ename").val(title);
+      const fullDescription = description + doubanInfo;
+      let area = this.extractPattern(
+        fullDescription,
+        /(产\s+地|国\s+家)\s+(.+)/,
+        2
+      );
+      area = area.replace(/\[\/?.+?\]/g, "");
+      const originalName = this.extractPattern(
+        fullDescription,
+        /(片\s+名)\s+(.+)?/,
+        2
+      );
+      const translateName = ((_b = (_a2 = this.extractPattern(fullDescription, /(译\s+名)\s+(.+)/, 2)) == null ? void 0 : _a2.split(
+        "/"
+      )) == null ? void 0 : _b[0]) || "";
+      const language = this.extractPattern(
+        fullDescription,
+        /(语\s+言)\s+(.+)/,
+        2
+      );
+      this.fillAreaInfo(area, category);
+      this.fillLanguageInfo(language);
+      let chineseName = originalName;
+      if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+        chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+      }
+      $$2("#cname").val(chineseName);
+      if (tags2.chinese_subtitle && !tags2.chinese_audio) {
+        $$2('input[name="chinese"]').attr("checked", "true");
+      }
+    }
+    extractPattern(text2, pattern, groupIndex) {
+      var _a2;
+      return ((_a2 = text2.match(pattern)) == null ? void 0 : _a2[groupIndex]) || "";
+    }
+    /**
+     * 填充区域信息
+     * @param area 区域信息
+     * @param category 种子类别
+     */
+    fillAreaInfo(area, category) {
+      if (!area || !this.info) return;
       const areaString = area.replace(/,/g, "/").replace(/\s|中国/g, "");
       if (category === "movie") {
         $$2("#district").val(areaString);
-      } else if (category.match(/tv/)) {
+      } else if (category == null ? void 0 : category.match(/tv/)) {
         const areaToSelectorMap = {
           大陆: "#specificcat1",
           "台|港": "#specificcat2",
@@ -11287,11 +11762,11 @@ $1`);
         }
         if (selector) {
           $$2(selector).attr("checked", "true");
-          getcheckboxvalue("specificcat");
+          this.callGetcheckboxvalue("specificcat");
         } else {
           $$2("#specificcat").val(areaString);
         }
-      } else if (category.match(/variety/)) {
+      } else if (category == null ? void 0 : category.match(/variety/)) {
         const districtMap = {
           CN: "#district1",
           HK: "#district2",
@@ -11302,1548 +11777,302 @@ $1`);
           EU: "#district3",
           OT: "#district5"
         };
-        $$2(districtMap[info.area]).attr("checked", "true");
-        getcheckboxvalue("district");
-      }
-    }
-    if ($$2("#language")) {
-      let selector = "";
-      if (language) {
-        if (language.match(/汉语/)) {
-          selector = "#language1";
-        } else if (language.match(/粤/)) {
-          selector = "#language2";
-        } else if (language.match(/英语/)) {
-          selector = "#language3";
-        } else if (language.match(/日语/)) {
-          selector = "#language4";
-        } else if (language.match(/韩语/)) {
-          selector = "#language5";
+        const areaKey = this.info.area;
+        if (districtMap[areaKey]) {
+          $$2(districtMap[areaKey]).attr("checked", "true");
+          this.callGetcheckboxvalue("district");
         }
-        $$2(selector).attr("checked", "true");
-        getcheckboxvalue("language");
       }
     }
-    let chineseName = originalName;
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+    fillLanguageInfo(language) {
+      if (!$$2("#language").length || !language) return;
+      let selector = "";
+      if (language.match(/汉语/)) {
+        selector = "#language1";
+      } else if (language.match(/粤/)) {
+        selector = "#language2";
+      } else if (language.match(/英语/)) {
+        selector = "#language3";
+      } else if (language.match(/日语/)) {
+        selector = "#language4";
+      } else if (language.match(/韩语/)) {
+        selector = "#language5";
+      }
+      if (selector) {
+        $$2(selector).attr("checked", "true");
+        this.callGetcheckboxvalue("language");
+      }
     }
-    $$2("#cname").val(chineseName);
-    if (tags2.chinese_subtitle && !tags2.chinese_audio) {
-      $$2('input[name="chinese"]').attr("checked", "true");
+    callGetcheckboxvalue(name) {
+      if (typeof window.getcheckboxvalue === "function") {
+        window.getcheckboxvalue(name);
+      }
+    }
+    processDescription() {
+      let { description, mediaInfos } = this.info;
+      mediaInfos.forEach((info) => {
+        description = description.replace(
+          `[quote]${info}[/quote]`,
+          `[mediainfo]${info}[/mediainfo]`
+        );
+      });
+      return description;
     }
   }
-  const handleHDRoute = (info) => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l;
-    const { description, doubanInfo } = info;
-    const fullDescription = description + doubanInfo;
-    const imdbRank = (_b = (_a2 = fullDescription.match(/IMDb评分\s+(\d(\.\d)?)/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    $$2("#upload-imdb").val(imdbRank);
-    const originalName = (_d2 = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d2 : "";
-    const translateName = (_h = (_g = (_f = (_e2 = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e2[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
-    const summary = (_l = (_k = (_j = (_i = fullDescription.match(/(简\s+介)\s+([^[◎]+)/)) == null ? void 0 : _i[2]) == null ? void 0 : _j.split("/")) == null ? void 0 : _k[0]) != null ? _l : "";
-    let chineseName = originalName;
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : originalName;
+  registry$1.register(new TJUPT());
+  class RED extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.isCustomSite = true;
     }
-    $$2("#title_chs").val(chineseName);
-    $$2("#upload_introduction").val(summary);
-  };
-  const handleBib = (info) => {
-    var _a2;
-    if (!info.doubanBookInfo) {
-      return;
+    canHandle(siteName) {
+      return siteName === "RED";
     }
-    const { year, pager, translator, author, publisher, ISBN, book_intro: intro, poster } = info.doubanBookInfo;
-    $$2("#AuthorsField").val(author.join(","));
-    $$2("#PublishersField").val(publisher);
-    $$2("#IsbnField").val(ISBN);
-    $$2("#YearField").val(year);
-    $$2("#PagesField").val(pager);
-    $$2("#LanguageField").val("17");
-    $$2("#inputFileID").replaceWith('<textarea name="DescriptionField" id="DescriptionField" rows="15" cols="90"></textarea>');
-    $$2("#TranslatorsField").val(translator.join(","));
-    $$2("#DescriptionField").val(intro);
-    $$2("#ImageField").val(poster);
-    const event = new Event("change");
-    (_a2 = document.getElementById("DescriptionField")) == null ? void 0 : _a2.dispatchEvent(event);
-  };
-  const handlePTN = (info) => {
-    const { resolution, videoType, source } = info;
-    let format2 = "";
-    const formatMap2 = {
-      remux: "Remux",
-      web: "WebRip",
-      dvd: "DVDR",
-      dvdrip: "DVDRip",
-      "720p": "720P",
-      "1080p": "1080P",
-      "2160p": "2160P"
-    };
-    if (videoType.match(/bluray/)) {
-      format2 = "BluRay";
-    } else if (videoType === "encode" && source === "bluray") {
-      format2 = formatMap2[resolution];
-    } else {
-      format2 = formatMap2[videoType] || "";
-    }
-    $$2("#format").val(format2);
-  };
-  const SITE_OPERATIONS = {
-    PTSBAO: {
-      beforeHandler: () => {
-        if (localStorage.getItem("autosave")) {
-          localStorage.removeItem("autosave");
-        }
-      },
-      afterHandler: (info) => {
-        $$2('a[data-sceditor-command="source"]')[0].click();
-        $$2(CURRENT_SITE_INFO.description.selector).val(info.description);
-      }
-    },
-    Concertos: {
-      handleDescription: (info) => {
-        let { description, mediaInfos } = info;
-        $$2("#add").trigger("click");
-        $$2(".sceditor-button.sceditor-button-source.has-icon")[0].click();
-        mediaInfos.forEach((mediaInfo) => {
-          description = description.replace(mediaInfo.trim(), "");
-        });
-        return description;
-      }
-    },
-    PTer: {
-      handleDescription: (info) => {
-        var _a2, _b;
-        let description = info.description;
-        const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
-        mediaInfo.forEach((info2) => {
-          description = description.replace(`[quote]${info2}[/quote]`, `[hide=mediainfo]${info2}[/hide]`);
-        });
-        bdinfo.forEach((info2) => {
-          description = description.replace(`[quote]${info2}[/quote]`, `[hide=BDInfo]${info2}[/hide]`);
-        });
-        if ((_a2 = info.comparisons) == null ? void 0 : _a2.length) {
-          for (const comparison of info.comparisons) {
-            const { title, imgs } = comparison;
-            const titleCount = (_b = title == null ? void 0 : title.split(",").length) != null ? _b : "";
-            imgs.forEach((img) => {
-              description = description.replace(`[img]${img}[/img]`, `[img${titleCount}]${img}[/img]`);
-            });
-          }
-        }
-        return description;
-      },
-      titleHandler: (info) => {
-        const isWebSource = !!info.source.match(/web/gi);
-        const title = fixTorrentTitle(info.title, isWebSource);
-        info.title = title;
-        return info;
-      },
-      afterHandler: (info) => {
-        var _a2, _b;
-        const language = (_b = (_a2 = info.description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-        if (!language.match(/英语/) && info.area === "EU") {
-          $$2(CURRENT_SITE_INFO.area.selector).val("8");
-        }
-      }
-    },
-    Blutopia: {
-      titleHandler: (info) => {
-        const isWebSource = !!info.source.match(/web/gi);
-        const title = fixTorrentTitle(info.title, isWebSource);
-        info.title = title;
-        return info;
-      }
-    },
-    fearnopeer: {
-      titleHandler: (info) => {
-        const isWebSource = !!info.source.match(/web/gi);
-        const title = fixTorrentTitle(info.title, isWebSource);
-        info.title = title;
-        return info;
-      }
-    },
-    Aither: {
-      titleHandler: (info) => {
-        const isWebSource = !!info.source.match(/web/gi);
-        const title = fixTorrentTitle(info.title, isWebSource);
-        info.title = title;
-        return info;
-      }
-    },
-    HUNO: {
-      titleHandler: (info) => {
-        const isWebSource = !!info.source.match(/web/gi);
-        const title = fixTorrentTitle(info.title, isWebSource);
-        info.title = title;
-        return info;
-      }
-    },
-    KEEPFRDS: {
-      handleDescription: (info) => {
-        var _a2, _b, _c;
-        let { description, screenshots } = info;
-        description = description.replace(/\[\/?(center|code)\]/g, "");
-        if (info.sourceSite === "PTP") {
-          description = (_b = (_a2 = info == null ? void 0 : info.originalDescription) == null ? void 0 : _a2.replace(/^(\s+)/g, "")) != null ? _b : "";
-          description = filterEmptyTags(description);
-          description = description.replace(/http:\/\/ptpimg/g, "https://ptpimg");
-          screenshots.forEach((screenshot) => {
-            const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
-            if (!description.match(regStr)) {
-              const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
-              if (description.match(regOldFormat)) {
-                description = description.replace(regOldFormat, `[img]${screenshot}[/img]`);
-              } else {
-                description = description.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "gi"), `[img]${screenshot}[/img]`);
-              }
-            }
-          });
-        } else if (info.sourceSite === "RED") {
-          description = description.replace(/\[#\]/g, "[*]");
-        }
-        $$2("#torrent").on("change", () => {
-          if (info.category !== "music") {
-            $$2(CURRENT_SITE_INFO.name.selector).val(info.title);
-            if (info.subtitle) $$2(CURRENT_SITE_INFO.subtitle.selector).val(info.subtitle);
-          } else {
-            $$2(CURRENT_SITE_INFO.name.selector).val(info.subtitle || "");
-            if (info.subtitle) $$2(CURRENT_SITE_INFO.subtitle.selector).val(info.title);
-          }
-        });
-        (_c = info.mediaInfos) == null ? void 0 : _c.forEach((mediaInfo) => {
-          if (!/\[mediainfo\]/.test(description)) {
-            description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
-          }
-        });
-        return description;
-      },
-      titleHandler: (info) => {
-        if (info.category === "music") {
-          const subtitle = info.title;
-          if (info.subtitle !== void 0) info.title = info.subtitle;
-          info.subtitle = subtitle;
-        } else if (info.subtitle === "") {
-          info.subtitle = info.title;
-        }
-        return info;
-      }
-    },
-    SpeedApp: {
-      handleDescription: (info) => {
-        let { description } = info;
-        description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
-        return description;
-      },
-      afterHandler: (info) => {
-        if (info.imdbId) {
-          $$2(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
-        }
-      }
-    },
-    PTN: {
-      handleDescription: (info) => {
-        let { description, imdbUrl } = info;
-        description = `${imdbUrl}
-
-${description}`;
-        return description;
-      },
-      afterHandler: (info) => {
-        handlePTN(info);
-      }
-    },
-    HDT: {
-      handleDescription: (info) => {
-        let { description } = info;
-        description = description.replace(/(\[\/img\])(\[img\])/g, "$1 $2").replace(/(\[\/url\])(\[url)/g, "$1 $2");
-        return description;
-      },
-      afterHandler: (info) => {
-        if (info.category !== "tvPack") {
-          $$2('select[name="season"').val("true");
-        }
-        if (info.imdbId) {
-          $$2(CURRENT_SITE_INFO.imdb.selector).val(`https://www.imdb.com/title/${info.imdbId}/`);
-        }
-      }
-    },
-    HDRoute: {
-      afterHandler: (info) => {
-        handleHDRoute(info);
-      }
-    },
-    HDBits: {
-      titleHandler: (info) => {
-        let mediaTitle = info.title.replace(/([^\d]+)\s+([12][90]\d{2})/, (match, p1, p2) => {
-          return `${info.movieName || info.movieAkaName} ${p2}`;
-        });
-        if (info.videoType === "remux") {
-          mediaTitle = mediaTitle.replace(/\s+(bluray|blu-ray)/ig, "");
-        }
-        info.title = mediaTitle;
-        return info;
-      }
-    },
-    SSD: {
-      afterHandler: (info) => {
-        if (info.category === "tvPack" || info.title.match(/Trilogy|Collection/i) || info.subtitle && info.subtitle.match(/合集/)) {
-          $$2('input[name="pack"]').attr("checked", "true");
-        }
-        $$2(CURRENT_SITE_INFO.imdb.selector).val(info.doubanUrl || info.imdbUrl);
-        $$2(CURRENT_SITE_INFO.screenshots.selector).val(info.screenshots.join("\n"));
-      }
-    },
-    HDU: {
-      afterHandler: (info) => {
-        let videoTypeValue = "";
-        const { resolution, videoType, category } = info;
-        const isTV = category.match(/tv/);
-        if (videoType === "remux") {
-          if (resolution === "2160p") {
-            videoTypeValue = isTV ? "16" : "15";
-          } else {
-            videoTypeValue = isTV ? "12" : "3";
-          }
-        }
-        if (isTV) {
-          if (videoType === "encode") {
-            videoTypeValue = "14";
-          } else if (videoType === "web") {
-            videoTypeValue = "13";
-          }
-        }
-        if (videoTypeValue) {
-          $$2(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
-        }
-      }
-    },
-    TJUPT: {
-      handleDescription: (info) => {
-        let { description } = info;
-        const { mediaInfo, bdinfo } = getBDInfoOrMediaInfo(description);
-        [...mediaInfo, ...bdinfo].forEach((info2) => {
-          description = description.replace(`[quote]${info2}[/quote]`, `[mediainfo]${info2}[/mediainfo]`);
-        });
-        return description;
-      },
-      afterHandler: (info) => {
-        $$2("#browsecat").trigger("change");
-        handleTJUPT(info);
-      }
-    },
-    NYPT: {
-      afterHandler: (info) => {
-        $$2("#browsecat").trigger("change");
-        const domTimeout = setTimeout(() => {
-          const catMap = {
-            movie: "#movie_enname",
-            tv: "#series_enname",
-            tvPack: "#series_enname",
-            documentary: "#doc_enname",
-            variety: "#show_enname",
-            cartoon: "#anime_enname"
-          };
-          const selector = catMap[info.category];
-          if (selector) {
-            $$2(selector).val(info.title);
-          }
-          clearTimeout(domTimeout);
-        }, 2e3);
-      }
-    },
-    iTS: {
-      afterHandler: (info) => {
-        handleITS(info);
-      }
-    },
-    UHDBits: {
-      afterHandler: (info) => {
-        $$2(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
-        if (info.title.match(/web-?rip/i)) {
-          $$2(CURRENT_SITE_INFO.videoType.selector).val("WEBRip");
-        }
-        const teamName = getTeamName(info);
-        $$2("#team").val(teamName === "other" ? "Unknown" : teamName);
-        $$2("#imdb_button").trigger("click");
-      }
-    },
-    "52pt": {
-      afterHandler: (info) => {
-        const { tags: tags2, videoType, resolution } = info;
-        let videoTypeValue = videoType;
-        if (videoType.match(/bluray/)) {
-          if (tags2.chinese_audio || tags2.cantonese_audio || tags2.chinese_subtitle) {
-            videoTypeValue = videoType === "bluray" ? "14" : "15";
-          }
-        } else if (videoType === "remux" && resolution === "2160p") {
-          videoTypeValue = "5";
-        }
-        $$2(CURRENT_SITE_INFO.videoType.selector).val(videoTypeValue);
-      }
-    },
-    BTSCHOOL: {
-      afterHandler: (info) => {
-        var _a2, _b;
-        $$2(CURRENT_SITE_INFO.imdb.selector).val(info.imdbId || "");
-        if (info.doubanUrl) {
-          const doubanId = (_b = (_a2 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-          $$2(CURRENT_SITE_INFO.douban.selector).val(doubanId);
-        }
-      }
-    },
-    HDTime: {
-      afterHandler: (info) => {
-        if (info.videoType.match(/bluray/i)) {
-          $$2(CURRENT_SITE_INFO.category.selector).val("424");
-        }
-      }
-    },
-    RedLeaves: {
-      afterHandler: () => {
-        try {
-          $$2(CURRENT_SITE_INFO.category.selector).trigger("change");
-        } catch (err) {
-          console.log(err);
-        }
-        $$2("tr.mode_5").css("display", "");
-      }
-    },
-    HDFans: {
-      afterHandler: (info) => {
-        const { videoType, resolution, tags: tags2 } = info;
-        if (videoType === "remux") {
-          $$2(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "10" : "8");
-        } else if (videoType === "encode") {
-          const map2 = {
-            "2160p": "9",
-            "1080p": "5",
-            "1080i": "5",
-            "720p": "11"
-          };
-          $$2(CURRENT_SITE_INFO.videoType.selector).val(map2[resolution] || "16");
-        }
-        if (tags2.diy) {
-          $$2(CURRENT_SITE_INFO.videoType.selector).val(resolution === "2160p" ? "2" : "4");
-        }
-      }
-    },
-    Bib: {
-      afterHandler: (info) => {
-        if (info.doubanBookInfo) {
-          handleBib(info);
-        }
-      }
-    },
-    TTG: {
-      afterHandler: (info) => {
-        var _a2, _b;
-        if (info.doubanUrl) {
-          const doubanId = (_b = (_a2 = info.doubanUrl.match(/\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-          $$2(CURRENT_SITE_INFO.douban.selector).val(doubanId);
-        }
-      }
-    },
-    MTV: {
-      handleDescription: (info) => {
-        var _a2;
-        let { description } = info;
-        (_a2 = info.mediaInfos) == null ? void 0 : _a2.forEach((mediaInfo) => {
-          description = description.replace(`[quote]${mediaInfo}[/quote]`, `[mediainfo]${mediaInfo}[/mediainfo]`);
-        });
-        return description;
-      },
-      afterHandler: (info) => {
-        var _a2, _b, _c, _d2, _e2, _f, _g, _h;
-        if (info.resolution !== "") {
-          const resolution = info.resolution.replace("p", "");
-          (_a2 = $$2(`input[name="Resolution"][value="${resolution}"]`)[0]) == null ? void 0 : _a2.click();
-          $$2("#taginput").val(info.resolution);
-        }
-        if (info.videoCodec !== "") {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} ${info.videoCodec}`);
-        }
-        if (info.audioCodec === "dd+") {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} ddp.audio`);
-        } else if ((_b = info.audioCodec) == null ? void 0 : _b.match(/dd|ac3/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} dd.audio`);
-        } else if ((_c = info.audioCodec) == null ? void 0 : _c.match(/dtshd/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} dts.hd.audio`);
-        } else if ((_d2 = info.audioCodec) == null ? void 0 : _d2.match(/dtsx/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} dts.x.audio`);
-        } else {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} ${info.audioCodec}.audio`);
-        }
-        if (info.title.match(/(\s|.)hybrid(\s|.)/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} hybrid`);
-        }
-        if (/web-dl/i.test(info.title)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          (_e2 = $$2('input[name="source"][value="9"]')[0]) == null ? void 0 : _e2.click();
-          if (/NF|Netflix/i.test(info.title)) {
-            $$2("#taginput").val(`${tagvalue} web.dl netflix.source`);
-          } else $$2("#taginput").val(`${tagvalue} web.dl`);
-        } else if (/webrip/i.test(info.title)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} webrip`);
-          (_f = $$2('input[name="source"][value="10"]')[0]) == null ? void 0 : _f.click();
-        } else if (info.videoType.match(/bluray/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} bluray`);
-          (_g = $$2('input[name="source"][value="7"]')[0]) == null ? void 0 : _g.click();
-        } else if (info.videoType.match(/remux/i)) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} ${info.videoType}`);
-          (_h = $$2('input[name="source"][value="7"]')[0]) == null ? void 0 : _h.click();
-        } else {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} ${info.videoType}`);
-        }
-        if (info.tags.cantonese_audio === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} cantonese.audio.track`);
-        }
-        if (info.tags.chinese_audio === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} chinese.audio.track`);
-        }
-        if (info.tags.chinese_subtitle === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} chinese.subs`);
-        }
-        if (info.tags.hdr === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} hdr`);
-        }
-        if (info.tags.dolby_vision === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} dovi`);
-        }
-        if (info.tags.hdr10_plus === true) {
-          const tagvalue = $$2("#taginput").attr("value");
-          $$2("#taginput").val(`${tagvalue} hdr10plus`);
-        }
-      }
-    }
-  };
-  class ExportHelper {
-    constructor(info) {
+    async fill(info) {
       this.info = info;
-      this.currentSiteInfo = CURRENT_SITE_INFO;
-      this.operation = SITE_OPERATIONS[CURRENT_SITE_NAME];
+      await this.fillMusicInfo();
     }
-    prepareToFillInfo() {
-      var _a2;
-      if ((_a2 = this.operation) == null ? void 0 : _a2.beforeHandler) {
-        this.operation.beforeHandler();
-      }
-    }
-    fillTeamName() {
-      const teamConfig = this.currentSiteInfo.team;
-      const teamName = getTeamName(this.info);
-      if (teamName && teamConfig) {
-        const formateTeamName = teamConfig.map[teamName.toLowerCase()];
-        const matchValue = formateTeamName || teamConfig.map.other;
-        if (HDB_TEAM.includes(teamName) && CURRENT_SITE_NAME === "BTSCHOOL") {
-          $$2(teamConfig.selector).val(teamConfig.map.hdbint);
-          return;
-        }
-        if (CURRENT_SITE_NAME === "UHDBits") {
-          $$2("#team").val(teamName === "other" ? "Unknown" : teamName);
-          return;
-        }
-        if (matchValue) {
-          $$2(teamConfig.selector).val(matchValue.toLowerCase());
-        }
-      }
-    }
-    disableTorrentChange() {
-      var _a2, _b;
-      const nameSelector = (_b = (_a2 = this.currentSiteInfo.name) == null ? void 0 : _a2.selector) != null ? _b : "";
-      if (nameSelector.match(/^#\w+/)) {
-        const nameDom = $$2(nameSelector).clone().attr("name", "").hide();
-        $$2(nameSelector).attr("id", "").after(nameDom);
-      }
-    }
-    getThanksQuote() {
-      const isChineseSite = isChineseTacker(this.currentSiteInfo.siteType) || CURRENT_SITE_NAME.match(/HDPOST|GPW/);
-      let thanksQuote = `转自[b]${this.info.sourceSite}[/b]，感谢原发布者！`;
-      if (!isChineseSite) {
-        thanksQuote = `Torrent from [b]${this.info.sourceSite}[/b].
-All thanks to the original uploader！`;
-      }
-      return `[quote]${thanksQuote}[/quote]
-
-`;
-    }
-    getChineseName() {
-      var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j;
-      const { description, subtitle } = this.info;
-      const originalName = (_b = (_a2 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-      const translateName = (_f = (_e2 = (_d2 = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) == null ? void 0 : _d2.split("/")) == null ? void 0 : _e2[0]) != null ? _f : "";
-      let chineseName = originalName;
-      if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-        chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
-      }
-      if (chineseName === "" && subtitle !== "" && subtitle !== void 0) {
-        chineseName = (_j = (_i = (_h = (_g = this.info) == null ? void 0 : _g.subtitle) == null ? void 0 : _h.replace(/【|】.*/g, "").split("/")) == null ? void 0 : _i[0]) != null ? _j : "";
-      }
-      return chineseName.trim();
-    }
-    torrentTitleHandler() {
-      var _a2;
-      const fixedTitle = this.info.title.replace("H 265", "H.265").replace("H 264", "H.264");
-      this.info.title = fixedTitle;
-      if ((_a2 = this.operation) == null ? void 0 : _a2.titleHandler) {
-        this.info = this.operation.titleHandler(this.info);
-      }
-      if (this.currentSiteInfo.name) {
-        if (CURRENT_SITE_NAME.match(/SSD|iTS|HDChina|MTV/)) {
-          this.info.title = this.info.title.replace(/\s/ig, ".");
-        } else if (CURRENT_SITE_NAME.match(/PuTao/)) {
-          this.info.title = `[${this.getChineseName()}]${this.info.title}`;
-        }
-        $$2(this.currentSiteInfo.name.selector).val(this.info.title);
-      }
-      return this.info;
-    }
-    imdbHandler() {
-      var _a2, _b, _c;
-      const imdbSelector = (_b = (_a2 = this.currentSiteInfo) == null ? void 0 : _a2.imdb) == null ? void 0 : _b.selector;
-      if (!imdbSelector) {
+    async fillMusicInfo() {
+      if (!this.info || !this.info.musicJson) {
         return;
       }
-      const imdbId = getIMDBIdByUrl(this.info.imdbUrl || "");
-      this.info.imdbId = imdbId;
-      if (CURRENT_SITE_NAME.match(/HDRoute|HDSpace/)) {
-        $$2(imdbSelector).val((_c = imdbId == null ? void 0 : imdbId.replace("tt", "")) != null ? _c : "");
-      } else if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|HDPOST|ACM|Aither|Concertos|MDU|LST|HUNO/)) {
-        let tmdbId = "";
-        const fillIMDBId = this.currentSiteInfo.siteType === "UNIT3D" ? imdbId.replace("tt", "") : imdbId;
-        $$2(imdbSelector).val(fillIMDBId);
-        getTMDBIdByIMDBId(imdbId).then((data) => {
-          tmdbId = data.id;
-          $$2(this.currentSiteInfo.tmdb.selector).val(tmdbId);
-        });
-        if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|LST|HUNO/)) {
-          $$2("#torrent").on("change", () => {
-            $$2(imdbSelector).val(fillIMDBId);
-            $$2(this.currentSiteInfo.tmdb.selector).val(tmdbId);
-            $$2("#automal").val(0);
-          });
-        }
-      } else {
-        $$2(imdbSelector).val(this.info.imdbUrl || "");
+      if (document.forms.upload_table) {
+        document.forms.upload_table.reset = () => {
+        };
       }
+      const { musicJson } = this.info;
+      const {
+        name,
+        year,
+        musicInfo,
+        bbBody,
+        tags: tags2,
+        releaseType,
+        categoryId,
+        wikiImage
+      } = musicJson.group;
+      const groupId = getLocationSearchValueByKey("groupid");
+      if (!groupId) {
+        await this.searchAndRedirectToGroup(name, year);
+        $$2("#categories").val(categoryId - 1);
+        $$2("#title").val(name);
+        $$2("#year").val(year);
+        $$2("#releasetype").val(releaseType);
+        $$2("#tags").val(tags2.join(", "));
+        $$2("#album_desc").val(bbBody);
+        $$2("#image").val(wikiImage);
+        this.fillArtistsForm(musicInfo);
+      }
+      this.fillReleaseInfo(musicJson.torrent);
+      this.fillTorrentFile();
     }
-    fillBasicAttributes() {
-      const commonInfoKeys = ["subtitle", "douban", "area", "audioCodec"];
-      commonInfoKeys.forEach((key) => {
-        const siteInfo = this.currentSiteInfo[key];
-        if (siteInfo && siteInfo.selector) {
-          let value = this.info[key];
-          if (key === "douban") {
-            value = this.info.doubanUrl;
-          } else if (key === "area" || key === "audioCodec") {
-            value = siteInfo.map[value];
-          }
-          $$2(siteInfo.selector).val(value);
-        }
-      });
-    }
-    descriptionHandler() {
-      var _a2, _b, _c, _d2;
-      let { mediaInfos, isBluray, screenshots = [], description = "", doubanInfo, poster } = this.info;
-      if (description) {
-        if (this.currentSiteInfo.siteType.match(/NexusPHP|TTG|MTeam/)) {
-          description = description.replace(/\[(right|left|center)\]/gi, "[quote]").replace(/\[\/(right|left|center)\]/gi, "[/quote]");
-        }
-        description = description.replace(/^(\s+)/g, "");
-        if (isChineseTacker(this.currentSiteInfo.siteType) && CURRENT_SITE_NAME !== "SSD") {
-          if (doubanInfo) {
-            description = `${doubanInfo}
-${description}`;
-          }
-        } else {
-          const { sourceSiteType } = this.info;
-          if (isChineseTacker(sourceSiteType) && CURRENT_SITE_NAME !== "Bib") {
-            description = filterNexusDescription(this.info);
-          }
-        }
-      }
-      if (this.currentSiteInfo.mediaInfo) {
-        if (CURRENT_SITE_NAME.match(/^(Blutopia|fearnopeer|Aither|MDU|HUNO)/)) {
-          const selector = isBluray ? 'textarea[name="bdinfo"]' : this.currentSiteInfo.mediaInfo.selector;
-          $$2(selector).val(mediaInfos[0]);
-          description = description.replace(mediaInfos[0].trim(), "");
-        } else if (isBluray && CURRENT_SITE_NAME.match(/^(SpeedApp)/)) {
-          $$2(this.currentSiteInfo.bdinfo.selector).val(mediaInfos[0]);
-          this.info.mediaInfos = [];
-        } else if (!(isBluray && CURRENT_SITE_NAME.match(/^(HDBits)/))) {
-          $$2(this.currentSiteInfo.mediaInfo.selector).val(mediaInfos[0]);
-          description = description.replace(mediaInfos[0].trim(), "");
-        }
-      }
-      if (this.currentSiteInfo.screenshots) {
-        screenshots.forEach((img) => {
-          if (description.includes(img)) {
-            description = description.replace(img, "");
-            if (!img.match(/\[url=.+?\[url]/)) {
-              description = description.replace(/\[img\]\[\/img\]\n*/g, "");
-            }
-          }
-        });
-      }
-      if (this.currentSiteInfo.poster) {
-        if (!poster) {
-          const doubanPosterImage = (description + doubanInfo).match(/\[img\](http[^[]+?(poster|(img\d\.doubanio))[^[]+?)\[\/img\]/);
-          if (doubanPosterImage && doubanPosterImage[1]) {
-            poster = doubanPosterImage[1];
-          } else {
-            poster = (_b = (_a2 = description.match(/\[img\](.+?)\[\/img\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-          }
-        }
-        if (poster) {
-          $$2(this.currentSiteInfo.poster).val(poster);
-          if (CURRENT_SITE_NAME === "HDRoute") {
-            $$2('input[name="poster"]').val(poster);
-            description = description.replace(poster, "");
-          }
-        }
-      }
-      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|MDU|HUNO/)) {
-        if (this.info.sourceSite === "PTP") {
-          description = buildPTPDescription(this.info);
-        }
-        if (screenshots.length > 0) {
-          screenshots.forEach((img) => {
-            const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
-*)?`);
-            if (description.match(regStr)) {
-              description = description.replace(regStr, (p1, p2) => {
-                return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
-              });
-            }
-          });
-        }
-        if (description.match(/mobile\.webp\[\/img/gi)) {
-          description = description.replace(/\[img\]/g, "[img=350x350]");
-        }
-      }
-      if (CURRENT_SITE_NAME.match(/Blutopia|fearnopeer|Aither|HUNO/)) {
-        description = description.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
-        description = description.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
-          const slash = p1 || "";
-          return p2 ? `${p2}: [${slash}spoiler]` : `[${slash}spoiler]`;
-        });
-      }
-      if ((_c = this.operation) == null ? void 0 : _c.handleDescription) {
-        description = this.operation.handleDescription(__spreadProps(__spreadValues({}, this.info), {
-          description
-        }));
-      }
-      description = filterEmptyTags(description);
-      const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
-      if (!thanksQuoteClosed && this.info.sourceSite !== void 0) {
-        description = this.getThanksQuote() + description.trim();
-      }
-      $$2((_d2 = this.currentSiteInfo.description) == null ? void 0 : _d2.selector).val(description);
-      if (CURRENT_SITE_INFO.siteType === "UNIT3D" && CURRENT_SITE_INFO.description.selector === "#bbcode-description") {
-        $$2(CURRENT_SITE_INFO.description.selector)[0].dispatchEvent(new Event("input"));
-      }
-      this.info = __spreadProps(__spreadValues({}, this.info), {
-        description
-      });
-    }
-    categoryHandler() {
-      const { isBluray, category, videoType } = this.info;
-      if (CURRENT_SITE_NAME.match(/ACM|Concertos/i)) {
-        this.info.category = videoType;
-        this.info.videoType = category;
-        if (isBluray) {
-          let bdType = getBDType(this.info.size);
-          if (videoType === "uhdbluray" && bdType === "BD50") {
-            bdType = "uhd50";
-          }
-          this.info.category = bdType || "";
-        }
-      }
-      if (this.currentSiteInfo.category) {
-        const category2 = this.currentSiteInfo.category.map[this.info.category];
-        const keyArray = ["videoCodec", "videoType", "resolution", "source", "area"];
-        let finalSelectArray = [];
-        if (Array.isArray(category2)) {
-          finalSelectArray = [...category2];
-          keyArray.forEach((key) => {
-            finalSelectArray = matchSelectForm(this.currentSiteInfo, this.info, key, finalSelectArray);
-            if (finalSelectArray.length === 1) {
-              setSelectValue(this.currentSiteInfo.category.selector, finalSelectArray[0]);
-            }
-          });
-        } else {
-          [...keyArray, "category"].forEach((key) => {
-            matchSelectForm(this.currentSiteInfo, this.info, key, finalSelectArray);
-          });
-        }
-      }
-    }
-    fillRemainingInfo() {
-      if (this.currentSiteInfo.format) {
-        const formatData = this.currentSiteInfo.format;
-        $$2(formatData.selector).val(formatData.map[this.info.format]);
-      }
-      if (this.currentSiteInfo.image) {
-        $$2(this.currentSiteInfo.image.selector).val(this.info.image || "");
-      }
-      if (this.currentSiteInfo.anonymous) {
-        const { selector, value = "" } = this.currentSiteInfo.anonymous;
-        if (value) {
-          $$2(selector).val(value);
-        } else {
-          $$2(selector).attr("checked", "true");
-        }
-      }
-      if (this.currentSiteInfo.tags) {
-        Object.keys(this.info.tags).forEach((key) => {
-          if (this.info.tags[key] && this.currentSiteInfo.tags[key]) {
-            $$2(this.currentSiteInfo.tags[key]).attr("checked", "true");
-          }
-        });
-      }
-      this.fillTeamName();
-      if (CURRENT_SITE_NAME.match(/HDHome|PTHome|SoulVoice|1PTBA|HDAtmos|3Wmg/i)) {
-        setTimeout(() => {
-          var _a2;
-          const event = new Event("change");
-          (_a2 = document.querySelector(this.currentSiteInfo.category.selector)) == null ? void 0 : _a2.dispatchEvent(event);
-        }, 1e3);
-      }
-    }
-    dealWithMoreSites() {
-      var _a2, _b, _c, _d2, _e2;
-      if ((_a2 = this.operation) == null ? void 0 : _a2.afterHandler) {
-        this.operation.afterHandler(this.info);
-      }
-      if (CURRENT_SITE_NAME.match(/PTHome|1PTBA|52pt|Audiences/i)) {
-        if (this.info.tags.diy) {
-          let categoryValue = "";
-          if (CURRENT_SITE_NAME.match(/Audiences|PTHome/)) {
-            categoryValue = this.info.videoType === "bluray" ? "14" : "13";
-          } else if (CURRENT_SITE_NAME === "1PTBA") {
-            categoryValue = this.info.videoType === "bluray" ? "1" : "4";
-          } else if (CURRENT_SITE_NAME === "52pt") {
-            categoryValue = this.info.videoType === "bluray" ? "2" : "12";
-          }
-          $$2(this.currentSiteInfo.videoType.selector).val(categoryValue);
-        }
-      }
-      if (this.currentSiteInfo.siteType === "UNIT3D" && this.info.category.match(/tv/)) {
-        const season = (_c = (_b = this.info.title.match(/S0?(\d{1,2})/i)) == null ? void 0 : _b[1]) != null ? _c : 1;
-        const episode = (_e2 = (_d2 = this.info.title.match(/EP?0?(\d{1,3})/i)) == null ? void 0 : _d2[1]) != null ? _e2 : 0;
-        $$2("#season_number").val(season);
-        $$2("#episode_number").val(episode);
-      }
-      if (CURRENT_SITE_NAME.match(/HDHome/)) {
-        if (this.info.title.match(/iPad/i)) {
-          const categoryMap = {
-            movie: "412",
-            tv: "426",
-            tvPack: "433",
-            documentary: "418"
-          };
-          const ipadCat = categoryMap[this.info.category];
-          if (ipadCat) {
-            $$2("#browsecat").val(ipadCat);
-          }
-        }
-      }
-    }
-    fillTorrentFile() {
+    async searchAndRedirectToGroup(name, year) {
       var _a2;
-      const { torrentData } = this.info;
-      if (CURRENT_SITE_INFO.torrent) {
-        const fileInput = $$2(CURRENT_SITE_INFO.torrent.selector);
-        if (torrentData && fileInput.length > 0) {
-          const blob = base64ToBlob(torrentData);
-          const torrentFileName = (_a2 = this.info.title) == null ? void 0 : _a2.replace(/\s/g, ".");
-          const file = new File([blob], `${torrentFileName}.torrent`, { type: "application/x-bittorrent" });
-          const dataTransfer = new DataTransfer();
-          dataTransfer.items.add(file);
-          const uploadInput = fileInput[0];
-          if (CURRENT_SITE_NAME === "MTeam") {
-            setTimeout(() => {
-              const lastValue = uploadInput.files;
-              uploadInput.files = dataTransfer.files;
-              const tracker = uploadInput._valueTracker;
-              if (tracker) {
-                tracker.setValue(lastValue);
-              }
-              const event = new Event("change", { bubbles: true });
-              uploadInput.dispatchEvent(event);
-            }, 100);
-          } else {
-            uploadInput.files = dataTransfer.files;
-          }
-        }
-      }
-    }
-  }
-  const handlePTP = async (info) => {
-    const currentSiteInfo2 = PT_SITE.PTP;
-    const {
-      title,
-      imdbUrl,
-      tags: tags2,
-      size,
-      videoCodec = "",
-      videoType,
-      resolution
-    } = info;
-    const groupId = getUrlParam("groupid");
-    if (!groupId) {
-      $$2(currentSiteInfo2.imdb.selector).val(imdbUrl || 0);
-      AutoFill();
-    }
-    info.resolution = getResolution$3(resolution, videoType, title);
-    info.videoCodec = getVideoCodec(videoCodec, videoType, size);
-    const keyArray = ["category", "source", "videoCodec", "resolution"];
-    keyArray.forEach((key) => {
-      const { selector = "", map: map2 } = currentSiteInfo2[key];
-      if (map2) {
-        const mapValue = map2[info[key]];
-        $$2(selector).val(mapValue);
-      } else {
-        $$2(selector).val(info[key]);
-      }
-    });
-    if (info.sourceSite.match(/PTP/i)) {
-      $$2(currentSiteInfo2.description.selector).val(info.originalDescription || "");
-    } else {
-      const description = getDescription$2(info);
-      $$2(currentSiteInfo2.description.selector).val(description);
-    }
-    const editionInfo = getEditionInfo(videoType, tags2);
-    if (editionInfo.length > 0) {
-      $$2("#remaster").attr("checked", "true");
-      Remaster();
-      editionInfo.forEach((edition) => {
-        const event = new Event("click");
-        $$2("#remaster_tags a").filter(function() {
-          return new RegExp(edition).test($$2(this).text());
-        })[0].dispatchEvent(event);
-      });
-    }
-    const infoFromMediaInfoinfo = getInfoFromMediaInfo(info.mediaInfos[0]);
-    if (infoFromMediaInfoinfo.subtitles && infoFromMediaInfoinfo.subtitles[0]) {
-      infoFromMediaInfoinfo.subtitles.forEach((subtitle) => {
-        const subtitleSelector = $$2(".languageselector li").filter(function() {
-          return new RegExp(subtitle).test($$2(this).text());
+      const url = `/ajax.php?action=browse&searchstr=${encodeURIComponent(name)} ${year}`;
+      try {
+        const searchResult = await GMFetch(url, {
+          responseType: "json"
         });
-        if (subtitle !== "English" && subtitleSelector[0]) {
-          subtitleSelector.find("input").attr("checked", "true");
+        if (searchResult.status === "success" && searchResult.response.results.length > 0) {
+          const groupId = searchResult.response.results[0].groupId;
+          const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
+          const timestamp2 = (_a2 = timestampMatchArray == null ? void 0 : timestampMatchArray[2]) != null ? _a2 : "";
+          location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId}#timestamp=${timestamp2}`;
+          return true;
         }
+      } catch (error) {
+        console.error("Error searching for group:", error);
+      }
+      return false;
+    }
+    fillArtistsForm(musicInfo) {
+      const artistTypeMap = {
+        artists: "1",
+        with: "2",
+        composers: "4",
+        conductor: "5",
+        dj: "6",
+        producer: "7",
+        remixedBy: "3"
+      };
+      const artists = [];
+      Object.keys(musicInfo).forEach((key) => {
+        const typeKey = key;
+        const values = musicInfo[typeKey].map((value) => __spreadProps(__spreadValues({}, value), {
+          type: artistTypeMap[typeKey]
+        }));
+        artists.push(...values);
+      });
+      for (let i = 1; i < artists.length; i++) {
+        window.AddArtistField();
+      }
+      artists.forEach((artist, index) => {
+        const selector = index > 0 ? `#artist_${index}` : "#artist";
+        $$2(selector).val(artist.name).next().val(artist.type || "");
       });
     }
-  };
-  const getEditionInfo = (videoType, tags2) => {
-    const editionInfo = [];
-    if (videoType === "remux") {
-      editionInfo.push("Remux");
-    }
-    if (tags2.hdr) {
-      editionInfo.push("HDR10");
-    }
-    if (tags2.hdr10_plus) {
-      editionInfo.push("HDR10+");
-    }
-    if (tags2.dolby_vision) {
-      editionInfo.push("Dolby Vision");
-    }
-    if (tags2.dolby_atmos) {
-      editionInfo.push("Dolby Atmos");
-    }
-    if (tags2.dts_x) {
-      editionInfo.push("DTS:X");
-    }
-    return editionInfo;
-  };
-  const getVideoCodec = (videoCodec, videoType, size) => {
-    if (videoType === "bluray") {
-      return getBDType(size);
-    } else if (videoType === "dvd") {
-      const GBSize = size / 1e9;
-      if (GBSize < 5) {
-        return "DVD5";
+    fillReleaseInfo(info) {
+      var _a2;
+      const {
+        remasterYear,
+        remasterRecordLabel,
+        remasterCatalogueNumber,
+        format: format2,
+        encoding,
+        media,
+        description,
+        scene,
+        remasterTitle
+      } = info;
+      $$2("#remaster_record_label").val(remasterRecordLabel);
+      $$2("#remaster_catalogue_number").val(remasterCatalogueNumber);
+      $$2("#format").val(format2);
+      $$2("#bitrate").val(encoding);
+      $$2("#media").val(media);
+      if (media === "CD" && format2 === "FLAC") {
+        (_a2 = document.querySelector("#format")) == null ? void 0 : _a2.dispatchEvent(new Event("change"));
       }
-      return "DVD9";
-    }
-    return videoCodec;
-  };
-  const getResolution$3 = (resolution, videoType, title) => {
-    if (videoType === "DVD" && title.match(/NTSC/i)) {
-      return "NTSC";
-    } else if (videoType === "DVD" && title.match(/PAL/i)) {
-      return "PAL";
-    }
-    return resolution;
-  };
-  const getDescription$2 = (info) => {
-    const { mediaInfos, comparisons, screenshots } = info;
-    let filterDescription = "";
-    if (mediaInfos.length > 0) {
-      mediaInfos.forEach((mediaInfo) => {
-        mediaInfo = mediaInfo.replace(/[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g, "");
-        filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]
-`;
-      });
-    }
-    if (comparisons && comparisons.length > 0) {
-      for (const comparison of comparisons) {
-        filterDescription += `
-${comparison.reason}[comparison=${comparison.title}]
-${comparison.imgs.join("\n")}
-[/comparison]
-
-`;
+      $$2("#remaster_year").val(remasterYear);
+      $$2("#release_desc").val(description);
+      if (scene) {
+        $$2("#scene").attr("checked", "true");
       }
-    }
-    return `${filterDescription}
-${screenshots.map((item) => `[img]${item}[/img]`).join("\n")}`;
-  };
-  const currentSiteInfo$3 = PT_SITE.GPW;
-  const handleGPW = async (info) => {
-    const isUploadSuccess = !$$2("#mediainfo")[0];
-    if (isUploadSuccess) {
-      return;
-    }
-    transformInfo(info);
-    const isAddFormat = getUrlParam("groupid");
-    if (!isAddFormat) {
-      $$2(currentSiteInfo$3.imdb.selector).val(info.imdbUrl || 0);
-      $$2("#imdb_button").trigger("click");
-      $$2("#upload .collapse").show();
-    }
-    $$2(currentSiteInfo$3.category.selector).val(currentSiteInfo$3.category.map[info.category]);
-    fillEditionInfo(info);
-    fillMediaInfo$2(info);
-    setTimeout(() => {
-      if (!$$2(currentSiteInfo$3.source.selector).val() || !$$2(currentSiteInfo$3.format.selector).val()) {
-        handleNoAutoCheck(info);
-      }
-    }, 0);
-    fillScene(info);
-    fillProcessing(info);
-    fillDescription$4(info);
-    $$2(".u-bbcodePreview-button").trigger("click");
-  };
-  function buildDescription$2(info) {
-    let description = "";
-    if (info.comparisons && info.comparisons.length > 0) {
-      for (const comparison of info.comparisons) {
-        description += `${comparison.reason}[comparison=${comparison.title}]
-${comparison.imgs.join("\n")}
-[/comparison]
-
-`;
-      }
-    }
-    if (info.screenshots.length > 0) {
-      description += `${info.screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
-
-`;
-    }
-    return description.trim();
-  }
-  function fillEditionInfo(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo$3.targetInfo.editionTags[tag]).filter(Boolean);
-    let otherTag;
-    if (Object.keys(info.otherTags).length > 0) {
-      otherTag = Object.keys(info.otherTags).join(", ");
-    }
-    if (editionTags.length > 0 || otherTag) {
-      $$2("#movie_edition_information").trigger("click");
-    }
-    if (editionTags.length > 0) {
-      for (const tag of editionTags) {
-        $$2(`#movie_remaster_tags a[onclick*="'${tag}'"]`).trigger("click");
-      }
-    }
-    if (otherTag) {
-      $$2("#other-button").trigger("click");
-      $$2("[name=remaster_custom_title]").val(otherTag);
-    }
-  }
-  function fillMediaInfo$2(info) {
-    if (!info.mediaInfos) {
-      return;
-    }
-    for (let i = 1; i < info.mediaInfos.length; i++) {
-      $$2("#add-mediainfo")[0].click();
-    }
-    const textareas = Array.from($$2('[name="mediainfo[]"]'));
-    for (const [index, textarea] of textareas.entries()) {
-      textarea.value = info.mediaInfos[index];
-      textarea.dispatchEvent(new Event("input"));
-    }
-    $$2('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
-  }
-  function fillScene(info) {
-    if (info.tags.scene) {
-      $$2("#scene").prop("checked", true);
-    }
-  }
-  function fillProcessing(info) {
-    let { videoType, size, source, tags: tags2 } = info;
-    if (source.match(/bluray|hddvd|dvd/)) {
-      if (tags2.diy) {
-        videoType = "DIY";
-      }
-      const videoTypeConfig = currentSiteInfo$3.videoType;
-      const { selector, map: map2 } = videoTypeConfig;
-      $$2(selector).val(map2[videoType]);
-      $$2(selector)[0].dispatchEvent(new Event("change"));
-      if (map2[videoType] === "Untouched") {
-        const bdType = getBDType(size);
-        $$2('select[name="processing_other"]').val(bdType || "");
-      }
-      $$2(selector)[0].dispatchEvent(new Event("input"));
-    }
-  }
-  function handleNoAutoCheck(info) {
-    var _a2;
-    const {
-      mediaInfos,
-      videoType
-    } = info;
-    const mediaInfo = (mediaInfos == null ? void 0 : mediaInfos[0]) || "";
-    const isBluray = videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { format: format2 = "", subtitles = [] } = getInfoFunc(mediaInfo);
-    info.format = getFormat$1(format2, videoType);
-    const keyArray = ["source", "videoCodec", "format", "resolution"];
-    keyArray.forEach((key) => {
-      var _a3, _b;
-      const { selector = "", map: map2 } = currentSiteInfo$3[key];
-      if (map2) {
-        const mapValue = map2[info[key]];
-        $$2(selector).val(mapValue);
-        if (key === "videoCodec" && mapValue === "Other") {
-          document.querySelector(selector).dispatchEvent(new Event("change"));
-          $$2('input[name="codec_other"]').val((_b = (_a3 = info[key]) == null ? void 0 : _a3.toUpperCase()) != null ? _b : "");
-        }
-      } else {
-        $$2(selector).val(info[key] || "");
-      }
-    });
-    if (subtitles.length > 0) {
-      $$2("#mixed_subtitles").attr("checked", "true");
-      $$2('input[name="subtitles[]"][type="checkbox"]').each(function() {
-        var _a3, _b;
-        const language = (_b = (_a3 = $$2(this).attr("id")) == null ? void 0 : _a3.replace(/^\S|(_\S)/g, (letter) => letter.replace("_", " ").toUpperCase())) != null ? _b : "";
-        if (subtitles.includes(language)) {
-          $$2(this).attr("checked", "true");
-        }
-      });
-      const event = new Event("change");
-      (_a2 = document.querySelector("#mixed_subtitles")) == null ? void 0 : _a2.dispatchEvent(event);
-      const chineseLanguages = subtitles.filter((item) => item.match(/Chinese|Traditional|Simplified/i));
-      if (chineseLanguages.length === 1 && chineseLanguages[0] === "Chinese") {
-        const selector = chineseLanguages[0].match(/Traditional/i) ? "#chinese_traditional" : "#chinese_simplified";
-        $$2(selector).attr("checked", "true");
-      } else if (chineseLanguages.length >= 2) {
-        $$2("#chinese_traditional,#chinese_simplified").attr("checked", "true");
+      if (remasterTitle) {
+        $$2("#remaster_title").val(remasterTitle);
       }
     }
   }
-  const getFormat$1 = (format2, videoType) => {
-    if (videoType.match(/bluray/) && format2 !== "iso") {
-      format2 = "m2ts";
-    } else if (videoType.match(/dvd/)) {
-      format2 = "vob";
+  registry$1.register(new RED());
+  class KG extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
     }
-    return format2 || "mkv";
-  };
-  function transformInfo(info) {
-    if (["encode", "remux"].includes(info.videoType) && info.mediaInfos) {
-      const newMediaInfos = [];
-      for (const mediaInfo of info.mediaInfos) {
-        if (mediaInfo.match(/Disc Title|Disc Label/i)) {
-          continue;
-        }
-        newMediaInfos.push(mediaInfo);
-      }
-      info.mediaInfos = newMediaInfos;
+    canHandle(siteName) {
+      return siteName === "KG";
     }
-  }
-  function fillDescription$4(info) {
-    let description = "";
-    if (info.sourceSite === "PTP") {
-      description = buildPTPDescription(info);
-    } else if (info.sourceSite === "BeyondHD") {
-      description = info.originalDescription || "";
-    } else {
-      description = buildDescription$2(info);
+    async fill(info) {
+      this.info = info;
+      await this.processUpload();
     }
-    $$2(currentSiteInfo$3.description.selector).val(description);
-    $$2(currentSiteInfo$3.description.selector)[0].dispatchEvent(new Event("input"));
-  }
-  const handleNPU = (info) => {
-    var _a2, _b;
-    const currentSiteInfo2 = PT_SITE.NPUBits;
-    let { title, year, movieName, category, doubanInfo, description, subtitle } = info;
-    $$2(currentSiteInfo2.subtitle.selector).val(subtitle || "");
-    if (doubanInfo) {
-      description = `${doubanInfo}
-${description}`;
-    }
-    $$2(currentSiteInfo2.description.selector).val(description);
-    $$2("#torrent_name_checkbox").attr("checked", "true");
-    $$2(currentSiteInfo2.name.selector).val(title);
-    $$2(currentSiteInfo2.category.selector).val(
-      currentSiteInfo2.category.map[category]
-    );
-    $$2(currentSiteInfo2.category.selector)[0].dispatchEvent(new Event("change"));
-    if (category.match(/tv/)) {
-      const districtMap = {
-        CN: "23",
-        HK: "24",
-        TW: "24",
-        JP: "26",
-        KR: "27",
-        US: "25",
-        EU: "65",
-        OT: "63"
-      };
-      $$2(currentSiteInfo2.area.selector).val(districtMap[info.area]);
-    } else if (category.match(/movie/)) {
-      $$2(currentSiteInfo2.area.selector).val(currentSiteInfo2.area.map[info.area]);
-    }
-    $$2(currentSiteInfo2.area.selector)[0].dispatchEvent(new Event("change"));
-    const keyArray = ["videoCodec", "videoType", "resolution"];
-    keyArray.forEach((key) => {
-      const { selector, map: map2 } = currentSiteInfo2[key];
-      fill_field(
-        selector,
-        map2[info[key]]
-      );
-    });
-    const teamName = getTeamName(info);
-    const teamConfig = currentSiteInfo2.team;
-    $$2(`${teamConfig.selector}`).val(teamConfig.map[teamName]);
-    $$2("#torrent_name_field0").val(movieName);
-    if (category === "movie") {
-      $$2("#torrent_name_field1").val(year);
-    } else if (category.match(/tv/)) {
-      const episode = (_b = (_a2 = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a2[0]) != null ? _b : "";
-      $$2("#torrent_name_field1").val(episode);
-    }
-    $$2('input[name="uplver"]').attr("checked", "true");
-  };
-  const handleBYR = (info) => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n2;
-    const currentSiteInfo2 = PT_SITE.BYR;
-    const {
-      title,
-      description,
-      doubanInfo,
-      category,
-      videoType,
-      mediaInfos,
-      subtitle,
-      imdbUrl,
-      doubanUrl
-    } = info;
-    $$2(currentSiteInfo2.subtitle.selector).val(subtitle || "");
-    $$2(currentSiteInfo2.imdb.selector).val(imdbUrl || "");
-    $$2(currentSiteInfo2.douban.selector).val(doubanUrl || "");
-    CKEDITOR.on("instanceReady", () => {
-      CKEDITOR.instances.descr.setData(bbcode2Html(description));
-    });
-    $$2("#ename0day").val(title);
-    const fullDescription = description + doubanInfo;
-    let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-    area = area.replace(/\[\/?.+?\]/g, "");
-    const originalName = (_d2 = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d2 : "";
-    const translateName = (_h = (_g = (_f = (_e2 = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e2[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
-    const movieType = (_j = (_i = fullDescription.match(/(类\s+别)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
-    const language = (_l = (_k = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _k[2]) != null ? _l : "";
-    let chineseName = originalName;
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
-    }
-    if (category.match(/movie/)) {
-      let selector = "";
-      if (area.match(/华语|台|港/)) {
-        selector = "华语";
-      } else if (area.match(/日本|韩国|泰国/)) {
-        selector = "亚洲";
-      } else if (area.match(/美国|加拿大/)) {
-        selector = "北美";
-      } else if (area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "欧洲";
-      } else {
-        selector = "其他";
-      }
-      const typeMap = {
-        华语: "11",
-        欧洲: "12",
-        北美: "13",
-        亚洲: "14",
-        其他: "1"
-      };
-      $$2('select[name="second_type"]').val(typeMap[selector]);
-      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
-      const movieTypeArr = movieType.split(/\s\//);
-      $$2("#movie_type").val(movieTypeArr.join("/"));
-      fillField(selector, category === "movie" ? "movie_country" : "show_country");
-      $$2("#movie_cname").val(chineseName);
-    } else if (category.match(/tv/)) {
-      let selector = "movie_country";
-      if (area.match(/大陆/)) {
-        selector = "大陆";
-      } else if (area.match(/台|港/)) {
-        selector = "港台";
-      } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "欧美";
-      } else if (area.match(/日本|韩国/)) {
-        selector = "日韩";
-      } else {
-        selector = "其他";
-      }
-      const typeMap = {
-        大陆: "15",
-        港台: "16",
-        欧美: "17",
-        日韩: "18",
-        其他: "2"
-      };
-      $$2('select[name="second_type"]').val(typeMap[selector]);
-      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
-      fillField(selector, "tv_type");
-      $$2("#tv_ename").val(title);
-      $$2("#cname").val(chineseName);
-      const episode = (_n2 = (_m = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _m[0]) != null ? _n2 : "";
-      $$2("#tv_season").val(episode);
-      const isBluray = videoType.match(/bluray/i);
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { format: format2 } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
-      fillField((format2 == null ? void 0 : format2.toUpperCase()) || "MKV", "tv_filetype");
-    } else if (category.match(/variety/)) {
-      let selector = "";
-      if (area.match(/大陆/)) {
-        selector = "大陆";
-      } else if (area.match(/台|港/)) {
-        selector = "港台";
-      } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
-        selector = "欧美";
-      } else if (area.match(/日本|韩国/)) {
-        selector = "日韩";
-      } else {
-        selector = "其他";
-      }
-      const typeMap = {
-        大陆: "27",
-        港台: "29",
-        欧美: "30",
-        日韩: "28",
-        其他: "5"
-      };
-      $$2('select[name="second_type"]').val(typeMap[selector]);
-      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
-      fillField(selector, "show_country");
-      $$2("#show_cname").val(chineseName);
-      $$2("#show_ename").val(title);
-      let languageVal = "";
-      if (language.match(/汉语/)) {
-        languageVal = "国语";
-      } else if (language.match(/粤/)) {
-        languageVal = "粤语";
-      } else if (language.match(/英语/)) {
-        languageVal = "英语";
-      } else if (language.match(/日语/)) {
-        languageVal = "日语";
-      } else if (language.match(/韩语/)) {
-        languageVal = "韩语";
-      }
-      fillField(languageVal, "show_language");
-    }
-    function bbcode2Html(bbcode) {
-      let html2 = bbcode.replace(/\[\*\]([^\n]+)/ig, "<li>$1</li>");
-      html2 = html2.replace(/(\r\n)|\n/g, "<br>");
-      html2 = html2.replace(/\[(quote|hide=.+?)\]/ig, "<fieldset><legend>引用</legend>");
-      html2 = html2.replace(/\[(\/)(quote|hide)\]/ig, "<$1fieldset>");
-      html2 = html2.replace(/(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g, '<a href="$1"><img src="$2"/></a>');
-      html2 = html2.replace(/\[img\](.+?)\[\/img]/g, '<img src="$1"/>');
-      html2 = html2.replace(/\[(\/)?(left|right|center)\]/ig, "<$1$2>");
-      html2 = html2.replace(/\[(\/)?b\]/ig, "<$1strong>");
-      html2 = html2.replace(/\[color=(.+?)\]/ig, '<span style="color: $1">').replace(/\[\/color\]/g, "</span>");
-      html2 = html2.replace(/\[size=(.+?)\]/ig, '<font size="$1">').replace(/\[\/size\]/g, "</font>");
-      html2 = html2.replace(/\[url=(.+?)\](.+?)\[\/url\]/ig, '<a href="$1">$2</a>');
-      return html2;
-    }
-  };
-  const handleSC = async (info) => {
-    const { imdbUrl = "" } = info;
-    const imdbId = getIMDBIdByUrl(imdbUrl);
-    $$2("#catalogue_number").val(imdbId);
-    $$2("#imdb_autofill").trigger("click");
-    fillMedia(info);
-    $$2(".modesw").trigger("click");
-    $$2("#release_desc").val(buildDescription$1(info));
-    await fillIMDb(imdbUrl);
-  };
-  function buildDescription$1(info) {
-    const { screenshots, mediaInfos } = info;
-    let description = "";
-    if (screenshots.length > 0) {
-      description = screenshots.slice(0, 3).map((img) => {
-        return `[img]${img}[/img]`;
-      }).join("");
-    }
-    if (mediaInfos.length > 0) {
-      mediaInfos.forEach((mediaInfo) => {
-        description += `
-
-[hide=MediaInfo]${mediaInfo}[/hide]`;
-      });
-    }
-    return description;
-  }
-  function fillMedia(info) {
-    const { videoType, resolution } = info;
-    let value;
-    if (videoType.match(/bluray/i)) {
-      value = "BDMV";
-    } else if (videoType === "DVD") {
-      value = "DVD-R";
-    } else if (parseInt(resolution, 10) < 720) {
-      value = "SD";
-    } else {
-      value = resolution;
-    }
-    $$2("#media").val(value);
-  }
-  async function fillIMDb(imdbUrl) {
-    var _a2, _b, _c, _d2;
-    if (imdbUrl) {
-      const imdbData = await getIMDBData(imdbUrl);
-      if (imdbData && ((_a2 = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _a2.country)) {
-        $$2("#country").val(imdbData.details.country);
-      }
-      const akaName = imdbData && ((_b = imdbData == null ? void 0 : imdbData.details) == null ? void 0 : _b["Also known as"]);
-      const originalName = (_c = imdbData == null ? void 0 : imdbData.name) != null ? _c : "";
-      if (akaName && akaName !== originalName) {
-        $$2("#alternate_title").val(imdbData.details["Also known as"]);
-        $$2("#title").val(originalName);
-      }
-      if (imdbData && imdbData.poster) {
-        let poster;
-        const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key");
-        if (ptpImgApiKey) {
-          poster = await uploadToPtpImg([imdbData.poster]);
-        } else {
-          const gifyuHtml = await fetch("https://gifyu.com", {
-            responseType: void 0
-          });
-          const authToken = (_d2 = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _d2[1];
-          const data = await transferImgs(imdbData.poster, authToken, "https://gifyu.com/json");
-          poster = data.url;
-        }
-        $$2("#image").val(poster || "");
-      }
-    }
-  }
-  const handleKG = async (info) => {
-    var _a2;
-    const { imdbUrl, screenshots, mediaInfos, resolution, source, videoType } = info;
-    const siteInfo = PT_SITE.KG;
-    const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
-    if (imdbUrl) {
+    async processUpload() {
+      var _a2;
+      if (!this.info) return;
+      const { imdbUrl, mediaInfos, resolution, source, videoType } = this.info;
+      const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
+      if (!imdbUrl) return;
       $$2('input[type="submit"][value="next >>"]').hide().after("<p>loading...</p>");
       $$2('input[name="title"]').val(imdbUrl);
-      const formData = new FormData();
-      formData.append("upstep", "2");
-      formData.append("type", "1");
-      formData.append("title", imdbUrl);
-      const doc = await fetch(`${PT_SITE.KG.url}/upload.php`, {
-        method: "POST",
-        responseType: void 0,
-        data: formData
-      });
-      const uploadPage = new DOMParser().parseFromString(doc, "text/html");
-      $$2("#upside+div").html($$2("#upside+div", uploadPage).html());
+      await this.fetchAndFillIMDbData(imdbUrl);
+      this.fillSourceAndResolution(source, resolution, videoType);
+      this.fillSubtitleInfo(mediaInfo, videoType);
+      if (videoType === "dvd") {
+        $$2('input[name="dvdr"]').attr("checked", "true");
+        const dvdSpecs = this.buildDvdSpecs();
+        $$2("#ripspecs").val(dvdSpecs);
+      } else {
+        $$2("#ripspecs").val(mediaInfo);
+      }
+    }
+    async fetchAndFillIMDbData(imdbUrl) {
+      try {
+        const formData = new FormData();
+        formData.append("upstep", "2");
+        formData.append("type", "1");
+        formData.append("title", imdbUrl);
+        const doc = await GMFetch(`${PT_SITE.KG.url}/upload.php`, {
+          method: "POST",
+          data: formData
+        });
+        const uploadPage = new DOMParser().parseFromString(doc, "text/html");
+        $$2("#upside+div").html($$2("#upside+div", uploadPage).html());
+        await this.fillIMDbDetails(imdbUrl);
+      } catch (error) {
+        console.error("Error fetching IMDB data:", error);
+      }
+    }
+    async fillIMDbDetails(imdbUrl) {
+      if (!this.info) return;
       const imdbData = await getIMDBData(imdbUrl);
-      if (imdbData) {
-        const { country, Languages: languages } = imdbData.details;
-        $$2('input[name="lang"]').val(languages);
-        let { description, genre, poster = "" } = imdbData;
-        const genreMap = siteInfo.genres.map;
-        const countryMap = siteInfo.country.map;
-        let countryValue = "";
-        if (country) {
-          countryValue = country.split(",")[0];
-          if (countryValue === "United States") {
-            countryValue = "USA";
-          } else if (countryValue === "United Kingdom") {
-            countryValue = "UK";
-          }
+      if (!imdbData) return;
+      const siteInfo = PT_SITE.KG;
+      const { screenshots, poster: infoPoster } = this.info;
+      const { country, Languages: languages } = imdbData.details;
+      $$2('input[name="lang"]').val(languages);
+      let { description, genre, poster = "" } = imdbData;
+      const genreMap = siteInfo.genres.map;
+      const countryMap = siteInfo.country.map;
+      let countryValue = "";
+      if (country) {
+        countryValue = country.split(",")[0];
+        if (countryValue === "United States") {
+          countryValue = "USA";
+        } else if (countryValue === "United Kingdom") {
+          countryValue = "UK";
         }
-        if (!poster) {
-          poster = info.poster || "";
-        }
-        $$2('select[name="country_id"]').val(countryMap[countryValue]);
-        const descriptionBBCode = `[img]${poster}[/img]
-      
+      }
+      if (!poster) {
+        poster = infoPoster || "";
+      }
+      $$2('select[name="country_id"]').val(
+        countryMap[countryValue]
+      );
+      const descriptionBBCode = `[img]${poster}[/img]
+    
 Synopsis:
 [quote]${description}[/quote]
-      
+    
 
 ${screenshots.map((img) => `[img]${encodeURI(img)}[/img]`).join("")}`;
-        $$2("#bbcodetextarea").html(descriptionBBCode);
-        const [mainGenre, otherGenre = ""] = genre;
-        $$2('select[name="genre_main_id"]').val(genreMap[mainGenre]);
-        $$2('select[name="subgenre"]').val(genreMap[otherGenre]);
-      }
-      $$2(siteInfo.source.selector).val(siteInfo.source.map[source]);
+      $$2("#bbcodetextarea").html(descriptionBBCode);
+      const [mainGenre, otherGenre = ""] = genre;
+      $$2('select[name="genre_main_id"]').val(
+        genreMap[mainGenre]
+      );
+      $$2('select[name="subgenre"]').val(
+        genreMap[otherGenre]
+      );
+    }
+    fillSourceAndResolution(source, resolution, videoType) {
+      if (!source || !resolution || !videoType) return;
+      const siteInfo = PT_SITE.KG;
+      $$2(siteInfo.source.selector).val(
+        siteInfo.source.map[source]
+      );
       if (!videoType.match("bluray")) {
-        $$2(siteInfo.resolution.selector).val(siteInfo.resolution.map[resolution]);
+        $$2(siteInfo.resolution.selector).val(
+          siteInfo.resolution.map[resolution]
+        );
       } else {
         $$2(siteInfo.resolution.selector).val("3");
       }
-      const isBluray = videoType.match(/bluray/i);
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { subtitles = [] } = getInfoFunc(mediaInfo);
-      if (subtitles.length) {
-        $$2('input[name="subs"]').val(subtitles.join(","));
-      }
-      if (videoType === "dvd") {
-        $$2('input[name="dvdr"]').attr("checked", "true");
-      }
-      const specs = videoType === "dvd" ? buildDvdSpecs(info) : mediaInfo;
-      $$2("#ripspecs").val(specs);
     }
-  };
-  function buildDvdSpecs(info) {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k;
-    const { mediaInfos, size, audioCodec } = info;
-    const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
-    const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
-    const dvdType = getBDType(size);
-    const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
-    const audioName = `${audioCodec == null ? void 0 : audioCodec.toUpperCase()} ${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
-    const IFOMediaInfo = (_d2 = (_c = info.mediaInfos) == null ? void 0 : _c.find((info2) => info2.includes(".IFO"))) != null ? _d2 : "";
-    const runtime = (_g = (_f = (_e2 = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)) == null ? void 0 : _e2[1]) == null ? void 0 : _f.replace(/\s/g, "")) != null ? _g : "";
-    const hour = (_i = (_h = runtime.match(/(\d)+h/)) == null ? void 0 : _h[1]) != null ? _i : "00";
-    const minute = (_k = (_j = runtime.match(/(\d+)(mn|min)/)) == null ? void 0 : _j[1]) != null ? _k : "";
-    return `DVD Label:
+    fillSubtitleInfo(mediaInfo, videoType) {
+      if (!mediaInfo || !videoType) return;
+      const isBluray = videoType.match(/bluray/i);
+      const parsedMedia = parseMedia(mediaInfo, !!isBluray);
+      if (!parsedMedia) return;
+      const { subtitleTracks = [] } = parsedMedia;
+      if (subtitleTracks.length) {
+        const subtitleNames = subtitleTracks.map((track) => track.language);
+        $$2('input[name="subs"]').val(subtitleNames.join(","));
+      }
+    }
+    buildDvdSpecs() {
+      var _a2, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+      if (!this.info) return "";
+      const { mediaInfos, size, audioCodec } = this.info;
+      const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
+      const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
+      const dvdType = getBDTypeBasedOnSize(size);
+      const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
+      const audioName = `${audioCodec == null ? void 0 : audioCodec.toUpperCase()} ${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
+      const IFOMediaInfo = (_d = (_c = this.info.mediaInfos) == null ? void 0 : _c.find((info) => info.includes(".IFO"))) != null ? _d : "";
+      const runtime = (_g = (_f = (_e = IFOMediaInfo.match(/Duration\s*?:([^\n]+)/)) == null ? void 0 : _e[1]) == null ? void 0 : _f.replace(/\s/g, "")) != null ? _g : "";
+      const hour = (_i = (_h = runtime.match(/(\d)+h/)) == null ? void 0 : _h[1]) != null ? _i : "00";
+      const minute = (_k = (_j = runtime.match(/(\d+)(mn|min)/)) == null ? void 0 : _j[1]) != null ? _k : "";
+      return `DVD Label:
 DVD Format: ${dvdType} ${scanType}
 DVD Audio: ${audioName}
 Program(s): Unknown
@@ -12853,625 +12082,310 @@ Audio: Untouched
 DVD extras: Untouched
 Extras contain: 
 DVD runtime(s): ${+hour < 10 ? `0${hour}` : hour}:${minute}`;
+    }
   }
-  const currentSiteInfo$2 = PT_SITE.BeyondHD;
-  const handleBHD = (info) => {
-    let title = info.title;
-    if (info.videoType === "dvd") {
-      title = buildDVDTitle(info);
+  registry$1.register(new KG());
+  class PTP extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
     }
-    $$2(currentSiteInfo$2.name.selector).val(title);
-    fillSpecs(info);
-    fillTMDBId(info);
-    fillMediaInfo$1(info);
-    selectTag(info);
-    fillDescription$3(info);
-    $$2(currentSiteInfo$2.anonymous.selector).attr("checked", "true");
-    if (info.videoType === "tvPack") {
-      $$2('input[name="pack"]').attr("checked", "true");
+    canHandle(siteName) {
+      return siteName === "PTP";
     }
-    $$2("#torrent").on("change", () => {
-      let title2 = info.title;
-      if (info.videoType === "dvd") {
-        title2 = buildDVDTitle(info);
+    fill(info) {
+      this.info = info;
+      if (!this.info) return;
+      const groupId = getLocationSearchValueByKey("groupid");
+      if (!groupId) {
+        this.fillIMDbAndTriggerAutoFill();
       }
-      $$2(currentSiteInfo$2.name.selector).val(title2);
-      const categoryMap = currentSiteInfo$2.category.map;
-      const categoryValueArr = categoryMap[info.category];
-      const keyArray = ["resolution"];
-      let finalSelectArray = [];
-      if (Array.isArray(categoryValueArr)) {
-        finalSelectArray = [...categoryValueArr];
-        keyArray.forEach((key) => {
-          finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
-          console.log(finalSelectArray);
-          if (finalSelectArray.length === 1) {
-            $$2(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
+      this.updateResolutionAndCodec();
+      this.fillBasicInfo();
+      this.fillDescription();
+      this.handleEditionInfo();
+      this.fillSubtitleInfo();
+      this.fillTorrentFile();
+    }
+    fillIMDbAndTriggerAutoFill() {
+      if (!this.info) return;
+      const { imdbUrl } = this.info;
+      const currentSiteInfo = PT_SITE.PTP;
+      $$2(currentSiteInfo.imdb.selector).val(imdbUrl || 0);
+      AutoFill();
+    }
+    updateResolutionAndCodec() {
+      if (!this.info) return;
+      const { title, videoType, resolution, videoCodec, size } = this.info;
+      this.info.resolution = this.getResolution(resolution, videoType, title);
+      this.info.videoCodec = this.getVideoCodec(
+        videoCodec || "",
+        videoType,
+        size
+      );
+    }
+    fillBasicInfo() {
+      if (!this.info) return;
+      const currentSiteInfo = PT_SITE.PTP;
+      const keyArray = [
+        "category",
+        "source",
+        "videoCodec",
+        "resolution"
+      ];
+      keyArray.forEach((key) => {
+        const { selector = "", map: map2 } = currentSiteInfo[key];
+        if (map2) {
+          const mapValue = map2[this.info[key]];
+          $$2(selector).val(mapValue);
+        } else {
+          $$2(selector).val(this.info[key]);
+        }
+      });
+    }
+    fillDescription() {
+      if (!this.info) return;
+      const currentSiteInfo = PT_SITE.PTP;
+      const { sourceSite, originalDescription } = this.info;
+      if (sourceSite.match(/PTP/i)) {
+        $$2(currentSiteInfo.description.selector).val(originalDescription || "");
+      } else {
+        const description = this.getDescription();
+        $$2(currentSiteInfo.description.selector).val(description);
+      }
+    }
+    handleEditionInfo() {
+      if (!this.info) return;
+      const { videoType, tags: tags2 } = this.info;
+      const editionInfo = this.getEditionInfo(videoType, tags2);
+      if (editionInfo.length > 0) {
+        $$2("#remaster").attr("checked", "true");
+        window.Remaster();
+        editionInfo.forEach((edition) => {
+          const selector = $$2("#remaster_tags a").filter(function() {
+            return new RegExp(edition).test($$2(this).text());
+          });
+          if (selector.length > 0) {
+            const event = new Event("click");
+            selector[0].dispatchEvent(event);
           }
         });
-      } else {
-        [...keyArray, "category"].forEach((key) => {
-          matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
+      }
+    }
+    fillSubtitleInfo() {
+      if (!this.info || !this.info.mediaInfos || this.info.mediaInfos.length === 0)
+        return;
+      const parsedMedia = parseMedia(this.info.mediaInfos[0]);
+      if (!parsedMedia) return;
+      const { subtitleTracks = [] } = parsedMedia;
+      if (subtitleTracks && subtitleTracks.length > 0) {
+        subtitleTracks.forEach((subtitle) => {
+          const subtitleSelector = $$2(".languageselector li").filter(function() {
+            return new RegExp(subtitle.language).test($$2(this).text());
+          });
+          if (subtitle.language !== "English" && subtitleSelector.length > 0) {
+            subtitleSelector.find("input").attr("checked", "true");
+          }
         });
       }
-    });
-  };
-  function fillTMDBId(info) {
-    const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    $$2(currentSiteInfo$2.imdb.selector).val(imdbId);
-    getTMDBIdByIMDBId(imdbId).then((data) => {
-      $$2(currentSiteInfo$2.tmdb.selector).val(data.id);
-    });
-  }
-  function fillMediaInfo$1(info) {
-    var _a2, _b;
-    $$2(currentSiteInfo$2.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
-  }
-  function fillSpecs(info) {
-    const { category, videoType } = info;
-    const isBluray = videoType.match(/bluray/i);
-    info.category = videoType;
-    info.videoType = category;
-    if (isBluray || videoType === "dvd") {
-      let bdType = getBDType(info.size);
-      if (videoType === "uhdbluray" && bdType === "BD50") {
-        bdType = "UHD50";
+    }
+    getEditionInfo(videoType, tags2) {
+      const editionInfo = [];
+      if (videoType === "remux") {
+        editionInfo.push("Remux");
       }
-      info.category = bdType || "";
-    }
-    const categoryMap = currentSiteInfo$2.category.map;
-    const categoryValueArr = categoryMap[info.category];
-    const keyArray = ["videoType", "resolution", "source", "category"];
-    let finalSelectArray = [];
-    if (Array.isArray(categoryValueArr)) {
-      finalSelectArray = [...categoryValueArr];
-      keyArray.forEach((key) => {
-        finalSelectArray = matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
-        if (finalSelectArray.length === 1) {
-          $$2(currentSiteInfo$2.category.selector).val(finalSelectArray[0]);
+      Object.keys(tags2).forEach((tag) => {
+        if (tags2[tag]) {
+          const tagName = PT_SITE.PTP.targetInfo.editionTags[tag];
+          if (tagName) {
+            editionInfo.push(tagName);
+          }
         }
       });
-    } else {
-      [...keyArray, "category"].forEach((key) => {
-        matchSelectForm(currentSiteInfo$2, info, key, finalSelectArray);
-      });
+      return editionInfo;
     }
-  }
-  function selectTag(info) {
-    const editionTags = Object.keys(info.tags).map((tag) => info.tags[tag] && currentSiteInfo$2.targetInfo.editionTags[tag]).filter(Boolean);
-    const editionOption = Array.from($$2('select[name="edition"] option')).map((opt) => $$2(opt).attr("value"));
-    if (editionTags.length > 0) {
-      for (const tag of editionTags) {
-        setTimeout(() => {
-          var _a2;
-          (_a2 = document.querySelector(`.bhd-tag #${tag}`)) == null ? void 0 : _a2.dispatchEvent(new Event("click"));
-        }, 0);
-        if (editionOption.includes(tag)) {
-          $$2('select[name="edition"]').val(tag);
-        }
+    getVideoCodec(videoCodec, videoType, size) {
+      if (!videoType || !size) return videoCodec;
+      if (videoType === "bluray") {
+        return getBDTypeBasedOnSize(size);
+      } else if (videoType === "dvd") {
+        const GBSize = size / 1e9;
+        return GBSize < 5 ? "DVD5" : "DVD9";
       }
+      return videoCodec;
     }
-  }
-  function fillDescription$3(info) {
-    let description = info.description;
-    if (info.sourceSite === "PTP") {
-      description = buildPTPDescription(info);
-    } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
-      description = info.originalDescription || "";
-    } else {
-      description = buildDescription(info);
+    getResolution(resolution, videoType, title) {
+      if (!videoType || !title) return resolution;
+      if (videoType === "DVD" && title.match(/NTSC/i)) {
+        return "NTSC";
+      } else if (videoType === "DVD" && title.match(/PAL/i)) {
+        return "PAL";
+      }
+      return resolution;
     }
-    if (info.screenshots.length > 0) {
-      info.screenshots.forEach((img) => {
-        const regStr = new RegExp(`\\[img\\](${img})\\[\\/img\\](
-*)?`);
-        if (description.match(regStr)) {
-          description = description.replace(regStr, (p1, p2) => {
-            return `[url=${p2}][img=350x350]${p2}[/img][/url]`;
-          });
-        }
-      });
-    }
-    $$2(currentSiteInfo$2.description.selector).val(description);
-    $$2(currentSiteInfo$2.description.selector)[0].dispatchEvent(new Event("input"));
-  }
-  function buildDescription(info) {
-    var _a2, _b;
-    let description = info.description;
-    const { sourceSiteType } = info;
-    if (isChineseTacker(sourceSiteType)) {
-      description = filterNexusDescription(info);
-    }
-    description = description.replace(`[quote]${(_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : ""}[/quote]`, "").replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "");
-    const { comparisons, screenshots } = info;
-    if (comparisons && comparisons.length > 0) {
-      for (const comparison of comparisons) {
-        description += `
+    getDescription() {
+      if (!this.info) return "";
+      const { mediaInfos, comparisons, screenshots } = this.info;
+      let filterDescription = "";
+      if (mediaInfos.length > 0) {
+        mediaInfos.forEach((mediaInfo) => {
+          mediaInfo = mediaInfo.replace(
+            /[\u00A0\u1680​\u180e\u2000-\u2009\u200a​\u200b​\u202f\u205f​\u3000]/g,
+            ""
+          );
+          filterDescription += `[mediainfo]${mediaInfo}[/mediainfo]
+`;
+        });
+      }
+      if (comparisons && comparisons.length > 0) {
+        for (const comparison of comparisons) {
+          filterDescription += `
 ${comparison.reason}[comparison=${comparison.title}]
 ${comparison.imgs.join("\n")}
 [/comparison]
 
 `;
-      }
-    }
-    if (screenshots.length > 0) {
-      description += `${screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
-
-`;
-    }
-    return description.trim();
-  }
-  function buildDVDTitle(info) {
-    var _a2, _b;
-    const { movieName, movieAkaName, year, mediaInfos, size, audioCodec } = info;
-    const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
-    const scanType = mediaInfo.includes("NTSC") ? "NTSC" : "PAL";
-    const dvdType = getBDType(size);
-    const audioChannelNumber = ((_b = mediaInfo.match(/Channel\(s\)\s+:\s+(\d)/)) == null ? void 0 : _b[1]) || "2";
-    const audio = audioCodec === "ac3" ? "dd" : audioCodec;
-    const audioName = `${audio == null ? void 0 : audio.toUpperCase()}${audioChannelNumber === "6" ? "5.1" : `${audioChannelNumber}.0`}`;
-    const akaName = movieAkaName ? ` AKA ${movieAkaName} ` : " ";
-    return `${movieName}${akaName}${year} ${scanType} ${dvdType} ${audioName}`;
-  }
-  const currentSiteInfo$1 = PT_SITE.Bdc;
-  const handleBdc = async (info) => {
-    $$2(currentSiteInfo$1.name.selector).val(info.title);
-    $$2(currentSiteInfo$1.imdb.selector).val(info.imdbUrl || "");
-    $$2(currentSiteInfo$1.anonymous.selector).attr("checked", "true");
-    fillCategory(info);
-    fillDescription$2(info);
-  };
-  function fillCategory(info) {
-    const { resolution, videoType, category } = info;
-    const teamName = getTeamName(info);
-    let categoryValue = "";
-    if (teamName === "PTer") {
-      categoryValue = "40";
-    } else if (videoType.match(/bluray/)) {
-      categoryValue = "31";
-    } else if (category.match(/tv/)) {
-      categoryValue = "19";
-    } else {
-      categoryValue = `${currentSiteInfo$1.resolution.map[resolution][videoType]}`;
-    }
-    $$2('select[name="category"]').val(categoryValue);
-  }
-  async function fillDescription$2(info) {
-    var _a2, _b, _c, _d2;
-    $$2(currentSiteInfo$1.description.selector).val($t("数据加载中..."));
-    let template = `
-  [align=center][color=#FF0000][size=large][font=Trebuchet MS][b]${info.title}[/b][/font][/size][/color]
-  
-  [URL=$originalPoster$][IMG]$poster$[/IMG][/URL]
-  
-  
-  [img]https://images.broadcity.eu/images/82619845736635909964.png[/img]
-  [size=medium]$synopsis$[/size]
-  
-  [img]https://images.broadcity.eu/images/87704049718067240949.png[/img]
-  
-  [php]${(_a2 = info.mediaInfos) == null ? void 0 : _a2[0]}[/php][/align]
-  
-  [align=center][img]https://images.broadcity.eu/images/11622644009097018297.png[/img] 
-  $screenshots$
-  [/align]
-  [align=center][img]https://images.broadcity.eu/images/54926797285164478472.png[/img]
-  [youtube]$youtubeUrl$[/youtube]
-  [/align]
-  [align=center][img]https://images.broadcity.eu/images/44846549843542759058.png[/img]
-  [/align]
-  `;
-    const { imdbUrl, screenshots } = info;
-    const screenshotsBBCode = getScreenshotsBBCode(screenshots);
-    template = template.replace("$screenshots$", screenshotsBBCode.join("\n"));
-    try {
-      const replaceParams = {
-        synopsis: "",
-        youtubeUrl: "",
-        poster: "",
-        originalPoster: ""
-      };
-      const imdbId = getIMDBIdByUrl(imdbUrl);
-      const { id: tmdbId, overview, poster_path: posterPath } = await getTMDBIdByIMDBId(imdbId);
-      if (tmdbId) {
-        const poster = `https://image.tmdb.org/t/p/w500${posterPath}`;
-        const originalPoster = `https://image.tmdb.org/t/p/original${posterPath}`;
-        replaceParams.poster = poster;
-        replaceParams.synopsis = overview;
-        replaceParams.originalPoster = originalPoster;
-        $$2('input[name="t_image_url"]').val(poster);
-        const videos = await getTMDBVideos(tmdbId);
-        const youtubeId = (_d2 = (_c = (_b = videos.filter((video) => video.site === "YouTube")) == null ? void 0 : _b[0]) == null ? void 0 : _c.key) != null ? _d2 : "";
-        if (youtubeId.length > 0) {
-          replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
         }
-        Object.keys(replaceParams).forEach((key) => {
-          template = template.replace(`$${key}$`, replaceParams[key] || "");
-        });
-        setTimeout(() => {
-          tinymce.activeEditor.setContent(template);
-        }, 0);
       }
-    } catch (error) {
-      $$2(currentSiteInfo$1.description.selector).val(error.message);
+      const screenshotsSection = screenshots.map((item) => `[img]${item}[/img]`).join("\n");
+      return `${filterDescription}
+${screenshotsSection}`;
     }
   }
-  const currentSiteInfo = PT_SITE.ZHUQUE;
-  const handleZQ = (info) => {
-    const targetNode = document;
-    const imdbId = getIMDBIdByUrl(info.imdbUrl || "");
-    const insert = new MutationObserver(() => {
-      $$2("input.ant-select-selection-search-input[id]").each(function() {
-        this.dispatchEvent(new Event("keydown"));
-      });
-      $$2(currentSiteInfo.name.selector).val(info.title);
-      $$2(currentSiteInfo.name.selector)[0].dispatchEvent(new Event("input"));
-      $$2(currentSiteInfo.imdb.selector).val(imdbId);
-      $$2(currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event("input"));
-      if (info.subtitle) {
-        $$2(currentSiteInfo.subtitle.selector).val(info.subtitle);
-        $$2(currentSiteInfo.subtitle.selector)[0].dispatchEvent(new Event("input"));
-      }
-      let screenshotStr = "";
-      if (info.screenshots.length > 0) {
-        info.screenshots.forEach((img) => {
-          screenshotStr += `${img}
-`;
-        });
-      }
-      $$2(currentSiteInfo.screenshots.selector).val(screenshotStr);
-      $$2(currentSiteInfo.screenshots.selector)[0].dispatchEvent(new Event("input"));
-      fillMediaInfo(info);
-      fillDescription$1(info);
-      const selectNodeParent = document.querySelector("form");
-      const select = new MutationObserver(async () => {
-        var _a2;
-        const { category: categoryConfig } = currentSiteInfo;
-        $$2(`div.ant-select-item-option-content:contains(${categoryConfig.map[info.category]})`).click();
-        const keyArray = ["videoType", "videoCodec", "audioCodec"];
-        select.disconnect();
-        const sleep = (ms) => {
-          return new Promise((resolve28) => setTimeout(resolve28, ms));
-        };
-        const { tags: tags2 } = currentSiteInfo;
-        for (const tag in info.tags) {
-          if (tags2[tag]) {
-            await sleep(100).then(() => $$2(tags2[tag])[0].click());
-          }
-        }
-        keyArray.forEach((key) => {
-          const { map: map2 } = currentSiteInfo[key];
-          if (map2) {
-            const mapValue = map2[info[key]];
-            if (mapValue) {
-              if (key !== "videoType" && $$2(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-                $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
-              } else if (mapValue === "Blu-ray") {
-                $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
-              } else if ($$2(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
-                $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
-              }
+  registry$1.register(new PTP());
+  class MTeam extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "MTeam";
+    }
+    fill(info) {
+      this.info = info;
+      this.setupMutationObserver();
+    }
+    setupMutationObserver() {
+      const targetNode = document.getElementById("root");
+      if (!targetNode) return;
+      const config = { childList: true, subtree: true };
+      const observer = new MutationObserver((mutationsList, observer2) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === "childList") {
+            const targetElement = document.querySelector("#name");
+            const editor = document.querySelector(".editor-input");
+            if (targetElement && editor) {
+              observer2.disconnect();
+              this.fillMTeamInfo();
+              break;
             }
           }
-        });
-        if (info.resolution !== "") (_a2 = $$2(`div.ant-select-item-option-content:contains(${info.resolution})`)[0]) == null ? void 0 : _a2.click();
-      });
-      if (selectNodeParent) {
-        select.observe(selectNodeParent, { attributes: false, childList: true, subtree: true, characterDataOldValue: false });
-      }
-      insert.disconnect();
-    });
-    insert.observe(targetNode, { attributes: false, childList: false, subtree: true, characterDataOldValue: false });
-  };
-  function fillMediaInfo(info) {
-    var _a2, _b;
-    $$2(currentSiteInfo.mediaInfo.selector).val((_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
-    $$2(currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(new Event("input"));
-  }
-  function fillDescription$1(info) {
-    var _a2, _b;
-    let description = info.description.replace(`[quote]${(_b = (_a2 = info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : ""}[/quote]`, "").trim();
-    if (info.mediaInfos && info.mediaInfos[1]) {
-      info.mediaInfos.forEach((mediaInfo) => {
-        description = description.replace(`[quote]${mediaInfo}[/quote]`, "");
-      });
-    }
-    if (info.sourceSite === "PTP") {
-      description = buildPTPDescription(info);
-      description = description.replace(/\[comparison[^[]*\[\/comparison\]/gi, "");
-    } else if (info.sourceSite.match(/BeyondHD|UHDBits/)) {
-      description = info.originalDescription || "";
-    }
-    description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
-    description = description.replace(/Screen(shot)?s:(\s*)\n?/gi, "").trim();
-    if (info.sourceSite === "KEEPFRDS") {
-      description = description.replace(/截图对比:[^\n]*\n?/gi, "");
-    }
-    if (description !== "") description = `\`\`\`
-${description}
-\`\`\``;
-    if (info.comparisons && info.comparisons[0]) {
-      for (const comparison in info.comparisons) {
-        description += `
-对比图 ${info.comparisons[comparison].title}
-
-`;
-        for (const img in info.comparisons[comparison].imgs) {
-          description += `${info.comparisons[comparison].imgs[img]}
-
-`;
         }
-      }
+      });
+      observer.observe(targetNode, config);
     }
-    const thanksQuoteClosed = GM_getValue("easy-seed.thanks-quote-closed") || "";
-    if (!thanksQuoteClosed && info.sourceSite !== void 0) {
-      description = `\`\`\`
-转自 ${info.sourceSite} ，感谢原发布者！
-\`\`\`
-${description}`;
-    }
-    $$2(currentSiteInfo.description.selector).val(description);
-    $$2(currentSiteInfo.description.selector)[0].dispatchEvent(new Event("input"));
-  }
-  async function autoFillDoubanInfo(selfDom, info) {
-    try {
-      $$2(selfDom).text($t("获取中..."));
+    fillMTeamInfo() {
+      var _a2;
+      if (!this.info) return;
+      const currentSiteInfo = PT_SITE.MTeam;
       const {
-        imdbUrl,
-        movieName,
+        title,
+        subtitle,
+        audioCodec,
         doubanUrl,
-        description: descriptionData,
-        title: torrentTitle
-      } = info;
-      if (!imdbUrl && !doubanUrl) {
-        throw new Error($t("请填写正确链接"));
-      }
-      let doubanLink = "";
-      if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
-        doubanLink = doubanUrl;
-      } else {
-        const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
-        if (doubanData) {
-          let { id, season = "" } = doubanData;
-          const tvData = await getTvSeasonData$1(doubanData);
-          if (season && tvData) {
-            id = tvData && tvData.id;
-          }
-          doubanLink = `https://movie.douban.com/subject/${id}`;
-        }
-      }
-      if (doubanLink) {
-        const {
-          douban,
-          imdb,
-          subtitle,
-          description,
-          name
-        } = CURRENT_SITE_INFO;
-        if (CURRENT_SITE_NAME === "SSD") {
-          $$2(imdb.selector).val(doubanLink);
-        } else {
-          $$2(douban == null ? void 0 : douban.selector).val(doubanLink);
-        }
-        if (!(descriptionData == null ? void 0 : descriptionData.match(/(片|译)\s*名/))) {
-          const movieData = await getDoubanInfo(doubanLink);
-          if (movieData) {
-            Jt.success($t("获取成功"));
-            const imdbLink = movieData.imdbLink;
-            if ($$2(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
-              $$2(imdb.selector).val(imdbLink);
-            }
-            const torrentSubtitle = getSubTitle(movieData);
-            if (CURRENT_SITE_NAME === "TTG") {
-              $$2(name.selector).val(`${torrentTitle || ""}[${torrentSubtitle}]`);
-            } else {
-              $$2(subtitle.selector).val(torrentSubtitle);
-            }
-            if (CURRENT_SITE_NAME !== "SSD") {
-              $$2(description.selector).val(`${movieData.format}
-${$$2(description.selector).val()}`);
-            }
-          }
-        } else {
-          Jt.success($t("获取成功"));
-        }
-      }
-    } catch (error) {
-      Jt.error(error.message);
-    } finally {
-      $$2(selfDom).text($t("获取豆瓣简介"));
+        imdbUrl,
+        mediaInfos,
+        tags: tags2,
+        source
+      } = this.info;
+      const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
+      this.setInputValue(currentSiteInfo.name.selector, title);
+      this.setInputValue(currentSiteInfo.subtitle.selector, subtitle || "");
+      this.setInputValue(currentSiteInfo.douban.selector, doubanUrl || "");
+      this.setInputValue(currentSiteInfo.imdb.selector, imdbUrl || "");
+      this.setInputValue(currentSiteInfo.mediainfo.selector, mediaInfo);
+      this.setSelectValue(currentSiteInfo.source.selector, source || "");
+      this.setSelectValue(
+        currentSiteInfo.audioCodec.selector,
+        currentSiteInfo.audioCodec.map[audioCodec]
+      );
+      this.info.description = this.info.description.replace(mediaInfo.trim(), "");
+      this.processDescription();
+      this.fillMTDescription(this.info.description);
+      this.fillCategory();
+      this.fillTags(tags2, currentSiteInfo.tags);
+      this.fillTorrentFile();
     }
-  }
-  const autoFill = (info) => {
-    if (info.doubanInfo) {
-      return;
-    }
-    if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
-      const { imdb, douban } = CURRENT_SITE_INFO;
-      let selector = $$2("");
-      if (douban && (douban.selector && $$2(douban.selector)) && $$2(douban.selector).val()) {
-        selector = $$2(douban.selector);
-      } else if (imdb) {
-        selector = $$2(imdb.selector);
-      }
-      if (selector) {
-        selector.after(`<span id="auto-fill-douban">${$t("获取豆瓣简介")}</span>`);
-      }
-      $$2("#auto-fill-douban").on("click", () => {
-        const url = selector.val();
-        if (url.match(/subject\/(\d+)/)) {
-          info.doubanUrl = url;
-        } else if (url.match(/imdb\.com\/title\/tt\d+/)) {
-          info.imdbUrl = url;
+    fillTags(tags2, siteTagsMap) {
+      let timeout = 0;
+      Object.keys(tags2).forEach((key) => {
+        const siteTagSelector = siteTagsMap[key];
+        if (tags2[key] && siteTagSelector) {
+          setTimeout(() => {
+            this.setInputValue(siteTagSelector, "", true);
+          }, timeout);
+          timeout += 100;
         }
-        autoFillDoubanInfo($$2("#auto-fill-douban"), info);
       });
     }
-  };
-  const handleMT = async (info) => {
-    const targetNode = document.getElementById("root");
-    const config = { childList: true, subtree: true };
-    const observer = new MutationObserver((mutationsList, observer2) => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === "childList") {
-          const targetElement = document.querySelector("#name");
-          const editor = document.querySelector(".editor-input");
-          if (targetElement && editor) {
-            observer2.disconnect();
-            fillMTInfo(info);
-            break;
-          }
+    setSelectValue(selector, value) {
+      const select = document.querySelector(selector);
+      if (select) {
+        const lastValue = select.value;
+        select.value = value;
+        const tracker = select._valueTracker;
+        if (tracker) {
+          tracker.setValue(lastValue);
         }
-      }
-    });
-    observer.observe(targetNode, config);
-  };
-  const fillMTInfo = async (info) => {
-    var _a2;
-    const currentSiteInfo2 = PT_SITE.MTeam;
-    const { title, subtitle, audioCodec, doubanUrl, imdbUrl, mediaInfos, tags: tags2 } = info;
-    const mediaInfo = (_a2 = mediaInfos == null ? void 0 : mediaInfos[0]) != null ? _a2 : "";
-    setInputValue(currentSiteInfo2.name.selector, title);
-    setInputValue(currentSiteInfo2.subtitle.selector, subtitle || "");
-    setInputValue(currentSiteInfo2.douban.selector, doubanUrl || "");
-    setInputValue(currentSiteInfo2.imdb.selector, imdbUrl || "");
-    setInputValue(currentSiteInfo2.mediainfo.selector, mediaInfo);
-    setSelectValue(currentSiteInfo2.audioCodec.selector, currentSiteInfo2.audioCodec.map[audioCodec]);
-    info.description = info.description.replace(mediaInfo.trim(), "");
-    const targetHelper = new ExportHelper(info);
-    targetHelper.descriptionHandler();
-    targetHelper.disableTorrentChange();
-    targetHelper.categoryHandler();
-    let timeout = 0;
-    Object.keys(tags2).forEach((key) => {
-      const siteTagMap = currentSiteInfo2.tags[key];
-      if (tags2[key] && siteTagMap) {
+        const event = new Event("change", { bubbles: true });
+        select.dispatchEvent(event);
         setTimeout(() => {
-          setInputValue(siteTagMap, "", true);
-        }, timeout);
-        timeout += 100;
+          Array.from(
+            document.querySelectorAll(
+              ".ant-select-item-option-active .ant-select-item-option-content"
+            )
+          ).forEach((el) => {
+            el.dispatchEvent(new Event("click", { bubbles: true }));
+          });
+        }, 1e3);
       }
-    });
-    fillDescription(targetHelper.info.description);
-    targetHelper.fillTorrentFile();
-  };
-  function setInputValue(selector, value, isCheckbox = false) {
-    const input = document.querySelector(selector);
-    if (input) {
-      const lastValue = input.value;
-      input.value = value;
-      const tracker = input._valueTracker;
-      if (tracker) {
-        tracker.setValue(lastValue);
-      }
-      const event = new Event(isCheckbox ? "click" : "input", { bubbles: true });
-      input.dispatchEvent(event);
     }
-  }
-  function fillDescription(description) {
-    var _a2;
-    const editor = (_a2 = document.querySelector(".editor-input")) == null ? void 0 : _a2.__lexicalEditor;
-    const descriptionArray = description.split("\n").map((line) => {
-      return {
-        type: "paragraph",
-        children: [
-          {
-            type: "text",
-            text: line
-          }
-        ]
-      };
-    });
-    const content = JSON.stringify({
-      root: {
-        children: descriptionArray,
-        type: "root"
-      }
-    });
-    const editorState = editor.parseEditorState(content);
-    editor.update(() => {
-      editor.setEditorState(editorState);
-    });
-  }
-  const handleRED = async (info) => {
-    var _a2;
-    const { musicJson } = info;
-    if (!musicJson) {
-      return;
-    }
-    document.forms.upload_table.reset = () => {
-    };
-    const { name, year, musicInfo, bbBody, tags: tags2, releaseType, categoryId, wikiImage } = musicJson.group;
-    const groupId = getUrlParam("groupid");
-    if (!groupId) {
-      const url = `/ajax.php?action=browse&searchstr=${name} ${year}`;
-      const searchResult = await fetch(url);
-      if (searchResult.status === "success" && searchResult.response.results.length > 0) {
-        const groupId2 = searchResult.response.results[0].groupId;
-        const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp2 = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
-        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp2}`;
-        return;
-      }
-      $$2("#categories").val(categoryId - 1);
-      $$2("#title").val(name);
-      $$2("#year").val(year);
-      $$2("#releasetype").val(releaseType);
-      $$2("#tags").val(tags2.join(", "));
-      $$2("#album_desc").val(bbBody);
-      $$2("#image").val(wikiImage);
-      fillArtistsForm(musicInfo);
-    }
-    fillReleaseInfo(musicJson.torrent);
-  };
-  function fillArtistsForm(musicInfo) {
-    const artistTypeMap = {
-      artists: "1",
-      with: "2",
-      composers: "4",
-      conductor: "5",
-      dj: "6",
-      producer: "7",
-      remixedBy: "3"
-    };
-    const artists = [];
-    Object.keys(musicInfo).forEach((key) => {
-      const typeKey = key;
-      const values = musicInfo[typeKey].map((value) => {
-        return __spreadProps(__spreadValues({}, value), {
-          type: artistTypeMap[typeKey]
+    setInputValue(selector, value, isCheckbox = false) {
+      const input = document.querySelector(selector);
+      if (input) {
+        const lastValue = input.value;
+        input.value = value;
+        const tracker = input._valueTracker;
+        if (tracker) {
+          tracker.setValue(lastValue);
+        }
+        const event = new Event(isCheckbox ? "click" : "input", {
+          bubbles: true
         });
+        input.dispatchEvent(event);
+      }
+    }
+    fillMTDescription(description) {
+      var _a2;
+      const editor = (_a2 = document.querySelector(".editor-input")) == null ? void 0 : _a2.__lexicalEditor;
+      if (!editor) return;
+      const descriptionArray = description.split("\n").map((line) => ({
+        type: "paragraph",
+        children: [{ type: "text", text: line }]
+      }));
+      const content = JSON.stringify({
+        root: {
+          children: descriptionArray,
+          type: "root"
+        }
       });
-      artists.push(...values);
-    });
-    for (let i = 1; i < artists.length; i++) {
-      AddArtistField();
-    }
-    artists.forEach((artist, index) => {
-      const selector = index > 0 ? `#artist_${index}` : "#artist";
-      $$2(selector).val(artist.name).next().val(artist.type || "");
-    });
-  }
-  function fillReleaseInfo(info) {
-    var _a2;
-    const { remasterYear, remasterRecordLabel, remasterCatalogueNumber, format: format2, encoding, media, description, scene, remasterTitle } = info;
-    $$2("#remaster_record_label").val(remasterRecordLabel);
-    $$2("#remaster_catalogue_number").val(remasterCatalogueNumber);
-    $$2("#format").val(format2);
-    $$2("#bitrate").val(encoding);
-    $$2("#media").val(media);
-    if (media === "CD" && format2 === "FLAC") {
-      (_a2 = document.querySelector("#format")) == null ? void 0 : _a2.dispatchEvent(new Event("change"));
-    }
-    $$2("#remaster_year").val(remasterYear);
-    $$2("#release_desc").val(description);
-    if (scene) {
-      $$2("#scene").attr("checked", "true");
-    }
-    if (remasterTitle) {
-      $$2("#remaster_title").val(remasterTitle);
+      const editorState = editor.parseEditorState(content);
+      editor.update(() => {
+        editor.setEditorState(editorState);
+      });
     }
   }
+  registry$1.register(new MTeam());
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   function getDefaultExportFromCjs(x2) {
     return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
@@ -13509,9 +12423,9 @@ ${$$2(description.selector).val()}`);
   var revLookup = [];
   var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
   var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  for (var i$1 = 0, len = code.length; i$1 < len; ++i$1) {
-    lookup$1[i$1] = code[i$1];
-    revLookup[code.charCodeAt(i$1)] = i$1;
+  for (var i$2 = 0, len = code.length; i$2 < len; ++i$2) {
+    lookup$1[i$2] = code[i$2];
+    revLookup[code.charCodeAt(i$2)] = i$2;
   }
   revLookup["-".charCodeAt(0)] = 62;
   revLookup["_".charCodeAt(0)] = 63;
@@ -15045,2356 +13959,2224 @@ ${$$2(description.selector).val()}`);
       return table;
     }();
   })(buffer);
-  const handleGazelleMusic = async (info) => {
-    var _a2;
-    const { musicJson } = info;
-    if (!musicJson) {
-      return;
+  class GazelleMusic extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.isCustomSite = true;
     }
-    const { name, year, recordLabel, catalogueNumber } = musicJson.group;
-    const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
-    const groupId = getUrlParam("groupid");
-    if (!groupId) {
-      const searchResult = await fetch(`/ajax.php?action=browse&searchstr=${name} ${year}`);
-      if (searchResult.status === "success" && searchResult.response.results.length > 0) {
-        const groupId2 = searchResult.response.results[0].groupId;
-        const timestampMatchArray2 = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-        const timestamp2 = (_a2 = timestampMatchArray2 == null ? void 0 : timestampMatchArray2[2]) != null ? _a2 : "";
-        location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId2}#timestamp=${timestamp2}`;
+    canHandle(siteName) {
+      return siteName.match(/(DicMusic|Orpheus)/) !== null;
+    }
+    async fill(info) {
+      this.info = info;
+      const { musicJson } = info;
+      if (!musicJson) {
         return;
       }
-    }
-    if (CURRENT_SITE_NAME === "Orpheus") {
-      if (!remasterCatalogueNumber && !remasterRecordLabel && !remasterTitle && !recordLabel && !catalogueNumber) {
-        musicJson.torrent.remastered = false;
+      const { name, year } = musicJson.group;
+      const groupId = getLocationSearchValueByKey("groupid");
+      if (!groupId) {
+        await this.searchAndRedirectToGroup(name, year);
       }
+      await this.processSiteSpecificLogic(musicJson);
+      this.fillJsonToUploadTable(musicJson, name);
+      this.fillTorrentFile();
     }
-    if (CURRENT_SITE_NAME === "DicMusic") {
-      musicJson.group.wikiBody = toUnicodeEntities(musicJson.group.wikiBody);
-    }
-    fillJsonToUploadTable(musicJson, name);
-  };
-  function fillJsonToUploadTable(musicJson, name) {
-    const buf = buffer.Buffer.from(JSON.stringify({
-      status: "success",
-      response: musicJson
-    }));
-    attachFile({
-      data: buf,
-      selector: "#torrent-json-file",
-      contentType: "application/json",
-      fileName: name,
-      format: "json"
-    });
-  }
-  function attachFile({ data, selector, contentType, fileName, format: format2, charset = "UTF-8" }) {
-    const buf = buffer.Buffer.isBuffer(data) ? data : buffer.Buffer.from(data, charset);
-    const base64Data = buf.toString("base64");
-    const fileInput = $$2(selector);
-    if (base64Data && fileInput.length > 0) {
-      const blob = base64ToBlob(base64Data, contentType);
-      const file = new File([blob], `${fileName}.${format2}`, { type: contentType });
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      const uploadInput = fileInput[0];
-      uploadInput.files = dataTransfer.files;
-      uploadInput.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-  }
-  function toUnicodeEntities(str) {
-    const excludedChars = ["<", ">", "&", ";", "/"];
-    return str.split("").map((char) => {
-      const code2 = char.charCodeAt(0);
-      if (code2 > 127 && !excludedChars.includes(char)) {
-        const hexCode = code2.toString(16);
-        return `&#${parseInt(hexCode, 16)};`;
+    async searchAndRedirectToGroup(name, year) {
+      var _a2;
+      try {
+        const searchResult = await GMFetch(
+          `/ajax.php?action=browse&searchstr=${encodeURIComponent(name)} ${year}`,
+          {
+            responseType: "json"
+          }
+        );
+        if (searchResult.status === "success" && searchResult.response.results.length > 0) {
+          const groupId = searchResult.response.results[0].groupId;
+          const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
+          const timestamp2 = (_a2 = timestampMatchArray == null ? void 0 : timestampMatchArray[2]) != null ? _a2 : "";
+          location.href = `${CURRENT_SITE_INFO.url}${CURRENT_SITE_INFO.uploadPath}?groupid=${groupId}#timestamp=${timestamp2}`;
+          return true;
+        }
+      } catch (error) {
+        console.error("Error searching for group:", error);
       }
-      return char;
-    }).join("");
-  }
-  const siteHandlers = {
-    PTP: handlePTP,
-    GPW: handleGPW,
-    NPUBits: handleNPU,
-    BYR: handleBYR,
-    SC: handleSC,
-    KG: handleKG,
-    BeyondHD: handleBHD,
-    Bdc: handleBdc,
-    ZHUQUE: handleZQ,
-    MTeam: handleMT,
-    RED: handleRED,
-    HDRoute: handleHDRoute,
-    DicMusic: handleGazelleMusic,
-    Orpheus: handleGazelleMusic,
-    iTS: handleITS,
-    PTN: handlePTN
-  };
-  const fillTargetForm = (info) => {
-    var _a2;
-    autoFill(info || {});
-    if (!info) {
-      return;
-    }
-    console.log(info);
-    const handler = siteHandlers[CURRENT_SITE_NAME];
-    if (handler) {
-      handler(info);
-    }
-    const targetTorrentInfo = __spreadValues({}, info);
-    const isBluray = !!((_a2 = info == null ? void 0 : info.videoType) == null ? void 0 : _a2.match(/bluray/i));
-    targetTorrentInfo.isBluray = isBluray;
-    const targetHelper = new ExportHelper(targetTorrentInfo);
-    targetHelper.disableTorrentChange();
-    targetHelper.fillTorrentFile();
-    if (!!handler && !CURRENT_SITE_NAME.match(/TJUPT|HDRoute|PTN|iTS/)) {
-      return;
-    }
-    targetHelper.prepareToFillInfo();
-    targetHelper.torrentTitleHandler();
-    targetHelper.imdbHandler();
-    targetHelper.descriptionHandler();
-    targetHelper.fillBasicAttributes();
-    targetHelper.categoryHandler();
-    targetHelper.fillRemainingInfo();
-    targetHelper.dealWithMoreSites();
-  };
-  const getPTPInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h;
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
       return false;
     }
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const torrentDom = $$2(`#torrent_${torrentId}`);
-    const ptpMovieTitle = (_d2 = (_c = (_b = (_a2 = $$2(".page__title").text()) == null ? void 0 : _a2.match(/]?([^[]+)/)) == null ? void 0 : _b[1]) == null ? void 0 : _c.trim()) != null ? _d2 : "";
-    const [movieName, movieAkaName = ""] = ptpMovieTitle.split(" AKA ");
-    const mediaInfoArray = [];
-    torrentDom.find(".mediainfo.mediainfo--in-release-description").next("blockquote").each(function() {
-      const textContent = $$2(this).text();
-      if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
-        mediaInfoArray.push(textContent);
+    async processSiteSpecificLogic(musicJson) {
+      if (CURRENT_SITE_NAME === "Orpheus") {
+        const { remasterTitle, remasterCatalogueNumber, remasterRecordLabel } = musicJson.torrent;
+        const { recordLabel, catalogueNumber } = musicJson.group;
+        if (!remasterCatalogueNumber && !remasterRecordLabel && !remasterTitle && !recordLabel && !catalogueNumber) {
+          musicJson.torrent.remastered = false;
+        }
+      } else if (CURRENT_SITE_NAME === "DicMusic") {
+        musicJson.group.wikiBody = this.toUnicodeEntities(
+          musicJson.group.wikiBody
+        );
       }
-    });
-    TORRENT_INFO.movieName = movieName;
-    TORRENT_INFO.movieAkaName = movieAkaName;
-    TORRENT_INFO.imdbUrl = (_f = (_e2 = $$2("#imdb-title-link")) == null ? void 0 : _e2.attr("href")) != null ? _f : "";
-    TORRENT_INFO.year = (_h = (_g = $$2(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _g[1]) != null ? _h : "";
-    const torrentHeaderDom = $$2(`#group_torrent_header_${torrentId}`);
-    const torrentLink = torrentHeaderDom.find('a[title="Download"]').attr("href");
-    CURRENT_SITE_INFO.torrentLink = torrentLink;
-    TORRENT_INFO.category = getPTPType();
-    const screenshots = getPTPImage();
-    getDescription$1(torrentId).then((res) => {
-      var _a3, _b2, _c2;
-      const releaseName = torrentHeaderDom.data("releasename");
-      const releaseGroup = getReleaseGroup(releaseName);
-      const descriptionData = formatDescriptionData$1(res, screenshots, mediaInfoArray);
-      TORRENT_INFO.description = descriptionData;
-      const infoArray = torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().trim().split(" / ");
-      const [codes, container, source, resolution, ...otherInfo] = infoArray;
-      const isRemux = otherInfo.includes("Remux");
-      const { knownTags, otherTags } = getTags$1(otherInfo, [releaseGroup]);
-      TORRENT_INFO.videoType = source === "WEB" ? "web" : getVideoType$g(container, isRemux, codes, source);
-      const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-      TORRENT_INFO.tags = __spreadValues({}, knownTags);
-      TORRENT_INFO.otherTags = otherTags;
-      TORRENT_INFO.resolution = resolution;
-      const mediaInfoOrBDInfo = mediaInfoArray.filter((media) => {
-        return TORRENT_INFO.videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
+    }
+    fillJsonToUploadTable(musicJson, name) {
+      const buf = buffer.Buffer.from(
+        JSON.stringify({
+          status: "success",
+          response: musicJson
+        })
+      );
+      this.attachFile({
+        data: buf,
+        selector: "#torrent-json-file",
+        contentType: "application/json",
+        fileName: name,
+        format: "json"
       });
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo.map((v2) => v2.trim());
-      const infoFromMediaInfoinfo = getInfoFromMediaInfo(TORRENT_INFO.mediaInfos[0]);
-      if (infoFromMediaInfoinfo.subtitles) {
-        for (let i = 0; i < ((_a3 = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _a3.length); i++) {
-          if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
-            TORRENT_INFO.tags.chinese_subtitle = true;
-            break;
+    }
+    attachFile(options2) {
+      const {
+        data,
+        selector,
+        contentType,
+        fileName,
+        format: format2,
+        charset = "UTF-8"
+      } = options2;
+      const buf = buffer.Buffer.isBuffer(data) ? data : buffer.Buffer.from(data, charset);
+      const base64Data = buf.toString("base64");
+      const fileInput = $$2(selector);
+      if (base64Data && fileInput.length > 0) {
+        const blob = base64ToBlob(base64Data, contentType);
+        const file = new File([blob], `${fileName}.${format2}`, {
+          type: contentType
+        });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        const uploadInput = fileInput[0];
+        uploadInput.files = dataTransfer.files;
+        uploadInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+    toUnicodeEntities(str) {
+      const excludedChars = ["<", ">", "&", ";", "/"];
+      return str.split("").map((char) => {
+        const code2 = char.charCodeAt(0);
+        if (code2 > 127 && !excludedChars.includes(char)) {
+          const hexCode = code2.toString(16);
+          return `&#${parseInt(hexCode, 16)};`;
+        }
+        return char;
+      }).join("");
+    }
+  }
+  registry$1.register(new GazelleMusic());
+  class GPW extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.currentSiteInfo = PT_SITE.GPW;
+    }
+    canHandle(siteName) {
+      return siteName === "GPW";
+    }
+    fill(info) {
+      this.info = info;
+      const isUploadSuccess = !$$2("#mediainfo")[0];
+      if (isUploadSuccess) {
+        return;
+      }
+      this.transformInfo();
+      const isAddFormat = getLocationSearchValueByKey("groupid");
+      if (!isAddFormat) {
+        this.fillIMDbAndTriggerAutoFill();
+      }
+      this.fillCategory();
+      this.fillEditionInfo();
+      this.fillMediaInfos();
+      setTimeout(() => {
+        this.handleNoAutoCheck();
+      }, 0);
+      this.fillScene();
+      this.fillProcessing();
+      this.fillDescription();
+      this.fillTorrentFile();
+      $$2(".u-bbcodePreview-button").trigger("click");
+    }
+    fillIMDbAndTriggerAutoFill() {
+      if (!this.info) return;
+      $$2(this.currentSiteInfo.imdb.selector).val(this.info.imdbUrl || 0);
+      $$2("#imdb_button").trigger("click");
+      $$2("#upload .collapse").show();
+    }
+    fillCategory() {
+      if (!this.info) return;
+      $$2(this.currentSiteInfo.category.selector).val(
+        this.currentSiteInfo.category.map[this.info.category]
+      );
+    }
+    fillEditionInfo() {
+      if (!this.info) return;
+      const editionTags = Object.keys(this.info.tags).map(
+        (tag) => this.info.tags[tag] && this.currentSiteInfo.targetInfo.editionTags[tag]
+      ).filter(Boolean);
+      let otherTag;
+      if (this.info.otherTags && Object.keys(this.info.otherTags).length > 0) {
+        otherTag = Object.keys(this.info.otherTags).join(", ");
+      }
+      if (editionTags.length > 0 || otherTag) {
+        $$2("#movie_edition_information").trigger("click");
+      }
+      if (editionTags.length > 0) {
+        for (const tag of editionTags) {
+          $$2(`#movie_remaster_tags a[onclick*="'${tag}'"]`).trigger("click");
+        }
+      }
+      if (otherTag) {
+        $$2("#other-button").trigger("click");
+        $$2("[name=remaster_custom_title]").val(otherTag);
+      }
+    }
+    fillMediaInfos() {
+      if (!this.info || !this.info.mediaInfos) {
+        return;
+      }
+      for (let i = 1; i < this.info.mediaInfos.length; i++) {
+        $$2("#add-mediainfo")[0].click();
+      }
+      const textareas = Array.from($$2('[name="mediainfo[]"]'));
+      for (const [index, textarea] of textareas.entries()) {
+        textarea.value = this.info.mediaInfos[index];
+        textarea.dispatchEvent(new Event("input"));
+      }
+      $$2('[name="mediainfo[]"]')[0].dispatchEvent(new Event("change"));
+    }
+    handleNoAutoCheck() {
+      if (!this.info) return;
+      if (!$$2(this.currentSiteInfo.source.selector).val() || !$$2(this.currentSiteInfo.format.selector).val()) {
+        const { mediaInfos, videoType } = this.info;
+        const mediaInfo = (mediaInfos == null ? void 0 : mediaInfos[0]) || "";
+        const isBluray = !!videoType.match(/bluray/i);
+        const parsedMedia = parseMedia(mediaInfo, isBluray);
+        if (!parsedMedia) {
+          console.warn("Failed to parse media info:", mediaInfo);
+          return;
+        }
+        const { format: format2 = "", subtitleTracks = [] } = parsedMedia;
+        this.info.format = this.getFormat(format2, videoType);
+        const keyArray = [
+          "source",
+          "videoCodec",
+          "format",
+          "resolution"
+        ];
+        keyArray.forEach((key) => {
+          var _a2, _b;
+          const { selector = "", map: map2 } = this.currentSiteInfo[key];
+          if (map2) {
+            const mapValue = map2[this.info[key]];
+            $$2(selector).val(mapValue);
+            if (key === "videoCodec" && mapValue === "Other") {
+              document.querySelector(selector).dispatchEvent(new Event("change"));
+              $$2('input[name="codec_other"]').val(
+                (_b = (_a2 = this.info[key]) == null ? void 0 : _a2.toUpperCase()) != null ? _b : ""
+              );
+            }
+          } else {
+            $$2(selector).val(this.info[key] || "");
+          }
+        });
+        this.fillSubtitles(subtitleTracks.map((track) => track.language));
+      }
+    }
+    fillSubtitles(subtitles) {
+      var _a2;
+      if (subtitles.length > 0) {
+        $$2("#mixed_subtitles").attr("checked", "true");
+        $$2('input[name="subtitles[]"][type="checkbox"]').each(function() {
+          var _a3, _b;
+          const language = (_b = (_a3 = $$2(this).attr("id")) == null ? void 0 : _a3.replace(
+            /^\S|(_\S)/g,
+            (letter) => letter.replace("_", " ").toUpperCase()
+          )) != null ? _b : "";
+          if (subtitles.includes(language)) {
+            $$2(this).attr("checked", "true");
+          }
+        });
+        const event = new Event("change");
+        (_a2 = document.querySelector("#mixed_subtitles")) == null ? void 0 : _a2.dispatchEvent(event);
+        const chineseLanguages = subtitles.filter(
+          (item) => item.match(/Chinese|Traditional|Simplified/i)
+        );
+        if (chineseLanguages.length === 1 && chineseLanguages[0] === "Chinese") {
+          const selector = chineseLanguages[0].match(/Traditional/i) ? "#chinese_traditional" : "#chinese_simplified";
+          $$2(selector).attr("checked", "true");
+        } else if (chineseLanguages.length >= 2) {
+          $$2("#chinese_traditional,#chinese_simplified").attr("checked", "true");
+        }
+      }
+    }
+    fillScene() {
+      if (!this.info) return;
+      if (this.info.tags.scene) {
+        $$2("#scene").prop("checked", true);
+      }
+    }
+    fillProcessing() {
+      if (!this.info) return;
+      let { videoType, size, source, tags: tags2 } = this.info;
+      if (source.match(/bluray|hddvd|dvd/)) {
+        if (tags2.diy) {
+          videoType = "DIY";
+        }
+        const videoTypeConfig = this.currentSiteInfo.videoType;
+        const { selector, map: map2 } = videoTypeConfig;
+        $$2(selector).val(map2[videoType]);
+        $$2(selector)[0].dispatchEvent(new Event("change"));
+        if (map2[videoType] === "Untouched") {
+          const bdType = getBDTypeBasedOnSize(size);
+          $$2('select[name="processing_other"]').val(bdType || "");
+        }
+        $$2(selector)[0].dispatchEvent(new Event("input"));
+      }
+    }
+    fillDescription() {
+      if (!this.info) return;
+      let description = "";
+      if (this.info.sourceSite === "PTP") {
+        description = buildPTPDescription(this.info);
+      } else if (this.info.sourceSite === "BeyondHD") {
+        description = this.info.originalDescription || "";
+      } else {
+        description = this.buildDescription();
+      }
+      $$2(this.currentSiteInfo.description.selector).val(description);
+      $$2(this.currentSiteInfo.description.selector)[0].dispatchEvent(
+        new Event("input")
+      );
+    }
+    buildDescription() {
+      if (!this.info) return "";
+      let description = "";
+      if (this.info.comparisons && this.info.comparisons.length > 0) {
+        for (const comparison of this.info.comparisons) {
+          description += `${comparison.reason}[comparison=${comparison.title}]
+${comparison.imgs.join("\n")}
+[/comparison]
+
+`;
+        }
+      }
+      if (this.info.screenshots.length > 0) {
+        description += `${this.info.screenshots.map((v2) => `[img]${v2}[/img]`).join("\n")}
+
+`;
+      }
+      return description.trim();
+    }
+    transformInfo() {
+      if (!this.info) return;
+      if (["encode", "remux"].includes(this.info.videoType) && this.info.mediaInfos) {
+        const newMediaInfos = [];
+        for (const mediaInfo of this.info.mediaInfos) {
+          if (mediaInfo.match(/Disc Title|Disc Label/i)) {
+            continue;
+          }
+          newMediaInfos.push(mediaInfo);
+        }
+        this.info.mediaInfos = newMediaInfos;
+      }
+    }
+    getFormat(format2, videoType) {
+      if (videoType.match(/bluray/) && format2 !== "iso") {
+        format2 = "m2ts";
+      } else if (videoType.match(/dvd/)) {
+        format2 = "vob";
+      }
+      return format2 || "mkv";
+    }
+  }
+  registry$1.register(new GPW());
+  class ZHUQUE extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.currentSiteInfo = PT_SITE.ZHUQUE;
+    }
+    canHandle(siteName) {
+      return siteName === "ZHUQUE";
+    }
+    fill(info) {
+      this.info = info;
+      this.setupMutationObserver();
+    }
+    setupMutationObserver() {
+      if (!this.info) return;
+      const targetNode = document;
+      const imdbId = getIdByIMDbUrl(this.info.imdbUrl || "");
+      const insert = new MutationObserver(() => {
+        this.fillBasicFields(imdbId);
+        this.fillZhuqueScreenshots();
+        this.fillZhuqueMediaInfo();
+        this.fillZhuqueDescription();
+        this.setupSelectObserver();
+        this.fillTorrentFile();
+        insert.disconnect();
+      });
+      insert.observe(targetNode, {
+        attributes: false,
+        childList: false,
+        subtree: true,
+        characterDataOldValue: false
+      });
+    }
+    fillBasicFields(imdbId) {
+      if (!this.info) return;
+      $$2("input.ant-select-selection-search-input[id]").each(function() {
+        this.dispatchEvent(new Event("keydown"));
+      });
+      $$2(this.currentSiteInfo.name.selector).val(this.info.title);
+      $$2(this.currentSiteInfo.name.selector)[0].dispatchEvent(new Event("input"));
+      $$2(this.currentSiteInfo.imdb.selector).val(imdbId);
+      $$2(this.currentSiteInfo.imdb.selector)[0].dispatchEvent(new Event("input"));
+      if (this.info.subtitle) {
+        $$2(this.currentSiteInfo.subtitle.selector).val(this.info.subtitle);
+        $$2(this.currentSiteInfo.subtitle.selector)[0].dispatchEvent(
+          new Event("input")
+        );
+      }
+      $$2(`.ant-btn-primary span:contains(查 询)`).trigger("click");
+    }
+    fillZhuqueScreenshots() {
+      if (!this.info) return;
+      let screenshotStr = "";
+      if (this.info.screenshots.length > 0) {
+        this.info.screenshots.forEach((img) => {
+          screenshotStr += `${img}
+`;
+        });
+      }
+      $$2(this.currentSiteInfo.screenshots.selector).val(screenshotStr);
+      $$2(this.currentSiteInfo.screenshots.selector)[0].dispatchEvent(
+        new Event("input")
+      );
+    }
+    fillZhuqueMediaInfo() {
+      var _a2, _b;
+      if (!this.info) return;
+      $$2(this.currentSiteInfo.mediaInfo.selector).val(
+        (_b = (_a2 = this.info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : ""
+      );
+      $$2(this.currentSiteInfo.mediaInfo.selector)[0].dispatchEvent(
+        new Event("input")
+      );
+    }
+    fillZhuqueDescription() {
+      var _a2, _b;
+      if (!this.info) return;
+      let description = this.info.description.replace(`[quote]${(_b = (_a2 = this.info.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : ""}[/quote]`, "").trim();
+      if (this.info.mediaInfos && this.info.mediaInfos.length > 1) {
+        this.info.mediaInfos.forEach((mediaInfo) => {
+          description = description.replace(`[quote]${mediaInfo}[/quote]`, "");
+        });
+      }
+      if (this.info.sourceSite === "PTP") {
+        description = buildPTPDescription(this.info);
+        description = description.replace(
+          /\[comparison[^[]*\[\/comparison\]/gi,
+          ""
+        );
+      } else if (this.info.sourceSite.match(/BeyondHD|UHDBits/)) {
+        description = this.info.originalDescription || "";
+      }
+      description = description.replace(/\[url.*\[\/url\]/g, "").replace(/\[img.*\[\/img\]/g, "").replace(/\[\/?(i|b|center|quote|size|color)\]/g, "").replace(/\[(size|color)=#?[a-zA-Z0-9]*\]/g, "").replace(/\n\n*/g, "\n");
+      description = description.replace(/Screen(shot)?s:(\s*)\n?/gi, "").trim();
+      if (this.info.sourceSite === "KEEPFRDS") {
+        description = description.replace(/截图对比:[^\n]*\n?/gi, "");
+      }
+      if (description !== "") {
+        description = `\`\`\`
+${description}
+\`\`\``;
+      }
+      if (this.info.comparisons && this.info.comparisons.length > 0) {
+        for (const comparison in this.info.comparisons) {
+          description += `
+对比图 ${this.info.comparisons[comparison].title}
+
+`;
+          for (const img in this.info.comparisons[comparison].imgs) {
+            description += `${this.info.comparisons[comparison].imgs[img]}
+
+`;
           }
         }
       }
-      const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo.join("\n\n"));
-      TORRENT_INFO.videoCodec = videoCodec;
-      TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.tags = __spreadValues(__spreadValues({}, TORRENT_INFO.tags), mediaTags);
-      const torrentName = formatTorrentTitle(releaseName);
-      TORRENT_INFO.title = torrentName;
-      TORRENT_INFO.source = getPTPSource(source, codes, resolution);
-      const size = (_c2 = (_b2 = torrentHeaderDom.find(".nobr span").attr("title")) == null ? void 0 : _b2.replace(/[^\d]/g, "")) != null ? _c2 : "";
-      TORRENT_INFO.size = parseFloat(size);
-      TORRENT_INFO.screenshots = screenshots;
-      TORRENT_INFO.poster = $$2(".sidebar-cover-image").attr("src") || "";
-      console.log(TORRENT_INFO);
-    });
-    let country = [];
-    const matchArray = $$2("#movieinfo div").text().match(/Country:\s+([^\n]+)/);
-    if (matchArray && matchArray.length > 0) {
-      country = matchArray == null ? void 0 : matchArray[1].replace(/(,)\s+/g, "$1").split(",");
+      const thanksQuoteClosed = GM_getValue(
+        "easy-upload.thanks-quote-closed",
+        ""
+      );
+      if (!thanksQuoteClosed && this.info.sourceSite !== void 0) {
+        description = `\`\`\`
+转自 ${this.info.sourceSite} ，感谢原发布者！
+\`\`\`
+${description}`;
+      }
+      $$2(this.currentSiteInfo.description.selector).val(description);
+      $$2(this.currentSiteInfo.description.selector)[0].dispatchEvent(
+        new Event("input")
+      );
     }
-    TORRENT_INFO.area = getAreaCode(country == null ? void 0 : country[0]);
-    const trumpReason = $$2(`#trumpable_${torrentId} span`).text() || "";
-    TORRENT_INFO.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
-    return TORRENT_INFO;
-  };
-  const getPTPType = () => {
-    const typeMap = {
-      "Feature Film": "movie",
-      "Short Film": "movie",
-      "Stand-up Comedy": "other",
-      Miniseries: "tvPack",
-      "Live Performance": "concert",
-      "Movie Collection": "movie"
-    };
-    const ptpType = $$2("#torrent-table .basic-movie-list__torrent-edition__main").eq(0).text();
-    return typeMap[ptpType];
-  };
-  const getPTPImage = () => {
-    var _a2;
-    const imgList = [];
-    const torrentInfoPanel = $$2(".movie-page__torrent__panel");
-    const imageDom = torrentInfoPanel.find(".bbcode__image");
-    for (let i = 0; i < imageDom.length; i++) {
-      const parent = imageDom[i].parentElement;
-      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a2 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a2.match(/\.png$/))) {
-        imgList.push(parent.getAttribute("href") || "");
-      } else {
-        const imgDom = imageDom[i];
-        const imgSrc = imgDom.getAttribute("src") || imgDom.getAttribute("alt");
-        imgList.push(imgSrc || "");
+    setupSelectObserver() {
+      if (!this.info) return;
+      const selectNodeParent = document.querySelector("form");
+      if (!selectNodeParent) return;
+      const select = new MutationObserver(async () => {
+        this.fillCategory();
+        this.fillVideoAndAudioParameters();
+        select.disconnect();
+      });
+      select.observe(selectNodeParent, {
+        attributes: false,
+        childList: true,
+        subtree: true,
+        characterDataOldValue: false
+      });
+    }
+    fillCategory() {
+      if (!this.info) return;
+      const { category: categoryConfig } = this.currentSiteInfo;
+      $$2(
+        `div.ant-select-item-option-content:contains(${categoryConfig.map[this.info.category]})`
+      ).trigger("click");
+    }
+    fillVideoAndAudioParameters() {
+      var _a2;
+      if (!this.info) return;
+      this.fillTags();
+      const keyArray = ["videoType", "videoCodec", "audioCodec"];
+      keyArray.forEach((key) => {
+        const { map: map2 } = this.currentSiteInfo[key];
+        if (!map2) return;
+        const mapValue = map2[this.info[key]];
+        if (!mapValue) return;
+        this.clickAppropriateOption(key, mapValue);
+      });
+      if (this.info.resolution !== "") {
+        (_a2 = $$2(
+          `div.ant-select-item-option-content:contains(${this.info.resolution})`
+        )[0]) == null ? void 0 : _a2.click();
       }
     }
-    return imgList;
-  };
-  const getPTPSource = (source, codes, resolution) => {
-    if (codes.match(/BD100|BD66/i)) {
-      return "uhdbluray";
+    async fillTags() {
+      if (!this.info) return;
+      const sleep = (ms) => {
+        return new Promise((resolve28) => setTimeout(resolve28, ms));
+      };
+      const { tags: tags2 } = this.currentSiteInfo;
+      for (const tag in this.info.tags) {
+        if (tags2[tag]) {
+          await sleep(100).then(
+            () => $$2(tags2[tag])[0].click()
+          );
+        }
+      }
     }
-    if (source.match(/Blu-ray/i) && resolution.match(/2160P|4K/i)) {
-      return "uhdbluray";
+    clickAppropriateOption(key, mapValue) {
+      if (key !== "videoType" && $$2(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+        $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+      } else if (mapValue === "Blu-ray") {
+        $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[2].click();
+      } else if ($$2(`div.ant-select-item-option-content:contains(${mapValue})`).length > 0) {
+        $$2(`div.ant-select-item-option-content:contains(${mapValue})`)[0].click();
+      }
     }
-    return source.replace(/-/g, "").toLowerCase();
-  };
-  const getVideoType$g = (container, isRemux, codes, source) => {
-    let type = "";
-    if (isRemux) {
-      type = "remux";
-    } else if (codes.match(/BD50|BD25/ig)) {
-      type = "bluray";
-    } else if (codes.match(/BD66|BD100/ig)) {
-      type = "uhdbluray";
-    } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
-      type = "dvdrip";
-    } else if (codes.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
-      type = "dvd";
-    } else if (container.match(/MKV|MP4/i)) {
-      type = "encode";
+  }
+  registry$1.register(new ZHUQUE());
+  class ITS extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
     }
-    return type;
+    canHandle(siteName) {
+      return siteName === "iTS";
+    }
+    async fill(info) {
+      this.info = info;
+      if (!this.info) return;
+      this.processTorrentTitle();
+      this.fillTorrentTitle();
+      await this.generateAndFillDescription();
+      this.handleCategoryAndCollection();
+      this.postProcess();
+    }
+    processTorrentTitle() {
+      super.processTorrentTitle();
+      const { title } = this.info;
+      this.info.title = title.replace(/\s/gi, ".");
+    }
+    postProcess() {
+      const { category, title, doubanUrl, imdbUrl, screenshots, subtitle } = this.info;
+      if (category === "tvPack" || title.match(/Trilogy|Collection/i) || subtitle && subtitle.match(/合集/)) {
+        $$2('input[name="pack"]').attr("checked", "true");
+      }
+      $$2(this.siteInfo.imdb.selector).val(doubanUrl || imdbUrl);
+      $$2(this.siteInfo.screenshots.selector).val(screenshots.join("\n"));
+    }
+    handleCategoryAndCollection() {
+      if (!this.info) return;
+      const { resolution, category } = this.info;
+      if (!resolution.match(/2160|1080|720/) && category === "movie") {
+        $$2('select[name="type"]').val("67");
+      }
+      const collectionMap = this.getCollectionMap();
+      this.fillCollections(collectionMap);
+    }
+    getCollectionMap() {
+      const collectionMap = {};
+      $$2('select[name="collection_id1"] option').each(function() {
+        const option = $$2(this);
+        collectionMap[option.text()] = option.val();
+      });
+      return collectionMap;
+    }
+    async fillCollections(collectionMap) {
+      var _a2, _b, _c;
+      if (!this.info || !this.info.imdbUrl) return;
+      const { category } = this.info;
+      const teamName = getTeamName(this.info.title);
+      const collectionValues = [];
+      if (collectionMap[teamName]) {
+        collectionValues.push(collectionMap[teamName]);
+      }
+      if (category.match(/tv|movie|cartoon|documentary/)) {
+        try {
+          const imdbData = await getIMDBData(this.info.imdbUrl);
+          if (imdbData) {
+            const { directors = [], details } = imdbData;
+            let language = details.Languages || "";
+            language = (_c = (_b = (_a2 = language == null ? void 0 : language.split("|")) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim()) != null ? _c : "";
+            const director = directors.map((item) => item.name)[0];
+            if (collectionMap[director]) {
+              collectionValues.push(collectionMap[director]);
+            }
+            if (collectionMap[language]) {
+              collectionValues.push(collectionMap[language]);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching IMDB data:", error);
+        }
+      }
+      collectionValues.forEach((value, index) => {
+        $$2(`select[name="collection_id${index + 1}"]`).val(value);
+      });
+    }
+    async generateAndFillDescription() {
+      if (!this.info) return;
+      const { category, screenshots, comparisons = [] } = this.info;
+      if (!category.match(/tv|movie|cartoon|documentary/)) return;
+      let template = this.createDescriptionTemplate();
+      template = this.fillScreenshotsInTemplate(template, screenshots);
+      template = this.fillComparisonsInTemplate(template, comparisons);
+      $$2('textarea[name="descr"]').val($t$1("数据加载中..."));
+      try {
+        template = await this.fillTemplateWithMetadata(template);
+        $$2('textarea[name="descr"]').val(template);
+      } catch (error) {
+        $$2('textarea[name="descr"]').val(error.message);
+      }
+    }
+    createDescriptionTemplate() {
+      return `[center]
+
+  [img]$poster$[/img]
+  
+  [url=$imdbUrl$][img]https://i.ibb.co/KD855ZM/IMDb-Logo-2016.png[/img][/url][size=3]$imdbScore$[/size][*][url=$rtUrl$][img]https://i.ibb.co/BwtmdcV/rottentomatoes-logo.png[/img][/url][size=3]$rtScore$[/size][*][size=3][url=$tmdbUrl$][img]https://i.ibb.co/HhgF1gC/tmdb-logo.png[/img][/url]$tmdbScore$[/size]
+
+
+  [color=DarkOrange][size=2]◢ SYNOPSIS ◣[/size][/color]
+  $synopsis$
+  
+  [color=DarkOrange][size=2]◢ TRAILER ◣[/size][/color]
+  [youtube]$youtubeUrl$[/youtube]
+
+  [color=DarkOrange][size=2]◢ SCREENSHOTS ◣[/size][/color]
+  [box][hide]$SCREENSHOTS$[/hide][/box]
+  
+  [/center]`;
+    }
+    fillScreenshotsInTemplate(template, screenshots) {
+      const screenshotsBBCode = screenshots.map((img) => `[img]${img}[/img]`);
+      return template.replace("$SCREENSHOTS$", screenshotsBBCode.join("\n"));
+    }
+    fillComparisonsInTemplate(template, comparisons) {
+      const comparisonImgs = comparisons.flatMap((v2) => v2.imgs);
+      if (comparisonImgs.length > 0) {
+        const comparisonImgsBBCode = comparisonImgs.map(
+          (img) => `[img]${img}[/img]`
+        );
+        return template.replace(
+          /(\[\/center\])$/,
+          `[color=DarkOrange][size=2]◢ COMPARISONS ◣[/size][/color]
+
+
+    [box][hide]${comparisonImgsBBCode.join(" ")}[/hide][/box]
+
+$1`
+        );
+      }
+      return template;
+    }
+    async fillTemplateWithMetadata(template) {
+      if (!this.info || !this.info.imdbUrl) return template;
+      const { imdbUrl } = this.info;
+      const replaceParams = {
+        tmdbUrl: "",
+        tmdbScore: "0",
+        imdbScore: "0",
+        imdbUrl,
+        poster: "",
+        synopsis: "",
+        rtUrl: "",
+        rtScore: "0",
+        youtubeUrl: ""
+      };
+      await this.fillIMDBData(replaceParams);
+      await this.fillTMDBData(replaceParams);
+      Object.keys(replaceParams).forEach((key) => {
+        template = template.replace(
+          `$${key}$`,
+          replaceParams[key] || ""
+        );
+      });
+      return template;
+    }
+    async fillIMDBData(replaceParams) {
+      var _a2, _b;
+      if (!this.info || !this.info.imdbUrl) return;
+      const { category, movieName } = this.info;
+      try {
+        const imdbData = await getIMDBData(this.info.imdbUrl);
+        if (imdbData) {
+          const {
+            poster = "",
+            imdb_rating_average: imdbRate,
+            description = "",
+            aka,
+            year
+          } = imdbData;
+          replaceParams.poster = poster;
+          replaceParams.synopsis = description;
+          replaceParams.imdbScore = imdbRate;
+          const searchMovieName = movieName || ((_b = (_a2 = aka.filter((item) => item.country.match(/(World-wide)|UK|USA/))) == null ? void 0 : _a2[0]) == null ? void 0 : _b.title);
+          await this.fillRottenTomatoesData(
+            replaceParams,
+            searchMovieName,
+            category,
+            year
+          );
+          await this.uploadPosterToPtpImg(replaceParams, poster);
+        }
+      } catch (error) {
+        console.error("Error fetching IMDB data:", error);
+      }
+    }
+    async fillRottenTomatoesData(replaceParams, movieName, category, year) {
+      if (!movieName) return;
+      try {
+        const rtInfo = await getMatchRottenTomatoes(
+          movieName,
+          year,
+          !!category.match(/tv/)
+        );
+        if (!rtInfo) return;
+        const { rottenTomatoes, rtId = "" } = rtInfo;
+        replaceParams.rtScore = `${rottenTomatoes.audienceScore}%`;
+        replaceParams.rtUrl = `https://www.rottentomatoes.com/${rtId}`;
+      } catch (error) {
+        console.error("Error fetching Rotten Tomatoes data:", error);
+      }
+    }
+    async uploadPosterToPtpImg(replaceParams, poster) {
+      const ptpImgApiKey = GM_getValue("easy-upload.ptp-img-api-key") || "";
+      if (ptpImgApiKey && poster) {
+        try {
+          const ptpImgPoster = await (await uploadToPtpImg)([poster]);
+          replaceParams.poster = ptpImgPoster ? ptpImgPoster[0] : "";
+        } catch (error) {
+          console.error("Error uploading poster to PTP image host:", error);
+        }
+      }
+    }
+    async fillTMDBData(replaceParams) {
+      if (!this.info || !this.info.imdbUrl) return;
+      try {
+        const imdbId = getIdByIMDbUrl(this.info.imdbUrl);
+        const { id: tmdbId, vote_average: tmdbRate } = await getTMDBDataByIMDBId(imdbId);
+        if (tmdbId) {
+          replaceParams.tmdbUrl = `https://www.themoviedb.org/movie/${tmdbId}`;
+          replaceParams.tmdbScore = `${tmdbRate}`;
+          await this.fillTrailerData(replaceParams, tmdbId);
+        }
+      } catch (error) {
+        console.error("Error fetching TMDB data:", error);
+      }
+    }
+    async fillTrailerData(replaceParams, tmdbId) {
+      try {
+        const videos = await getTMDBVideosById(`${tmdbId}`);
+        const youtubeVideo = videos.find((video) => video.site === "YouTube");
+        if (youtubeVideo == null ? void 0 : youtubeVideo.key) {
+          replaceParams.youtubeUrl = `https://www.youtube.com/watch?v=${youtubeVideo.key}`;
+        }
+      } catch (error) {
+        console.error("Error fetching trailer data:", error);
+      }
+    }
+  }
+  registry$1.register(new ITS());
+  class BYR extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "BYR";
+    }
+    fill(info) {
+      this.info = info;
+      if (!this.info) return;
+      this.fillBasicInfo();
+      this.setupDescriptionEditor();
+      this.fillOriginalTitle();
+      this.extractAndFillCategoryFields();
+      this.fillTorrentFile();
+    }
+    fillBasicInfo() {
+      const { subtitle, imdbUrl, doubanUrl } = this.info;
+      $$2(this.siteInfo.subtitle.selector).val(subtitle || "");
+      $$2(this.siteInfo.imdb.selector).val(imdbUrl || "");
+      $$2(this.siteInfo.douban.selector).val(doubanUrl || "");
+    }
+    setupDescriptionEditor() {
+      const { description } = this.info;
+      CKEDITOR.on("instanceReady", () => {
+        CKEDITOR.instances.descr.setData(this.convertBBCodeToHtml(description));
+      });
+    }
+    fillOriginalTitle() {
+      this.processTorrentTitle();
+      const { title } = this.info;
+      $$2("#movie_ename0day").val(title);
+    }
+    extractAndFillCategoryFields() {
+      const { category } = this.info;
+      const torrentInfo = this.extractTorrentInfo();
+      if (category.match(/movie/)) {
+        this.fillMovieFields(torrentInfo);
+      } else if (category.match(/tv/)) {
+        this.fillTVFields(torrentInfo);
+      } else if (category.match(/variety/)) {
+        this.fillVarietyFields(torrentInfo);
+      }
+    }
+    extractTorrentInfo() {
+      var _a2, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+      const { description, doubanInfo } = this.info;
+      const fullDescription = description + doubanInfo;
+      let area = (_b = (_a2 = fullDescription.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+      area = area.replace(/\[\/?.+?\]/g, "");
+      const originalName = (_d = (_c = fullDescription.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _c[2]) != null ? _d : "";
+      const translateName = (_h = (_g = (_f = (_e = fullDescription.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _e[2]) == null ? void 0 : _f.split("/")) == null ? void 0 : _g[0]) != null ? _h : "";
+      const movieType = (_j = (_i = fullDescription.match(/(类\s+别)\s+(.+)/)) == null ? void 0 : _i[2]) != null ? _j : "";
+      const language = (_l = (_k = fullDescription.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _k[2]) != null ? _l : "";
+      let chineseName = originalName;
+      if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+        chineseName = translateName.match(/[\u4e00-\u9fa5]+/) ? translateName : "";
+      }
+      return {
+        area,
+        originalName,
+        translateName,
+        movieType,
+        language,
+        chineseName
+      };
+    }
+    fillMovieFields(torrentInfo) {
+      const { area, chineseName, movieType } = torrentInfo;
+      const { category } = this.info;
+      const regionSelector = this.determineMovieRegion(area);
+      const typeMap = {
+        华语: "11",
+        欧洲: "12",
+        北美: "13",
+        亚洲: "14",
+        其他: "1"
+      };
+      $$2('select[name="second_type"]').val(
+        typeMap[regionSelector]
+      );
+      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      const movieTypeArr = movieType.split(/\s\//);
+      $$2("#movie_type").val(movieTypeArr.join("/"));
+      fillField(
+        regionSelector,
+        category === "movie" ? "movie_country" : "show_country"
+      );
+      $$2("#movie_cname").val(chineseName);
+    }
+    determineMovieRegion(area) {
+      if (area.match(/华语|台|港/)) {
+        return "华语";
+      } else if (area.match(/日本|韩国|泰国/)) {
+        return "亚洲";
+      } else if (area.match(/美国|加拿大/)) {
+        return "北美";
+      } else if (area.match(/欧|英|法|德|俄|意|苏联|EU/)) {
+        return "欧洲";
+      }
+      return "其他";
+    }
+    fillTVFields(torrentInfo) {
+      var _a2, _b;
+      const { area, chineseName } = torrentInfo;
+      const { title, videoType, mediaInfos } = this.info;
+      const regionSelector = this.determineTVRegion(area);
+      const typeMap = {
+        大陆: "15",
+        港台: "16",
+        欧美: "17",
+        日韩: "18",
+        其他: "2"
+      };
+      $$2('select[name="second_type"]').val(
+        typeMap[regionSelector]
+      );
+      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      fillField(regionSelector, "tv_type");
+      $$2("#tv_ename").val(title);
+      $$2("#cname").val(chineseName);
+      const episode = (_b = (_a2 = title.match(/S\d+(E\d+)?/i)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      $$2("#tv_season").val(episode);
+      const isBluray = !!videoType.match(/bluray/i);
+      const parsedMedia = parseMedia(mediaInfos == null ? void 0 : mediaInfos[0], isBluray);
+      if (!parsedMedia) {
+        console.warn("Failed to parse media info:", mediaInfos == null ? void 0 : mediaInfos[0]);
+        return;
+      }
+      const { format: format2 } = parsedMedia;
+      fillField((format2 == null ? void 0 : format2.toUpperCase()) || "MKV", "tv_filetype");
+    }
+    determineTVRegion(area) {
+      if (area.match(/大陆/)) {
+        return "大陆";
+      } else if (area.match(/台|港/)) {
+        return "港台";
+      } else if (area.match(/美国|欧|英|法|德|俄|意|苏联|EU/)) {
+        return "欧美";
+      } else if (area.match(/日本|韩国/)) {
+        return "日韩";
+      }
+      return "其他";
+    }
+    fillVarietyFields(torrentInfo) {
+      const { area, chineseName, language } = torrentInfo;
+      const { title } = this.info;
+      const regionSelector = this.determineTVRegion(area);
+      const typeMap = {
+        大陆: "27",
+        港台: "29",
+        欧美: "30",
+        日韩: "28",
+        其他: "5"
+      };
+      $$2('select[name="second_type"]').val(
+        typeMap[regionSelector]
+      );
+      $$2('select[name="second_type"]')[0].dispatchEvent(new Event("change"));
+      fillField(regionSelector, "show_country");
+      $$2("#show_cname").val(chineseName);
+      $$2("#show_ename").val(title);
+      const languageVal = this.determineLanguage(language);
+      fillField(languageVal, "show_language");
+    }
+    determineLanguage(language) {
+      if (language.match(/汉语/)) {
+        return "国语";
+      } else if (language.match(/粤/)) {
+        return "粤语";
+      } else if (language.match(/英语/)) {
+        return "英语";
+      } else if (language.match(/日语/)) {
+        return "日语";
+      } else if (language.match(/韩语/)) {
+        return "韩语";
+      }
+      return "";
+    }
+    convertBBCodeToHtml(bbcode) {
+      let html2 = bbcode.replace(/\[\*\]([^\n]+)/gi, "<li>$1</li>");
+      html2 = html2.replace(/(\r\n)|\n/g, "<br>");
+      html2 = html2.replace(
+        /\[(quote|hide=.+?)\]/gi,
+        "<fieldset><legend>引用</legend>"
+      );
+      html2 = html2.replace(/\[(\/)(quote|hide)\]/gi, "<$1fieldset>");
+      html2 = html2.replace(
+        /(?!\[url=(http(s)*:\/{2}.+?)\])\[img\](.+?)\[\/img]\[url\]/g,
+        '<a href="$1"><img src="$2"/></a>'
+      );
+      html2 = html2.replace(/\[img\](.+?)\[\/img]/g, '<img src="$1"/>');
+      html2 = html2.replace(/\[(\/)?(left|right|center)\]/gi, "<$1$2>");
+      html2 = html2.replace(/\[(\/)?b\]/gi, "<$1strong>");
+      html2 = html2.replace(/\[color=(.+?)\]/gi, '<span style="color: $1">').replace(/\[\/color\]/g, "</span>");
+      html2 = html2.replace(/\[size=(.+?)\]/gi, '<font size="$1">').replace(/\[\/size\]/g, "</font>");
+      html2 = html2.replace(/\[url=(.+?)\](.+?)\[\/url\]/gi, '<a href="$1">$2</a>');
+      return html2;
+    }
+  }
+  registry$1.register(new BYR());
+  class PTer extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "PTer" || siteName === "PTer-offer";
+    }
+    processTorrentTitle() {
+      const { source, title } = this.info;
+      const isWebSource = !!source.match(/web/gi);
+      const fixedTitle = fixTorrentTitle(title, isWebSource);
+      this.info.title = fixedTitle;
+      super.processTorrentTitle();
+    }
+    postProcess() {
+      var _a2, _b;
+      const { description, area } = this.info;
+      const language = (_b = (_a2 = description.match(/(语\s+言)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+      if (!language.match(/英语/) && area === "EU") {
+        $$2(this.siteInfo.area.selector).val("8");
+      }
+    }
+    processDescription() {
+      var _a2;
+      let { description, comparisons } = this.info;
+      const quoteRegex = /\[quote\]([\s\S]*?)\[\/quote\]/g;
+      let modifiedDescription = description;
+      let match;
+      while ((match = quoteRegex.exec(description)) !== null) {
+        const fullMatch = match[0];
+        const quoteContent = match[1];
+        if (quoteContent.match(/Disc Title|Disc Label/i)) {
+          const replacement = `[hide=BDInfo]${quoteContent}[/hide]`;
+          modifiedDescription = modifiedDescription.replace(
+            fullMatch,
+            replacement
+          );
+        } else if (quoteContent.match(/(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i)) {
+          const replacement = `[hide=mediainfo]${quoteContent}[/hide]`;
+          modifiedDescription = modifiedDescription.replace(
+            fullMatch,
+            replacement
+          );
+        }
+      }
+      description = modifiedDescription;
+      if (comparisons == null ? void 0 : comparisons.length) {
+        for (const comparison of comparisons) {
+          const { title, imgs } = comparison;
+          const titleCount = (_a2 = title == null ? void 0 : title.split(",").length) != null ? _a2 : "";
+          imgs.forEach((img) => {
+            description = description.replace(
+              `[img]${img}[/img]`,
+              `[img${titleCount}]${img}[/img]`
+            );
+          });
+        }
+      }
+      this.info.description = description;
+      super.processDescription();
+    }
+  }
+  registry$1.register(new PTer());
+  class MTV extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "MTV";
+    }
+    postProcess() {
+      if (!this.info) return;
+      const { resolution, videoCodec, audioCodec, title, videoType, tags: tags2 } = this.info;
+      const tagSet = /* @__PURE__ */ new Set();
+      this.processResolution(resolution, tagSet);
+      if (videoCodec) {
+        tagSet.add(videoCodec);
+      }
+      this.processAudioCodec(audioCodec, tagSet);
+      if (title.match(/(\s|.)hybrid(\s|.)/i)) {
+        tagSet.add("hybrid");
+      }
+      this.processSourceAndType(title, videoType, tagSet);
+      this.processAudioAndSubtitleTags(tags2, tagSet);
+      this.processHDRTags(tags2, tagSet);
+      this.updateTagInput(tagSet);
+    }
+    processDescription() {
+      let { description, mediaInfos } = this.info;
+      mediaInfos == null ? void 0 : mediaInfos.forEach((mediaInfo) => {
+        description = description.replace(
+          `[quote]${mediaInfo}[/quote]`,
+          `[mediainfo]${mediaInfo}[/mediainfo]`
+        );
+      });
+      this.info.description = description;
+      super.processDescription();
+    }
+    processResolution(resolution, tagSet) {
+      var _a2;
+      if (!resolution) return;
+      const cleanResolution = resolution.replace("p", "");
+      (_a2 = $(`input[name="Resolution"][value="${cleanResolution}"]`)[0]) == null ? void 0 : _a2.click();
+      tagSet.add(cleanResolution);
+    }
+    processAudioCodec(audioCodec, tagSet) {
+      if (!audioCodec) return;
+      if (audioCodec === "dd+") {
+        tagSet.add("ddp.audio");
+      } else if (audioCodec.match(/dd|ac3/i)) {
+        tagSet.add("dd.audio");
+      } else if (audioCodec.match(/dtshd/i)) {
+        tagSet.add("dts.hd.audio");
+      } else if (audioCodec.match(/dtsx/i)) {
+        tagSet.add("dts.x.audio");
+      } else {
+        tagSet.add(`${audioCodec}.audio`);
+      }
+    }
+    processSourceAndType(title, videoType, tagSet) {
+      var _a2, _b, _c, _d;
+      if (/web-dl/i.test(title)) {
+        (_a2 = $('input[name="source"][value="9"]')[0]) == null ? void 0 : _a2.click();
+        tagSet.add("web.dl");
+        if (/NF|Netflix/i.test(title)) {
+          tagSet.add("netflix.source");
+        }
+      } else if (/webrip/i.test(title)) {
+        tagSet.add("webrip");
+        (_b = $('input[name="source"][value="10"]')[0]) == null ? void 0 : _b.click();
+      } else if (videoType.match(/bluray/i)) {
+        tagSet.add("bluray");
+        (_c = $('input[name="source"][value="7"]')[0]) == null ? void 0 : _c.click();
+      } else if (videoType.match(/remux/i)) {
+        tagSet.add(videoType);
+        (_d = $('input[name="source"][value="7"]')[0]) == null ? void 0 : _d.click();
+      } else if (videoType) {
+        tagSet.add(videoType);
+      }
+    }
+    processAudioAndSubtitleTags(tags2, tagSet) {
+      if (tags2.cantonese_audio) {
+        tagSet.add("cantonese.audio.track");
+      }
+      if (tags2.chinese_audio) {
+        tagSet.add("chinese.audio.track");
+      }
+      if (tags2.chinese_subtitle) {
+        tagSet.add("chinese.subs");
+      }
+    }
+    processHDRTags(tags2, tagSet) {
+      if (tags2.hdr10) {
+        tagSet.add("hdr");
+      }
+      if (tags2.dolby_vision) {
+        tagSet.add("dovi");
+      }
+      if (tags2.hdr10_plus) {
+        tagSet.add("hdr10plus");
+      }
+    }
+    updateTagInput(tagSet) {
+      const tagString = Array.from(tagSet).join(" ");
+      $("#taginput").val(tagString);
+    }
+  }
+  registry$1.register(new MTV());
+  async function autoFillDoubanInfo(selfDom, info) {
+    try {
+      $$2(selfDom).text($t$1("获取中..."));
+      const {
+        imdbUrl,
+        movieName,
+        doubanUrl,
+        description: descriptionData,
+        title: torrentTitle
+      } = info;
+      if (!imdbUrl && !doubanUrl) {
+        throw new Error($t$1("请填写正确链接"));
+      }
+      let doubanLink = "";
+      if (doubanUrl == null ? void 0 : doubanUrl.match(/movie\.douban\.com/)) {
+        doubanLink = doubanUrl;
+      } else {
+        const doubanData = await getDoubanBasicDataByQuery(imdbUrl || movieName);
+        if (doubanData) {
+          let { id, isTV } = doubanData;
+          if (isTV) {
+            const tvData = await getDoubanTVItemData(doubanData, torrentTitle);
+            if (tvData) {
+              id = tvData && tvData.id;
+            }
+          }
+          doubanLink = `https://movie.douban.com/subject/${id}`;
+        }
+      }
+      if (doubanLink) {
+        const { douban, imdb, subtitle, description, name } = CURRENT_SITE_INFO;
+        if (CURRENT_SITE_NAME === "SSD") {
+          $$2(imdb.selector).val(doubanLink);
+        } else {
+          $$2(douban == null ? void 0 : douban.selector).val(doubanLink);
+        }
+        if (!(descriptionData == null ? void 0 : descriptionData.match(/(片|译)\s*名/))) {
+          const movieData = await getDoubanInfoByIdOrDoubanUrl(doubanLink);
+          if (movieData) {
+            const imdbLink = movieData.imdbLink;
+            if ($$2(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== "SSD") {
+              $$2(imdb.selector).val(imdbLink);
+            }
+            const torrentSubtitle = getSubTitleFromDoubanInfo(movieData, info);
+            if (CURRENT_SITE_NAME === "TTG") {
+              $$2(name.selector).val(`${torrentTitle || ""}[${torrentSubtitle}]`);
+            } else {
+              $$2(subtitle.selector).val(torrentSubtitle);
+            }
+            if (CURRENT_SITE_NAME !== "SSD") {
+              $$2(description.selector).val(
+                `${movieData.format}
+${$$2(description.selector).val()}`
+              );
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      $$2(selfDom).text($t$1("获取豆瓣简介"));
+    }
+  }
+  const autofill = (info) => {
+    if (info.doubanInfo) {
+      return;
+    }
+    if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
+      const { imdb, douban } = CURRENT_SITE_INFO;
+      let selector = $$2("");
+      if ((douban == null ? void 0 : douban.selector) && $$2(douban.selector) && $$2(douban.selector).val()) {
+        selector = $$2(douban.selector);
+      } else if (imdb) {
+        selector = $$2(imdb.selector);
+      }
+      if (selector) {
+        selector.after(
+          `<span id="auto-fill-douban">${$t$1("获取豆瓣简介")}</span>`
+        );
+      }
+      $$2("#auto-fill-douban").on("click", () => {
+        const url = selector.val();
+        if (url.match(/subject\/(\d+)/)) {
+          info.doubanUrl = url;
+        } else if (url.match(/imdb\.com\/title\/tt\d+/)) {
+          info.imdbUrl = url;
+        }
+        autoFillDoubanInfo($$2("#auto-fill-douban"), info);
+      });
+    }
   };
-  const getDescription$1 = async (id) => {
-    const url = `${PT_SITE.PTP.url}/torrents.php?action=get_description&id=${id}`;
-    const data = await fetch(url, {
-      responseType: void 0
-    });
-    if (data) {
-      const element = document.createElement("span");
-      element.innerHTML = data;
-      return element.innerText || element.textContent || "";
+  const fillTargetForm = (info) => {
+    if (!info) {
+      console.warn("No torrent info provided for filling form");
+      return;
+    }
+    console.log("Filling form with info:", info);
+    autofill(info);
+    const filler = registry$1.getApplicableFiller(
+      CURRENT_SITE_NAME,
+      CURRENT_SITE_INFO.siteType
+    );
+    if (filler) {
+      filler.fill(info);
+    } else {
+      console.warn(`No specialized filler found for site: ${CURRENT_SITE_NAME}`);
+    }
+  };
+  class ExtractorRegistry {
+    constructor() {
+      this.extractors = [];
+    }
+    register(extractor) {
+      this.extractors.push(extractor);
+      this.extractors.sort((a2, b) => b.priority - a2.priority);
+    }
+    getExtractor(siteName, siteType) {
+      return this.extractors.find(
+        (extractor) => extractor.canHandle(siteName, siteType)
+      ) || null;
+    }
+  }
+  const registry = new ExtractorRegistry();
+  const CONFIG = {
+    NEXUS_FILTER_KEYWORDS: [
+      "温馨提示",
+      "郑重",
+      "PT站",
+      "网上搜集",
+      "本种子",
+      "商业盈利",
+      "商业用途",
+      "带宽",
+      "寬帶",
+      "法律责任",
+      "Quote:",
+      "正版",
+      "商用",
+      "注明",
+      "后果",
+      "负责"
+    ],
+    FORBIDDEN_KEYWORDS: [
+      "禁转",
+      "禁轉",
+      "严禁转载",
+      "嚴禁轉載",
+      "谢绝转载",
+      "謝絕轉載",
+      "exclusive"
+    ],
+    META_INFO_MATCH_RULES: {
+      resolution: /(分辨率|解析度|格式):\s?([^\u4e00-\u9fa5]+)?/i,
+      videoType: /(媒介|来源|质量):\s?([^\u4e00-\u9fa5]+)?/i,
+      category: /(类型|分类|類別):\s?([^\u4e00-\u9fa5]+)?/i,
+      audioCodec: /(音频|音频编码):\s?([^\u4e00-\u9fa5]+)?/i,
+      videoCodec: /(编码|編碼):\s?([^\u4e00-\u9fa5]+)?/i,
+      area: /(处理|處理|地区|地區):\s?([^\u4e00-\u9fa5]+)?/i,
+      size: /(大小|容量):\s?([^\u4e00-\u9fa5]+)?/i
+    },
+    VIDEO_TYPE_MATCH_MAP: (resolution) => [
+      {
+        type: "encode",
+        regex: /压制|encode|x264|x265|bdrip|hdrip/i
+      },
+      {
+        type: "remux",
+        regex: /remux/i
+      },
+      {
+        type: "uhdbluray",
+        regex: /uhd|ultra|UHD原盘|FullDisc|(BluRay\s*Raw)/i,
+        condition: () => !resolution || /2160|4k/i.test(resolution)
+      },
+      {
+        type: "bluray",
+        regex: /blu|discs|bluray原盘|FullDisc|(BluRay\s*Raw)/i,
+        condition: () => !resolution || /1080/i.test(resolution)
+      },
+      {
+        type: "web",
+        regex: /webdl/i
+      },
+      {
+        type: "hdtv",
+        regex: /hdtv/i
+      },
+      {
+        type: "dvdrip",
+        regex: /dvdr/i
+      },
+      {
+        type: "dvd",
+        regex: /dvd/i
+      }
+    ],
+    VIDEO_SOURCE_MATCH_MAP: {
+      uhdbluray: /(uhd|2160|4k).*(blu(-)?ray|remux)/i,
+      bluray: /(blu(-)?ray|remux)/i,
+      hdtv: /hdtv/i,
+      web: /web(-?(rip|dl))+/i,
+      hddvd: /hddvd/i,
+      dvd: /dvd/i,
+      vhs: /vhs/i
+    },
+    VIDEO_CATEGORY_MAP: {
+      movie: /movie|电影/gi,
+      variety: /综艺|variety/gi,
+      tv: /tv|drama|剧集|电视|剧/,
+      tvPack: /TVSeries|剧包/gi,
+      cartoon: /anim|动(画|漫)/gi,
+      sport: /sport|体育/gi,
+      concert: /mv|演唱|concert/gi,
+      app: /App|软件|Software|軟體|Applications/gi,
+      ebook: /电子书|小说|Ebook/gi,
+      audiobook: /有声书|AudioBook/gi,
+      magazine: /杂志|magazine/gi,
+      comics: /漫画|comics/gi,
+      onlineCourse: /公开课/gi,
+      documentary: /纪录片|documentary|记录/gi,
+      other: /Learning Videos|Comedy/,
+      music: /music|音乐/gi
+    },
+    RESOLUTION_MAP: {
+      "4320p": /4320p|8k/i,
+      "2160p": /2160p|UHD|4k/i,
+      "1080p": /1080(p)?/i,
+      "1080i": /1080i/i,
+      "720p": /720(p)?/i,
+      "576p": /576p|576i/i,
+      "480p": /480(p|i)|sd/i
+    },
+    VIDEO_CODEC_RULES: (source, videoType) => [
+      {
+        codec: "x264",
+        regex: /x264/i,
+        condition: () => /h264|avc/i.test(source) && videoType === "encode"
+      },
+      {
+        codec: "h264",
+        regex: /h264|AVC/i
+      },
+      {
+        codec: "x265",
+        regex: /x265/i,
+        condition: () => /h265|hevc/i.test(source) && videoType === "encode"
+      },
+      { codec: "hevc", regex: /hevc|h265/i },
+      { codec: "vc1", regex: /vc-?1/i },
+      { codec: "mpeg2", regex: /mpeg-?2/i },
+      { codec: "mpeg4", regex: /mpeg-?4/i },
+      { codec: "vvc", regex: /vvc/i }
+    ],
+    MEDIA_TAG_RULES: (source) => [
+      { regex: /diy/i, tag: "diy" },
+      {
+        regex: /国配|国语|普通话|国粤/i,
+        tag: "chinese_audio",
+        condition: () => !/多国语(言|字幕)/.test(source)
+      },
+      { regex: /Atmos|杜比全景声/i, tag: "dolby_atmos" },
+      { regex: /HDR10\+/i, tag: "hdr10_plus" },
+      { regex: /HDR/i, tag: "hdr10" },
+      { regex: /DoVi|(Dolby\s*Vision)|杜比视界/i, tag: "dolby_vision" },
+      { regex: /粤/i, tag: "cantonese_audio" },
+      {
+        regex: /简繁|繁简|繁体|简体|中字|中英|中文/i,
+        tag: "chinese_subtitle",
+        condition: () => !/无中(字|文)/.test(source)
+      },
+      { regex: /Criterion|CC标准/i, tag: "the_criterion_collection" },
+      {
+        regex: /禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|禁止转载|exclusive/i,
+        tag: "exclusive"
+      }
+    ],
+    MT_BASE_API_URL: "https://api2.m-team.cc/api",
+    MT_REQUEST_VERSION: "1.1.2",
+    MT_SPECS_MAP: {
+      source: {
+        8: "web",
+        1: "bluray",
+        3: "dvd",
+        4: "hdtv",
+        5: "hdtv",
+        6: "other",
+        7: "cd"
+      },
+      medium: {
+        1: "bluray",
+        2: "hddvd",
+        3: "remux",
+        7: "encode",
+        4: "bluray",
+        5: "hdtv",
+        6: "dvd",
+        8: "cd",
+        10: "web"
+      },
+      standard: {
+        1: "1080p",
+        2: "1080i",
+        3: "720p",
+        5: "480p",
+        6: "2160p"
+      }
+    },
+    UNIT3D_BASIC_KEY_MAP: {
+      name: ["Name", "名称", "名稱"],
+      size: ["Size", "体积", "體積"],
+      category: ["Category", "类别", "類別"],
+      type: ["Type", "规格", "規格"],
+      resolution: ["Resolution"]
+    },
+    AVISTAZ_BASIC_KEY_MAP: {
+      Type: "category",
+      "File Size": "size",
+      Title: "title",
+      "Video Quality": "resolution",
+      "Rip Type": "videoType"
+    },
+    BHD_SOURCE_MEDIA_TAGS_MAP: {
+      common: {
+        HDR10: "hdr10",
+        "HDR10+": "hdr10_plus",
+        "Dolby Atmos": "dolby_atmos",
+        "Dolby Vision": "dolby_vision"
+      },
+      others: {
+        "10-bit": "10_bit",
+        "2-Disc Set": "2_disc_set",
+        "2D/3D Edition": "2d_3d_edition",
+        "2in1": "2_in_1",
+        "3D": "3d",
+        "3D Anaglyph": "3d_anaglyph",
+        "3D Full SBS": "3d_full_sbs",
+        "3D Half OU": "3d_half_ou",
+        "3D Half SBS": "3d_half_sbs",
+        "4K Remaster": "4k_remaster",
+        "4K Restoration": "4k_restoration",
+        "Digital Extras": "extras",
+        "Director's Cut": "director_s_cut",
+        "Dual Audio": "dual_audio",
+        "English Dub": "english_dub",
+        "Extended Cut": "extended_edition",
+        "Extended Edition": "extended_edition",
+        Extras: "extras",
+        "Masters of Cinema": "masters_of_cinema",
+        Scene: "scene",
+        "The Criterion Collection": "the_criterion_collection",
+        "Theatrical Cut": "theatrical_cut",
+        "Two-Disc Set": "two_disc_set",
+        Remux: "remux",
+        Rifftrax: "rifftrax",
+        Uncut: "uncut",
+        Unrated: "unrated",
+        "Warner Archive Collection": "warner_archive_collection",
+        Commentary: "with_commentary"
+      }
+    },
+    MUSIC_LOG_API_MAP: (logScore, torrentId, logId) => ({
+      RED: `/torrents.php?action=loglist&torrentid=${torrentId}`,
+      Orpheus: `/view.php?type=riplog&id=${torrentId}.${logId}`,
+      DicMusic: `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`
+    })
+  };
+  const formatTorrentTitle = (title) => {
+    return title.replace(/\.(?!(\d+))/gi, " ").replace(/\.(?=\d{4}|48|57|72|2k|4k|7.1|6.1|5.1|4.1|2.0|1.0)/gi, " ").trim();
+  };
+  const getFilterBBCode = (content) => {
+    var _a2;
+    if (content) {
+      const bbCodes = htmlToBBCode(content);
+      return (_a2 = bbCodes == null ? void 0 : bbCodes.replace(/\[quote\]((.|\n)*?)\[\/quote\]/g, (match, p1) => {
+        if (p1) {
+          return CONFIG.NEXUS_FILTER_KEYWORDS.some(
+            (keyword) => p1.includes(keyword)
+          ) ? "" : match;
+        }
+        return match;
+      })) != null ? _a2 : "";
     }
     return "";
   };
-  const formatDescriptionData$1 = (data, screenshots, mediaInfoArray) => {
-    let descriptionData = data.replace(/\r\n/g, "\n");
-    descriptionData = descriptionData.split("\n").map((line) => {
-      return line.trim();
-    }).join("\n").replace(/http:\/\/ptpimg.me/g, "https://ptpimg.me");
-    TORRENT_INFO.originalDescription = descriptionData;
-    screenshots.forEach((screenshot) => {
-      const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
-      if (!descriptionData.match(regStr)) {
-        const regOldFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
-        if (descriptionData.match(regOldFormat)) {
-          descriptionData = descriptionData.replace(regOldFormat, `[img]${screenshot}[/img]`);
-        } else {
-          descriptionData = descriptionData.replace(new RegExp(`(?<!\\[img\\])${screenshot}`, "ig"), `[img]${screenshot}[/img]`);
-        }
-      }
-    });
-    descriptionData = descriptionData.replace(/\[(\/)?mediainfo\]/g, "[$1quote]");
-    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
-      const slash = p1 || "";
-      return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
-    });
-    descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
-    descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[quote][$2]$3[/$2][/quote]");
-    const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/ig) || [];
-    const comparisons = [];
-    comparisonArray.forEach((item) => {
-      var _a2, _b, _c, _d2;
-      descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
-      const reason = (_b = (_a2 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
-      const title = (_d2 = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-      const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
-      const imgs = [];
-      Array.from(new Set(comparisonImgArray)).forEach((item2) => {
-        const formatImg = item2.replace(/\s*/g, "");
-        if (item2.match(/^https?.+/)) {
-          imgs.push(formatImg);
-          descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item2}`, "gi"), `[img]${formatImg}[/img]`);
-        } else if (item2.match(/^\[img\]/i)) {
-          imgs.push(formatImg.replace(/\[\/?img\]/g, ""));
-        }
-      });
-      comparisons.push({
-        title,
-        imgs,
-        reason
-      });
-    });
-    TORRENT_INFO.comparisons = comparisons;
-    descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/ig, "");
-    mediaInfoArray.forEach((mediaInfo) => {
-      const regStr = new RegExp(`\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo).slice(0, 1e4)}`, "i");
-      if (!descriptionData.match(regStr)) {
-        descriptionData = descriptionData.replace(mediaInfo, `[quote]${mediaInfo}[/quote]`);
-      }
-    });
-    if (TORRENT_INFO.category === "concert") {
-      descriptionData = `${$$2("#synopsis").text()}
-${descriptionData}`;
-    }
-    return descriptionData;
-  };
-  function getTags$1(rawTags, exclude = []) {
-    const { editionTags } = PT_SITE.PTP.sourceInfo;
-    const knownTags = {};
-    const otherTags = {};
-    for (const rawTag of rawTags) {
-      const tag = editionTags[rawTag];
-      if (tag) {
-        knownTags[tag] = true;
-      } else if (tag === null || exclude.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) ;
-      else {
-        otherTags[rawTag] = true;
-      }
-    }
-    return {
-      knownTags,
-      otherTags
-    };
-  }
-  function getReleaseGroup(releasename) {
+  const refineCategory = (torrentInfo, category) => {
     var _a2, _b;
-    return (_b = (_a2 = releasename.match(/-(\w+?)$/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-  }
-  const getBHDInfo = async () => {
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const basicInfo = getBasicInfo$6();
-    const editionTags = getEditionTags(basicInfo);
-    const { Category, Name, Source, Type: Type2, Size } = basicInfo;
-    TORRENT_INFO.size = getSize(Size);
-    TORRENT_INFO.title = formatTorrentTitle(Name);
-    const tags2 = getTagsFromSubtitle(TORRENT_INFO.title);
-    const TMDBYear = $$2(".movie-heading a:last").text();
-    const movieName = $$2(".movie-heading a:first").text();
-    if (!TMDBYear) {
-      const matchYear = TORRENT_INFO.title.match(/\s([12][90]\d{2})/);
-      TORRENT_INFO.year = matchYear ? matchYear[0] : "";
-    } else {
-      TORRENT_INFO.year = TMDBYear;
-    }
-    const descriptionDom = $$2(".panel-heading:contains(Description)").next(".panel-body").find(".forced-nfo");
-    const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    TORRENT_INFO.comparisons = getComparisonImgs$1();
-    const { category: movieCat, countries, imdbUrl } = getMovieDetails();
-    TORRENT_INFO.movieName = movieName;
-    let category = Category.toLowerCase().replace(/s/, "");
-    category = movieCat === "Animation" ? "cartoon" : category;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.source = getSource$2(Source, Type2);
-    TORRENT_INFO.area = getAreaCode(countries);
-    TORRENT_INFO.videoType = getVideoType$f(Source, Type2);
-    const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const mediaInfo = $$2("#stats-full code").text();
-    TORRENT_INFO.mediaInfos = [mediaInfo];
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-    TORRENT_INFO.originalDescription = `${descriptionBBCode}`;
-    TORRENT_INFO.description = `
-[quote]${mediaInfo}[/quote]
-${descriptionBBCode}`;
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution = "", mediaTags } = getInfoFunc(mediaInfo);
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = __spreadValues(__spreadValues(__spreadValues({}, tags2), mediaTags), editionTags.knownTags);
-    TORRENT_INFO.otherTags = editionTags.otherTags;
-    TORRENT_INFO.imdbUrl = imdbUrl;
-  };
-  const getBasicInfo$6 = () => {
-    const basicInfo = {
-      Category: "",
-      Name: "",
-      Source: "",
-      Type: "",
-      Size: "",
-      Video: "",
-      Audio: "",
-      Hybrid: "",
-      Edition: "",
-      Region: "",
-      Extras: ""
+    const { description, title, subtitle = "", doubanInfo } = torrentInfo;
+    const isAnimation = (genre) => /动画/.test(genre);
+    const isDocumentary = (genre) => /纪录/.test(genre);
+    const isSeasonPack = (title2, subtitle2) => {
+      var _a3;
+      return /全.+?集/.test(subtitle2) || ((_a3 = title2 == null ? void 0 : title2.match(/s\d+(\s|\.)+/i)) == null ? void 0 : _a3.length);
     };
-    $$2(".dotborder").each((index, element) => {
-      const key = $$2(element).find("td:first").text();
-      const value = $$2(element).find("td:last").text();
-      basicInfo[key] = value.replace(/\n/g, "").trim();
-    });
-    console.log(basicInfo);
-    return basicInfo;
-  };
-  const getMovieDetails = () => {
-    const infoList = $$2(".movie-details a");
-    const movieDetail = {
-      category: "",
-      countries: "",
-      imdbUrl: ""
-    };
-    movieDetail.imdbUrl = $$2('span.badge-meta[title*="IMDb"] > a').attr("href") || "";
-    infoList.each((index, element) => {
-      var _a2, _b;
-      const urlParams = (_b = (_a2 = $$2(element).attr("href")) == null ? void 0 : _a2.replace(/.+\//g, "").split("=")) != null ? _b : "";
-      if (urlParams.length > 1) {
-        let key = decodeURI(urlParams[0]);
-        const value = urlParams[1];
-        if (key === "g[]") {
-          key = "category";
-        }
-        movieDetail[key] = value;
-      }
-    });
-    return movieDetail;
-  };
-  const getSource$2 = (source, resolution) => {
-    if (resolution.match(/BD100|BD66/i)) {
-      return "uhdbluray";
+    const isEpisode = (title2, subtitle2) => /(s0?\d{1,2})?e(p)?\d{1,2}/i.test(title2) || /第[^\s]集/.test(subtitle2);
+    const movieGenre = (_b = (_a2 = (description + doubanInfo).match(/(类\s+别)\s+(.+)?/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+    if (isAnimation(movieGenre)) {
+      return "cartoon";
     }
-    if (source.match(/Blu-ray/i) && resolution.match(/UHD/i)) {
-      return "uhdbluray";
+    if (isDocumentary(movieGenre)) {
+      return "documentary";
     }
-    if (source.match(/WEB|WEB-DL/i)) {
-      return "web";
+    if (isSeasonPack(title, subtitle)) {
+      return "tvPack";
     }
-    return source.replace(/-/g, "").toLowerCase();
-  };
-  const getVideoType$f = (source, type) => {
-    type = type.replace(/\s/g, "");
-    if (type.match(/Remux/i)) {
-      return "remux";
-    } else if (type.match(/BD50|BD25/i)) {
-      return "bluray";
-    } else if (type.match(/UHD50|UHD66|UHD100/i)) {
-      return "uhdbluray";
-    } else if (type.match(/DVD5|DVD9/i)) {
-      return "dvd";
-    } else if (source.match(/WEB|WEB-DL/i)) {
-      return "web";
-    } else if (type.match(/\d{3,4}p/i)) {
-      return "encode";
-    }
-    return type;
-  };
-  const getEditionTags = (basicInfo) => {
-    const editionTags = PT_SITE.BeyondHD.sourceInfo.editionTags;
-    const knownTags = {};
-    const otherTags = {
-      Hybrid: false
-    };
-    const { Video, Audio, Edition, Extras, Hybrid } = basicInfo;
-    const text2 = [Video, Audio, Edition, Extras].filter((v2) => Boolean(v2)).join(" / ");
-    const mediaTags = Object.entries(editionTags);
-    for (const [source, target] of mediaTags) {
-      if (text2.includes(source)) {
-        knownTags[target] = true;
-      }
-    }
-    if (Hybrid) {
-      otherTags.Hybrid = true;
-    }
-    if (knownTags.hdr10_plus && knownTags.hdr) {
-      delete knownTags.hdr;
-    }
-    return {
-      knownTags,
-      otherTags
-    };
-  };
-  function getComparisonImgs$1() {
-    var _a2, _b;
-    const title = (_b = (_a2 = $$2("#screenMain .screenParent").text()) == null ? void 0 : _a2.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b.trim();
-    const imgs = Array.from($$2(".screenComparison img")).map((img) => {
-      var _a3, _b2;
-      return (_b2 = (_a3 = $$2(img)) == null ? void 0 : _a3.attr("src")) != null ? _b2 : "";
-    });
-    if (title !== "") {
-      return [
-        {
-          title,
-          imgs,
-          reason: ""
-        }
-      ];
-    }
-  }
-  const getHDBInfo = async () => {
-    var _a2, _b;
-    const torrentId = getUrlParam("id");
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const editDom = $$2("#details tr").has("a:contains(Edit torrent)");
-    const descriptionDom = editDom.length > 0 ? editDom.prev() : $$2("#details >tbody >tr:contains(tags) + tr");
-    let descriptionBBCode = getFilterBBCode(descriptionDom.find(">td")[0]);
-    descriptionBBCode = (_b = (_a2 = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    TORRENT_INFO.description = descriptionBBCode;
-    const { size, category, videoType } = getBasicInfo$5();
-    const title = $$2("h1").eq(0).text();
-    TORRENT_INFO.title = formatTorrentTitle(title);
-    const tags2 = getTagsFromSubtitle(title);
-    const isMovieType = $$2(".contentlayout h1").length > 0;
-    const IMDBLinkDom = isMovieType ? $$2(".contentlayout h1") : $$2("#details .showlinks li").eq(1);
-    if (isMovieType) {
-      const IMDBYear = IMDBLinkDom.prop("lastChild").nodeValue.replace(/\s|\(|\)/g, "");
-      const movieName = IMDBLinkDom.find("a").text();
-      TORRENT_INFO.movieName = movieName;
-      if (!IMDBYear) {
-        const matchYear = TORRENT_INFO.title.match(/\s([12][90]\d{2})/);
-        TORRENT_INFO.year = matchYear ? matchYear[0] : "";
-      } else {
-        TORRENT_INFO.year = IMDBYear;
-      }
-    }
-    TORRENT_INFO.imdbUrl = IMDBLinkDom.find("a").attr("href") || "";
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    TORRENT_INFO.videoType = videoType;
-    const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-    if (!isBluray) {
-      getMediaInfo$1(torrentId).then((data) => {
-        if (data) {
-          TORRENT_INFO.mediaInfos = [data];
-          descriptionBBCode += `
-[quote]${data}[/quote]`;
-          TORRENT_INFO.description = descriptionBBCode;
-          const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(data);
-          TORRENT_INFO.videoCodec = videoCodec;
-          TORRENT_INFO.audioCodec = audioCodec;
-          TORRENT_INFO.resolution = resolution || "";
-          TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
-        }
-      });
-    } else {
-      TORRENT_INFO.mediaInfos = bdinfo;
-      const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc((bdinfo == null ? void 0 : bdinfo[0]) || descriptionBBCode);
-      TORRENT_INFO.videoCodec = videoCodec;
-      TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.resolution = resolution || "";
-      TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
-    }
-    TORRENT_INFO.size = size;
-    TORRENT_INFO.screenshots = await getImages$1(descriptionBBCode);
-  };
-  const getBasicInfo$5 = () => {
-    const videoTypeMap = {
-      "Blu-ray/HD DVD": "bluray",
-      Capture: "hdtv",
-      Encode: "encode",
-      Remux: "remux",
-      "WEB-DL": "web"
-    };
-    const info = $$2("th:contains(Category)").next().text();
-    const size = $$2("th:contains(Size)").eq(0).next().text();
-    const splitArray = info.split("(");
-    const category = splitArray[0].trim().toLowerCase();
-    const videoCodec = splitArray[1].split(",")[0].toLowerCase().replace(/\./g, "");
-    const videoType = splitArray[1].split(",")[1].replace(/\)/g, "").trim();
-    return {
-      size: getSize(size),
-      category,
-      videoCodec,
-      videoType: videoTypeMap[videoType]
-    };
-  };
-  const getMediaInfo$1 = async (torrentId) => {
-    const res = await fetch(`https://hdbits.org/details/mediainfo?id=${torrentId}`, {
-      responseType: void 0
-    });
-    const data = res.replace(/\r\n/g, "\n");
-    return data || "";
-  };
-  const getImages$1 = async (description) => {
-    const screenshots = await getScreenshotsFromBBCode(description);
-    return screenshots;
-  };
-  const getTikInfo = async () => {
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const typeText = $$2("td.heading:contains(Type)").eq(0).next().text();
-    const isMovie = typeText !== "TV-Series";
-    const tags2 = [];
-    $$2("td.heading:contains(Tags)").eq(0).next().children().each((_2, child) => {
-      tags2.push(child.textContent);
-    });
-    const size = $$2("td.heading:contains(Size)").eq(0).next().text().replace(/[0-9.]+ GB\s+\(([0-9,]+) bytes\)/i, (_2, size2) => size2.replace(/,/g, ""));
-    const title = $$2("h1").eq(0).text();
-    const imdbNumber = $$2('span:contains("IMDB id:") a').text();
-    const descContainer = $$2("td.heading:contains(Description)").eq(0).next();
-    const desc = descContainer.text();
-    const rawDesc = descContainer.html();
-    TORRENT_INFO.mediaInfos = [$$2("td[style~=dotted]").text()];
-    const { videoCodec, audioCodec, resolution = "", mediaTags = {} } = getInfoFromBDInfo(TORRENT_INFO.mediaInfos[0]);
-    TORRENT_INFO.size = parseInt(size, 10);
-    TORRENT_INFO.title = formatTorrentTitle(title);
-    TORRENT_INFO.description = desc;
-    TORRENT_INFO.screenshots = getImagesFromDesc(rawDesc);
-    TORRENT_INFO.year = $$2("span.gr_hsep:contains(Year)").text().replace("Year: ", "").trim();
-    TORRENT_INFO.movieName = $$2("div.gr_tdsep h1:first-child").text();
-    TORRENT_INFO.imdbUrl = `https://www.imdb.com/title/tt${imdbNumber}/`;
-    TORRENT_INFO.category = isMovie ? "movie" : "tvPack";
-    TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    TORRENT_INFO.videoType = tags2.includes("Blu-ray") ? "bluray" : "dvd";
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = mediaTags;
-  };
-  function getImagesFromDesc(desc) {
-    const screenshots = [];
-    if (!desc) {
-      return screenshots;
-    }
-    const matches = desc.match(/[a-z0-9]{32}/g);
-    if (!matches) {
-      return screenshots;
-    }
-    for (const m2 of matches) {
-      screenshots.push(`https://hostik.cinematik.net/gal/ori/${m2[0]}/${m2[1]}/${m2}.jpg`);
-    }
-    return screenshots;
-  }
-  const getTTGInfo = async () => {
-    var _a2, _b, _c, _d2, _e2;
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const headTitle = $$2("#main_table h1").eq(0).text();
-    const title = formatTorrentTitle((_b = (_a2 = headTitle.match(/[^[]+/)) == null ? void 0 : _a2[0]) != null ? _b : "");
-    TORRENT_INFO.title = title;
-    TORRENT_INFO.subtitle = headTitle.replace(title, "").replace(/\[|\]/g, "");
-    const tags2 = getTagsFromSubtitle(TORRENT_INFO.subtitle + TORRENT_INFO.title);
-    const mediaTecInfo = getTorrentValueDom("类型").text();
-    const { category, area, videoType } = getCategoryAndArea(mediaTecInfo);
-    TORRENT_INFO.area = area;
-    TORRENT_INFO.videoType = getVideoType$e(title, videoType);
-    const year = (_c = TORRENT_INFO.title.match(/(18|19|20)\d{2}/g)) != null ? _c : [];
-    TORRENT_INFO.year = year ? year.pop() : "";
-    const imdbUrl = getTorrentValueDom("IMDb").find("a").attr("href");
-    TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    const sizeStr = (_e2 = (_d2 = getTorrentValueDom("尺寸").text().match(/\(((\d|,)+)\s*字节\)/i)) == null ? void 0 : _d2[1]) != null ? _e2 : "";
-    TORRENT_INFO.size = parseInt(sizeStr.replace(/,/g, ""), 10);
-    const isBluray = TORRENT_INFO.videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    TORRENT_INFO.isForbidden = !!$$2("#kt_d").text().match(/禁转/);
-    window.onload = async () => {
-      var _a3, _b2, _c2, _d3, _e3, _f, _g;
-      const descriptionDom = $$2("#kt_d");
-      const bbCodes = getFilterBBCode(descriptionDom[0]);
-      if (!imdbUrl) {
-        TORRENT_INFO.imdbUrl = (_a3 = bbCodes.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _a3[0];
-      } else {
-        TORRENT_INFO.imdbUrl = imdbUrl;
-      }
-      const description = getDescription(bbCodes, title);
-      TORRENT_INFO.description = description;
-      const comparisons = getComparisonImgs(description);
-      TORRENT_INFO.comparisons = comparisons;
-      const doubanUrl = (_b2 = bbCodes.match(/https:\/\/(movie\.)?douban.com\/subject\/\d+/)) == null ? void 0 : _b2[0];
-      if (doubanUrl) {
-        TORRENT_INFO.doubanUrl = doubanUrl;
-      }
-      const areaMatch = (_c2 = bbCodes.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _c2[2];
-      if (areaMatch) {
-        TORRENT_INFO.area = getAreaCode(areaMatch);
-      }
-      if (!category) {
-        TORRENT_INFO.category = getCategoryFromDesc(bbCodes);
-      } else {
-        TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-      }
-      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(bbCodes);
-      const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-      if (mediaInfoOrBDInfo) {
-        TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
-        const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0]);
-        TORRENT_INFO.videoCodec = videoCodec;
-        TORRENT_INFO.audioCodec = audioCodec;
-        TORRENT_INFO.resolution = resolution || "";
-        TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
-      } else {
-        let resolution = (_e3 = (_d3 = TORRENT_INFO.title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _d3[0]) != null ? _e3 : "";
-        if (!resolution && resolution.match(/4k|uhd/i)) {
-          resolution = "2160p";
-        }
-        TORRENT_INFO.resolution = resolution;
-        TORRENT_INFO.audioCodec = getAudioCodecFromTitle(TORRENT_INFO.title);
-        if (bbCodes.match(/VIDEO(\.| )*CODEC/i)) {
-          const matchCodec = (_f = bbCodes.match(/VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i)) == null ? void 0 : _f[2];
-          if (matchCodec) {
-            TORRENT_INFO.videoCodec = matchCodec.replace(/\.|-/g, "").toLowerCase();
-          } else {
-            const { title: title2 } = TORRENT_INFO;
-            TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title2);
-          }
-        }
-        if (bbCodes.match(/AUDIO\s*CODEC/i)) {
-          const matchCodec = (_g = bbCodes.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)) == null ? void 0 : _g[1];
-          if (matchCodec) {
-            TORRENT_INFO.audioCodec = getAudioCodecFromTitle(matchCodec);
-          }
-        }
-      }
-      let screenshots = await getImages(bbCodes);
-      comparisons.forEach((comparison) => {
-        screenshots = screenshots.filter((img) => !comparison.imgs.includes(img));
-      });
-      TORRENT_INFO.screenshots = screenshots;
-    };
-  };
-  const getCategoryAndArea = (mediaInfo) => {
-    let category = "";
-    let area = "";
-    let videoType = "";
-    if (mediaInfo.match(/电影/)) {
-      category = "movie";
-    } else if (mediaInfo.match(/剧包/)) {
-      category = "tvPack";
-    } else if (mediaInfo.match(/剧/)) {
-      category = "tv";
-    } else if (mediaInfo.match(/纪录/)) {
-      category = "documentary";
-    } else if (mediaInfo.match(/综艺/)) {
-      category = "variety";
-    } else if (mediaInfo.match(/体育/)) {
-      category = "sport";
-    } else if (mediaInfo.match(/演唱会/)) {
-      category = "concert";
-    } else if (mediaInfo.match(/动漫/)) {
-      category = "cartoon";
-    }
-    if (mediaInfo.match(/韩/)) {
-      area = "KR";
-    } else if (mediaInfo.match(/日/)) {
-      area = "JP";
-    } else if (mediaInfo.match(/华/)) {
-      area = "CN";
-    } else if (mediaInfo.match(/欧/)) {
-      area = "US";
-    }
-    if (mediaInfo.match(/UHD原盘/i)) {
-      videoType = "uhdbluray";
-    } else if (mediaInfo.match(/bluray原盘/i)) {
-      videoType = "bluray";
-    } else if (mediaInfo.match(/DVD/i)) {
-      videoType = "dvd";
-    }
-    return {
-      category,
-      area,
-      videoType
-    };
-  };
-  const getImages = (bbcode) => {
-    var _a2, _b;
-    if (bbcode.match(/More\.Screens/i)) {
-      const moreScreen = (_b = (_a2 = bbcode.match(/\.More\.Screens\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-      return getScreenshotsFromBBCode(moreScreen);
-    }
-    return getScreenshotsFromBBCode(bbcode);
-  };
-  const getVideoType$e = (title, videoType) => {
-    if (title.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (title.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (title.match(/remux/i)) {
-      return "remux";
-    } else if (title.match(/dvdrip/i)) {
-      return "dvdrip";
-    } else if (title.match(/x264|x265/i)) {
-      return "encode";
-    }
-    return videoType;
-  };
-  const getTorrentValueDom = (key) => {
-    return $$2(`#main_table td.heading:contains(${key})`).next();
-  };
-  const getCategoryFromDesc = (desc) => {
-    let category = "movie";
-    const { title, subtitle } = TORRENT_INFO;
-    if (title.match(/s0?\d{1,2}/i) || desc.match(/集\s*数/)) {
-      if (title.match(/s0?\d{1,2}e0\d{1,2}/i) || (subtitle == null ? void 0 : subtitle.match(/第[^\s]集/))) {
-        category = "tv";
-      } else {
-        category = "tvPack";
-      }
-    } else if (desc.match(/动画/)) {
-      category = "cartoon";
-    } else if (desc.match(/纪录/)) {
-      category = "documentary";
+    if (category == null ? void 0 : category.match(/tv/)) {
+      return isEpisode(title, subtitle) ? "tv" : "tvPack";
     }
     return category;
   };
-  function getDescription(bbcode, title) {
-    var _a2, _b, _c, _d2, _e2, _f;
-    const discountMatch = (_b = (_a2 = bbcode.match(/\[color=\w+\]本种子.+?\[\/color\]/)) == null ? void 0 : _a2[0]) != null ? _b : "";
-    if (discountMatch) {
-      bbcode = bbcode.replace(discountMatch, "");
-    }
-    const noneSenseNumberMatch = (_d2 = (_c = bbcode.match(/@\d+?\(\d+?\)/)) == null ? void 0 : _c[0]) != null ? _d2 : "";
-    if (noneSenseNumberMatch) {
-      bbcode = bbcode.replace(noneSenseNumberMatch, "");
-    }
-    if (title.match(/-WiKi$/)) {
-      const doubanPart = (_f = (_e2 = bbcode.match(/◎译\s+名(.|\n)+/)) == null ? void 0 : _e2[0]) != null ? _f : "";
-      bbcode = bbcode.replace(doubanPart, "");
-      bbcode = bbcode.replace(/(\[img\].+?\[\/img\])/, `$1
-
-${doubanPart}`);
-    }
-    return bbcode;
-  }
-  function getComparisonImgs(description) {
-    var _a2, _b, _c;
-    const comparisonPart = (_a2 = description.match(/\.Comparisons(.|\n)+\[\/img\]\[\/url\]/)) == null ? void 0 : _a2[0];
-    if (!comparisonPart) {
-      return [];
-    }
-    const title = (_c = (_b = comparisonPart.match(/(\[color=.+?\])(.+?)\[\/color\]/g)) == null ? void 0 : _b.map((item) => {
-      var _a3, _b2;
-      return (_b2 = (_a3 = item.match(/\[color=.+?\](.+?)\[\/color\]/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-    })) != null ? _c : [];
-    const comparisonImgArray = [];
-    const allImages = comparisonPart == null ? void 0 : comparisonPart.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g);
-    if (allImages && allImages.length > 0) {
-      allImages.forEach((img) => {
-        var _a3;
-        const matchUrl = (_a3 = img.match(/\[url=(.+?)\]/)) == null ? void 0 : _a3[1];
-        if (matchUrl) {
-          comparisonImgArray.push(matchUrl);
-        }
-      });
-    }
-    return [{
-      imgs: comparisonImgArray,
-      title: title.join(","),
-      reason: ""
-    }];
-  }
-  const getUNIT3DInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h;
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const { Category, Name, Type: Type2, Size, Resolution } = getBasicInfo$4();
-    TORRENT_INFO.size = getSize(Size);
-    let title = formatTorrentTitle(Name);
-    const tags2 = getTagsFromSubtitle(TORRENT_INFO.title);
-    const category = getCategory$7(Category);
-    const videoType = getVideoType$d(Type2, Resolution);
-    let IMDBYear = $$2(".movie-heading span:last").text();
-    let movieName = $$2(".movie-heading span:first").text();
-    let imdbUrl = $$2(".movie-details a:contains(IMDB)").attr("href");
-    let poster = $$2(".movie-poster").attr("src");
-    if (CURRENT_SITE_NAME === "HDPOST") {
-      const englishTitle = (_b = (_a2 = title.match(/[\s\W\d]+(.+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-      TORRENT_INFO.subtitle = (_c = title.replace(englishTitle, "")) == null ? void 0 : _c.trim();
-      title = englishTitle;
-    }
-    if (CURRENT_SITE_NAME === "ACM") {
-      title = title.replace(/\/\s+\W+/, "");
-    }
-    if (CURRENT_SITE_NAME === "MDU") {
-      title = $$2("h1.text-center").text().trim();
-      TORRENT_INFO.subtitle = $$2("h2.text-center").text().trim();
-    }
-    if (!IMDBYear) {
-      const matchYear = TORRENT_INFO.title.match(/(19|20)\d{2}/g);
-      IMDBYear = (_d2 = matchYear == null ? void 0 : matchYear.pop()) != null ? _d2 : "";
-    } else {
-      IMDBYear = IMDBYear.replace(/\(|\)|\s/g, "");
-    }
-    const resolution = (_f = (_e2 = Resolution.match(/\d+(i|p)/i)) == null ? void 0 : _e2[0]) != null ? _f : "";
-    let descriptionDom = $$2(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
-    descriptionDom.find("#collection_waypoint").remove();
-    let mediaInfoOrBDInfo = $$2(".decoda-code code").text();
-    if (CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer|HUNO/i)) {
-      const title2 = $$2(".meta__title").text().trim();
-      movieName = title2.replace(/\(.+\)/g, "");
-      IMDBYear = (_h = (_g = title2.match(/\((\d{4})\)/)) == null ? void 0 : _g[1]) != null ? _h : "";
-      imdbUrl = $$2(".meta__imdb a").attr("href");
-      descriptionDom = $$2(".panel__body.bbcode-rendered");
-      mediaInfoOrBDInfo = $$2(".bbcode-rendered code").text();
-      poster = $$2(".meta__poster-link img").attr("src");
-    }
-    let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    if (mediaInfoOrBDInfo) {
-      descriptionBBCode = `
-[quote]${mediaInfoOrBDInfo}[/quote]${descriptionBBCode}`;
-    }
-    const isBluray = videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    TORRENT_INFO.mediaInfos = [mediaInfoOrBDInfo];
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), mediaTags);
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-    TORRENT_INFO.title = title;
-    TORRENT_INFO.year = IMDBYear;
-    TORRENT_INFO.movieName = CURRENT_SITE_NAME === "HDPOST" ? "" : movieName;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.poster = poster;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.source = getSourceFromTitle(title);
-    TORRENT_INFO.videoType = videoType.toLowerCase();
-    TORRENT_INFO.description = descriptionBBCode;
-    const fullInformation = TORRENT_INFO.subtitle + descriptionBBCode;
-    const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|请勿转载|禁止转载|exclusive/);
-    TORRENT_INFO.isForbidden = !!isForbidden;
-  };
-  const getBasicInfo$4 = () => {
-    const basicInfo = {
-      Category: "",
-      Name: "",
-      Type: "",
-      Size: "",
-      Resolution: ""
-    };
-    const keyMap = {
-      Name: "Name",
-      名称: "Name",
-      名稱: "Name",
-      Size: "Size",
-      体积: "Size",
-      體積: "Size",
-      size: "Size",
-      Category: "Category",
-      类别: "Category",
-      類別: "Category",
-      category: "Category",
-      Type: "Type",
-      规格: "Type",
-      規格: "Type",
-      type: "Type",
-      Resolution: "Resolution",
-      resolution: "Resolution"
-    };
-    if (!CURRENT_SITE_NAME.match(/Blutopia|Aither|fearnopeer|HUNO/i)) {
-      const lineSelector = $$2('#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr');
-      lineSelector.each((index, element) => {
-        var _a2, _b, _c;
-        const key = $$2(element).find("td:first").text().replace(/\s|\n/g, "");
-        const basicKey = keyMap[key];
-        if (basicKey) {
-          let value = $$2(element).find("td:last").text();
-          if (basicKey === "Name") {
-            value = (_c = (_b = (_a2 = $$2(element).find("td:last")[0]) == null ? void 0 : _a2.firstChild) == null ? void 0 : _b.textContent) != null ? _c : "";
-          }
-          basicInfo[basicKey] = value.replace(/\n/g, "").trim();
-        }
-      });
-    } else {
-      const formats = $$2(".torrent__tags li");
-      formats.each((index, item) => {
-        var _a2;
-        const className = (_a2 = $$2(item).attr("class")) == null ? void 0 : _a2.replace("torrent__", "");
-        basicInfo[keyMap[className]] = $$2(item).text().trim();
-      });
-      const title = $$2("h1.torrent__name").text().trim();
-      basicInfo.Name = title;
-      console.log(basicInfo);
-    }
-    return basicInfo;
-  };
-  const getCategory$7 = (key) => {
-    if (!key) {
+  const getVideoTypeFromSource = (source, resolution) => {
+    if (!source) {
       return "";
     }
-    if (key.match(/movie|电影/i)) {
-      return "movie";
-    } else if (key.match(/tv|电视|剧集/i)) {
-      return "tv";
+    const normalized = source.replace(/[.-]/g, "").toLowerCase();
+    for (const { regex, type, condition } of CONFIG.VIDEO_TYPE_MATCH_MAP(
+      resolution
+    )) {
+      if (regex.test(normalized) && (!condition || condition())) {
+        return type;
+      }
     }
     return "";
   };
-  const getVideoType$d = (type, resolution) => {
-    type = type.replace(/\s/g, "");
-    if (type.match(/FullDisc|BD/g)) {
-      if (resolution.match(/2160p/i)) {
-        return "uhdbluray";
-      } else if (resolution.match(/1080/)) {
-        return "bluray";
+  const getVideoSourceFromTitle = (title) => {
+    for (const [key, reg] of Object.entries(CONFIG.VIDEO_SOURCE_MATCH_MAP)) {
+      if (reg.test(title)) {
+        return key;
       }
-      return "dvd";
-    } else if (type.match(/Encode/i)) {
-      return "encode";
-    } else if (type.match(/web/i)) {
-      return "web";
-    } else if (type.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (type.match(/DVD/i)) {
-      return "dvd";
-    }
-    return type;
-  };
-  /* Common package for dealing with hex/string/uint8 conversions (and sha1 hashing)
-  *
-  * @author   Jimmy Wärting <jimmy@warting.se> (https://jimmy.warting.se/opensource)
-  * @license  MIT
-  */
-  const alphabet = "0123456789abcdef";
-  const encodeLookup = [];
-  const decodeLookup = [];
-  for (let i = 0; i < 256; i++) {
-    encodeLookup[i] = alphabet[i >> 4 & 15] + alphabet[i & 15];
-    if (i < 16) {
-      if (i < 10) {
-        decodeLookup[48 + i] = i;
-      } else {
-        decodeLookup[97 - 10 + i] = i;
-      }
-    }
-  }
-  const arr2hex = (data) => {
-    const length = data.length;
-    let string2 = "";
-    let i = 0;
-    while (i < length) {
-      string2 += encodeLookup[data[i++]];
-    }
-    return string2;
-  };
-  const hex2arr = (str) => {
-    const sizeof = str.length >> 1;
-    const length = sizeof << 1;
-    const array = new Uint8Array(sizeof);
-    let n = 0;
-    let i = 0;
-    while (i < length) {
-      array[n++] = decodeLookup[str.charCodeAt(i++)] << 4 | decodeLookup[str.charCodeAt(i++)];
-    }
-    return array;
-  };
-  const concat = (chunks, size = 0) => {
-    const length = chunks.length || 0;
-    if (!size) {
-      let i2 = length;
-      while (i2--) size += chunks[i2].length;
-    }
-    const b = new Uint8Array(size);
-    let offset = size;
-    let i = length;
-    while (i--) {
-      offset -= chunks[i].length;
-      b.set(chunks[i], offset);
-    }
-    return b;
-  };
-  var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  var lookup = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
-  for (var i = 0; i < chars.length; i++) {
-    lookup[chars.charCodeAt(i)] = i;
-  }
-  var encode$1 = function(arraybuffer) {
-    var bytes = new Uint8Array(arraybuffer), i, len = bytes.length, base64 = "";
-    for (i = 0; i < len; i += 3) {
-      base64 += chars[bytes[i] >> 2];
-      base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
-      base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
-      base64 += chars[bytes[i + 2] & 63];
-    }
-    if (len % 3 === 2) {
-      base64 = base64.substring(0, base64.length - 1) + "=";
-    } else if (len % 3 === 1) {
-      base64 = base64.substring(0, base64.length - 2) + "==";
-    }
-    return base64;
-  };
-  const decoder = new TextDecoder();
-  const arr2text = (data, enc) => {
-    return decoder.decode(data);
-  };
-  const encoder = new TextEncoder();
-  const text2arr = (str) => encoder.encode(str);
-  const arr2base = (data) => encode$1(data);
-  const scope = typeof window !== "undefined" ? window : self;
-  const crypto = scope.crypto || scope.msCrypto || {};
-  const subtle = crypto.subtle || crypto.webkitSubtle;
-  const formatMap = {
-    hex: arr2hex,
-    base64: arr2base
-  };
-  const hash = async (data, format2, algo = "sha-1") => {
-    if (!subtle) throw new Error("no web crypto support");
-    if (typeof data === "string") data = text2arr(data);
-    const out = new Uint8Array(await subtle.digest(algo, data));
-    return format2 ? formatMap[format2](out) : out;
-  };
-  function digitCount(value) {
-    const sign = value < 0 ? 1 : 0;
-    value = Math.abs(Number(value || 1));
-    return Math.floor(Math.log10(value)) + 1 + sign;
-  }
-  function getType(value) {
-    if (ArrayBuffer.isView(value)) return "arraybufferview";
-    if (Array.isArray(value)) return "array";
-    if (value instanceof Number) return "number";
-    if (value instanceof Boolean) return "boolean";
-    if (value instanceof Set) return "set";
-    if (value instanceof Map) return "map";
-    if (value instanceof String) return "string";
-    if (value instanceof ArrayBuffer) return "arraybuffer";
-    return typeof value;
-  }
-  function encode(data, buffer2, offset) {
-    const buffers = [];
-    let result = null;
-    encode._encode(buffers, data);
-    result = concat(buffers);
-    encode.bytes = result.length;
-    if (ArrayBuffer.isView(buffer2)) {
-      buffer2.set(result, offset);
-      return buffer2;
-    }
-    return result;
-  }
-  encode.bytes = -1;
-  encode._floatConversionDetected = false;
-  encode._encode = function(buffers, data) {
-    if (data == null) {
-      return;
-    }
-    switch (getType(data)) {
-      case "object":
-        encode.dict(buffers, data);
-        break;
-      case "map":
-        encode.dictMap(buffers, data);
-        break;
-      case "array":
-        encode.list(buffers, data);
-        break;
-      case "set":
-        encode.listSet(buffers, data);
-        break;
-      case "string":
-        encode.string(buffers, data);
-        break;
-      case "number":
-        encode.number(buffers, data);
-        break;
-      case "boolean":
-        encode.number(buffers, data);
-        break;
-      case "arraybufferview":
-        encode.buffer(buffers, new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
-        break;
-      case "arraybuffer":
-        encode.buffer(buffers, new Uint8Array(data));
-        break;
-    }
-  };
-  const buffE = new Uint8Array([101]);
-  const buffD = new Uint8Array([100]);
-  const buffL = new Uint8Array([108]);
-  encode.buffer = function(buffers, data) {
-    buffers.push(text2arr(data.length + ":"), data);
-  };
-  encode.string = function(buffers, data) {
-    buffers.push(text2arr(text2arr(data).byteLength + ":" + data));
-  };
-  encode.number = function(buffers, data) {
-    if (Number.isInteger(data)) return buffers.push(text2arr("i" + BigInt(data) + "e"));
-    const maxLo = 2147483648;
-    const hi = data / maxLo << 0;
-    const lo = data % maxLo << 0;
-    const val = hi * maxLo + lo;
-    buffers.push(text2arr("i" + val + "e"));
-    if (val !== data && !encode._floatConversionDetected) {
-      encode._floatConversionDetected = true;
-      console.warn(
-        'WARNING: Possible data corruption detected with value "' + data + '":',
-        'Bencoding only defines support for integers, value was converted to "' + val + '"'
-      );
-      console.trace();
-    }
-  };
-  encode.dict = function(buffers, data) {
-    buffers.push(buffD);
-    let j2 = 0;
-    let k2;
-    const keys = Object.keys(data).sort();
-    const kl = keys.length;
-    for (; j2 < kl; j2++) {
-      k2 = keys[j2];
-      if (data[k2] == null) continue;
-      encode.string(buffers, k2);
-      encode._encode(buffers, data[k2]);
-    }
-    buffers.push(buffE);
-  };
-  encode.dictMap = function(buffers, data) {
-    buffers.push(buffD);
-    const keys = Array.from(data.keys()).sort();
-    for (const key of keys) {
-      if (data.get(key) == null) continue;
-      ArrayBuffer.isView(key) ? encode._encode(buffers, key) : encode.string(buffers, String(key));
-      encode._encode(buffers, data.get(key));
-    }
-    buffers.push(buffE);
-  };
-  encode.list = function(buffers, data) {
-    let i = 0;
-    const c2 = data.length;
-    buffers.push(buffL);
-    for (; i < c2; i++) {
-      if (data[i] == null) continue;
-      encode._encode(buffers, data[i]);
-    }
-    buffers.push(buffE);
-  };
-  encode.listSet = function(buffers, data) {
-    buffers.push(buffL);
-    for (const item of data) {
-      if (item == null) continue;
-      encode._encode(buffers, item);
-    }
-    buffers.push(buffE);
-  };
-  const INTEGER_START = 105;
-  const STRING_DELIM = 58;
-  const DICTIONARY_START = 100;
-  const LIST_START = 108;
-  const END_OF_TYPE = 101;
-  function getIntFromBuffer(buffer2, start, end) {
-    let sum = 0;
-    let sign = 1;
-    for (let i = start; i < end; i++) {
-      const num = buffer2[i];
-      if (num < 58 && num >= 48) {
-        sum = sum * 10 + (num - 48);
-        continue;
-      }
-      if (i === start && num === 43) {
-        continue;
-      }
-      if (i === start && num === 45) {
-        sign = -1;
-        continue;
-      }
-      if (num === 46) {
-        break;
-      }
-      throw new Error("not a number: buffer[" + i + "] = " + num);
-    }
-    return sum * sign;
-  }
-  function decode$1(data, start, end, encoding) {
-    if (data == null || data.length === 0) {
-      return null;
-    }
-    if (typeof start !== "number" && encoding == null) {
-      encoding = start;
-      start = void 0;
-    }
-    if (typeof end !== "number" && encoding == null) {
-      encoding = end;
-      end = void 0;
-    }
-    decode$1.position = 0;
-    decode$1.encoding = encoding || null;
-    decode$1.data = !ArrayBuffer.isView(data) ? text2arr(data) : new Uint8Array(data.slice(start, end));
-    decode$1.bytes = decode$1.data.length;
-    return decode$1.next();
-  }
-  decode$1.bytes = 0;
-  decode$1.position = 0;
-  decode$1.data = null;
-  decode$1.encoding = null;
-  decode$1.next = function() {
-    switch (decode$1.data[decode$1.position]) {
-      case DICTIONARY_START:
-        return decode$1.dictionary();
-      case LIST_START:
-        return decode$1.list();
-      case INTEGER_START:
-        return decode$1.integer();
-      default:
-        return decode$1.buffer();
-    }
-  };
-  decode$1.find = function(chr) {
-    let i = decode$1.position;
-    const c2 = decode$1.data.length;
-    const d2 = decode$1.data;
-    while (i < c2) {
-      if (d2[i] === chr) return i;
-      i++;
-    }
-    throw new Error(
-      'Invalid data: Missing delimiter "' + String.fromCharCode(chr) + '" [0x' + chr.toString(16) + "]"
-    );
-  };
-  decode$1.dictionary = function() {
-    decode$1.position++;
-    const dict = {};
-    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
-      const buffer2 = decode$1.buffer();
-      let key = arr2text(buffer2);
-      if (key.includes("�")) key = arr2hex(buffer2);
-      dict[key] = decode$1.next();
-    }
-    decode$1.position++;
-    return dict;
-  };
-  decode$1.list = function() {
-    decode$1.position++;
-    const lst = [];
-    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
-      lst.push(decode$1.next());
-    }
-    decode$1.position++;
-    return lst;
-  };
-  decode$1.integer = function() {
-    const end = decode$1.find(END_OF_TYPE);
-    const number = getIntFromBuffer(decode$1.data, decode$1.position + 1, end);
-    decode$1.position += end + 1 - decode$1.position;
-    return number;
-  };
-  decode$1.buffer = function() {
-    let sep = decode$1.find(STRING_DELIM);
-    const length = getIntFromBuffer(decode$1.data, decode$1.position, sep);
-    const end = ++sep + length;
-    decode$1.position = end;
-    return decode$1.encoding ? arr2text(decode$1.data.slice(sep, end)) : decode$1.data.slice(sep, end);
-  };
-  function listLength(list) {
-    let length = 1 + 1;
-    for (const value of list) {
-      length += encodingLength$1(value);
-    }
-    return length;
-  }
-  function mapLength(map2) {
-    let length = 1 + 1;
-    for (const [key, value] of map2) {
-      const keyLength = text2arr(key).byteLength;
-      length += digitCount(keyLength) + 1 + keyLength;
-      length += encodingLength$1(value);
-    }
-    return length;
-  }
-  function objectLength(value) {
-    let length = 1 + 1;
-    const keys = Object.keys(value);
-    for (let i = 0; i < keys.length; i++) {
-      const keyLength = text2arr(keys[i]).byteLength;
-      length += digitCount(keyLength) + 1 + keyLength;
-      length += encodingLength$1(value[keys[i]]);
-    }
-    return length;
-  }
-  function stringLength(value) {
-    const length = text2arr(value).byteLength;
-    return digitCount(length) + 1 + length;
-  }
-  function arrayBufferLength(value) {
-    const length = value.byteLength - value.byteOffset;
-    return digitCount(length) + 1 + length;
-  }
-  function encodingLength$1(value) {
-    const length = 0;
-    if (value == null) return length;
-    const type = getType(value);
-    switch (type) {
-      case "arraybufferview":
-        return arrayBufferLength(value);
-      case "string":
-        return stringLength(value);
-      case "array":
-      case "set":
-        return listLength(value);
-      case "number":
-        return 1 + digitCount(Math.floor(value)) + 1;
-      case "bigint":
-        return 1 + value.toString().length + 1;
-      case "object":
-        return objectLength(value);
-      case "map":
-        return mapLength(value);
-      default:
-        throw new TypeError(`Unsupported value of type "${type}"`);
-    }
-  }
-  const encodingLength = encodingLength$1;
-  const bencode = { encode, decode: decode$1, byteLength: encodingLength$1, encodingLength };
-  const byteTable = [
-    255,
-    255,
-    26,
-    27,
-    28,
-    29,
-    30,
-    31,
-    255,
-    255,
-    255,
-    255,
-    255,
-    255,
-    255,
-    255,
-    255,
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    255,
-    255,
-    255,
-    255,
-    255,
-    255,
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    255,
-    255,
-    255,
-    255,
-    255
-  ];
-  const decode = function(encoded) {
-    if (!ArrayBuffer.isView(encoded) && typeof encoded !== "string") {
-      throw new TypeError("base32.decode only takes Buffer or string as parameter");
-    }
-    let shiftIndex = 0;
-    let plainDigit = 0;
-    let plainChar;
-    let plainPos = 0;
-    if (!ArrayBuffer.isView(encoded)) {
-      encoded = text2arr(encoded);
-    }
-    const decoded = new Uint8Array(Math.ceil(encoded.length * 5 / 8));
-    for (let i = 0; i < encoded.length; i++) {
-      if (encoded[i] === 61) {
-        break;
-      }
-      const encodedByte = encoded[i] - 48;
-      if (encodedByte < byteTable.length) {
-        plainDigit = byteTable[encodedByte];
-        if (shiftIndex <= 3) {
-          shiftIndex = (shiftIndex + 5) % 8;
-          if (shiftIndex === 0) {
-            plainChar |= plainDigit;
-            decoded[plainPos] = plainChar;
-            plainPos++;
-            plainChar = 0;
-          } else {
-            plainChar |= 255 & plainDigit << 8 - shiftIndex;
-          }
-        } else {
-          shiftIndex = (shiftIndex + 5) % 8;
-          plainChar |= 255 & plainDigit >>> shiftIndex;
-          decoded[plainPos] = plainChar;
-          plainPos++;
-          plainChar = 255 & plainDigit << 8 - shiftIndex;
-        }
-      } else {
-        throw new Error("Invalid input - it is not base32 encoded string");
-      }
-    }
-    return decoded.subarray(0, plainPos);
-  };
-  function parseRange(range) {
-    const generateRange = (start, end = start) => Array.from({ length: end - start + 1 }, (cur, idx) => idx + start);
-    return range.reduce((acc, cur, idx, arr) => {
-      const r2 = cur.split("-").map((cur2) => parseInt(cur2));
-      return acc.concat(generateRange(...r2));
-    }, []);
-  }
-  /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
-  function magnetURIDecode(uri) {
-    const result = {};
-    const data = uri.split("magnet:?")[1];
-    const params = data && data.length >= 0 ? data.split("&") : [];
-    params.forEach((param) => {
-      const keyval = param.split("=");
-      if (keyval.length !== 2) return;
-      const key = keyval[0];
-      let val = keyval[1];
-      if (key === "dn") val = decodeURIComponent(val).replace(/\+/g, " ");
-      if (key === "tr" || key === "xs" || key === "as" || key === "ws") {
-        val = decodeURIComponent(val);
-      }
-      if (key === "kt") val = decodeURIComponent(val).split("+");
-      if (key === "ix") val = Number(val);
-      if (key === "so") val = parseRange(decodeURIComponent(val).split(","));
-      if (result[key]) {
-        if (!Array.isArray(result[key])) {
-          result[key] = [result[key]];
-        }
-        result[key].push(val);
-      } else {
-        result[key] = val;
-      }
-    });
-    let m2;
-    if (result.xt) {
-      const xts = Array.isArray(result.xt) ? result.xt : [result.xt];
-      xts.forEach((xt) => {
-        if (m2 = xt.match(/^urn:btih:(.{40})/)) {
-          result.infoHash = m2[1].toLowerCase();
-        } else if (m2 = xt.match(/^urn:btih:(.{32})/)) {
-          result.infoHash = arr2hex(decode(m2[1]));
-        } else if (m2 = xt.match(/^urn:btmh:1220(.{64})/)) {
-          result.infoHashV2 = m2[1].toLowerCase();
-        }
-      });
-    }
-    if (result.xs) {
-      const xss = Array.isArray(result.xs) ? result.xs : [result.xs];
-      xss.forEach((xs) => {
-        if (m2 = xs.match(/^urn:btpk:(.{64})/)) {
-          result.publicKey = m2[1].toLowerCase();
-        }
-      });
-    }
-    if (result.infoHash) result.infoHashBuffer = hex2arr(result.infoHash);
-    if (result.infoHashV2) result.infoHashV2Buffer = hex2arr(result.infoHashV2);
-    if (result.publicKey) result.publicKeyBuffer = hex2arr(result.publicKey);
-    if (result.dn) result.name = result.dn;
-    if (result.kt) result.keywords = result.kt;
-    result.announce = [];
-    if (typeof result.tr === "string" || Array.isArray(result.tr)) {
-      result.announce = result.announce.concat(result.tr);
-    }
-    result.urlList = [];
-    if (typeof result.as === "string" || Array.isArray(result.as)) {
-      result.urlList = result.urlList.concat(result.as);
-    }
-    if (typeof result.ws === "string" || Array.isArray(result.ws)) {
-      result.urlList = result.urlList.concat(result.ws);
-    }
-    result.peerAddresses = [];
-    if (typeof result["x.pe"] === "string" || Array.isArray(result["x.pe"])) {
-      result.peerAddresses = result.peerAddresses.concat(result["x.pe"]);
-    }
-    result.announce = Array.from(new Set(result.announce));
-    result.urlList = Array.from(new Set(result.urlList));
-    result.peerAddresses = Array.from(new Set(result.peerAddresses));
-    return result;
-  }
-  function assertPath(path2) {
-    if (typeof path2 !== "string") {
-      throw new TypeError("Path must be a string. Received " + JSON.stringify(path2));
-    }
-  }
-  function normalizeStringPosix(path2, allowAboveRoot) {
-    var res = "";
-    var lastSegmentLength = 0;
-    var lastSlash = -1;
-    var dots = 0;
-    var code2;
-    for (var i = 0; i <= path2.length; ++i) {
-      if (i < path2.length)
-        code2 = path2.charCodeAt(i);
-      else if (code2 === 47)
-        break;
-      else
-        code2 = 47;
-      if (code2 === 47) {
-        if (lastSlash === i - 1 || dots === 1) ;
-        else if (lastSlash !== i - 1 && dots === 2) {
-          if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
-            if (res.length > 2) {
-              var lastSlashIndex = res.lastIndexOf("/");
-              if (lastSlashIndex !== res.length - 1) {
-                if (lastSlashIndex === -1) {
-                  res = "";
-                  lastSegmentLength = 0;
-                } else {
-                  res = res.slice(0, lastSlashIndex);
-                  lastSegmentLength = res.length - 1 - res.lastIndexOf("/");
-                }
-                lastSlash = i;
-                dots = 0;
-                continue;
-              }
-            } else if (res.length === 2 || res.length === 1) {
-              res = "";
-              lastSegmentLength = 0;
-              lastSlash = i;
-              dots = 0;
-              continue;
-            }
-          }
-          if (allowAboveRoot) {
-            if (res.length > 0)
-              res += "/..";
-            else
-              res = "..";
-            lastSegmentLength = 2;
-          }
-        } else {
-          if (res.length > 0)
-            res += "/" + path2.slice(lastSlash + 1, i);
-          else
-            res = path2.slice(lastSlash + 1, i);
-          lastSegmentLength = i - lastSlash - 1;
-        }
-        lastSlash = i;
-        dots = 0;
-      } else if (code2 === 46 && dots !== -1) {
-        ++dots;
-      } else {
-        dots = -1;
-      }
-    }
-    return res;
-  }
-  function _format(sep, pathObject) {
-    var dir = pathObject.dir || pathObject.root;
-    var base = pathObject.base || (pathObject.name || "") + (pathObject.ext || "");
-    if (!dir) {
-      return base;
-    }
-    if (dir === pathObject.root) {
-      return dir + base;
-    }
-    return dir + sep + base;
-  }
-  var posix = {
-    // path.resolve([from ...], to)
-    resolve: function resolve() {
-      var resolvedPath = "";
-      var resolvedAbsolute = false;
-      var cwd;
-      for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-        var path2;
-        if (i >= 0)
-          path2 = arguments[i];
-        else {
-          if (cwd === void 0)
-            cwd = process.cwd();
-          path2 = cwd;
-        }
-        assertPath(path2);
-        if (path2.length === 0) {
-          continue;
-        }
-        resolvedPath = path2 + "/" + resolvedPath;
-        resolvedAbsolute = path2.charCodeAt(0) === 47;
-      }
-      resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
-      if (resolvedAbsolute) {
-        if (resolvedPath.length > 0)
-          return "/" + resolvedPath;
-        else
-          return "/";
-      } else if (resolvedPath.length > 0) {
-        return resolvedPath;
-      } else {
-        return ".";
-      }
-    },
-    normalize: function normalize(path2) {
-      assertPath(path2);
-      if (path2.length === 0) return ".";
-      var isAbsolute2 = path2.charCodeAt(0) === 47;
-      var trailingSeparator = path2.charCodeAt(path2.length - 1) === 47;
-      path2 = normalizeStringPosix(path2, !isAbsolute2);
-      if (path2.length === 0 && !isAbsolute2) path2 = ".";
-      if (path2.length > 0 && trailingSeparator) path2 += "/";
-      if (isAbsolute2) return "/" + path2;
-      return path2;
-    },
-    isAbsolute: function isAbsolute(path2) {
-      assertPath(path2);
-      return path2.length > 0 && path2.charCodeAt(0) === 47;
-    },
-    join: function join() {
-      if (arguments.length === 0)
-        return ".";
-      var joined;
-      for (var i = 0; i < arguments.length; ++i) {
-        var arg = arguments[i];
-        assertPath(arg);
-        if (arg.length > 0) {
-          if (joined === void 0)
-            joined = arg;
-          else
-            joined += "/" + arg;
-        }
-      }
-      if (joined === void 0)
-        return ".";
-      return posix.normalize(joined);
-    },
-    relative: function relative(from, to) {
-      assertPath(from);
-      assertPath(to);
-      if (from === to) return "";
-      from = posix.resolve(from);
-      to = posix.resolve(to);
-      if (from === to) return "";
-      var fromStart = 1;
-      for (; fromStart < from.length; ++fromStart) {
-        if (from.charCodeAt(fromStart) !== 47)
-          break;
-      }
-      var fromEnd = from.length;
-      var fromLen = fromEnd - fromStart;
-      var toStart = 1;
-      for (; toStart < to.length; ++toStart) {
-        if (to.charCodeAt(toStart) !== 47)
-          break;
-      }
-      var toEnd = to.length;
-      var toLen = toEnd - toStart;
-      var length = fromLen < toLen ? fromLen : toLen;
-      var lastCommonSep = -1;
-      var i = 0;
-      for (; i <= length; ++i) {
-        if (i === length) {
-          if (toLen > length) {
-            if (to.charCodeAt(toStart + i) === 47) {
-              return to.slice(toStart + i + 1);
-            } else if (i === 0) {
-              return to.slice(toStart + i);
-            }
-          } else if (fromLen > length) {
-            if (from.charCodeAt(fromStart + i) === 47) {
-              lastCommonSep = i;
-            } else if (i === 0) {
-              lastCommonSep = 0;
-            }
-          }
-          break;
-        }
-        var fromCode = from.charCodeAt(fromStart + i);
-        var toCode = to.charCodeAt(toStart + i);
-        if (fromCode !== toCode)
-          break;
-        else if (fromCode === 47)
-          lastCommonSep = i;
-      }
-      var out = "";
-      for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
-        if (i === fromEnd || from.charCodeAt(i) === 47) {
-          if (out.length === 0)
-            out += "..";
-          else
-            out += "/..";
-        }
-      }
-      if (out.length > 0)
-        return out + to.slice(toStart + lastCommonSep);
-      else {
-        toStart += lastCommonSep;
-        if (to.charCodeAt(toStart) === 47)
-          ++toStart;
-        return to.slice(toStart);
-      }
-    },
-    _makeLong: function _makeLong(path2) {
-      return path2;
-    },
-    dirname: function dirname(path2) {
-      assertPath(path2);
-      if (path2.length === 0) return ".";
-      var code2 = path2.charCodeAt(0);
-      var hasRoot = code2 === 47;
-      var end = -1;
-      var matchedSlash = true;
-      for (var i = path2.length - 1; i >= 1; --i) {
-        code2 = path2.charCodeAt(i);
-        if (code2 === 47) {
-          if (!matchedSlash) {
-            end = i;
-            break;
-          }
-        } else {
-          matchedSlash = false;
-        }
-      }
-      if (end === -1) return hasRoot ? "/" : ".";
-      if (hasRoot && end === 1) return "//";
-      return path2.slice(0, end);
-    },
-    basename: function basename(path2, ext) {
-      if (ext !== void 0 && typeof ext !== "string") throw new TypeError('"ext" argument must be a string');
-      assertPath(path2);
-      var start = 0;
-      var end = -1;
-      var matchedSlash = true;
-      var i;
-      if (ext !== void 0 && ext.length > 0 && ext.length <= path2.length) {
-        if (ext.length === path2.length && ext === path2) return "";
-        var extIdx = ext.length - 1;
-        var firstNonSlashEnd = -1;
-        for (i = path2.length - 1; i >= 0; --i) {
-          var code2 = path2.charCodeAt(i);
-          if (code2 === 47) {
-            if (!matchedSlash) {
-              start = i + 1;
-              break;
-            }
-          } else {
-            if (firstNonSlashEnd === -1) {
-              matchedSlash = false;
-              firstNonSlashEnd = i + 1;
-            }
-            if (extIdx >= 0) {
-              if (code2 === ext.charCodeAt(extIdx)) {
-                if (--extIdx === -1) {
-                  end = i;
-                }
-              } else {
-                extIdx = -1;
-                end = firstNonSlashEnd;
-              }
-            }
-          }
-        }
-        if (start === end) end = firstNonSlashEnd;
-        else if (end === -1) end = path2.length;
-        return path2.slice(start, end);
-      } else {
-        for (i = path2.length - 1; i >= 0; --i) {
-          if (path2.charCodeAt(i) === 47) {
-            if (!matchedSlash) {
-              start = i + 1;
-              break;
-            }
-          } else if (end === -1) {
-            matchedSlash = false;
-            end = i + 1;
-          }
-        }
-        if (end === -1) return "";
-        return path2.slice(start, end);
-      }
-    },
-    extname: function extname(path2) {
-      assertPath(path2);
-      var startDot = -1;
-      var startPart = 0;
-      var end = -1;
-      var matchedSlash = true;
-      var preDotState = 0;
-      for (var i = path2.length - 1; i >= 0; --i) {
-        var code2 = path2.charCodeAt(i);
-        if (code2 === 47) {
-          if (!matchedSlash) {
-            startPart = i + 1;
-            break;
-          }
-          continue;
-        }
-        if (end === -1) {
-          matchedSlash = false;
-          end = i + 1;
-        }
-        if (code2 === 46) {
-          if (startDot === -1)
-            startDot = i;
-          else if (preDotState !== 1)
-            preDotState = 1;
-        } else if (startDot !== -1) {
-          preDotState = -1;
-        }
-      }
-      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
-      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
-      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-        return "";
-      }
-      return path2.slice(startDot, end);
-    },
-    format: function format(pathObject) {
-      if (pathObject === null || typeof pathObject !== "object") {
-        throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
-      }
-      return _format("/", pathObject);
-    },
-    parse: function parse(path2) {
-      assertPath(path2);
-      var ret = { root: "", dir: "", base: "", ext: "", name: "" };
-      if (path2.length === 0) return ret;
-      var code2 = path2.charCodeAt(0);
-      var isAbsolute2 = code2 === 47;
-      var start;
-      if (isAbsolute2) {
-        ret.root = "/";
-        start = 1;
-      } else {
-        start = 0;
-      }
-      var startDot = -1;
-      var startPart = 0;
-      var end = -1;
-      var matchedSlash = true;
-      var i = path2.length - 1;
-      var preDotState = 0;
-      for (; i >= start; --i) {
-        code2 = path2.charCodeAt(i);
-        if (code2 === 47) {
-          if (!matchedSlash) {
-            startPart = i + 1;
-            break;
-          }
-          continue;
-        }
-        if (end === -1) {
-          matchedSlash = false;
-          end = i + 1;
-        }
-        if (code2 === 46) {
-          if (startDot === -1) startDot = i;
-          else if (preDotState !== 1) preDotState = 1;
-        } else if (startDot !== -1) {
-          preDotState = -1;
-        }
-      }
-      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
-      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
-      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-        if (end !== -1) {
-          if (startPart === 0 && isAbsolute2) ret.base = ret.name = path2.slice(1, end);
-          else ret.base = ret.name = path2.slice(startPart, end);
-        }
-      } else {
-        if (startPart === 0 && isAbsolute2) {
-          ret.name = path2.slice(1, startDot);
-          ret.base = path2.slice(1, end);
-        } else {
-          ret.name = path2.slice(startPart, startDot);
-          ret.base = path2.slice(startPart, end);
-        }
-        ret.ext = path2.slice(startDot, end);
-      }
-      if (startPart > 0) ret.dir = path2.slice(0, startPart - 1);
-      else if (isAbsolute2) ret.dir = "/";
-      return ret;
-    },
-    sep: "/",
-    delimiter: ":",
-    win32: null,
-    posix: null
-  };
-  posix.posix = posix;
-  var pathBrowserify = posix;
-  const path = /* @__PURE__ */ getDefaultExportFromCjs(pathBrowserify);
-  /*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
-  let promise;
-  typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : commonjsGlobal) : (cb) => (promise || (promise = Promise.resolve())).then(cb).catch((err) => setTimeout(() => {
-    throw err;
-  }, 0));
-  /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
-  async function parseTorrent(torrentId) {
-    if (typeof torrentId === "string" && /^(stream-)?magnet:/.test(torrentId)) {
-      const torrentObj = magnetURIDecode(torrentId);
-      if (!torrentObj.infoHash) {
-        throw new Error("Invalid torrent identifier");
-      }
-      return torrentObj;
-    } else if (typeof torrentId === "string" && (/^[a-f0-9]{40}$/i.test(torrentId) || /^[a-z2-7]{32}$/i.test(torrentId))) {
-      return magnetURIDecode(`magnet:?xt=urn:btih:${torrentId}`);
-    } else if (ArrayBuffer.isView(torrentId) && torrentId.length === 20) {
-      return magnetURIDecode(`magnet:?xt=urn:btih:${arr2hex(torrentId)}`);
-    } else if (ArrayBuffer.isView(torrentId)) {
-      return await decodeTorrentFile(torrentId);
-    } else if (torrentId && torrentId.infoHash) {
-      torrentId.infoHash = torrentId.infoHash.toLowerCase();
-      if (!torrentId.announce) torrentId.announce = [];
-      if (typeof torrentId.announce === "string") {
-        torrentId.announce = [torrentId.announce];
-      }
-      if (!torrentId.urlList) torrentId.urlList = [];
-      return torrentId;
-    } else {
-      throw new Error("Invalid torrent identifier");
-    }
-  }
-  async function decodeTorrentFile(torrent) {
-    if (ArrayBuffer.isView(torrent)) {
-      torrent = bencode.decode(torrent);
-    }
-    ensure(torrent.info, "info");
-    ensure(torrent.info["name.utf-8"] || torrent.info.name, "info.name");
-    ensure(torrent.info["piece length"], "info['piece length']");
-    ensure(torrent.info.pieces, "info.pieces");
-    if (torrent.info.files) {
-      torrent.info.files.forEach((file) => {
-        ensure(typeof file.length === "number", "info.files[0].length");
-        ensure(file["path.utf-8"] || file.path, "info.files[0].path");
-      });
-    } else {
-      ensure(typeof torrent.info.length === "number", "info.length");
-    }
-    const result = {
-      info: torrent.info,
-      infoBuffer: bencode.encode(torrent.info),
-      name: arr2text(torrent.info["name.utf-8"] || torrent.info.name),
-      announce: []
-    };
-    result.infoHashBuffer = await hash(result.infoBuffer);
-    result.infoHash = arr2hex(result.infoHashBuffer);
-    if (torrent.info.private !== void 0) result.private = !!torrent.info.private;
-    if (torrent["creation date"]) result.created = new Date(torrent["creation date"] * 1e3);
-    if (torrent["created by"]) result.createdBy = arr2text(torrent["created by"]);
-    if (ArrayBuffer.isView(torrent.comment)) result.comment = arr2text(torrent.comment);
-    if (Array.isArray(torrent["announce-list"]) && torrent["announce-list"].length > 0) {
-      torrent["announce-list"].forEach((urls) => {
-        urls.forEach((url) => {
-          result.announce.push(arr2text(url));
-        });
-      });
-    } else if (torrent.announce) {
-      result.announce.push(arr2text(torrent.announce));
-    }
-    if (ArrayBuffer.isView(torrent["url-list"])) {
-      torrent["url-list"] = torrent["url-list"].length > 0 ? [torrent["url-list"]] : [];
-    }
-    result.urlList = (torrent["url-list"] || []).map((url) => arr2text(url));
-    result.announce = Array.from(new Set(result.announce));
-    result.urlList = Array.from(new Set(result.urlList));
-    const files = torrent.info.files || [torrent.info];
-    result.files = files.map((file, i) => {
-      const parts = [].concat(result.name, file["path.utf-8"] || file.path || []).map((p2) => ArrayBuffer.isView(p2) ? arr2text(p2) : p2);
-      return {
-        path: path.join.apply(null, [path.sep].concat(parts)).slice(1),
-        name: parts[parts.length - 1],
-        length: file.length,
-        offset: files.slice(0, i).reduce(sumLength, 0)
-      };
-    });
-    result.length = files.reduce(sumLength, 0);
-    const lastFile = result.files[result.files.length - 1];
-    result.pieceLength = torrent.info["piece length"];
-    result.lastPieceLength = (lastFile.offset + lastFile.length) % result.pieceLength || result.pieceLength;
-    result.pieces = splitPieces(torrent.info.pieces);
-    return result;
-  }
-  function encodeTorrentFile(parsed) {
-    const torrent = {
-      info: parsed.info
-    };
-    torrent["announce-list"] = (parsed.announce || []).map((url) => {
-      if (!torrent.announce) torrent.announce = url;
-      url = text2arr(url);
-      return [url];
-    });
-    torrent["url-list"] = parsed.urlList || [];
-    if (parsed.private !== void 0) {
-      torrent.private = Number(parsed.private);
-    }
-    if (parsed.created) {
-      torrent["creation date"] = parsed.created.getTime() / 1e3 | 0;
-    }
-    if (parsed.createdBy) {
-      torrent["created by"] = parsed.createdBy;
-    }
-    return bencode.encode(torrent);
-  }
-  function sumLength(sum, file) {
-    return sum + file.length;
-  }
-  function splitPieces(buf) {
-    const pieces = [];
-    for (let i = 0; i < buf.length; i += 20) {
-      pieces.push(arr2hex(buf.slice(i, i + 20)));
-    }
-    return pieces;
-  }
-  function ensure(bool, fieldName) {
-    if (!bool) throw new Error(`Torrent is missing required field: ${fieldName}`);
-  }
-  const getVideoType$c = (videoType) => {
-    if (!videoType) {
-      return "";
-    }
-    videoType = videoType.replace(/[.-]/g, "").toLowerCase();
-    if (videoType.match(/encode|x264|x265|bdrip|hdrip|压制/ig)) {
-      return "encode";
-    } else if (videoType.match(/remux/ig)) {
-      return "remux";
-    } else if (videoType.match(/uhd|ultra/ig)) {
-      return "uhdbluray";
-    } else if (videoType.match(/blu|discs/ig)) {
-      return "bluray";
-    } else if (videoType.match(/webdl/ig)) {
-      return "web";
-    } else if (videoType.match(/hdtv/ig)) {
-      return "hdtv";
-    } else if (videoType.match(/dvdr/ig)) {
-      return "dvdrip";
-    } else if (videoType.match(/dvd/ig)) {
-      return "dvd";
-    }
-    return "";
-  };
-  const getCategory$6 = (category) => {
-    if (!category) {
-      return "";
-    }
-    category = category.replace(/[.-]/g, "").toLowerCase();
-    if (category.match(/movie|bd|ultra|电影/ig)) {
-      return "movie";
-    } else if (category.match(/综艺/ig)) {
-      return "variety";
-    } else if (category.match(/tv|drama|剧集|电视/ig)) {
-      return "tv";
-    } else if (category.match(/TVSeries/ig)) {
-      return "tvPack";
-    } else if (category.match(/document|纪录|紀錄|Doc/ig)) {
-      return "documentary";
-    } else if (category.match(/sport|体育/ig)) {
-      return "sport";
-    } else if (category.match(/mv|演唱|concert/ig)) {
-      return "concert";
-    } else if (category.match(/anim|动(画|漫)/ig)) {
-      return "cartoon";
-    } else if (category.match(/App|软件|Software|軟體/ig)) {
-      return "app";
-    } else if (category.match(/电子书|小说|Ebook/ig)) {
-      return "ebook";
-    } else if (category.match(/有声书|AudioBook/ig)) {
-      return "audiobook";
-    } else if (category.match(/杂志|magazine/ig)) {
-      return "magazine";
-    } else if (category.match(/漫画|comics/ig)) {
-      return "comics";
-    } else if (category.match(/公开课/ig)) {
-      return "onlineCourse";
-    } else if (category.match(/资料/ig)) {
-      return "ebook";
-    }
-    return "";
-  };
-  const getResolution$2 = (resolution) => {
-    resolution = resolution.toLowerCase();
-    if (resolution.match(/4k|2160|UHD/ig)) {
-      return "2160p";
-    } else if (resolution.match(/1080(p)?/ig)) {
-      return "1080p";
-    } else if (resolution.match(/1080i/ig)) {
-      return "1080i";
-    } else if (resolution.match(/720(p)?/ig)) {
-      return "720p";
-    } else if (resolution.match(/sd/ig)) {
-      return "480p";
-    }
-    return resolution;
-  };
-  const getFormat = (data) => {
-    if (data.match(/pdf/i)) {
-      return "pdf";
-    } else if (data.match(/EPUB/i)) {
-      return "epub";
-    } else if (data.match(/MOBI/i)) {
-      return "mobi";
-    } else if (data.match(/mp3/i)) {
-      return "mp3";
-    } else if (data.match(/mp4/i)) {
-      return "mp4";
-    } else if (data.match(/txt/i)) {
-      return "txt";
-    } else if (data.match(/azw3/i)) {
-      return "azw3";
-    } else if (data.match(/镜像/i)) {
-      return "iso";
     }
     return "other";
   };
-  const blobToBase64 = (blob) => {
-    return new Promise((resolve28, reject) => {
-      const fileReader = new FileReader();
-      fileReader.onload = (e2) => {
-        var _a2;
-        resolve28((_a2 = e2.target) == null ? void 0 : _a2.result);
-      };
-      fileReader.readAsDataURL(blob);
-      fileReader.onerror = () => {
-        reject(new Error("blobToBase64 error"));
-      };
-    });
+  const getBDInfoOrMediaInfoFromBBCode = (bbcode) => {
+    var _a2, _b, _c, _d, _e;
+    const quoteList = [];
+    const quoteRegex = /\[quote\]([^[\]])+?\[\/quote\]/gi;
+    while ((_a2 = bbcode == null ? void 0 : bbcode.match(quoteRegex)) == null ? void 0 : _a2.length) {
+      const matchContent = (_c = (_b = bbcode == null ? void 0 : bbcode.match(quoteRegex)) == null ? void 0 : _b[0]) != null ? _c : "";
+      quoteList.push(matchContent);
+      bbcode = bbcode.replace(matchContent, "");
+    }
+    const cleanQuoteContent = (quote) => quote.replace(/\[\/?quote\]/g, "").replace(/\u200D/g, "").trim();
+    const isBDInfo = (content) => /Disc\s?Size|\.mpls/i.test(content) || /Disc\s+(Info|Title|Label)[^[]+/i.test(content);
+    const isMediaInfo = (content) => /(Unique\s*ID)|(Codec\s*ID)|(Stream\s*size)/i.test(content);
+    const { bdInfo, mediaInfo } = quoteList.reduce(
+      (acc, quote) => {
+        const content = cleanQuoteContent(quote);
+        if (isBDInfo(content)) {
+          acc.bdInfo.push(content);
+        }
+        if (isMediaInfo(content)) {
+          acc.mediaInfo.push(content);
+        }
+        return acc;
+      },
+      { bdInfo: [], mediaInfo: [] }
+    );
+    if (!bdInfo.length) {
+      const fallback = (_e = (_d = bbcode.match(/Disc\s+(Info|Title|Label)[^[]+/i)) == null ? void 0 : _d[0]) == null ? void 0 : _e.trim();
+      if (fallback) {
+        bdInfo.push(fallback);
+      }
+    }
+    return { bdInfo, mediaInfo };
   };
-  const getTorrentFileData = async (selector = "", torrentLink = "", targetSiteName) => {
-    var _a2;
-    let downloadLink = torrentLink || $$2(selector).attr("href");
-    if (!downloadLink) {
-      console.warn("Failed to get torrent file download link");
+  const extractDetailsFromMediaInfo = (source) => {
+    var _a2, _b, _c, _d, _e, _f, _g, _h;
+    if (!source) {
       return null;
     }
-    if (!downloadLink.startsWith("http") && !downloadLink.startsWith("/")) {
-      downloadLink = `${CURRENT_SITE_INFO.url}/${downloadLink}`;
-    } else if (downloadLink.startsWith("/")) {
-      downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
+    const result = {
+      videoCodec: (_b = (_a2 = source.videoTracks) == null ? void 0 : _a2[0]) == null ? void 0 : _b.codec,
+      audioCodec: (_d = (_c = source.audioTracks) == null ? void 0 : _c[0]) == null ? void 0 : _d.codec,
+      resolution: (_f = (_e = source.videoTracks) == null ? void 0 : _e[0]) == null ? void 0 : _f.resolution,
+      audioChannels: (_h = (_g = source.audioTracks) == null ? void 0 : _g[0]) == null ? void 0 : _h.channelName,
+      audioLanguages: source.audioTracks.map((track) => track.language),
+      subtitleLanguages: source.subtitleTracks.map((track) => track.language),
+      hdrFormats: source.videoTracks.map((track) => {
+        var _a3;
+        return (_a3 = track == null ? void 0 : track.hdrType) != null ? _a3 : "";
+      }).filter(Boolean)
+    };
+    return result;
+  };
+  const getMediaTags = ({
+    audioCodec,
+    audioLanguages,
+    subtitleLanguages,
+    hdrFormats
+  }) => {
+    const hasChineseAudio = audioLanguages.includes("Chinese");
+    const hasChineseSubtitle = subtitleLanguages.includes("Chinese");
+    const hasCantoneseAudio = audioLanguages.includes("Cantonese");
+    const mediaTags = {};
+    if (hasChineseAudio) mediaTags.chinese_audio = true;
+    if (hasCantoneseAudio) mediaTags.cantonese_audio = true;
+    if (hasChineseSubtitle) mediaTags.chinese_subtitle = true;
+    const hdrMap = {
+      HDR10: "hdr10",
+      HDR: "hdr",
+      HLG: "hlg",
+      DV: "dolby_vision"
+    };
+    if (hdrFormats) {
+      for (const [key, value] of Object.entries(hdrMap)) {
+        if (hdrFormats.includes(key)) {
+          mediaTags[value] = true;
+        }
+      }
     }
-    try {
-      const file = await fetch(downloadLink, {
-        method: "GET",
-        responseType: "arraybuffer",
-        timeout: 1e4
-      });
-      const result = await parseTorrent(buffer.Buffer.from(file));
-      const siteInfo = PT_SITE[targetSiteName];
-      const announceUrl = ((_a2 = siteInfo == null ? void 0 : siteInfo.torrent) == null ? void 0 : _a2.announce) || "tracker.com";
-      const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
-        comment: "",
-        announce: [announceUrl],
-        info: __spreadProps(__spreadValues({}, result.info), {
-          source: ""
-        })
-      }));
-      const blob = new Blob([buf], { type: "application/x-bittorrent" });
-      const base64 = await blobToBase64(blob);
-      return base64;
-    } catch (error) {
-      Jt.error(`${$t("种子文件下载失败")} ${$t("请手动下载")}`);
-      console.log(error);
+    if (/dtsx|atmos/gi.test(audioCodec)) {
+      mediaTags.dts_x = true;
+    } else if (/atmos/gi.test(audioCodec)) {
+      mediaTags.dolby_atmos = true;
+    }
+    return mediaTags;
+  };
+  const getTagsFromSource = (source) => {
+    const tags2 = {};
+    for (const rule of CONFIG.MEDIA_TAG_RULES(source)) {
+      if (rule.regex.test(source) && (!rule.condition || rule.condition())) {
+        tags2[rule.tag] = true;
+      }
+    }
+    return tags2;
+  };
+  const getResolutionFromSource = (source) => {
+    for (const [resolution, reg] of Object.entries(CONFIG.RESOLUTION_MAP)) {
+      if (reg.test(source)) {
+        return resolution;
+      }
+    }
+    return "";
+  };
+  const getVideoCodecFromSourceAndVideoType = (source, videoType = "") => {
+    const formattedSource = source.replace(/\.|-/g, "");
+    for (const { codec, regex, condition } of CONFIG.VIDEO_CODEC_RULES(
+      formattedSource,
+      videoType
+    )) {
+      if (regex.test(formattedSource) || condition && condition()) {
+        return codec;
+      }
+    }
+    return "";
+  };
+  const getCategoryFromSource = (source) => {
+    if (!source) {
       return "";
     }
+    const formattedSource = source.replace(/[.-]/g, "").toLowerCase();
+    for (const [key, reg] of Object.entries(CONFIG.VIDEO_CATEGORY_MAP)) {
+      if (reg.test(formattedSource)) {
+        return key;
+      }
+    }
+    return "";
   };
-  const getNexusPHPInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n2, _o, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _A, _B;
-    let title = formatTorrentTitle((_b = (_a2 = $$2("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim());
-    let metaInfo = $$2("td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')").next().text().replace(/：/g, ":");
-    let subtitle = $$2("td.rowhead:contains('副标题'), td.rowhead:contains('副標題')").next().text();
-    let siteImdbUrl = $$2("#kimdb>a").attr("href");
-    let descriptionBBCode = getFilterBBCode($$2("#kdescr")[0]);
-    descriptionBBCode = descriptionBBCode.replace(/\u00A0\u3000/g, " ");
-    if (CURRENT_SITE_NAME === "MTeam") {
-      descriptionBBCode = descriptionBBCode.replace(/https:\/\/\w+?\.m-team\.cc\/imagecache.php\?url=/g, "").replace(/(http(s)?)%3A/g, "$1:").replace(/%2F/g, "/");
+  const replaceRegSymbols = (string2) => {
+    return string2.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
+  };
+  class BaseExtractor {
+    constructor() {
+      this.info = {
+        title: "",
+        year: "",
+        description: "",
+        screenshots: [],
+        category: "",
+        videoType: "",
+        format: "",
+        source: "",
+        videoCodec: "",
+        audioCodec: "",
+        resolution: "",
+        area: "",
+        doubanInfo: "",
+        doubanUrl: "",
+        imdbUrl: "",
+        movieAkaName: "",
+        comparisons: [],
+        movieName: "",
+        sourceSite: CURRENT_SITE_NAME,
+        sourceSiteType: CURRENT_SITE_INFO == null ? void 0 : CURRENT_SITE_INFO.siteType,
+        mediaInfos: [],
+        tags: {},
+        size: 0
+      };
     }
-    if (CURRENT_SITE_NAME === "HDArea") {
-      title = (_d2 = (_c = $$2("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _c[0]) == null ? void 0 : _d2.trim();
+    extractYear() {
+      var _a2;
+      const year = (_a2 = this.info.title.match(/(18|19|20)\d{2}/g)) != null ? _a2 : [];
+      this.info.year = year.length > 0 ? year.pop() : "";
     }
-    if (CURRENT_SITE_NAME === "SSD") {
-      title = formatTorrentTitle($$2("#torrent-name").text());
-    }
-    if (CURRENT_SITE_NAME === "PuTao") {
-      title = formatTorrentTitle((_e2 = $$2("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _e2.trim());
-    }
-    if (CURRENT_SITE_NAME === "TJUPT") {
-      const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-      const realTitle = (_g = (_f = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _f[0]) != null ? _g : "";
-      title = realTitle.replace(/\[|\]/g, "");
-    }
-    if (CURRENT_SITE_NAME === "PTer") {
-      if ($$2("#descrcopyandpaster")[0]) {
-        descriptionBBCode = (_h = $$2("#descrcopyandpaster").val()) == null ? void 0 : _h.replace(/hide(=(MediaInfo|BDInfo))?\]/ig, "quote]");
-      } else {
-        descriptionBBCode = getFilterBBCode($$2("#kdescr")[0]);
+    extractArea() {
+      var _a2, _b, _c;
+      const { area, description, doubanInfo } = this.info;
+      if (!area) {
+        const areaMatch = (_c = (_b = (_a2 = description + doubanInfo) == null ? void 0 : _a2.match(
+          /(产\s*地|国\s*家|地\s*区)】?\s*(.+)/
+        )) == null ? void 0 : _b[2]) != null ? _c : "";
+        this.info.area = getAreaCode(areaMatch);
       }
-      descriptionBBCode = descriptionBBCode.replace(/\[img\d\]/g, "[img]");
     }
-    if (CURRENT_SITE_NAME === "HDChina") {
-      const meta = [];
-      $$2("li:contains('基本信息'):last").next("li").children("i").each(function() {
-        meta.push($$2(this).text().replace("：", ":"));
+    extractMediaDetails() {
+      const { mediaInfos, tags: tags2 } = this.info;
+      if (!(mediaInfos == null ? void 0 : mediaInfos[0])) {
+        return;
+      }
+      const mediaInfo = parseMedia(mediaInfos == null ? void 0 : mediaInfos[0], this.isVideoTypeBluray());
+      if (!mediaInfo) {
+        return;
+      }
+      const mediaDetail = extractDetailsFromMediaInfo(mediaInfo);
+      if (!mediaDetail) {
+        return;
+      }
+      this.info.videoCodec = mediaDetail.videoCodec;
+      this.info.audioCodec = mediaDetail.audioCodec;
+      this.info.resolution = mediaDetail.resolution;
+      this.info.tags = __spreadValues(__spreadValues({}, tags2), getMediaTags(mediaDetail));
+    }
+    extractMediaInfos() {
+      const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(
+        this.info.description
+      );
+      this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
+    }
+    extractResolution() {
+      this.info.resolution = getResolutionFromSource(this.info.title);
+    }
+    isVideoTypeBluray() {
+      return /bluray/i.test(this.info.videoType);
+    }
+    extractMetaInfo() {
+      const { title, resolution } = this.info;
+      const source = getVideoSourceFromTitle(title);
+      const videoType = getVideoTypeFromSource(title, resolution);
+      const tags2 = getTagsFromSource(title);
+      const videoCodec = getVideoCodecFromSourceAndVideoType(title, videoType);
+      const audioCodec = getAudioCodecFromSource(title);
+      this.info = __spreadProps(__spreadValues({}, this.info), {
+        source,
+        videoType,
+        tags: tags2,
+        videoCodec,
+        audioCodec
       });
-      metaInfo = meta.join("   ");
-      subtitle = $$2("#top").next("h3").text();
     }
-    if (CURRENT_SITE_NAME === "OurBits") {
-      siteImdbUrl = $$2(".imdbnew2 a:first").attr("href");
-      TORRENT_INFO.doubanUrl = $$2("#doubaninfo .doubannew a").attr("href");
-      if (TORRENT_INFO.doubanUrl) {
-        const doubanInfo = getFilterBBCode((_i = $$2(".doubannew2 .doubaninfo")) == null ? void 0 : _i[0]);
-        const doubanPoster = `[img]${$$2("#doubaninfo .doubannew a img").attr("src")}[/img]
-`;
-        TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo;
+    async extractScreenshots() {
+      const screenshots = await extractImgsFromBBCode(this.info.description);
+      this.info.screenshots = screenshots;
+    }
+  }
+  class NexusPHPExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    async extract() {
+      this.extractTitle();
+      this.extractSubtitle();
+      this.extractYear();
+      this.extractDoubanInfo();
+      const descriptionResult = this.extractDescription();
+      if (descriptionResult instanceof Promise) {
+        await descriptionResult;
+      }
+      this.extractDoubanUrl();
+      this.extractImdbUrl();
+      await this.extractScreenshots();
+      this.extractSource();
+      this.extractMetaInfo();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractMovieNames();
+      this.extractTags();
+      this.determineIfIsForbidden();
+      this.extractComparisonsScreenshots();
+      this.extractArea();
+      this.enhanceInfo();
+      return this.info;
+    }
+    extractTitle() {
+      var _a2, _b;
+      const title = (_b = (_a2 = $$2("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim();
+      const formattedTitle = formatTorrentTitle(title);
+      this.info.title = formattedTitle;
+    }
+    extractSubtitle() {
+      this.info.subtitle = $$2(
+        "td.rowhead:contains('副标题'), td.rowhead:contains('副標題')"
+      ).next().text();
+    }
+    extractImdbUrl() {
+      var _a2;
+      const imdbUrl = $$2("#kimdb>a").attr("href") || ((_a2 = this.info.description.match(
+        /http(s)?:\/\/www\.imdb\.com\/title\/tt\d+/
+      )) == null ? void 0 : _a2[0]) || "";
+      this.info.imdbUrl = imdbUrl;
+    }
+    extractDoubanUrl() {
+      var _a2;
+      const doubanUrl = (_a2 = this.info.description.match(
+        /https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/
+      )) == null ? void 0 : _a2[0];
+      this.info.doubanUrl = doubanUrl;
+    }
+    extractDescription() {
+      const bbCode = getFilterBBCode($$2("#kdescr")[0]);
+      this.info.description = bbCode.replace(/\u00A0\u3000/g, " ");
+    }
+    extractSource() {
+      this.info.source = getVideoSourceFromTitle(this.info.title);
+    }
+    extractTags() {
+      var _a2;
+      const tagsContentFromPage = $$2("td.rowhead:contains('标签')").next().text();
+      this.info.tags = __spreadValues(__spreadValues({}, this.info.tags), getTagsFromSource(`${(_a2 = this.info) == null ? void 0 : _a2.subtitle}
+${tagsContentFromPage}`));
+    }
+    extractMovieNames() {
+      var _a2, _b, _c, _d, _e, _f, _g;
+      const { description } = this.info;
+      const originalName = (_b = (_a2 = description.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+      const translateName = (_d = (_c = description.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _c[2]) != null ? _d : "";
+      if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
+        this.info.movieName = originalName;
+      } else {
+        this.info.movieName = (_g = (_f = (_e = translateName.match(/(\w|\s){2,}/)) == null ? void 0 : _e[0]) == null ? void 0 : _f.trim()) != null ? _g : "";
       }
     }
-    if (CURRENT_SITE_NAME === "KEEPFRDS") {
-      [title, subtitle] = [subtitle, title];
-      siteImdbUrl = $$2("#kimdb .imdbwp__link").attr("href");
-      TORRENT_INFO.doubanUrl = $$2("#kdouban .imdbwp__link").attr("href");
-      const element = document.createElement("div");
-      $$2(element).html($$2("#outer td").has("#kdescr").html());
-      descriptionBBCode = getFilterBBCode(element);
-      descriptionBBCode = descriptionBBCode.replace("  [url=", "\n  [url=").replace(/\[\/img\]\[\/url\]\n/g, "[/img][/url]");
-      const mediainfo = $$2("div.codemain > pre:contains('Unique ID')");
-      if (mediainfo[0]) {
-        mediainfo.each(function() {
-          var _a3;
-          (_a3 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a3.push($$2(this).text());
+    getMetaInfoRules() {
+      return CONFIG.META_INFO_MATCH_RULES;
+    }
+    extractMetaInfo() {
+      var _a2, _b, _c, _d, _e;
+      const result = {
+        category: "",
+        videoType: "",
+        videoCodec: "",
+        audioCodec: "",
+        resolution: "",
+        area: "",
+        size: ""
+      };
+      const metaInfo = $$2(
+        "td.rowhead:contains('基本信息'), td.rowhead:contains('基本資訊'),.layui-table td:contains('基本信息')"
+      ).next().text().replace(/：/g, ":");
+      const rules = this.getMetaInfoRules();
+      for (const [key, regex] of Object.entries(rules)) {
+        const matchValue = (_b = (_a2 = metaInfo.match(regex)) == null ? void 0 : _a2[2]) != null ? _b : "";
+        if (matchValue) {
+          const value = (_e = (_d = (_c = matchValue == null ? void 0 : matchValue.replace(/\s/g, "")) == null ? void 0 : _c.trim()) == null ? void 0 : _d.toLowerCase()) != null ? _e : "";
+          result[key] = value;
+        }
+      }
+      console.log(result);
+      const initialCategory = getCategoryFromSource(
+        result.category || this.info.description
+      );
+      this.info.category = refineCategory(this.info, initialCategory);
+      this.info.size = convertSizeStringToBytes(result.size);
+      this.info.videoType = getVideoTypeFromSource(
+        result.videoType || this.info.title
+      );
+      this.info.area = getAreaCode(result.area);
+      if (!this.info.videoCodec) {
+        this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+          this.info.title || result.videoCodec,
+          this.info.videoType
+        );
+      }
+      if (!this.info.audioCodec) {
+        this.info.audioCodec = getAudioCodecFromSource(
+          result.audioCodec || this.info.title
+        );
+      }
+      if (!this.info.resolution) {
+        this.info.resolution = getResolutionFromSource(
+          result.resolution || this.info.title
+        );
+      }
+    }
+    determineIfIsForbidden() {
+      const { title, subtitle, description } = this.info;
+      const combinedContent = title + subtitle + description;
+      const isForbidden = CONFIG.FORBIDDEN_KEYWORDS.some(
+        (keyword) => combinedContent.includes(keyword)
+      );
+      this.info.isForbidden = isForbidden;
+    }
+    extractDoubanInfo() {
+    }
+    enhanceInfo() {
+    }
+    extractComparisonsScreenshots() {
+    }
+  }
+  class GenericNexusPHPExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType === "NexusPHP";
+    }
+  }
+  registry.register(new GenericNexusPHPExtractor());
+  class PTerExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "PTer";
+    }
+    extractDescription() {
+      var _a2;
+      let description;
+      if ($$2("#descrcopyandpaster")[0]) {
+        description = (_a2 = $$2("#descrcopyandpaster").val()) == null ? void 0 : _a2.replace(
+          /hide(=(MediaInfo|BDInfo))?\]/gi,
+          "quote]"
+        );
+      } else {
+        description = getFilterBBCode($$2("#kdescr")[0]);
+      }
+      this.info.description = description.replace(/\[img\d\]/g, "[img]");
+    }
+    extractTags() {
+      var _a2, _b;
+      const tags2 = {};
+      const tagImgs = $$2("td.rowhead:contains('类别与标签')").next().find("img");
+      const links = Array.from(
+        tagImgs.map((_2, item) => {
+          var _a3, _b2;
+          return (_b2 = (_a3 = $$2(item).attr("src")) == null ? void 0 : _a3.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b2 : "";
+        })
+      );
+      const tagRules = {
+        chinese_subtitle: "pter-zz",
+        chinese_audio: "pter-gy",
+        cantonese_audio: "pter-yy",
+        diy: "pter-diy"
+      };
+      for (const [tag, rule] of Object.entries(tagRules)) {
+        tags2[tag] = links.includes(rule);
+      }
+      this.info.tags = __spreadValues(__spreadValues(__spreadValues({}, tags2), this.info.tags), getTagsFromSource((_b = (_a2 = this.info) == null ? void 0 : _a2.subtitle) != null ? _b : ""));
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        category: /(类型):\s*([^\s]+)?/i,
+        area: /(地区):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new PTerExtractor());
+  class SSDExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "SSD";
+    }
+    extractTitle() {
+      this.info.title = formatTorrentTitle($$2("#torrent-name").text());
+    }
+    extractDoubanUrl() {
+      this.info.doubanUrl = $$2(
+        ".douban_info a:contains('://movie.douban.com/subject/')"
+      ).attr("href");
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2(
+        ".douban_info a:contains('://www.imdb.com/title/')"
+      ).attr("href");
+    }
+    extractDoubanInfo() {
+      var _a2, _b, _c;
+      const doubanInfo = getFilterBBCode((_a2 = $$2(".douban-info artical")) == null ? void 0 : _a2[0]);
+      const postUrl = (_c = (_b = $$2("#kposter").find("img")) == null ? void 0 : _b.attr("src")) != null ? _c : "";
+      const doubanPoster = postUrl ? `[img]${postUrl}[/img]
+` : "";
+      this.info.doubanInfo = doubanPoster + (doubanInfo == null ? void 0 : doubanInfo.replace(/\n{2,}/g, "\n")) || "";
+    }
+    extractDescription() {
+      var _a2;
+      let extraTextInfo = getFilterBBCode(
+        (_a2 = $$2(".torrent-extra-text-container .extra-text")) == null ? void 0 : _a2[0]
+      );
+      extraTextInfo = extraTextInfo ? `
+[quote]${extraTextInfo}[/quote]
+` : "";
+      const extraScreenshotDom = $$2(".screenshot").find("img");
+      const imgs = [];
+      if (extraScreenshotDom) {
+        extraScreenshotDom.each((_2, item) => {
+          var _a3, _b;
+          imgs.push(`[img]${(_b = (_a3 = $$2(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b : ""}[/img]`);
         });
       }
-      descriptionBBCode = descriptionBBCode.replace(/ 截图对比\(点击空白处展开\)/g, "截图对比");
+      const extraScreenshot = imgs.join("");
+      const mediaInfo = $$2("section[data-group='mediainfo'] .codemain").text();
+      this.info.mediaInfos = [mediaInfo];
+      this.info.description = extraTextInfo + extraScreenshot;
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        resolution: /(分辨率|解析度):\s*([^\s]+)?/i,
+        videoTypeKey: /(格式):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new SSDExtractor());
+  class HDAExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDArea";
+    }
+    extractTitle() {
+      var _a2, _b;
+      this.info.title = formatTorrentTitle(
+        (_b = (_a2 = $$2("h1#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim()
+      );
+    }
+  }
+  registry.register(new HDAExtractor());
+  class PuTaoExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "PuTao";
+    }
+    extractTitle() {
+      var _a2;
+      this.info.title = formatTorrentTitle(
+        (_a2 = $$2("h1").text().replace(/\[.+?\]|\(.+?\)/g, "")) == null ? void 0 : _a2.trim()
+      );
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        category: /(类型):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new PuTaoExtractor());
+  class TJUPTExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "TJUPT";
+    }
+    extractTitle() {
+      var _a2, _b, _c, _d;
+      const title = formatTorrentTitle(
+        (_b = (_a2 = $$2("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim()
+      );
+      const matchArray = title.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+      const realTitle = (_d = (_c = matchArray.filter((item) => item.match(/\.| /))) == null ? void 0 : _c[0]) != null ? _d : "";
+      this.info.title = realTitle.replace(/\[|\]/g, "");
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        category: /(类型):\s*([^\s|]+)?/i
+      });
+    }
+  }
+  registry.register(new TJUPTExtractor());
+  class OurBitsExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "OurBits";
+    }
+    extractDoubanUrl() {
+      this.info.doubanUrl = $$2("#doubaninfo .doubannew a").attr("href");
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2(".imdbnew2 a:first").attr("href");
+    }
+    extractDoubanInfo() {
+      var _a2;
+      const doubanInfo = getFilterBBCode((_a2 = $$2(".doubannew2 .doubaninfo")) == null ? void 0 : _a2[0]);
+      if (!doubanInfo) {
+        return;
+      }
+      const doubanPoster = `[img]${$$2("#doubaninfo .doubannew a img").attr("src")}[/img]
+`;
+      this.info.doubanInfo = doubanPoster + doubanInfo;
+    }
+  }
+  registry.register(new OurBitsExtractor());
+  class FRDSExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "KEEPFRDS";
+    }
+    extractTitle() {
+      this.info.title = $$2("td.rowhead:contains('副标题')").next().text();
+    }
+    extractSubtitle() {
+      var _a2, _b;
+      this.info.subtitle = formatTorrentTitle(
+        (_b = (_a2 = $$2("#top").text().split(/\s{3,}/)) == null ? void 0 : _a2[0]) == null ? void 0 : _b.trim()
+      );
+    }
+    extractDoubanUrl() {
+      this.info.doubanUrl = $$2("#kdouban .imdbwp__link").attr("href");
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2("#kimdb .imdbwp__link").attr("href");
+    }
+    extractMediaInfos() {
+      const mediaInfoContent = $$2("div.codemain > pre:contains('Unique ID')");
+      const result = [];
+      if (mediaInfoContent.length > 0) {
+        mediaInfoContent.each((_2, selector) => {
+          result.push($$2(selector).text());
+        });
+        this.info.mediaInfos = result;
+      }
+    }
+    extractDescription() {
+      const element = document.createElement("div");
+      $$2(element).html($$2("#outer td").has("#kdescr").html());
+      let descriptionBBCode = getFilterBBCode(element);
+      descriptionBBCode = descriptionBBCode.replace("  [url=", "\n  [url=").replace(/\[\/img\]\[\/url\]\n/g, "[/img][/url]");
+      descriptionBBCode = descriptionBBCode.replace(
+        / 截图对比\(点击空白处展开\)/g,
+        "截图对比"
+      );
+      descriptionBBCode = descriptionBBCode.replace(
+        /\[quote\]GeneralVideo[^[]*\[\/quote\]/,
+        ""
+      );
+      this.info.description = descriptionBBCode;
+    }
+    enhanceInfo() {
+      var _a2, _b;
+      const { description, doubanUrl, imdbUrl } = this.info;
+      if (!description.includes("豆瓣评分")) {
+        const imdbRate = $$2("#kimdb span.imdbwp__rating").text().replace("\nRating: ", "");
+        const doubanInfo = $$2("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n◎").replace(/\n◎$/, "\n").replace(
+          "◎Rating:",
+          `◎IMDb链接:${imdbUrl}
+◎IMDb评分: ${imdbRate}
+◎豆瓣链接: ${doubanUrl}
+◎豆瓣评分:`
+        );
+        const postUrl = (_b = (_a2 = $$2("#kimdb img.imdbwp__img")) == null ? void 0 : _a2.attr("src")) != null ? _b : "";
+        const doubanPoster = postUrl ? `[img]${postUrl}[/img]
+` : "";
+        this.info.doubanInfo = doubanPoster + doubanInfo || "";
+      }
+    }
+    extractComparisonsScreenshots() {
       const comparisonArray = $$2("fieldset[onclick]").toArray() || [];
       const comparisons = [];
       comparisonArray.forEach((item) => {
@@ -17402,1234 +16184,2238 @@ ${doubanPart}`);
         $$2(item).find("a").toArray().forEach((img) => {
           if (img.href) imgs.push(img.href);
         });
-        const title2 = $$2(item).find("legend").text().replace(" 截图对比(点击空白处展开):", "").trim();
-        const reason = "";
+        const title = $$2(item).find("legend").text().replace(" 截图对比(点击空白处展开):", "").trim();
         comparisons.push({
-          title: title2,
+          title,
+          imgs,
+          reason: ""
+        });
+      });
+      this.info.comparisons = comparisons;
+    }
+    async extractScreenshots() {
+      this.info.screenshots = await extractImgsFromBBCode(
+        this.info.description.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, "")
+      );
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        videoType: /(encode):\s*([^\s]+)?/i,
+        category: /(类型):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new FRDSExtractor());
+  class TLFExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "TLF";
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        category: /(类型):\s*([^\s]+)?/i,
+        videoType: /(媒介):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new TLFExtractor());
+  class HDHExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDHome";
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        videoType: /(媒介):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new HDHExtractor());
+  class HDFansExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDFans";
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        videoType: /(媒介):(.+?)\\s{2,}?/i
+      });
+    }
+  }
+  registry.register(new HDFansExtractor());
+  class SharedNexusSitesExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return /PTSBAO|PTHome|HDTime|BTSCHOOL|SoulVoice/.test(siteName);
+    }
+    getMetaInfoRules() {
+      return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
+        category: /(类型):\s*([^\s]+)?/i
+      });
+    }
+  }
+  registry.register(new SharedNexusSitesExtractor());
+  class TTGExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.headTitle = "";
+    }
+    canHandle(siteName) {
+      return siteName === "TTG";
+    }
+    extractTitle() {
+      var _a2, _b;
+      const title = $$2("#main_table h1").eq(0).text();
+      this.headTitle = title.replace(/^「.+?」/g, "");
+      this.info.title = formatTorrentTitle(
+        (_b = (_a2 = this.headTitle.match(/[^[]+/)) == null ? void 0 : _a2[0]) != null ? _b : ""
+      );
+    }
+    extractSubtitle() {
+      var _a2, _b, _c, _d;
+      this.info.subtitle = (_d = (_c = (_b = (_a2 = this.headTitle) == null ? void 0 : _a2.replace(this.info.title, "")) == null ? void 0 : _b.replace(/\[|\]/g, "")) == null ? void 0 : _c.trim()) != null ? _d : "";
+    }
+    extractImdbUrl() {
+      var _a2, _b;
+      const imdbUrl = this.getHeadingTdDomsByKey("IMDb").find("a").attr("href");
+      if (!imdbUrl) {
+        this.info.imdbUrl = (_b = (_a2 = this.info.description.match(
+          /https:\/\/www\.imdb\.com\/title\/tt\d+/
+        )) == null ? void 0 : _a2[0]) != null ? _b : "";
+      }
+      this.info.imdbUrl = imdbUrl;
+    }
+    extractDoubanUrl() {
+      var _a2, _b;
+      this.info.doubanUrl = (_b = (_a2 = this.info.description.match(
+        /https:\/\/(movie\.)?douban.com\/subject\/\d+/
+      )) == null ? void 0 : _a2[0]) != null ? _b : "";
+    }
+    async extractDescription() {
+      var _a2, _b, _c, _d;
+      const pageContent = await GMFetch(location.href);
+      const doc = new DOMParser().parseFromString(pageContent, "text/html");
+      const descriptionContent = doc.querySelector("#kt_d");
+      let description = getFilterBBCode(descriptionContent);
+      const discountMatch = (_b = (_a2 = description.match(/\[color=\w+\]本种子.+?\[\/color\]/)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      if (discountMatch) {
+        description = description.replace(discountMatch, "");
+      }
+      description = description.replace(/@\d+(\(\d+\))?/g, "");
+      if (this.info.title.match(/-WiKi$/)) {
+        const doubanPart = (_d = (_c = description.match(/◎译\s+名(.|\n)+/)) == null ? void 0 : _c[0]) != null ? _d : "";
+        description = description.replace(doubanPart, "");
+        description = description.replace(
+          /(\[img\].+?\[\/img\])/,
+          `$1
+
+${doubanPart}`
+        );
+      }
+      this.info.description = description;
+    }
+    extractMetaInfo() {
+      var _a2, _b;
+      const { description, title } = this.info;
+      const mediaTecInfo = this.getHeadingTdDomsByKey("类型").text();
+      this.info.area = getAreaCode(mediaTecInfo);
+      const category = getCategoryFromSource(mediaTecInfo + description);
+      this.info.category = refineCategory(this.info, category);
+      this.info.videoType = getVideoTypeFromSource(mediaTecInfo + title);
+      let audioCodec = getAudioCodecFromSource(title);
+      if (description.match(/VIDEO(\.| )*CODEC/i)) {
+        const matchCodec = (_a2 = description.match(
+          /VIDEO(\.| )*CODEC\.*:?\s*([^\s_:]+)?/i
+        )) == null ? void 0 : _a2[2];
+        this.info.videoCodec = matchCodec ? matchCodec.replace(/\.|-/g, "").toLowerCase() : getVideoCodecFromSourceAndVideoType(title, this.info.videoType);
+      }
+      if (description.match(/AUDIO\s*CODEC/i)) {
+        const matchCodec = (_b = description.match(/AUDIO\s*CODEC\.*:?\s*(.+)/i)) == null ? void 0 : _b[1];
+        if (matchCodec) {
+          audioCodec = getAudioCodecFromSource(matchCodec);
+        }
+      }
+      this.info.audioCodec = audioCodec;
+      this.info.resolution = getResolutionFromSource(title);
+    }
+    enhanceInfo() {
+      var _a2, _b;
+      const sizeMatch = (_b = (_a2 = this.getHeadingTdDomsByKey("尺寸").text().match(/\(((\d|,)+)\s*字节\)/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      this.info.size = parseInt(sizeMatch.replace(/,/g, ""), 10);
+    }
+    extractComparisonsScreenshots() {
+      var _a2, _b, _c;
+      const comparisonPart = (_a2 = this.info.description.match(
+        /\.Comparisons(.|\n)+\[\/img\]\[\/url\]/
+      )) == null ? void 0 : _a2[0];
+      if (!comparisonPart) {
+        return;
+      }
+      const title = (_c = (_b = comparisonPart.match(/(\[color=.+?\])(.+?)\[\/color\]/g)) == null ? void 0 : _b.map((item) => {
+        var _a3, _b2;
+        return (_b2 = (_a3 = item.match(/\[color=.+?\](.+?)\[\/color\]/)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
+      })) != null ? _c : [];
+      const comparisonImgArray = [];
+      const allImages = comparisonPart == null ? void 0 : comparisonPart.match(
+        /(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/g
+      );
+      if (allImages && allImages.length > 0) {
+        allImages.forEach((img) => {
+          var _a3;
+          const matchUrl = (_a3 = img.match(/\[url=(.+?)\]/)) == null ? void 0 : _a3[1];
+          if (matchUrl) {
+            comparisonImgArray.push(matchUrl);
+          }
+        });
+      }
+      this.info.comparisons = [
+        {
+          imgs: comparisonImgArray,
+          title: title.join(","),
+          reason: ""
+        }
+      ];
+    }
+    async extractScreenshots() {
+      var _a2, _b;
+      const { description } = this.info;
+      if (description.match(/More\.Screens/i)) {
+        const moreScreen = (_b = (_a2 = description.match(
+          /\.More\.Screens.*?\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/
+        )) == null ? void 0 : _a2[1]) != null ? _b : "";
+        this.info.screenshots = await extractImgsFromBBCode(moreScreen);
+        return;
+      }
+      this.info.screenshots = await extractImgsFromBBCode(description);
+    }
+    getHeadingTdDomsByKey(key) {
+      return $$2(`#main_table td.heading:contains(${key})`).next();
+    }
+  }
+  registry.register(new TTGExtractor());
+  class HanHanExtractor extends NexusPHPExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HH";
+    }
+    extractTitle() {
+      var _a2;
+      this.info.title = formatTorrentTitle(
+        ((_a2 = document.title.match(/"(.+)"/)) == null ? void 0 : _a2[1]) || ""
+      );
+    }
+    extractSubtitle() {
+      this.info.subtitle = $$2("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ":");
+    }
+    extractImdbUrl() {
+      var _a2, _b;
+      if (this.info.imdbUrl) return;
+      this.info.imdbUrl = (_b = (_a2 = $$2('#kimdb a[href*="imdb.com/title"]')) == null ? void 0 : _a2.attr("href")) != null ? _b : "";
+    }
+    extractDoubanUrl() {
+      var _a2;
+      if (this.info.doubanUrl) return;
+      this.info.doubanUrl = (_a2 = $$2("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _a2 : "";
+    }
+    extractMetaInfo() {
+      if (this.info.category) return;
+      const result = {};
+      $$2("div.font-bold.leading-6:contains('基本信息')").next().find("div span").each((index, el) => {
+        if (index % 2 === 0) {
+          const key = $$2(el).text().replace(/:|：/g, "").trim();
+          result[key] = $$2(el).next().text();
+        }
+      });
+      const {
+        类型: category,
+        来源: videoType,
+        编码: videoCodec,
+        音频编码: audioCodec,
+        分辨率: resolution,
+        大小: size
+      } = result;
+      const initialCategory = getCategoryFromSource(category);
+      this.info.category = refineCategory(this.info, initialCategory);
+      this.info.videoType = getVideoTypeFromSource(videoType);
+      this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+        videoCodec,
+        this.info.videoType
+      );
+      this.info.audioCodec = getAudioCodecFromSource(audioCodec);
+      this.info.resolution = getResolutionFromSource(resolution);
+      this.info.size = convertSizeStringToBytes(size);
+    }
+    extractTags() {
+      var _a2;
+      const tagsContentFromPage = $$2("div.font-bold.leading-6:contains('标签')").next().text();
+      this.info.tags = __spreadValues(__spreadValues({}, this.info.tags), getTagsFromSource(`${(_a2 = this.info) == null ? void 0 : _a2.subtitle}
+${tagsContentFromPage}`));
+    }
+    extractMediaInfos() {
+      const mediaInfoContent = $$2("#mediainfo-raw code").text() || "";
+      this.info.mediaInfos = [mediaInfoContent];
+    }
+    async extractScreenshots() {
+      return new Promise((resolve28) => {
+        const screenshots = $$2("#screenshot-content img").toArray().map((el) => {
+          var _a2, _b;
+          return (_b = (_a2 = $$2(el)) == null ? void 0 : _a2.attr("src")) != null ? _b : "";
+        }).filter((url) => !!url);
+        this.info.screenshots = screenshots;
+        resolve28();
+      });
+    }
+    extractMovieNames() {
+      var _a2, _b;
+      const IMDbLinkDom = $$2('#kimdb a[href*="imdb.com/title"]');
+      const movieName = (_b = (_a2 = IMDbLinkDom == null ? void 0 : IMDbLinkDom.text()) == null ? void 0 : _a2.replace(/\n/g, "").trim()) != null ? _b : "";
+      this.info.movieName = movieName;
+    }
+    extractPoster() {
+      var _a2, _b;
+      this.info.poster = (_b = (_a2 = $$2("#cover-content")) == null ? void 0 : _a2.attr("src")) != null ? _b : "";
+    }
+    async extractDescription() {
+      var _a2, _b;
+      this.extractDoubanUrl();
+      this.extractImdbUrl();
+      this.extractMetaInfo();
+      const { category, doubanUrl, imdbUrl } = this.info;
+      if (!doubanUrl) {
+        return;
+      }
+      const isTV = /tv/i.test(category);
+      const imdbId = (_b = (_a2 = imdbUrl == null ? void 0 : imdbUrl.match(/tt\d+/)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      const doubanInfo = await getDoubanInfoByIdOrDoubanUrl(
+        doubanUrl,
+        isTV ? "tv" : "movie",
+        imdbId
+      );
+      if (doubanInfo) {
+        this.info.doubanInfo = doubanInfo.format;
+      }
+    }
+    enhanceInfo() {
+      let { mediaInfos, screenshots, description } = this.info;
+      if (mediaInfos == null ? void 0 : mediaInfos[0]) {
+        description += `[quote]${mediaInfos[0]}[/quote]
+`;
+      }
+      screenshots.forEach((url) => {
+        description += `[img]${url}[/img]`;
+      });
+      this.info.description = description;
+    }
+  }
+  registry.register(new HanHanExtractor());
+  class MTExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.torrentId = "";
+    }
+    canHandle(siteName) {
+      return siteName === "MTeam";
+    }
+    extractTitle(title) {
+      this.info.title = formatTorrentTitle(title);
+    }
+    extractMTResolution(standardId) {
+      this.info.resolution = CONFIG.MT_SPECS_MAP.standard[standardId];
+    }
+    extractSource(sourceId) {
+      let sourceName = CONFIG.MT_SPECS_MAP.source[sourceId];
+      if (!sourceName) {
+        sourceName = getVideoSourceFromTitle(this.info.title);
+      } else if (sourceName === "bluray" && this.info.resolution === "2160p") {
+        sourceName = "uhdbluray";
+      }
+      this.info.source = sourceName;
+    }
+    extractVideoType(mediumId) {
+      const { resolution, title } = this.info;
+      if (!mediumId) {
+        this.info.videoType = getVideoTypeFromSource(title);
+        return;
+      }
+      const videoType = CONFIG.MT_SPECS_MAP.medium[mediumId];
+      if (videoType === "bluray" && resolution === "2160p") {
+        return "uhdbluray";
+      } else if (videoType === "dvd" && title.match(/dvdrip/i)) {
+        return "dvdrip";
+      }
+      this.info.videoType = videoType;
+    }
+    extractCategory(categoryId) {
+      const catMap = PT_SITE.MTeam.category.map;
+      for (const [key, value] of Object.entries(catMap)) {
+        if (value.includes(categoryId)) {
+          this.info.category = key;
+        }
+      }
+    }
+    extractCodec() {
+      const { title, videoType } = this.info;
+      this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+        title,
+        videoType
+      );
+      this.info.audioCodec = getAudioCodecFromSource(title);
+    }
+    async extractScreenshots() {
+      this.info.screenshots = await extractImgsFromBBCode(this.info.description);
+    }
+    extractMediaDetails() {
+      var _a2, _b;
+      if (!((_a2 = this.info.mediaInfos) == null ? void 0 : _a2[0])) {
+        return;
+      }
+      const mediaInfo = parseMedia(
+        (_b = this.info.mediaInfos) == null ? void 0 : _b[0],
+        this.isVideoTypeBluray()
+      );
+      if (!mediaInfo) {
+        return;
+      }
+      const mediaDetail = extractDetailsFromMediaInfo(mediaInfo);
+      if (!mediaDetail) {
+        return;
+      }
+      this.info.videoCodec = mediaDetail.videoCodec;
+      this.info.audioCodec = mediaDetail.audioCodec;
+      this.info.resolution = mediaDetail.resolution;
+      this.info.tags = getMediaTags(mediaDetail);
+    }
+    extractDescription(descr) {
+      this.info.description = descr.replace(/!\[\]\((.+?)\)/g, "[img]$1[/img]");
+    }
+    isVideoTypeBluray() {
+      return /bluray/i.test(this.info.videoType);
+    }
+    getMovieInfo(data) {
+      const { year, title, photo } = data;
+      this.info.year = year;
+      this.info.movieName = title;
+      this.info.poster = photo.full || photo.thumb;
+    }
+    setRequestHeaders() {
+      const version = CONFIG.MT_REQUEST_VERSION;
+      const webVersion = `${version.replace(/\./g, "")}0`;
+      const ts = `${Math.floor(Date.now() / 1e3)}`;
+      const auth = localStorage.getItem("auth") || "";
+      const visitorId = localStorage.getItem("visitorId") || "";
+      const dId = localStorage.getItem("did") || "";
+      return {
+        Authorization: auth,
+        "User-Agent": navigator.userAgent,
+        Did: dId,
+        Visitorid: visitorId,
+        ts,
+        version,
+        webVersion
+      };
+    }
+    async getIMDbDataFromAPI() {
+      const { imdbUrl } = this.info;
+      const formdata = createFormData({
+        code: imdbUrl
+      });
+      const res = await GMFetch(`${CONFIG.MT_BASE_API_URL}/torrent/imdbInfo`, {
+        data: formdata,
+        method: "POST",
+        responseType: "json",
+        headers: this.setRequestHeaders()
+      });
+      if (res.code !== "0") {
+        throw new Error(res.message);
+      }
+      return res.data;
+    }
+    async getTorrentURLFormAPI() {
+      const res = await GMFetch(`${CONFIG.MT_BASE_API_URL}/torrent/genDlToken`, {
+        method: "POST",
+        data: createFormData({
+          id: this.torrentId
+        }),
+        responseType: "json",
+        headers: this.setRequestHeaders()
+      });
+      if (res.code === "0") {
+        CURRENT_SITE_INFO.torrentLink = res.data;
+      }
+    }
+    async getTorrentDetailFromAPI() {
+      const formdata = createFormData({
+        id: this.torrentId
+      });
+      const res = await GMFetch(`${CONFIG.MT_BASE_API_URL}/torrent/detail`, {
+        data: formdata,
+        method: "POST",
+        responseType: "json",
+        headers: this.setRequestHeaders()
+      });
+      if (res.code !== "0") {
+        throw new Error(res.message);
+      }
+      return res.data;
+    }
+    async extract() {
+      var _a2;
+      const torrentId = (_a2 = location.pathname.match(/detail\/(\d+)/)) == null ? void 0 : _a2[1];
+      if (!torrentId) {
+        return this.info;
+      }
+      this.torrentId = torrentId;
+      const torrentDetail = await this.getTorrentDetailFromAPI();
+      const {
+        name,
+        imdb,
+        douban,
+        category,
+        source,
+        medium,
+        standard,
+        size,
+        mediainfo,
+        descr,
+        smallDescr
+      } = torrentDetail;
+      this.extractTitle(name);
+      this.extractYear();
+      this.extractMTResolution(standard);
+      this.extractDescription(descr);
+      this.extractSource(source);
+      this.extractVideoType(medium);
+      this.extractCodec();
+      this.extractCategory(category);
+      this.info.subtitle = smallDescr;
+      this.info.size = parseInt(size, 10);
+      if (imdb) {
+        this.info.imdbUrl = imdb;
+        const imdbData = await this.getIMDbDataFromAPI();
+        this.getMovieInfo(imdbData);
+      }
+      this.info.doubanUrl = douban;
+      this.extractScreenshots();
+      this.info.mediaInfos = [mediainfo];
+      this.extractMediaDetails();
+      this.extractArea();
+      await this.getTorrentURLFormAPI();
+      return this.info;
+    }
+  }
+  registry.register(new MTExtractor());
+  class GazelleExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+      this.torrentId = "";
+      this.torrentHeaderDom = $$2();
+      this.getSource = (source, codes, resolution) => {
+        if (codes.match(/BD100|BD66/i)) {
+          return "uhdbluray";
+        }
+        if (source.match(/Blu-ray/i) && resolution.match(/2160P|4K/i)) {
+          return "uhdbluray";
+        }
+        return source.replace(/-/g, "").toLowerCase();
+      };
+    }
+    async extract() {
+      return this.info;
+    }
+    extractTorrentId() {
+      const torrentId = getLocationSearchValueByKey("torrentid");
+      this.torrentId = torrentId;
+    }
+    getTorrentHeaderDom() {
+    }
+    extractMovieNames() {
+    }
+    extractMediaInfos() {
+    }
+    extractYear() {
+    }
+    extractTorrentLink() {
+      const torrentLink = this.torrentHeaderDom.find('a[title="Download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
+    }
+    extractImdbUrl() {
+    }
+    extractCategory() {
+    }
+    extractComparisonsScreenshots() {
+    }
+    extractMetaInfo() {
+    }
+    extractTags() {
+    }
+    extractTitle() {
+    }
+    extractSize() {
+    }
+    extractArea() {
+    }
+    extractIsHardcodedSub() {
+    }
+    extractPoster() {
+    }
+    enhanceInfo() {
+    }
+  }
+  class PTPExtractor extends GazelleExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.tags = [];
+      this.getVideoType = (container, isRemux, codes, source) => {
+        let type = "";
+        if (isRemux) {
+          type = "remux";
+        } else if (codes.match(/BD50|BD25/gi)) {
+          type = "bluray";
+        } else if (codes == null ? void 0 : codes.match(/BD66|BD100/gi)) {
+          type = "uhdbluray";
+        } else if (source.match(/DVD/gi) && container.match(/MKV|AVI/gi)) {
+          type = "dvdrip";
+        } else if (codes.match(/DVD5|DVD9/gi) && container.match(/VOB|ISO/gi)) {
+          type = "dvd";
+        } else if (container.match(/MKV|MP4/i)) {
+          type = "encode";
+        }
+        return type;
+      };
+    }
+    canHandle(siteName) {
+      return siteName === "PTP";
+    }
+    async extract() {
+      this.extractTorrentId();
+      if (!this.torrentId) {
+        return this.info;
+      }
+      this.getTorrentHeaderDom();
+      this.extractMediaInfos();
+      this.extractMovieNames();
+      this.extractYear();
+      this.extractTorrentLink();
+      this.extractImdbUrl();
+      this.extractScreenshotsForPTP();
+      this.extractCategory();
+      await this.extractDescription();
+      this.extractComparisonsScreenshots();
+      this.extractMetaInfo();
+      this.extractMediaDetails();
+      this.extractSize();
+      this.extractPoster();
+      this.extractTitle();
+      this.extractArea();
+      this.extractIsHardcodedSub();
+      this.enhanceInfo();
+      this.extractTags();
+      return this.info;
+    }
+    getTorrentHeaderDom() {
+      this.torrentHeaderDom = $$2(`#group_torrent_header_${this.torrentId}`);
+    }
+    extractMovieNames() {
+      var _a2, _b, _c, _d;
+      const ptpMovieTitle = (_d = (_c = (_b = (_a2 = $$2(".page__title").text()) == null ? void 0 : _a2.replace(/\[.+?\]/g, "")) == null ? void 0 : _b.replace(/by.+/, "")) == null ? void 0 : _c.trim()) != null ? _d : "";
+      const [movieName, movieAkaName = ""] = ptpMovieTitle.split(" AKA ");
+      this.info.movieAkaName = movieAkaName;
+      this.info.movieName = movieName;
+    }
+    extractMediaInfos() {
+      const mediaInfoArray = [];
+      $$2(`#torrent_${this.torrentId}`).find(".mediainfo.mediainfo--in-release-description").next("blockquote").each(function() {
+        const textContent = $$2(this).text();
+        if (textContent.match(/(Codec\s*ID)|mpls|(Stream\s*size)|Video/i)) {
+          mediaInfoArray.push(textContent);
+        }
+      });
+      this.info.mediaInfos = mediaInfoArray;
+    }
+    extractYear() {
+      var _a2, _b;
+      this.info.year = (_b = (_a2 = $$2(".page__title").text().match(/\[(\d+)\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    }
+    extractTorrentLink() {
+      const torrentHeaderDom = $$2(`#group_torrent_header_${this.torrentId}`);
+      const torrentLink = torrentHeaderDom.find('a[title="Download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
+    }
+    extractImdbUrl() {
+      var _a2, _b;
+      this.info.imdbUrl = (_b = (_a2 = $$2("#imdb-title-link")) == null ? void 0 : _a2.attr("href")) != null ? _b : "";
+    }
+    extractScreenshotsForPTP() {
+      var _a2;
+      const imgList = [];
+      const torrentInfoPanel = $$2(".movie-page__torrent__panel");
+      const imageDom = torrentInfoPanel.find(".bbcode__image");
+      for (let i = 0; i < imageDom.length; i++) {
+        const parent = imageDom[i].parentElement;
+        if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a2 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a2.match(/\.png$/))) {
+          imgList.push(parent.getAttribute("href") || "");
+        } else {
+          const imgDom = imageDom[i];
+          const imgSrc = imgDom.getAttribute("src") || imgDom.getAttribute("alt");
+          imgList.push(imgSrc || "");
+        }
+      }
+      this.info.screenshots = imgList;
+    }
+    extractCategory() {
+      const typeMap = {
+        "Feature Film": "movie",
+        "Short Film": "movie",
+        "Stand-up Comedy": "other",
+        Miniseries: "tvPack",
+        "Live Performance": "concert",
+        "Movie Collection": "movie"
+      };
+      const ptpType = $$2("#torrent-table .basic-movie-list__torrent-edition__main").eq(0).text();
+      this.info.category = typeMap[ptpType] || "unknown";
+    }
+    formateDescription(description, screenshots, mediaInfoArray) {
+      let descriptionData = description.replace(/\r\n/g, "\n");
+      descriptionData = descriptionData.split("\n").map((line) => {
+        return line.trim();
+      }).join("\n").replace(/http:\/\/ptpimg.me/g, "https://ptpimg.me");
+      const originalDescription = descriptionData;
+      screenshots.forEach((screenshot) => {
+        const regStr = new RegExp(`\\[img${screenshot}\\[\\/img\\]`, "i");
+        if (!descriptionData.match(regStr)) {
+          const regLegacyFormat = new RegExp(`\\[img=${screenshot}\\]`, "i");
+          if (descriptionData.match(regLegacyFormat)) {
+            descriptionData = descriptionData.replace(
+              regLegacyFormat,
+              `[img]${screenshot}[/img]`
+            );
+          } else {
+            descriptionData = descriptionData.replace(
+              new RegExp(`(?<!\\[img\\])${screenshot}`, "ig"),
+              `[img]${screenshot}[/img]`
+            );
+          }
+        }
+      });
+      descriptionData = descriptionData.replace(
+        /\[(\/)?mediainfo\]/g,
+        "[$1quote]"
+      );
+      descriptionData = descriptionData.replace(
+        /\[(\/)?hide(?:=(.+?))?\]/g,
+        (match, p1, p2) => {
+          const slash = p1 || "";
+          return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
+        }
+      );
+      descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
+      descriptionData = descriptionData.replace(
+        /\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g,
+        "[quote][$2]$3[/$2][/quote]"
+      );
+      mediaInfoArray.forEach((mediaInfo) => {
+        const regStr = new RegExp(
+          `\\[quote\\]\\s*?${replaceRegSymbols(mediaInfo).slice(0, 1e4)}`,
+          "i"
+        );
+        if (!descriptionData.match(regStr)) {
+          descriptionData = descriptionData.replace(
+            mediaInfo,
+            `[quote]${mediaInfo}[/quote]`
+          );
+        }
+      });
+      if (this.info.category === "concert") {
+        descriptionData = `${$$2("#synopsis").text()}
+${descriptionData}`;
+      }
+      return {
+        originalDescription,
+        descriptionData
+      };
+    }
+    getReleaseGroup(source) {
+      var _a2, _b;
+      return (_b = (_a2 = source.match(/-(\w+?)$/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    }
+    async getDescriptionFromAPI(id) {
+      const url = `${PT_SITE.PTP.url}/torrents.php?action=get_description&id=${id}`;
+      const data = await GMFetch(url);
+      if (data) {
+        const element = document.createElement("span");
+        element.innerHTML = data;
+        return element.innerText || element.textContent || "";
+      }
+      return "";
+    }
+    async extractDescription() {
+      const { screenshots, mediaInfos } = this.info;
+      const description = await this.getDescriptionFromAPI(this.torrentId);
+      const { originalDescription, descriptionData } = this.formateDescription(
+        description,
+        screenshots,
+        mediaInfos
+      );
+      this.info.description = descriptionData;
+      this.info.originalDescription = originalDescription;
+    }
+    extractComparisonsScreenshots() {
+      let { description } = this.info;
+      const comparisonArray = description.match(
+        /(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/gi
+      ) || [];
+      const comparisons = [];
+      comparisonArray.forEach((item) => {
+        var _a2, _b, _c, _d;
+        description = description.replace(item, item.replace(/\s/g, ""));
+        const reason = (_b = (_a2 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
+        const title = (_d = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d : "";
+        const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/gi, "").split(/[ \r\n]/);
+        const imgs = [];
+        Array.from(new Set(comparisonImgArray)).forEach((item2) => {
+          const formatImg = item2.replace(/\s*/g, "");
+          if (item2.match(/^https?.+/)) {
+            imgs.push(formatImg);
+            description = description.replace(
+              new RegExp(`(?<!(\\[img\\]))${item2}`, "gi"),
+              `[img]${formatImg}[/img]`
+            );
+          } else if (item2.match(/^\[img\]/i)) {
+            imgs.push(formatImg.replace(/\[\/?img\]/g, ""));
+          }
+        });
+        comparisons.push({
+          title,
           imgs,
           reason
         });
       });
-      TORRENT_INFO.comparisons = comparisons;
-      if (!descriptionBBCode.match("豆瓣评分")) {
-        const imdbRate = $$2("#kimdb span.imdbwp__rating").text().replace("\nRating: ", "");
-        const doubanInfo = $$2("#kdouban .imdbwp__content").text().replace(/\n{2,}/g, "\n").replace(/\n[0-9]?[0-9]\.[0-9]\n/g, "\n").replace(/\n/g, "\n◎").replace(/\n◎$/, "\n").replace("◎Rating:", `◎IMDb链接:${siteImdbUrl}
-◎IMDb评分: ${imdbRate}
-◎豆瓣链接: ${TORRENT_INFO.doubanUrl}
-◎豆瓣评分:`);
-        const postUrl = (_k = (_j = $$2("#kimdb img.imdbwp__img")) == null ? void 0 : _j.attr("src")) != null ? _k : "";
-        const doubanPoster = postUrl ? `[img]${postUrl}[/img]
-` : "";
-        TORRENT_INFO.doubanInfo = doubanPoster + doubanInfo || "";
-      }
-      descriptionBBCode = descriptionBBCode.replace(/\[quote\]GeneralVideo[^[]*\[\/quote\]/, "");
+      this.info.comparisons = comparisons;
+      this.info.description = description.replace(/\[comparison=(.+?)\]/gi, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/gi, "");
     }
-    if (CURRENT_SITE_NAME === "SSD") {
-      TORRENT_INFO.doubanUrl = $$2(".douban_info a:contains('://movie.douban.com/subject/')").attr("href");
-      const doubanInfo = getFilterBBCode((_l = $$2(".douban-info artical")) == null ? void 0 : _l[0]);
-      const postUrl = (_n2 = (_m = $$2("#kposter").find("img")) == null ? void 0 : _m.attr("src")) != null ? _n2 : "";
-      const doubanPoster = postUrl ? `[img]${postUrl}[/img]
-` : "";
-      TORRENT_INFO.doubanInfo = doubanPoster + (doubanInfo == null ? void 0 : doubanInfo.replace(/\n{2,}/g, "\n")) || "";
-      if (descriptionBBCode === "" || descriptionBBCode === void 0) {
-        let extraTextInfo = getFilterBBCode((_o = $$2(".torrent-extra-text-container .extra-text")) == null ? void 0 : _o[0]);
-        extraTextInfo = extraTextInfo ? `
-[quote]${extraTextInfo}[/quote]
-` : "";
-        const extraScreenshotDom = $$2(".screenshot").find("img");
-        const imgs = [];
-        if (extraScreenshotDom) {
-          extraScreenshotDom.each((index, item) => {
-            var _a3, _b2;
-            imgs.push(`[img]${(_b2 = (_a3 = $$2(item).attr("src")) == null ? void 0 : _a3.trim()) != null ? _b2 : ""}[/img]`);
-          });
-        }
-        const extraScreenshot = imgs.join("");
-        const mediaInfo = $$2("section[data-group='mediainfo'] .codemain").text();
-        const extraMediaInfo = `
-[quote]${mediaInfo}[/quote]
-`;
-        TORRENT_INFO.mediaInfos = [mediaInfo];
-        descriptionBBCode = extraTextInfo + extraMediaInfo + extraScreenshot;
-      }
-      siteImdbUrl = $$2(".douban_info a:contains('://www.imdb.com/title/')").attr("href");
+    extractMetaInfo() {
+      const infoArray = this.torrentHeaderDom.find("#PermaLinkedTorrentToggler").text().trim().split(" / ");
+      const [codes, container, source, resolution, ...otherInfo] = infoArray;
+      const isRemux = otherInfo.includes("Remux");
+      this.info.videoType = source === "WEB" ? "web" : this.getVideoType(container, isRemux, codes, source);
+      this.info.resolution = resolution;
+      this.info.source = this.getSource(source, codes, resolution);
+      this.tags = otherInfo;
     }
-    const year = (_p = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _p : [];
-    const { category, videoType, videoCodec, audioCodec, resolution, processing, size } = getMetaInfo$1(metaInfo);
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const doubanUrl = (_q = descriptionBBCode.match(/https:\/\/((movie|book)\.)?douban\.com\/subject\/\d+/)) == null ? void 0 : _q[0];
-    if (doubanUrl) {
-      TORRENT_INFO.doubanUrl = doubanUrl;
-    }
-    const imdbUrl = (_r = descriptionBBCode.match(/http(s)?:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _r[0];
-    if (imdbUrl) {
-      TORRENT_INFO.imdbUrl = imdbUrl;
-    } else if (siteImdbUrl) {
-      TORRENT_INFO.imdbUrl = siteImdbUrl.match(/www\.imdb\.com\/title/) ? siteImdbUrl : "";
-    }
-    TORRENT_INFO.year = year.length > 0 ? year.pop() : "";
-    TORRENT_INFO.title = title;
-    TORRENT_INFO.subtitle = subtitle;
-    TORRENT_INFO.description = descriptionBBCode;
-    const originalName = (_t2 = (_s = descriptionBBCode.match(/(片\s+名)\s+(.+)?/)) == null ? void 0 : _s[2]) != null ? _t2 : "";
-    const translateName = (_v = (_u = descriptionBBCode.match(/(译\s+名)\s+(.+)/)) == null ? void 0 : _u[2]) != null ? _v : "";
-    if (!originalName.match(/[\u4e00-\u9fa5]+/)) {
-      TORRENT_INFO.movieName = originalName;
-    } else {
-      TORRENT_INFO.movieName = (_y = (_x = (_w = translateName.match(/(\w|\s){2,}/)) == null ? void 0 : _w[0]) == null ? void 0 : _x.trim()) != null ? _y : "";
-    }
-    const fullInformation = $$2("#top").text() + subtitle + descriptionBBCode;
-    const isForbidden = fullInformation.match(/禁转|禁轉|严禁转载|嚴禁轉載|谢绝转载|謝絕轉載|exclusive/);
-    TORRENT_INFO.isForbidden = !!isForbidden;
-    if (!processing || processing.match(/raw|encode/)) {
-      const areaMatch = (_z = descriptionBBCode.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _z[2];
-      if (areaMatch) {
-        TORRENT_INFO.area = getAreaCode(areaMatch);
-      }
-    } else {
-      TORRENT_INFO.area = getAreaCode(processing);
-    }
-    const specificCategory = getPreciseCategory(TORRENT_INFO, getCategory$6(category || descriptionBBCode));
-    TORRENT_INFO.category = specificCategory;
-    TORRENT_INFO.videoType = getVideoType$c(videoType || TORRENT_INFO.title);
-    TORRENT_INFO.source = getSourceFromTitle(TORRENT_INFO.title);
-    TORRENT_INFO.size = size ? getSize(size) : 0;
-    if (CURRENT_SITE_NAME === "KEEPFRDS") {
-      TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ""));
-    } else TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-    const tags2 = getTagsFromSubtitle(TORRENT_INFO.subtitle);
-    const pageTags = getTagsFromPage$1();
-    TORRENT_INFO.tags = __spreadValues(__spreadValues({}, tags2), pageTags);
-    if (!TORRENT_INFO.isForbidden && TORRENT_INFO.tags.exclusive) {
-      TORRENT_INFO.isForbidden = true;
-    }
-    const isBluray = !!TORRENT_INFO.videoType.match(/bluray/i);
-    if (TORRENT_INFO.mediaInfos.length > 0) {
-      getSpecsFromMediainfo(isBluray);
-    } else {
-      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-      const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-      if (mediaInfoOrBDInfo) {
-        TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
-        getSpecsFromMediainfo(isBluray);
-      }
-    }
-    const infoFromMediaInfoinfo = getInfoFromMediaInfo((_A = TORRENT_INFO.mediaInfos) == null ? void 0 : _A[0]);
-    if (infoFromMediaInfoinfo.subtitles) {
-      for (let i = 0; i < ((_B = infoFromMediaInfoinfo.subtitles) == null ? void 0 : _B.length); i++) {
-        if (/Chinese|Traditional|Simplified|Cantonese|Mandarin/i.test(infoFromMediaInfoinfo.subtitles[i])) {
-          TORRENT_INFO.tags.chinese_subtitle = true;
-          break;
+    extractTags() {
+      const releaseName = this.torrentHeaderDom.data("releasename");
+      const releaseGroup = this.getReleaseGroup(releaseName);
+      const { editionTags } = PT_SITE.PTP.sourceInfo;
+      const knownTags = {};
+      const otherTags = {};
+      for (const rawTag of this.tags) {
+        const tag = editionTags[rawTag];
+        if (tag) {
+          knownTags[tag] = true;
+        } else if (tag === null || releaseGroup.includes(rawTag) || rawTag.match(/Freeleech|Halfleech|Half-Leech/i)) ;
+        else {
+          otherTags[rawTag] = true;
         }
       }
+      this.info.tags = __spreadValues({}, knownTags);
+      this.info.otherTags = otherTags;
     }
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(TORRENT_INFO.title || videoCodec, TORRENT_INFO.videoType);
-    TORRENT_INFO.resolution = getResolution$2(resolution || TORRENT_INFO.title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec || TORRENT_INFO.title);
-    if (CURRENT_SITE_NAME === "TCCF") {
-      TORRENT_INFO.format = getFormat(videoType);
-    } else {
-      TORRENT_INFO.format = getFormat($$2("#top").text() + subtitle);
+    extractTitle() {
+      const releaseName = this.torrentHeaderDom.data("releasename");
+      const formattedTitle = formatTorrentTitle(releaseName);
+      this.info.title = formattedTitle;
     }
-  };
-  const getMetaInfo$1 = (metaInfo) => {
-    let resolutionKey = "分辨率|解析度|格式";
-    let videoTypeKey = "媒介|来源|质量";
-    if (CURRENT_SITE_NAME === "SSD") {
-      resolutionKey = "分辨率|解析度";
-      videoTypeKey = "格式";
+    extractSize() {
+      var _a2, _b;
+      const size = (_b = (_a2 = this.torrentHeaderDom.find(".nobr span").attr("title")) == null ? void 0 : _a2.replace(/[^\d]/g, "")) != null ? _b : "";
+      this.info.size = convertSizeStringToBytes(size);
     }
-    if (CURRENT_SITE_NAME === "KEEPFRDS") {
-      videoTypeKey = "encode";
-    }
-    if (CURRENT_SITE_NAME.match(/TLF|HDHome/i)) {
-      videoTypeKey = "媒介";
-    }
-    if (CURRENT_SITE_NAME.match(/HDFans/)) {
-      videoTypeKey = "来源";
-    }
-    const category = getMetaValue$1("类型|分类|類別", metaInfo);
-    const videoType = getMetaValue$1(videoTypeKey, metaInfo);
-    const videoCodec = getMetaValue$1("编码|編碼", metaInfo);
-    const audioCodec = getMetaValue$1("音频|音频编码", metaInfo);
-    const resolution = getMetaValue$1(resolutionKey, metaInfo);
-    const processing = getMetaValue$1("处理|處理|地区", metaInfo);
-    const size = getMetaValue$1("大小", metaInfo);
-    console.log({
-      category,
-      videoType,
-      videoCodec,
-      audioCodec,
-      resolution,
-      processing,
-      size
-    });
-    return {
-      category,
-      videoType,
-      videoCodec,
-      audioCodec,
-      resolution,
-      processing,
-      size
-    };
-  };
-  const getMetaValue$1 = (key, metaInfo) => {
-    var _a2, _b;
-    let regStr = `(${key}):\\s?([^一-龥]+)?`;
-    if (key.match(/大小/)) {
-      regStr = `(${key}):\\s?((\\d|\\.)+\\s+(G|M|T|K)(i)?B)`;
-    }
-    if (CURRENT_SITE_NAME.match(/KEEPFRDS|TJUPT|PTSBAO|PTHome|HDTime|BTSCHOOL|TLF|SoulVoice|PuTao/) && key.match(/类型/)) {
-      regStr = `(${key}):\\s?([^\\s]+)?`;
-    }
-    if (CURRENT_SITE_NAME === "PTer" && key.match(/类型|地区/)) {
-      regStr = `(${key}):\\s?([^\\s]+)?`;
-    }
-    if (CURRENT_SITE_NAME === "TCCF" && key.match(/类型/)) {
-      regStr = `(${key}):(.+?)\\s{2,}`;
-    }
-    if (CURRENT_SITE_NAME === "HDFans" && key.match(/来源/)) {
-      regStr = `(${key}):(.+?)\\s{2,}`;
-    }
-    if (CURRENT_SITE_NAME === "HDChina" && key.match(/类型/)) {
-      regStr = `(${key}):.+?([^一-龥]+)`;
-    }
-    const reg = new RegExp(regStr, "i");
-    const matchValue = (_b = (_a2 = metaInfo.match(reg)) == null ? void 0 : _a2[2]) != null ? _b : "";
-    if (matchValue) {
-      return matchValue.replace(/\s/g, "").trim().toLowerCase();
-    }
-    return "";
-  };
-  const getTagsFromPage$1 = () => {
-    let tags2 = {};
-    if (CURRENT_SITE_NAME === "PTer") {
-      const tagImgs = $$2("td.rowhead:contains('类别与标签')").next().find("img");
-      const links = Array.from(tagImgs.map((index, item) => {
-        var _a2, _b;
-        return (_b = (_a2 = $$2(item).attr("src")) == null ? void 0 : _a2.replace(/(lang\/chs\/)|(\.gif)/g, "")) != null ? _b : "";
-      }));
-      if (links.includes("pter-zz")) {
-        tags2.chinese_subtitle = true;
+    extractArea() {
+      let country = [];
+      const matchArray = $$2("#movieinfo div").text().match(/Country:\s+([^\n]+)/);
+      if (matchArray && matchArray.length > 0) {
+        country = matchArray == null ? void 0 : matchArray[1].replace(/(,)\s+/g, "$1").split(",");
       }
-      if (links.includes("pter-gy")) {
-        tags2.chinese_audio = true;
-      }
-      if (links.includes("pter-yy")) {
-        tags2.cantonese_audio = true;
-      }
-      if (links.includes("pter-diy")) {
-        tags2.diy = true;
-      }
-    } else {
-      const tagText = $$2("td.rowhead:contains('标签')").next().text();
-      tags2 = getTagsFromSubtitle(tagText);
+      this.info.area = getAreaCode(country == null ? void 0 : country[0]);
     }
-    return tags2;
-  };
-  function getSpecsFromMediainfo(isBluray) {
-    var _a2, _b;
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, resolution, mediaTags } = getInfoFunc((_b = (_a2 = TORRENT_INFO.mediaInfos) == null ? void 0 : _a2[0]) != null ? _b : "");
-    if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
-      TORRENT_INFO.videoCodec = videoCodec;
-      TORRENT_INFO.audioCodec = audioCodec;
-      TORRENT_INFO.resolution = resolution || "";
-      TORRENT_INFO.tags = __spreadValues(__spreadValues({}, TORRENT_INFO.tags), mediaTags);
+    extractIsHardcodedSub() {
+      const trumpReason = $$2(`#trumpable_${this.torrentId} span`).text() || "";
+      this.info.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
+    }
+    extractPoster() {
+      this.info.poster = $$2(".sidebar-cover-image").attr("src") || "";
     }
   }
-  const getHDTInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f;
-    const title = document.title.replace(/HD-Torrents.org\s*-/ig, "").trim();
-    const imdbInfoDom = $$2("#IMDBDetailsInfoHideShowTR .imdbnew2");
-    const imdbUlrDom = imdbInfoDom.find(">a");
-    const imdbUrl = imdbUlrDom.attr("href") || "";
-    const movieName = imdbUlrDom.text();
-    const year = (_b = (_a2 = imdbInfoDom.text().match(/Year:\s*(\d{4})/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    const country = (_d2 = (_c = imdbInfoDom.text().match(/Country:\s*([^\n]+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-    const { Category, Size, Genre } = getBasicInfo$3();
-    let tags2 = getTagsFromSubtitle(title);
-    let category = Category.toLowerCase().split(/\s|\//)[0];
-    category = Genre.match(/Animation/i) ? "cartoon" : category;
-    const videoType = getVideoType$b(Category, title);
-    const source = getSourceFromTitle(title);
-    let resolution = (_f = (_e2 = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _e2[0]) != null ? _f : "";
-    if (!resolution && (resolution == null ? void 0 : resolution.match(/4k|uhd/i))) {
-      resolution = "2160p";
+  registry.register(new PTPExtractor());
+  class UHDExtractor extends GazelleExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.titleText = "";
     }
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    const descriptionDom = $$2("#technicalInfoHideShowTR");
-    let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    descriptionBBCode = descriptionBBCode.replace(/\[center\]((?:.|\n)+?)\[\/center\]/g, (match, p1) => {
-      if (p1.match(/(keep seeding)|(spank your ass)/)) {
-        return "";
+    canHandle(siteName) {
+      return siteName === "UHDBits";
+    }
+    async extract() {
+      this.extractTorrentId();
+      if (!this.torrentId) {
+        return this.info;
       }
-      return match;
-    });
-    const isBluray = videoType.match(/bluray/i);
-    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-    if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { videoCodec, audioCodec, resolution: mediaResolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0]);
-      if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
-        TORRENT_INFO.videoCodec = videoCodec;
-        TORRENT_INFO.audioCodec = audioCodec;
-        resolution = mediaResolution || "";
-        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
-      }
+      this.getTorrentHeaderDom();
+      this.extractTitle();
+      await this.extractMediaInfos();
+      this.extractMovieNames();
+      this.extractYear();
+      this.extractImdbUrl();
+      this.extractTorrentLink();
+      await this.extractMediaInfos();
+      await this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMetaInfo();
+      this.extractTags();
+      this.extractMediaDetails();
+      return this.info;
     }
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    TORRENT_INFO.title = formatTorrentTitle(title);
-    TORRENT_INFO.year = year;
-    TORRENT_INFO.movieName = movieName;
-    TORRENT_INFO.source = source;
-    TORRENT_INFO.area = getAreaCode(country);
-    TORRENT_INFO.size = getSize(Size);
-    TORRENT_INFO.videoType = videoType;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = tags2;
-    TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.description = descriptionBBCode;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-  };
-  const getBasicInfo$3 = () => {
-    const basicInfo = {
-      Category: "",
-      Size: "",
-      Title: "",
-      Genre: ""
-    };
-    $$2(".detailsleft").each((index, element) => {
-      const key = $$2(element).text().replace(/:/g, "").trim();
-      const value = $$2(element).next("td").text();
-      if (value) {
-        basicInfo[key] = value.replace(/\n/g, "").trim();
-      }
-    });
-    return basicInfo;
-  };
-  const getVideoType$b = (type, title) => {
-    if (type.match(/Remux/i)) {
-      return "remux";
-    } else if (type.match(/UHD\/Blu-Ray/i)) {
-      return "uhdbluray";
-    } else if (type.match(/Blu-Ray/i)) {
-      return "bluray";
+    getTorrentHeaderDom() {
+      this.torrentHeaderDom = $$2(`#torrent${this.torrentId}`);
     }
-    if (title.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (title.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (title.match(/dvdrip/i)) {
-      return "dvdrip";
-    } else if (title.match(/x264|x265/i)) {
-      return "encode";
+    extractTitle() {
+      var _a2, _b;
+      const torrentFilePathDom = $$2(`#files_${this.torrentId} .filelist_path`);
+      const torrentFileDom = $$2(
+        `#files_${this.torrentId} .filelist_table>tbody>tr:nth-child(2) td`
+      ).eq(0);
+      const torrentFileName = ((_a2 = torrentFilePathDom.text()) == null ? void 0 : _a2.replace(/\//g, "")) || ((_b = torrentFileDom.text()) == null ? void 0 : _b.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, ""));
+      this.info.title = formatTorrentTitle(torrentFileName);
     }
-    return "";
-  };
-  const getKGInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i;
-    const {
-      InternetLink,
-      Year,
-      Type: Type2,
-      Genres,
-      Source,
-      Size,
-      Filename = "",
-      RipSpecs = "",
-      Subtitles,
-      "Language(s)": language
-    } = getBasicInfo$2();
-    const torrentFileDom = getBasicInfoDom("Download").find("a.index");
-    const torrentFileName = torrentFileDom.text().replace(/\.torrent$/, "");
-    const fileName = Filename.replace(/\.\w+$/, "");
-    const title = formatTorrentTitle(fileName || torrentFileName);
-    const imdbUrl = (InternetLink == null ? void 0 : InternetLink.match(/imdb/)) ? InternetLink : "";
-    const movieTitles = $$2(".outer h1").text().split("- ");
-    let movieName = "";
-    let movieAkaName = "";
-    if (movieTitles.length >= 2) {
-      [movieName, movieAkaName] = movieTitles[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
-    }
-    const country = $$2(".outer h1 img").attr("alt") || "";
-    const year = Year;
-    const size = (_b = (_a2 = Size.match(/\((.+?)\)/)) == null ? void 0 : _a2[1].replace(/,|(bytes)/g, "")) != null ? _b : "";
-    let tags2 = getTagsFromSubtitle(title);
-    if (Subtitles.match(/Chinese/i)) {
-      tags2.chinese_subtitle = true;
-    }
-    if (language.match(/Chinese|Mandarin/i)) {
-      tags2.chinese_audio = true;
-    }
-    if (language.match(/Cantonese/)) {
-      tags2.cantonese_audio = true;
-    }
-    let category = Type2.toLowerCase();
-    category = Genres.match(/Animation/i) ? "cartoon" : category;
-    const mediaInfo = $$2("div.mediainfo").text();
-    let source = Source.replace(/-/g, "").toLowerCase();
-    if (source === "tv") {
-      source = "hdtv";
-    }
-    let genreVideoType = (_e2 = (_d2 = (_c = getBasicInfoDom("Genres").find("tr td>img").attr("src")) == null ? void 0 : _c.match(/genreimages\/(\w+)\.\w+/)) == null ? void 0 : _d2[1]) != null ? _e2 : "";
-    genreVideoType = RipSpecs.match(/DVD\sFormat/) ? "dvdr" : genreVideoType;
-    const videoType = getVideoType$a(title, source, genreVideoType, !!mediaInfo);
-    let resolution = (_g = (_f = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _f[0]) != null ? _g : "";
-    if (!resolution && resolution.match(/4k|uhd/i)) {
-      resolution = "2160p";
-    }
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    if (genreVideoType === "dvdr" && RipSpecs) {
-      TORRENT_INFO.videoCodec = "mpeg2";
-      const audioCodec = (_i = (_h = RipSpecs.match(/DVD\sAudio:(.+)/)) == null ? void 0 : _h[1]) != null ? _i : "";
-      TORRENT_INFO.audioCodec = getAudioCodecFromTitle(audioCodec);
-      resolution = "480p";
-    }
-    const descriptionDom = getBasicInfoDom("Description");
-    let descriptionBBCode = getFilterBBCode(descriptionDom.find("article")[0]);
-    descriptionBBCode = descriptionBBCode.replace(/(.|\n)+?_{5,}/g, "");
-    const isBluray = videoType.match(/bluray/i);
-    const { bdinfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : [mediaInfo];
-    if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { videoCodec, audioCodec, resolution: mediaResolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0]);
-      if (videoCodec !== "" && audioCodec !== "" && mediaResolution !== "") {
-        TORRENT_INFO.videoCodec = videoCodec;
-        TORRENT_INFO.audioCodec = audioCodec;
-        resolution = mediaResolution || "";
-        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
-      }
-    }
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    TORRENT_INFO.title = formatTorrentTitle(title);
-    TORRENT_INFO.year = year;
-    TORRENT_INFO.movieName = movieName.trim();
-    TORRENT_INFO.movieAkaName = movieAkaName.trim();
-    TORRENT_INFO.source = source;
-    TORRENT_INFO.size = Number(size);
-    TORRENT_INFO.videoType = videoType;
-    TORRENT_INFO.resolution = resolution;
-    TORRENT_INFO.tags = tags2;
-    TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.area = getAreaCode(country);
-    TORRENT_INFO.description = descriptionBBCode;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-  };
-  const getBasicInfo$2 = () => {
-    const basicInfo = {};
-    $$2(".outer h1~table:first>tbody>tr").each((index, element) => {
-      const key = $$2(element).find("td.heading").text().replace(/\s/g, "");
-      const value = $$2(element).find("td.heading").next("td").text();
-      if (value) {
-        basicInfo[key] = value.replace(/\n/g, "").trim();
-      }
-    });
-    return basicInfo;
-  };
-  const getVideoType$a = (title, source, genreVideoType, hasMediainfo) => {
-    if (source) {
-      if (source === "bluray") {
-        const blurayFlag = genreVideoType === "bluray" || !hasMediainfo;
-        return blurayFlag ? "bluray" : "encode";
-      } else if (source === "dvd") {
-        const dvdFlag = genreVideoType === "dvdr" || !hasMediainfo;
-        return dvdFlag ? "dvd" : "dvdrip";
-      }
-      return source;
-    }
-    if (title.match(/UHD/i) && title.match(/Blu-Ray/i)) {
-      return "uhdbluray";
-    } else if (title.match(/Blu-Ray/i)) {
-      return "bluray";
-    } else if (title.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (title.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (title.match(/dvdrip/i)) {
-      return "dvdrip";
-    } else if (title.match(/x264|x265/i)) {
-      return "encode";
-    }
-    return "";
-  };
-  const getBasicInfoDom = (key) => {
-    return $$2(`.outer h1~table:first>tbody>tr td:contains(${key})`).next("td");
-  };
-  const getUHDInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f;
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
-      return false;
-    }
-    const torrentFilePathDom = $$2(`#files_${torrentId} .filelist_path`);
-    const torrentFileDom = $$2(`#files_${torrentId} .filelist_table>tbody>tr:nth-child(2) td`).eq(0);
-    const torrentFileName = ((_a2 = torrentFilePathDom.text()) == null ? void 0 : _a2.replace(/\//g, "")) || ((_b = torrentFileDom.text()) == null ? void 0 : _b.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, ""));
-    const title = formatTorrentTitle(torrentFileName);
-    const imdbUrl = $$2(".imovie_title .tooltip.imdb_icon").attr("href") || "";
-    const titleText = $$2("#scontent h2").text();
-    const [movieName = "", movieAkaName = ""] = (_d2 = (_c = titleText.match(/(.+?)\[/)) == null ? void 0 : _c[1].split("/")) != null ? _d2 : [];
-    const year = (_f = (_e2 = titleText.match(/\[(\d+)\]/)) == null ? void 0 : _e2[1]) != null ? _f : "";
-    const torrentLink = $$2(`#torrent${torrentId}`).find('a[href*="action=download"]').attr("href");
-    CURRENT_SITE_INFO.torrentLink = torrentLink;
-    let tags2 = getTagsFromSubtitle(title);
-    const source = getSourceFromTitle(title);
-    const category = title.match(/Season\s+\d+/) ? "tv" : "movie";
-    const size = getSize($$2(`#torrent${torrentId} td`).eq(1).text());
-    const infoArray = $$2(`#torrent${torrentId} td:first-child>a`).text().replace(/\s/g, "").split("/");
-    let [resolution, ...specArray] = infoArray;
-    let videoType = specArray.join("|");
-    videoType = getVideoType$9(videoType, resolution);
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    const descriptionDom = $$2(`#torrent_${torrentId} #description`);
-    let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
-    descriptionBBCode = descriptionBBCode.replace(/https?:\/\/anonym\.to\/\?/g, "");
-    TORRENT_INFO.originalDescription = descriptionBBCode;
-    getMediaInfo(torrentId).then(async (data) => {
+    async extractMediaInfos() {
+      const url = `/torrents.php?action=mediainfo&id=${this.torrentId}`;
+      const data = await GMFetch(url);
       if (data) {
-        TORRENT_INFO.mediaInfos = [data];
-        TORRENT_INFO.description = `${descriptionBBCode}
-[quote]${data}[/quote]`;
-        TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-        TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-        const isBluray = data.match(/\.(iso|m2ts|mpls)/i);
-        const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-        const { videoCodec, audioCodec, mediaTags, resolution: mediaResolution } = getInfoFunc(data);
-        if (resolution === "mHD" && mediaResolution) {
-          resolution = mediaResolution;
+        this.info.mediaInfos = [data];
+      }
+    }
+    extractMovieNames() {
+      var _a2, _b;
+      const titleText = $$2("#scontent h2").text();
+      this.titleText = titleText;
+      const [movieName = "", movieAkaName = ""] = (_b = (_a2 = titleText.match(/(.+?)\[/)) == null ? void 0 : _a2[1].split("/")) != null ? _b : [];
+      this.info.movieAkaName = movieAkaName.trim();
+      this.info.movieName = movieName.trim();
+    }
+    extractYear() {
+      var _a2, _b;
+      this.info.year = (_b = (_a2 = this.titleText.match(/\[(\d+)\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2(".imovie_title .tooltip.imdb_icon").attr("href") || "";
+    }
+    extractTorrentLink() {
+      const torrentLink = this.torrentHeaderDom.find('a[href*="action=download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
+    }
+    async extractDescription() {
+      return new Promise((resolve28) => {
+        this.getTorrentHeaderDom();
+        const descriptionDom = $$2(`#torrent_${this.torrentId} #description`);
+        let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+        descriptionBBCode = descriptionBBCode.replace(
+          /https?:\/\/anonym\.to\/\?/g,
+          ""
+        );
+        this.info.description = `${descriptionBBCode}
+[quote]${this.info.mediaInfos[0]}[/quote]`;
+        this.info.originalDescription = descriptionBBCode;
+        resolve28();
+      });
+    }
+    async extractScreenshots() {
+      this.info.screenshots = await extractImgsFromBBCode(this.info.description);
+    }
+    extractMetaInfo() {
+      const { title } = this.info;
+      const tags2 = getTagsFromSource(title);
+      const source = getVideoSourceFromTitle(title);
+      const category = title.match(/Season\s+\d+/) ? "tv" : "movie";
+      const size = convertSizeStringToBytes(
+        $$2(`#torrent${this.torrentId} td`).eq(1).text()
+      );
+      const infoArray = $$2(`#torrent${this.torrentId} td:first-child>a`).text().replace(/\s/g, "").split("/");
+      const [resolution] = infoArray;
+      const videoType = getVideoTypeFromSource(title);
+      this.info.videoType = videoType;
+      this.info.resolution = resolution;
+      this.info.videoCodec = getVideoCodecFromSourceAndVideoType(title);
+      this.info.audioCodec = getAudioCodecFromSource(title);
+      this.info.tags = tags2;
+      this.info.source = source;
+      this.info.size = size;
+      this.info.category = refineCategory(this.info, category);
+    }
+  }
+  registry.register(new UHDExtractor());
+  class GPWExtractor extends GazelleExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this._siteTorrentInfo = null;
+      this._siteGroupInfo = null;
+      this.tags = [];
+    }
+    get siteGroupInfo() {
+      if (!this._siteGroupInfo) {
+        throw new Error("siteGroupInfo is not initialized");
+      }
+      return this._siteGroupInfo;
+    }
+    get siteTorrentInfo() {
+      if (!this._siteTorrentInfo) {
+        throw new Error("siteTorrentInfo is not initialized");
+      }
+      return this._siteTorrentInfo;
+    }
+    async extract() {
+      this.extractTorrentId();
+      this.getTorrentHeaderDom();
+      const data = await this.getSiteTorrentInfoByAPI();
+      if (!data) {
+        return this.info;
+      }
+      this._siteTorrentInfo = data.torrent;
+      this._siteGroupInfo = data.group;
+      this.extractTitle();
+      this.extractMovieNames();
+      this.extractMediaInfos();
+      this.extractArea();
+      this.extractDoubanUrl();
+      this.extractImdbUrl();
+      this.extractScreenshotsForGPW();
+      this.extractCategory();
+      this.extractMetaInfo();
+      this.extractDescription();
+      this.extractComparisonsScreenshots();
+      this.extractTags();
+      this.extractIsHardcodedSub();
+      this.extractMediaDetails();
+      const { size } = this.siteTorrentInfo;
+      const { name, year, conver: poster } = this.siteGroupInfo;
+      this.info.size = size;
+      this.info.movieName = name;
+      this.info.year = year;
+      this.info.poster = poster;
+      return this.info;
+    }
+    canHandle(siteName) {
+      return siteName === "GPW";
+    }
+    async getSiteTorrentInfoByAPI() {
+      const { status, response } = await GMFetch(
+        `/ajax.php?action=torrent&id=${this.torrentId}`,
+        {
+          responseType: "json"
         }
-        if (videoCodec !== "" && audioCodec !== "") {
-          TORRENT_INFO.videoCodec = videoCodec;
-          TORRENT_INFO.audioCodec = audioCodec;
-          tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
-        }
+      );
+      if (status !== "success" || !response || !response.group || !response.torrent) {
+        return null;
       }
-      TORRENT_INFO.tags = tags2;
-      TORRENT_INFO.resolution = resolution;
-    });
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    TORRENT_INFO.title = title;
-    TORRENT_INFO.year = year;
-    TORRENT_INFO.movieName = movieName.trim();
-    TORRENT_INFO.movieAkaName = movieAkaName.trim();
-    TORRENT_INFO.source = source;
-    TORRENT_INFO.size = size;
-    TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.videoType = videoType;
-  };
-  const getMediaInfo = async (torrentId) => {
-    const url = `/torrents.php?action=mediainfo&id=${torrentId}`;
-    const data = await fetch(url, {
-      responseType: void 0
-    });
-    return data || "";
-  };
-  const getVideoType$9 = (videoType, resolution) => {
-    videoType = videoType.replace("-", "").toLowerCase();
-    if (videoType.match(/bluray/)) {
-      if (resolution === "2160p") {
-        return "uhdbluray";
-      }
-      return "bluray";
-    } else if (videoType.match(/web/)) {
-      return "web";
-    } else if (videoType.match(/x264|x265/)) {
-      return "encode";
-    } else if (videoType.match(/WEB/i)) {
-      return "web";
+      return response;
     }
-    return videoType;
-  };
-  const getBTNInfo = async () => {
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
-      return false;
+    getTorrentHeaderDom() {
+      this.torrentHeaderDom = $$2(`#torrent${this.torrentId}`);
     }
-    const torrentInfo2 = getTorrentInfo$9(torrentId);
-    const showInfo = await getShowInfo();
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    Object.assign(TORRENT_INFO, torrentInfo2);
-    Object.assign(TORRENT_INFO, showInfo);
-    return TORRENT_INFO;
-  };
-  function getTorrentInfo$9(torrentId) {
-    var _a2, _b, _c;
-    const torrentName = $$2(`#torrent_${torrentId}`).prev().find("> td").text().replace(/»/, "").trim();
-    const { container, source, size } = getSpecs(torrentId);
-    const seasonTitle = $$2("#content > div > h2").contents().last().text().trim();
-    const [season = "", year = ""] = (_b = (_a2 = seasonTitle == null ? void 0 : seasonTitle.match(/(.*) \[(\d+)\]/)) == null ? void 0 : _a2.slice(1)) != null ? _b : [];
-    const movieName = (_c = $$2("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _c.replace(/\(\d+\)/, "").trim();
-    const description = getFilterBBCode($$2(`#torrent_${torrentId} > td > blockquote`).last()[0]);
-    const videoType = getVideoType$8({ torrentName, source });
-    const isBluray = videoType.match(/bluray/i);
-    const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
-    const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec, mediaTags: tags2 } = getInfoFunc(mediaInfos == null ? void 0 : mediaInfos[0]);
-    const category = getCategory$5(season);
-    const sourceFrom = getSourceFromTitle(torrentName);
-    const torrentLink = $$2(`#torrent_${torrentId}`).prev().prev().find('a[title="Download"]').attr("href");
-    CURRENT_SITE_INFO.torrentLink = torrentLink;
-    return {
-      title: formatTorrentTitle(torrentName),
-      format: container.toLowerCase(),
-      source: sourceFrom,
-      size: getSize(size),
-      resolution,
-      year,
-      movieName,
-      description,
-      videoType,
-      mediaInfos,
-      videoCodec,
-      audioCodec,
-      tags: tags2,
-      category
-    };
-  }
-  async function getShowInfo() {
-    var _a2, _b, _c;
-    const seriesUrl = $$2("#content > .thin > h2 > a").prop("href");
-    const html2 = await fetch(seriesUrl, {
-      responseType: void 0
-    });
-    const infoHtml = (_b = (_a2 = html2 == null ? void 0 : html2.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    const infoDom = new DOMParser().parseFromString(infoHtml, "text/html");
-    const info = Object.fromEntries(Array.from(infoDom.querySelectorAll("tr")).map((tr) => {
-      const tds = Array.from(tr.children);
-      return [tds[0].innerText.trim(), tds[1]];
-    }));
-    const country = info["Country:"].innerText;
-    const imdbUrl = (_c = info["External Links:"].innerHTML.match(/https:\/\/www\.imdb\.com\/title\/tt\d+/)) == null ? void 0 : _c[0];
-    return {
-      area: getAreaCode(country),
-      imdbUrl
-    };
-  }
-  const getVideoType$8 = ({ torrentName = "", source = "" }) => {
-    if (torrentName.match(/remux/i)) {
-      return "remux";
-    } else if (["BD50", "BD25"].includes(source)) {
-      return "bluray";
-    } else if (["BD66", "BD100"].includes(source)) {
-      return "uhdbluray";
-    } else if (["WEB-DL"].includes(source)) {
-      return "web";
-    } else if (["HDTV"].includes(source)) {
-      return "encode";
+    extractTitle() {
+      let { fileList, filePath } = this.siteTorrentInfo;
+      fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, "");
+      const title = formatTorrentTitle(
+        filePath.replace(/\[.+\]/g, "") || fileList
+      );
+      this.info.title = title;
     }
-    return "";
-  };
-  function getCategory$5(season) {
-    return season.match(/season/i) ? "tvPack" : "tv";
-  }
-  function getSpecs(torrentId) {
-    const specsDom = $$2(`#torrent_${torrentId}`).prev().prev();
-    const rawSpecs = specsDom.find("> td > a").text().replace(/»/, "").split("/").map((v2) => v2.trim());
-    const specs = rawSpecs.filter((v2) => !["NFO"].includes(v2));
-    const size = specsDom.find("> td").next("td").text().replace(/\s/g, "");
-    const [container, videoCodec, source, resolution, group] = specs;
-    return {
-      container,
-      videoCodec,
-      source,
-      resolution,
-      group,
-      size
-    };
-  }
-  const getAvistaZInfo = async () => {
-    const torrentInfo2 = await getTorrentInfo$8();
-    torrentInfo2.category = getPreciseCategory(torrentInfo2, torrentInfo2.category);
-    Object.assign(TORRENT_INFO, torrentInfo2);
-  };
-  const getTorrentInfo$8 = async () => {
-    var _a2, _b, _c, _d2, _e2;
-    const imdbUrl = (_c = (_b = (_a2 = $$2('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a2.split("?")) == null ? void 0 : _b[1]) != null ? _c : "";
-    const movieTitle = $$2(".block-titled h3 a").text();
-    const movieName = movieTitle.split("(")[0].trim();
-    const year = (_e2 = (_d2 = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _d2[1]) != null ? _e2 : "";
-    let { Type: Type2, "File Size": size, Title, "Video Quality": resolution, "Rip Type": videoType } = getBasicInfo$1();
-    const category = Type2 == null ? void 0 : Type2.toLowerCase().replace("-", "");
-    const title = formatTorrentTitle(Title);
-    videoType = getVideoType$7(videoType, resolution);
-    const country = $$2(".fa-flag~.badge-extra:first a").text();
-    const area = getAreaCode(country);
-    const source = getSourceFromTitle(title);
-    const tags2 = getTagsFromSubtitle(title);
-    const mediaInfoOrBDInfo = $$2("#collapseMediaInfo pre").text();
-    const screenshotsBBCode = $$2("#collapseScreens a").map(function() {
-      return `[url=${$$2(this).attr("href")}][img]${$$2(this).find("img").attr("src")}[/img][/url]`;
-    }).get();
-    const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
-    const isBluray = videoType.match(/bluray/i);
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    const descriptionBBCode = getFilterBBCode($$2(".torrent-desc")[0]);
-    const description = `${descriptionBBCode}
-
-[quote]${mediaInfoOrBDInfo}[/quote]
-
-${screenshotsBBCode.join("")}`;
-    return {
-      sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: CURRENT_SITE_INFO.siteType,
-      title,
-      imdbUrl,
-      movieName,
-      year,
-      size: getSize(size),
-      category,
-      videoType,
-      resolution,
-      area,
-      source,
-      videoCodec,
-      audioCodec,
-      screenshots,
-      mediaInfos: [mediaInfoOrBDInfo],
-      description,
-      tags: __spreadValues(__spreadValues({}, tags2), mediaTags)
-    };
-  };
-  const getBasicInfo$1 = () => {
-    const basicInfo = {
-      Type: "",
-      "File Size": "",
-      Title: "",
-      "Video Quality": "",
-      resolution: "",
-      "Rip Type": ""
-    };
-    $$2("#content-area .block:last table:first>tbody>tr").each((index, element) => {
-      const key = $$2(element).find("td:first").text();
-      const value = $$2(element).find("td:last").text();
-      basicInfo[key] = value.replace(/\n/g, "").trim();
-    });
-    return basicInfo;
-  };
-  const getVideoType$7 = (type, resolution) => {
-    if (type.match(/Remux/i)) {
-      return "remux";
-    } else if (type.match(/BluRay\s*Raw/i)) {
-      if (resolution === "2160p") {
-        return "uhdbluray";
-      }
-      return "bluray";
-    } else if (type.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (type.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (type.match(/dvdrip/i)) {
-      return "dvdrip";
-    } else if (type.match(/DVD/)) {
-      return "dvd";
-    } else if (type.match(/rip/i)) {
-      return "encode";
+    extractMediaInfos() {
+      this.info.mediaInfos = this.siteTorrentInfo.mediainfos.map(
+        (info) => info.replace(/\r\n/g, "\n")
+      );
     }
-    return "";
-  };
-  const getTeamHDInfo = async () => {
-    const torrentInfo2 = await getTorrentInfo$7();
-    torrentInfo2.category = getPreciseCategory(torrentInfo2, torrentInfo2.category);
-    try {
-      let { movieName = "", year } = torrentInfo2;
-      movieName = movieName.toLowerCase().replace(/\s/g, "_");
-      const url = `https://v2.sg.media-imdb.com/suggestion/${movieName[0]}/${movieName}_${year}.json`;
-      const imdbSearch = await fetch(url);
-      if (imdbSearch && imdbSearch.d.length) {
-        torrentInfo2.imdbUrl = `https://www.imdb.com/title/${imdbSearch.d[0].id}`;
-      }
-    } catch (error) {
-      console.log(error);
+    extractTorrentLink() {
+      const torrentLink = this.torrentHeaderDom.find('a[href*="action=download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
     }
-    Object.assign(TORRENT_INFO, torrentInfo2);
-  };
-  const getTorrentInfo$7 = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l;
-    const basicInfoText = $$2(".download").text().replace(/.+?\//g, "").trim();
-    const year = (_b = (_a2 = basicInfoText.match(/\((\d{4})\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    const movieName = (_d2 = (_c = basicInfoText.match(/(.+)\(\d{4}\)/)) == null ? void 0 : _c[1].trim()) != null ? _d2 : "";
-    const resolution = (_f = (_e2 = basicInfoText.match(/(\s*(\d+(p|i)))$/i)) == null ? void 0 : _e2[2]) != null ? _f : "";
-    const videoType = getVideoType$6(basicInfoText, resolution);
-    const size = getSize((_h = (_g = $$2("#details_hop").text().match(/-\s*(.+?GB)/)) == null ? void 0 : _g[1]) != null ? _h : "");
-    const category = getCategory$4($$2('#details_hop a[href*="browse/cat"]').attr("href") || "");
-    const fileName = (_l = (_k = (_j = (_i = $$2(".download").attr("href")) == null ? void 0 : _i.match(/name=(.+)/)) == null ? void 0 : _j[1].replace(/\.torrent/g, "")) == null ? void 0 : _k.replace(/\.(mkv|mp4|avi|mpg|ts|iso)$/i, "")) != null ? _l : "";
-    const title = formatTorrentTitle(fileName);
-    const source = getSourceFromTitle(title);
-    const tags2 = getTagsFromSubtitle(title);
-    const isBluray = videoType.match(/bluray/i);
-    const mediaInfo = $$2('.card-header:contains("MediaInfo") + .card-collapse .card-body').text();
-    const bdInfo = $$2('.card-header:contains("BDInfo") + .card-collapse .card-body').text();
-    const eacLogs = $$2('.card-header:contains("eac3to Log") + .card-collapse .card-body').text();
-    const mediaInfoOrBDInfo = isBluray ? bdInfo : mediaInfo;
-    const screenshotsBBCode = $$2('#details a[href*="teamhd.org/redirector.php"]').map(function() {
-      var _a3;
-      const url = (_a3 = $$2(this).attr("href")) == null ? void 0 : _a3.replace(/.+?url=/g, "");
-      return `[url=${url}][img]${$$2(this).find("img").attr("src")}[/img][/url]`;
-    }).get();
-    const screenshots = await getScreenshotsFromBBCode(screenshotsBBCode.join("\n"));
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo);
-    const description = `[quote]${eacLogs}[/quote]
-
-[quote]${mediaInfoOrBDInfo}[/quote]
-
-${screenshotsBBCode.join("")}`;
-    return {
-      sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: CURRENT_SITE_INFO.siteType,
-      title,
-      movieName,
-      year,
-      size,
-      category,
-      videoType,
-      resolution,
-      source,
-      videoCodec,
-      audioCodec,
-      screenshots,
-      mediaInfos: [mediaInfoOrBDInfo],
-      description,
-      tags: __spreadValues(__spreadValues({}, tags2), mediaTags),
-      imdbUrl: ""
-    };
-  };
-  const getCategory$4 = (link) => {
-    var _a2, _b;
-    const catNum = (_b = (_a2 = link == null ? void 0 : link.match(/cat(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    const map2 = {
-      29: "movie",
-      25: "cartoon",
-      28: "document",
-      31: "sport",
-      32: "tv",
-      33: "tvPack"
-    };
-    return map2[parseInt(catNum, 10)] || "";
-  };
-  const getVideoType$6 = (type, resolution) => {
-    if (type.match(/Remux/i)) {
-      return "remux";
-    } else if (type.match(/Blu-Ray.+?Disc/i)) {
-      if (resolution === "2160p") {
-        return "uhdbluray";
-      }
-      return "bluray";
-    } else if (type.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (type.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (type.match(/rip/i)) {
-      return "encode";
+    extractImdbUrl() {
+      const { imdbId } = this.siteGroupInfo;
+      this.info.imdbUrl = imdbId ? `https://www.imdb.com/title/${imdbId}` : "";
     }
-    return "";
-  };
-  const getHDSpaceInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f;
-    const { Name, Category, Size, Description } = getBasicInfo();
-    const title = formatTorrentTitle(Name);
-    let tags2 = getTagsFromSubtitle(title);
-    const category = getCategory$3(Category, title);
-    let resolution = (_a2 = title.match(/\d{3,4}(p|i)/i)) == null ? void 0 : _a2[0];
-    if (!resolution && title.match(/4k|uhd/i)) {
-      resolution = "2160p";
+    extractDoubanUrl() {
+      const { doubanId } = this.siteGroupInfo;
+      this.info.doubanUrl = doubanId ? `https://movie.douban.com/subject/${doubanId}` : "";
     }
-    const videoType = getVideoType$5(Category, title);
-    const source = getSourceFromTitle(title);
-    TORRENT_INFO.videoCodec = getVideoCodecFromTitle(title);
-    TORRENT_INFO.audioCodec = getAudioCodecFromTitle(title);
-    const div = document.createElement("div");
-    div.innerHTML = Description.html();
-    $$2(div).find('#slidenfo,a[href*="#nfo"]').remove();
-    const descriptionBBCode = getFilterBBCode(div);
-    const isBluray = videoType.match(/bluray/i);
-    const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descriptionBBCode);
-    const mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-    if (mediaInfoOrBDInfo) {
-      TORRENT_INFO.mediaInfos = mediaInfoOrBDInfo;
-      const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-      const { videoCodec, audioCodec, resolution: mediaResolution, mediaTags } = getInfoFunc(mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0]);
-      if (videoCodec !== "" && audioCodec !== "" && resolution !== "") {
-        TORRENT_INFO.videoCodec = videoCodec;
-        TORRENT_INFO.audioCodec = audioCodec;
-        resolution = mediaResolution;
-        tags2 = __spreadValues(__spreadValues({}, tags2), mediaTags);
-      }
-    }
-    const imdbId = (_d2 = (_c = (_b = $$2("#imdb").next("script").text()) == null ? void 0 : _b.match(/mid=(\d+)/)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-    const imdbData = await fetch(`${CURRENT_SITE_INFO.url}/getimdb.php?mid=${imdbId}`, {
-      responseType: void 0
-    });
-    const imdbDom = new DOMParser().parseFromString(imdbData, "text/html");
-    const imdbUlrDom = $$2('a[href*="imdb.com/title"]', imdbDom);
-    const imdbUrl = imdbUlrDom.attr("href");
-    const movieName = imdbUlrDom.text().replace(/\(\d+\)/g, "");
-    const year = (_f = (_e2 = imdbUlrDom.text().match(/\((\d{4})\)/)) == null ? void 0 : _e2[1]) != null ? _f : "";
-    const country = $$2('td:contains("Country")', imdbDom).next("td").text();
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    TORRENT_INFO.title = formatTorrentTitle(title);
-    TORRENT_INFO.year = year;
-    TORRENT_INFO.movieName = movieName;
-    TORRENT_INFO.source = source;
-    TORRENT_INFO.size = getSize(Size);
-    TORRENT_INFO.videoType = videoType;
-    TORRENT_INFO.resolution = resolution || "";
-    TORRENT_INFO.area = getAreaCode(country);
-    TORRENT_INFO.tags = tags2;
-    TORRENT_INFO.imdbUrl = imdbUrl || "";
-    TORRENT_INFO.description = descriptionBBCode;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
-    TORRENT_INFO.screenshots = await getScreenshotsFromBBCode(descriptionBBCode);
-  };
-  const getBasicInfo = () => {
-    const basicInfo = {
-      Name: "",
-      Category: "",
-      Size: "",
-      Description: $$2("")
-    };
-    $$2("#mcol .header").each(function() {
+    extractScreenshotsForGPW() {
       var _a2;
-      const key = $$2(this).text().trim();
-      if (!basicInfo[key]) {
-        if (key === "Description") {
-          basicInfo.Description = $$2(this).next("td");
+      const imgList = [];
+      const imageDom = this.torrentHeaderDom.next(".TableTorrent-rowDetail").find(".scale_image");
+      for (let i = 0; i < imageDom.length; i++) {
+        const parent = imageDom[i].parentElement;
+        if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a2 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a2.match(/\.png$/))) {
+          imgList.push(parent.getAttribute("href") || "");
         } else {
-          basicInfo[key] = (_a2 = $$2(this).next("td").text()) == null ? void 0 : _a2.replace(/\n/g, "").trim();
+          imgList.push(
+            imageDom[i].getAttribute("src") || ""
+          );
         }
       }
-    });
-    return basicInfo;
-  };
-  const getCategory$3 = (cat, title) => {
-    if (cat.match(/movie/i)) {
-      return "movie";
-    } else if (cat.match(/hdtv/i)) {
-      return "tv";
-    } else if (cat.match(/doc/i)) {
-      return "documentary";
-    } else if (cat.match(/Animation/i)) {
-      return "cartoon";
-    } else if (cat.match(/Music\sVideos/i)) {
-      return "concert";
-    } else if (title.match(/S\d+(E\d+)?/i)) {
-      return "tv";
+      this.info.screenshots = imgList;
     }
-    return "movie";
-  };
-  const getVideoType$5 = (type, title) => {
-    if (type.match(/Remux/i)) {
-      return "remux";
-    } else if (type.match(/Blu-Ray/i) && title.match(/2160p|4k|uhd/i)) {
-      return "uhdbluray";
-    } else if (type.match(/Blu-Ray/i)) {
-      return "bluray";
+    extractCategory() {
+      const { releaseType } = this.siteGroupInfo;
+      const typeMap = {
+        长片: "movie",
+        短片: "movie",
+        单口喜剧: "other",
+        迷你剧: "tvPack",
+        现场演出: "concert",
+        电影集: "movie"
+      };
+      this.info.category = typeMap[releaseType] || "unknown";
     }
-    if (title.match(/HDTV/i)) {
-      return "hdtv";
-    } else if (title.match(/blu-ray/i) && title.match(/2160p|4k|uhd/i)) {
-      return "uhdbluray";
-    } else if (title.match(/web(-)*(dl|rip)/i)) {
-      return "web";
-    } else if (title.match(/x264|x265/i)) {
-      return "encode";
-    }
-    return "";
-  };
-  const getGPWInfo = async () => {
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
-      return false;
-    }
-    const data = await getTorrentInfo$6(torrentId);
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    Object.assign(TORRENT_INFO, data);
-  };
-  const getTorrentInfo$6 = async (torrentId) => {
-    const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-    const { torrent, group } = response;
-    const { name: movieName, year, conver: poster, releaseType, region, imdbId, doubanId } = group;
-    const imdbUrl = `https://www.imdb.com/title${imdbId}`;
-    const doubanUrl = `https://movie.douban.com/subject/${doubanId}`;
-    const area = getAreaCode(region);
-    let { description, fileList, filePath, size, source, resolution, processing, container, mediainfos, remasterTitle } = torrent;
-    fileList = fileList.replace(/\.\w+?{{{\d+}}}/g, "");
-    const title = formatTorrentTitle(filePath.replace(/\[.+\]/g, "") || fileList);
-    const category = getCategory$2(releaseType);
-    const torrentHeaderDom = $$2(`#torrent${torrentId}`);
-    const infoArray = remasterTitle.split(" / ");
-    const isRemux = processing.includes("Remux");
-    const videoType = source === "WEB" ? "web" : getVideoType$4(container, isRemux, source, resolution, processing);
-    source = getSource$1(source, processing, resolution);
-    const tags2 = getTags(infoArray);
-    const torrentLink = torrentHeaderDom.find('a[href*="action=download"]').attr("href");
-    CURRENT_SITE_INFO.torrentLink = torrentLink;
-    const torrentDom = $$2(`#torrent${torrentId}`).next(".TableTorrent-rowDetail");
-    const screenshots = getScreenshots(torrentDom);
-    const mediaInfoArray = mediainfos.map((info) => info.replace(/\r\n/g, "\n"));
-    const isBluray = videoType.match(/bluray/i);
-    const mediaInfoOrBDInfo = mediaInfoArray.filter((media) => {
-      return videoType.match(/bluray/) ? media.match(/mpls/i) : !media.match(/mpls/i);
-    });
-    const mediaInfos = mediaInfoOrBDInfo.map((v2) => v2.trim());
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { videoCodec, audioCodec, mediaTags } = getInfoFunc(mediaInfoOrBDInfo.join("\n\n"));
-    const descriptionData = formatDescriptionData(description, screenshots, mediaInfoArray);
-    return {
-      sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: CURRENT_SITE_INFO.siteType,
-      title,
-      imdbUrl,
-      doubanUrl,
-      movieName,
-      year,
-      size,
-      category,
-      poster,
-      videoType,
-      resolution,
-      area,
-      source,
-      videoCodec,
-      audioCodec,
-      screenshots,
-      mediaInfos,
-      description: descriptionData,
-      tags: __spreadValues(__spreadValues({}, tags2), mediaTags)
-    };
-  };
-  const getCategory$2 = (releaseType) => {
-    const typeMap = {
-      长片: "movie",
-      短片: "movie",
-      单口喜剧: "other",
-      迷你剧: "tvPack",
-      现场演出: "concert",
-      电影集: "movie"
-    };
-    return typeMap[releaseType];
-  };
-  const getScreenshots = (torrentDom) => {
-    var _a2;
-    const imgList = [];
-    const imageDom = torrentDom.find(".scale_image");
-    for (let i = 0; i < imageDom.length; i++) {
-      const parent = imageDom[i].parentElement;
-      if ((parent == null ? void 0 : parent.tagName) === "A" && ((_a2 = parent == null ? void 0 : parent.getAttribute("href")) == null ? void 0 : _a2.match(/\.png$/))) {
-        imgList.push(parent.getAttribute("href") || "");
-      } else {
-        imgList.push(imageDom[i].getAttribute("src") || "");
-      }
-    }
-    return imgList;
-  };
-  const getSource$1 = (source, codes, resolution) => {
-    if (codes.match(/BD100|BD66/i)) {
-      return "uhdbluray";
-    }
-    if (source.match(/Blu-ray/i) && resolution.match(/2160P|4K/i)) {
-      return "uhdbluray";
-    }
-    return source.replace(/-/g, "").toLowerCase();
-  };
-  const getVideoType$4 = (container, isRemux, source, resolution, processing) => {
-    let type = "";
-    if (isRemux) {
-      type = "remux";
-    } else if (processing.match(/DIY/ig)) {
-      type = resolution === "2160p" ? "uhdbluray" : "bluray";
-    } else if (processing.match(/BD50|BD25/ig)) {
-      type = "bluray";
-    } else if (processing.match(/BD66|BD100/ig) || source.match(/Blu-ray/i) && processing.match(/DIY/i)) {
-      type = "uhdbluray";
-    } else if (source.match(/DVD/ig) && container.match(/MKV|AVI/ig)) {
-      type = "dvdrip";
-    } else if (processing.match(/DVD5|DVD9/ig) && container.match(/VOB|ISO/ig)) {
-      type = "dvd";
-    } else if (container.match(/MKV|MP4/i)) {
-      type = "encode";
-    }
-    return type;
-  };
-  const formatDescriptionData = (data, screenshots, mediaInfoArray) => {
-    const element = document.createElement("span");
-    element.innerHTML = data;
-    let descriptionData = element.textContent || "";
-    descriptionData = descriptionData == null ? void 0 : descriptionData.replace(/\r\n/g, "\n");
-    descriptionData = descriptionData.split("\n").map((line) => {
-      return line.trim();
-    }).join("\n");
-    TORRENT_INFO.originalDescription = descriptionData;
-    screenshots.forEach((screenshot) => {
-      const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, "i");
-      if (!descriptionData.match(regStr)) {
-        descriptionData = descriptionData.replace(new RegExp(screenshot, "g"), `[img]${screenshot}[/img]`);
-      }
-    });
-    descriptionData = descriptionData.replace(/\[(\/)?hide(?:=(.+?))?\]/g, (match, p1, p2) => {
-      const slash = p1 || "";
-      return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
-    });
-    descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
-    descriptionData = descriptionData.replace(/\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g, "[$2]$3[/$2]");
-    const comparisonArray = descriptionData.match(/(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/ig) || [];
-    const comparisons = [];
-    comparisonArray.forEach((item) => {
-      var _a2, _b, _c, _d2;
-      descriptionData = descriptionData.replace(item, item.replace(/\s/g, ""));
-      const reason = (_b = (_a2 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
-      const title = (_d2 = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d2 : "";
-      const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/ig, "").split(/[ \r\n]/);
-      const imgs = [];
-      Array.from(new Set(comparisonImgArray)).forEach((item2) => {
-        const formatImg = item2.replace(/\s*/g, "");
-        if (item2.match(/^https?.+/)) {
-          imgs.push(formatImg);
-          descriptionData = descriptionData.replace(new RegExp(`(?<!(\\[img\\]))${item2}`, "gi"), `[img]${formatImg}[/img]`);
-        } else if (item2.match(/^\[img\]/i)) {
-          imgs.push(formatImg.replace(/\[\/?img\]/g, ""));
+    formateDescription(description, screenshots, mediaInfoArray) {
+      const element = document.createElement("span");
+      element.innerHTML = description;
+      let descriptionData = element.textContent || "";
+      descriptionData = descriptionData == null ? void 0 : descriptionData.replace(/\r\n/g, "\n");
+      descriptionData = descriptionData.split("\n").map((line) => {
+        return line.trim();
+      }).join("\n");
+      const originalDescription = descriptionData;
+      screenshots.forEach((screenshot) => {
+        const regStr = new RegExp(`\\[img\\]${screenshot}\\[\\/img\\]`, "i");
+        if (!descriptionData.match(regStr)) {
+          descriptionData = descriptionData.replace(
+            new RegExp(screenshot, "g"),
+            `[img]${screenshot}[/img]`
+          );
         }
       });
-      comparisons.push({
-        title,
-        imgs,
-        reason
+      descriptionData = descriptionData.replace(
+        /\[(\/)?hide(?:=(.+?))?\]/g,
+        (match, p1, p2) => {
+          const slash = p1 || "";
+          return p2 ? `${p2}: [${slash}quote]` : `[${slash}quote]`;
+        }
+      );
+      descriptionData = descriptionData.replace(/\[(\/)?pre\]/g, "[$1quote]");
+      descriptionData = descriptionData.replace(
+        /\[align(=(.+?))\]((.|\n)+?)\[\/align\]/g,
+        "[$2]$3[/$2]"
+      );
+      mediaInfoArray.forEach((mediaInfo) => {
+        descriptionData += `[quote]${mediaInfo}[/quote]`;
       });
-    });
-    TORRENT_INFO.comparisons = comparisons;
-    descriptionData = descriptionData.replace(/\[comparison=(.+?)\]/ig, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/ig, "");
-    mediaInfoArray.forEach((mediaInfo) => {
-      descriptionData += `[quote]${mediaInfo}[/quote]`;
-    });
-    if (TORRENT_INFO.category === "concert") {
-      descriptionData = `${$$2("#synopsis").text()}
+      if (this.info.category === "concert") {
+        descriptionData = `${$$2("#synopsis").text()}
 ${descriptionData}`;
+      }
+      return {
+        originalDescription,
+        descriptionData
+      };
     }
-    return descriptionData;
-  };
-  function getTags(rawTags) {
-    const knownTags = {};
-    for (const rawTag of rawTags) {
-      knownTags[rawTag] = true;
+    getReleaseGroup(source) {
+      var _a2, _b;
+      return (_b = (_a2 = source.match(/-(\w+?)$/)) == null ? void 0 : _a2[1]) != null ? _b : "";
     }
-    return knownTags;
+    async extractDescription() {
+      const { screenshots, mediaInfos } = this.info;
+      const { description } = this.siteTorrentInfo;
+      const { originalDescription, descriptionData } = this.formateDescription(
+        description,
+        screenshots,
+        mediaInfos
+      );
+      this.info.description = descriptionData;
+      this.info.originalDescription = originalDescription;
+    }
+    extractComparisonsScreenshots() {
+      let { description } = this.info;
+      const comparisonArray = description.match(
+        /(\n.+\n)?\[comparison=(?:.+?)\]((.|\n)+?)\[\/comparison\]/gi
+      ) || [];
+      const comparisons = [];
+      comparisonArray.forEach((item) => {
+        var _a2, _b, _c, _d;
+        description = description.replace(item, item.replace(/\s/g, ""));
+        const reason = (_b = (_a2 = item.match(/(\n.*\n)?\[comparison=/i)) == null ? void 0 : _a2[1]) != null ? _b : "";
+        const title = (_d = (_c = item.match(/\[comparison=(.*?)\]/i)) == null ? void 0 : _c[1]) != null ? _d : "";
+        const comparisonImgArray = item.replace(/\[\/?comparison(=(.+?))?\]/gi, "").split(/[ \r\n]/);
+        const imgs = [];
+        Array.from(new Set(comparisonImgArray)).forEach((item2) => {
+          const formatImg = item2.replace(/\s*/g, "");
+          if (item2.match(/^https?.+/)) {
+            imgs.push(formatImg);
+            description = description.replace(
+              new RegExp(`(?<!(\\[img\\]))${item2}`, "gi"),
+              `[img]${formatImg}[/img]`
+            );
+          } else if (item2.match(/^\[img\]/i)) {
+            imgs.push(formatImg.replace(/\[\/?img\]/g, ""));
+          }
+        });
+        comparisons.push({
+          title,
+          imgs,
+          reason
+        });
+      });
+      this.info.comparisons = comparisons;
+      this.info.description = description.replace(/\[comparison=(.+?)\]/gi, "\n[b]$1 Comparison:[/b]\n").replace(/\[\/comparison\]/gi, "");
+    }
+    extractMetaInfo() {
+      const { source, resolution, processing, container, remasterTitle } = this.siteTorrentInfo;
+      const infoArray = remasterTitle.split(" / ");
+      const isRemux = processing.includes("Remux");
+      this.info.videoType = source === "WEB" ? "web" : this.getVideoType(container, isRemux, source, resolution, processing);
+      this.info.source = this.getSource(source, processing, resolution);
+      this.tags = infoArray.filter(Boolean);
+    }
+    getVideoType(container, isRemux, source, resolution, processing) {
+      if (isRemux) {
+        return "remux";
+      } else if (processing.match(/DIY/gi)) {
+        return resolution === "2160p" ? "uhdbluray" : "bluray";
+      } else if (processing.match(/BD50|BD25/gi)) {
+        return "bluray";
+      } else if (processing.match(/BD66|BD100/gi) || source.match(/Blu-ray/i) && processing.match(/DIY/i)) {
+        return "uhdbluray";
+      } else if (source.match(/DVD/gi) && container.match(/MKV|AVI/gi)) {
+        return "dvdrip";
+      } else if (processing.match(/DVD5|DVD9/gi) && container.match(/VOB|ISO/gi)) {
+        return "dvd";
+      } else if (container.match(/MKV|MP4/i)) {
+        return "encode";
+      }
+      return "";
+    }
+    extractTags() {
+      const { editionTags } = PT_SITE.GPW.sourceInfo;
+      const knownTags = {};
+      const otherTags = {};
+      for (const rawTag of this.tags) {
+        const tag = editionTags[rawTag];
+        if (tag) {
+          knownTags[tag] = true;
+        } else if (rawTag) {
+          otherTags[rawTag] = true;
+        }
+      }
+      this.info.tags = __spreadValues({}, knownTags);
+      this.info.otherTags = otherTags;
+    }
+    extractArea() {
+      const regionList = this.siteGroupInfo.region.split(",");
+      this.info.area = getAreaCode(regionList == null ? void 0 : regionList[0]);
+    }
+    extractIsHardcodedSub() {
+      const trumpReason = $$2(`#trumpable_${this.torrentId} span`).text() || "";
+      this.info.hardcodedSub = trumpReason.includes("Hardcoded Subtitles");
+    }
   }
-  const getEMPInfo = async () => {
-    const torrentId = getUrlParam("id");
-    if (!torrentId) {
-      return false;
+  registry.register(new GPWExtractor());
+  class Unite3DExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
     }
-    const title = $$2("#content > .details > h2").text().trim();
-    const descriptionBBCode = getFilterBBCode($$2(`#content${torrentId}`)[0]);
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    TORRENT_INFO.title = title;
-    TORRENT_INFO.description = descriptionBBCode.replace(/\[color=#ffffff\]/g, "[color=#000]").replace(/\n\n*/g, "\n");
-  };
-  const getBdcInfo = async () => {
-    const torrentInfo2 = await getTorrentInfo$5();
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = PT_SITE.Bdc.siteType;
-    const imdbInfo = getIMDBInfo();
-    Object.assign(TORRENT_INFO, torrentInfo2, imdbInfo);
-    return TORRENT_INFO;
-  };
-  async function getTorrentInfo$5() {
-    var _a2, _b;
-    const containerDom = $$2(".yui-content #details");
-    const torrentName = containerDom.find(">table>tbody>tr:first").text();
-    const size = containerDom.find(">table:first-child>tbody>tr:nth-child(5) td:last").text();
-    const isTV = (_a2 = containerDom.find(">table:first-child>tbody>tr:nth-child(4) td:last").text()) == null ? void 0 : _a2.includes("TV");
-    const source = getSourceFromTitle(torrentName);
-    const videoCodec = getVideoCodecFromTitle(torrentName);
-    const audioCodec = getAudioCodecFromTitle(torrentName);
-    const videoType = getVideoType$3({ torrentName, source });
-    const description = getFilterBBCode(containerDom.find("table").eq(4).find("tr:last-child td")[0]);
-    const isBluray = videoType.match(/bluray/i);
-    const mediaInfoOrBDInfo = getBDInfoOrMediaInfo(description);
-    const mediaInfos = isBluray ? mediaInfoOrBDInfo.bdinfo : mediaInfoOrBDInfo.mediaInfo;
-    const screenshots = await getScreenshotsFromBBCode(description);
-    const tags2 = getTagsFromSubtitle(torrentName);
-    const year = (_b = torrentName.match(/(18|19|20)\d{2}/g)) != null ? _b : [];
-    return {
-      title: formatTorrentTitle(torrentName),
-      size: getSize(size),
-      source,
-      videoCodec,
-      audioCodec,
-      videoType,
-      description,
-      mediaInfos,
-      resolution: getResolution$1(torrentName),
-      tags: tags2,
-      screenshots,
-      category: isTV ? "tv" : "movie",
-      year: year.pop() || ""
-    };
-  }
-  function getVideoType$3({ torrentName = "", source = "" }) {
-    if (torrentName.match(/remux/i)) {
-      return "remux";
-    } else if (["BD50", "BD25"].includes(source)) {
-      return "bluray";
-    } else if (["BD66", "BD100"].includes(source)) {
-      return "uhdbluray";
-    } else if (["web"].includes(source)) {
-      return "web";
-    } else if (["HDTV"].includes(source)) {
-      return "hdtv";
+    async extract() {
+      this.extractBasicInfo();
+      this.extractTitle();
+      this.extractYear();
+      this.extractImdbUrl();
+      this.extractSource();
+      this.extractTags();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMovieNames();
+      this.determineIfIsForbidden();
+      this.extractComparisonsScreenshots();
+      this.extractArea();
+      this.extractPoster();
+      this.enhanceInfo();
+      return this.info;
     }
-    return "encode";
-  }
-  function getResolution$1(title) {
-    title = title.toLowerCase();
-    if (title.match(/4k|2160|UHD/ig)) {
-      return "2160p";
-    } else if (title.match(/1080(p)?/ig)) {
-      return "1080p";
-    } else if (title.match(/1080i/ig)) {
-      return "1080i";
-    } else if (title.match(/720(p)?/ig)) {
-      return "720p";
-    } else if (title.match(/sd/ig)) {
-      return "480p";
+    extractBasicInfo() {
+      const basicInfo = {
+        category: "",
+        type: "",
+        size: "",
+        resolution: ""
+      };
+      const formats = $$2(".torrent__tags li");
+      formats.each((_2, item) => {
+        var _a2;
+        const className = (_a2 = $$2(item).attr("class")) == null ? void 0 : _a2.replace("torrent__", "");
+        basicInfo[className] = $$2(item).text().trim();
+      });
+      const category = getCategoryFromSource(basicInfo.category);
+      this.info.category = refineCategory(this.info, category);
+      this.info.size = convertSizeStringToBytes(
+        basicInfo.size.replace(/\s/g, "")
+      );
+      this.info.resolution = basicInfo.resolution;
+      this.info.videoType = getVideoTypeFromSource(
+        basicInfo.type,
+        this.info.resolution
+      );
     }
-    return "";
+    extractTitle() {
+      const title = $$2("h1.torrent__name").text().trim();
+      const formattedTitle = formatTorrentTitle(title);
+      this.info.title = formattedTitle;
+    }
+    extractYear() {
+      var _a2, _b;
+      const year = (_b = (_a2 = $$2(".meta__title").text().match(/\((\d{4})\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      this.info.year = year;
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2(".meta__imdb a").attr("href");
+    }
+    extractMediaInfos() {
+      const mediaInfo = $$2(".bbcode-rendered code").text();
+      this.info.mediaInfos = [mediaInfo];
+    }
+    extractDescription() {
+      const description = getFilterBBCode($$2(".panel__body.bbcode-rendered")[0]);
+      const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : "";
+      this.info.description = mediaInfoQuote + description;
+    }
+    extractSource() {
+      this.info.source = getVideoSourceFromTitle(this.info.title);
+    }
+    extractTags() {
+      this.info.tags = __spreadValues(__spreadValues({}, this.info.tags), getTagsFromSource(this.info.title));
+    }
+    extractMovieNames() {
+      const title = $$2(".meta__title").text();
+      this.info.movieName = title.replace(/\(\d+\)/g, "").trim();
+    }
+    determineIfIsForbidden() {
+      const { title, subtitle, description } = this.info;
+      const combinedContent = title + subtitle + description;
+      const isForbidden = CONFIG.FORBIDDEN_KEYWORDS.some(
+        (keyword) => combinedContent.includes(keyword)
+      );
+      this.info.isForbidden = isForbidden;
+    }
+    extractPoster() {
+      this.info.poster = $$2(".meta__poster-link img").attr("src");
+    }
+    enhanceInfo() {
+    }
+    extractComparisonsScreenshots() {
+    }
   }
-  function getIMDBInfo() {
-    const infoDom = $$2("#imdbdetails tr td").last();
-    const imdbUrl = infoDom.find('a[href*="imdb.com/title"]').attr("href");
-    const info = Object.fromEntries(Array.from(infoDom.find("b")).map((text2) => {
+  class GenericUnit3DExtractor extends Unite3DExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType === "UNIT3D";
+    }
+  }
+  registry.register(new GenericUnit3DExtractor());
+  class LegacyUnit3DExtractor extends Unite3DExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType === "UNIT3D-Legacy";
+    }
+    extractTitle() {
       var _a2, _b, _c;
-      return [$$2(text2).text().replace(":", ""), (_c = (_b = (_a2 = $$2(text2)[0]) == null ? void 0 : _a2.nextSibling) == null ? void 0 : _b.nodeValue) == null ? void 0 : _c.trim()];
-    }));
-    const movieName = $$2("#imdbdetails tr").first().text();
-    return {
-      imdbUrl,
-      movieName,
-      area: getAreaCode(info.Country)
-    };
+      let { title } = this.info;
+      if (CURRENT_SITE_NAME === "HDPOST") {
+        const englishTitle = (_b = (_a2 = title.match(/[\s\W\d]+(.+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+        this.info.subtitle = (_c = title.replace(englishTitle, "")) == null ? void 0 : _c.trim();
+        title = englishTitle;
+      }
+      if (CURRENT_SITE_NAME === "ACM") {
+        title = title.replace(/\/\s+\W+/, "");
+      }
+      if (CURRENT_SITE_NAME === "MDU") {
+        title = $("h1.text-center").text().trim();
+        this.info.subtitle = $("h2.text-center").text().trim();
+      }
+      this.info.title = title;
+    }
+    extractBasicInfo() {
+      var _a2;
+      const basicInfo = {
+        category: "",
+        type: "",
+        size: "",
+        resolution: "",
+        name: ""
+      };
+      const lineSelector = $(
+        '#meta-info+.meta-general>.panel:has(".table-responsive"):first table tr'
+      );
+      lineSelector.each((_2, element) => {
+        var _a3, _b, _c;
+        const keyText = $(element).find("td:first").text().replace(/\s|\n/g, "");
+        for (const [key, value] of Object.entries(CONFIG.UNIT3D_BASIC_KEY_MAP)) {
+          if (value.includes(keyText)) {
+            let value2 = $(element).find("td:last").text();
+            if (key === "name") {
+              value2 = (_c = (_b = (_a3 = $(element).find("td:last")[0]) == null ? void 0 : _a3.firstChild) == null ? void 0 : _b.textContent) != null ? _c : "";
+            }
+            basicInfo[key] = value2.replace(/\n/g, "").trim();
+          }
+        }
+      });
+      const category = getCategoryFromSource(basicInfo.category);
+      this.info.category = refineCategory(this.info, category);
+      this.info.size = convertSizeStringToBytes(
+        basicInfo.size.replace(/\s/g, "")
+      );
+      this.info.resolution = basicInfo.resolution;
+      this.info.videoType = getVideoTypeFromSource(
+        basicInfo.type,
+        this.info.resolution
+      );
+      this.info.title = formatTorrentTitle((_a2 = basicInfo == null ? void 0 : basicInfo.name) != null ? _a2 : "");
+    }
+    extractYear() {
+      const year = $(".movie-heading span:last").text();
+      this.info.year = year.replace(/\(|\)|\s/g, "");
+    }
+    extractMovieNames() {
+      const movieName = $(".movie-heading span:first").text();
+      this.info.movieName = movieName;
+    }
+    extractImdbUrl() {
+      const imdbUrl = $(".movie-details a:contains(IMDB)").attr("href");
+      this.info.imdbUrl = imdbUrl;
+    }
+    extractPoster() {
+      const poster = $(".movie-poster img").attr("src");
+      this.info.poster = poster;
+    }
+    extractMediaInfos() {
+      const mediaInfo = $(".decoda-code code").text();
+      this.info.mediaInfos = [mediaInfo];
+    }
+    extractDescription() {
+      const descriptionDom = $(".fa-sticky-note").parents(".panel-heading").siblings(".table-responsive").find(".panel-body").clone();
+      descriptionDom.find("#collection_waypoint").remove();
+      let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+      if (this.info.mediaInfos.length > 0) {
+        descriptionBBCode = `
+[quote]${this.info.mediaInfos[0]}[/quote]${descriptionBBCode}`;
+      }
+      this.info.description = descriptionBBCode;
+    }
   }
-  /*! @license DOMPurify 3.1.7 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.1.7/LICENSE */
+  registry.register(new LegacyUnit3DExtractor());
+  class AvistaZExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    async extract() {
+      this.extractBasicInfo();
+      this.extractImdbUrl();
+      this.extractSource();
+      this.extractTags();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMovieNameAndYear();
+      this.determineIfIsForbidden();
+      this.extractComparisonsScreenshots();
+      this.extractArea();
+      this.enhanceInfo();
+      return this.info;
+    }
+    extractBasicInfo() {
+      var _a2;
+      const basicInfo = {
+        category: "",
+        videoType: "",
+        size: "",
+        resolution: "",
+        title: ""
+      };
+      $$2("#content-area .block:last table:first>tbody>tr").each((_2, element) => {
+        const pageKey = $$2(element).find("td:first").text();
+        const value = $$2(element).find("td:last").text();
+        const infoKey = CONFIG.AVISTAZ_BASIC_KEY_MAP[pageKey];
+        basicInfo[infoKey] = value.replace(/\n/g, "").trim();
+      });
+      this.info.title = formatTorrentTitle(basicInfo.title);
+      const category = (_a2 = basicInfo.category) == null ? void 0 : _a2.toLowerCase().replace("-", "");
+      this.info.category = refineCategory(this.info, category);
+      this.info.size = convertSizeStringToBytes(
+        basicInfo.size.replace(/\s/g, "")
+      );
+      this.info.resolution = basicInfo.resolution;
+      this.info.videoType = getVideoTypeFromSource(
+        basicInfo.videoType,
+        this.info.resolution
+      );
+    }
+    extractYear() {
+      var _a2, _b;
+      const year = (_b = (_a2 = $$2(".meta__title").text().match(/\((\d{4})\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      this.info.year = year;
+    }
+    extractImdbUrl() {
+      var _a2, _b, _c;
+      this.info.imdbUrl = (_c = (_b = (_a2 = $$2('.badge-extra a[href*="www.imdb.com/title"]').attr("href")) == null ? void 0 : _a2.split("?")) == null ? void 0 : _b[1]) != null ? _c : "";
+    }
+    extractMediaInfos() {
+      const mediaInfo = $$2("#collapseMediaInfo pre").text();
+      this.info.mediaInfos = [mediaInfo];
+    }
+    extractDescription() {
+      const descriptionBBCode = getFilterBBCode($$2(".torrent-desc")[0]);
+      const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : "";
+      this.info.description = mediaInfoQuote + descriptionBBCode;
+    }
+    async extractScreenshots() {
+      const screenshotsBBCode = $$2("#collapseScreens a").map(function() {
+        return `[url=${$$2(this).attr("href")}][img]${$$2(this).find("img").attr("src")}[/img][/url]`;
+      }).get();
+      const screenshots = await extractImgsFromBBCode(
+        screenshotsBBCode.join("\n")
+      );
+      this.info.screenshots = screenshots;
+    }
+    extractSource() {
+      this.info.source = getVideoSourceFromTitle(this.info.title);
+    }
+    extractTags() {
+      this.info.tags = __spreadValues(__spreadValues({}, this.info.tags), getTagsFromSource(this.info.title));
+    }
+    extractMovieNameAndYear() {
+      var _a2, _b;
+      const movieTitle = $$2(".block-titled h3 a").text();
+      const movieName = movieTitle.split("(")[0].trim();
+      const year = (_b = (_a2 = movieTitle.match(/\((\d+)\)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      this.info.movieName = movieName;
+      this.info.year = year;
+    }
+    determineIfIsForbidden() {
+      const { title, subtitle, description } = this.info;
+      const combinedContent = title + subtitle + description;
+      const isForbidden = CONFIG.FORBIDDEN_KEYWORDS.some(
+        (keyword) => combinedContent.includes(keyword)
+      );
+      this.info.isForbidden = isForbidden;
+    }
+    extractArea() {
+      const country = $$2(".fa-flag~.badge-extra:first a").text();
+      const area = getAreaCode(country);
+      this.info.area = area;
+    }
+    enhanceInfo() {
+    }
+    extractComparisonsScreenshots() {
+    }
+  }
+  class GenericAvistaZExtractor extends AvistaZExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 5;
+    }
+    canHandle(siteName, siteType) {
+      return siteType === "AvistaZ";
+    }
+  }
+  registry.register(new GenericAvistaZExtractor());
+  class BHDExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "BeyondHD";
+    }
+    async extract() {
+      this.extractBasicInfo();
+      this.extractYear();
+      this.extractImdbUrl();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMovieName();
+      this.extractComparisonsScreenshots();
+      this.extractArea();
+      this.enhanceInfo();
+      return this.info;
+    }
+    extractBasicInfo() {
+      const basicInfo = {
+        Category: "",
+        Name: "",
+        Source: "",
+        Type: "",
+        Size: "",
+        Video: "",
+        Audio: "",
+        Hybrid: "",
+        Edition: "",
+        Region: "",
+        Extras: ""
+      };
+      $$2("tr.dotborder").each((_2, element) => {
+        const key = $$2(element).find("td:first").text();
+        const value = $$2(element).find("td:last").text();
+        basicInfo[key] = value.replace(/\n/g, "").trim();
+      });
+      const { Category, Name, Source, Type: Type2, Size } = basicInfo;
+      this.info.title = formatTorrentTitle(Name);
+      const category = getCategoryFromSource(
+        Category.toLowerCase().replace(/s/, "")
+      );
+      this.info.category = refineCategory(this.info, category);
+      this.info.size = convertSizeStringToBytes(Size.replace(/\s/g, ""));
+      this.info.videoType = this.getVideoType(Source, Type2);
+      this.info.source = this.getSource(Source, Type2);
+      const { knownTags, otherTags } = this.getEditionTags(basicInfo);
+      this.info.tags = __spreadValues(__spreadValues({}, this.info.tags), knownTags);
+      this.info.otherTags = otherTags;
+    }
+    extractYear() {
+      const year = $$2(".year-link").text();
+      if (!year) {
+        super.extractYear();
+      } else {
+        this.info.year = year;
+      }
+    }
+    extractImdbUrl() {
+      this.info.imdbUrl = $$2('span[title="IMDb Rating"] a').attr("href");
+    }
+    extractMediaInfos() {
+      const mediaInfo = $$2("#stats-full code").text();
+      this.info.mediaInfos = [mediaInfo];
+    }
+    extractDescription() {
+      const descriptionDom = $$2(".panel-heading:contains(Description)").next(".panel-body").find(".forced-nfo");
+      const descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+      const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : "";
+      this.info.description = mediaInfoQuote + descriptionBBCode;
+      this.info.originalDescription = descriptionBBCode;
+    }
+    extractMovieName() {
+      const movieName = $$2(".bhd-title-h1 a.beta-link-blend").text();
+      this.info.movieName = movieName;
+    }
+    extractArea() {
+      const country = $$2('a[href*="library/movie?countries"]').text();
+      const area = getAreaCode(country);
+      this.info.area = area;
+    }
+    enhanceInfo() {
+    }
+    extractComparisonsScreenshots() {
+      var _a2, _b;
+      const title = (_b = (_a2 = $$2("#screenMain .screenParent").text()) == null ? void 0 : _a2.replace(/\[Show\]|Comparison/g, "")) == null ? void 0 : _b.trim();
+      const imgs = Array.from($$2(".screenComparison img")).map(
+        (img) => {
+          var _a3, _b2;
+          return (_b2 = (_a3 = $$2(img)) == null ? void 0 : _a3.attr("src")) != null ? _b2 : "";
+        }
+      );
+      this.info.comparisons = [
+        {
+          title,
+          imgs,
+          reason: ""
+        }
+      ];
+    }
+    getVideoType(source, type) {
+      type = type.replace(/\s/g, "");
+      if (type.match(/Remux/i)) {
+        return "remux";
+      } else if (type.match(/BD50|BD25/i)) {
+        return "bluray";
+      } else if (type.match(/UHD50|UHD66|UHD100/i)) {
+        return "uhdbluray";
+      } else if (type.match(/DVD5|DVD9/i)) {
+        return "dvd";
+      } else if (source.match(/WEB|WEB-DL/i)) {
+        return "web";
+      } else if (type.match(/\d{3,4}p/i)) {
+        return "encode";
+      }
+      return type;
+    }
+    getSource(source, resolution) {
+      if (resolution.match(/BD100|BD66/i)) {
+        return "uhdbluray";
+      }
+      if (source.match(/Blu-ray/i) && resolution.match(/UHD/i)) {
+        return "uhdbluray";
+      }
+      if (source.match(/WEB|WEB-DL/i)) {
+        return "web";
+      }
+      return source.replace(/-/g, "").toLowerCase();
+    }
+    getEditionTags(basicInfo) {
+      const { common, others } = CONFIG.BHD_SOURCE_MEDIA_TAGS_MAP;
+      const knownTags = {};
+      const otherTags = {
+        Hybrid: false
+      };
+      const { Video, Audio, Edition, Extras, Hybrid } = basicInfo;
+      const text2 = [Video, Audio, Edition, Extras].filter((v2) => Boolean(v2)).join(" / ");
+      for (const [source, target] of Object.entries(common)) {
+        if (text2.includes(source)) {
+          knownTags[target] = true;
+        }
+      }
+      for (const [source, target] of Object.entries(others)) {
+        if (text2.includes(source)) {
+          otherTags[target] = true;
+        }
+      }
+      if (Hybrid) {
+        otherTags.Hybrid = true;
+      }
+      return {
+        knownTags,
+        otherTags
+      };
+    }
+  }
+  registry.register(new BHDExtractor());
+  class BTNExtractor extends GazelleExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "BTN";
+    }
+    async extract() {
+      this.extractTorrentId();
+      this.getTorrentHeaderDom();
+      this.extractTitle();
+      this.extractTorrentLink();
+      await this.getShowInfo();
+      this.extractBasicInfo();
+      this.extractYearAndCategory();
+      await this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractMovieName();
+      this.extractSource();
+      return this.info;
+    }
+    getTorrentHeaderDom() {
+      this.torrentHeaderDom = $$2(`#torrent_${this.torrentId}`).prev();
+    }
+    extractTitle() {
+      const torrentName = this.torrentHeaderDom.find("> td").text().replace(/»/, "").trim();
+      this.info.title = formatTorrentTitle(torrentName);
+    }
+    extractBasicInfo() {
+      const specsDom = this.torrentHeaderDom.prev();
+      const rawSpecs = specsDom.find("> td > a").text().replace(/»/, "").split("/").map((v2) => v2.trim());
+      const specs = rawSpecs.filter((v2) => !["NFO"].includes(v2));
+      const size = specsDom.find("> td").next("td").text().replace(/\s/g, "");
+      this.info.size = convertSizeStringToBytes(size);
+      this.info.videoType = this.getVideoType(specs[2]);
+    }
+    extractYearAndCategory() {
+      var _a2, _b;
+      const seasonTitle = $$2("#content > div > h2").contents().last().text().trim();
+      const [season = "", year = ""] = (_b = (_a2 = seasonTitle == null ? void 0 : seasonTitle.match(/(.*) \[(\d+)\]/)) == null ? void 0 : _a2.slice(1)) != null ? _b : [];
+      this.info.year = year;
+      const category = season.match(/season/i) ? "tvPack" : "tv";
+      this.info.category = category;
+    }
+    extractTorrentLink() {
+      const torrentLink = this.torrentHeaderDom.prev().find('a[title="Download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
+    }
+    extractMediaInfos() {
+      const { mediaInfo, bdInfo } = getBDInfoOrMediaInfoFromBBCode(
+        this.info.description
+      );
+      this.info.mediaInfos = this.isVideoTypeBluray() ? bdInfo : mediaInfo;
+    }
+    extractDescription() {
+      return new Promise((resolve28) => {
+        const descriptionDom = $$2(
+          `#torrent_${this.torrentId} > td > blockquote`
+        ).last()[0];
+        const descriptionBBCode = getFilterBBCode(descriptionDom);
+        this.info.description = descriptionBBCode;
+        resolve28();
+      });
+    }
+    extractMovieName() {
+      var _a2, _b, _c;
+      const movieName = (_c = (_b = (_a2 = $$2("#content > div > h2 > a > img").attr("alt")) == null ? void 0 : _a2.replace(/\(\d+\)/, "")) == null ? void 0 : _b.trim()) != null ? _c : "";
+      this.info.movieName = movieName;
+    }
+    extractSource() {
+      this.info.source = getVideoSourceFromTitle(this.info.title);
+    }
+    async getShowInfo() {
+      var _a2, _b, _c;
+      const seriesUrl = $$2("#content > .thin > h2 > a").prop("href");
+      const html2 = await GMFetch(seriesUrl);
+      const infoHtml = (_b = (_a2 = html2 == null ? void 0 : html2.match(/Series Info[\s\S]*?(<ul[\s\S]+?<\/ul>)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      const infoDom = new DOMParser().parseFromString(infoHtml, "text/html");
+      const info = Object.fromEntries(
+        Array.from(infoDom.querySelectorAll("tr")).map((tr) => {
+          const tds = Array.from(tr.children);
+          return [tds[0].innerText.trim(), tds[1]];
+        })
+      );
+      const country = info["Country:"].innerText;
+      const imdbUrl = (_c = info["External Links:"].innerHTML.match(
+        /https:\/\/www\.imdb\.com\/title\/tt\d+/
+      )) == null ? void 0 : _c[0];
+      this.info.area = getAreaCode(country);
+      this.info.imdbUrl = imdbUrl;
+    }
+    getVideoType(source) {
+      if (this.info.title.match(/remux/i)) {
+        return "remux";
+      } else if (["BD50", "BD25"].includes(source)) {
+        return "bluray";
+      } else if (["BD66", "BD100"].includes(source)) {
+        return "uhdbluray";
+      } else if (["WEB-DL"].includes(source)) {
+        return "web";
+      } else if (["HDTV"].includes(source)) {
+        return "encode";
+      }
+      return "";
+    }
+  }
+  registry.register(new BTNExtractor());
+  class HDBExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this.torrentId = getLocationSearchValueByKey("id");
+    }
+    canHandle(siteName) {
+      return siteName === "HDBits";
+    }
+    async extract() {
+      this.extractTitle();
+      this.getBasicInfo();
+      this.extractMovieDetails();
+      await this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractArea();
+      return this.info;
+    }
+    extractTitle() {
+      const title = $$2("h1").eq(0).text();
+      this.info.title = formatTorrentTitle(title);
+    }
+    getBasicInfo() {
+      var _a2;
+      const videoTypeMap = {
+        "Blu-ray/HD DVD": "bluray",
+        Capture: "hdtv",
+        Encode: "encode",
+        Remux: "remux",
+        "WEB-DL": "web"
+      };
+      const info = $$2("th:contains(Category)").next().text();
+      const size = $$2("th:contains(Size)").eq(0).next().text();
+      const splitArray = info.split("(");
+      const category = splitArray[0].trim().toLowerCase();
+      const videoType = splitArray[1].split(",")[1].replace(/\)/g, "").trim();
+      this.info.size = convertSizeStringToBytes(size);
+      this.info.category = refineCategory(this.info, category);
+      this.info.videoType = (_a2 = videoTypeMap[videoType]) != null ? _a2 : videoType;
+      this.info.source = getCategoryFromSource(this.info.title);
+    }
+    extractMovieDetails() {
+      var _a2;
+      const isMovieType = $$2(".contentlayout h1").length > 0;
+      const IMDBLinkDom = isMovieType ? $$2(".contentlayout h1") : $$2("#details .showlinks li").eq(1);
+      if (isMovieType) {
+        const IMDBYear = IMDBLinkDom.prop("lastChild").nodeValue.replace(
+          /\s|\(|\)/g,
+          ""
+        );
+        const movieName = IMDBLinkDom.find("a").text();
+        this.info.movieName = movieName;
+        if (!IMDBYear) {
+          super.extractYear();
+        } else {
+          this.info.year = IMDBYear;
+        }
+      }
+      this.info.imdbUrl = (_a2 = IMDBLinkDom.find("a").attr("href")) != null ? _a2 : "";
+    }
+    async extractMediaInfos() {
+      try {
+        const res = await GMFetch(
+          `/details/mediainfo?id=${this.torrentId}`
+        );
+        const data = res.replace(/\r\n/g, "\n");
+        if (data) {
+          this.info.mediaInfos = [data];
+        }
+      } catch (error) {
+        console.log(`Error parsing mediainfo for ${this.info.title}:`, error);
+      }
+    }
+    extractDescription() {
+      var _a2, _b;
+      const editDom = $$2("#details tr").has("a:contains(Edit torrent)");
+      const descriptionDom = editDom.length > 0 ? editDom.prev() : $$2("#details >tbody >tr:contains(tags) + tr");
+      let descriptionBBCode = getFilterBBCode(descriptionDom.find(">td")[0]);
+      descriptionBBCode = (_b = (_a2 = descriptionBBCode.match(/\[quote\]((.|\n)+)\[\/quote\]/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      this.info.description = descriptionBBCode;
+    }
+    extractMovieName() {
+      const movieName = $$2(".bhd-title-h1 a.beta-link-blend").text();
+      this.info.movieName = movieName;
+    }
+    extractArea() {
+      const country = $$2("#imdbinfo th:contains(Country)").next().text();
+      this.info.area = getAreaCode(country);
+    }
+  }
+  registry.register(new HDBExtractor());
+  class KGExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "KG";
+    }
+    async extract() {
+      this.extractTitle();
+      this.extractImdbUrl();
+      this.extractMovieName();
+      this.extractSize();
+      this.extractYear();
+      this.extractCategory();
+      this.extractResolution();
+      this.extractSource();
+      this.extractMediaInfos();
+      this.extractMetaInfo();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractArea();
+      return this.info;
+    }
+    getBasicInfoDom(key) {
+      return $$2(`.outer h1~table:first>tbody>tr td:contains(${key})`).next("td");
+    }
+    extractTitle() {
+      var _a2;
+      const torrentFileDom = this.getBasicInfoDom("Download").find("a.index");
+      const torrentFileName = torrentFileDom.text().replace(/\.torrent$/, "");
+      const fileName = (_a2 = this.getBasicInfoDom("Filename").text()) == null ? void 0 : _a2.replace(/\.\w+$/, "");
+      this.info.title = formatTorrentTitle(fileName || torrentFileName);
+    }
+    extractImdbUrl() {
+      const link = this.getBasicInfoDom("Internet Link").find("a").attr("href");
+      const imdbUrl = (link == null ? void 0 : link.match(/imdb/)) ? link.replace(/\?.+/, "") : "";
+      this.info.imdbUrl = imdbUrl;
+    }
+    extractSize() {
+      var _a2, _b;
+      const sizeContent = this.getBasicInfoDom("Size").text();
+      const size = (_b = (_a2 = sizeContent.match(/\((.+?)\)/)) == null ? void 0 : _a2[1].replace(/\s|,/g, "")) != null ? _b : "";
+      this.info.size = convertSizeStringToBytes(size);
+    }
+    extractYear() {
+      var _a2, _b;
+      const yearText = this.getBasicInfoDom("Year").text();
+      const year = (_b = (_a2 = yearText.match(/\d{4}/)) == null ? void 0 : _a2[0]) != null ? _b : "";
+      this.info.year = year;
+    }
+    extractCategory() {
+      const typeText = this.getBasicInfoDom("Type").text();
+      const genresText = this.getBasicInfoDom("Genres").text();
+      const category = typeText.toLowerCase();
+      this.info.category = genresText.match(/Animation/i) ? "cartoon" : category;
+    }
+    extractSource() {
+      var _a2;
+      const sourceText = this.getBasicInfoDom("Source").text();
+      let formattedSource = (_a2 = sourceText == null ? void 0 : sourceText.replace(/-/g, "")) == null ? void 0 : _a2.toLowerCase();
+      if (formattedSource === "tv") {
+        formattedSource = "hdtv";
+      }
+      this.info.source = formattedSource;
+    }
+    extractMetaInfo() {
+      var _a2, _b, _c, _d, _e;
+      const { title, source, mediaInfos } = this.info;
+      const ripSpecs = this.getBasicInfoDom("RipSpecs").text();
+      let genreVideoType = (_c = (_b = (_a2 = this.getBasicInfoDom("Genres").find("tr td>img").attr("src")) == null ? void 0 : _a2.match(/genreimages\/(\w+)\.\w+/)) == null ? void 0 : _b[1]) != null ? _c : "";
+      genreVideoType = ripSpecs.match(/DVD\sFormat/) ? "dvdr" : genreVideoType;
+      const videoType = this.getVideoType(
+        title,
+        source,
+        genreVideoType,
+        mediaInfos.length > 0
+      );
+      if (genreVideoType === "dvdr" && ripSpecs) {
+        this.info.videoCodec = "mpeg2";
+        const audioCodec = (_e = (_d = ripSpecs.match(/DVD\sAudio:(.+)/)) == null ? void 0 : _d[1]) != null ? _e : "";
+        this.info.audioCodec = getAudioCodecFromSource(audioCodec);
+      } else {
+        this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+          title,
+          videoType
+        );
+        this.info.audioCodec = getAudioCodecFromSource(title);
+      }
+      this.info.videoType = videoType;
+    }
+    async extractMediaInfos() {
+      const mediaInfo = $$2("div.mediainfo").text();
+      if (mediaInfo) {
+        this.info.mediaInfos = [mediaInfo];
+      }
+    }
+    extractDescription() {
+      const descriptionDom = this.getBasicInfoDom("Description");
+      let descriptionBBCode = getFilterBBCode(descriptionDom.find("article")[0]);
+      descriptionBBCode = descriptionBBCode.replace(/(.|\n)+?_{5,}/g, "");
+      this.info.description = descriptionBBCode;
+    }
+    async extractScreenshots() {
+      const screenshots = await extractImgsFromBBCode(this.info.description);
+      this.info.screenshots = screenshots;
+    }
+    extractMovieName() {
+      var _a2;
+      const movieTitles = $$2(".outer h1").text().split("- ");
+      let movieName = "";
+      let movieAkaName = "";
+      if (movieTitles.length >= 2) {
+        [movieName, movieAkaName] = movieTitles[1].replace(/\(\d+\)/, "").trim().split(/AKA/i);
+      }
+      this.info.movieName = movieName == null ? void 0 : movieName.trim();
+      this.info.movieAkaName = (_a2 = movieAkaName == null ? void 0 : movieAkaName.trim()) != null ? _a2 : "";
+    }
+    extractArea() {
+      const country = $$2(".outer h1 img").attr("alt") || "";
+      this.info.area = getAreaCode(country);
+    }
+    getVideoType(title, source, genreVideoType, hasMediainfo) {
+      if (source) {
+        if (source === "bluray") {
+          const blurayFlag = genreVideoType === "bluray" || !hasMediainfo;
+          return blurayFlag ? "bluray" : "encode";
+        } else if (source === "dvd") {
+          const dvdFlag = genreVideoType === "dvdr" || !hasMediainfo;
+          return dvdFlag ? "dvd" : "dvdrip";
+        }
+        return source;
+      }
+      return getVideoTypeFromSource(title);
+    }
+  }
+  registry.register(new KGExtractor());
+  class HDTExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDT";
+    }
+    async extract() {
+      this.extractTitle();
+      this.extractBasicInfo();
+      this.extractResolution();
+      this.extractImdbData();
+      this.extractDescription();
+      await this.extractScreenshots();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.enhanceInfo();
+      return this.info;
+    }
+    extractTitle() {
+      const title = document.title.replace(/HD-Torrents.org\s*-/gi, "").trim();
+      this.info.title = formatTorrentTitle(title);
+    }
+    extractBasicInfo() {
+      const { title } = this.info;
+      const basicInfo = {
+        Category: "",
+        Size: "",
+        Genre: ""
+      };
+      $$2(".detailsleft").each((_2, element) => {
+        const key = $$2(element).text().replace(/:/g, "").trim();
+        const value = $$2(element).next("td").text();
+        if (value) {
+          basicInfo[key] = value.replace(/\n/g, "").trim();
+        }
+      });
+      const { Category, Size, Genre } = basicInfo;
+      let category = Category.toLowerCase().split(/\s|\//)[0];
+      category = Genre.match(/Animation/i) ? "cartoon" : category;
+      this.info.category = refineCategory(this.info, category);
+      this.info.size = convertSizeStringToBytes(Size);
+      this.info.videoType = this.getVideoType(Category, title);
+      this.info.source = getVideoSourceFromTitle(title);
+    }
+    extractImdbData() {
+      var _a2, _b, _c, _d;
+      const imdbInfoDom = $$2("#IMDBDetailsInfoHideShowTR .imdbnew2");
+      const imdbUlrDom = imdbInfoDom.find(">a");
+      const imdbUrl = imdbUlrDom.attr("href") || "";
+      const movieName = imdbUlrDom.text();
+      const year = (_b = (_a2 = imdbInfoDom.text().match(/Year:\s*(\d{4})/)) == null ? void 0 : _a2[1]) != null ? _b : "";
+      const country = (_d = (_c = imdbInfoDom.text().match(/Country:\s*([^\n]+)/)) == null ? void 0 : _c[1]) != null ? _d : "";
+      this.info.imdbUrl = imdbUrl;
+      this.info.movieName = movieName;
+      this.info.year = year;
+      this.info.area = getAreaCode(country);
+    }
+    extractDescription() {
+      const descriptionDom = $$2("#technicalInfoHideShowTR");
+      let descriptionBBCode = getFilterBBCode(descriptionDom[0]);
+      descriptionBBCode = descriptionBBCode.replace(
+        /\[center\]((?:.|\n)+?)\[\/center\]/g,
+        (match, p1) => {
+          if (p1.match(/(keep seeding)|(spank your ass)/)) {
+            return "";
+          }
+          return match;
+        }
+      );
+      this.info.description = descriptionBBCode;
+    }
+    getVideoType(type, title) {
+      if (type.match(/Remux/i)) {
+        return "remux";
+      } else if (type.match(/UHD\/Blu-Ray/i)) {
+        return "uhdbluray";
+      } else if (type.match(/Blu-Ray/i)) {
+        return "bluray";
+      }
+      return getVideoTypeFromSource(title);
+    }
+    enhanceInfo() {
+      const { title, videoType, mediaInfos } = this.info;
+      if (!(mediaInfos == null ? void 0 : mediaInfos.length)) {
+        this.info.videoCodec = getVideoCodecFromSourceAndVideoType(
+          title,
+          videoType
+        );
+        this.info.audioCodec = getAudioCodecFromSource(title);
+        this.info.tags = getTagsFromSource(title);
+      }
+    }
+  }
+  registry.register(new HDTExtractor());
+  class HDSpaceExtractor extends BaseExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "HDSpace";
+    }
+    async extract() {
+      this.extractTitle();
+      this.extractSize();
+      this.extractResolution();
+      this.extractCategory();
+      this.extractMetaInfo();
+      await this.extractMovieDetails();
+      this.extractMediaInfos();
+      this.extractMediaDetails();
+      this.extractDescription();
+      await this.extractScreenshots();
+      return this.info;
+    }
+    getTdTextByKey(key) {
+      return $$2(`#mcol td.header:contains("${key}")`).eq(0).next().text().trim();
+    }
+    extractTitle() {
+      const title = this.getTdTextByKey("Name");
+      this.info.title = formatTorrentTitle(title);
+    }
+    extractSize() {
+      const size = this.getTdTextByKey("Size");
+      this.info.size = convertSizeStringToBytes(size);
+    }
+    extractCategory() {
+      const categoryValue = this.getTdTextByKey("Category");
+      const category = getCategoryFromSource(categoryValue) || "movie";
+      this.info.category = refineCategory(this.info, category);
+    }
+    async extractMovieDetails() {
+      var _a2, _b, _c, _d, _e;
+      const imdbId = (_c = (_b = (_a2 = $$2("#imdb").next("script").text()) == null ? void 0 : _a2.match(/mid=(\d+)/)) == null ? void 0 : _b[1]) != null ? _c : "";
+      const imdbData = await GMFetch(`/getimdb.php?mid=${imdbId}`);
+      const imdbDom = new DOMParser().parseFromString(imdbData, "text/html");
+      const imdbUlrDom = $$2('a[href*="imdb.com/title"]', imdbDom);
+      const imdbUrl = imdbUlrDom.attr("href");
+      const movieName = imdbUlrDom.text().replace(/\(\d+\)/g, "");
+      const year = (_e = (_d = imdbUlrDom.text().match(/\((\d{4})\)/)) == null ? void 0 : _d[1]) != null ? _e : "";
+      const country = $$2('td:contains("Country")', imdbDom).next("td").text();
+      this.info = __spreadProps(__spreadValues({}, this.info), {
+        imdbUrl,
+        movieName,
+        year,
+        area: getAreaCode(country)
+      });
+    }
+    extractDescription() {
+      const descriptionDom = $$2('#mcol td.header:contains("Description")').next();
+      const descriptionContent = descriptionDom.clone();
+      $$2(descriptionContent).find('#slidenfo,a[href*="#nfo"]').remove();
+      const descriptionBBCode = getFilterBBCode(descriptionContent[0]);
+      this.info.description = descriptionBBCode;
+    }
+  }
+  registry.register(new HDSpaceExtractor());
+  /*! @license DOMPurify 3.2.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.4/LICENSE */
   const {
     entries,
     setPrototypeOf,
@@ -18667,8 +18453,10 @@ ${descriptionData}`;
     };
   }
   const arrayForEach = unapply(Array.prototype.forEach);
+  const arrayLastIndexOf = unapply(Array.prototype.lastIndexOf);
   const arrayPop = unapply(Array.prototype.pop);
   const arrayPush = unapply(Array.prototype.push);
+  const arraySplice = unapply(Array.prototype.splice);
   const stringToLowerCase = unapply(String.prototype.toLowerCase);
   const stringToString = unapply(String.prototype.toString);
   const stringMatch = unapply(String.prototype.match);
@@ -18771,8 +18559,8 @@ ${descriptionData}`;
   const xml = freeze(["xlink:href", "xml:id", "xlink:title", "xml:space", "xmlns:xlink"]);
   const MUSTACHE_EXPR = seal(/\{\{[\w\W]*|[\w\W]*\}\}/gm);
   const ERB_EXPR = seal(/<%[\w\W]*|[\w\W]*%>/gm);
-  const TMPLIT_EXPR = seal(/\${[\w\W]*}/gm);
-  const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]/);
+  const TMPLIT_EXPR = seal(/\$\{[\w\W]*/gm);
+  const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/);
   const ARIA_ATTR = seal(/^aria-[\-\w]+$/);
   const IS_ALLOWED_URI = seal(
     /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i
@@ -18787,16 +18575,16 @@ ${descriptionData}`;
   const CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
   var EXPRESSIONS = /* @__PURE__ */ Object.freeze({
     __proto__: null,
-    MUSTACHE_EXPR,
-    ERB_EXPR,
-    TMPLIT_EXPR,
-    DATA_ATTR,
     ARIA_ATTR,
+    ATTR_WHITESPACE,
+    CUSTOM_ELEMENT,
+    DATA_ATTR,
+    DOCTYPE_NAME,
+    ERB_EXPR,
     IS_ALLOWED_URI,
     IS_SCRIPT_OR_DATA,
-    ATTR_WHITESPACE,
-    DOCTYPE_NAME,
-    CUSTOM_ELEMENT
+    MUSTACHE_EXPR,
+    TMPLIT_EXPR
   });
   const NODE_TYPE = {
     element: 1,
@@ -18842,12 +18630,25 @@ ${descriptionData}`;
       return null;
     }
   };
+  const _createHooksMap = function _createHooksMap2() {
+    return {
+      afterSanitizeAttributes: [],
+      afterSanitizeElements: [],
+      afterSanitizeShadowDOM: [],
+      beforeSanitizeAttributes: [],
+      beforeSanitizeElements: [],
+      beforeSanitizeShadowDOM: [],
+      uponSanitizeAttribute: [],
+      uponSanitizeElement: [],
+      uponSanitizeShadowNode: []
+    };
+  };
   function createDOMPurify() {
     let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
     const DOMPurify = (root) => createDOMPurify(root);
-    DOMPurify.version = "3.1.7";
+    DOMPurify.version = "3.2.4";
     DOMPurify.removed = [];
-    if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document) {
+    if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
       DOMPurify.isSupported = false;
       return DOMPurify;
     }
@@ -18890,7 +18691,7 @@ ${descriptionData}`;
     const {
       importNode
     } = originalDocument;
-    let hooks = {};
+    let hooks = _createHooksMap();
     DOMPurify.isSupported = typeof entries === "function" && typeof getParentNode === "function" && implementation && implementation.createHTMLDocument !== void 0;
     const {
       MUSTACHE_EXPR: MUSTACHE_EXPR2,
@@ -18962,18 +18763,21 @@ ${descriptionData}`;
     let IS_EMPTY_INPUT = false;
     let ALLOWED_NAMESPACES = null;
     const DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [MATHML_NAMESPACE, SVG_NAMESPACE, HTML_NAMESPACE], stringToString);
+    let MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, ["mi", "mo", "mn", "ms", "mtext"]);
+    let HTML_INTEGRATION_POINTS = addToSet({}, ["annotation-xml"]);
+    const COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, ["title", "style", "font", "a", "script"]);
     let PARSER_MEDIA_TYPE = null;
     const SUPPORTED_PARSER_MEDIA_TYPES = ["application/xhtml+xml", "text/html"];
     const DEFAULT_PARSER_MEDIA_TYPE = "text/html";
     let transformCaseFunc = null;
-    let CONFIG = null;
+    let CONFIG2 = null;
     const formElement = document2.createElement("form");
     const isRegexOrFunction = function isRegexOrFunction2(testValue) {
       return testValue instanceof RegExp || testValue instanceof Function;
     };
     const _parseConfig = function _parseConfig2() {
       let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-      if (CONFIG && CONFIG === cfg) {
+      if (CONFIG2 && CONFIG2 === cfg) {
         return;
       }
       if (!cfg || typeof cfg !== "object") {
@@ -18986,22 +18790,8 @@ ${descriptionData}`;
       ALLOWED_TAGS = objectHasOwnProperty(cfg, "ALLOWED_TAGS") ? addToSet({}, cfg.ALLOWED_TAGS, transformCaseFunc) : DEFAULT_ALLOWED_TAGS;
       ALLOWED_ATTR = objectHasOwnProperty(cfg, "ALLOWED_ATTR") ? addToSet({}, cfg.ALLOWED_ATTR, transformCaseFunc) : DEFAULT_ALLOWED_ATTR;
       ALLOWED_NAMESPACES = objectHasOwnProperty(cfg, "ALLOWED_NAMESPACES") ? addToSet({}, cfg.ALLOWED_NAMESPACES, stringToString) : DEFAULT_ALLOWED_NAMESPACES;
-      URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, "ADD_URI_SAFE_ATTR") ? addToSet(
-        clone(DEFAULT_URI_SAFE_ATTRIBUTES),
-        // eslint-disable-line indent
-        cfg.ADD_URI_SAFE_ATTR,
-        // eslint-disable-line indent
-        transformCaseFunc
-        // eslint-disable-line indent
-      ) : DEFAULT_URI_SAFE_ATTRIBUTES;
-      DATA_URI_TAGS = objectHasOwnProperty(cfg, "ADD_DATA_URI_TAGS") ? addToSet(
-        clone(DEFAULT_DATA_URI_TAGS),
-        // eslint-disable-line indent
-        cfg.ADD_DATA_URI_TAGS,
-        // eslint-disable-line indent
-        transformCaseFunc
-        // eslint-disable-line indent
-      ) : DEFAULT_DATA_URI_TAGS;
+      URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, "ADD_URI_SAFE_ATTR") ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), cfg.ADD_URI_SAFE_ATTR, transformCaseFunc) : DEFAULT_URI_SAFE_ATTRIBUTES;
+      DATA_URI_TAGS = objectHasOwnProperty(cfg, "ADD_DATA_URI_TAGS") ? addToSet(clone(DEFAULT_DATA_URI_TAGS), cfg.ADD_DATA_URI_TAGS, transformCaseFunc) : DEFAULT_DATA_URI_TAGS;
       FORBID_CONTENTS = objectHasOwnProperty(cfg, "FORBID_CONTENTS") ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
       FORBID_TAGS = objectHasOwnProperty(cfg, "FORBID_TAGS") ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
       FORBID_ATTR = objectHasOwnProperty(cfg, "FORBID_ATTR") ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
@@ -19023,6 +18813,8 @@ ${descriptionData}`;
       IN_PLACE = cfg.IN_PLACE || false;
       IS_ALLOWED_URI$1 = cfg.ALLOWED_URI_REGEXP || IS_ALLOWED_URI;
       NAMESPACE = cfg.NAMESPACE || HTML_NAMESPACE;
+      MATHML_TEXT_INTEGRATION_POINTS = cfg.MATHML_TEXT_INTEGRATION_POINTS || MATHML_TEXT_INTEGRATION_POINTS;
+      HTML_INTEGRATION_POINTS = cfg.HTML_INTEGRATION_POINTS || HTML_INTEGRATION_POINTS;
       CUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || {};
       if (cfg.CUSTOM_ELEMENT_HANDLING && isRegexOrFunction(cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck)) {
         CUSTOM_ELEMENT_HANDLING.tagNameCheck = cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck;
@@ -19113,11 +18905,8 @@ ${descriptionData}`;
       if (freeze) {
         freeze(cfg);
       }
-      CONFIG = cfg;
+      CONFIG2 = cfg;
     };
-    const MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, ["mi", "mo", "mn", "ms", "mtext"]);
-    const HTML_INTEGRATION_POINTS = addToSet({}, ["annotation-xml"]);
-    const COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, ["title", "style", "font", "a", "script"]);
     const ALL_SVG_TAGS = addToSet({}, [...svg$1, ...svgFilters, ...svgDisallowed]);
     const ALL_MATHML_TAGS = addToSet({}, [...mathMl$1, ...mathMlDisallowed]);
     const _checkValidNamespace = function _checkValidNamespace2(element) {
@@ -19175,28 +18964,28 @@ ${descriptionData}`;
         remove(node);
       }
     };
-    const _removeAttribute = function _removeAttribute2(name, node) {
+    const _removeAttribute = function _removeAttribute2(name, element) {
       try {
         arrayPush(DOMPurify.removed, {
-          attribute: node.getAttributeNode(name),
-          from: node
+          attribute: element.getAttributeNode(name),
+          from: element
         });
       } catch (_2) {
         arrayPush(DOMPurify.removed, {
           attribute: null,
-          from: node
+          from: element
         });
       }
-      node.removeAttribute(name);
-      if (name === "is" && !ALLOWED_ATTR[name]) {
+      element.removeAttribute(name);
+      if (name === "is") {
         if (RETURN_DOM || RETURN_DOM_FRAGMENT) {
           try {
-            _forceRemove(node);
+            _forceRemove(element);
           } catch (_2) {
           }
         } else {
           try {
-            node.setAttribute(name, "");
+            element.setAttribute(name, "");
           } catch (_2) {
           }
         }
@@ -19246,29 +19035,26 @@ ${descriptionData}`;
         null
       );
     };
-    const _isClobbered = function _isClobbered2(elm) {
-      return elm instanceof HTMLFormElement && (typeof elm.nodeName !== "string" || typeof elm.textContent !== "string" || typeof elm.removeChild !== "function" || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== "function" || typeof elm.setAttribute !== "function" || typeof elm.namespaceURI !== "string" || typeof elm.insertBefore !== "function" || typeof elm.hasChildNodes !== "function");
+    const _isClobbered = function _isClobbered2(element) {
+      return element instanceof HTMLFormElement && (typeof element.nodeName !== "string" || typeof element.textContent !== "string" || typeof element.removeChild !== "function" || !(element.attributes instanceof NamedNodeMap) || typeof element.removeAttribute !== "function" || typeof element.setAttribute !== "function" || typeof element.namespaceURI !== "string" || typeof element.insertBefore !== "function" || typeof element.hasChildNodes !== "function");
     };
-    const _isNode = function _isNode2(object) {
-      return typeof Node3 === "function" && object instanceof Node3;
+    const _isNode = function _isNode2(value) {
+      return typeof Node3 === "function" && value instanceof Node3;
     };
-    const _executeHook = function _executeHook2(entryPoint, currentNode, data) {
-      if (!hooks[entryPoint]) {
-        return;
-      }
-      arrayForEach(hooks[entryPoint], (hook) => {
-        hook.call(DOMPurify, currentNode, data, CONFIG);
+    function _executeHooks(hooks2, currentNode, data) {
+      arrayForEach(hooks2, (hook) => {
+        hook.call(DOMPurify, currentNode, data, CONFIG2);
       });
-    };
+    }
     const _sanitizeElements = function _sanitizeElements2(currentNode) {
       let content = null;
-      _executeHook("beforeSanitizeElements", currentNode, null);
+      _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
       if (_isClobbered(currentNode)) {
         _forceRemove(currentNode);
         return true;
       }
       const tagName = transformCaseFunc(currentNode.nodeName);
-      _executeHook("uponSanitizeElement", currentNode, {
+      _executeHooks(hooks.uponSanitizeElement, currentNode, {
         tagName,
         allowedTags: ALLOWED_TAGS
       });
@@ -19328,7 +19114,7 @@ ${descriptionData}`;
           currentNode.textContent = content;
         }
       }
-      _executeHook("afterSanitizeElements", currentNode, null);
+      _executeHooks(hooks.afterSanitizeElements, currentNode, null);
       return false;
     };
     const _isValidAttribute = function _isValidAttribute2(lcTag, lcName, value) {
@@ -19362,18 +19148,19 @@ ${descriptionData}`;
       return tagName !== "annotation-xml" && stringMatch(tagName, CUSTOM_ELEMENT2);
     };
     const _sanitizeAttributes = function _sanitizeAttributes2(currentNode) {
-      _executeHook("beforeSanitizeAttributes", currentNode, null);
+      _executeHooks(hooks.beforeSanitizeAttributes, currentNode, null);
       const {
         attributes
       } = currentNode;
-      if (!attributes) {
+      if (!attributes || _isClobbered(currentNode)) {
         return;
       }
       const hookEvent = {
         attrName: "",
         attrValue: "",
         keepAttr: true,
-        allowedAttributes: ALLOWED_ATTR
+        allowedAttributes: ALLOWED_ATTR,
+        forceKeepAttr: void 0
       };
       let l2 = attributes.length;
       while (l2--) {
@@ -19389,8 +19176,16 @@ ${descriptionData}`;
         hookEvent.attrValue = value;
         hookEvent.keepAttr = true;
         hookEvent.forceKeepAttr = void 0;
-        _executeHook("uponSanitizeAttribute", currentNode, hookEvent);
+        _executeHooks(hooks.uponSanitizeAttribute, currentNode, hookEvent);
         value = hookEvent.attrValue;
+        if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name")) {
+          _removeAttribute(name, currentNode);
+          value = SANITIZE_NAMED_PROPS_PREFIX + value;
+        }
+        if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|title)/i, value)) {
+          _removeAttribute(name, currentNode);
+          continue;
+        }
         if (hookEvent.forceKeepAttr) {
           continue;
         }
@@ -19409,14 +19204,6 @@ ${descriptionData}`;
         }
         const lcTag = transformCaseFunc(currentNode.nodeName);
         if (!_isValidAttribute(lcTag, lcName, value)) {
-          continue;
-        }
-        if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name")) {
-          _removeAttribute(name, currentNode);
-          value = SANITIZE_NAMED_PROPS_PREFIX + value;
-        }
-        if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|title)/i, value)) {
-          _removeAttribute(name, currentNode);
           continue;
         }
         if (trustedTypesPolicy && typeof trustedTypes === "object" && typeof trustedTypes.getAttributeType === "function") {
@@ -19448,23 +19235,21 @@ ${descriptionData}`;
         } catch (_2) {
         }
       }
-      _executeHook("afterSanitizeAttributes", currentNode, null);
+      _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
     };
     const _sanitizeShadowDOM = function _sanitizeShadowDOM2(fragment) {
       let shadowNode = null;
       const shadowIterator = _createNodeIterator(fragment);
-      _executeHook("beforeSanitizeShadowDOM", fragment, null);
+      _executeHooks(hooks.beforeSanitizeShadowDOM, fragment, null);
       while (shadowNode = shadowIterator.nextNode()) {
-        _executeHook("uponSanitizeShadowNode", shadowNode, null);
-        if (_sanitizeElements(shadowNode)) {
-          continue;
-        }
+        _executeHooks(hooks.uponSanitizeShadowNode, shadowNode, null);
+        _sanitizeElements(shadowNode);
+        _sanitizeAttributes(shadowNode);
         if (shadowNode.content instanceof DocumentFragment) {
           _sanitizeShadowDOM2(shadowNode.content);
         }
-        _sanitizeAttributes(shadowNode);
       }
-      _executeHook("afterSanitizeShadowDOM", fragment, null);
+      _executeHooks(hooks.afterSanitizeShadowDOM, fragment, null);
     };
     DOMPurify.sanitize = function(dirty) {
       let cfg = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
@@ -19528,13 +19313,11 @@ ${descriptionData}`;
       }
       const nodeIterator = _createNodeIterator(IN_PLACE ? dirty : body);
       while (currentNode = nodeIterator.nextNode()) {
-        if (_sanitizeElements(currentNode)) {
-          continue;
-        }
+        _sanitizeElements(currentNode);
+        _sanitizeAttributes(currentNode);
         if (currentNode.content instanceof DocumentFragment) {
           _sanitizeShadowDOM(currentNode.content);
         }
-        _sanitizeAttributes(currentNode);
       }
       if (IN_PLACE) {
         return dirty;
@@ -19570,11 +19353,11 @@ ${descriptionData}`;
       SET_CONFIG = true;
     };
     DOMPurify.clearConfig = function() {
-      CONFIG = null;
+      CONFIG2 = null;
       SET_CONFIG = false;
     };
     DOMPurify.isValidAttribute = function(tag, attr, value) {
-      if (!CONFIG) {
+      if (!CONFIG2) {
         _parseConfig({});
       }
       const lcTag = transformCaseFunc(tag);
@@ -19585,572 +19368,212 @@ ${descriptionData}`;
       if (typeof hookFunction !== "function") {
         return;
       }
-      hooks[entryPoint] = hooks[entryPoint] || [];
       arrayPush(hooks[entryPoint], hookFunction);
     };
-    DOMPurify.removeHook = function(entryPoint) {
-      if (hooks[entryPoint]) {
-        return arrayPop(hooks[entryPoint]);
+    DOMPurify.removeHook = function(entryPoint, hookFunction) {
+      if (hookFunction !== void 0) {
+        const index = arrayLastIndexOf(hooks[entryPoint], hookFunction);
+        return index === -1 ? void 0 : arraySplice(hooks[entryPoint], index, 1)[0];
       }
+      return arrayPop(hooks[entryPoint]);
     };
     DOMPurify.removeHooks = function(entryPoint) {
-      if (hooks[entryPoint]) {
-        hooks[entryPoint] = [];
-      }
+      hooks[entryPoint] = [];
     };
     DOMPurify.removeAllHooks = function() {
-      hooks = {};
+      hooks = _createHooksMap();
     };
     return DOMPurify;
   }
   var purify = createDOMPurify();
-  const getGazelleMusicInfo = async () => {
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
-      return false;
+  class GZMusicExtractor extends GazelleExtractor {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+      this._siteTorrentInfo = null;
+      this._siteGroupInfo = null;
     }
-    try {
-      TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-      TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-      const torrentInfo2 = await getTorrentInfo$4(torrentId);
-      Object.assign(TORRENT_INFO, torrentInfo2);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  async function getTorrentInfo$4(torrentId) {
-    const { response } = await fetch(`/ajax.php?action=torrent&id=${torrentId}`);
-    if (response.group) {
-      if (CURRENT_SITE_NAME === "DicMusic") {
-        response.group.name = getUTF8String(response.group.name);
-        const div2 = document.createElement("div");
-        div2.innerHTML = response.group.wikiBody;
-        response.group.bbBody = htmlToBBCode(div2);
-      } else if (CURRENT_SITE_NAME === "Orpheus") {
-        response.group.bbBody = response.group.wikiBBcode;
+    get siteGroupInfo() {
+      if (!this._siteGroupInfo) {
+        throw new Error("siteGroupInfo is not initialized");
       }
+      return this._siteGroupInfo;
     }
-    const { torrent, group } = response;
-    const { name, year, wikiImage, musicInfo, categoryName, bbBody, tags: tags2, wikiBody } = group;
-    const { format: format2, media, encoding, logScore, ripLogIds = [] } = torrent;
-    const catMap = {
-      Applications: "app",
-      "E-Books": "ebook",
-      Audiobooks: "audioBook",
-      Comics: "comics",
-      Music: "music",
-      "E-Learning Videos": "other",
-      Comedy: "other"
-    };
-    const div = document.createElement("div");
-    div.innerHTML = wikiBody;
-    let description = bbBody || htmlToBBCode(div) || "";
-    description = `[img]${wikiImage}[/img]
-${description}`;
-    description = purify.sanitize(description);
-    const descSource = new DOMParser().parseFromString(description, "text/html");
-    if (descSource.documentElement.textContent) {
-      description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, "").replace(/\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g, "").replace(new RegExp("(?<=(\\[\\/b\\]|,)[\\s\\\\.a-zA-Z]*)\\[\\/url\\]", "g"), "");
-    }
-    const log = [];
-    if (ripLogIds.length > 0) {
-      for (let i = 1; i < ripLogIds.length; i++) {
-        log.push(await getLog(logScore, torrentId, ripLogIds[i]));
+    get siteTorrentInfo() {
+      if (!this._siteTorrentInfo) {
+        throw new Error("siteTorrentInfo is not initialized");
       }
-    } else if (media === "CD") {
-      const logData = await getLog(logScore, torrentId, "0");
-      if (logData) {
-        log.push(logData);
-      }
+      return this._siteTorrentInfo;
     }
-    response.torrent.log = log;
-    CURRENT_SITE_INFO.torrentLink = $$2(`#torrent${torrentId} a[href*="action=download"]`).attr("href");
-    return {
-      title: $$2(".header h2").text(),
-      subtitle: `${$$2(`#torrent${torrentId}`).prev().find("strong").contents().last().text().trim()} / ${$$2(`#torrent${torrentId} td:first-child a[onclick*="$("]`).text()}`,
-      year: `${year}`,
-      poster: wikiImage,
-      description,
-      category: catMap[categoryName] || "other",
-      audioCodec: format2.toLowerCase(),
-      videoType: media.toLowerCase().replace("-", ""),
-      musicInfo: {
+    canHandle(siteName) {
+      return siteName.match(/(DicMusic|Orpheus|RED)/) !== null;
+    }
+    async extract() {
+      this.extractTorrentId();
+      this.getTorrentHeaderDom();
+      const data = await this.getSiteTorrentInfoByAPI();
+      if (!data) {
+        return this.info;
+      }
+      this._siteGroupInfo = data.group;
+      this._siteTorrentInfo = data.torrent;
+      this.extractTitle();
+      this.extractSubtitle();
+      this.extractTorrentLink();
+      this.extractCategory();
+      this.extractDescription();
+      await this.extractLogs();
+      const { year, wikiImage, musicInfo, name, tags: tags2 } = this.siteGroupInfo;
+      this.info.year = `${year}`;
+      this.info.poster = wikiImage;
+      const { format: format2, media, encoding, log } = this.siteTorrentInfo;
+      this.info.videoCodec = media.toLowerCase().replace(/-/g, "");
+      this.info.audioCodec = format2.toLowerCase();
+      this.info.musicInfo = {
         name,
         tags: tags2,
         artists: musicInfo.artists.map((item) => item.name),
         media,
         encoding,
         log
-      },
-      musicJson: response
-    };
-  }
-  function getUTF8String(entityString) {
-    const tempElement = document.createElement("textarea");
-    tempElement.innerHTML = entityString;
-    const utf8String = tempElement.value;
-    return utf8String;
-  }
-  async function getLog(logScore, torrentId, ripLogId) {
-    let url = `/torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
-    if (CURRENT_SITE_NAME === "RED") {
-      url = `/torrents.php?action=loglist&torrentid=${torrentId}`;
-    } else if (CURRENT_SITE_NAME === "Orpheus") {
-      url = `/view.php?type=riplog&id=${torrentId}.${ripLogId}`;
-    } else if (CURRENT_SITE_NAME === "DicMusic") {
-      url = `torrents.php?action=viewlog&logscore=${logScore}&torrentid=${torrentId}`;
+      };
+      this.info.musicJson = data;
+      return this.info;
     }
-    const response = await fetch(url, {
-      responseType: void 0
-    });
-    if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
-      const div = document.createElement("div");
-      div.innerHTML = response;
-      return $$2(div).find("pre").text() || "";
-    } else if (CURRENT_SITE_NAME.match(/Orpheus|/)) {
+    async getSiteTorrentInfoByAPI() {
+      const { response, status } = await GMFetch(
+        `/ajax.php?action=torrent&id=${this.torrentId}`,
+        {
+          responseType: "json"
+        }
+      );
+      if (status !== "success" || !response || !response.group || !response.torrent) {
+        return null;
+      }
+      if (CURRENT_SITE_NAME === "DicMusic") {
+        response.group.name = this.getUTF8String(response.group.name);
+        const div = document.createElement("div");
+        div.innerHTML = response.group.wikiBody;
+        response.group.bbBody = htmlToBBCode(div);
+      } else if (CURRENT_SITE_NAME === "Orpheus") {
+        response.group.bbBody = response.group.wikiBBcode || "";
+      }
       return response;
     }
-  }
-  const getMTVInfo = async () => {
-    const torrentId = getUrlParam("torrentid");
-    if (!torrentId) {
-      return false;
+    getTorrentHeaderDom() {
+      this.torrentHeaderDom = $$2(`#torrent${this.torrentId}`);
     }
-    const torrentInfo2 = await getTorrentInfo$3(torrentId);
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    Object.assign(TORRENT_INFO, torrentInfo2);
-    return TORRENT_INFO;
-  };
-  async function getTorrentInfo$3(torrentId) {
-    var _a2, _b;
-    const imdbUrl = $$2('.metalinks a[href*="imdb.com/title"]').attr("href");
-    const torrentContainer = $$2(`#torrent${torrentId}`);
-    const [showName] = (_b = (_a2 = $$2(".details>h2").text()) == null ? void 0 : _a2.split("-")) != null ? _b : [];
-    const torrentName = torrentContainer.find(".permalink").text().trim();
-    const size = torrentContainer.find(">td").eq(1).text().trim();
-    const source = getSourceFromTitle(torrentName);
-    const descriptionContainer = $$2(`#content${torrentId}`).clone();
-    descriptionContainer.find(">div").remove();
-    const description = getFilterBBCode(descriptionContainer[0]);
-    const screenshots = await getScreenshotsFromBBCode(description);
-    const isBluray = !!$$2(`#files_${torrentId}`).text().match(/\.(iso|m2ts|mpls)/i);
-    const videoType = getVideoType$2({ torrentName, source, isBluray });
-    const mediaInfo = $$2("div.mediainfo").text();
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec, mediaTags: tags2 } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle$1(torrentName);
-    const category = getCategory$1(torrentName);
-    return {
-      title: formatTorrentTitle(torrentName),
-      imdbUrl,
-      source,
-      size: getSize(size),
-      resolution,
-      movieName: showName.replace(/\n/g, "").trim(),
-      description,
-      videoType,
-      mediaInfos: [mediaInfo],
-      videoCodec,
-      audioCodec,
-      tags: tags2,
-      screenshots,
-      category
-    };
-  }
-  const getVideoType$2 = ({ torrentName = "", source = "", isBluray = false }) => {
-    if (torrentName.match(/remux/i)) {
-      return "remux";
-    } else if (source.match(/bluray/) && !isBluray) {
-      return "encode";
+    extractTitle() {
+      const title = $$2(".header h2").text();
+      this.info.title = formatTorrentTitle(title);
     }
-    return source;
-  };
-  function getCategory$1(season) {
-    return season.match(/S\d+E(P)\d+/i) ? "tv" : "tvPack";
-  }
-  function getSpecsFromTitle$1(torrentName) {
-    var _a2;
-    return {
-      videoCodec: getVideoCodecFromTitle(torrentName),
-      audioCodec: getAudioCodecFromTitle(torrentName),
-      mediaTags: getTagsFromSubtitle(torrentName),
-      resolution: (_a2 = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a2[0]
-    };
-  }
-  const getSpeedAppInfo = async () => {
-    TORRENT_INFO.sourceSite = CURRENT_SITE_NAME;
-    TORRENT_INFO.sourceSiteType = CURRENT_SITE_INFO.siteType;
-    const imdbUrl = $$2('a[href*="imdb.com/title"]').attr("href");
-    const movieName = $$2("div.container > div.row div.cover-body h1.text-emphasis").text().trim();
-    const torrentName = $$2("h5.text-emphasis").text().trim();
-    const source = getSourceFromTitle(torrentName);
-    const descriptionContainer = $$2("div.description.description-modern");
-    const descriptionBBCode = getFilterBBCode(descriptionContainer[0]);
-    const extraScreenshotDom = $$2(descriptionContainer[0]).find("img");
-    const imgs = [];
-    if (extraScreenshotDom) {
-      extraScreenshotDom.each((index, item) => {
-        var _a2, _b;
-        if (!/\.svg/.test($$2(item).attr("src") || "")) imgs.push(`[img]${(_b = (_a2 = $$2(item).attr("src")) == null ? void 0 : _a2.trim()) != null ? _b : ""}[/img]`);
-      });
-    }
-    const extraScreenshot = imgs.join("");
-    const screenshots = await getScreenshotsFromBBCode(extraScreenshot);
-    const isBluray = !!$$2('span.nav-text:contains("BD Info")');
-    const videoType = getVideoType$1({ torrentName, source, isBluray });
-    const mediaInfo = $$2("div.mediainfo").text();
-    const getInfoFunc = isBluray ? getInfoFromBDInfo : getInfoFromMediaInfo;
-    const { resolution, videoCodec, audioCodec } = mediaInfo ? getInfoFunc(mediaInfo) : getSpecsFromTitle(torrentName);
-    TORRENT_INFO.mediaInfos = [mediaInfo];
-    TORRENT_INFO.videoCodec = videoCodec;
-    TORRENT_INFO.audioCodec = audioCodec;
-    TORRENT_INFO.description = descriptionBBCode.replace(/\n\n*/g, "\n").replace(/\s+/g, "").trim().replace(/\[img\]https:\/\/speedapp\.io\/img\/descr\/(screens|release_info)\.svg\[\/img\]/g, "").replace("[img]https://speedapp.io/img/descr/release_info.svg[/img]", "").replace(/original\.(png|webp)\]\n?\[img\]/g, "original.webp][img]").replace(/original\.(png|webp)\[\/img\]\n?\[\/url\]/g, "mobile.webp[/img][/url]").replace(/\[\/url\]\n*/g, "[/url]");
-    TORRENT_INFO.screenshots = screenshots;
-    TORRENT_INFO.title = torrentName;
-    TORRENT_INFO.movieName = movieName;
-    TORRENT_INFO.resolution = resolution || "";
-    TORRENT_INFO.imdbUrl = imdbUrl;
-    TORRENT_INFO.poster = $$2(".movie-poster").attr("src");
-    TORRENT_INFO.videoType = videoType.toLowerCase();
-  };
-  const getVideoType$1 = ({ torrentName = "", source = "", isBluray = false }) => {
-    if (torrentName.match(/remux/i)) {
-      return "remux";
-    } else if (source.match(/bluray/) && !isBluray) {
-      return "encode";
-    }
-    return source;
-  };
-  function getSpecsFromTitle(torrentName) {
-    var _a2;
-    return {
-      videoCodec: getVideoCodecFromTitle(torrentName),
-      audioCodec: getAudioCodecFromTitle(torrentName),
-      mediaTags: getTagsFromSubtitle(torrentName),
-      resolution: (_a2 = torrentName.match(/\d{3,4}(p|i)/)) == null ? void 0 : _a2[0]
-    };
-  }
-  const getHHInfo = async () => {
-    var _a2, _b, _c, _d2, _e2, _f, _g, _h, _i, _j, _k, _l;
-    const title = formatTorrentTitle(((_a2 = document.title.match(/"(.+)"/)) == null ? void 0 : _a2[1]) || "");
-    const subTitle = $$2("div.font-bold.leading-6:contains('副标题')").next().text().replace(/：/g, ":");
-    const metaInfo = getMetaInfo();
-    const isBluray = !!((_b = metaInfo.videoType) == null ? void 0 : _b.match(/bluray|Blu-ray/i));
-    const mediaInfo = $$2("#mediainfo-raw code").text() || "";
-    const specs = getSpecsFromMediainfo$1(isBluray, mediaInfo);
-    if (Object.keys(specs).length > 0) {
-      Object.assign(metaInfo, specs);
-    }
-    const imbdDom = $$2('#kimdb a[href*="imdb.com/title"]');
-    const siteImdbUrl = (_c = imbdDom == null ? void 0 : imbdDom.attr("href")) != null ? _c : "";
-    let movieName = (_e2 = (_d2 = imbdDom == null ? void 0 : imbdDom.text()) == null ? void 0 : _d2.replace(/\n/g, "").trim()) != null ? _e2 : "";
-    const { category, videoType, videoCodec, audioCodec, resolution, size } = metaInfo;
-    const categoryResult = getCategory$6(category);
-    const formatSize = getSize(size);
-    const year = (_f = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _f : [];
-    const screenshots = $$2("#screenshot-content img").toArray().map((el) => $$2(el).attr("src")).filter((url) => url && url !== "");
-    const doubanUrl = (_g = $$2("#douban_info-content").prev().find('a[href*="douban.com"]').attr("href")) != null ? _g : "";
-    const isTVCategory = !!categoryResult.match(/tv/);
-    const doubanInfo = await getDoubanInfo(doubanUrl, isTVCategory);
-    if (!movieName) {
-      movieName = (_i = (_h = [doubanInfo == null ? void 0 : doubanInfo.foreignTitle].concat(doubanInfo == null ? void 0 : doubanInfo.aka).filter((name) => name == null ? void 0 : name.match(/^(\w|\s|:)+$/i))) == null ? void 0 : _h.shift()) != null ? _i : "";
-    }
-    let description = "";
-    if (doubanInfo) {
-      description += doubanInfo.format;
-    }
-    description += `
-    [quote]${mediaInfo}[/quote]
-  `;
-    screenshots.forEach((url) => {
-      description += `[img]${url}[/img]`;
-    });
-    const tags2 = getTagsFromPage();
-    Object.assign(TORRENT_INFO, {
-      title,
-      subtitle: subTitle,
-      imdbUrl: siteImdbUrl || (doubanInfo == null ? void 0 : doubanInfo.imdbLink),
-      description,
-      year: year.length > 0 ? year.pop() : "",
-      source: getSourceFromTitle(title),
-      mediaInfos: [mediaInfo],
-      screenshots,
-      movieName,
-      sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: TORRENT_INFO.sourceSiteType,
-      category: categoryResult,
-      size: formatSize,
-      tags: __spreadValues(__spreadValues({}, specs.mediaTags), tags2),
-      videoType: getVideoType$c(videoType),
-      videoCodec,
-      audioCodec,
-      resolution,
-      doubanUrl,
-      poster: (_k = (_j = $$2("#cover-content")) == null ? void 0 : _j.attr("src")) != null ? _k : "",
-      area: getAreaCode((_l = doubanInfo == null ? void 0 : doubanInfo.region) != null ? _l : "")
-    });
-  };
-  const getMetaInfo = () => {
-    const meta = getMetaValue();
-    const category = meta["类型"];
-    const videoType = meta["来源"];
-    const videoCodec = meta["编码"];
-    const audioCodec = meta["音频编码"];
-    const resolution = meta["分辨率"];
-    const processing = meta["处理"];
-    const size = meta["大小"];
-    console.log({
-      category,
-      videoType,
-      videoCodec,
-      audioCodec,
-      resolution,
-      size
-    });
-    return {
-      category,
-      videoType,
-      videoCodec,
-      audioCodec,
-      resolution,
-      processing,
-      size
-    };
-  };
-  const getMetaValue = () => {
-    const result = {};
-    $$2("div.font-bold.leading-6:contains('基本信息')").next().find("div span").each((index, el) => {
-      if (index % 2 === 0) {
-        const key = $$2(el).text().replace(/:|：/g, "").trim();
-        result[key] = $$2(el).next().text();
+    extractSubtitle() {
+      const {
+        media,
+        encoding,
+        format: format2,
+        remasterRecordLabel,
+        remasterCatalogueNumber
+      } = this.siteTorrentInfo;
+      let subtitle = `[${media} / ${encoding} / ${format2}]`;
+      if (remasterRecordLabel) {
+        subtitle += ` / ${remasterRecordLabel}`;
       }
-    });
-    return result;
-  };
-  const getTagsFromPage = () => {
-    const tags2 = {};
-    const tagText = $$2("div.font-bold.leading-6:contains('标签')").next().text();
-    if (tagText.includes("中字")) {
-      tags2.chinese_subtitle = true;
+      if (remasterCatalogueNumber) {
+        subtitle += ` / ${remasterCatalogueNumber}`;
+      }
+      this.info.subtitle = subtitle;
     }
-    if (tagText.includes("国语")) {
-      tags2.chinese_audio = true;
+    extractCategory() {
+      this.info.category = getCategoryFromSource(this.siteGroupInfo.categoryName);
     }
-    if (tagText.includes("粤语")) {
-      tags2.cantonese_audio = true;
+    extractTorrentLink() {
+      const torrentLink = this.torrentHeaderDom.find('a[href*="download"]').attr("href");
+      CURRENT_SITE_INFO.torrentLink = torrentLink;
     }
-    if (tagText.includes("DIY")) {
-      tags2.diy = true;
+    extractDescription() {
+      const { wikiImage, wikiBody, bbBody } = this.siteGroupInfo;
+      const div = document.createElement("div");
+      div.innerHTML = wikiBody;
+      let description = bbBody || htmlToBBCode(div) || "";
+      description = `[img]${wikiImage}[/img]
+${description}`;
+      description = purify.sanitize(description);
+      const descSource = new DOMParser().parseFromString(
+        description,
+        "text/html"
+      );
+      if (descSource.documentElement.textContent) {
+        description = descSource.documentElement.textContent.replace(/\[\/?artist\]/g, "").replace(
+          /\[url=https:\/\/redacted\.ch\/torrents\.php\?(taglist|recordlabel)=[a-zA-Z%0-9]*\]/g,
+          ""
+        ).replace(new RegExp("(?<=(\\[\\/b\\]|,)[\\s\\\\.a-zA-Z]*)\\[\\/url\\]", "g"), "");
+      }
+      this.info.description = description;
     }
-    if (tagText.includes("杜比视界")) {
-      tags2.dolbyVision = true;
-    }
-    if (tagText.includes("HDR")) {
-      tags2.dolbyVision = true;
-    }
-    return tags2;
-  };
-  const MT_SPECS_MAP = {
-    source: {
-      8: "web",
-      1: "bluray",
-      3: "dvd",
-      4: "hdtv",
-      5: "hdtv",
-      6: "other",
-      7: "cd"
-    },
-    medium: {
-      1: "bluray",
-      2: "hddvd",
-      3: "remux",
-      7: "encode",
-      4: "bluray",
-      5: "hdtv",
-      6: "dvd",
-      8: "cd",
-      10: "web"
-    },
-    standard: {
-      1: "1080p",
-      2: "1080i",
-      3: "720p",
-      5: "480p",
-      6: "2160p"
-    }
-  };
-  const getMTInfo = async () => {
-    const originalOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(method, url) {
-      this.addEventListener("readystatechange", async function() {
-        if (this.readyState === 4) {
-          if (url.includes("/api/torrent/detail")) {
-            const detailData = JSON.parse(this.responseText);
-            if (detailData.code === "0") {
-              const info = await getTorrentInfo$2(detailData.data);
-              Object.assign(TORRENT_INFO, info);
-            }
-          }
-          if (url.includes("/api/torrent/imdbInfo")) {
-            const imdbData = JSON.parse(this.responseText);
-            if (imdbData.code === "0") {
-              const imdbInfo = getMovieInfo(imdbData.data);
-              Object.assign(TORRENT_INFO, imdbInfo);
-            }
-          }
+    async extractLogs() {
+      const { logScore, ripLogIds } = this.siteTorrentInfo;
+      const { media } = this.siteTorrentInfo;
+      const logList = [];
+      if ((ripLogIds == null ? void 0 : ripLogIds.length) > 0) {
+        for (let i = 1; i < ripLogIds.length; i++) {
+          const log = await this.getLogFromApi(
+            logScore,
+            this.torrentId,
+            ripLogIds[i]
+          );
+          logList.push(log);
         }
-      });
-      originalOpen.apply(this, arguments);
-    };
-  };
-  const getTorrentInfo$2 = async (info) => {
-    var _a2, _b;
-    const { name, imdb, douban, category, source, medium, standard, size, mediainfo, descr, smallDescr } = info;
-    const title = formatTorrentTitle(name);
-    const year = (_a2 = title == null ? void 0 : title.match(/(19|20)\d{2}/g)) != null ? _a2 : [];
-    let resolution = getResolution(standard);
-    const videoType = getVideoType(medium, title, resolution);
-    let sourceName = getSource(source, resolution);
-    if (!sourceName) {
-      sourceName = getSourceFromTitle(title);
-    }
-    let videoCodec = getVideoCodecFromTitle(title);
-    const audioCodec = getAudioCodecFromTitle(title);
-    const screenshots = await getScreenshotsFromBBCode(descr);
-    let mediaTags = {};
-    let mediaInfoOrBDInfo = [mediainfo];
-    const isBluray = !!(videoType == null ? void 0 : videoType.match(/bluray/i));
-    if (!mediaInfoOrBDInfo) {
-      const { bdinfo, mediaInfo } = getBDInfoOrMediaInfo(descr);
-      mediaInfoOrBDInfo = isBluray ? bdinfo : mediaInfo;
-    }
-    if (mediaInfoOrBDInfo) {
-      const infoString = mediaInfoOrBDInfo == null ? void 0 : mediaInfoOrBDInfo[0].replace(/\n{1,}/g, "\n");
-      const specs = await getSpecsFromMediainfo$1(isBluray, infoString);
-      videoCodec = specs.videoCodec ? specs.videoCodec : videoCodec;
-      resolution = specs.resolution ? specs.resolution : resolution;
-      mediaTags = specs.mediaTags || {};
-    }
-    let area = "";
-    const areaMatch = (_b = descr.match(/(产\s*地|国\s*家|地\s*区)】?\s*(.+)/)) == null ? void 0 : _b[2];
-    if (areaMatch) {
-      area = getAreaCode(areaMatch);
-    }
-    await getTorrentURL();
-    return {
-      sourceSite: CURRENT_SITE_NAME,
-      sourceSiteType: CURRENT_SITE_INFO.siteType,
-      subtitle: smallDescr,
-      title,
-      area,
-      imdbUrl: imdb,
-      doubanUrl: douban,
-      size: parseInt(size, 10),
-      category: getCategory(category),
-      videoType,
-      resolution,
-      source: sourceName,
-      videoCodec,
-      audioCodec,
-      screenshots,
-      mediaInfos: mediaInfoOrBDInfo,
-      description: descr,
-      year: year.length > 0 ? year.pop() : "",
-      movieName: "",
-      tags: __spreadValues({}, mediaTags)
-    };
-  };
-  const getCategory = (id) => {
-    const catMap = PT_SITE.MTeam.category.map;
-    for (const [key, value] of Object.entries(catMap)) {
-      if (value.includes(id)) {
-        return key;
+      } else if (media === "CD") {
+        const logData = await this.getLogFromApi(logScore, this.torrentId, "0");
+        if (logData) {
+          logList.push(logData);
+        }
       }
+      this.siteTorrentInfo.log = logList;
     }
-    return "";
-  };
-  const getSource = (id, resolution) => {
-    const sourceName = MT_SPECS_MAP.source[id];
-    if (sourceName === "bluray" && resolution === "2160p") {
-      return "uhdbluray";
+    getUTF8String(entityString) {
+      const tempElement = document.createElement("textarea");
+      tempElement.innerHTML = entityString;
+      const utf8String = tempElement.value;
+      return utf8String;
     }
-    return sourceName;
-  };
-  const getResolution = (id) => {
-    return MT_SPECS_MAP.standard[id];
-  };
-  const getVideoType = (id, title, resolution) => {
-    const videoType = MT_SPECS_MAP.medium[id];
-    if (videoType === "bluray" && resolution === "2160p") {
-      return "uhdbluray";
-    } else if (videoType === "dvd" && title.match(/dvdrip/i)) {
-      return "dvdrip";
-    }
-    return videoType;
-  };
-  const getMovieInfo = (data) => {
-    const { year, title, photo } = data;
-    return {
-      year,
-      movieName: title,
-      poster: photo.full || photo.thumb
-    };
-  };
-  const getTorrentURL = async () => {
-    var _a2, _b, _c;
-    const torrentId = (_b = (_a2 = location.pathname.match(/detail\/(\d+)/)) == null ? void 0 : _a2[1]) != null ? _b : "";
-    if (!torrentId) {
+    async getLogFromApi(logScore, torrentId, ripLogId) {
+      const apiUrlMap = CONFIG.MUSIC_LOG_API_MAP(logScore, torrentId, ripLogId);
+      const response = await GMFetch(
+        apiUrlMap[CURRENT_SITE_NAME]
+      );
+      if (CURRENT_SITE_NAME.match(/DicMusic|RED/)) {
+        const div = document.createElement("div");
+        div.innerHTML = response;
+        return $$2(div).find("pre").text() || "";
+      } else if (CURRENT_SITE_NAME.match(/Orpheus|/)) {
+        return response;
+      }
       return "";
     }
-    const formData = new FormData();
-    formData.append("id", torrentId);
-    const response = await fetch("https://api.m-team.cc/api/torrent/genDlToken", {
-      method: "POST",
-      data: formData,
-      headers: {
-        Authorization: localStorage.getItem("auth") || "",
-        "User-Agent": navigator.userAgent
-      }
-    });
-    CURRENT_SITE_INFO.torrentLink = (_c = response == null ? void 0 : response.data) != null ? _c : "";
-  };
-  const siteNameMap = {
-    BeyondHD: getBHDInfo,
-    HDBits: getHDBInfo,
-    Cinematik: getTikInfo,
-    TTG: getTTGInfo,
-    HDT: getHDTInfo,
-    KG: getKGInfo,
-    UHDBits: getUHDInfo,
-    PTP: getPTPInfo,
-    BTN: getBTNInfo,
-    TeamHD: getTeamHDInfo,
-    HDSpace: getHDSpaceInfo,
-    GPW: getGPWInfo,
-    EMP: getEMPInfo,
-    Bdc: getBdcInfo,
-    RED: getGazelleMusicInfo,
-    DicMusic: getGazelleMusicInfo,
-    MTV: getMTVInfo,
-    SpeedApp: getSpeedAppInfo,
-    HH: getHHInfo,
-    MTeam: getMTInfo,
-    Orpheus: getGazelleMusicInfo
-  };
-  const siteTypeInfoMap = {
-    NexusPHP: getNexusPHPInfo,
-    UNIT3D: getUNIT3DInfo,
-    AvistaZ: getAvistaZInfo
-  };
-  let getTorrentInfo = () => Promise.resolve();
-  if (!CURRENT_SITE_INFO) {
-    console.log("do nothing");
-  } else if (siteNameMap[CURRENT_SITE_NAME]) {
-    getTorrentInfo = siteNameMap[CURRENT_SITE_NAME];
-  } else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType]) {
-    getTorrentInfo = siteTypeInfoMap[CURRENT_SITE_INFO.siteType];
   }
-  const getTorrentInfo$1 = getTorrentInfo;
+  registry.register(new GZMusicExtractor());
+  async function getTorrentInfo() {
+    if (!CURRENT_SITE_INFO) {
+      console.log("No site info found");
+      return null;
+    }
+    const extractor = registry.getExtractor(
+      CURRENT_SITE_NAME,
+      CURRENT_SITE_INFO.siteType
+    );
+    if (!extractor) {
+      console.log(`No extractor found for this site ${CURRENT_SITE_NAME}`);
+      return null;
+    }
+    try {
+      return await extractor.extract();
+    } catch (error) {
+      console.log("Error extracting torrent info", error);
+      return null;
+    }
+  }
   const filterBluTorrent = (imdb = "", name = "") => {
     if (imdb) {
       $$2("#imdb").val(imdb);
@@ -20159,44 +19582,760 @@ ${description}`;
     }
     const token = $$2('meta[name="csrf_token"]').attr("content");
     const url = `${CURRENT_SITE_INFO.url}/torrents/filter?search=${name}&imdb=${imdb}&_token=${token}&sorting=size&direction=desc`;
-    fetch(url, {
-      responseType: void 0
-    }).then((data) => {
+    GMFetch(url).then((data) => {
       $$2("#facetedSearch").html(data);
     });
   };
   const fillSearchImdb = () => {
-    const imdbParam = getUrlParam("imdb");
-    const nameParam = getUrlParam("name");
-    const searchType = getUrlParam("search_area");
+    const imdbParam = getLocationSearchValueByKey("imdb");
+    const nameParam = getLocationSearchValueByKey("name");
     if (imdbParam || nameParam) {
       if (CURRENT_SITE_INFO.siteType === "UNIT3D" && CURRENT_SITE_NAME !== "Blutopia") {
         filterBluTorrent(imdbParam, nameParam);
-      } else if (CURRENT_SITE_NAME === "Bdc") {
-        $$2("#tsstac").val(imdbParam);
-        $$2("#search_type").val(searchType);
       } else if (CURRENT_SITE_NAME === "PTN") {
         $$2("#movieimdb").val(imdbParam);
         $$2("#moviename").val(nameParam);
       }
     }
   };
+  class TorrentInfoStore {
+    constructor() {
+      this.listeners = /* @__PURE__ */ new Set();
+      const cached = GM_getValue("cachedTorrentInfo");
+      this.info = cached;
+    }
+    getInfo() {
+      return this.info;
+    }
+    setInfo(info) {
+      if (info && info.title) {
+        this.info = info;
+        GM_setValue("cachedTorrentInfo", info);
+        this.listeners.forEach((listener) => listener(info));
+      }
+    }
+    updateInfo(updater) {
+      if (!this.info) return;
+      const newInfo = typeof updater === "function" ? updater(this.info) : __spreadValues(__spreadValues({}, this.info), updater);
+      this.setInfo(newInfo);
+    }
+    subscribe(listener) {
+      this.listeners.add(listener);
+      return () => this.listeners.delete(listener);
+    }
+  }
+  const torrentInfoStore = new TorrentInfoStore();
+  var t, r, u, i$1, o = 0, f = [], c = preact.options, e = c.__b, a = c.__r, v$1 = c.diffed, l = c.__c, m = c.unmount, s = c.__;
+  function d(n, t2) {
+    c.__h && c.__h(r, n, o || t2), o = 0;
+    var u2 = r.__H || (r.__H = { __: [], __h: [] });
+    return n >= u2.__.length && u2.__.push({}), u2.__[n];
+  }
+  function h(n) {
+    return o = 1, p(D$1, n);
+  }
+  function p(n, u2, i) {
+    var o2 = d(t++, 2);
+    if (o2.t = n, !o2.__c && (o2.__ = [i ? i(u2) : D$1(void 0, u2), function(n2) {
+      var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n2);
+      t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
+    }], o2.__c = r, !r.u)) {
+      var f2 = function(n2, t2, r2) {
+        if (!o2.__c.__H) return true;
+        var u3 = o2.__c.__H.__.filter(function(n3) {
+          return !!n3.__c;
+        });
+        if (u3.every(function(n3) {
+          return !n3.__N;
+        })) return !c2 || c2.call(this, n2, t2, r2);
+        var i2 = false;
+        return u3.forEach(function(n3) {
+          if (n3.__N) {
+            var t3 = n3.__[0];
+            n3.__ = n3.__N, n3.__N = void 0, t3 !== n3.__[0] && (i2 = true);
+          }
+        }), !(!i2 && o2.__c.props === n2) && (!c2 || c2.call(this, n2, t2, r2));
+      };
+      r.u = true;
+      var c2 = r.shouldComponentUpdate, e2 = r.componentWillUpdate;
+      r.componentWillUpdate = function(n2, t2, r2) {
+        if (this.__e) {
+          var u3 = c2;
+          c2 = void 0, f2(n2, t2, r2), c2 = u3;
+        }
+        e2 && e2.call(this, n2, t2, r2);
+      }, r.shouldComponentUpdate = f2;
+    }
+    return o2.__N || o2.__;
+  }
+  function y(n, u2) {
+    var i = d(t++, 3);
+    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__H.__h.push(i));
+  }
+  function _(n, u2) {
+    var i = d(t++, 4);
+    !c.__s && C$1(i.__H, u2) && (i.__ = n, i.i = u2, r.__h.push(i));
+  }
+  function A$1(n) {
+    return o = 5, T$1(function() {
+      return { current: n };
+    }, []);
+  }
+  function F$1(n, t2, r2) {
+    o = 6, _(function() {
+      return "function" == typeof n ? (n(t2()), function() {
+        return n(null);
+      }) : n ? (n.current = t2(), function() {
+        return n.current = null;
+      }) : void 0;
+    }, null == r2 ? r2 : r2.concat(n));
+  }
+  function T$1(n, r2) {
+    var u2 = d(t++, 7);
+    return C$1(u2.__H, r2) && (u2.__ = n(), u2.__H = r2, u2.__h = n), u2.__;
+  }
+  function q$1(n, t2) {
+    return o = 8, T$1(function() {
+      return n;
+    }, t2);
+  }
+  function x$1(n) {
+    var u2 = r.context[n.__c], i = d(t++, 9);
+    return i.c = n, u2 ? (null == i.__ && (i.__ = true, u2.sub(r)), u2.props.value) : n.__;
+  }
+  function P$1(n, t2) {
+    c.useDebugValue && c.useDebugValue(t2 ? t2(n) : n);
+  }
+  function g$1() {
+    var n = d(t++, 11);
+    if (!n.__) {
+      for (var u2 = r.__v; null !== u2 && !u2.__m && null !== u2.__; ) u2 = u2.__;
+      var i = u2.__m || (u2.__m = [0, 0]);
+      n.__ = "P" + i[0] + "-" + i[1]++;
+    }
+    return n.__;
+  }
+  function j$1() {
+    for (var n; n = f.shift(); ) if (n.__P && n.__H) try {
+      n.__H.__h.forEach(z$1), n.__H.__h.forEach(B$1), n.__H.__h = [];
+    } catch (t2) {
+      n.__H.__h = [], c.__e(t2, n.__v);
+    }
+  }
+  c.__b = function(n) {
+    r = null, e && e(n);
+  }, c.__ = function(n, t2) {
+    n && t2.__k && t2.__k.__m && (n.__m = t2.__k.__m), s && s(n, t2);
+  }, c.__r = function(n) {
+    a && a(n), t = 0;
+    var i = (r = n.__c).__H;
+    i && (u === r ? (i.__h = [], r.__h = [], i.__.forEach(function(n2) {
+      n2.__N && (n2.__ = n2.__N), n2.i = n2.__N = void 0;
+    })) : (i.__h.forEach(z$1), i.__h.forEach(B$1), i.__h = [], t = 0)), u = r;
+  }, c.diffed = function(n) {
+    v$1 && v$1(n);
+    var t2 = n.__c;
+    t2 && t2.__H && (t2.__H.__h.length && (1 !== f.push(t2) && i$1 === c.requestAnimationFrame || ((i$1 = c.requestAnimationFrame) || w$1)(j$1)), t2.__H.__.forEach(function(n2) {
+      n2.i && (n2.__H = n2.i), n2.i = void 0;
+    })), u = r = null;
+  }, c.__c = function(n, t2) {
+    t2.some(function(n2) {
+      try {
+        n2.__h.forEach(z$1), n2.__h = n2.__h.filter(function(n3) {
+          return !n3.__ || B$1(n3);
+        });
+      } catch (r2) {
+        t2.some(function(n3) {
+          n3.__h && (n3.__h = []);
+        }), t2 = [], c.__e(r2, n2.__v);
+      }
+    }), l && l(n, t2);
+  }, c.unmount = function(n) {
+    m && m(n);
+    var t2, r2 = n.__c;
+    r2 && r2.__H && (r2.__H.__.forEach(function(n2) {
+      try {
+        z$1(n2);
+      } catch (n3) {
+        t2 = n3;
+      }
+    }), r2.__H = void 0, t2 && c.__e(t2, r2.__v));
+  };
+  var k$1 = "function" == typeof requestAnimationFrame;
+  function w$1(n) {
+    var t2, r2 = function() {
+      clearTimeout(u2), k$1 && cancelAnimationFrame(t2), setTimeout(n);
+    }, u2 = setTimeout(r2, 100);
+    k$1 && (t2 = requestAnimationFrame(r2));
+  }
+  function z$1(n) {
+    var t2 = r, u2 = n.__c;
+    "function" == typeof u2 && (n.__c = void 0, u2()), r = t2;
+  }
+  function B$1(n) {
+    var t2 = r;
+    n.__c = n.__(), r = t2;
+  }
+  function C$1(n, t2) {
+    return !n || n.length !== t2.length || t2.some(function(t3, r2) {
+      return t3 !== n[r2];
+    });
+  }
+  function D$1(n, t2) {
+    return "function" == typeof t2 ? t2(n) : t2;
+  }
+  function g(n, t2) {
+    for (var e2 in n) if ("__source" !== e2 && !(e2 in t2)) return true;
+    for (var r2 in t2) if ("__source" !== r2 && n[r2] !== t2[r2]) return true;
+    return false;
+  }
+  function E(n, t2) {
+    this.props = n, this.context = t2;
+  }
+  function C(n, e2) {
+    function r2(n2) {
+      var t2 = this.props.ref, r3 = t2 == n2.ref;
+      return !r3 && t2 && (t2.call ? t2(null) : t2.current = null), e2 ? !e2(this.props, n2) || !r3 : g(this.props, n2);
+    }
+    function u2(e3) {
+      return this.shouldComponentUpdate = r2, preact.createElement(n, e3);
+    }
+    return u2.displayName = "Memo(" + (n.displayName || n.name) + ")", u2.prototype.isReactComponent = true, u2.__f = true, u2;
+  }
+  (E.prototype = new preact.Component()).isPureReactComponent = true, E.prototype.shouldComponentUpdate = function(n, t2) {
+    return g(this.props, n) || g(this.state, t2);
+  };
+  var x = preact.options.__b;
+  preact.options.__b = function(n) {
+    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), x && x(n);
+  };
+  var R = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
+  function w(n) {
+    function t2(t3) {
+      if (!("ref" in t3)) return n(t3, null);
+      var e2 = t3.ref;
+      delete t3.ref;
+      var r2 = n(t3, e2);
+      return t3.ref = e2, r2;
+    }
+    return t2.$$typeof = R, t2.render = t2, t2.prototype.isReactComponent = t2.__f = true, t2.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t2;
+  }
+  var k = function(n, t2) {
+    return null == n ? null : preact.toChildArray(preact.toChildArray(n).map(t2));
+  }, I = { map: k, forEach: k, count: function(n) {
+    return n ? preact.toChildArray(n).length : 0;
+  }, only: function(n) {
+    var t2 = preact.toChildArray(n);
+    if (1 !== t2.length) throw "Children.only";
+    return t2[0];
+  }, toArray: preact.toChildArray }, N = preact.options.__e;
+  preact.options.__e = function(n, t2, e2, r2) {
+    if (n.then) {
+      for (var u2, o2 = t2; o2 = o2.__; ) if ((u2 = o2.__c) && u2.__c) return null == t2.__e && (t2.__e = e2.__e, t2.__k = e2.__k), u2.__c(n, t2);
+    }
+    N(n, t2, e2, r2);
+  };
+  var M = preact.options.unmount;
+  function T(n, t2, e2) {
+    return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function(n2) {
+      "function" == typeof n2.__c && n2.__c();
+    }), n.__c.__H = null), null != (n = function(n2, t3) {
+      for (var e3 in t3) n2[e3] = t3[e3];
+      return n2;
+    }({}, n)).__c && (n.__c.__P === e2 && (n.__c.__P = t2), n.__c = null), n.__k = n.__k && n.__k.map(function(n2) {
+      return T(n2, t2, e2);
+    })), n;
+  }
+  function A(n, t2, e2) {
+    return n && e2 && (n.__v = null, n.__k = n.__k && n.__k.map(function(n2) {
+      return A(n2, t2, e2);
+    }), n.__c && n.__c.__P === t2 && (n.__e && e2.appendChild(n.__e), n.__c.__e = true, n.__c.__P = e2)), n;
+  }
+  function D() {
+    this.__u = 0, this.t = null, this.__b = null;
+  }
+  function L(n) {
+    var t2 = n.__.__c;
+    return t2 && t2.__a && t2.__a(n);
+  }
+  function O(n) {
+    var e2, r2, u2;
+    function o2(o3) {
+      if (e2 || (e2 = n()).then(function(n2) {
+        r2 = n2.default || n2;
+      }, function(n2) {
+        u2 = n2;
+      }), u2) throw u2;
+      if (!r2) throw e2;
+      return preact.createElement(r2, o3);
+    }
+    return o2.displayName = "Lazy", o2.__f = true, o2;
+  }
+  function F() {
+    this.u = null, this.o = null;
+  }
+  preact.options.unmount = function(n) {
+    var t2 = n.__c;
+    t2 && t2.__R && t2.__R(), t2 && 32 & n.__u && (n.type = null), M && M(n);
+  }, (D.prototype = new preact.Component()).__c = function(n, t2) {
+    var e2 = t2.__c, r2 = this;
+    null == r2.t && (r2.t = []), r2.t.push(e2);
+    var u2 = L(r2.__v), o2 = false, i = function() {
+      o2 || (o2 = true, e2.__R = null, u2 ? u2(c2) : c2());
+    };
+    e2.__R = i;
+    var c2 = function() {
+      if (!--r2.__u) {
+        if (r2.state.__a) {
+          var n2 = r2.state.__a;
+          r2.__v.__k[0] = A(n2, n2.__c.__P, n2.__c.__O);
+        }
+        var t3;
+        for (r2.setState({ __a: r2.__b = null }); t3 = r2.t.pop(); ) t3.forceUpdate();
+      }
+    };
+    r2.__u++ || 32 & t2.__u || r2.setState({ __a: r2.__b = r2.__v.__k[0] }), n.then(i, i);
+  }, D.prototype.componentWillUnmount = function() {
+    this.t = [];
+  }, D.prototype.render = function(n, e2) {
+    if (this.__b) {
+      if (this.__v.__k) {
+        var r2 = document.createElement("div"), o2 = this.__v.__k[0].__c;
+        this.__v.__k[0] = T(this.__b, r2, o2.__O = o2.__P);
+      }
+      this.__b = null;
+    }
+    var i = e2.__a && preact.createElement(preact.Fragment, null, n.fallback);
+    return i && (i.__u &= -33), [preact.createElement(preact.Fragment, null, e2.__a ? null : n.children), i];
+  };
+  var U$1 = function(n, t2, e2) {
+    if (++e2[1] === e2[0] && n.o.delete(t2), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e2 = n.u; e2; ) {
+      for (; e2.length > 3; ) e2.pop()();
+      if (e2[1] < e2[0]) break;
+      n.u = e2 = e2[2];
+    }
+  };
+  function V(n) {
+    return this.getChildContext = function() {
+      return n.context;
+    }, n.children;
+  }
+  function W(n) {
+    var e2 = this, r2 = n.i;
+    e2.componentWillUnmount = function() {
+      preact.render(null, e2.l), e2.l = null, e2.i = null;
+    }, e2.i && e2.i !== r2 && e2.componentWillUnmount(), e2.l || (e2.i = r2, e2.l = { nodeType: 1, parentNode: r2, childNodes: [], contains: function() {
+      return true;
+    }, appendChild: function(n2) {
+      this.childNodes.push(n2), e2.i.appendChild(n2);
+    }, insertBefore: function(n2, t2) {
+      this.childNodes.push(n2), e2.i.appendChild(n2);
+    }, removeChild: function(n2) {
+      this.childNodes.splice(this.childNodes.indexOf(n2) >>> 1, 1), e2.i.removeChild(n2);
+    } }), preact.render(preact.createElement(V, { context: e2.context }, n.__v), e2.l);
+  }
+  function P(n, e2) {
+    var r2 = preact.createElement(W, { __v: n, i: e2 });
+    return r2.containerInfo = e2, r2;
+  }
+  (F.prototype = new preact.Component()).__a = function(n) {
+    var t2 = this, e2 = L(t2.__v), r2 = t2.o.get(n);
+    return r2[0]++, function(u2) {
+      var o2 = function() {
+        t2.props.revealOrder ? (r2.push(u2), U$1(t2, n, r2)) : u2();
+      };
+      e2 ? e2(o2) : o2();
+    };
+  }, F.prototype.render = function(n) {
+    this.u = null, this.o = /* @__PURE__ */ new Map();
+    var t2 = preact.toChildArray(n.children);
+    n.revealOrder && "b" === n.revealOrder[0] && t2.reverse();
+    for (var e2 = t2.length; e2--; ) this.o.set(t2[e2], this.u = [1, 0, this.u]);
+    return n.children;
+  }, F.prototype.componentDidUpdate = F.prototype.componentDidMount = function() {
+    var n = this;
+    this.o.forEach(function(t2, e2) {
+      U$1(n, e2, t2);
+    });
+  };
+  var j = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103, z = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, B = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, H = /[A-Z0-9]/g, Z = "undefined" != typeof document, Y = function(n) {
+    return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
+  };
+  function $$1(n, t2, e2) {
+    return null == t2.__k && (t2.textContent = ""), preact.render(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
+  }
+  function q(n, t2, e2) {
+    return preact.hydrate(n, t2), "function" == typeof e2 && e2(), n ? n.__c : null;
+  }
+  preact.Component.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function(t2) {
+    Object.defineProperty(preact.Component.prototype, t2, { configurable: true, get: function() {
+      return this["UNSAFE_" + t2];
+    }, set: function(n) {
+      Object.defineProperty(this, t2, { configurable: true, writable: true, value: n });
+    } });
+  });
+  var G = preact.options.event;
+  function J() {
+  }
+  function K() {
+    return this.cancelBubble;
+  }
+  function Q() {
+    return this.defaultPrevented;
+  }
+  preact.options.event = function(n) {
+    return G && (n = G(n)), n.persist = J, n.isPropagationStopped = K, n.isDefaultPrevented = Q, n.nativeEvent = n;
+  };
+  var X, nn = { enumerable: false, configurable: true, get: function() {
+    return this.class;
+  } }, tn = preact.options.vnode;
+  preact.options.vnode = function(n) {
+    "string" == typeof n.type && function(n2) {
+      var t2 = n2.props, e2 = n2.type, u2 = {}, o2 = -1 === e2.indexOf("-");
+      for (var i in t2) {
+        var c2 = t2[i];
+        if (!("value" === i && "defaultValue" in t2 && null == c2 || Z && "children" === i && "noscript" === e2 || "class" === i || "className" === i)) {
+          var f2 = i.toLowerCase();
+          "defaultValue" === i && "value" in t2 && null == t2.value ? i = "value" : "download" === i && true === c2 ? c2 = "" : "translate" === f2 && "no" === c2 ? c2 = false : "o" === f2[0] && "n" === f2[1] ? "ondoubleclick" === f2 ? i = "ondblclick" : "onchange" !== f2 || "input" !== e2 && "textarea" !== e2 || Y(t2.type) ? "onfocus" === f2 ? i = "onfocusin" : "onblur" === f2 ? i = "onfocusout" : B.test(i) && (i = f2) : f2 = i = "oninput" : o2 && z.test(i) ? i = i.replace(H, "-$&").toLowerCase() : null === c2 && (c2 = void 0), "oninput" === f2 && u2[i = f2] && (i = "oninputCapture"), u2[i] = c2;
+        }
+      }
+      "select" == e2 && u2.multiple && Array.isArray(u2.value) && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
+        n3.props.selected = -1 != u2.value.indexOf(n3.props.value);
+      })), "select" == e2 && null != u2.defaultValue && (u2.value = preact.toChildArray(t2.children).forEach(function(n3) {
+        n3.props.selected = u2.multiple ? -1 != u2.defaultValue.indexOf(n3.props.value) : u2.defaultValue == n3.props.value;
+      })), t2.class && !t2.className ? (u2.class = t2.class, Object.defineProperty(u2, "className", nn)) : (t2.className && !t2.class || t2.class && t2.className) && (u2.class = u2.className = t2.className), n2.props = u2;
+    }(n), n.$$typeof = j, tn && tn(n);
+  };
+  var en = preact.options.__r;
+  preact.options.__r = function(n) {
+    en && en(n), X = n.__c;
+  };
+  var rn = preact.options.diffed;
+  preact.options.diffed = function(n) {
+    rn && rn(n);
+    var t2 = n.props, e2 = n.__e;
+    null != e2 && "textarea" === n.type && "value" in t2 && t2.value !== e2.value && (e2.value = null == t2.value ? "" : t2.value), X = null;
+  };
+  var un = { ReactCurrentDispatcher: { current: { readContext: function(n) {
+    return X.__n[n.__c].props.value;
+  }, useCallback: q$1, useContext: x$1, useDebugValue: P$1, useDeferredValue: _n, useEffect: y, useId: g$1, useImperativeHandle: F$1, useInsertionEffect: Sn, useLayoutEffect: _, useMemo: T$1, useReducer: p, useRef: A$1, useState: h, useSyncExternalStore: En, useTransition: bn } } };
+  function cn(n) {
+    return preact.createElement.bind(null, n);
+  }
+  function fn(n) {
+    return !!n && n.$$typeof === j;
+  }
+  function ln(n) {
+    return fn(n) && n.type === preact.Fragment;
+  }
+  function an(n) {
+    return !!n && !!n.displayName && ("string" == typeof n.displayName || n.displayName instanceof String) && n.displayName.startsWith("Memo(");
+  }
+  function sn(n) {
+    return fn(n) ? preact.cloneElement.apply(null, arguments) : n;
+  }
+  function hn(n) {
+    return !!n.__k && (preact.render(null, n), true);
+  }
+  function vn(n) {
+    return n && (n.base || 1 === n.nodeType && n) || null;
+  }
+  var dn = function(n, t2) {
+    return n(t2);
+  }, pn = function(n, t2) {
+    return n(t2);
+  }, mn = preact.Fragment;
+  function yn(n) {
+    n();
+  }
+  function _n(n) {
+    return n;
+  }
+  function bn() {
+    return [false, yn];
+  }
+  var Sn = _, gn = fn;
+  function En(n, t2) {
+    var e2 = t2(), r2 = h({ h: { __: e2, v: t2 } }), u2 = r2[0].h, o2 = r2[1];
+    return _(function() {
+      u2.__ = e2, u2.v = t2, Cn(u2) && o2({ h: u2 });
+    }, [n, e2, t2]), y(function() {
+      return Cn(u2) && o2({ h: u2 }), n(function() {
+        Cn(u2) && o2({ h: u2 });
+      });
+    }, [n]), e2;
+  }
+  function Cn(n) {
+    var t2, e2, r2 = n.v, u2 = n.__;
+    try {
+      var o2 = r2();
+      return !((t2 = u2) === (e2 = o2) && (0 !== t2 || 1 / t2 == 1 / e2) || t2 != t2 && e2 != e2);
+    } catch (n2) {
+      return true;
+    }
+  }
+  var xn = { useState: h, useId: g$1, useReducer: p, useEffect: y, useLayoutEffect: _, useInsertionEffect: Sn, useTransition: bn, useDeferredValue: _n, useSyncExternalStore: En, startTransition: yn, useRef: A$1, useImperativeHandle: F$1, useMemo: T$1, useCallback: q$1, useContext: x$1, useDebugValue: P$1, version: "18.3.1", Children: I, render: $$1, hydrate: q, unmountComponentAtNode: hn, createPortal: P, createElement: preact.createElement, createContext: preact.createContext, createFactory: cn, cloneElement: sn, createRef: preact.createRef, Fragment: preact.Fragment, isValidElement: fn, isElement: gn, isFragment: ln, isMemo: an, findDOMNode: vn, Component: preact.Component, PureComponent: E, memo: C, forwardRef: w, flushSync: pn, unstable_batchedUpdates: dn, StrictMode: mn, Suspense: D, SuspenseList: F, lazy: O, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: un };
+  var Ct = (s2) => {
+    switch (s2) {
+      case "success":
+        return $t;
+      case "info":
+        return _t;
+      case "warning":
+        return Wt;
+      case "error":
+        return Ut;
+      default:
+        return null;
+    }
+  }, Ft = Array(12).fill(0), It = ({ visible: s2 }) => xn.createElement("div", { className: "sonner-loading-wrapper", "data-visible": s2 }, xn.createElement("div", { className: "sonner-spinner" }, Ft.map((o2, t2) => xn.createElement("div", { className: "sonner-loading-bar", key: `spinner-bar-${t2}` })))), $t = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z", clipRule: "evenodd" })), Wt = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z", clipRule: "evenodd" })), _t = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z", clipRule: "evenodd" })), Ut = xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", fill: "currentColor", height: "20", width: "20" }, xn.createElement("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z", clipRule: "evenodd" }));
+  var Dt = () => {
+    let [s2, o2] = xn.useState(document.hidden);
+    return xn.useEffect(() => {
+      let t2 = () => {
+        o2(document.hidden);
+      };
+      return document.addEventListener("visibilitychange", t2), () => window.removeEventListener("visibilitychange", t2);
+    }, []), s2;
+  };
+  var ct = 1, ut = class {
+    constructor() {
+      this.subscribe = (o2) => (this.subscribers.push(o2), () => {
+        let t2 = this.subscribers.indexOf(o2);
+        this.subscribers.splice(t2, 1);
+      });
+      this.publish = (o2) => {
+        this.subscribers.forEach((t2) => t2(o2));
+      };
+      this.addToast = (o2) => {
+        this.publish(o2), this.toasts = [...this.toasts, o2];
+      };
+      this.create = (o2) => {
+        var b;
+        let _a2 = o2, { message: t2 } = _a2, n = __objRest(_a2, ["message"]), h2 = typeof (o2 == null ? void 0 : o2.id) == "number" || ((b = o2.id) == null ? void 0 : b.length) > 0 ? o2.id : ct++, u2 = this.toasts.find((d2) => d2.id === h2), g2 = o2.dismissible === void 0 ? true : o2.dismissible;
+        return u2 ? this.toasts = this.toasts.map((d2) => d2.id === h2 ? (this.publish(__spreadProps(__spreadValues(__spreadValues({}, d2), o2), { id: h2, title: t2 })), __spreadProps(__spreadValues(__spreadValues({}, d2), o2), { id: h2, dismissible: g2, title: t2 })) : d2) : this.addToast(__spreadProps(__spreadValues({ title: t2 }, n), { dismissible: g2, id: h2 })), h2;
+      };
+      this.dismiss = (o2) => (o2 || this.toasts.forEach((t2) => {
+        this.subscribers.forEach((n) => n({ id: t2.id, dismiss: true }));
+      }), this.subscribers.forEach((t2) => t2({ id: o2, dismiss: true })), o2);
+      this.message = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { message: o2 }));
+      this.error = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { message: o2, type: "error" }));
+      this.success = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "success", message: o2 }));
+      this.info = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "info", message: o2 }));
+      this.warning = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "warning", message: o2 }));
+      this.loading = (o2, t2) => this.create(__spreadProps(__spreadValues({}, t2), { type: "loading", message: o2 }));
+      this.promise = (o2, t2) => {
+        if (!t2) return;
+        let n;
+        t2.loading !== void 0 && (n = this.create(__spreadProps(__spreadValues({}, t2), { promise: o2, type: "loading", message: t2.loading, description: typeof t2.description != "function" ? t2.description : void 0 })));
+        let h2 = o2 instanceof Promise ? o2 : o2(), u2 = n !== void 0;
+        return h2.then(async (g2) => {
+          if (Ot(g2) && !g2.ok) {
+            u2 = false;
+            let b = typeof t2.error == "function" ? await t2.error(`HTTP error! status: ${g2.status}`) : t2.error, d2 = typeof t2.description == "function" ? await t2.description(`HTTP error! status: ${g2.status}`) : t2.description;
+            this.create({ id: n, type: "error", message: b, description: d2 });
+          } else if (t2.success !== void 0) {
+            u2 = false;
+            let b = typeof t2.success == "function" ? await t2.success(g2) : t2.success, d2 = typeof t2.description == "function" ? await t2.description(g2) : t2.description;
+            this.create({ id: n, type: "success", message: b, description: d2 });
+          }
+        }).catch(async (g2) => {
+          if (t2.error !== void 0) {
+            u2 = false;
+            let b = typeof t2.error == "function" ? await t2.error(g2) : t2.error, d2 = typeof t2.description == "function" ? await t2.description(g2) : t2.description;
+            this.create({ id: n, type: "error", message: b, description: d2 });
+          }
+        }).finally(() => {
+          var g2;
+          u2 && (this.dismiss(n), n = void 0), (g2 = t2.finally) == null || g2.call(t2);
+        }), n;
+      };
+      this.custom = (o2, t2) => {
+        let n = (t2 == null ? void 0 : t2.id) || ct++;
+        return this.create(__spreadValues({ jsx: o2(n), id: n }, t2)), n;
+      };
+      this.subscribers = [], this.toasts = [];
+    }
+  }, v = new ut(), Vt = (s2, o2) => {
+    let t2 = (o2 == null ? void 0 : o2.id) || ct++;
+    return v.addToast(__spreadProps(__spreadValues({ title: s2 }, o2), { id: t2 })), t2;
+  }, Ot = (s2) => s2 && typeof s2 == "object" && "ok" in s2 && typeof s2.ok == "boolean" && "status" in s2 && typeof s2.status == "number", Kt = Vt, Xt = () => v.toasts, Jt = Object.assign(Kt, { success: v.success, info: v.info, warning: v.warning, error: v.error, custom: v.custom, message: v.message, promise: v.promise, dismiss: v.dismiss, loading: v.loading }, { getHistory: Xt });
+  function ft(s2, { insertAt: o2 } = {}) {
+    if (typeof document == "undefined") return;
+    let t2 = document.head || document.getElementsByTagName("head")[0], n = document.createElement("style");
+    n.type = "text/css", o2 === "top" && t2.firstChild ? t2.insertBefore(n, t2.firstChild) : t2.appendChild(n), n.styleSheet ? n.styleSheet.cssText = s2 : n.appendChild(document.createTextNode(s2));
+  }
+  ft(`:where(html[dir="ltr"]),:where([data-sonner-toaster][dir="ltr"]){--toast-icon-margin-start: -3px;--toast-icon-margin-end: 4px;--toast-svg-margin-start: -1px;--toast-svg-margin-end: 0px;--toast-button-margin-start: auto;--toast-button-margin-end: 0;--toast-close-button-start: 0;--toast-close-button-end: unset;--toast-close-button-transform: translate(-35%, -35%)}:where(html[dir="rtl"]),:where([data-sonner-toaster][dir="rtl"]){--toast-icon-margin-start: 4px;--toast-icon-margin-end: -3px;--toast-svg-margin-start: 0px;--toast-svg-margin-end: -1px;--toast-button-margin-start: 0;--toast-button-margin-end: auto;--toast-close-button-start: unset;--toast-close-button-end: 0;--toast-close-button-transform: translate(35%, -35%)}:where([data-sonner-toaster]){position:fixed;width:var(--width);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;--gray1: hsl(0, 0%, 99%);--gray2: hsl(0, 0%, 97.3%);--gray3: hsl(0, 0%, 95.1%);--gray4: hsl(0, 0%, 93%);--gray5: hsl(0, 0%, 90.9%);--gray6: hsl(0, 0%, 88.7%);--gray7: hsl(0, 0%, 85.8%);--gray8: hsl(0, 0%, 78%);--gray9: hsl(0, 0%, 56.1%);--gray10: hsl(0, 0%, 52.3%);--gray11: hsl(0, 0%, 43.5%);--gray12: hsl(0, 0%, 9%);--border-radius: 8px;box-sizing:border-box;padding:0;margin:0;list-style:none;outline:none;z-index:999999999}:where([data-sonner-toaster][data-x-position="right"]){right:max(var(--offset),env(safe-area-inset-right))}:where([data-sonner-toaster][data-x-position="left"]){left:max(var(--offset),env(safe-area-inset-left))}:where([data-sonner-toaster][data-x-position="center"]){left:50%;transform:translate(-50%)}:where([data-sonner-toaster][data-y-position="top"]){top:max(var(--offset),env(safe-area-inset-top))}:where([data-sonner-toaster][data-y-position="bottom"]){bottom:max(var(--offset),env(safe-area-inset-bottom))}:where([data-sonner-toast]){--y: translateY(100%);--lift-amount: calc(var(--lift) * var(--gap));z-index:var(--z-index);position:absolute;opacity:0;transform:var(--y);filter:blur(0);touch-action:none;transition:transform .4s,opacity .4s,height .4s,box-shadow .2s;box-sizing:border-box;outline:none;overflow-wrap:anywhere}:where([data-sonner-toast][data-styled="true"]){padding:16px;background:var(--normal-bg);border:1px solid var(--normal-border);color:var(--normal-text);border-radius:var(--border-radius);box-shadow:0 4px 12px #0000001a;width:var(--width);font-size:13px;display:flex;align-items:center;gap:6px}:where([data-sonner-toast]:focus-visible){box-shadow:0 4px 12px #0000001a,0 0 0 2px #0003}:where([data-sonner-toast][data-y-position="top"]){top:0;--y: translateY(-100%);--lift: 1;--lift-amount: calc(1 * var(--gap))}:where([data-sonner-toast][data-y-position="bottom"]){bottom:0;--y: translateY(100%);--lift: -1;--lift-amount: calc(var(--lift) * var(--gap))}:where([data-sonner-toast]) :where([data-description]){font-weight:400;line-height:1.4;color:inherit}:where([data-sonner-toast]) :where([data-title]){font-weight:500;line-height:1.5;color:inherit}:where([data-sonner-toast]) :where([data-icon]){display:flex;height:16px;width:16px;position:relative;justify-content:flex-start;align-items:center;flex-shrink:0;margin-left:var(--toast-icon-margin-start);margin-right:var(--toast-icon-margin-end)}:where([data-sonner-toast][data-promise="true"]) :where([data-icon])>svg{opacity:0;transform:scale(.8);transform-origin:center;animation:sonner-fade-in .3s ease forwards}:where([data-sonner-toast]) :where([data-icon])>*{flex-shrink:0}:where([data-sonner-toast]) :where([data-icon]) svg{margin-left:var(--toast-svg-margin-start);margin-right:var(--toast-svg-margin-end)}:where([data-sonner-toast]) :where([data-content]){display:flex;flex-direction:column;gap:2px}[data-sonner-toast][data-styled=true] [data-button]{border-radius:4px;padding-left:8px;padding-right:8px;height:24px;font-size:12px;color:var(--normal-bg);background:var(--normal-text);margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end);border:none;cursor:pointer;outline:none;display:flex;align-items:center;flex-shrink:0;transition:opacity .4s,box-shadow .2s}:where([data-sonner-toast]) :where([data-button]):focus-visible{box-shadow:0 0 0 2px #0006}:where([data-sonner-toast]) :where([data-button]):first-of-type{margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end)}:where([data-sonner-toast]) :where([data-cancel]){color:var(--normal-text);background:rgba(0,0,0,.08)}:where([data-sonner-toast][data-theme="dark"]) :where([data-cancel]){background:rgba(255,255,255,.3)}:where([data-sonner-toast]) :where([data-close-button]){position:absolute;left:var(--toast-close-button-start);right:var(--toast-close-button-end);top:0;height:20px;width:20px;display:flex;justify-content:center;align-items:center;padding:0;background:var(--gray1);color:var(--gray12);border:1px solid var(--gray4);transform:var(--toast-close-button-transform);border-radius:50%;cursor:pointer;z-index:1;transition:opacity .1s,background .2s,border-color .2s}:where([data-sonner-toast]) :where([data-close-button]):focus-visible{box-shadow:0 4px 12px #0000001a,0 0 0 2px #0003}:where([data-sonner-toast]) :where([data-disabled="true"]){cursor:not-allowed}:where([data-sonner-toast]):hover :where([data-close-button]):hover{background:var(--gray2);border-color:var(--gray5)}:where([data-sonner-toast][data-swiping="true"]):before{content:"";position:absolute;left:0;right:0;height:100%;z-index:-1}:where([data-sonner-toast][data-y-position="top"][data-swiping="true"]):before{bottom:50%;transform:scaleY(3) translateY(50%)}:where([data-sonner-toast][data-y-position="bottom"][data-swiping="true"]):before{top:50%;transform:scaleY(3) translateY(-50%)}:where([data-sonner-toast][data-swiping="false"][data-removed="true"]):before{content:"";position:absolute;inset:0;transform:scaleY(2)}:where([data-sonner-toast]):after{content:"";position:absolute;left:0;height:calc(var(--gap) + 1px);bottom:100%;width:100%}:where([data-sonner-toast][data-mounted="true"]){--y: translateY(0);opacity:1}:where([data-sonner-toast][data-expanded="false"][data-front="false"]){--scale: var(--toasts-before) * .05 + 1;--y: translateY(calc(var(--lift-amount) * var(--toasts-before))) scale(calc(-1 * var(--scale)));height:var(--front-toast-height)}:where([data-sonner-toast])>*{transition:opacity .4s}:where([data-sonner-toast][data-expanded="false"][data-front="false"][data-styled="true"])>*{opacity:0}:where([data-sonner-toast][data-visible="false"]){opacity:0;pointer-events:none}:where([data-sonner-toast][data-mounted="true"][data-expanded="true"]){--y: translateY(calc(var(--lift) * var(--offset)));height:var(--initial-height)}:where([data-sonner-toast][data-removed="true"][data-front="true"][data-swipe-out="false"]){--y: translateY(calc(var(--lift) * -100%));opacity:0}:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="true"]){--y: translateY(calc(var(--lift) * var(--offset) + var(--lift) * -100%));opacity:0}:where([data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="false"]){--y: translateY(40%);opacity:0;transition:transform .5s,opacity .2s}:where([data-sonner-toast][data-removed="true"][data-front="false"]):before{height:calc(var(--initial-height) + 20%)}[data-sonner-toast][data-swiping=true]{transform:var(--y) translateY(var(--swipe-amount, 0px));transition:none}[data-sonner-toast][data-swipe-out=true][data-y-position=bottom],[data-sonner-toast][data-swipe-out=true][data-y-position=top]{animation:swipe-out .2s ease-out forwards}@keyframes swipe-out{0%{transform:translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount)));opacity:1}to{transform:translateY(calc(var(--lift) * var(--offset) + var(--swipe-amount) + var(--lift) * -100%));opacity:0}}@media (max-width: 600px){[data-sonner-toaster]{position:fixed;--mobile-offset: 16px;right:var(--mobile-offset);left:var(--mobile-offset);width:100%}[data-sonner-toaster] [data-sonner-toast]{left:0;right:0;width:calc(100% - var(--mobile-offset) * 2)}[data-sonner-toaster][data-x-position=left]{left:var(--mobile-offset)}[data-sonner-toaster][data-y-position=bottom]{bottom:20px}[data-sonner-toaster][data-y-position=top]{top:20px}[data-sonner-toaster][data-x-position=center]{left:var(--mobile-offset);right:var(--mobile-offset);transform:none}}[data-sonner-toaster][data-theme=light]{--normal-bg: #fff;--normal-border: var(--gray4);--normal-text: var(--gray12);--success-bg: hsl(143, 85%, 96%);--success-border: hsl(145, 92%, 91%);--success-text: hsl(140, 100%, 27%);--info-bg: hsl(208, 100%, 97%);--info-border: hsl(221, 91%, 91%);--info-text: hsl(210, 92%, 45%);--warning-bg: hsl(49, 100%, 97%);--warning-border: hsl(49, 91%, 91%);--warning-text: hsl(31, 92%, 45%);--error-bg: hsl(359, 100%, 97%);--error-border: hsl(359, 100%, 94%);--error-text: hsl(360, 100%, 45%)}[data-sonner-toaster][data-theme=light] [data-sonner-toast][data-invert=true]{--normal-bg: #000;--normal-border: hsl(0, 0%, 20%);--normal-text: var(--gray1)}[data-sonner-toaster][data-theme=dark] [data-sonner-toast][data-invert=true]{--normal-bg: #fff;--normal-border: var(--gray3);--normal-text: var(--gray12)}[data-sonner-toaster][data-theme=dark]{--normal-bg: #000;--normal-border: hsl(0, 0%, 20%);--normal-text: var(--gray1);--success-bg: hsl(150, 100%, 6%);--success-border: hsl(147, 100%, 12%);--success-text: hsl(150, 86%, 65%);--info-bg: hsl(215, 100%, 6%);--info-border: hsl(223, 100%, 12%);--info-text: hsl(216, 87%, 65%);--warning-bg: hsl(64, 100%, 6%);--warning-border: hsl(60, 100%, 12%);--warning-text: hsl(46, 87%, 65%);--error-bg: hsl(358, 76%, 10%);--error-border: hsl(357, 89%, 16%);--error-text: hsl(358, 100%, 81%)}[data-rich-colors=true][data-sonner-toast][data-type=success],[data-rich-colors=true][data-sonner-toast][data-type=success] [data-close-button]{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}[data-rich-colors=true][data-sonner-toast][data-type=info],[data-rich-colors=true][data-sonner-toast][data-type=info] [data-close-button]{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}[data-rich-colors=true][data-sonner-toast][data-type=warning],[data-rich-colors=true][data-sonner-toast][data-type=warning] [data-close-button]{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}[data-rich-colors=true][data-sonner-toast][data-type=error],[data-rich-colors=true][data-sonner-toast][data-type=error] [data-close-button]{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}.sonner-loading-wrapper{--size: 16px;height:var(--size);width:var(--size);position:absolute;inset:0;z-index:10}.sonner-loading-wrapper[data-visible=false]{transform-origin:center;animation:sonner-fade-out .2s ease forwards}.sonner-spinner{position:relative;top:50%;left:50%;height:var(--size);width:var(--size)}.sonner-loading-bar{animation:sonner-spin 1.2s linear infinite;background:var(--gray11);border-radius:6px;height:8%;left:-10%;position:absolute;top:-3.9%;width:24%}.sonner-loading-bar:nth-child(1){animation-delay:-1.2s;transform:rotate(.0001deg) translate(146%)}.sonner-loading-bar:nth-child(2){animation-delay:-1.1s;transform:rotate(30deg) translate(146%)}.sonner-loading-bar:nth-child(3){animation-delay:-1s;transform:rotate(60deg) translate(146%)}.sonner-loading-bar:nth-child(4){animation-delay:-.9s;transform:rotate(90deg) translate(146%)}.sonner-loading-bar:nth-child(5){animation-delay:-.8s;transform:rotate(120deg) translate(146%)}.sonner-loading-bar:nth-child(6){animation-delay:-.7s;transform:rotate(150deg) translate(146%)}.sonner-loading-bar:nth-child(7){animation-delay:-.6s;transform:rotate(180deg) translate(146%)}.sonner-loading-bar:nth-child(8){animation-delay:-.5s;transform:rotate(210deg) translate(146%)}.sonner-loading-bar:nth-child(9){animation-delay:-.4s;transform:rotate(240deg) translate(146%)}.sonner-loading-bar:nth-child(10){animation-delay:-.3s;transform:rotate(270deg) translate(146%)}.sonner-loading-bar:nth-child(11){animation-delay:-.2s;transform:rotate(300deg) translate(146%)}.sonner-loading-bar:nth-child(12){animation-delay:-.1s;transform:rotate(330deg) translate(146%)}@keyframes sonner-fade-in{0%{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}@keyframes sonner-fade-out{0%{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.8)}}@keyframes sonner-spin{0%{opacity:1}to{opacity:.15}}@media (prefers-reduced-motion){[data-sonner-toast],[data-sonner-toast]>*,.sonner-loading-bar{transition:none!important;animation:none!important}}.sonner-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transform-origin:center;transition:opacity .2s,transform .2s}.sonner-loader[data-visible=false]{opacity:0;transform:scale(.8) translate(-50%,-50%)}
+`);
+  function U(s2) {
+    return s2.label !== void 0;
+  }
+  var qt = 3, Qt = "32px", Zt = 4e3, te = 356, ee = 14, oe = 20, ae = 200;
+  function ne(...s2) {
+    return s2.filter(Boolean).join(" ");
+  }
+  var se = (s2) => {
+    var yt, xt, vt, wt, Tt, St, Rt, Et, Nt, Pt;
+    let { invert: o2, toast: t2, unstyled: n, interacting: h2, setHeights: u2, visibleToasts: g2, heights: b, index: d2, toasts: q2, expanded: $2, removeToast: V2, defaultRichColors: Q2, closeButton: i, style: O2, cancelButtonStyle: K2, actionButtonStyle: Z2, className: tt = "", descriptionClassName: et = "", duration: X2, position: ot, gap: w2, loadingIcon: j2, expandByDefault: W2, classNames: r2, icons: I2, closeButtonAriaLabel: at = "Close toast", pauseWhenPageIsHidden: k2, cn: T2 } = s2, [z2, nt] = xn.useState(false), [D2, H2] = xn.useState(false), [st, N2] = xn.useState(false), [M2, rt] = xn.useState(false), [c2, m2] = xn.useState(0), [y2, S] = xn.useState(0), A2 = xn.useRef(null), l2 = xn.useRef(null), _2 = d2 === 0, J2 = d2 + 1 <= g2, x2 = t2.type, P2 = t2.dismissible !== false, Mt = t2.className || "", At = t2.descriptionClassName || "", G2 = xn.useMemo(() => b.findIndex((a2) => a2.toastId === t2.id) || 0, [b, t2.id]), Lt = xn.useMemo(() => {
+      var a2;
+      return (a2 = t2.closeButton) != null ? a2 : i;
+    }, [t2.closeButton, i]), mt = xn.useMemo(() => t2.duration || X2 || Zt, [t2.duration, X2]), it = xn.useRef(0), Y2 = xn.useRef(0), pt = xn.useRef(0), F2 = xn.useRef(null), [gt, zt] = ot.split("-"), ht = xn.useMemo(() => b.reduce((a2, f2, p2) => p2 >= G2 ? a2 : a2 + f2.height, 0), [b, G2]), bt = Dt(), jt = t2.invert || o2, lt = x2 === "loading";
+    Y2.current = xn.useMemo(() => G2 * w2 + ht, [G2, ht]), xn.useEffect(() => {
+      nt(true);
+    }, []), xn.useLayoutEffect(() => {
+      if (!z2) return;
+      let a2 = l2.current, f2 = a2.style.height;
+      a2.style.height = "auto";
+      let p2 = a2.getBoundingClientRect().height;
+      a2.style.height = f2, S(p2), u2((B2) => B2.find((R2) => R2.toastId === t2.id) ? B2.map((R2) => R2.toastId === t2.id ? __spreadProps(__spreadValues({}, R2), { height: p2 }) : R2) : [{ toastId: t2.id, height: p2, position: t2.position }, ...B2]);
+    }, [z2, t2.title, t2.description, u2, t2.id]);
+    let L2 = xn.useCallback(() => {
+      H2(true), m2(Y2.current), u2((a2) => a2.filter((f2) => f2.toastId !== t2.id)), setTimeout(() => {
+        V2(t2);
+      }, ae);
+    }, [t2, V2, u2, Y2]);
+    xn.useEffect(() => {
+      if (t2.promise && x2 === "loading" || t2.duration === 1 / 0 || t2.type === "loading") return;
+      let a2, f2 = mt;
+      return $2 || h2 || k2 && bt ? (() => {
+        if (pt.current < it.current) {
+          let C2 = (/* @__PURE__ */ new Date()).getTime() - it.current;
+          f2 = f2 - C2;
+        }
+        pt.current = (/* @__PURE__ */ new Date()).getTime();
+      })() : (() => {
+        f2 !== 1 / 0 && (it.current = (/* @__PURE__ */ new Date()).getTime(), a2 = setTimeout(() => {
+          var C2;
+          (C2 = t2.onAutoClose) == null || C2.call(t2, t2), L2();
+        }, f2));
+      })(), () => clearTimeout(a2);
+    }, [$2, h2, W2, t2, mt, L2, t2.promise, x2, k2, bt]), xn.useEffect(() => {
+      let a2 = l2.current;
+      if (a2) {
+        let f2 = a2.getBoundingClientRect().height;
+        return S(f2), u2((p2) => [{ toastId: t2.id, height: f2, position: t2.position }, ...p2]), () => u2((p2) => p2.filter((B2) => B2.toastId !== t2.id));
+      }
+    }, [u2, t2.id]), xn.useEffect(() => {
+      t2.delete && L2();
+    }, [L2, t2.delete]);
+    function Yt() {
+      return I2 != null && I2.loading ? xn.createElement("div", { className: "sonner-loader", "data-visible": x2 === "loading" }, I2.loading) : j2 ? xn.createElement("div", { className: "sonner-loader", "data-visible": x2 === "loading" }, j2) : xn.createElement(It, { visible: x2 === "loading" });
+    }
+    return xn.createElement("li", { "aria-live": t2.important ? "assertive" : "polite", "aria-atomic": "true", role: "status", tabIndex: 0, ref: l2, className: T2(tt, Mt, r2 == null ? void 0 : r2.toast, (yt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : yt.toast, r2 == null ? void 0 : r2.default, r2 == null ? void 0 : r2[x2], (xt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : xt[x2]), "data-sonner-toast": "", "data-rich-colors": (vt = t2.richColors) != null ? vt : Q2, "data-styled": !(t2.jsx || t2.unstyled || n), "data-mounted": z2, "data-promise": !!t2.promise, "data-removed": D2, "data-visible": J2, "data-y-position": gt, "data-x-position": zt, "data-index": d2, "data-front": _2, "data-swiping": st, "data-dismissible": P2, "data-type": x2, "data-invert": jt, "data-swipe-out": M2, "data-expanded": !!($2 || W2 && z2), style: __spreadValues(__spreadValues({ "--index": d2, "--toasts-before": d2, "--z-index": q2.length - d2, "--offset": `${D2 ? c2 : Y2.current}px`, "--initial-height": W2 ? "auto" : `${y2}px` }, O2), t2.style), onPointerDown: (a2) => {
+      lt || !P2 || (A2.current = /* @__PURE__ */ new Date(), m2(Y2.current), a2.target.setPointerCapture(a2.pointerId), a2.target.tagName !== "BUTTON" && (N2(true), F2.current = { x: a2.clientX, y: a2.clientY }));
+    }, onPointerUp: () => {
+      var B2, C2, R2, dt;
+      if (M2 || !P2) return;
+      F2.current = null;
+      let a2 = Number(((B2 = l2.current) == null ? void 0 : B2.style.getPropertyValue("--swipe-amount").replace("px", "")) || 0), f2 = (/* @__PURE__ */ new Date()).getTime() - ((C2 = A2.current) == null ? void 0 : C2.getTime()), p2 = Math.abs(a2) / f2;
+      if (Math.abs(a2) >= oe || p2 > 0.11) {
+        m2(Y2.current), (R2 = t2.onDismiss) == null || R2.call(t2, t2), L2(), rt(true);
+        return;
+      }
+      (dt = l2.current) == null || dt.style.setProperty("--swipe-amount", "0px"), N2(false);
+    }, onPointerMove: (a2) => {
+      var Bt;
+      if (!F2.current || !P2) return;
+      let f2 = a2.clientY - F2.current.y, p2 = a2.clientX - F2.current.x, C2 = (gt === "top" ? Math.min : Math.max)(0, f2), R2 = a2.pointerType === "touch" ? 10 : 2;
+      Math.abs(C2) > R2 ? (Bt = l2.current) == null || Bt.style.setProperty("--swipe-amount", `${f2}px`) : Math.abs(p2) > R2 && (F2.current = null);
+    } }, Lt && !t2.jsx ? xn.createElement("button", { "aria-label": at, "data-disabled": lt, "data-close-button": true, onClick: lt || !P2 ? () => {
+    } : () => {
+      var a2;
+      L2(), (a2 = t2.onDismiss) == null || a2.call(t2, t2);
+    }, className: T2(r2 == null ? void 0 : r2.closeButton, (wt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : wt.closeButton) }, xn.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "12", height: "12", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }, xn.createElement("line", { x1: "18", y1: "6", x2: "6", y2: "18" }), xn.createElement("line", { x1: "6", y1: "6", x2: "18", y2: "18" }))) : null, t2.jsx || xn.isValidElement(t2.title) ? t2.jsx || t2.title : xn.createElement(xn.Fragment, null, x2 || t2.icon || t2.promise ? xn.createElement("div", { "data-icon": "", className: T2(r2 == null ? void 0 : r2.icon, (Tt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Tt.icon) }, t2.promise || t2.type === "loading" && !t2.icon ? t2.icon || Yt() : null, t2.type !== "loading" ? t2.icon || (I2 == null ? void 0 : I2[x2]) || Ct(x2) : null) : null, xn.createElement("div", { "data-content": "", className: T2(r2 == null ? void 0 : r2.content, (St = t2 == null ? void 0 : t2.classNames) == null ? void 0 : St.content) }, xn.createElement("div", { "data-title": "", className: T2(r2 == null ? void 0 : r2.title, (Rt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Rt.title) }, t2.title), t2.description ? xn.createElement("div", { "data-description": "", className: T2(et, At, r2 == null ? void 0 : r2.description, (Et = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Et.description) }, t2.description) : null), xn.isValidElement(t2.cancel) ? t2.cancel : t2.cancel && U(t2.cancel) ? xn.createElement("button", { "data-button": true, "data-cancel": true, style: t2.cancelButtonStyle || K2, onClick: (a2) => {
+      var f2, p2;
+      U(t2.cancel) && P2 && ((p2 = (f2 = t2.cancel).onClick) == null || p2.call(f2, a2), L2());
+    }, className: T2(r2 == null ? void 0 : r2.cancelButton, (Nt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Nt.cancelButton) }, t2.cancel.label) : null, xn.isValidElement(t2.action) ? t2.action : t2.action && U(t2.action) ? xn.createElement("button", { "data-button": true, "data-action": true, style: t2.actionButtonStyle || Z2, onClick: (a2) => {
+      var f2, p2;
+      U(t2.action) && (a2.defaultPrevented || ((p2 = (f2 = t2.action).onClick) == null || p2.call(f2, a2), L2()));
+    }, className: T2(r2 == null ? void 0 : r2.actionButton, (Pt = t2 == null ? void 0 : t2.classNames) == null ? void 0 : Pt.actionButton) }, t2.action.label) : null));
+  };
+  function Ht() {
+    if (typeof window == "undefined" || typeof document == "undefined") return "ltr";
+    let s2 = document.documentElement.getAttribute("dir");
+    return s2 === "auto" || !s2 ? window.getComputedStyle(document.documentElement).direction : s2;
+  }
+  var Te = (s2) => {
+    let { invert: o2, position: t2 = "bottom-right", hotkey: n = ["altKey", "KeyT"], expand: h2, closeButton: u2, className: g2, offset: b, theme: d2 = "light", richColors: q2, duration: $2, style: V2, visibleToasts: Q2 = qt, toastOptions: i, dir: O2 = Ht(), gap: K2 = ee, loadingIcon: Z2, icons: tt, containerAriaLabel: et = "Notifications", pauseWhenPageIsHidden: X2, cn: ot = ne } = s2, [w2, j2] = xn.useState([]), W2 = xn.useMemo(() => Array.from(new Set([t2].concat(w2.filter((c2) => c2.position).map((c2) => c2.position)))), [w2, t2]), [r2, I2] = xn.useState([]), [at, k2] = xn.useState(false), [T2, z2] = xn.useState(false), [nt, D2] = xn.useState(d2 !== "system" ? d2 : typeof window != "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"), H2 = xn.useRef(null), st = n.join("+").replace(/Key/g, "").replace(/Digit/g, ""), N2 = xn.useRef(null), M2 = xn.useRef(false), rt = xn.useCallback((c2) => {
+      var m2;
+      (m2 = w2.find((y2) => y2.id === c2.id)) != null && m2.delete || v.dismiss(c2.id), j2((y2) => y2.filter(({ id: S }) => S !== c2.id));
+    }, [w2]);
+    return xn.useEffect(() => v.subscribe((c2) => {
+      if (c2.dismiss) {
+        j2((m2) => m2.map((y2) => y2.id === c2.id ? __spreadProps(__spreadValues({}, y2), { delete: true }) : y2));
+        return;
+      }
+      setTimeout(() => {
+        xn.flushSync(() => {
+          j2((m2) => {
+            let y2 = m2.findIndex((S) => S.id === c2.id);
+            return y2 !== -1 ? [...m2.slice(0, y2), __spreadValues(__spreadValues({}, m2[y2]), c2), ...m2.slice(y2 + 1)] : [c2, ...m2];
+          });
+        });
+      });
+    }), []), xn.useEffect(() => {
+      if (d2 !== "system") {
+        D2(d2);
+        return;
+      }
+      d2 === "system" && (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? D2("dark") : D2("light")), typeof window != "undefined" && window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches: c2 }) => {
+        D2(c2 ? "dark" : "light");
+      });
+    }, [d2]), xn.useEffect(() => {
+      w2.length <= 1 && k2(false);
+    }, [w2]), xn.useEffect(() => {
+      let c2 = (m2) => {
+        var S, A2;
+        n.every((l2) => m2[l2] || m2.code === l2) && (k2(true), (S = H2.current) == null || S.focus()), m2.code === "Escape" && (document.activeElement === H2.current || (A2 = H2.current) != null && A2.contains(document.activeElement)) && k2(false);
+      };
+      return document.addEventListener("keydown", c2), () => document.removeEventListener("keydown", c2);
+    }, [n]), xn.useEffect(() => {
+      if (H2.current) return () => {
+        N2.current && (N2.current.focus({ preventScroll: true }), N2.current = null, M2.current = false);
+      };
+    }, [H2.current]), w2.length ? xn.createElement("section", { "aria-label": `${et} ${st}`, tabIndex: -1 }, W2.map((c2, m2) => {
+      var A2;
+      let [y2, S] = c2.split("-");
+      return xn.createElement("ol", { key: c2, dir: O2 === "auto" ? Ht() : O2, tabIndex: -1, ref: H2, className: g2, "data-sonner-toaster": true, "data-theme": nt, "data-y-position": y2, "data-x-position": S, style: __spreadValues({ "--front-toast-height": `${((A2 = r2[0]) == null ? void 0 : A2.height) || 0}px`, "--offset": typeof b == "number" ? `${b}px` : b || Qt, "--width": `${te}px`, "--gap": `${K2}px` }, V2), onBlur: (l2) => {
+        M2.current && !l2.currentTarget.contains(l2.relatedTarget) && (M2.current = false, N2.current && (N2.current.focus({ preventScroll: true }), N2.current = null));
+      }, onFocus: (l2) => {
+        l2.target instanceof HTMLElement && l2.target.dataset.dismissible === "false" || M2.current || (M2.current = true, N2.current = l2.relatedTarget);
+      }, onMouseEnter: () => k2(true), onMouseMove: () => k2(true), onMouseLeave: () => {
+        T2 || k2(false);
+      }, onPointerDown: (l2) => {
+        l2.target instanceof HTMLElement && l2.target.dataset.dismissible === "false" || z2(true);
+      }, onPointerUp: () => z2(false) }, w2.filter((l2) => !l2.position && m2 === 0 || l2.position === c2).map((l2, _2) => {
+        var J2, x2;
+        return xn.createElement(se, { key: l2.id, icons: tt, index: _2, toast: l2, defaultRichColors: q2, duration: (J2 = i == null ? void 0 : i.duration) != null ? J2 : $2, className: i == null ? void 0 : i.className, descriptionClassName: i == null ? void 0 : i.descriptionClassName, invert: o2, visibleToasts: Q2, closeButton: (x2 = i == null ? void 0 : i.closeButton) != null ? x2 : u2, interacting: T2, position: c2, style: i == null ? void 0 : i.style, unstyled: i == null ? void 0 : i.unstyled, classNames: i == null ? void 0 : i.classNames, cancelButtonStyle: i == null ? void 0 : i.cancelButtonStyle, actionButtonStyle: i == null ? void 0 : i.actionButtonStyle, removeToast: rt, toasts: w2.filter((P2) => P2.position == l2.position), heights: r2.filter((P2) => P2.position == l2.position), setHeights: I2, expandByDefault: h2, gap: K2, loadingIcon: Z2, expanded: at, pauseWhenPageIsHidden: X2, cn: ot });
+      }));
+    })) : null;
+  };
   if (location.host === "ptpimg.me") {
-    const ptpImgApiKey = GM_getValue("easy-seed.ptp-img-api-key") || "";
+    const ptpImgApiKey = GM_getValue("easy-upload.ptp-img-api-key", "");
     if (!ptpImgApiKey) {
       const div = document.createElement("div");
-      preact.render(/* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: [
-        /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
-        /* @__PURE__ */ u$1("button", { class: "btn btn-info", onClick: () => {
-          const apiKey = $$2("#api_key").val();
-          GM_setValue("easy-seed.ptp-img-api-key", apiKey);
-          Jt.success("Success! Saved to EasyUpload.");
-        }, children: [
-          /* @__PURE__ */ u$1("i", { class: "glyphicon glyphicon-floppy-saved" }),
-          /* @__PURE__ */ u$1("span", { children: "Save ApiKey" })
-        ] })
-      ] }), div);
-      (_a = document.querySelector(".well")) == null ? void 0 : _a.appendChild(div);
+      preact.render(
+        /* @__PURE__ */ u$1("div", { class: "ptp-api-key-btn", children: [
+          /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
+          /* @__PURE__ */ u$1(
+            "button",
+            {
+              class: "btn btn-info",
+              onClick: () => {
+                const apiKey = $$2("#api_key").val();
+                GM_setValue("easy-upload.ptp-img-api-key", apiKey);
+                Jt.success("Success! Saved to EasyUpload.");
+              },
+              children: [
+                /* @__PURE__ */ u$1("i", { class: "glyphicon glyphicon-floppy-saved" }),
+                /* @__PURE__ */ u$1("span", { children: "Save ApiKey" })
+              ]
+            }
+          )
+        ] }),
+        div
+      );
+      (_a = document.querySelector("#form_file_upload")) == null ? void 0 : _a.after(div);
     }
   }
   function _typeof(obj) {
@@ -20390,21 +20529,21 @@ ${description}`;
     if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
     var _arr = [];
     var _n2 = true;
-    var _d2 = false;
-    var _e2 = void 0;
+    var _d = false;
+    var _e = void 0;
     try {
       for (var _i = arr[Symbol.iterator](), _s; !(_n2 = (_s = _i.next()).done); _n2 = true) {
         _arr.push(_s.value);
         if (i && _arr.length === i) break;
       }
     } catch (err) {
-      _d2 = true;
-      _e2 = err;
+      _d = true;
+      _e = err;
     } finally {
       try {
         if (!_n2 && _i["return"] != null) _i["return"]();
       } finally {
-        if (_d2) throw _e2;
+        if (_d) throw _e;
       }
     }
     return _arr;
@@ -24576,7 +24715,7 @@ ${description}`;
      *   const blob = new Blob([buffer], { type: 'image/jpeg' })
      *   document.querySelector('#photo').src = URL.createObjectURL(blob)
      */
-    resolve: function resolve2(doc, node) {
+    resolve: function resolve(doc, node) {
       var src = resolveString(doc, node);
       if (typeof Buffer === "function") {
         return Buffer.from(src, "base64");
@@ -24885,7 +25024,7 @@ ${description}`;
     tag: "tag:yaml.org,2002:int",
     format: "TIME",
     test: /^([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+)$/,
-    resolve: function resolve22(str, sign, parts) {
+    resolve: function resolve2(str, sign, parts) {
       return parseSexagesimal(sign, parts.replace(/_/g, ""));
     },
     stringify: stringifySexagesimal
@@ -25332,7 +25471,7 @@ ${description}`;
     default: true,
     tag: "tag:yaml.org,2002:int",
     test: /^([-+]?)([0-9][0-9_]*)$/,
-    resolve: function resolve23(str, sign, abs) {
+    resolve: function resolve22(str, sign, abs) {
       return intResolve2(sign, abs, 10);
     },
     stringify: stringifyNumber
@@ -25342,7 +25481,7 @@ ${description}`;
     tag: "tag:yaml.org,2002:int",
     format: "HEX",
     test: /^([-+]?)0x([0-9a-fA-F_]+)$/,
-    resolve: function resolve24(str, sign, hex) {
+    resolve: function resolve23(str, sign, hex) {
       return intResolve2(sign, hex, 16);
     },
     stringify: function stringify13(node) {
@@ -25355,7 +25494,7 @@ ${description}`;
     default: true,
     tag: "tag:yaml.org,2002:float",
     test: /^(?:[-+]?\.inf|(\.nan))$/i,
-    resolve: function resolve25(str, nan) {
+    resolve: function resolve24(str, nan) {
       return nan ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
     },
     stringify: stringifyNumber
@@ -25367,7 +25506,7 @@ ${description}`;
     tag: "tag:yaml.org,2002:float",
     format: "EXP",
     test: /^[-+]?([0-9][0-9_]*)?(\.[0-9_]*)?[eE][-+]?[0-9]+$/,
-    resolve: function resolve26(str) {
+    resolve: function resolve25(str) {
       return parseFloat(str.replace(/_/g, ""));
     },
     stringify: function stringify14(_ref2) {
@@ -25381,7 +25520,7 @@ ${description}`;
     default: true,
     tag: "tag:yaml.org,2002:float",
     test: /^[-+]?(?:[0-9][0-9_]*)?\.([0-9_]*)$/,
-    resolve: function resolve27(str, frac) {
+    resolve: function resolve26(str, frac) {
       var node = new Scalar(parseFloat(str.replace(/_/g, "")));
       if (frac) {
         var f2 = frac.replace(/_/g, "");
@@ -26338,7 +26477,7 @@ ${description}`;
     }
     return doc;
   }
-  function parse2(src, options2) {
+  function parse(src, options2) {
     var doc = parseDocument(src, options2);
     doc.warnings.forEach(function(warning) {
       return warn(warning);
@@ -26355,7 +26494,7 @@ ${description}`;
     createNode: createNode4,
     defaultOptions,
     Document,
-    parse: parse2,
+    parse,
     parseAllDocuments,
     parseCST: parse$1,
     parseDocument,
@@ -26408,7 +26547,7 @@ ${description}`;
       const yamlContent = YAML.stringify(__spreadValues(__spreadValues({}, formConfig), baseConfig));
       navigator.clipboard.writeText(`\`\`\`yaml
 ${yamlContent}\`\`\``).then(() => {
-        Jt.success($t("配置已复制到剪贴板,请黏贴到创建的Github Issue中"));
+        Jt.success($t$1("配置已复制到剪贴板,请黏贴到创建的Github Issue中"));
       });
     };
     return /* @__PURE__ */ u$1(preact.Fragment, { children: [
@@ -26429,66 +26568,266 @@ ${yamlContent}\`\`\``).then(() => {
             borderRadius: "4px",
             cursor: "pointer"
           },
-          children: `[EASY-UPLOAD]${$t("获取页面配置")}`
+          children: `[EASY-UPLOAD]${$t$1("获取页面配置")}`
         }
       )
     ] });
   };
-  if (location.pathname.includes("upload") && !(CURRENT_SITE_INFO == null ? void 0 : CURRENT_SITE_INFO.asTarget)) {
+  if (location.pathname.includes("upload") && !(CURRENT_SITE_INFO == null ? void 0 : CURRENT_SITE_INFO.asTarget) && window.self === window.top) {
     const div = document.createElement("div");
     preact.render(/* @__PURE__ */ u$1(AnalyzeUploadPage, {}), div);
     document.body.appendChild(div);
   }
-  const getTvSeasonData = async (data) => {
-    var _a2, _b;
-    const { title: torrentTitle } = TORRENT_INFO;
-    const { season = "", title } = data;
-    if (season) {
-      const seasonNumber = (_b = (_a2 = torrentTitle.match(/S(?!eason)?0?(\d+)\.?(EP?\d+)?/i)) == null ? void 0 : _a2[1]) != null ? _b : "1";
-      if (parseInt(seasonNumber, 10) === 1) {
-        return data;
+  const useSiteConfig = () => {
+    return T$1(() => {
+      let siteType = "default";
+      if (CURRENT_SITE_NAME === "HH") {
+        siteType = "HH";
+      } else if (CURRENT_SITE_NAME === "MTeam") {
+        siteType = "MTeam";
+      } else if (CURRENT_SITE_INFO.siteType === "gazelle") {
+        siteType = "Gazelle";
+      } else if (CURRENT_SITE_NAME === "Cinematik") {
+        siteType = "Cinematik";
+      } else if (CURRENT_SITE_NAME === "SpeedApp") {
+        siteType = "SpeedApp";
+      } else if (CURRENT_SITE_NAME === "HDBits") {
+        siteType = "HDBits";
+      } else if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(
+        /BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/
+      ))) {
+        siteType = "NexusPHP";
       }
-      const query = title.replace(/第.+?季/, `第${seasonNumber}季`);
-      const response = await getDoubanIdByIMDB(query);
-      return response;
-    }
+      return siteType;
+    }, []);
   };
-  const updateTorrentInfo = (data) => {
-    var _a2, _b;
-    const desc = data.format;
-    TORRENT_INFO.doubanInfo = data.format;
-    TORRENT_INFO.subtitle = getSubTitle(data);
-    const areaMatch = (_b = (_a2 = desc == null ? void 0 : desc.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
-    if (areaMatch) {
-      TORRENT_INFO.area = getAreaCode(areaMatch);
+  const SPECIAL_SITE_TYPES = {
+    NO_IMDB_SITES: /(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/,
+    MUSIC_SITES: /RED|DicMusic|Orpheus/,
+    NAME_REPLACE_SITES: /nzb|TMDB|豆瓣读书|SubHD|OpenSub/,
+    AVISTAZ_SITES: "AvistaZ",
+    ZHUQUE: /ZHUQUE/
+  };
+  function determineSearchKeyword({
+    siteName,
+    siteInfo,
+    torrentInfo
+  }) {
+    var _a2;
+    const { imdbUrl, movieAkaName, movieName, title, musicJson } = torrentInfo;
+    const imdbId = imdbUrl ? getIdByIMDbUrl(imdbUrl) : "";
+    let searchKeyWord = "";
+    let useImdb = false;
+    if (CURRENT_SITE_NAME.match(SPECIAL_SITE_TYPES.MUSIC_SITES)) {
+      const { year = "", name = "" } = (_a2 = musicJson == null ? void 0 : musicJson.group) != null ? _a2 : {};
+      searchKeyWord = `${name} ${year}`.trim();
+    } else if (imdbId && !siteName.match(SPECIAL_SITE_TYPES.NO_IMDB_SITES) && siteInfo.siteType !== SPECIAL_SITE_TYPES.AVISTAZ_SITES) {
+      if (siteInfo.search.replaceKey && siteInfo.search.replaceKey.length === 2) {
+        const [pattern, replacement] = siteInfo.search.replaceKey;
+        searchKeyWord = imdbId.replace(new RegExp(pattern), replacement);
+      } else {
+        searchKeyWord = imdbId;
+      }
+      useImdb = true;
+    } else {
+      searchKeyWord = movieAkaName || movieName || title || "";
+      useImdb = false;
     }
-    const category = TORRENT_INFO.category;
-    TORRENT_INFO.category = getPreciseCategory(TORRENT_INFO, category);
+    return { searchKeyWord, useImdb };
+  }
+  function buildSearchParams({
+    siteName,
+    params,
+    useImdb,
+    searchKeyWord,
+    imdbOptionKey,
+    nameOptionKey
+  }) {
+    let paramsArray = Object.entries(params).map(
+      ([key, value]) => `${key}=${value}`
+    );
+    if (useImdb) {
+      paramsArray = paramsArray.filter(
+        (param) => !param.match(/\w+={name}&{0,1}?/)
+      );
+      paramsArray = paramsArray.map(
+        (param) => param.replace(/{imdb}/g, searchKeyWord).replace(/{optionKey}/g, imdbOptionKey)
+      );
+    } else {
+      paramsArray = paramsArray.filter(
+        (param) => !param.match(/\w+={imdb}&{0,1}?/)
+      );
+      paramsArray = paramsArray.map((param) => {
+        if (param.includes("{name}")) {
+          return param.replace(/{name}/g, searchKeyWord);
+        } else if (param.includes("{imdb}")) {
+          return param.replace(/{imdb}/g, searchKeyWord);
+        }
+        return param.replace(/{optionKey}/g, nameOptionKey);
+      });
+    }
+    if (siteName.match(SPECIAL_SITE_TYPES.ZHUQUE)) {
+      const queryParams = {};
+      paramsArray.forEach((param) => {
+        const [key, value] = param.split("=");
+        queryParams[key] = value;
+      });
+      return `/${window.btoa(encodeURIComponent(JSON.stringify(queryParams)))}`;
+    }
+    return `?${paramsArray.join("&")}`;
+  }
+  const getQuickSearchUrl = (siteName) => {
+    const siteInfo = PT_SITE[siteName];
+    const torrentInfo = GM_getValue("cachedTorrentInfo") || {};
+    if (!siteInfo.search) {
+      return siteInfo.url;
+    }
+    const {
+      params = {},
+      imdbOptionKey = "",
+      nameOptionKey = "",
+      path: path2 = ""
+    } = siteInfo.search;
+    const { searchKeyWord, useImdb } = determineSearchKeyword({
+      siteName,
+      siteInfo,
+      torrentInfo
+    });
+    const searchParams = buildSearchParams({
+      siteName,
+      params,
+      useImdb,
+      searchKeyWord,
+      imdbOptionKey,
+      nameOptionKey
+    });
+    let url = `${siteInfo.url}${path2}${searchParams ? `${searchParams}` : ""}`;
+    if (siteName.match(SPECIAL_SITE_TYPES.NAME_REPLACE_SITES)) {
+      url = url.replace(/{name}/g, encodeURIComponent(searchKeyWord));
+    }
+    return url;
+  };
+  const useQuickSearch = () => {
+    const checkQuickResult = q$1(async () => {
+      try {
+        let searchListSetting = GM_getValue(
+          "easy-upload.enabled-search-site-list",
+          []
+        );
+        if (searchListSetting.length === 0) {
+          searchListSetting = SORTED_SITE_KEYS;
+        }
+        searchListSetting.map(async (site) => {
+          var _a2;
+          const siteInfo = PT_SITE[site];
+          const resultConfig = (_a2 = siteInfo.search) == null ? void 0 : _a2.result;
+          const siteUrl = siteInfo.url;
+          if (!resultConfig) return;
+          try {
+            const url = getQuickSearchUrl(site);
+            const domString = await GMFetch(url);
+            const dom = new DOMParser().parseFromString(domString, "text/html");
+            const { list, name, size, url: urlDom } = resultConfig;
+            const { title, size: searchSize } = GM_getValue("cachedTorrentInfo");
+            const torrentList = $$2(list, dom);
+            const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
+              var _a3, _b, _c, _d, _e;
+              let torrentName;
+              if (site === "TTG") {
+                torrentName = (_c = (_b = (_a3 = $$2(item).find(name).prop("firstChild")) == null ? void 0 : _a3.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
+              } else {
+                torrentName = $$2(item).find(name).attr("title") || $$2(item).find(name).text();
+              }
+              if (site === "TJUPT") {
+                const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
+                const realTitle = (_e = (_d = matchArray.filter((item2) => item2.match(/\.| /))) == null ? void 0 : _d[0]) != null ? _e : "";
+                torrentName = realTitle.replace(/\[|\]/g, "");
+              }
+              torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
+              const sizeBytes = convertSizeStringToBytes(
+                $$2(item).find(size).text()
+              );
+              return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
+            });
+            if (sameTorrent) {
+              const url2 = `${siteUrl}/${$$2(sameTorrent).find(urlDom).attr("href")}`;
+              $$2(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
+            } else {
+              $$2(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
+            }
+          } catch (error) {
+            console.error(`Error checking ${site}:`, error);
+          }
+        });
+      } catch (error) {
+        console.error("Quick search error:", error);
+      }
+    }, []);
+    return { checkQuickResult };
+  };
+  const useTorrentInfo = () => {
+    const [torrentInfo, setTorrentInfo] = h(
+      () => torrentInfoStore.getInfo()
+    );
+    y(() => {
+      const unsubscribe = torrentInfoStore.subscribe(setTorrentInfo);
+      return unsubscribe;
+    }, []);
+    const updateTorrentInfo = (updater) => {
+      torrentInfoStore.updateInfo(updater);
+    };
+    return {
+      torrentInfo,
+      updateTorrentInfo,
+      setTorrentInfo: (info) => torrentInfoStore.setInfo(info)
+    };
   };
   const Douban = () => {
+    const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
     const [btnText, setBtnText] = h("获取豆瓣简介");
     const [bookBtnText, setBookBtnText] = h("获取豆瓣读书简介");
     const [btnDisable, setBtnDisable] = h(false);
     const [searchValue, setSearchValue] = h("");
-    const doubanClosed = GM_getValue("easy-seed.douban-closed") || "";
+    const doubanClosed = GM_getValue("easy-upload.douban-closed");
     const { needDoubanBookInfo, needDoubanInfo } = CURRENT_SITE_INFO;
-    const showSearch = (needDoubanBookInfo || needDoubanInfo || !TORRENT_INFO.doubanUrl) && !doubanClosed;
-    const getDoubanData = async () => {
+    const showSearch = (needDoubanBookInfo || needDoubanInfo || !torrentInfo.doubanUrl) && !doubanClosed;
+    const handleDoubanInfoUpdate = q$1(
+      (formatDoubanInfo) => {
+        updateTorrentInfo((prevInfo) => {
+          var _a2, _b;
+          const areaMatch = (_b = (_a2 = formatDoubanInfo == null ? void 0 : formatDoubanInfo.match(/(产\s+地|国\s+家)\s+(.+)/)) == null ? void 0 : _a2[2]) != null ? _b : "";
+          const area = areaMatch ? getAreaCode(areaMatch) : prevInfo.area;
+          return __spreadProps(__spreadValues({}, prevInfo), {
+            doubanInfo: formatDoubanInfo,
+            area,
+            category: refineCategory(__spreadProps(__spreadValues({}, prevInfo), { area }), prevInfo.category)
+          });
+        });
+      },
+      [updateTorrentInfo]
+    );
+    const getDoubanData = q$1(async () => {
+      if (btnDisable) return;
       try {
         setBtnText("获取中...");
         setBtnDisable(true);
         const scriptDoubanLink = $$2(".douban-dom").attr("douban-link");
-        const doubanLink = $$2(".page__title>a").attr("href") || scriptDoubanLink || TORRENT_INFO.doubanUrl || searchValue;
+        const doubanLink = $$2(".page__title>a").attr("href") || scriptDoubanLink || torrentInfo.doubanUrl || searchValue;
         let doubanUrl = "";
         if (doubanLink && doubanLink.match(/movie\.douban\.com/)) {
           doubanUrl = doubanLink;
         } else {
-          const { imdbUrl, movieName } = TORRENT_INFO;
-          const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+          const { imdbUrl, movieName } = torrentInfo;
+          const doubanData = await getDoubanBasicDataByQuery(
+            imdbUrl || movieName
+          );
           if (doubanData) {
             let { id, season = "" } = doubanData;
             if (season) {
-              const tvData = await getTvSeasonData(doubanData);
+              const tvData = await getDoubanTVItemData(
+                doubanData,
+                torrentInfo.title
+              );
               if (tvData) {
                 id = tvData.id;
               }
@@ -26497,201 +26836,248 @@ ${yamlContent}\`\`\``).then(() => {
           }
         }
         if (doubanUrl) {
-          TORRENT_INFO.doubanUrl = doubanUrl;
+          updateTorrentInfo({ doubanUrl });
           setSearchValue(doubanUrl);
-          if (!TORRENT_INFO.description.match(/(片|译)\s*名/)) {
-            const isTVCategory = !!TORRENT_INFO.category.match(/tv/);
-            const movieData = await getDoubanInfo(doubanUrl, isTVCategory);
-            if (movieData) {
-              Jt.success($t("获取成功"));
-              updateTorrentInfo(movieData);
+          if (!torrentInfo.description.match(/(片|译)\s*名/)) {
+            const isTVCategory = !!torrentInfo.category.match(/tv/);
+            const formatDoubanInfo = await getDoubanInfoByIdOrDoubanUrl(
+              doubanUrl,
+              isTVCategory ? "tv" : "movie"
+            );
+            if (formatDoubanInfo.format) {
+              Jt.success($t$1("获取成功"));
+              handleDoubanInfoUpdate(formatDoubanInfo.format);
+              const subtitle = getSubTitleFromDoubanInfo(
+                formatDoubanInfo,
+                torrentInfo
+              );
+              updateTorrentInfo({
+                subtitle
+              });
             }
           } else {
-            Jt.success($t("获取成功"));
+            Jt.success($t$1("获取成功"));
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error("获取豆瓣数据失败:", error);
+        Jt.error($t$1("获取失败"));
       } finally {
         setBtnText("获取豆瓣简介");
         setBtnDisable(false);
       }
-    };
-    const getBookData = () => {
-      let { doubanUrl } = TORRENT_INFO;
+    }, [
+      btnDisable,
+      searchValue,
+      torrentInfo,
+      updateTorrentInfo,
+      handleDoubanInfoUpdate
+    ]);
+    const getBookData = q$1(async () => {
+      if (btnDisable) return;
+      const doubanUrl = torrentInfo.doubanUrl || searchValue;
       if (!doubanUrl) {
-        doubanUrl = searchValue;
-      } else {
-        setSearchValue(doubanUrl);
+        Jt.error($t$1("缺少豆瓣链接"));
+        return;
       }
-      if (doubanUrl) {
+      try {
         setBookBtnText("获取中...");
         setBtnDisable(true);
-        getDoubanBookInfo(doubanUrl).then((data) => {
-          if (data) {
-            TORRENT_INFO.title = data.chineseTitle || data.foreignTitle;
-            TORRENT_INFO.poster = data.poster;
-            TORRENT_INFO.description = data.book_intro || "";
-            TORRENT_INFO.doubanBookInfo = data || null;
-          }
-          Jt.success($t("获取成功"));
-        }).catch((error) => {
-          console.log(error);
-          Jt.error(error.message);
-        }).finally(() => {
-          setBookBtnText("获取豆瓣读书简介");
-          setBtnDisable(false);
-        });
-      } else {
-        Jt.error($t("缺少豆瓣链接"));
+        setSearchValue(doubanUrl);
+        const data = await getDoubanBookInfo(doubanUrl);
+        if (data) {
+          updateTorrentInfo({
+            title: data.chinese_title || data.foreign_title,
+            poster: data.poster,
+            description: data.book_intro || "",
+            doubanBookInfo: data
+          });
+          Jt.success($t$1("获取成功"));
+        }
+      } catch (error) {
+        console.error("获取豆瓣图书数据失败:", error);
+        Jt.error(error.message);
+      } finally {
+        setBookBtnText("获取豆瓣读书简介");
+        setBtnDisable(false);
       }
-    };
-    return showSearch ? /* @__PURE__ */ u$1(preact.Fragment, { children: [
+    }, [btnDisable, searchValue, torrentInfo.doubanUrl, updateTorrentInfo]);
+    if (!showSearch) return null;
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: [
       /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "douban-section", children: /* @__PURE__ */ u$1(
         "input",
         {
           type: "text",
-          placeholder: $t("手动输入豆瓣链接"),
+          placeholder: $t$1("手动输入豆瓣链接"),
           value: searchValue,
           onChange: (e2) => setSearchValue(e2.target.value)
         }
       ) }) }),
-      /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "douban-section", children: [
-        showSearch && CURRENT_SITE_NAME !== "SoulVoice" && /* @__PURE__ */ u$1(
-          "button",
-          {
-            id: "douban-info",
-            disabled: btnDisable,
-            className: btnDisable ? "is-disabled" : "",
-            onClick: getDoubanData,
-            children: $t(btnText)
-          }
-        ),
-        showSearch && CURRENT_SITE_NAME === "SoulVoice" && /* @__PURE__ */ u$1(
-          "button",
-          {
-            disabled: btnDisable,
-            className: btnDisable ? "is-disabled" : "",
-            id: "douban-book-info",
-            onClick: getBookData,
-            children: $t(bookBtnText)
-          }
-        )
-      ] }) })
-    ] }) : null;
+      /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "douban-section", children: CURRENT_SITE_NAME !== "SoulVoice" ? /* @__PURE__ */ u$1(
+        "button",
+        {
+          id: "douban-info",
+          disabled: btnDisable,
+          className: btnDisable ? "is-disabled" : "",
+          onClick: getDoubanData,
+          children: $t$1(btnText)
+        }
+      ) : /* @__PURE__ */ u$1(
+        "button",
+        {
+          disabled: btnDisable,
+          className: btnDisable ? "is-disabled" : "",
+          id: "douban-book-info",
+          onClick: getBookData,
+          children: $t$1(bookBtnText)
+        }
+      ) }) })
+    ] });
+  };
+  const IMAGE_HOSTS$1 = {
+    imgbox: {
+      url: "https://imgbox.com",
+      name: "imgbox",
+      handler: uploadToImgbox
+    },
+    imgbb: {
+      url: "https://imgbb.com/json",
+      name: "imgbb",
+      handler: transferImgToCheveretoSite
+    },
+    gifyu: {
+      url: "https://gifyu.com/json",
+      name: "gifyu",
+      handler: transferImgToCheveretoSite
+    },
+    pixhost: {
+      url: "https://pixhost.to",
+      name: "pixhost",
+      handler: uploadToPixhost
+    },
+    HDB: {
+      url: "https://img.hdbits.org",
+      name: "HDB",
+      handler: uploadToHDB
+    }
   };
   const Transfer = () => {
+    const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
     const [imgHost, setImgHost] = h("imgbox");
     const [btnDisable, setBtnDisable] = h(false);
     const [btnText, setBtnText] = h("转缩略图");
-    const [progress, setProgress] = h(-1);
-    const [imgList, setImgList] = h([]);
-    const getThumbnailImgs = async () => {
-      var _a2, _b, _c;
+    const transferImgClosed = T$1(
+      () => GM_getValue("easy-upload.transfer-img-closed"),
+      []
+    );
+    const getAllImages = q$1(() => {
+      const { comparisons = [], screenshots = [] } = torrentInfo;
+      const allImgs = [...screenshots];
+      comparisons.forEach((comparison) => {
+        if (comparison.imgs && Array.isArray(comparison.imgs)) {
+          allImgs.push(...comparison.imgs);
+        }
+      });
+      return [...new Set(allImgs)];
+    }, [torrentInfo]);
+    const updateDescriptionImages = q$1(
+      (originalUrls, newBBCodes) => {
+        let { description } = torrentInfo;
+        originalUrls.forEach((originalUrl, index) => {
+          var _a2, _b;
+          const newBBCode = newBBCodes[index] || "";
+          if (originalUrl.match(/i\.hdbits\.org/)) {
+            const imgId = (_b = (_a2 = originalUrl.match(/i\.hdbits\.org\/(.+)\./)) == null ? void 0 : _a2[1]) != null ? _b : "";
+            const urlReg = new RegExp(
+              `\\[url=https://img.hdbits.org/${imgId}\\].+?\\[\\/url\\]
+*`,
+              "ig"
+            );
+            if (description.match(urlReg)) {
+              description = description.replace(urlReg, newBBCode);
+            }
+          } else if (description.includes(originalUrl)) {
+            const urlReg = new RegExp(
+              `\\[url=${originalUrl}\\].+?\\[\\/url\\]
+*`,
+              "ig"
+            );
+            if (description.match(urlReg)) {
+              description = description.replace(urlReg, newBBCode);
+            } else {
+              description = description.replace(
+                new RegExp(`\\[img\\]${originalUrl}\\[\\/img\\]
+*`, "ig"),
+                newBBCode
+              );
+            }
+          }
+        });
+        return description;
+      },
+      [torrentInfo]
+    );
+    const handleThumbnailConversion = q$1(async () => {
+      if (btnDisable) return;
       try {
-        const comparisons = TORRENT_INFO.comparisons || [];
-        const allImgs = TORRENT_INFO.screenshots.concat(...comparisons.map((v2) => v2.imgs));
-        const imgList2 = [...new Set(allImgs)];
-        setImgList(imgList2);
-        if (imgList2.length < 1) {
-          throw new Error($t("获取图片列表失败"));
+        const images = getAllImages();
+        if (images.length < 1) {
+          throw new Error($t$1("获取图片列表失败"));
         }
         setBtnText("转换中...");
         setBtnDisable(true);
-        setProgress(0);
-        const hostMap = {
-          imgbb: "https://imgbb.com/json",
-          gifyu: "https://gifyu.com/json",
-          pixhost: "https://pixhost.to",
-          imgbox: "https://imgbox.com",
-          HDB: "https://img.hdbits.org"
-        };
-        const selectHost = hostMap[imgHost];
+        const selectedHost = IMAGE_HOSTS$1[imgHost];
         let uploadedImgs = [];
-        let authToken = "";
-        let tokenSecret = { token_id: "", token_secret: "" };
-        if (imgHost.match(/imgbb|gifyu/)) {
-          const rawHtml = await fetch(selectHost.replace("/json", ""), {
-            responseType: void 0
-          });
-          authToken = (_a2 = rawHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(\w+)"/)) == null ? void 0 : _a2[1];
-        } else if (imgHost === "imgbox") {
-          const rawHtml = await fetch("https://imgbox.com", {
-            responseType: void 0
-          });
-          authToken = (_b = rawHtml.match(/content="(.+)" name="csrf-token"/)) == null ? void 0 : _b[1];
-          tokenSecret = await fetch("https://imgbox.com/ajax/token/generate", {
-            responseType: "json",
-            method: "POST",
-            headers: {
-              "X-CSRF-Token": authToken
-            }
-          });
-        }
         if (imgHost === "HDB") {
-          const imgContent = await uploadToHDB(imgList2, TORRENT_INFO.title);
-          uploadedImgs = (_c = imgContent == null ? void 0 : imgContent.split("\n")) != null ? _c : [];
-        } else {
-          for (let index = 0; index < imgList2.length; index++) {
-            let data;
-            if (imgHost.match(/imgbb|gifyu/)) {
-              const transferData = await transferImgs(imgList2[index], authToken, selectHost);
-              data = `[url=${transferData.url}][img]${transferData.thumb.url}[/img][/url]`;
-            } else if (imgHost === "pixhost") {
-              const [transferData] = await uploadToPixhost([imgList2[index]]);
-              data = `[url=${transferData.show_url}][img]${transferData.th_url}[/img][/url]`;
-            } else if (imgHost === "imgbox") {
-              const transferData = await uploadToImgbox(imgList2[index], authToken, tokenSecret);
-              data = `[url=${transferData.original_url}][img]${transferData.thumbnail_url}[/img][/url]`;
-            }
-            if (data) {
-              uploadedImgs.push(data);
-              setProgress(uploadedImgs.length);
-            }
-          }
+          uploadedImgs = await (await uploadToHDB)(images, torrentInfo.title);
+        } else if (imgHost === "imgbb" || imgHost === "gifyu") {
+          uploadedImgs = await (await transferImgToCheveretoSite)(images, selectedHost.url);
+        } else if (imgHost === "pixhost") {
+          uploadedImgs = await (await uploadToPixhost)(images);
+        } else if (imgHost === "imgbox") {
+          uploadedImgs = await (await uploadToImgbox)(images);
         }
+        const imgsBBCodeArray = uploadedImgs.map(
+          (img) => `[url=${img.original}][img]${img.thumbnail}[/img][/url]`
+        );
         if (uploadedImgs.length) {
-          TORRENT_INFO.screenshots = uploadedImgs.slice(0, TORRENT_INFO.screenshots.length);
-          let { description } = TORRENT_INFO;
-          imgList2.forEach((img, index) => {
-            var _a3, _b2;
-            if (img.match(/i\.hdbits\.org/)) {
-              const imgId = (_b2 = (_a3 = img.match(/i\.hdbits\.org\/(.+)\./)) == null ? void 0 : _a3[1]) != null ? _b2 : "";
-              const urlReg = new RegExp(`\\[url=https://img.hdbits.org/${imgId}\\].+?\\[\\/url\\]
-*`, "ig");
-              if (description.match(urlReg)) {
-                description = description.replace(urlReg, uploadedImgs[index] || "");
-              }
-            } else if (description.includes(img)) {
-              const urlReg = new RegExp(`\\[url=${img}\\].+?\\[\\/url\\]
-*`, "ig");
-              if (description.match(urlReg)) {
-                description = description.replace(urlReg, uploadedImgs[index] || "");
-              } else {
-                description = description.replace(new RegExp(`\\[img\\]${img}\\[\\/img\\]
-*`, "ig"), uploadedImgs[index] || "");
-              }
-            }
+          const { screenshots = [] } = torrentInfo;
+          const updatedDescription = updateDescriptionImages(
+            images,
+            imgsBBCodeArray
+          );
+          updateTorrentInfo({
+            screenshots: imgsBBCodeArray.slice(0, screenshots.length),
+            description: updatedDescription
           });
-          TORRENT_INFO.description = description;
-          Jt.success($t("转换成功！"));
+          Jt.success($t$1("转换成功！"));
         }
       } catch (error) {
         Jt.error(error.message);
+        console.error("缩略图转换失败:", error);
       } finally {
         setBtnText("转缩略图");
         setBtnDisable(false);
       }
-    };
-    const transferImgClosed = getValue("easy-seed.transfer-img-closed", false) || "";
-    return !(transferImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
+    }, [
+      btnDisable,
+      imgHost,
+      getAllImages,
+      updateDescriptionImages,
+      torrentInfo,
+      updateTorrentInfo
+    ]);
+    if (transferImgClosed || CURRENT_SITE_NAME === "BTN") {
+      return null;
+    }
+    return /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
       /* @__PURE__ */ u$1(
         "button",
         {
           className: btnDisable ? "is-disabled" : "",
-          onClick: getThumbnailImgs,
+          onClick: handleThumbnailConversion,
           disabled: btnDisable,
-          children: $t(btnText)
+          children: $t$1(btnText)
         }
       ),
       /* @__PURE__ */ u$1(
@@ -26699,293 +27085,1421 @@ ${yamlContent}\`\`\``).then(() => {
         {
           value: imgHost,
           onChange: (e2) => setImgHost(e2.target.value),
-          children: [
-            /* @__PURE__ */ u$1("option", { value: "imgbox", children: "imgbox" }),
-            /* @__PURE__ */ u$1("option", { value: "imgbb", children: "imgbb" }),
-            /* @__PURE__ */ u$1("option", { value: "gifyu", children: "gifyu" }),
-            /* @__PURE__ */ u$1("option", { value: "pixhost", children: "pixhost" }),
-            /* @__PURE__ */ u$1("option", { value: "HDB", children: "HDB" })
-          ]
-        }
-      ),
-      /* @__PURE__ */ u$1(
-        "div",
-        {
-          id: "transfer-progress",
-          hidden: progress < 0,
-          children: `${progress} / ${imgList.length}`
+          disabled: btnDisable,
+          children: Object.entries(IMAGE_HOSTS$1).map(([key, host]) => /* @__PURE__ */ u$1("option", { value: key, children: host.name }, key))
         }
       )
-    ] }) }) : null;
+    ] }) });
+  };
+  const IMAGE_HOSTS = {
+    ptpimg: {
+      name: "ptpimg"
+    },
+    gifyu: {
+      name: "gifyu",
+      url: "https://gifyu.com/json"
+    }
   };
   const UploadImg = () => {
+    const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
     const [selectHost, setSelectHost] = h("ptpimg");
     const [btnDisable, setBtnDisable] = h(false);
     const [btnText, setBtnText] = h("转存截图");
     const [canCopy, setCanCopy] = h(false);
     const [screenBBCode, setScreenBBCode] = h([]);
     const [copyText, setCopyText] = h("拷贝");
-    const uploadScreenshotsToAnother = async () => {
-      var _a2, _b;
-      const screenshots = TORRENT_INFO.screenshots;
+    const uploadImgClosed = T$1(
+      () => GM_getValue("easy-upload.rehost-img-closed", false),
+      []
+    );
+    const handleCopyBBCode = q$1(() => {
+      GM_setClipboard(screenBBCode.join(""));
+      setCopyText("已拷贝");
+    }, [screenBBCode]);
+    const extractAndUploadImages = q$1(async () => {
+      const { screenshots } = torrentInfo;
+      try {
+        const originalImgUrlPromises = screenshots.map(
+          (img) => getOriginalImgUrl(img)
+        );
+        const originalImgUrls = await Promise.all(originalImgUrlPromises);
+        if (originalImgUrls.length === 0) {
+          throw new Error($t$1("图片上传失败"));
+        }
+        let imgData = [];
+        if (selectHost === "ptpimg") {
+          imgData = await transferImgsToPtpimg(originalImgUrls);
+        } else if (selectHost === "gifyu") {
+          imgData = await (await transferImgToCheveretoSite)(originalImgUrls, IMAGE_HOSTS.gifyu.url);
+        }
+        if (imgData.length === 0) {
+          throw new Error($t$1("图片上传失败"));
+        }
+        return imgData;
+      } catch (error) {
+        console.error("fail to extract and upload images:", error);
+        throw error;
+      }
+    }, [selectHost, torrentInfo]);
+    const updateTorrentWithNewImages = q$1(
+      (imgData) => {
+        var _a2;
+        const { description, originalDescription } = torrentInfo;
+        const newScreenshots = imgData.map((img) => {
+          return selectHost !== "ptpimg" ? img == null ? void 0 : img.original : img;
+        });
+        const screenBBcodeArray = imgData.map(
+          (img) => typeof img === "string" ? `[img]${img}[/img]` : `[img]${img.original}[/img]`
+        );
+        const allImages = (_a2 = description.match(
+          /(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/gi
+        )) != null ? _a2 : [];
+        let updatedDescription = description;
+        let updatedOriginalDescription = originalDescription || "";
+        if (allImages.length > 0) {
+          allImages.forEach((img) => {
+            const imgWithUrl = img.match(/\[url=.+?\]/) ? `${img}[/url]` : img;
+            updatedOriginalDescription = updatedOriginalDescription.replace(
+              imgWithUrl,
+              ""
+            );
+            updatedDescription = updatedDescription.replace(imgWithUrl, "");
+          });
+        }
+        updateTorrentInfo({
+          screenshots: newScreenshots,
+          originalDescription: `${updatedOriginalDescription}
+${screenBBcodeArray.join("")}`,
+          description: `${updatedDescription}
+${screenBBcodeArray.join("")}`
+        });
+        return screenBBcodeArray;
+      },
+      [torrentInfo, selectHost, updateTorrentInfo]
+    );
+    const handleUploadScreenshots = q$1(async () => {
+      if (btnDisable) return;
       setBtnText("上传中，请稍候...");
       setBtnDisable(true);
+      setCanCopy(false);
+      setCopyText("拷贝");
       try {
-        setCanCopy(false);
-        setCopyText("拷贝");
-        const imgData = [];
-        if (selectHost === "ptpimg") {
-          for (let index = 0; index < screenshots.length; index++) {
-            const originalImg = await getOriginalImgUrl(screenshots[index]);
-            const data = await saveScreenshotsToPtpimg([originalImg]);
-            if (data) {
-              imgData.push(data[0]);
-            } else {
-              return;
-            }
-          }
-        } else {
-          const gifyuHtml = await fetch("https://gifyu.com", {
-            responseType: void 0
-          });
-          const authToken = (_a2 = gifyuHtml.match(/PF\.obj\.config\.auth_token\s*=\s*"(.+)?"/)) == null ? void 0 : _a2[1];
-          for (let index = 0; index < screenshots.length; index++) {
-            const originalImg = await getOriginalImgUrl(screenshots[index]);
-            const data = await transferImgs(originalImg, authToken, "https://gifyu.com/json");
-            if (data) {
-              imgData.push(data.url);
-            }
-          }
-        }
-        if (imgData.length > 0) {
-          Jt.success($t("成功"));
-        }
-        let { description, originalDescription } = TORRENT_INFO;
-        TORRENT_INFO.screenshots = imgData;
-        const screenBBcodeArray = imgData.map((img) => {
-          return `[img]${img}[/img]`;
-        });
+        const imgData = await extractAndUploadImages();
+        const screenBBcodeArray = updateTorrentWithNewImages(imgData);
         setScreenBBCode(screenBBcodeArray);
         setCanCopy(true);
-        const allImages = (_b = description.match(/(\[url=(http(s)*:\/{2}.+?)\])?\[img\](.+?)\[\/img](\[url\])?/ig)) != null ? _b : [];
-        if (allImages && allImages.length > 0) {
-          allImages.forEach((img) => {
-            if (img.match(/\[url=.+?\]/)) {
-              img += "[/url]";
-            }
-            originalDescription = originalDescription == null ? void 0 : originalDescription.replace(img, "");
-            description = description.replace(img, "");
-          });
-        }
-        TORRENT_INFO.originalDescription = `${originalDescription}
-${screenBBcodeArray.join("")}`;
-        TORRENT_INFO.description = `${description}
-${screenBBcodeArray.join("")}`;
+        Jt.success($t$1("转存成功"));
       } catch (error) {
-        Jt.error(error.message);
+        const errorMessage = error instanceof Error ? error.message : $t$1("转存失败");
+        Jt.error(errorMessage);
+        console.error("截图转存失败:", error);
       } finally {
         setBtnText("转存截图");
         setBtnDisable(false);
       }
-    };
-    const uploadImgClosed = GM_getValue("easy-seed.upload-img-closed") || "";
-    return !(uploadImgClosed || CURRENT_SITE_NAME === "BTN") ? /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
+    }, [btnDisable, extractAndUploadImages, updateTorrentWithNewImages]);
+    if (uploadImgClosed || CURRENT_SITE_NAME === "BTN") {
+      return null;
+    }
+    return /* @__PURE__ */ u$1("div", { className: "function-list-item", children: /* @__PURE__ */ u$1("div", { className: "upload-section", children: [
       /* @__PURE__ */ u$1(
         "button",
         {
           disabled: btnDisable,
           className: btnDisable ? "is-disabled" : "",
-          onClick: uploadScreenshotsToAnother,
-          children: $t(btnText)
+          onClick: handleUploadScreenshots,
+          children: $t$1(btnText)
         }
       ),
-      /* @__PURE__ */ u$1("select", { value: selectHost, onChange: (e2) => setSelectHost(e2.target.value), children: [
-        /* @__PURE__ */ u$1("option", { value: "ptpimg", children: "ptpimg" }),
-        /* @__PURE__ */ u$1("option", { value: "gifyu", children: "gifyu" })
-      ] }),
       /* @__PURE__ */ u$1(
-        "button",
+        "select",
         {
-          className: "copy-img",
-          hidden: !canCopy,
-          onClick: () => {
-            GM_setClipboard(screenBBCode.join(""));
-            setCopyText("已拷贝");
-          },
-          children: $t(copyText)
+          value: selectHost,
+          onChange: (e2) => setSelectHost(e2.target.value),
+          disabled: btnDisable,
+          children: Object.entries(IMAGE_HOSTS).map(([key, host]) => /* @__PURE__ */ u$1("option", { value: key, children: host.name }, key))
         }
-      )
-    ] }) }) : null;
+      ),
+      canCopy && /* @__PURE__ */ u$1("button", { className: "copy-img", onClick: handleCopyBBCode, children: $t$1(copyText) })
+    ] }) });
   };
   const FunctionList = () => {
-    return /* @__PURE__ */ u$1("section", { className: "easy-seed-function-list", children: [
+    return /* @__PURE__ */ u$1("section", { className: "easy-upload-function-list", children: [
       /* @__PURE__ */ u$1(Douban, {}),
       /* @__PURE__ */ u$1(Transfer, {}),
       /* @__PURE__ */ u$1(UploadImg, {})
     ] });
   };
-  const getQuickSearchUrl = (siteName) => {
-    var _a2;
-    const siteInfo = PT_SITE[siteName];
-    const searchConfig = siteInfo.search;
-    const { params = {}, imdbOptionKey, nameOptionKey, path: path2, replaceKey } = searchConfig;
-    let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl);
-    let searchKeyWord = "";
-    const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
-    if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) && siteInfo.siteType !== "AvistaZ") {
-      if (replaceKey) {
-        searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
-      } else {
-        searchKeyWord = imdbId;
-      }
-    } else if (CURRENT_SITE_NAME.match(/RED|DicMusic|Orpheus/)) {
-      const { year = "", name = "" } = (_a2 = musicJson == null ? void 0 : musicJson.group) != null ? _a2 : {};
-      searchKeyWord = `${name} ${year}`;
-    } else {
-      searchKeyWord = movieAkaName || movieName || title;
-      imdbId = "";
-    }
-    let searchParams = Object.keys(params).map((key) => {
-      return `${key}=${params[key]}`;
-    }).join("&");
-    if (imdbId) {
-      searchParams = searchParams.replace(/\w+={name}&{0,1}?/, "").replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey || "");
-    } else {
-      if (searchParams.match(/{name}/)) {
-        searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, "").replace(/{name}/, searchKeyWord);
-      } else {
-        searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-      }
-      searchParams = searchParams.replace(/{optionKey}/, nameOptionKey || "");
-    }
-    let url = `${siteInfo.url + path2}${searchParams ? `?${searchParams}` : ""}`;
-    if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
-      url = url.replace(/{name}/, searchKeyWord);
-    }
-    return url;
-  };
   const SearchList = () => {
-    const handleSearchClickEvent = (siteName) => {
-      let openUrl = "";
+    const searchListSetting = GM_getValue(
+      "easy-upload.enabled-search-site-list",
+      []
+    );
+    const siteFaviconClosed = GM_getValue(
+      "easy-upload.site-favicon-closed",
+      false
+    );
+    const handleSearchClick = q$1((siteName) => {
       const attrUrl = $$2(`.search-list li>a[data-site="${siteName}"]`).data("url");
-      if (attrUrl) {
-        openUrl = attrUrl;
-      } else {
-        openUrl = getQuickSearchUrl(siteName);
-      }
+      const openUrl = attrUrl || getQuickSearchUrl(siteName);
       GM_openInTab(openUrl);
-    };
-    const searchListSetting = getValue("easy-seed.enabled-search-site-list");
-    const searchSitesEnabled = searchListSetting || [];
-    const siteFaviconClosed = getValue("easy-seed.site-favicon-closed", false);
-    const getSearchSites = () => {
+    }, []);
+    const searchSites = T$1(() => {
       const commonSites = [];
       const subtitlesSites = [];
       SORTED_SITE_KEYS.forEach((siteName) => {
         const siteInfo = PT_SITE[siteName];
-        if (siteInfo.search) {
-          if (searchSitesEnabled.length === 0 || searchSitesEnabled.includes(siteName)) {
-            if (siteInfo.siteType === "subtitles") {
-              subtitlesSites.push(siteName);
-            } else {
-              commonSites.push(siteName);
-            }
+        if (!siteInfo.search) return;
+        const isEnabled = searchListSetting.length === 0 || searchListSetting.includes(siteName);
+        if (isEnabled) {
+          if (siteInfo.siteType === "subtitles") {
+            subtitlesSites.push(siteName);
+          } else {
+            commonSites.push(siteName);
           }
         }
       });
-      return {
-        commonSites,
-        subtitlesSites
-      };
-    };
-    const batchSearchClick = () => {
-      const { commonSites, subtitlesSites } = getSearchSites();
+      return { commonSites, subtitlesSites };
+    }, [searchListSetting]);
+    const handleBatchSearch = q$1(() => {
+      const { commonSites, subtitlesSites } = searchSites;
       [...commonSites, ...subtitlesSites].forEach((site) => {
-        handleSearchClickEvent(site);
+        handleSearchClick(site);
       });
-    };
-    return /* @__PURE__ */ u$1(preact.Fragment, { children: ["commonSites", "subtitlesSites"].map((key, index) => {
-      const siteList = getSearchSites()[key];
-      return siteList.length > 0 ? /* @__PURE__ */ u$1("ul", { className: "search-list", children: [
-        siteList.map((siteName) => {
-          const siteInfo = PT_SITE[siteName];
-          const favIcon = !siteFaviconClosed && siteInfo.icon ? siteInfo.icon : "";
-          return /* @__PURE__ */ u$1("li", { children: [
-            /* @__PURE__ */ u$1(
-              "a",
-              {
-                "data-site": siteName,
-                onClick: () => handleSearchClickEvent(siteName),
-                children: [
-                  !!favIcon && /* @__PURE__ */ u$1("img", { src: favIcon, className: "site-icon" }),
-                  siteName
-                ]
-              }
-            ),
-            /* @__PURE__ */ u$1("span", { children: "|" })
-          ] }, siteName);
-        }),
-        index === 0 && /* @__PURE__ */ u$1("li", { id: "batch-search-btn", onClick: batchSearchClick, title: $t("同时打开多个搜索标签页"), children: $t("批量检索") })
-      ] }) : "";
-    }) });
-  };
-  const getPTPGroupId = async (imdbUrl) => {
-    if (!imdbUrl) {
-      return "";
-    }
-    const imdbId = getIMDBIdByUrl(imdbUrl);
-    if (imdbId) {
-      const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
-      const data = await fetch(url);
-      if (data && data.Movies && data.Movies.length > 0) {
-        return data.Movies[0].GroupId;
-      }
-      return "";
-    }
-    return "";
-  };
-  const openBatchSeedTabs = () => {
-    const batchSeedSetting = getValue("easy-seed.enabled-batch-seed-sites") || [];
-    if (batchSeedSetting.length === 0) {
-      Jt.error($t("请先设置群转列表"));
-      return false;
-    }
-    SORTED_SITE_KEYS.forEach(async (siteName) => {
-      const siteInfo = PT_SITE[siteName];
-      const { url, uploadPath = "" } = siteInfo;
-      if (siteInfo.asTarget) {
-        if (batchSeedSetting.includes(siteName)) {
-          if (!TORRENT_INFO.torrentData) {
-            const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
-            if (torrentData) {
-              TORRENT_INFO.torrentData = torrentData;
+    }, [handleSearchClick, searchSites]);
+    const renderSiteList = q$1(
+      (category, showBatchSearch = false) => {
+        const sites = searchSites[category];
+        if (sites.length === 0) return null;
+        return /* @__PURE__ */ u$1("ul", { className: "search-list", children: [
+          sites.map((siteName) => {
+            const siteInfo = PT_SITE[siteName];
+            const showIcon = !siteFaviconClosed && siteInfo.icon;
+            return /* @__PURE__ */ u$1("li", { children: [
+              /* @__PURE__ */ u$1(
+                "a",
+                {
+                  "data-site": siteName,
+                  onClick: () => handleSearchClick(siteName),
+                  children: [
+                    showIcon && /* @__PURE__ */ u$1(
+                      "img",
+                      {
+                        src: siteInfo.icon,
+                        className: "site-icon",
+                        alt: `${siteName} icon`
+                      }
+                    ),
+                    siteName
+                  ]
+                }
+              ),
+              /* @__PURE__ */ u$1("span", { children: "|" })
+            ] }, siteName);
+          }),
+          showBatchSearch && /* @__PURE__ */ u$1(
+            "li",
+            {
+              id: "batch-search-btn",
+              onClick: handleBatchSearch,
+              title: $t$1("同时打开多个搜索标签页"),
+              children: $t$1("批量检索")
             }
+          )
+        ] });
+      },
+      [searchSites, siteFaviconClosed, handleSearchClick, handleBatchSearch]
+    );
+    const hasSites = searchSites.commonSites.length > 0 || searchSites.subtitlesSites.length > 0;
+    if (!hasSites) return null;
+    return /* @__PURE__ */ u$1("div", { className: "search-lists-container", children: [
+      renderSiteList("commonSites", true),
+      renderSiteList("subtitlesSites")
+    ] });
+  };
+  /* Common package for dealing with hex/string/uint8 conversions (and sha1 hashing)
+  *
+  * @author   Jimmy Wärting <jimmy@warting.se> (https://jimmy.warting.se/opensource)
+  * @license  MIT
+  */
+  const alphabet = "0123456789abcdef";
+  const encodeLookup = [];
+  const decodeLookup = [];
+  for (let i = 0; i < 256; i++) {
+    encodeLookup[i] = alphabet[i >> 4 & 15] + alphabet[i & 15];
+    if (i < 16) {
+      if (i < 10) {
+        decodeLookup[48 + i] = i;
+      } else {
+        decodeLookup[97 - 10 + i] = i;
+      }
+    }
+  }
+  const arr2hex = (data) => {
+    const length = data.length;
+    let string2 = "";
+    let i = 0;
+    while (i < length) {
+      string2 += encodeLookup[data[i++]];
+    }
+    return string2;
+  };
+  const hex2arr = (str) => {
+    const sizeof = str.length >> 1;
+    const length = sizeof << 1;
+    const array = new Uint8Array(sizeof);
+    let n = 0;
+    let i = 0;
+    while (i < length) {
+      array[n++] = decodeLookup[str.charCodeAt(i++)] << 4 | decodeLookup[str.charCodeAt(i++)];
+    }
+    return array;
+  };
+  const concat = (chunks, size = 0) => {
+    const length = chunks.length || 0;
+    if (!size) {
+      let i2 = length;
+      while (i2--) size += chunks[i2].length;
+    }
+    const b = new Uint8Array(size);
+    let offset = size;
+    let i = length;
+    while (i--) {
+      offset -= chunks[i].length;
+      b.set(chunks[i], offset);
+    }
+    return b;
+  };
+  var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  var lookup = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
+  for (var i = 0; i < chars.length; i++) {
+    lookup[chars.charCodeAt(i)] = i;
+  }
+  var encode$1 = function(arraybuffer) {
+    var bytes = new Uint8Array(arraybuffer), i, len = bytes.length, base64 = "";
+    for (i = 0; i < len; i += 3) {
+      base64 += chars[bytes[i] >> 2];
+      base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
+      base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
+      base64 += chars[bytes[i + 2] & 63];
+    }
+    if (len % 3 === 2) {
+      base64 = base64.substring(0, base64.length - 1) + "=";
+    } else if (len % 3 === 1) {
+      base64 = base64.substring(0, base64.length - 2) + "==";
+    }
+    return base64;
+  };
+  const decoder = new TextDecoder();
+  const arr2text = (data, enc) => {
+    return decoder.decode(data);
+  };
+  const encoder = new TextEncoder();
+  const text2arr = (str) => encoder.encode(str);
+  const arr2base = (data) => encode$1(data);
+  const scope = typeof window !== "undefined" ? window : self;
+  const crypto = scope.crypto || scope.msCrypto || {};
+  const subtle = crypto.subtle || crypto.webkitSubtle;
+  const formatMap = {
+    hex: arr2hex,
+    base64: arr2base
+  };
+  const hash = async (data, format2, algo = "sha-1") => {
+    if (!subtle) throw new Error("no web crypto support");
+    if (typeof data === "string") data = text2arr(data);
+    const out = new Uint8Array(await subtle.digest(algo, data));
+    return format2 ? formatMap[format2](out) : out;
+  };
+  function digitCount(value) {
+    const sign = value < 0 ? 1 : 0;
+    value = Math.abs(Number(value || 1));
+    return Math.floor(Math.log10(value)) + 1 + sign;
+  }
+  function getType(value) {
+    if (ArrayBuffer.isView(value)) return "arraybufferview";
+    if (Array.isArray(value)) return "array";
+    if (value instanceof Number) return "number";
+    if (value instanceof Boolean) return "boolean";
+    if (value instanceof Set) return "set";
+    if (value instanceof Map) return "map";
+    if (value instanceof String) return "string";
+    if (value instanceof ArrayBuffer) return "arraybuffer";
+    return typeof value;
+  }
+  function encode(data, buffer2, offset) {
+    const buffers = [];
+    let result = null;
+    encode._encode(buffers, data);
+    result = concat(buffers);
+    encode.bytes = result.length;
+    if (ArrayBuffer.isView(buffer2)) {
+      buffer2.set(result, offset);
+      return buffer2;
+    }
+    return result;
+  }
+  encode.bytes = -1;
+  encode._floatConversionDetected = false;
+  encode._encode = function(buffers, data) {
+    if (data == null) {
+      return;
+    }
+    switch (getType(data)) {
+      case "object":
+        encode.dict(buffers, data);
+        break;
+      case "map":
+        encode.dictMap(buffers, data);
+        break;
+      case "array":
+        encode.list(buffers, data);
+        break;
+      case "set":
+        encode.listSet(buffers, data);
+        break;
+      case "string":
+        encode.string(buffers, data);
+        break;
+      case "number":
+        encode.number(buffers, data);
+        break;
+      case "boolean":
+        encode.number(buffers, data);
+        break;
+      case "arraybufferview":
+        encode.buffer(buffers, new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+        break;
+      case "arraybuffer":
+        encode.buffer(buffers, new Uint8Array(data));
+        break;
+    }
+  };
+  const buffE = new Uint8Array([101]);
+  const buffD = new Uint8Array([100]);
+  const buffL = new Uint8Array([108]);
+  encode.buffer = function(buffers, data) {
+    buffers.push(text2arr(data.length + ":"), data);
+  };
+  encode.string = function(buffers, data) {
+    buffers.push(text2arr(text2arr(data).byteLength + ":" + data));
+  };
+  encode.number = function(buffers, data) {
+    if (Number.isInteger(data)) return buffers.push(text2arr("i" + BigInt(data) + "e"));
+    const maxLo = 2147483648;
+    const hi = data / maxLo << 0;
+    const lo = data % maxLo << 0;
+    const val = hi * maxLo + lo;
+    buffers.push(text2arr("i" + val + "e"));
+    if (val !== data && !encode._floatConversionDetected) {
+      encode._floatConversionDetected = true;
+      console.warn(
+        'WARNING: Possible data corruption detected with value "' + data + '":',
+        'Bencoding only defines support for integers, value was converted to "' + val + '"'
+      );
+      console.trace();
+    }
+  };
+  encode.dict = function(buffers, data) {
+    buffers.push(buffD);
+    let j2 = 0;
+    let k2;
+    const keys = Object.keys(data).sort();
+    const kl = keys.length;
+    for (; j2 < kl; j2++) {
+      k2 = keys[j2];
+      if (data[k2] == null) continue;
+      encode.string(buffers, k2);
+      encode._encode(buffers, data[k2]);
+    }
+    buffers.push(buffE);
+  };
+  encode.dictMap = function(buffers, data) {
+    buffers.push(buffD);
+    const keys = Array.from(data.keys()).sort();
+    for (const key of keys) {
+      if (data.get(key) == null) continue;
+      ArrayBuffer.isView(key) ? encode._encode(buffers, key) : encode.string(buffers, String(key));
+      encode._encode(buffers, data.get(key));
+    }
+    buffers.push(buffE);
+  };
+  encode.list = function(buffers, data) {
+    let i = 0;
+    const c2 = data.length;
+    buffers.push(buffL);
+    for (; i < c2; i++) {
+      if (data[i] == null) continue;
+      encode._encode(buffers, data[i]);
+    }
+    buffers.push(buffE);
+  };
+  encode.listSet = function(buffers, data) {
+    buffers.push(buffL);
+    for (const item of data) {
+      if (item == null) continue;
+      encode._encode(buffers, item);
+    }
+    buffers.push(buffE);
+  };
+  const INTEGER_START = 105;
+  const STRING_DELIM = 58;
+  const DICTIONARY_START = 100;
+  const LIST_START = 108;
+  const END_OF_TYPE = 101;
+  function getIntFromBuffer(buffer2, start, end) {
+    let sum = 0;
+    let sign = 1;
+    for (let i = start; i < end; i++) {
+      const num = buffer2[i];
+      if (num < 58 && num >= 48) {
+        sum = sum * 10 + (num - 48);
+        continue;
+      }
+      if (i === start && num === 43) {
+        continue;
+      }
+      if (i === start && num === 45) {
+        sign = -1;
+        continue;
+      }
+      if (num === 46) {
+        break;
+      }
+      throw new Error("not a number: buffer[" + i + "] = " + num);
+    }
+    return sum * sign;
+  }
+  function decode$1(data, start, end, encoding) {
+    if (data == null || data.length === 0) {
+      return null;
+    }
+    if (typeof start !== "number" && encoding == null) {
+      encoding = start;
+      start = void 0;
+    }
+    if (typeof end !== "number" && encoding == null) {
+      encoding = end;
+      end = void 0;
+    }
+    decode$1.position = 0;
+    decode$1.encoding = encoding || null;
+    decode$1.data = !ArrayBuffer.isView(data) ? text2arr(data) : new Uint8Array(data.slice(start, end));
+    decode$1.bytes = decode$1.data.length;
+    return decode$1.next();
+  }
+  decode$1.bytes = 0;
+  decode$1.position = 0;
+  decode$1.data = null;
+  decode$1.encoding = null;
+  decode$1.next = function() {
+    switch (decode$1.data[decode$1.position]) {
+      case DICTIONARY_START:
+        return decode$1.dictionary();
+      case LIST_START:
+        return decode$1.list();
+      case INTEGER_START:
+        return decode$1.integer();
+      default:
+        return decode$1.buffer();
+    }
+  };
+  decode$1.find = function(chr) {
+    let i = decode$1.position;
+    const c2 = decode$1.data.length;
+    const d2 = decode$1.data;
+    while (i < c2) {
+      if (d2[i] === chr) return i;
+      i++;
+    }
+    throw new Error(
+      'Invalid data: Missing delimiter "' + String.fromCharCode(chr) + '" [0x' + chr.toString(16) + "]"
+    );
+  };
+  decode$1.dictionary = function() {
+    decode$1.position++;
+    const dict = {};
+    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
+      const buffer2 = decode$1.buffer();
+      let key = arr2text(buffer2);
+      if (key.includes("�")) key = arr2hex(buffer2);
+      dict[key] = decode$1.next();
+    }
+    decode$1.position++;
+    return dict;
+  };
+  decode$1.list = function() {
+    decode$1.position++;
+    const lst = [];
+    while (decode$1.data[decode$1.position] !== END_OF_TYPE) {
+      lst.push(decode$1.next());
+    }
+    decode$1.position++;
+    return lst;
+  };
+  decode$1.integer = function() {
+    const end = decode$1.find(END_OF_TYPE);
+    const number = getIntFromBuffer(decode$1.data, decode$1.position + 1, end);
+    decode$1.position += end + 1 - decode$1.position;
+    return number;
+  };
+  decode$1.buffer = function() {
+    let sep = decode$1.find(STRING_DELIM);
+    const length = getIntFromBuffer(decode$1.data, decode$1.position, sep);
+    const end = ++sep + length;
+    decode$1.position = end;
+    return decode$1.encoding ? arr2text(decode$1.data.slice(sep, end)) : decode$1.data.slice(sep, end);
+  };
+  function listLength(list) {
+    let length = 1 + 1;
+    for (const value of list) {
+      length += encodingLength$1(value);
+    }
+    return length;
+  }
+  function mapLength(map2) {
+    let length = 1 + 1;
+    for (const [key, value] of map2) {
+      const keyLength = text2arr(key).byteLength;
+      length += digitCount(keyLength) + 1 + keyLength;
+      length += encodingLength$1(value);
+    }
+    return length;
+  }
+  function objectLength(value) {
+    let length = 1 + 1;
+    const keys = Object.keys(value);
+    for (let i = 0; i < keys.length; i++) {
+      const keyLength = text2arr(keys[i]).byteLength;
+      length += digitCount(keyLength) + 1 + keyLength;
+      length += encodingLength$1(value[keys[i]]);
+    }
+    return length;
+  }
+  function stringLength(value) {
+    const length = text2arr(value).byteLength;
+    return digitCount(length) + 1 + length;
+  }
+  function arrayBufferLength(value) {
+    const length = value.byteLength - value.byteOffset;
+    return digitCount(length) + 1 + length;
+  }
+  function encodingLength$1(value) {
+    const length = 0;
+    if (value == null) return length;
+    const type = getType(value);
+    switch (type) {
+      case "arraybufferview":
+        return arrayBufferLength(value);
+      case "string":
+        return stringLength(value);
+      case "array":
+      case "set":
+        return listLength(value);
+      case "number":
+        return 1 + digitCount(Math.floor(value)) + 1;
+      case "bigint":
+        return 1 + value.toString().length + 1;
+      case "object":
+        return objectLength(value);
+      case "map":
+        return mapLength(value);
+      default:
+        throw new TypeError(`Unsupported value of type "${type}"`);
+    }
+  }
+  const encodingLength = encodingLength$1;
+  const bencode = { encode, decode: decode$1, byteLength: encodingLength$1, encodingLength };
+  const byteTable = [
+    255,
+    255,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    255,
+    255,
+    255,
+    255,
+    255,
+    255,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    255,
+    255,
+    255,
+    255,
+    255
+  ];
+  const decode = function(encoded) {
+    if (!ArrayBuffer.isView(encoded) && typeof encoded !== "string") {
+      throw new TypeError("base32.decode only takes Buffer or string as parameter");
+    }
+    let shiftIndex = 0;
+    let plainDigit = 0;
+    let plainChar;
+    let plainPos = 0;
+    if (!ArrayBuffer.isView(encoded)) {
+      encoded = text2arr(encoded);
+    }
+    const decoded = new Uint8Array(Math.ceil(encoded.length * 5 / 8));
+    for (let i = 0; i < encoded.length; i++) {
+      if (encoded[i] === 61) {
+        break;
+      }
+      const encodedByte = encoded[i] - 48;
+      if (encodedByte < byteTable.length) {
+        plainDigit = byteTable[encodedByte];
+        if (shiftIndex <= 3) {
+          shiftIndex = (shiftIndex + 5) % 8;
+          if (shiftIndex === 0) {
+            plainChar |= plainDigit;
+            decoded[plainPos] = plainChar;
+            plainPos++;
+            plainChar = 0;
+          } else {
+            plainChar |= 255 & plainDigit << 8 - shiftIndex;
           }
-          const timestamp2 = `${Date.now()}`;
-          GM_setValue("uploadInfo", TORRENT_INFO);
-          GM_openInTab(`${url + uploadPath}#timestamp=${timestamp2}`);
+        } else {
+          shiftIndex = (shiftIndex + 5) % 8;
+          plainChar |= 255 & plainDigit >>> shiftIndex;
+          decoded[plainPos] = plainChar;
+          plainPos++;
+          plainChar = 255 & plainDigit << 8 - shiftIndex;
         }
+      } else {
+        throw new Error("Invalid input - it is not base32 encoded string");
+      }
+    }
+    return decoded.subarray(0, plainPos);
+  };
+  function parseRange(range) {
+    const generateRange = (start, end = start) => Array.from({ length: end - start + 1 }, (cur, idx) => idx + start);
+    return range.reduce((acc, cur, idx, arr) => {
+      const r2 = cur.split("-").map((cur2) => parseInt(cur2));
+      return acc.concat(generateRange(...r2));
+    }, []);
+  }
+  /*! magnet-uri. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
+  function magnetURIDecode(uri) {
+    const result = {};
+    const data = uri.split("magnet:?")[1];
+    const params = data && data.length >= 0 ? data.split("&") : [];
+    params.forEach((param) => {
+      const keyval = param.split("=");
+      if (keyval.length !== 2) return;
+      const key = keyval[0];
+      let val = keyval[1];
+      if (key === "dn") val = decodeURIComponent(val).replace(/\+/g, " ");
+      if (key === "tr" || key === "xs" || key === "as" || key === "ws") {
+        val = decodeURIComponent(val);
+      }
+      if (key === "kt") val = decodeURIComponent(val).split("+");
+      if (key === "ix") val = Number(val);
+      if (key === "so") val = parseRange(decodeURIComponent(val).split(","));
+      if (result[key]) {
+        if (!Array.isArray(result[key])) {
+          result[key] = [result[key]];
+        }
+        result[key].push(val);
+      } else {
+        result[key] = val;
       }
     });
-    Jt.success($t("转种页面已打开，请前往对应页面操作"));
-  };
-  const getGPWGroupId = async (imdbUrl) => {
-    if (!imdbUrl) {
-      return "";
+    let m2;
+    if (result.xt) {
+      const xts = Array.isArray(result.xt) ? result.xt : [result.xt];
+      xts.forEach((xt) => {
+        if (m2 = xt.match(/^urn:btih:(.{40})/)) {
+          result.infoHash = m2[1].toLowerCase();
+        } else if (m2 = xt.match(/^urn:btih:(.{32})/)) {
+          result.infoHash = arr2hex(decode(m2[1]));
+        } else if (m2 = xt.match(/^urn:btmh:1220(.{64})/)) {
+          result.infoHashV2 = m2[1].toLowerCase();
+        }
+      });
     }
-    const imdbId = getIMDBIdByUrl(imdbUrl);
-    if (imdbId) {
-      const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
-      const data = await fetch(url);
-      if (data && data.response && data.response.GroupID) {
-        return data.response.GroupID;
+    if (result.xs) {
+      const xss = Array.isArray(result.xs) ? result.xs : [result.xs];
+      xss.forEach((xs) => {
+        if (m2 = xs.match(/^urn:btpk:(.{64})/)) {
+          result.publicKey = m2[1].toLowerCase();
+        }
+      });
+    }
+    if (result.infoHash) result.infoHashBuffer = hex2arr(result.infoHash);
+    if (result.infoHashV2) result.infoHashV2Buffer = hex2arr(result.infoHashV2);
+    if (result.publicKey) result.publicKeyBuffer = hex2arr(result.publicKey);
+    if (result.dn) result.name = result.dn;
+    if (result.kt) result.keywords = result.kt;
+    result.announce = [];
+    if (typeof result.tr === "string" || Array.isArray(result.tr)) {
+      result.announce = result.announce.concat(result.tr);
+    }
+    result.urlList = [];
+    if (typeof result.as === "string" || Array.isArray(result.as)) {
+      result.urlList = result.urlList.concat(result.as);
+    }
+    if (typeof result.ws === "string" || Array.isArray(result.ws)) {
+      result.urlList = result.urlList.concat(result.ws);
+    }
+    result.peerAddresses = [];
+    if (typeof result["x.pe"] === "string" || Array.isArray(result["x.pe"])) {
+      result.peerAddresses = result.peerAddresses.concat(result["x.pe"]);
+    }
+    result.announce = Array.from(new Set(result.announce));
+    result.urlList = Array.from(new Set(result.urlList));
+    result.peerAddresses = Array.from(new Set(result.peerAddresses));
+    return result;
+  }
+  function assertPath(path2) {
+    if (typeof path2 !== "string") {
+      throw new TypeError("Path must be a string. Received " + JSON.stringify(path2));
+    }
+  }
+  function normalizeStringPosix(path2, allowAboveRoot) {
+    var res = "";
+    var lastSegmentLength = 0;
+    var lastSlash = -1;
+    var dots = 0;
+    var code2;
+    for (var i = 0; i <= path2.length; ++i) {
+      if (i < path2.length)
+        code2 = path2.charCodeAt(i);
+      else if (code2 === 47)
+        break;
+      else
+        code2 = 47;
+      if (code2 === 47) {
+        if (lastSlash === i - 1 || dots === 1) ;
+        else if (lastSlash !== i - 1 && dots === 2) {
+          if (res.length < 2 || lastSegmentLength !== 2 || res.charCodeAt(res.length - 1) !== 46 || res.charCodeAt(res.length - 2) !== 46) {
+            if (res.length > 2) {
+              var lastSlashIndex = res.lastIndexOf("/");
+              if (lastSlashIndex !== res.length - 1) {
+                if (lastSlashIndex === -1) {
+                  res = "";
+                  lastSegmentLength = 0;
+                } else {
+                  res = res.slice(0, lastSlashIndex);
+                  lastSegmentLength = res.length - 1 - res.lastIndexOf("/");
+                }
+                lastSlash = i;
+                dots = 0;
+                continue;
+              }
+            } else if (res.length === 2 || res.length === 1) {
+              res = "";
+              lastSegmentLength = 0;
+              lastSlash = i;
+              dots = 0;
+              continue;
+            }
+          }
+          if (allowAboveRoot) {
+            if (res.length > 0)
+              res += "/..";
+            else
+              res = "..";
+            lastSegmentLength = 2;
+          }
+        } else {
+          if (res.length > 0)
+            res += "/" + path2.slice(lastSlash + 1, i);
+          else
+            res = path2.slice(lastSlash + 1, i);
+          lastSegmentLength = i - lastSlash - 1;
+        }
+        lastSlash = i;
+        dots = 0;
+      } else if (code2 === 46 && dots !== -1) {
+        ++dots;
+      } else {
+        dots = -1;
       }
+    }
+    return res;
+  }
+  function _format(sep, pathObject) {
+    var dir = pathObject.dir || pathObject.root;
+    var base = pathObject.base || (pathObject.name || "") + (pathObject.ext || "");
+    if (!dir) {
+      return base;
+    }
+    if (dir === pathObject.root) {
+      return dir + base;
+    }
+    return dir + sep + base;
+  }
+  var posix = {
+    // path.resolve([from ...], to)
+    resolve: function resolve27() {
+      var resolvedPath = "";
+      var resolvedAbsolute = false;
+      var cwd;
+      for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+        var path2;
+        if (i >= 0)
+          path2 = arguments[i];
+        else {
+          if (cwd === void 0)
+            cwd = process.cwd();
+          path2 = cwd;
+        }
+        assertPath(path2);
+        if (path2.length === 0) {
+          continue;
+        }
+        resolvedPath = path2 + "/" + resolvedPath;
+        resolvedAbsolute = path2.charCodeAt(0) === 47;
+      }
+      resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
+      if (resolvedAbsolute) {
+        if (resolvedPath.length > 0)
+          return "/" + resolvedPath;
+        else
+          return "/";
+      } else if (resolvedPath.length > 0) {
+        return resolvedPath;
+      } else {
+        return ".";
+      }
+    },
+    normalize: function normalize(path2) {
+      assertPath(path2);
+      if (path2.length === 0) return ".";
+      var isAbsolute2 = path2.charCodeAt(0) === 47;
+      var trailingSeparator = path2.charCodeAt(path2.length - 1) === 47;
+      path2 = normalizeStringPosix(path2, !isAbsolute2);
+      if (path2.length === 0 && !isAbsolute2) path2 = ".";
+      if (path2.length > 0 && trailingSeparator) path2 += "/";
+      if (isAbsolute2) return "/" + path2;
+      return path2;
+    },
+    isAbsolute: function isAbsolute(path2) {
+      assertPath(path2);
+      return path2.length > 0 && path2.charCodeAt(0) === 47;
+    },
+    join: function join() {
+      if (arguments.length === 0)
+        return ".";
+      var joined;
+      for (var i = 0; i < arguments.length; ++i) {
+        var arg = arguments[i];
+        assertPath(arg);
+        if (arg.length > 0) {
+          if (joined === void 0)
+            joined = arg;
+          else
+            joined += "/" + arg;
+        }
+      }
+      if (joined === void 0)
+        return ".";
+      return posix.normalize(joined);
+    },
+    relative: function relative(from, to) {
+      assertPath(from);
+      assertPath(to);
+      if (from === to) return "";
+      from = posix.resolve(from);
+      to = posix.resolve(to);
+      if (from === to) return "";
+      var fromStart = 1;
+      for (; fromStart < from.length; ++fromStart) {
+        if (from.charCodeAt(fromStart) !== 47)
+          break;
+      }
+      var fromEnd = from.length;
+      var fromLen = fromEnd - fromStart;
+      var toStart = 1;
+      for (; toStart < to.length; ++toStart) {
+        if (to.charCodeAt(toStart) !== 47)
+          break;
+      }
+      var toEnd = to.length;
+      var toLen = toEnd - toStart;
+      var length = fromLen < toLen ? fromLen : toLen;
+      var lastCommonSep = -1;
+      var i = 0;
+      for (; i <= length; ++i) {
+        if (i === length) {
+          if (toLen > length) {
+            if (to.charCodeAt(toStart + i) === 47) {
+              return to.slice(toStart + i + 1);
+            } else if (i === 0) {
+              return to.slice(toStart + i);
+            }
+          } else if (fromLen > length) {
+            if (from.charCodeAt(fromStart + i) === 47) {
+              lastCommonSep = i;
+            } else if (i === 0) {
+              lastCommonSep = 0;
+            }
+          }
+          break;
+        }
+        var fromCode = from.charCodeAt(fromStart + i);
+        var toCode = to.charCodeAt(toStart + i);
+        if (fromCode !== toCode)
+          break;
+        else if (fromCode === 47)
+          lastCommonSep = i;
+      }
+      var out = "";
+      for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
+        if (i === fromEnd || from.charCodeAt(i) === 47) {
+          if (out.length === 0)
+            out += "..";
+          else
+            out += "/..";
+        }
+      }
+      if (out.length > 0)
+        return out + to.slice(toStart + lastCommonSep);
+      else {
+        toStart += lastCommonSep;
+        if (to.charCodeAt(toStart) === 47)
+          ++toStart;
+        return to.slice(toStart);
+      }
+    },
+    _makeLong: function _makeLong(path2) {
+      return path2;
+    },
+    dirname: function dirname(path2) {
+      assertPath(path2);
+      if (path2.length === 0) return ".";
+      var code2 = path2.charCodeAt(0);
+      var hasRoot = code2 === 47;
+      var end = -1;
+      var matchedSlash = true;
+      for (var i = path2.length - 1; i >= 1; --i) {
+        code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            end = i;
+            break;
+          }
+        } else {
+          matchedSlash = false;
+        }
+      }
+      if (end === -1) return hasRoot ? "/" : ".";
+      if (hasRoot && end === 1) return "//";
+      return path2.slice(0, end);
+    },
+    basename: function basename(path2, ext) {
+      if (ext !== void 0 && typeof ext !== "string") throw new TypeError('"ext" argument must be a string');
+      assertPath(path2);
+      var start = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var i;
+      if (ext !== void 0 && ext.length > 0 && ext.length <= path2.length) {
+        if (ext.length === path2.length && ext === path2) return "";
+        var extIdx = ext.length - 1;
+        var firstNonSlashEnd = -1;
+        for (i = path2.length - 1; i >= 0; --i) {
+          var code2 = path2.charCodeAt(i);
+          if (code2 === 47) {
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else {
+            if (firstNonSlashEnd === -1) {
+              matchedSlash = false;
+              firstNonSlashEnd = i + 1;
+            }
+            if (extIdx >= 0) {
+              if (code2 === ext.charCodeAt(extIdx)) {
+                if (--extIdx === -1) {
+                  end = i;
+                }
+              } else {
+                extIdx = -1;
+                end = firstNonSlashEnd;
+              }
+            }
+          }
+        }
+        if (start === end) end = firstNonSlashEnd;
+        else if (end === -1) end = path2.length;
+        return path2.slice(start, end);
+      } else {
+        for (i = path2.length - 1; i >= 0; --i) {
+          if (path2.charCodeAt(i) === 47) {
+            if (!matchedSlash) {
+              start = i + 1;
+              break;
+            }
+          } else if (end === -1) {
+            matchedSlash = false;
+            end = i + 1;
+          }
+        }
+        if (end === -1) return "";
+        return path2.slice(start, end);
+      }
+    },
+    extname: function extname(path2) {
+      assertPath(path2);
+      var startDot = -1;
+      var startPart = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var preDotState = 0;
+      for (var i = path2.length - 1; i >= 0; --i) {
+        var code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+        if (end === -1) {
+          matchedSlash = false;
+          end = i + 1;
+        }
+        if (code2 === 46) {
+          if (startDot === -1)
+            startDot = i;
+          else if (preDotState !== 1)
+            preDotState = 1;
+        } else if (startDot !== -1) {
+          preDotState = -1;
+        }
+      }
+      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
+      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+        return "";
+      }
+      return path2.slice(startDot, end);
+    },
+    format: function format(pathObject) {
+      if (pathObject === null || typeof pathObject !== "object") {
+        throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof pathObject);
+      }
+      return _format("/", pathObject);
+    },
+    parse: function parse2(path2) {
+      assertPath(path2);
+      var ret = { root: "", dir: "", base: "", ext: "", name: "" };
+      if (path2.length === 0) return ret;
+      var code2 = path2.charCodeAt(0);
+      var isAbsolute2 = code2 === 47;
+      var start;
+      if (isAbsolute2) {
+        ret.root = "/";
+        start = 1;
+      } else {
+        start = 0;
+      }
+      var startDot = -1;
+      var startPart = 0;
+      var end = -1;
+      var matchedSlash = true;
+      var i = path2.length - 1;
+      var preDotState = 0;
+      for (; i >= start; --i) {
+        code2 = path2.charCodeAt(i);
+        if (code2 === 47) {
+          if (!matchedSlash) {
+            startPart = i + 1;
+            break;
+          }
+          continue;
+        }
+        if (end === -1) {
+          matchedSlash = false;
+          end = i + 1;
+        }
+        if (code2 === 46) {
+          if (startDot === -1) startDot = i;
+          else if (preDotState !== 1) preDotState = 1;
+        } else if (startDot !== -1) {
+          preDotState = -1;
+        }
+      }
+      if (startDot === -1 || end === -1 || // We saw a non-dot character immediately before the dot
+      preDotState === 0 || // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+        if (end !== -1) {
+          if (startPart === 0 && isAbsolute2) ret.base = ret.name = path2.slice(1, end);
+          else ret.base = ret.name = path2.slice(startPart, end);
+        }
+      } else {
+        if (startPart === 0 && isAbsolute2) {
+          ret.name = path2.slice(1, startDot);
+          ret.base = path2.slice(1, end);
+        } else {
+          ret.name = path2.slice(startPart, startDot);
+          ret.base = path2.slice(startPart, end);
+        }
+        ret.ext = path2.slice(startDot, end);
+      }
+      if (startPart > 0) ret.dir = path2.slice(0, startPart - 1);
+      else if (isAbsolute2) ret.dir = "/";
+      return ret;
+    },
+    sep: "/",
+    delimiter: ":",
+    win32: null,
+    posix: null
+  };
+  posix.posix = posix;
+  var pathBrowserify = posix;
+  const path = /* @__PURE__ */ getDefaultExportFromCjs(pathBrowserify);
+  /*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+  let promise;
+  typeof queueMicrotask === "function" ? queueMicrotask.bind(typeof window !== "undefined" ? window : commonjsGlobal) : (cb) => (promise || (promise = Promise.resolve())).then(cb).catch((err) => setTimeout(() => {
+    throw err;
+  }, 0));
+  /*! parse-torrent. MIT License. WebTorrent LLC <https://webtorrent.io/opensource> */
+  async function parseTorrent(torrentId) {
+    if (typeof torrentId === "string" && /^(stream-)?magnet:/.test(torrentId)) {
+      const torrentObj = magnetURIDecode(torrentId);
+      if (!torrentObj.infoHash) {
+        throw new Error("Invalid torrent identifier");
+      }
+      return torrentObj;
+    } else if (typeof torrentId === "string" && (/^[a-f0-9]{40}$/i.test(torrentId) || /^[a-z2-7]{32}$/i.test(torrentId))) {
+      return magnetURIDecode(`magnet:?xt=urn:btih:${torrentId}`);
+    } else if (ArrayBuffer.isView(torrentId) && torrentId.length === 20) {
+      return magnetURIDecode(`magnet:?xt=urn:btih:${arr2hex(torrentId)}`);
+    } else if (ArrayBuffer.isView(torrentId)) {
+      return await decodeTorrentFile(torrentId);
+    } else if (torrentId && torrentId.infoHash) {
+      torrentId.infoHash = torrentId.infoHash.toLowerCase();
+      if (!torrentId.announce) torrentId.announce = [];
+      if (typeof torrentId.announce === "string") {
+        torrentId.announce = [torrentId.announce];
+      }
+      if (!torrentId.urlList) torrentId.urlList = [];
+      return torrentId;
+    } else {
+      throw new Error("Invalid torrent identifier");
+    }
+  }
+  async function decodeTorrentFile(torrent) {
+    if (ArrayBuffer.isView(torrent)) {
+      torrent = bencode.decode(torrent);
+    }
+    ensure(torrent.info, "info");
+    ensure(torrent.info["name.utf-8"] || torrent.info.name, "info.name");
+    ensure(torrent.info["piece length"], "info['piece length']");
+    ensure(torrent.info.pieces, "info.pieces");
+    if (torrent.info.files) {
+      torrent.info.files.forEach((file) => {
+        ensure(typeof file.length === "number", "info.files[0].length");
+        ensure(file["path.utf-8"] || file.path, "info.files[0].path");
+      });
+    } else {
+      ensure(typeof torrent.info.length === "number", "info.length");
+    }
+    const result = {
+      info: torrent.info,
+      infoBuffer: bencode.encode(torrent.info),
+      name: arr2text(torrent.info["name.utf-8"] || torrent.info.name),
+      announce: []
+    };
+    result.infoHashBuffer = await hash(result.infoBuffer);
+    result.infoHash = arr2hex(result.infoHashBuffer);
+    if (torrent.info.private !== void 0) result.private = !!torrent.info.private;
+    if (torrent["creation date"]) result.created = new Date(torrent["creation date"] * 1e3);
+    if (torrent["created by"]) result.createdBy = arr2text(torrent["created by"]);
+    if (ArrayBuffer.isView(torrent.comment)) result.comment = arr2text(torrent.comment);
+    if (Array.isArray(torrent["announce-list"]) && torrent["announce-list"].length > 0) {
+      torrent["announce-list"].forEach((urls) => {
+        urls.forEach((url) => {
+          result.announce.push(arr2text(url));
+        });
+      });
+    } else if (torrent.announce) {
+      result.announce.push(arr2text(torrent.announce));
+    }
+    if (ArrayBuffer.isView(torrent["url-list"])) {
+      torrent["url-list"] = torrent["url-list"].length > 0 ? [torrent["url-list"]] : [];
+    }
+    result.urlList = (torrent["url-list"] || []).map((url) => arr2text(url));
+    result.announce = Array.from(new Set(result.announce));
+    result.urlList = Array.from(new Set(result.urlList));
+    const files = torrent.info.files || [torrent.info];
+    result.files = files.map((file, i) => {
+      const parts = [].concat(result.name, file["path.utf-8"] || file.path || []).map((p2) => ArrayBuffer.isView(p2) ? arr2text(p2) : p2);
+      return {
+        path: path.join.apply(null, [path.sep].concat(parts)).slice(1),
+        name: parts[parts.length - 1],
+        length: file.length,
+        offset: files.slice(0, i).reduce(sumLength, 0)
+      };
+    });
+    result.length = files.reduce(sumLength, 0);
+    const lastFile = result.files[result.files.length - 1];
+    result.pieceLength = torrent.info["piece length"];
+    result.lastPieceLength = (lastFile.offset + lastFile.length) % result.pieceLength || result.pieceLength;
+    result.pieces = splitPieces(torrent.info.pieces);
+    return result;
+  }
+  function encodeTorrentFile(parsed) {
+    const torrent = {
+      info: parsed.info
+    };
+    torrent["announce-list"] = (parsed.announce || []).map((url) => {
+      if (!torrent.announce) torrent.announce = url;
+      url = text2arr(url);
+      return [url];
+    });
+    torrent["url-list"] = parsed.urlList || [];
+    if (parsed.private !== void 0) {
+      torrent.private = Number(parsed.private);
+    }
+    if (parsed.created) {
+      torrent["creation date"] = parsed.created.getTime() / 1e3 | 0;
+    }
+    if (parsed.createdBy) {
+      torrent["created by"] = parsed.createdBy;
+    }
+    return bencode.encode(torrent);
+  }
+  function sumLength(sum, file) {
+    return sum + file.length;
+  }
+  function splitPieces(buf) {
+    const pieces = [];
+    for (let i = 0; i < buf.length; i += 20) {
+      pieces.push(arr2hex(buf.slice(i, i + 20)));
+    }
+    return pieces;
+  }
+  function ensure(bool, fieldName) {
+    if (!bool) throw new Error(`Torrent is missing required field: ${fieldName}`);
+  }
+  const blobToBase64 = (blob) => {
+    return new Promise((resolve28, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (e2) => {
+        var _a2;
+        resolve28((_a2 = e2.target) == null ? void 0 : _a2.result);
+      };
+      fileReader.readAsDataURL(blob);
+      fileReader.onerror = () => {
+        reject(new Error("blobToBase64 error"));
+      };
+    });
+  };
+  const getTorrentFileData = async (selector = "", torrentLink = "", targetSiteName) => {
+    var _a2;
+    let downloadLink = torrentLink || $$2(selector).attr("href");
+    if (!downloadLink) {
+      console.warn("Failed to get torrent file download link");
+      return null;
+    }
+    if (!downloadLink.startsWith("http") && !downloadLink.startsWith("/")) {
+      downloadLink = `${CURRENT_SITE_INFO.url}/${downloadLink}`;
+    } else if (downloadLink.startsWith("/")) {
+      downloadLink = `${CURRENT_SITE_INFO.url}${downloadLink}`;
+    }
+    try {
+      const file = await GMFetch(downloadLink, {
+        method: "GET",
+        responseType: "arraybuffer",
+        timeout: 1e4
+      });
+      const result = await parseTorrent(buffer.Buffer.from(file));
+      const siteInfo = PT_SITE[targetSiteName];
+      const announceUrl = ((_a2 = siteInfo == null ? void 0 : siteInfo.torrent) == null ? void 0 : _a2.announce) || "tracker.com";
+      const buf = encodeTorrentFile(__spreadProps(__spreadValues({}, result), {
+        comment: "",
+        announce: [announceUrl],
+        info: __spreadProps(__spreadValues({}, result.info), {
+          source: ""
+        })
+      }));
+      const blob = new Blob([buf], { type: "application/x-bittorrent" });
+      const base64 = await blobToBase64(blob);
+      return base64;
+    } catch (error) {
+      Jt.error(`${$t$1("种子文件下载失败")} ${$t$1("请手动下载")}`);
+      console.log(error);
       return "";
     }
-    return "";
   };
-  const UploadSiteList = () => {
-    const handleSiteClickEvent = async (url, siteName) => {
+  const SITE_URL_PROCESSORS = {
+    handleCommonSiteUrl: (url, category, sitePattern, categoryMap) => {
+      if (url.match(sitePattern)) {
+        const path2 = categoryMap[category] || "1";
+        return url.replace(
+          /\/upload\.php\?category=\d+/,
+          `/upload.php?category=${path2}`
+        );
+      }
+      return url;
+    },
+    handleUnit3dUrl: (url, category) => {
       if (url.match(/hdpost|blutopia|fearnopeer|asiancinema|monikadesign|lst/)) {
         const catMap = {
           movie: "1",
@@ -26993,9 +28507,12 @@ ${screenBBcodeArray.join("")}`;
           tvPack: "2",
           documentary: "1"
         };
-        const path2 = catMap[TORRENT_INFO.category] || "1";
-        url = url.replace("1", path2);
+        const path2 = catMap[category] || "1";
+        return url.replace(/\/upload\/\d+/, `/upload/${path2}`);
       }
+      return url;
+    },
+    handleAitherUrl: (url, category) => {
       if (url.match(/aither/)) {
         const catMap = {
           movie: "1",
@@ -27010,17 +28527,24 @@ ${screenBBcodeArray.join("")}`;
           magazine: "11",
           audioBook: "14"
         };
-        const path2 = catMap[TORRENT_INFO.category] || "1";
-        url = url.replace("1", path2);
+        const path2 = catMap[category] || "1";
+        return url.replace(/\/upload\/\d+/, `/upload/${path2}`);
       }
+      return url;
+    },
+    handleBibliotikUrl: (url, category) => {
       if (url.match(/bibliotik/)) {
         const catMap = {
           ebook: "ebooks",
           magazine: "magazines",
           audioBook: "audiobooks"
         };
-        url = url.replace("/upload", `/upload/${catMap[TORRENT_INFO.category] || "ebooks"}`);
+        const subPath = catMap[category] || "ebooks";
+        return url.replace("/upload", `/upload/${subPath}`);
       }
+      return url;
+    },
+    handleBYRUrl: (url, category) => {
       if (url.match(PT_SITE.BYR.host)) {
         const catMap = {
           movie: "408",
@@ -27032,67 +28556,187 @@ ${screenBBcodeArray.join("")}`;
           cartoon: "404",
           variety: "405"
         };
-        url = url.replace("/upload.php", `/upload.php?type=${catMap[TORRENT_INFO.category]}`);
+        const typeId = catMap[category];
+        return typeId ? url.replace("/upload.php", `/upload.php?type=${typeId}&ckeditor=1`) : url;
       }
-      if (url.match(PT_SITE.PTP.host)) {
-        const groupId = await getPTPGroupId(TORRENT_INFO.imdbUrl);
-        url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+      return url;
+    }
+  };
+  const getPTPGroupId = async (imdbUrl = "") => {
+    var _a2;
+    if (!imdbUrl) return "";
+    try {
+      const imdbId = getIdByIMDbUrl(imdbUrl);
+      if (!imdbId) return "";
+      const url = `${PT_SITE.PTP.url}/torrents.php?searchstr=${imdbId}&grouping=0&json=noredirect`;
+      const data = await GMFetch(url, {
+        responseType: "json"
+      });
+      if (((_a2 = data == null ? void 0 : data.Movies) == null ? void 0 : _a2.length) > 0) {
+        return data.Movies[0].GroupId;
       }
-      if (url.match(PT_SITE.GPW.host)) {
-        const groupId = await getGPWGroupId(TORRENT_INFO.imdbUrl);
-        if (groupId) {
-          url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+    } catch (error) {
+      console.error("fail to obtain ptp group id:", error);
+    }
+    return "";
+  };
+  const getGPWGroupId = async (imdbUrl = "") => {
+    var _a2;
+    if (!imdbUrl) return "";
+    try {
+      const imdbId = getIdByIMDbUrl(imdbUrl);
+      if (!imdbId) return "";
+      const url = `${PT_SITE.GPW.url}/upload.php?action=movie_info&imdbid=${imdbId}&check_only=1`;
+      const data = await GMFetch(url, {
+        responseType: "json"
+      });
+      if ((_a2 = data == null ? void 0 : data.response) == null ? void 0 : _a2.GroupID) {
+        return data.response.GroupID;
+      }
+    } catch (error) {
+      console.error("fail to obtain gpw group id:", error);
+    }
+    return "";
+  };
+  const UploadSiteList = () => {
+    const { torrentInfo, updateTorrentInfo } = useTorrentInfo();
+    const targetSitesEnabled = T$1(
+      () => GM_getValue("easy-upload.enabled-target-sites", []),
+      []
+    );
+    const siteFaviconClosed = T$1(
+      () => GM_getValue("easy-upload.site-favicon-closed", false),
+      []
+    );
+    const fetchTorrentData = q$1(
+      async (siteName) => {
+        if (torrentInfo.torrentData) return torrentInfo.torrentData;
+        try {
+          const torrentData = await getTorrentFileData(
+            CURRENT_SITE_INFO.torrentDownloadLinkSelector,
+            CURRENT_SITE_INFO.torrentLink,
+            siteName
+          );
+          if (torrentData) {
+            updateTorrentInfo({ torrentData });
+            return torrentData;
+          }
+        } catch (error) {
+          console.error("fail to fetch torrent file data:", error);
         }
-      }
-      if (TORRENT_INFO.isForbidden) {
-        const result = window.confirm($t("本种子可能禁止转载，确定要继续转载么？"));
-        if (!result) {
-          return;
-        }
-      }
-      if (CURRENT_SITE_NAME === "TTG" && !TORRENT_INFO.description) {
-        Jt.warning($t("请等待页面加载完成"));
-        return;
-      }
-      const timestamp2 = `${Date.now()}`;
-      if (!TORRENT_INFO.torrentData) {
-        const torrentData = await getTorrentFileData(CURRENT_SITE_INFO.torrentDownloadLinkSelector, CURRENT_SITE_INFO.torrentLink, siteName);
-        if (torrentData) {
-          TORRENT_INFO.torrentData = torrentData;
-        }
-      }
-      GM_setValue("uploadInfo", TORRENT_INFO);
-      url = `${url}#timestamp=${timestamp2}`;
-      GM_openInTab(url);
-    };
-    const targetSitesEnabled = getValue("easy-seed.enabled-target-sites") || [];
-    const siteFaviconClosed = getValue("easy-seed.site-favicon-closed", false) || "";
-    return /* @__PURE__ */ u$1("ul", { className: "site-list", children: [
-      SORTED_SITE_KEYS.map((siteName) => {
-        const siteInfo = PT_SITE[siteName];
-        const { url, uploadPath } = siteInfo;
-        const favIcon = siteFaviconClosed === "" && siteInfo.icon ? siteInfo.icon : "";
-        if (siteInfo.asTarget) {
-          if (targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName)) {
-            return /* @__PURE__ */ u$1("li", { children: [
-              /* @__PURE__ */ u$1(
-                "a",
-                {
-                  className: "site-item",
-                  onClick: () => handleSiteClickEvent(`${url}${uploadPath}`, siteName),
-                  children: [
-                    !!favIcon && /* @__PURE__ */ u$1("img", { src: favIcon, className: "site-icon" }),
-                    siteName
-                  ]
-                }
-              ),
-              /* @__PURE__ */ u$1("span", { children: "|" })
-            ] }, siteName);
+        return null;
+      },
+      [torrentInfo.torrentData, updateTorrentInfo]
+    );
+    const processSiteUrl = q$1(
+      async (baseUrl) => {
+        if (!torrentInfo) return baseUrl;
+        let url = baseUrl;
+        const { category, imdbUrl } = torrentInfo;
+        url = SITE_URL_PROCESSORS.handleUnit3dUrl(url, category);
+        url = SITE_URL_PROCESSORS.handleAitherUrl(url, category);
+        url = SITE_URL_PROCESSORS.handleBibliotikUrl(url, category);
+        url = SITE_URL_PROCESSORS.handleBYRUrl(url, category);
+        if (url.match(PT_SITE.PTP.host) && imdbUrl) {
+          const groupId = await getPTPGroupId(imdbUrl);
+          if (groupId) {
+            url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
           }
         }
-        return "";
-      }),
-      /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("button", { id: "batch-seed-btn", onClick: openBatchSeedTabs, children: $t("一键群转") }) })
+        if (url.match(PT_SITE.GPW.host) && imdbUrl) {
+          const groupId = await getGPWGroupId(imdbUrl);
+          if (groupId) {
+            url = url.replace(/(upload.php)/, `$1?groupid=${groupId}`);
+          }
+        }
+        return `${url}#timestamp=${Date.now()}`;
+      },
+      [torrentInfo]
+    );
+    const handleSiteClick = q$1(
+      async (baseUrl, siteName) => {
+        try {
+          if (!torrentInfo) {
+            Jt.error($t$1("请先获取种子信息"));
+            return false;
+          }
+          if (torrentInfo.isForbidden) {
+            const result = window.confirm(
+              $t$1("本种子可能禁止转载，确定要继续转载么？")
+            );
+            if (!result) return false;
+          }
+          await fetchTorrentData(siteName);
+          const processedUrl = await processSiteUrl(baseUrl);
+          GM_openInTab(processedUrl);
+          return true;
+        } catch (error) {
+          console.error("处理站点点击失败:", error);
+          Jt.error($t$1("打开上传页面失败"));
+          return false;
+        }
+      },
+      [torrentInfo, fetchTorrentData, processSiteUrl]
+    );
+    const handleBatchSeed = q$1(async () => {
+      try {
+        const batchSeedSetting = GM_getValue(
+          "easy-upload.enabled-batch-seed-sites",
+          []
+        );
+        if (batchSeedSetting.length === 0) {
+          Jt.error($t$1("请先设置群转列表"));
+          return;
+        }
+        if (!torrentInfo.torrentData) {
+          await fetchTorrentData(batchSeedSetting[0]);
+        }
+        const sitesToOpen = SORTED_SITE_KEYS.filter((siteName) => {
+          const siteInfo = PT_SITE[siteName];
+          return siteInfo.asTarget && batchSeedSetting.includes(siteName);
+        });
+        for (const siteName of sitesToOpen) {
+          const siteInfo = PT_SITE[siteName];
+          const baseUrl = `${siteInfo.url}${siteInfo.uploadPath || ""}`;
+          const processedUrl = await processSiteUrl(baseUrl);
+          GM_openInTab(processedUrl);
+          await new Promise((resolve28) => setTimeout(resolve28, 300));
+        }
+        Jt.success($t$1("转种页面已打开，请前往对应页面操作"));
+      } catch (error) {
+        console.error("批量转种失败:", error);
+        Jt.error($t$1("批量转种失败"));
+      }
+    }, [torrentInfo, fetchTorrentData, processSiteUrl]);
+    const renderSiteItem = q$1(
+      (siteName) => {
+        const siteInfo = PT_SITE[siteName];
+        if (!siteInfo.asTarget) return null;
+        const isEnabled = targetSitesEnabled.length === 0 || targetSitesEnabled.includes(siteName);
+        if (!isEnabled) return null;
+        const { url, uploadPath = "", icon = "" } = siteInfo;
+        const baseUrl = `${url}${uploadPath}`;
+        const showIcon = !siteFaviconClosed && icon;
+        return /* @__PURE__ */ u$1("li", { children: [
+          /* @__PURE__ */ u$1(
+            "a",
+            {
+              className: "site-item",
+              onClick: () => handleSiteClick(baseUrl, siteName),
+              children: [
+                showIcon && /* @__PURE__ */ u$1("img", { src: icon, className: "site-icon", alt: `${siteName} icon` }),
+                siteName
+              ]
+            }
+          ),
+          /* @__PURE__ */ u$1("span", { children: "|" })
+        ] }, siteName);
+      },
+      [handleSiteClick, targetSitesEnabled, siteFaviconClosed]
+    );
+    return /* @__PURE__ */ u$1("ul", { className: "site-list", children: [
+      SORTED_SITE_KEYS.map((siteName) => renderSiteItem(siteName)),
+      /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("button", { id: "batch-seed-btn", onClick: handleBatchSeed, children: $t$1("一键群转") }) })
     ] });
   };
   const SiteListConfig = [
@@ -27130,10 +28774,10 @@ ${screenBBcodeArray.join("")}`;
       key: "transferImgClosed"
     },
     {
-      name: "upload-img-closed",
-      des: "关闭转存ptpimg功能",
+      name: "rehost-img-closed",
+      des: "关闭转存图片功能",
       type: "checkbox",
-      key: "uploadImgClosed"
+      key: "rehostImgClosed"
     },
     {
       name: "site-favicon-closed",
@@ -27154,103 +28798,130 @@ ${screenBBcodeArray.join("")}`;
       key: "doubanClosed"
     }
   ];
-  const SettingPanel = (props) => {
-    const getSiteSetList = () => {
-      const targetSitesEnabled = getValue("easy-seed.enabled-target-sites") || [];
-      const batchSeedSiteEnabled = getValue("easy-seed.enabled-batch-seed-sites") || [];
-      const searchSitesEnabled = getValue("easy-seed.enabled-search-site-list") || [];
-      return SORTED_SITE_KEYS.map((site) => {
-        const targetEnabled = targetSitesEnabled.includes(site);
-        const batchEnabled = batchSeedSiteEnabled.includes(site);
-        const searchEnabled = searchSitesEnabled.includes(site);
-        return {
-          site,
-          targetEnabled,
-          batchEnabled,
-          searchEnabled
-        };
-      });
-    };
-    const getFeatureList = () => {
-      return FeatureSwitchList.map((feature) => {
-        const isChecked = getValue(`easy-seed.${feature.name}`, false) || false;
-        return __spreadProps(__spreadValues({}, feature), {
-          checked: !!isChecked
-        });
-      });
-    };
-    const featureList = getFeatureList();
-    const siteList = getSiteSetList();
-    const { closePanel } = props;
-    const [doubanCookie, setDoubanCookie] = h(getValue("easy-seed.douban-cookie", false) || "");
-    const [ptpImgApiKey, setPtpImgApiKey] = h(getValue("easy-seed.ptp-img-api-key", false) || "");
-    const saveSetting = () => {
-      const targetSitesEnabled = [];
-      const searchSitesEnabled = [];
-      const batchSeedSiteEnabled = [];
-      siteList.forEach(({ site, targetEnabled, batchEnabled, searchEnabled }) => {
-        if (batchEnabled) {
-          batchSeedSiteEnabled.push(site);
-        }
-        if (searchEnabled) {
-          searchSitesEnabled.push(site);
-        }
-        if (targetEnabled) {
-          targetSitesEnabled.push(site);
-        }
-      });
+  const SettingPanel = ({
+    closePanel
+  }) => {
+    const [siteList, setSiteList] = h([]);
+    const [featureList, setFeatureList] = h([]);
+    const [ptpImgApiKey, setPtpImgApiKey] = h(
+      GM_getValue("easy-upload.ptp-img-api-key", "")
+    );
+    y(() => {
+      const targetSitesEnabled = GM_getValue(
+        "easy-upload.enabled-target-sites",
+        []
+      );
+      const batchSeedSiteEnabled = GM_getValue(
+        "easy-upload.enabled-batch-seed-sites",
+        []
+      );
+      const searchSitesEnabled = GM_getValue(
+        "easy-upload.enabled-search-site-list",
+        []
+      );
+      const initialSiteList = SORTED_SITE_KEYS.map((site) => ({
+        site,
+        targetEnabled: targetSitesEnabled.includes(site),
+        batchEnabled: batchSeedSiteEnabled.includes(site),
+        searchEnabled: searchSitesEnabled.includes(site)
+      }));
+      setSiteList(initialSiteList);
+      const initialFeatureList = FeatureSwitchList.map((feature) => __spreadProps(__spreadValues({}, feature), {
+        checked: GM_getValue(`easy-upload.${feature.name}`, false)
+      }));
+      setFeatureList(initialFeatureList);
+    }, []);
+    const saveSetting = q$1(() => {
       try {
-        GM_setValue("easy-seed.enabled-target-sites", JSON.stringify(targetSitesEnabled));
-        GM_setValue("easy-seed.enabled-search-site-list", JSON.stringify(searchSitesEnabled));
-        GM_setValue("easy-seed.enabled-batch-seed-sites", JSON.stringify(batchSeedSiteEnabled));
-        GM_setValue("easy-seed.ptp-img-api-key", ptpImgApiKey);
-        GM_setValue("easy-seed.douban-cookie", doubanCookie);
+        const targetSitesEnabled = [];
+        const searchSitesEnabled = [];
+        const batchSeedSiteEnabled = [];
+        siteList.forEach(
+          ({ site, targetEnabled, batchEnabled, searchEnabled }) => {
+            if (targetEnabled) targetSitesEnabled.push(site);
+            if (searchEnabled) searchSitesEnabled.push(site);
+            if (batchEnabled) batchSeedSiteEnabled.push(site);
+          }
+        );
+        GM_setValue("easy-upload.enabled-target-sites", targetSitesEnabled);
+        GM_setValue("easy-upload.enabled-search-site-list", searchSitesEnabled);
+        GM_setValue("easy-upload.enabled-batch-seed-sites", batchSeedSiteEnabled);
+        GM_setValue("easy-upload.ptp-img-api-key", ptpImgApiKey);
         featureList.forEach((feature) => {
-          GM_setValue(`easy-seed.${feature.name}`, feature.checked ? "checked" : "");
+          GM_setValue(`easy-upload.${feature.name}`, !!feature.checked);
         });
-        window.location.reload();
+        Jt.success($t$1("设置已保存，页面将重新加载"));
+        setTimeout(() => window.location.reload(), 1e3);
       } catch (error) {
-        console.log(error);
-        Jt.error($t("保存本地站点设置失败"));
+        console.error("保存设置失败:", error);
+        Jt.error($t$1("保存本地站点设置失败"));
       }
-    };
-    const handleCheckChange = (key, index) => {
-      const siteInfo = siteList[index];
-      siteInfo[key] = !siteInfo[key];
-      siteList[index] = siteInfo;
-    };
-    const handleFeatureChange = (index) => {
-      const featureInfo = featureList[index];
-      featureInfo.checked = !featureInfo.checked;
-      featureList[index] = featureInfo;
-    };
-    return /* @__PURE__ */ u$1("div", { className: "easy-seed-setting-panel", children: /* @__PURE__ */ u$1("div", { className: "panel-content-wrap", children: [
-      /* @__PURE__ */ u$1("div", { className: "panel-content", children: [
-        SiteListConfig.map((config) => {
-          return /* @__PURE__ */ u$1("div", { children: [
-            /* @__PURE__ */ u$1("h3", { children: $t(config.title) }),
-            config.des && /* @__PURE__ */ u$1("p", { children: $t(config.des) }),
-            /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("ul", { className: config.class, children: siteList.map((siteInfo, index) => {
-              const siteData = PT_SITE[siteInfo.site];
-              if (siteData.asTarget && config.key !== "searchEnabled" || config.key === "searchEnabled" && siteData.search) {
-                return /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("label", { children: [
-                  /* @__PURE__ */ u$1(
-                    "input",
-                    {
-                      onChange: () => handleCheckChange(config.key, index),
-                      name: "target-site-enabled",
-                      type: "checkbox",
-                      checked: siteInfo[config.key]
-                    }
-                  ),
-                  siteInfo.site
-                ] }) }, siteInfo.site);
+    }, [siteList, featureList, ptpImgApiKey]);
+    const handleSiteCheckChange = q$1(
+      (key, index) => {
+        setSiteList((prevList) => {
+          const newList = [...prevList];
+          newList[index] = __spreadProps(__spreadValues({}, newList[index]), {
+            [key]: !newList[index][key]
+          });
+          return newList;
+        });
+      },
+      []
+    );
+    const handleFeatureChange = q$1((index) => {
+      setFeatureList((prevList) => {
+        const newList = [...prevList];
+        newList[index] = __spreadProps(__spreadValues({}, newList[index]), {
+          checked: !newList[index].checked
+        });
+        return newList;
+      });
+    }, []);
+    const renderSiteConfigSections = T$1(() => {
+      return SiteListConfig.map((config) => /* @__PURE__ */ u$1("div", { children: [
+        /* @__PURE__ */ u$1("h3", { children: $t$1(config.title) }),
+        config.des && /* @__PURE__ */ u$1("p", { children: $t$1(config.des) }),
+        /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("ul", { className: config.class, children: siteList.map((siteInfo, index) => {
+          const siteData = PT_SITE[siteInfo.site];
+          const shouldRender = siteData.asTarget && config.key !== "searchEnabled" || config.key === "searchEnabled" && siteData.search;
+          if (!shouldRender) return null;
+          return /* @__PURE__ */ u$1("li", { children: /* @__PURE__ */ u$1("label", { children: [
+            /* @__PURE__ */ u$1(
+              "input",
+              {
+                onChange: () => handleSiteCheckChange(
+                  config.key,
+                  index
+                ),
+                name: "target-site-enabled",
+                type: "checkbox",
+                checked: siteInfo[config.key]
               }
-              return "";
-            }) }) })
-          ] }, config.name);
-        }),
-        /* @__PURE__ */ u$1("h3", { children: $t("图床配置") }),
+            ),
+            siteInfo.site
+          ] }) }, siteInfo.site);
+        }) }) })
+      ] }, config.name));
+    }, [siteList, handleSiteCheckChange]);
+    const renderFeatureSwitches = T$1(() => {
+      return /* @__PURE__ */ u$1("div", { className: "feature-list", children: featureList.map((feature, index) => /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("label", { children: [
+        /* @__PURE__ */ u$1(
+          "input",
+          {
+            onChange: () => handleFeatureChange(index),
+            name: feature.name,
+            type: feature.type,
+            checked: feature.checked
+          }
+        ),
+        $t$1(feature.des)
+      ] }) }, feature.name)) });
+    }, [featureList, handleFeatureChange]);
+    return /* @__PURE__ */ u$1("div", { className: "easy-upload-setting-panel", children: /* @__PURE__ */ u$1("div", { className: "panel-content-wrap", children: [
+      /* @__PURE__ */ u$1("div", { className: "panel-content", children: [
+        renderSiteConfigSections,
+        /* @__PURE__ */ u$1("h3", { children: $t$1("图床配置") }),
         /* @__PURE__ */ u$1("section", { className: "site-enable-setting img-upload-setting", children: /* @__PURE__ */ u$1("label", { children: [
           "ptpimg ApiKey:",
           /* @__PURE__ */ u$1(
@@ -27266,44 +28937,190 @@ ${screenBBcodeArray.join("")}`;
             "a",
             {
               target: "_blank",
-              href: "https://github.com/techmovie/easy-seed/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey",
+              href: "https://github.com/techmovie/easy-upload/wiki/%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96ptpimg%E7%9A%84apiKey",
               rel: "noreferrer",
-              children: $t("如何获取？")
+              children: $t$1("如何获取？")
             }
           )
         ] }) }),
-        /* @__PURE__ */ u$1("h3", { children: $t("额外功能关闭") }),
-        /* @__PURE__ */ u$1("div", { className: "feature-list", children: featureList.map((feature, index) => {
-          return /* @__PURE__ */ u$1("section", { className: "site-enable-setting", children: /* @__PURE__ */ u$1("label", { children: [
-            /* @__PURE__ */ u$1(
-              "input",
-              {
-                onChange: () => handleFeatureChange(index),
-                name: feature.name,
-                type: feature.type,
-                checked: feature.checked
-              }
-            ),
-            $t(feature.des)
-          ] }) }, feature.name);
-        }) }),
-        /* @__PURE__ */ u$1("h3", { children: $t("豆瓣配置") }),
-        /* @__PURE__ */ u$1("div", { className: "douban-config", children: /* @__PURE__ */ u$1("label", { children: [
-          $t("豆瓣Cookie"),
-          /* @__PURE__ */ u$1(
-            "textarea",
-            {
-              value: doubanCookie,
-              onChange: (e2) => setDoubanCookie(e2.target.value)
-            }
-          )
-        ] }) })
+        /* @__PURE__ */ u$1("h3", { children: $t$1("额外功能关闭") }),
+        renderFeatureSwitches
       ] }),
       /* @__PURE__ */ u$1("div", { className: "confirm-btns", children: [
-        /* @__PURE__ */ u$1("button", { onClick: closePanel, children: $t("取消") }),
-        /* @__PURE__ */ u$1("button", { onClick: saveSetting, className: "save-setting-btn", children: $t("保存") })
+        /* @__PURE__ */ u$1("button", { onClick: closePanel, children: $t$1("取消") }),
+        /* @__PURE__ */ u$1("button", { onClick: saveSetting, className: "save-setting-btn", children: $t$1("保存") })
       ] })
     ] }) });
+  };
+  const HHLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => /* @__PURE__ */ u$1(preact.Fragment, { children: [
+    /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.title }),
+    /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.upload }),
+    /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t$1("快捷操作") }),
+    /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.functions }),
+    !quickSearchClosed && /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", onClick: children.onSearchClick, children: $t$1("快速检索") }),
+      /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.search })
+    ] })
+  ] });
+  const MTeamLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => /* @__PURE__ */ u$1(preact.Fragment, { children: [
+    /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
+      /* @__PURE__ */ u$1(
+        "th",
+        {
+          class: "ant-descriptions-item-label",
+          colSpan: 1,
+          style: "width: 135px; text-align: right;",
+          children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.title }) })
+        }
+      ),
+      /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: children.upload })
+    ] }),
+    !quickSearchClosed && /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
+      /* @__PURE__ */ u$1(
+        "th",
+        {
+          class: "ant-descriptions-item-label",
+          colSpan: 1,
+          style: "width: 135px; text-align: right;",
+          children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", onClick: children.onSearchClick, children: $t$1("快速检索") }) })
+        }
+      ),
+      /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: children.search })
+    ] })
+  ] });
+  const NexusPHPLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => {
+    const baseTitleClass = ["title-td", "rowhead", "nowrap"];
+    const baseContentClass = ["easy-upload-td", "rowfollow"];
+    if (CURRENT_SITE_NAME === "HDT") {
+      baseTitleClass.push("detailsleft");
+      baseContentClass.push("detailshash");
+    } else if (CURRENT_SITE_NAME === "HDSpace") {
+      baseTitleClass.push("header");
+      baseContentClass.push("lista");
+    }
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      /* @__PURE__ */ u$1("tr", { children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: children.title }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(
+          "div",
+          {
+            id: "seed-dom",
+            className: BROWSER_LANGUAGE === "en" ? "use-eng" : "",
+            children: children.upload
+          }
+        ) })
+      ] }),
+      /* @__PURE__ */ u$1("tr", { children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { children: $t$1("快捷操作") }) }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: children.functions })
+      ] }),
+      !quickSearchClosed && /* @__PURE__ */ u$1("tr", { children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: children.onSearchClick, children: $t$1("快速检索") }) }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: children.search })
+      ] })
+    ] });
+  };
+  const TikLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => /* @__PURE__ */ u$1(preact.Fragment, { children: [
+    /* @__PURE__ */ u$1("tr", { children: [
+      /* @__PURE__ */ u$1("td", { className: "rowhead", children: children.title }),
+      /* @__PURE__ */ u$1("td", { children: children.upload })
+    ] }),
+    /* @__PURE__ */ u$1("tr", { children: [
+      /* @__PURE__ */ u$1("td", { className: "rowhead", children: $t$1("快捷操作") }),
+      /* @__PURE__ */ u$1("td", { children: children.functions })
+    ] }),
+    !quickSearchClosed && /* @__PURE__ */ u$1("tr", { children: [
+      /* @__PURE__ */ u$1("td", { className: "rowhead", children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: children.onSearchClick, children: $t$1("快速检索") }) }),
+      /* @__PURE__ */ u$1("td", { children: children.search })
+    ] })
+  ] });
+  const SpeedAppLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => /* @__PURE__ */ u$1(preact.Fragment, { children: [
+    /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+      children.title,
+      /* @__PURE__ */ u$1("div", { className: "easy-upload-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1(
+        "div",
+        {
+          id: "seed-dom",
+          className: BROWSER_LANGUAGE === "en" ? "use-eng" : "",
+          children: children.upload
+        }
+      ) })
+    ] }),
+    /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+      /* @__PURE__ */ u$1("h4", { children: $t$1("快捷操作") }),
+      children.functions
+    ] }),
+    !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
+      /* @__PURE__ */ u$1("h4", { onClick: children.onSearchClick, children: $t$1("快速检索") }),
+      /* @__PURE__ */ u$1("div", { children: children.search })
+    ] })
+  ] });
+  const GazelleLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => /* @__PURE__ */ u$1(
+    "div",
+    {
+      id: "seed-dom",
+      className: [
+        "movie-page__torrent__panel",
+        BROWSER_LANGUAGE === "en" ? "use-eng" : ""
+      ].join(" "),
+      children: [
+        /* @__PURE__ */ u$1("div", { className: "ptp-title-wrapper", children: [
+          children.title,
+          children.upload
+        ] }),
+        children.functions,
+        /* @__PURE__ */ u$1("div", { class: "ptp-search-list", children: !quickSearchClosed && /* @__PURE__ */ u$1("div", { class: "ptp-title-wrapper", children: [
+          /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: children.onSearchClick, children: $t$1("快速检索") }),
+          children.search
+        ] }) })
+      ]
+    }
+  );
+  const HDBLayout = ({
+    children,
+    quickSearchClosed = false
+  }) => {
+    const baseTitleClass = ["rowfollow", "hdb-td"];
+    const baseContentClass = ["rowfollow", "hdb-td"];
+    return /* @__PURE__ */ u$1(preact.Fragment, { children: [
+      /* @__PURE__ */ u$1("tr", { class: "hdb-tr", children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: children.title }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(
+          "div",
+          {
+            id: "seed-dom",
+            className: BROWSER_LANGUAGE === "en" ? "use-eng" : "",
+            children: children.upload
+          }
+        ) })
+      ] }),
+      /* @__PURE__ */ u$1("tr", { class: "hdb-tr", children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { children: $t$1("快捷操作") }) }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: children.functions })
+      ] }),
+      !quickSearchClosed && /* @__PURE__ */ u$1("tr", { class: "hdb-tr", children: [
+        /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: children.onSearchClick, children: $t$1("快速检索") }) }),
+        /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: children.search })
+      ] })
+    ] });
   };
   const SvgSetting = (_b, ref) => {
     var _c = _b, {
@@ -27316,260 +29133,215 @@ ${screenBBcodeArray.join("")}`;
     return /* @__PURE__ */ preact.createElement("svg", __spreadValues({ t: 1638356346192, className: "icon", viewBox: "0 0 1024 1024", xmlns: "http://www.w3.org/2000/svg", "p-id": 26515, xmlnsXlink: "http://www.w3.org/1999/xlink", width: 200, height: 200, ref, "aria-labelledby": titleId }, props), title ? /* @__PURE__ */ preact.createElement("title", { id: titleId }, title) : null, /* @__PURE__ */ preact.createElement("defs", null, /* @__PURE__ */ preact.createElement("style", { type: "text/css" })), /* @__PURE__ */ preact.createElement("path", { d: "M636.2112 847.7696c5.7344-42.5472 39.8848-76.7488 82.432-82.3808 20.1216-2.6624 39.2192 0.8704 55.6544 9.0112 32.5632 16.0768 72.3456 4.864 92.3136-25.3952 8.1408-12.3392 15.5648-25.1392 22.2208-38.4 16.6912-33.1264 4.8128-72.8064-25.7536-93.8496-1.4336-0.9728-2.816-1.9968-4.1984-3.072-34.2016-26.2656-46.848-73.216-30.2592-113.0496 7.7312-18.6368 20.3264-33.28 35.4816-43.4176 30.3104-20.2752 40.704-60.4672 24.2176-92.9792a383.37536 383.37536 0 0 0-19.3024-33.7408c-20.224-31.5392-60.4672-42.1376-94.5152-26.4192-1.536 0.7168-3.1232 1.3824-4.7616 2.048-39.936 15.9744-86.6304 2.9696-112.4864-31.4368-12.0832-16.0768-18.3296-34.304-19.4048-52.4288-2.1504-36.5056-31.6928-65.6896-68.1472-67.9936a388.59776 388.59776 0 0 0-47.9744-0.0512c-36.9152 2.2528-65.1776 32.2048-68.2496 69.0688-0.1536 1.6896-0.3072 3.3792-0.5632 5.0688-5.7344 42.3936-39.7312 76.4416-82.0736 82.2272-20.0192 2.7136-39.0656-0.7168-55.4496-8.704-32.5632-15.8208-72.192-4.5056-92.0064 25.7536a386.85184 386.85184 0 0 0-22.1696 38.5024c-16.5376 32.9728-4.864 72.3968 25.3952 93.5424 1.3824 0.9728 2.7648 1.9968 4.096 3.0208 33.6896 26.112 46.1312 72.3968 30.1056 111.872-7.6288 18.7904-20.1728 33.6384-35.3792 43.9296-29.952 20.2752-39.8848 60.2112-23.6032 92.4672 5.9392 11.7248 12.3904 23.0912 19.456 34.0992 20.0704 31.3856 59.9552 42.0352 93.9008 26.624 1.536-0.7168 3.1232-1.3824 4.7104-1.9968 39.68-15.6672 85.8624-2.7648 111.6672 31.232 12.288 16.2304 18.6368 34.6112 19.712 52.9408 2.0992 36.352 31.744 65.2288 68.096 67.6864 8.6016 0.5632 17.2544 0.8704 25.9584 0.8704 7.4752 0 14.8992-0.2048 22.3232-0.6656 36.8128-2.1504 65.024-32.1024 68.096-68.864 0.0512-1.6896 0.256-3.4304 0.4608-5.12z", fill: "#FFF7E6", "p-id": 26516 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 514.816m-127.7952 0a127.7952 127.7952 0 1 0 255.5904 0 127.7952 127.7952 0 1 0-255.5904 0Z", fill: "#FD973F", "p-id": 26517 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 668.2112c-84.5824 0-153.3952-68.8128-153.3952-153.3952 0-84.5824 68.8128-153.3952 153.3952-153.3952s153.3952 68.8128 153.3952 153.3952c-0.0512 84.5824-68.8128 153.3952-153.3952 153.3952z m0-255.5392c-56.32 0-102.1952 45.824-102.1952 102.1952s45.824 102.1952 102.1952 102.1952 102.1952-45.824 102.1952-102.1952-45.8752-102.1952-102.1952-102.1952zM886.1696 437.1968c-6.0416 0-12.0832-2.0992-16.9472-6.4a25.6 25.6 0 0 1-2.2016-36.1472c14.8992-16.8448 18.0736-41.5744 7.936-61.5424a388.5568 388.5568 0 0 0-20.224-35.328c-12.4416-19.4048-35.5328-29.0304-58.7776-24.576a25.60512 25.60512 0 0 1-29.952-20.3264 25.60512 25.60512 0 0 1 20.3264-29.952c43.9808-8.3968 87.7056 10.0864 111.5136 47.2064 8.2432 12.8 15.9232 26.2144 22.784 39.8336 19.5584 38.5536 13.4144 86.2208-15.2576 118.6304-5.12 5.6832-12.1344 8.6016-19.2 8.6016z", fill: "#44454A", "p-id": 26518 }), /* @__PURE__ */ preact.createElement("path", { d: "M515.7888 968.448c-10.1888 0-20.48-0.3584-30.6176-1.024-53.7088-3.6352-96.5632-46.3872-99.6352-99.4304-0.9216-16.1792-6.7584-31.6928-16.7936-44.9536-21.9136-28.8768-60.7744-39.7312-94.5152-26.4192-1.3824 0.512-2.7136 1.0752-3.9936 1.6896-50.1248 22.784-107.6224 6.2976-136.704-39.1168a459.9552 459.9552 0 0 1-22.9376-40.2432c-24.064-47.6672-9.1136-105.984 34.816-135.68 13.3632-9.0624 23.7568-21.9648 30.0032-37.3248 13.6192-33.536 3.1744-72.448-25.4976-94.72-1.1776-0.9216-2.3552-1.792-3.5328-2.6112-45.0048-31.4368-60.3648-88.8832-36.5056-136.5504 7.7824-15.5648 16.5888-30.8736 26.1632-45.4656 29.2352-44.6464 87.296-60.8256 135.0144-37.6832 14.4384 7.0144 30.72 9.5232 47.104 7.3216 35.9936-4.9152 64.5632-33.536 69.4784-69.632 0.2048-1.4336 0.3584-2.8672 0.4608-4.3008 4.6592-54.8864 46.6432-97.0752 99.9424-100.352 18.688-1.1264 37.8368-1.1264 56.6272 0.1024 53.76 3.4304 96.6656 46.336 99.7888 99.7888 0.9216 15.9744 6.656 31.3856 16.4864 44.544 14.4384 19.2 37.632 31.232 62.1568 32.2048 14.1312 0.5632 25.1392 12.4928 24.576 26.5728-0.5632 14.1312-12.6976 25.088-26.5728 24.576-40.2944-1.5872-77.1584-20.7872-101.0688-52.6848-15.9232-21.1968-25.1392-46.1824-26.6752-72.2432-1.6384-27.648-23.9616-49.8688-51.9168-51.6608-16.64-1.0752-33.6896-1.0752-50.2272-0.0512-27.6992 1.6896-49.6128 24.1664-52.0704 53.4528-0.2048 2.2528-0.4608 4.608-0.768 6.912-7.9872 58.8288-54.5792 105.472-113.3056 113.5104-26.4192 3.584-52.7872-0.5632-76.3904-11.9808-24.6272-11.9296-54.6816-3.5328-69.8368 19.6608a404.15744 404.15744 0 0 0-23.1936 40.2944c-12.3904 24.7808-3.9936 54.9376 20.0192 71.68 1.8944 1.3312 3.7888 2.7136 5.632 4.1472 46.6432 36.1984 63.744 99.7376 41.472 154.4192-10.0864 24.7808-26.9312 45.6704-48.7424 60.416-22.6304 15.3088-30.2592 45.5168-17.8176 70.2464 6.144 12.1856 13.0048 24.1664 20.3776 35.6864 15.2576 23.808 45.6704 32.256 72.3968 20.1728 2.0992-0.9216 4.2496-1.8432 6.4-2.7136 55.04-21.7088 118.3744-3.9936 154.112 43.1104 16.2304 21.4016 25.6 46.592 27.0848 72.96 1.5872 27.3408 23.9104 49.408 51.968 51.3024 16.6912 1.1264 33.6384 1.2288 50.5344 0.256 27.5456-1.5872 49.3056-24.0128 51.7632-53.248 0.2048-2.3552 0.4608-4.6592 0.768-6.9632 7.9872-59.136 54.784-105.8304 113.8176-113.664 26.5216-3.5328 53.0432 0.768 76.6464 12.4416 24.6272 12.1856 54.784 3.84 70.0416-19.4048 8.4992-12.9024 16.3328-26.4192 23.2448-40.192 12.544-24.8832 3.9936-55.1424-20.3264-71.8848-1.9456-1.3312-3.84-2.7136-5.7344-4.1984-47.5648-36.5568-64.7168-100.7104-41.728-155.9552a25.55904 25.55904 0 0 1 33.4848-13.7728 25.55904 25.55904 0 0 1 13.7728 33.4848c-13.8752 33.3824-3.1232 73.6256 25.6512 95.6928 1.1776 0.9216 2.3552 1.792 3.584 2.6112 45.6192 31.4368 61.184 89.1392 37.0176 137.1136-7.8336 15.5136-16.64 30.72-26.2144 45.312-29.4912 44.7488-87.7056 60.7232-135.4752 37.1712-14.4896-7.168-30.8736-9.7792-47.2576-7.5776-35.6352 4.7104-64.9728 34.048-69.7856 69.7344-0.2048 1.4848-0.3584 2.9696-0.4608 4.4032-4.5568 54.8352-46.5408 96.9728-99.7888 100.0448-8.7552 0.4096-17.6128 0.6656-26.3168 0.6656z", fill: "#44454A", "p-id": 26519 }));
   };
   const ForwardRef = w(SvgSetting);
+  const SiteLayouts = {
+    HH: HHLayout,
+    MTeam: MTeamLayout,
+    NexusPHP: NexusPHPLayout,
+    Cinematik: TikLayout,
+    SpeedApp: SpeedAppLayout,
+    Gazelle: GazelleLayout,
+    HDBits: HDBLayout
+  };
   const Container = () => {
     const [settingPanelOpen, setSettingPanelOpen] = h(false);
-    const isNexusPHP = CURRENT_SITE_INFO.siteType.match(/NexusPHP|AvistaZ/) || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/BeyondHD|TTG|Blutopia|HDPOST|Aither|ACM|KG|iTS|MDU|LST|fearnopeer/));
-    const isHDB = CURRENT_SITE_NAME === "HDBits";
-    const baseTitleClass = ["title-td"];
-    const baseContentClass = ["easy-seed-td"];
-    if (isNexusPHP) {
-      baseTitleClass.push("rowhead", "nowrap");
-      baseContentClass.push("rowfollow");
-    } else if (CURRENT_SITE_NAME === "HDT") {
-      baseTitleClass.push("detailsleft");
-      baseContentClass.push("detailshash");
-    } else if (CURRENT_SITE_NAME === "HDSpace") {
-      baseTitleClass.push("header");
-      baseContentClass.push("lista");
-    } else if (isHDB) {
-      baseTitleClass.push("rowfollow", "hdb-td");
-      baseContentClass.push("rowfollow", "hdb-td");
-    }
-    const openSettingPanel = () => {
-      setSettingPanelOpen(true);
+    const siteType = useSiteConfig();
+    const { checkQuickResult } = useQuickSearch();
+    const handleSearchClick = () => {
+      checkQuickResult();
     };
-    const closePanel = () => {
-      setSettingPanelOpen(false);
-    };
-    const checkQuickResult = () => {
-      let searchListSetting = getValue("easy-seed.enabled-search-site-list");
-      if (searchListSetting.length === 0) {
-        searchListSetting = SORTED_SITE_KEYS;
-      }
-      searchListSetting.forEach(async (site) => {
-        var _a2;
-        const siteInfo = PT_SITE[site];
-        const resultConfig = (_a2 = siteInfo.search) == null ? void 0 : _a2.result;
-        const siteUrl = siteInfo.url;
-        if (resultConfig) {
-          const { list, name, size, url: urlDom } = resultConfig;
-          const { title, size: searchSize } = TORRENT_INFO;
-          const url = getQuickSearchUrl(site);
-          const domString = await fetch(url, {
-            responseType: void 0
-          });
-          const dom = new DOMParser().parseFromString(domString, "text/html");
-          const torrentList = $$2(list, dom);
-          const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
-            var _a3, _b, _c, _d2, _e2;
-            let torrentName;
-            if (site === "TTG") {
-              torrentName = (_c = (_b = (_a3 = $$2(item).find(name).prop("firstChild")) == null ? void 0 : _a3.textContent) == null ? void 0 : _b.trim()) != null ? _c : "";
-            } else {
-              torrentName = $$2(item).find(name).attr("title") || $$2(item).find(name).text();
-            }
-            if (site === "TJUPT") {
-              const matchArray = torrentName.match(/\[[^\]]+(\.|\s)+[^\]]+\]/g) || [];
-              const realTitle = (_e2 = (_d2 = matchArray.filter((item2) => item2.match(/\.| /))) == null ? void 0 : _d2[0]) != null ? _e2 : "";
-              torrentName = realTitle.replace(/\[|\]/g, "");
-            }
-            torrentName = torrentName == null ? void 0 : torrentName.replace(/\s|\./g, "");
-            const sizeBytes = getSize($$2(item).find(size).text());
-            return torrentName === (title == null ? void 0 : title.replace(/\s|\./g, "")) && Math.abs(sizeBytes - searchSize) < Math.pow(1024, 2) * 1e3;
-          });
-          if (sameTorrent) {
-            const url2 = `${siteUrl}/${$$2(sameTorrent).find(urlDom).attr("href")}`;
-            $$2(`.search-list li>a[data-site=${site}]`).attr("data-url", url2).css("color", "#218380");
-          } else {
-            $$2(`.search-list li>a[data-site=${site}]`).css("color", "#D81159");
-          }
+    const TitleBar = () => /* @__PURE__ */ u$1("h4", { children: [
+      $t$1("一键转种"),
+      /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
+      /* @__PURE__ */ u$1("span", { id: "easy-upload-setting", className: "easy-upload-setting-btn" }),
+      /* @__PURE__ */ u$1(
+        ForwardRef,
+        {
+          onClick: () => setSettingPanelOpen(true),
+          className: "setting-svg"
         }
-      });
-    };
-    const Title = () => {
-      return /* @__PURE__ */ u$1("h4", { children: [
-        $t("一键转种"),
-        /* @__PURE__ */ u$1(Te, { position: "top-right", richColors: true }),
-        /* @__PURE__ */ u$1("span", { id: "easy-seed-setting", className: "easy-seed-setting-btn" }),
-        /* @__PURE__ */ u$1(ForwardRef, { onClick: openSettingPanel, className: "setting-svg" })
-      ] });
-    };
-    const quickSearchClosed = getValue("easy-seed.quick-search-closed", false) || "";
+      )
+    ] });
+    const LayoutComponent = SiteLayouts[siteType] || SiteLayouts.NexusPHP;
+    const quickSearchClosed = GM_getValue(
+      "easy-upload.quick-search-closed",
+      false
+    );
     return /* @__PURE__ */ u$1(preact.Fragment, { children: [
-      CURRENT_SITE_NAME === "HH" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(Title, {}) }),
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }),
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快捷操作") }),
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(FunctionList, {}) }),
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快速检索") }),
-        /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(SearchList, {}) })
-      ] }),
-      CURRENT_SITE_NAME === "MTeam" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
-          /* @__PURE__ */ u$1("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: /* @__PURE__ */ u$1(Title, {}) }) }) }),
-          /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ u$1(UploadSiteList, {}) })
-        ] }),
-        /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
-          /* @__PURE__ */ u$1("th", { class: "ant-descriptions-item-label", colSpan: 1, style: "width: 135px; text-align: right;", children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: $t("快速检索") }) }) }),
-          /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }),
-      (isNexusPHP || isHDB || (CURRENT_SITE_NAME == null ? void 0 : CURRENT_SITE_NAME.match(/(HDSpace|HDT)$/))) && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1(Title, {}) }),
-          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
-        ] }),
-        /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }) }),
-          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(FunctionList, {}) })
-        ] }),
-        !quickSearchClosed && /* @__PURE__ */ u$1("tr", { className: isHDB ? "hdb-tr" : "", children: [
-          /* @__PURE__ */ u$1("td", { className: baseTitleClass.join(" "), children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }) }),
-          /* @__PURE__ */ u$1("td", { className: baseContentClass.join(" "), children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }),
-      CURRENT_SITE_NAME === "Cinematik" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("tr", { children: [
-          /* @__PURE__ */ u$1("td", { className: "rowhead", children: /* @__PURE__ */ u$1(Title, {}) }),
-          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(UploadSiteList, {}) })
-        ] }),
-        /* @__PURE__ */ u$1("tr", { children: [
-          /* @__PURE__ */ u$1("td", { className: "rowhead", children: $t("快捷操作") }),
-          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(FunctionList, {}) })
-        ] }),
-        !quickSearchClosed && /* @__PURE__ */ u$1("tr", { children: [
-          /* @__PURE__ */ u$1("td", { className: "rowhead", children: /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }) }),
-          /* @__PURE__ */ u$1("td", { children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }),
-      CURRENT_SITE_NAME === "TeamHD" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1(Title, {}),
-          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
-        ] }),
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
-          /* @__PURE__ */ u$1(FunctionList, {})
-        ] }),
-        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
-          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }),
-      CURRENT_SITE_NAME === "SpeedApp" && /* @__PURE__ */ u$1(preact.Fragment, { children: [
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1(Title, {}),
-          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
-        ] }),
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
-          /* @__PURE__ */ u$1(FunctionList, {})
-        ] }),
-        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
-          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }),
-      CURRENT_SITE_NAME === "Bdc" && /* @__PURE__ */ u$1(preact.Fragment, { children: /* @__PURE__ */ u$1("tr", { children: /* @__PURE__ */ u$1("td", { colSpan: 4, children: [
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1(Title, {}),
-          /* @__PURE__ */ u$1("div", { className: "easy-seed-td", style: { flexWrap: "wrap" }, children: /* @__PURE__ */ u$1("div", { id: "seed-dom", className: BROWSER_LANGUAGE === "en" ? "use-eng" : "", children: /* @__PURE__ */ u$1(UploadSiteList, {}) }) })
-        ] }),
-        /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { children: $t("快捷操作") }),
-          /* @__PURE__ */ u$1(FunctionList, {})
-        ] }),
-        !quickSearchClosed && /* @__PURE__ */ u$1("div", { className: "custom-site", children: [
-          /* @__PURE__ */ u$1("h4", { onClick: checkQuickResult, children: $t("快速检索") }),
-          /* @__PURE__ */ u$1("div", { children: /* @__PURE__ */ u$1(SearchList, {}) })
-        ] })
-      ] }) }) }),
-      CURRENT_SITE_INFO.siteType === "gazelle" && /* @__PURE__ */ u$1("div", { id: "seed-dom", className: ["movie-page__torrent__panel", BROWSER_LANGUAGE === "en" ? "use-eng" : ""].join(" "), children: [
-        /* @__PURE__ */ u$1("div", { className: "ptp-title-wrapper", children: [
-          /* @__PURE__ */ u$1(Title, {}),
-          /* @__PURE__ */ u$1(UploadSiteList, {})
-        ] }),
-        CURRENT_SITE_NAME !== "EMP" && /* @__PURE__ */ u$1(FunctionList, {}),
-        /* @__PURE__ */ u$1("div", { class: "ptp-search-list", children: !quickSearchClosed && /* @__PURE__ */ u$1("div", { class: "ptp-title-wrapper", children: [
-          /* @__PURE__ */ u$1("h4", { className: "quick-search", onClick: checkQuickResult, children: $t("快速检索") }),
-          /* @__PURE__ */ u$1(SearchList, {})
-        ] }) })
-      ] }),
-      /* @__PURE__ */ u$1("div", { style: { display: settingPanelOpen ? "block" : "none" }, children: /* @__PURE__ */ u$1(SettingPanel, { closePanel }) })
+      /* @__PURE__ */ u$1(LayoutComponent, { quickSearchClosed, children: {
+        title: /* @__PURE__ */ u$1(TitleBar, {}),
+        upload: /* @__PURE__ */ u$1(UploadSiteList, {}),
+        functions: /* @__PURE__ */ u$1(FunctionList, {}),
+        search: /* @__PURE__ */ u$1(SearchList, {}),
+        onSearchClick: handleSearchClick
+      } }),
+      /* @__PURE__ */ u$1("div", { style: { display: settingPanelOpen ? "block" : "none" }, children: /* @__PURE__ */ u$1(SettingPanel, { closePanel: () => setSettingPanelOpen(false) }) })
     ] });
   };
-  const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
-  const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-  const torrentTimestamp = timestampMatchArray && timestampMatchArray.length > 0 ? timestampMatchArray[2] : null;
-  const torrentInfoRaw = torrentInfoMatchArray && torrentInfoMatchArray.length > 0 ? torrentInfoMatchArray[2] : null;
-  let torrentInfo = null;
-  if (CURRENT_SITE_NAME) {
-    fillSearchImdb();
-    if (CURRENT_SITE_INFO.asTarget) {
-      if (torrentInfoRaw) {
-        torrentInfo = JSON.parse(decodeURIComponent(torrentInfoRaw));
-      } else if (torrentTimestamp) {
-        torrentInfo = GM_getValue("uploadInfo");
-      }
-      fillTargetForm(torrentInfo);
-    }
-    if (CURRENT_SITE_INFO.asSource && !location.href.match(/upload|offer/ig) && !(CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getUrlParam("imdb") || getUrlParam("name")))) {
-      getTorrentInfo$1().then(() => {
-        console.log(TORRENT_INFO);
-      });
-      let refNode = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
-      const app = document.createElement("div");
-      preact.render(/* @__PURE__ */ u$1(Container, {}), app);
-      if (["PTP", "BTN", "GPW", "EMP", "RED", "DicMusic", "MTV", "Orpheus"].includes(CURRENT_SITE_NAME)) {
-        const torrentId = getUrlParam("torrentid");
-        if (CURRENT_SITE_NAME === "GPW") {
-          refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
-        } else if (CURRENT_SITE_NAME === "EMP") {
-          const groupId = getUrlParam("id");
-          refNode = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
-        } else if (CURRENT_SITE_NAME === "MTV") {
-          refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
-        } else {
-          refNode = document.querySelector(`#torrent_${torrentId} >td`);
-        }
+  const SPECIAL_SITE_CONFIGS = {
+    specialSiteNames: [
+      "PTP",
+      "BTN",
+      "GPW",
+      "RED",
+      "DicMusic",
+      "MTV",
+      "Orpheus",
+      "UHDBits"
+    ],
+    specialSelectors: {
+      GPW: (torrentId) => `#torrent_detail_${torrentId} >td`,
+      MTV: (torrentId) => `#torrentinfo${torrentId}>td`,
+      GazelleDefault: (torrentId) => `#torrent_${torrentId} >td`
+    },
+    appendMethods: {
+      UHDBits: (app) => {
+        var _a2;
+        const torrentId = getLocationSearchValueByKey("torrentid");
+        $$2(`#torrent_${torrentId} >td`).prepend(
+          document.createElement("blockquote")
+        );
+        (_a2 = $$2(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _a2.prepend(app);
+      },
+      GazelleDefault: (app, refNode) => {
         refNode == null ? void 0 : refNode.prepend(app);
-      } else if (CURRENT_SITE_NAME === "UHDBits") {
-        const torrentId = getUrlParam("torrentid");
-        $$2(`#torrent_${torrentId} >td`).prepend(document.createElement("blockquote"));
-        (_d = $$2(`#torrent_${torrentId} >td blockquote:first`)) == null ? void 0 : _d.prepend(app);
-      } else if (CURRENT_SITE_NAME === "SpeedApp") {
+      },
+      SpeedApp: (app, refNode) => {
+        var _a2;
         const div = document.createElement("div");
         div.setAttribute("class", "row col-md-12 mt-5");
         app.setAttribute("class", "card-body card");
         div.appendChild(app);
-        (_e = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _e.insertBefore(div, refNode);
-      } else if (CURRENT_SITE_NAME === "MTeam") {
-        const targetNode = document.getElementById("root");
-        const config = { childList: true, subtree: true };
-        const observer = new MutationObserver((mutationsList, observer2) => {
-          for (const mutation of mutationsList) {
-            if (mutation.type === "childList") {
-              const targetElement = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
-              if (targetElement) {
-                observer2.disconnect();
-                refNode = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
-                Array.from(app.childNodes).forEach((child) => {
-                  var _a2;
-                  (_a2 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a2.insertBefore(child, refNode);
-                });
-                break;
-              }
-            }
-          }
-        });
-        observer.observe(targetNode, config);
-      } else {
+        (_a2 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a2.insertBefore(div, refNode);
+      },
+      MTeam: (app) => {
+        setupMTeamObserver(app);
+      },
+      default: (app, refNode) => {
         Array.from(app.childNodes).forEach((child) => {
           var _a2;
           (_a2 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a2.insertBefore(child, refNode);
         });
       }
     }
+  };
+  function setupMTeamObserver(app) {
+    const targetNode = document.getElementById("root");
+    if (!targetNode) return;
+    if (document.querySelector(CURRENT_SITE_INFO.seedDomSelector)) {
+      insertScriptDomToMT(app);
+      return;
+    }
+    const config = { childList: true, subtree: true };
+    const observer = new MutationObserver((mutationsList, observer2) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          const targetElement = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
+          if (targetElement) {
+            observer2.disconnect();
+            insertScriptDomToMT(app);
+            break;
+          }
+        }
+      }
+    });
+    observer.observe(targetNode, config);
   }
+  function insertScriptDomToMT(app) {
+    const refNode = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
+    Array.from(app.childNodes).forEach((child) => {
+      var _a2;
+      (_a2 = refNode == null ? void 0 : refNode.parentNode) == null ? void 0 : _a2.insertBefore(child, refNode);
+    });
+  }
+  function extractTorrentInfoFromHash() {
+    const hash2 = location.hash || "";
+    const torrentInfoMatch = hash2.match(/(^|#)torrentInfo=([^#]+)/);
+    const torrentInfoRaw = (torrentInfoMatch == null ? void 0 : torrentInfoMatch[2]) || null;
+    const timestampMatch = hash2.match(/(^|#)timestamp=([^#]+)/);
+    const timestamp2 = (timestampMatch == null ? void 0 : timestampMatch[2]) || null;
+    return { torrentInfoRaw, timestamp: timestamp2 };
+  }
+  async function retrieveTorrentInfo() {
+    const { torrentInfoRaw, timestamp: timestamp2 } = extractTorrentInfoFromHash();
+    if (torrentInfoRaw) {
+      try {
+        return JSON.parse(decodeURIComponent(torrentInfoRaw));
+      } catch (e2) {
+        console.error("fail to parse torrent info", e2);
+      }
+    } else if (timestamp2) {
+      return GM_getValue("cachedTorrentInfo");
+    }
+    return null;
+  }
+  function determineReferenceNode() {
+    let refNode = $$2(CURRENT_SITE_INFO.seedDomSelector)[0];
+    const { specialSelectors, specialSiteNames } = SPECIAL_SITE_CONFIGS;
+    if (specialSiteNames.includes(CURRENT_SITE_NAME)) {
+      const torrentId = getLocationSearchValueByKey("torrentid");
+      if (!torrentId) return refNode;
+      const selectorFn = specialSelectors[CURRENT_SITE_NAME] || specialSelectors.GazelleDefault;
+      const selector = selectorFn(torrentId);
+      refNode = document.querySelector(selector);
+    }
+    return refNode;
+  }
+  function renderApp() {
+    const app = document.createElement("div");
+    preact.render(/* @__PURE__ */ u$1(Container, {}), app);
+    const refNode = determineReferenceNode();
+    if (!refNode) {
+      return;
+    }
+    const { appendMethods, specialSiteNames } = SPECIAL_SITE_CONFIGS;
+    if (specialSiteNames.includes(CURRENT_SITE_NAME)) {
+      const appendMethod = appendMethods.GazelleDefault;
+      appendMethod(app, refNode);
+      return;
+    }
+    const specialHandler = appendMethods[CURRENT_SITE_NAME];
+    if (specialHandler) {
+      specialHandler(app, refNode);
+      return;
+    }
+    appendMethods.default(app, refNode);
+  }
+  function shouldInitialize() {
+    if (!CURRENT_SITE_NAME || !CURRENT_SITE_INFO) {
+      return false;
+    }
+    if (CURRENT_SITE_INFO.search && location.pathname.match(CURRENT_SITE_INFO.search.path) && (getLocationSearchValueByKey("imdb") || getLocationSearchValueByKey("name"))) {
+      return false;
+    }
+    if (location.href.match(/upload|offer|create/gi)) {
+      return false;
+    }
+    return true;
+  }
+  async function initialize() {
+    if (!CURRENT_SITE_NAME) return;
+    fillSearchImdb();
+    if (CURRENT_SITE_INFO.asTarget) {
+      const torrentInfo = await retrieveTorrentInfo();
+      if (torrentInfo) {
+        fillTargetForm(torrentInfo);
+      }
+    }
+    if (CURRENT_SITE_INFO.asSource && shouldInitialize()) {
+      try {
+        const info = await getTorrentInfo();
+        if (info) {
+          console.log("torrent info was retrieved", info);
+          torrentInfoStore.setInfo(info);
+          renderApp();
+        }
+      } catch (error) {
+        console.error("fail to get torrent info", error);
+      }
+    }
+  }
+  initialize().catch((error) => {
+    console.error("fail to initialize Easy-Upload", error);
+  });
 
 })(preact, jQuery);
