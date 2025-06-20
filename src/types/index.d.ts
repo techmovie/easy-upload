@@ -146,7 +146,7 @@ declare namespace Site {
     };
     search: {
       path: string;
-      replaceKey?: string;
+      replaceKey?: string[];
       imdbOptionKey?: string;
       nameOptionKey?: string;
       params?: {

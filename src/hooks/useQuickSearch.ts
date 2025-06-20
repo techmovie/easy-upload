@@ -1,5 +1,5 @@
 import { useCallback } from 'preact/hooks';
-import { SORTED_SITE_KEYS, PT_SITE } from '@/const';
+import { SORTED_SITE_KEYS, PT_SITE, SiteName } from '@/const';
 import { convertSizeStringToBytes, GMFetch } from '@/common';
 import { getQuickSearchUrl } from '@/components/common';
 import $ from 'jquery';
@@ -17,14 +17,14 @@ export const useQuickSearch = () => {
       }
 
       searchListSetting.map(async (site) => {
-        const siteInfo = PT_SITE[site as keyof typeof PT_SITE] as Site.SiteInfo;
+        const siteInfo = PT_SITE[site as SiteName] as Site.SiteInfo;
         const resultConfig = siteInfo.search?.result;
         const siteUrl = siteInfo.url;
 
         if (!resultConfig) return;
 
         try {
-          const url = getQuickSearchUrl(site);
+          const url = getQuickSearchUrl(site as SiteName);
           const domString = await GMFetch<string>(url);
           const dom = new DOMParser().parseFromString(domString, 'text/html');
 

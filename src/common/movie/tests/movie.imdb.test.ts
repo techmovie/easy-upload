@@ -106,7 +106,7 @@ describe('getIMDBRating', () => {
   it('should throw an error if failed to parse rating data', async () => {
     const mockData =
       'imdb.rating.run({ "resource": {"id": "/title/tt1234567/", "rating": 6.3, "ratingCount": 24 } })';
-    vi.mocked(GMFetch).mockResolvedValue(mockData.replace('}', ''));
+    vi.mocked(GMFetch).mockResolvedValue(mockData.replace(/}/g, ''));
     await expect(getIMDBRating('tt1234567')).rejects.toThrow(
       'Failed to parse rating data',
     );

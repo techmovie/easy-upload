@@ -9,11 +9,13 @@ uploadPath: /torrent/upload
 needDoubanInfo: false
 search:
   path: /torrent/search
-  imdbOptionKey: "4"
-  nameOptionKey: "0"
+  imdbOptionKey: imdbid
+  nameOptionKey: title
   params:
-    search_area: "{optionKey}"
-    search: "{imdb}"
+    type: "{optionKey}"
+    keyword: "{imdb}"
+    sorter: seeding
+    order: desc
 name:
   selector: "#form_item_title"
 subtitle:

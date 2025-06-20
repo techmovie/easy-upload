@@ -1,5 +1,10 @@
 import { useCallback, useMemo } from 'preact/hooks';
-import { SORTED_SITE_KEYS, PT_SITE, CURRENT_SITE_INFO } from '@/const';
+import {
+  SORTED_SITE_KEYS,
+  PT_SITE,
+  CURRENT_SITE_INFO,
+  SiteName,
+} from '@/const';
 import { $t, GMFetch, getIdByIMDbUrl } from '@/common';
 import { getTorrentFileData } from '@/source/helper';
 import { PTPSearchResult, GPWSearchResult } from '@/components/types';
@@ -251,16 +256,12 @@ const UploadSiteList = () => {
       }
 
       const sitesToOpen = SORTED_SITE_KEYS.filter((siteName) => {
-        const siteInfo = PT_SITE[
-          siteName as keyof typeof PT_SITE
-        ] as Site.SiteInfo;
+        const siteInfo = PT_SITE[siteName as SiteName] as Site.SiteInfo;
         return siteInfo.asTarget && batchSeedSetting.includes(siteName);
       });
 
       for (const siteName of sitesToOpen) {
-        const siteInfo = PT_SITE[
-          siteName as keyof typeof PT_SITE
-        ] as Site.SiteInfo;
+        const siteInfo = PT_SITE[siteName as SiteName] as Site.SiteInfo;
         const baseUrl = `${siteInfo.url}${siteInfo.uploadPath || ''}`;
         const processedUrl = await processSiteUrl(baseUrl);
         GM_openInTab(processedUrl);
@@ -276,10 +277,8 @@ const UploadSiteList = () => {
   }, [torrentInfo, fetchTorrentData, processSiteUrl]);
 
   const renderSiteItem = useCallback(
-    (siteName: string) => {
-      const siteInfo = PT_SITE[
-        siteName as keyof typeof PT_SITE
-      ] as Site.SiteInfo;
+    (siteName: SiteName) => {
+      const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
 
       if (!siteInfo.asTarget) return null;
 

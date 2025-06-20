@@ -1,7 +1,7 @@
 import parseTorrent, { toTorrentFile } from 'parse-torrent';
 import { GMFetch, $t } from '../common';
 import { Buffer } from 'buffer/index.js';
-import { CURRENT_SITE_INFO, PT_SITE } from '../const';
+import { CURRENT_SITE_INFO, PT_SITE, SiteName } from '@/const';
 import { toast } from 'sonner';
 import $ from 'jquery';
 
@@ -61,9 +61,7 @@ const getTorrentFileData = async (
       timeout: 10000,
     });
     const result = await parseTorrent(Buffer.from(file));
-    const siteInfo = PT_SITE[
-      targetSiteName as keyof typeof PT_SITE
-    ] as Site.SiteInfo;
+    const siteInfo = PT_SITE[targetSiteName as SiteName] as Site.SiteInfo;
     const announceUrl = siteInfo?.torrent?.announce || 'tracker.com';
     const buf = toTorrentFile({
       ...result,

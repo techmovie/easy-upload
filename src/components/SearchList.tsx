@@ -1,10 +1,9 @@
 import { useCallback, useMemo } from 'preact/hooks';
-import { PT_SITE, SORTED_SITE_KEYS } from '@/const';
+import { PT_SITE, SORTED_SITE_KEYS, SiteName } from '@/const';
 import { $t } from '@/common';
 import { getQuickSearchUrl } from './common';
 import $ from 'jquery';
 
-type SiteName = keyof typeof PT_SITE;
 type SiteCategory = 'commonSites' | 'subtitlesSites';
 
 const SearchList = () => {

@@ -1,5 +1,5 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
-import { getLocationSearchValueByKey, GMFetch } from '../common';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
+import { getLocationSearchValueByKey, GMFetch } from '@/common';
 import $ from 'jquery';
 
 const filterBluTorrent = (imdb = '', name = '') => {

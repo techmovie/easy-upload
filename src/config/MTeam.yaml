@@ -11,6 +11,7 @@ search:
   replaceKey: ["tt", "https://www.imdb.com/title/tt"]
   params:
     keyword: "{imdb}"
+    sort: size%3Adescend
 name:
   selector: "#name"
 subtitle:

@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'preact/hooks';
 import { JSX } from 'preact';
 import { $t } from '@/common';
-import { PT_SITE, SORTED_SITE_KEYS } from '@/const';
+import { PT_SITE, SORTED_SITE_KEYS, SiteName } from '@/const';
 import { FeatureSwitchList, SiteListConfig } from './conf';
 import { toast } from 'sonner';
 
@@ -82,10 +82,7 @@ const SettingPanel = ({
       GM_setValue('easy-upload.ptp-img-api-key', ptpImgApiKey);
 
       featureList.forEach((feature) => {
-        GM_setValue(
-          `easy-upload.${feature.name}`,
-          feature.checked ? 'checked' : '',
-        );
+        GM_setValue(`easy-upload.${feature.name}`, !!feature.checked);
       });
 
       toast.success($t('设置已保存，页面将重新加载'));
@@ -130,7 +127,7 @@ const SettingPanel = ({
           <ul className={config.class}>
             {siteList.map((siteInfo, index) => {
               const siteData = PT_SITE[
-                siteInfo.site as keyof typeof PT_SITE
+                siteInfo.site as SiteName
               ] as Site.SiteInfo;
               const shouldRender =
                 (siteData.asTarget && config.key !== 'searchEnabled') ||
