@@ -33,10 +33,10 @@ const FeatureSwitchList = [
     key: 'transferImgClosed',
   },
   {
-    name: 'upload-img-closed',
-    des: '关闭转存ptpimg功能',
+    name: 'rehost-img-closed',
+    des: '关闭转存图片功能',
     type: 'checkbox',
-    key: 'uploadImgClosed',
+    key: 'rehostImgClosed',
   },
   {
     name: 'site-favicon-closed',
@@ -57,7 +57,4 @@ const FeatureSwitchList = [
     key: 'doubanClosed',
   },
 ];
-export {
-  FeatureSwitchList,
-  SiteListConfig,
-};
+export { FeatureSwitchList, SiteListConfig };

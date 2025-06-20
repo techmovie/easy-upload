@@ -1,52 +1,153 @@
-import {
-  CURRENT_SITE_NAME,
-  PT_SITE, TORRENT_INFO,
-} from '../const';
-import {
-  getIMDBIdByUrl,
-} from '../common';
-const getQuickSearchUrl = (siteName:string) => {
-  const siteInfo = PT_SITE[siteName as keyof typeof PT_SITE] as Site.SiteInfo;
-  const searchConfig = siteInfo.search;
-  const { params = {}, imdbOptionKey, nameOptionKey, path, replaceKey } = searchConfig;
-  let imdbId = getIMDBIdByUrl(TORRENT_INFO.imdbUrl as string);
+import { CURRENT_SITE_NAME, PT_SITE, SiteName } from '@/const';
+import { getIdByIMDbUrl } from '@/common';
+
+const SPECIAL_SITE_TYPES = {
+  NO_IMDB_SITES: /(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/,
+  MUSIC_SITES: /RED|DicMusic|Orpheus/,
+  NAME_REPLACE_SITES: /nzb|TMDB|豆瓣读书|SubHD|OpenSub/,
+  AVISTAZ_SITES: 'AvistaZ',
+  ZHUQUE: /ZHUQUE/,
+};
+
+interface SearchKeywordParams {
+  siteName: SiteName;
+  siteInfo: Site.SiteInfo;
+  torrentInfo: TorrentInfo.Info;
+}
+
+interface SearchKeywordResult {
+  searchKeyWord: string;
+  useImdb: boolean;
+}
+
+function determineSearchKeyword({
+  siteName,
+  siteInfo,
+  torrentInfo,
+}: SearchKeywordParams): SearchKeywordResult {
+  const { imdbUrl, movieAkaName, movieName, title, musicJson } = torrentInfo;
+
+  const imdbId = imdbUrl ? getIdByIMDbUrl(imdbUrl) : '';
   let searchKeyWord = '';
-  const { movieAkaName, movieName, title, musicJson } = TORRENT_INFO;
-  if (imdbId && !siteName.match(/(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/) &&
-  siteInfo.siteType !== 'AvistaZ') {
-    if (replaceKey) {
-      searchKeyWord = imdbId.replace(replaceKey[0], replaceKey[1]);
+  let useImdb = false;
+
+  if (CURRENT_SITE_NAME.match(SPECIAL_SITE_TYPES.MUSIC_SITES)) {
+    const { year = '', name = '' } = musicJson?.group ?? {};
+    searchKeyWord = `${name} ${year}`.trim();
+  } else if (
+    imdbId &&
+    !siteName.match(SPECIAL_SITE_TYPES.NO_IMDB_SITES) &&
+    siteInfo.siteType !== SPECIAL_SITE_TYPES.AVISTAZ_SITES
+  ) {
+    if (siteInfo.search.replaceKey && siteInfo.search.replaceKey.length === 2) {
+      const [pattern, replacement] = siteInfo.search.replaceKey;
+      searchKeyWord = imdbId.replace(new RegExp(pattern), replacement);
     } else {
       searchKeyWord = imdbId;
     }
-  } else if (CURRENT_SITE_NAME.match(/RED|DicMusic|Orpheus/)) {
-    const { year = '', name = '' } = musicJson?.group ?? {};
-    searchKeyWord = `${name} ${year}`;
+    useImdb = true;
   } else {
-    searchKeyWord = movieAkaName || movieName || title;
-    imdbId = '';
-  }
-  let searchParams = Object.keys(params).map(key => {
-    return `${key}=${params[key]}`;
-  }).join('&');
-  if (imdbId) {
-    searchParams = searchParams.replace(/\w+={name}&{0,1}?/, '')
-      .replace(/{imdb}/, searchKeyWord).replace(/{optionKey}/, imdbOptionKey || '');
-  } else {
-    if (searchParams.match(/{name}/)) {
-      searchParams = searchParams.replace(/\w+={imdb}&{0,1}?/, '').replace(/{name}/, searchKeyWord);
-    } else {
-      searchParams = searchParams.replace(/{imdb}/, searchKeyWord);
-    }
-    searchParams = searchParams.replace(/{optionKey}/, nameOptionKey || '');
+    searchKeyWord = movieAkaName || movieName || title || '';
+    useImdb = false;
   }
 
-  let url = `${siteInfo.url + path}${searchParams ? `?${searchParams}` : ''}`;
-  if (siteName.match(/nzb|TMDB|豆瓣读书|SubHD|OpenSub/)) {
-    url = url.replace(/{name}/, searchKeyWord);
+  return { searchKeyWord, useImdb };
+}
+
+interface BuildSearchParamsOptions {
+  siteName: SiteName;
+  params: Record<string, string>;
+  useImdb: boolean;
+  searchKeyWord: string;
+  imdbOptionKey: string;
+  nameOptionKey: string;
+}
+
+function buildSearchParams({
+  siteName,
+  params,
+  useImdb,
+  searchKeyWord,
+  imdbOptionKey,
+  nameOptionKey,
+}: BuildSearchParamsOptions): string {
+  let paramsArray = Object.entries(params).map(
+    ([key, value]) => `${key}=${value}`,
+  );
+
+  if (useImdb) {
+    // remove any based on name search parameters
+    paramsArray = paramsArray.filter(
+      (param) => !param.match(/\w+={name}&{0,1}?/),
+    );
+
+    paramsArray = paramsArray.map((param) =>
+      param
+        .replace(/{imdb}/g, searchKeyWord)
+        .replace(/{optionKey}/g, imdbOptionKey),
+    );
+  } else {
+    // remove any based on imdb search parameters
+    paramsArray = paramsArray.filter(
+      (param) => !param.match(/\w+={imdb}&{0,1}?/),
+    );
+
+    paramsArray = paramsArray.map((param) => {
+      if (param.includes('{name}')) {
+        return param.replace(/{name}/g, searchKeyWord);
+      } else if (param.includes('{imdb}')) {
+        return param.replace(/{imdb}/g, searchKeyWord);
+      }
+      return param.replace(/{optionKey}/g, nameOptionKey);
+    });
   }
+  if (siteName.match(SPECIAL_SITE_TYPES.ZHUQUE)) {
+    const queryParams: Record<string, string> = {};
+    paramsArray.forEach((param) => {
+      const [key, value] = param.split('=');
+      queryParams[key] = value;
+    });
+    return `/${window.btoa(encodeURIComponent(JSON.stringify(queryParams)))}`;
+  }
+
+  return `?${paramsArray.join('&')}`;
+}
+
+export const getQuickSearchUrl = (siteName: SiteName): string => {
+  const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
+  const torrentInfo = GM_getValue<TorrentInfo.Info>('cachedTorrentInfo') || {};
+
+  if (!siteInfo.search) {
+    return siteInfo.url;
+  }
+
+  const {
+    params = {},
+    imdbOptionKey = '',
+    nameOptionKey = '',
+    path = '',
+  } = siteInfo.search;
+
+  const { searchKeyWord, useImdb } = determineSearchKeyword({
+    siteName,
+    siteInfo,
+    torrentInfo,
+  });
+
+  const searchParams = buildSearchParams({
+    siteName,
+    params,
+    useImdb,
+    searchKeyWord,
+    imdbOptionKey,
+    nameOptionKey,
+  });
+
+  let url = `${siteInfo.url}${path}${searchParams ? `${searchParams}` : ''}`;
+
+  if (siteName.match(SPECIAL_SITE_TYPES.NAME_REPLACE_SITES)) {
+    url = url.replace(/{name}/g, encodeURIComponent(searchKeyWord));
+  }
+
   return url;
-};
-export {
-  getQuickSearchUrl,
 };

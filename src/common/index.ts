@@ -1,5 +1,5 @@
 export * from './image';
-export * from './mediainfo';
+export * from './media';
 export * from './movie';
 export * from './torrent-info';
 export * from './utils';

@@ -1,12 +1,14 @@
 import Douban from './Douban';
 import Transfer from './Transfer';
-import UploadImg from './UploadImg';
+import RehostImg from './RehostImg';
 
 const FunctionList = () => {
-  return <section className="easy-seed-function-list">
-    <Douban />
-    <Transfer />
-    <UploadImg />
-  </section>;
+  return (
+    <section className="easy-upload-function-list">
+      <Douban />
+      <Transfer />
+      <RehostImg />
+    </section>
+  );
 };
 export default FunctionList;

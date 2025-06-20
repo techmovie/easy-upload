@@ -1,34 +1,34 @@
-url: 'https://monikadesign.uk'
+url: "https://monikadesign.uk"
 host: monikadesign.uk
-siteType: UNIT3D
+siteType: UNIT3D-Legacy
 icon: data:image/png;base64,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
 asSource: true
 asTarget: true
 uploadPath: /upload/1
 needDoubanInfo: true
-seedDomSelector: '#meta-info+.meta-general>.panel:first'
+seedDomSelector: "#meta-info+.meta-general>.panel:first"
 torrentDownloadLinkSelector: 'a[href*="/download/torrent/"]'
 search:
   path: /torrents
-  replaceKey: ['tt', '']
+  replaceKey: ["tt", ""]
   params:
-    name: '{name}'
-    imdbId: '{imdb}'
+    name: "{name}"
+    imdbId: "{imdb}"
     sortField: size
 name:
-  selector: '#title'
+  selector: "#title"
 subtitle:
   selector: 'input[name="subhead"]'
 description:
-  selector: '#bbcode-description'
+  selector: "#bbcode-description"
 imdb:
-  selector: '#autoimdb'
+  selector: "#autoimdb"
 tmdb:
-  selector: '#autotmdb'
+  selector: "#autotmdb"
 mal:
-  selector: '#automal'
+  selector: "#automal"
 bgm:
-  selector: '#bgm'
+  selector: "#bgm"
 mediaInfo:
   selector: 'textarea[name="mediainfo"]'
 bdinfo:
@@ -38,30 +38,30 @@ anonymous:
 torrent:
   selector: 'input[name="file"]'
 category:
-  selector: '#autocat'
+  selector: "#autocat"
   map:
-    movie: '1'
-    tv: '2'
-    tvPack: '2'
+    movie: "1"
+    tv: "2"
+    tvPack: "2"
 videoType:
-  selector: '#autotype'
+  selector: "#autotype"
   map:
-    uhdbluray: '1'
-    bluray: '1'
-    remux: '2'
-    encode: '3'
-    web: '4'
-    hdtv: ''
-    dvd: ''
-    dvdrip: ''
-    other: ''
+    uhdbluray: "1"
+    bluray: "1"
+    remux: "2"
+    encode: "3"
+    web: "4"
+    hdtv: ""
+    dvd: ""
+    dvdrip: ""
+    other: ""
 resolution:
-  selector: '#autores'
+  selector: "#autores"
   map:
-    4320p: '1'
-    2160p: '2'
-    1080p: '3'
-    1080i: '4'
-    720p: '5'
-    576p: '6'
-    480p: '8'
+    4320p: "1"
+    2160p: "2"
+    1080p: "3"
+    1080i: "4"
+    720p: "5"
+    576p: "6"
+    480p: "8"

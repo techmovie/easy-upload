@@ -1,22 +1,22 @@
-url: 'https://beyond-hd.me'
+url: "https://beyond-hd.me"
 host: beyond-hd.me
 siteType: F3NIX
 icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAACMVBMVEUAAAAJIO///wAAAP8IGvAWQ9wWQdsYSNgYSNkWQNgUPd4vgrlGuZU6n6w1kbMVPdwVPdsZRNEYRNUWQtkVQNkGGPGu/zQIHugZStkeV9EhXc4iYcwiYsshYMwgXM4eVdEYRtgSOeEeVtIiYcwkZskkZskiYMwdU9MRNuEVP9wgWs8jZcojZcofWdAUPt4RMt4fWs4kZskkZskQMeMeVc8kZckjZModU9IiYMsiYMwXRdkeVc8fZMcdVNAhW8qxwvNljuBTg9o/dtUgW80iX8n+/v/6+v709f7K1fgiYMsiYMoiYssiYMsiYssiX8siYMsgXMwgW8weVM8kZckdUs8XQtciYMwXQtgdU9MjZModVNEQMeIfWM0fWM0QMOEVOtQfWc0fWM4UOtkSNt4cUtEhXswkZckiYcsdVNARNt4WQNgdUs4gWswhXssiYcoiYcsiYMogXMweVs8YSNUkZ8klaMgkZ8glaMklZ8kkaMglZ8gjZ8hbidxJfNgtbM3B0PSete8kZssiZsgfZMdnkt729/7j5/xGeNkpacw6c9JMf9dnkd7N2vX//////v8ras0jZshKetrL1fjx8/36+v7+/v9GetYnaMp0muLr7/z+/v7k6vpnk9wjZslrk+Du8f3p7vxfi9w0cNDY4PnZ4vk1cdBNgdbu8vzv8f3s7/xJftYhZchgjdzr7f2vwPJVgtxTgtulufDo6/1mkN5GeNhcht4oZ8wmZstUgttHetgkZsmOuILKAAAAdHRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcbLvo9O3DcR4IXcz6+9JmCQ6N9viWEQeN/P0KXfX4aM3TIm7+dbr+/v7+wOf+/v7+6/T28/fr7L++cvtzIdEhafdjCZGMCA+RjA4IYNL6zF0IH2697Pb057prG30aCesAAAABYktHRI0bDOLVAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5QQKBwYCrXu2GgAAAXtJREFUGNNjYGBgYGSSkJSSlpGRlZNXYGZhAANWRSVllZJSIChTVVPXYAOJsWtqaZeWlpeXlZWXl5bq6OpxMDBw6hsYllaUl1eWlABlKkqNdI25GLhNTEFiVdU1tdUVIFEzcx4GBQuQWElZXX1DY2U5SNTSisFapbS8rLqpuaW1rd2mqbqsvFTVlsGurLyso7Oru6e3z97B0akfyHVmcCktnzBx0uQpU3t7Xd3cPaZNKC/1ZPAC6p4+Y2bvrN6pU3tnz6kA6vdm8AE5ce68+b1AsGBhE8ixvgx+QMHy6kWLQYJLllZXAQX9GQLKqqrKm5Yt752/onflqiagirJAhqDg0qry1WvWrlu/YeOmzavLq0qDQxhC1UqrSids2bqtqWn7jp0TgI4PC2fgjdABKt0FsqGsCSQWGcXHwB8dAwwQUDABAZARHBsnwMAgGJ8QCRUDBp12YpIQKECFk1NS08pAgVyikp6RKQIJelHmrOyc3Lz8gsKiYjFxoAAAdfCapAG3hnMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMTBUMDc6MDY6MDIrMDA6MDCSiKOlAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTEwVDA3OjA2OjAyKzAwOjAw49UbGQAAAABJRU5ErkJggg==
 asSource: true
 asTarget: true
-seedDomSelector: '.table-details tr:last'
+seedDomSelector: ".table-details tr:last"
 torrentDownloadLinkSelector: 'a[href*="/download/"].bhd-fl-button'
 needDoubanInfo: true
 uploadPath: /upload
 search:
   path: /torrents/all
-  imdbOptionKey: '4'
-  nameOptionKey: '0'
+  imdbOptionKey: "4"
+  nameOptionKey: "0"
   params:
-    incldead: '0'
-    search_area: '{optionKey}'
-    imdb: '{imdb}'
-    search: '{name}'
+    incldead: "0"
+    search_area: "{optionKey}"
+    imdb: "{imdb}"
+    search: "{name}"
     sorting: size
     direction: desc
     doSearch: Search
@@ -78,135 +78,139 @@ targetInfo:
     webdl: WEBDL
     webrip: WEBRip
     with_commentary: Commentary
+    dolby_vision: DV
+    hdr10: HDR10
+    hdr10_plus?: HDR10+
+    hlg: HLG
 name:
-  selector: '#title'
+  selector: "#title"
 description:
-  selector: '#upload-form-description'
+  selector: "#upload-form-description"
 imdb:
-  selector: '#imdbauto'
+  selector: "#imdbauto"
 tmdb:
-  selector: '#tmdbauto'
+  selector: "#tmdbauto"
 mediaInfo:
-  selector: '#mediainfo'
+  selector: "#mediainfo"
 anonymous:
   selector: 'input[name="anonymous"]'
 videoType:
-  selector: '#category_id'
+  selector: "#category_id"
   map:
-    movie: '1'
-    tv: '2'
-    tvPack: '2'
+    movie: "1"
+    tv: "2"
+    tvPack: "2"
 torrent:
   selector: 'input[type="file"][accept=".torrent"]'
 category:
-  selector: '#autotype'
+  selector: "#autotype"
   map:
-    BD100: 'UHD 100'
-    BD66: 'UHD 66'
-    UHD50: 'UHD 50'
-    BD50: 'BD 50'
-    BD25: 'BD 25'
-    DVD5: 'DVD 5'
-    DVD9: 'DVD 9'
+    BD100: "UHD 100"
+    BD66: "UHD 66"
+    UHD50: "UHD 50"
+    BD50: "BD 50"
+    BD25: "BD 25"
+    DVD5: "DVD 5"
+    DVD9: "DVD 9"
     remux:
-      - 'UHD Remux'
-      - 'BD Remux'
-      - 'DVD Remux'
+      - "UHD Remux"
+      - "BD Remux"
+      - "DVD Remux"
     encode:
-      - '2160p'
-      - '1080p'
-      - '720p'
-      - '576p'
-      - '540p'
-      - '480p'
+      - "2160p"
+      - "1080p"
+      - "720p"
+      - "576p"
+      - "540p"
+      - "480p"
     web:
-      - '2160p'
-      - '1080p'
-      - '720p'
-      - '576p'
-      - '540p'
-      - '480p'
+      - "2160p"
+      - "1080p"
+      - "720p"
+      - "576p"
+      - "540p"
+      - "480p"
     hdtv:
-      - '2160p'
-      - '1080p'
-      - '1080i'
-      - '720p'
+      - "2160p"
+      - "1080p"
+      - "1080i"
+      - "720p"
     dvd:
-      - 'DVD 9'
-      - 'DVD 5'
-      - 'DVD Remux'
+      - "DVD 9"
+      - "DVD 5"
+      - "DVD Remux"
     dvdrip:
-      - '480p'
-    other: ''
+      - "480p"
+    other: ""
 source:
-  selector: '#autosource'
+  selector: "#autosource"
   map:
     uhdbluray:
-      - 'Blu-ray'
+      - "Blu-ray"
     bluray:
-      - 'Blu-ray'
-      - 'BD 50'
-      - 'BD 25'
-      - 'BD Remux'
-      - 'UHD 100'
-      - 'UHD 66'
-      - 'UHD 50'
-      - 'UHD Remux'
-      - '2160p'
-      - '1080p'
-      - '720p'
-      - '576p'
-      - '540p'
-      - '480p'
+      - "Blu-ray"
+      - "BD 50"
+      - "BD 25"
+      - "BD Remux"
+      - "UHD 100"
+      - "UHD 66"
+      - "UHD 50"
+      - "UHD Remux"
+      - "2160p"
+      - "1080p"
+      - "720p"
+      - "576p"
+      - "540p"
+      - "480p"
     hdtv:
-      - 'HDTV'
-      - '2160p'
-      - '1080p'
-      - '1080i'
-      - '720p'
+      - "HDTV"
+      - "2160p"
+      - "1080p"
+      - "1080i"
+      - "720p"
     dvd:
-      - 'DVD'
-      - 'DVD 9'
-      - 'DVD 5'
-      - 'DVD Remux'
-      - '480p'
+      - "DVD"
+      - "DVD 9"
+      - "DVD 5"
+      - "DVD Remux"
+      - "480p"
     web:
-      - 'WEB'
-      - '2160p'
-      - '1080p'
-      - '720p'
-      - '576p'
-      - '540p'
-      - '480p'
-    hddvd: 'HD-DVD'
+      - "WEB"
+      - "2160p"
+      - "1080p"
+      - "720p"
+      - "576p"
+      - "540p"
+      - "480p"
+    hddvd: "HD-DVD"
 resolution:
   map:
     2160p:
-      - 'UHD 100'
-      - 'UHD 66'
-      - 'UHD 50'
-      - 'UHD Remux'
-      - '2160p'
+      - "UHD 100"
+      - "UHD 66"
+      - "UHD 50"
+      - "UHD Remux"
+      - "2160p"
     1080p:
-      - 'BD 50'
-      - 'BD 25'
-      - 'BD Remux'
-      - '1080p'
+      - "BD 50"
+      - "BD 25"
+      - "BD Remux"
+      - "1080p"
     1080i:
-      - 'BD 50'
-      - 'BD 25'
-      - 'BD Remux'
-      - '1080i'
+      - "BD 50"
+      - "BD 25"
+      - "BD Remux"
+      - "1080i"
     720p:
-      - '720p'
+      - "720p"
     576p:
-      - '576p'
+      - "576p"
     540p:
-      - '540p'
+      - "540p"
     480p:
-      - 'DVD 9'
-      - 'DVD 5'
-      - 'DVD Remux'
-      - '480p'
+      - "DVD 9"
+      - "DVD 5"
+      - "DVD Remux"
+      - "480p"
     other:
-      - 'Other'
+      - "Other"

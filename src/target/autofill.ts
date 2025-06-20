@@ -1,70 +1,76 @@
-import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
 import {
-  $t, getDoubanIdByIMDB, getTvSeasonData,
-  getDoubanInfo, getSubTitle,
-} from '../common';
-import { toast } from 'sonner';
+  $t,
+  getDoubanBasicDataByQuery,
+  getSubTitleFromDoubanInfo,
+  getDoubanInfoByIdOrDoubanUrl,
+  getDoubanTVItemData,
+} from '@/common';
 import $ from 'jquery';
 
-async function autoFillDoubanInfo (selfDom: JQuery, info: TorrentInfo.Info) {
+async function autoFillDoubanInfo(selfDom: JQuery, info: TorrentInfo.Info) {
   try {
     $(selfDom).text($t('获取中...'));
     const {
-      imdbUrl, movieName,
-      doubanUrl, description:
-      descriptionData, title: torrentTitle,
+      imdbUrl,
+      movieName,
+      doubanUrl,
+      description: descriptionData,
+      title: torrentTitle,
     } = info;
     if (!imdbUrl && !doubanUrl) {
       throw new Error($t('请填写正确链接'));
     }
     let doubanLink = '';
-    if (doubanUrl && doubanUrl.match(/movie\.douban\.com/)) {
+    if (doubanUrl?.match(/movie\.douban\.com/)) {
       doubanLink = doubanUrl;
     } else {
-      const doubanData = await getDoubanIdByIMDB(imdbUrl || movieName);
+      const doubanData = await getDoubanBasicDataByQuery(imdbUrl || movieName);
       if (doubanData) {
-        let { id, season = '' } = doubanData;
-        const tvData = await getTvSeasonData(doubanData);
-        if (season && tvData) {
-          id = tvData && tvData.id;
+        let { id, isTV } = doubanData;
+        if (isTV) {
+          const tvData = await getDoubanTVItemData(doubanData, torrentTitle);
+          if (tvData) {
+            id = tvData && tvData.id;
+          }
         }
         doubanLink = `https://movie.douban.com/subject/${id}`;
       }
     }
     if (doubanLink) {
-      const {
-        douban, imdb, subtitle,
-        description, name,
-      } = CURRENT_SITE_INFO;
+      const { douban, imdb, subtitle, description, name } = CURRENT_SITE_INFO;
       if (CURRENT_SITE_NAME === 'SSD') {
         $(imdb.selector).val(doubanLink);
       } else {
         $(douban?.selector).val(doubanLink);
       }
       if (!descriptionData?.match(/(片|译)\s*名/)) {
-        const movieData = await getDoubanInfo(doubanLink);
+        const movieData = await getDoubanInfoByIdOrDoubanUrl(doubanLink);
         if (movieData) {
-          toast.success($t('获取成功'));
           const imdbLink = movieData.imdbLink;
-          if ($(imdb.selector).val() !== imdbLink && CURRENT_SITE_NAME !== 'SSD') {
+          if (
+            $(imdb.selector).val() !== imdbLink &&
+            CURRENT_SITE_NAME !== 'SSD'
+          ) {
             $(imdb.selector).val(imdbLink);
           }
-          const torrentSubtitle = getSubTitle(movieData);
+          const torrentSubtitle = getSubTitleFromDoubanInfo(movieData, info);
+
           if (CURRENT_SITE_NAME === 'TTG') {
             $(name.selector).val(`${torrentTitle || ''}[${torrentSubtitle}]`);
           } else {
             $(subtitle.selector).val(torrentSubtitle);
           }
           if (CURRENT_SITE_NAME !== 'SSD') {
-            $(description.selector).val(`${movieData.format}\n${$(description.selector).val()}`);
+            $(description.selector).val(
+              `${movieData.format}\n${$(description.selector).val()}`,
+            );
           }
         }
-      } else {
-        toast.success($t('获取成功'));
       }
     }
   } catch (error) {
-    toast.error((error as Error).message);
+    console.log((error as Error).message);
   } finally {
     $(selfDom).text($t('获取豆瓣简介'));
   }
@@ -76,13 +82,15 @@ export default (info: TorrentInfo.Info) => {
   if (CURRENT_SITE_INFO.siteType.match(/NexusPHP|TTG/)) {
     const { imdb, douban } = CURRENT_SITE_INFO;
     let selector: JQuery = $('');
-    if (douban && (douban.selector && $(douban.selector)) && $(douban.selector).val()) {
+    if (douban?.selector && $(douban.selector) && $(douban.selector).val()) {
       selector = $(douban.selector);
     } else if (imdb) {
       selector = $(imdb.selector);
     }
     if (selector) {
-      selector.after(`<span id="auto-fill-douban">${$t('获取豆瓣简介')}</span>`);
+      selector.after(
+        `<span id="auto-fill-douban">${$t('获取豆瓣简介')}</span>`,
+      );
     }
     $('#auto-fill-douban').on('click', () => {
       const url = <string>selector.val();

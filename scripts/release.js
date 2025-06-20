@@ -13,7 +13,7 @@ const checkGitTreeClean = () => {
   const infos = stdout.split('\n');
   if (infos.length && !!stdout) {
     infos.unshift('Git working directory is not clean.');
-    infos.forEach(info => log(chalk.red('ERR!'), info.trim()));
+    infos.forEach((info) => log(chalk.red('ERR!'), info.trim()));
     process.exit();
   }
 };
@@ -26,7 +26,7 @@ checkGitTreeClean();
 bump({
   tag: false,
   commit: 'chore: update pkg version %s',
-}).then(data => {
+}).then((data) => {
   const { newVersion } = data;
   const spinner = ora({
     text: '📦 打包中...',

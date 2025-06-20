@@ -10,7 +10,6 @@
 |     BTN     |            ✅             |           ❌            |
 |  BTSCHOOL   |            ✅             |           ✅            |
 |     BYR     |            ❌             |           ✅            |
-|     Bdc     |            ✅             |           ✅            |
 |  BeyondHD   |            ✅             |           ✅            |
 |     Bib     |            ❌             |           ✅            |
 |  Blutopia   |            ✅             |           ✅            |
@@ -21,13 +20,11 @@
 |  Concertos  |            ❌             |           ✅            |
 |  DicMusic   |            ✅             |           ✅            |
 |   DiscFan   |            ✅             |           ✅            |
-|     EMP     |            ✅             |           ❌            |
 |     GPW     |            ✅             |           ✅            |
 |   HD4FANS   |            ✅             |           ✅            |
 |   HDArea    |            ✅             |           ✅            |
 |   HDAtmos   |            ❌             |           ✅            |
 |   HDBits    |            ✅             |           ✅            |
-|   HDChina   |            ✅             |           ✅            |
 |   HDDolby   |            ✅             |           ✅            |
 |   HDFans    |            ✅             |           ✅            |
 |   HDHome    |            ✅             |           ✅            |
@@ -47,7 +44,6 @@
 |     MDU     |            ✅             |           ✅            |
 |     MTV     |            ✅             |           ✅            |
 |    MTeam    |            ✅             |           ✅            |
-|   NPUBits   |            ❌             |           ✅            |
 |    NYPT     |            ✅             |           ✅            |
 |   Orpheus   |            ✅             |           ✅            |
 |   OurBits   |            ✅             |           ✅            |
@@ -63,7 +59,6 @@
 |  PrivateHD  |            ✅             |           ❌            |
 |    PuTao    |            ✅             |           ✅            |
 |     RED     |            ✅             |           ✅            |
-|  RedLeaves  |            ✅             |           ✅            |
 |     SC      |            ❌             |           ✅            |
 |     SSD     |            ✅             |           ✅            |
 |  SoulVoice  |            ✅             |           ✅            |
@@ -72,7 +67,6 @@
 |    TJUPT    |            ✅             |           ✅            |
 |     TLF     |            ✅             |           ✅            |
 |     TTG     |            ✅             |           ✅            |
-|   TeamHD    |            ✅             |           ❌            |
 |   UHDBits   |            ✅             |           ✅            |
 |   ZHUQUE    |            ❌             |           ✅            |
 |    agsv     |            ✅             |           ✅            |

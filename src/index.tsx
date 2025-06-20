@@ -1,94 +1,209 @@
-// 入口文件
 import { render } from 'preact';
-import {
-  CURRENT_SITE_NAME, CURRENT_SITE_INFO,
-  TORRENT_INFO,
-} from './const';
-
-import { getUrlParam } from './common';
+import { CURRENT_SITE_NAME, CURRENT_SITE_INFO } from './const';
+import { getLocationSearchValueByKey } from '@/common';
 import { fillTargetForm } from './target';
-import getTorrentInfo from './source';
+import { getTorrentInfo } from '@/source';
 import { fillSearchImdb } from './site-dom/quick-search';
+import { torrentInfoStore } from '@/components/torrentInfoStore';
 import './site-dom/ptpimg';
-import './site-dom/AnalyzeUploadPage';
+import './site-dom/analyze-upload-page';
 import './style.css';
 import App from './components/Container';
 import $ from 'jquery';
 
-const torrentInfoMatchArray = location.hash && location.hash.match(/(^|#)torrentInfo=([^#]*)(#|$)/);
-const timestampMatchArray = location.hash && location.hash.match(/(^|#)timestamp=([^#]*)(#|$)/);
-const torrentTimestamp = (timestampMatchArray && timestampMatchArray.length > 0) ? timestampMatchArray[2] : null;
-const torrentInfoRaw = (torrentInfoMatchArray && torrentInfoMatchArray.length > 0) ? torrentInfoMatchArray[2] : null;
-let torrentInfo = null;
-if (CURRENT_SITE_NAME) {
-  fillSearchImdb();
-  if (CURRENT_SITE_INFO.asTarget) {
-    if (torrentInfoRaw) {
-      torrentInfo = JSON.parse(decodeURIComponent(torrentInfoRaw));
-    } else if (torrentTimestamp) {
-      torrentInfo = GM_getValue('uploadInfo');
-    }
-    fillTargetForm(torrentInfo as TorrentInfo.Info);
-  }
-  if (CURRENT_SITE_INFO.asSource &&
-    (!location.href.match(/upload|offer/ig)) &&
-    !(CURRENT_SITE_INFO.search &&
-      location.pathname.match(CURRENT_SITE_INFO.search.path) &&
-      (getUrlParam('imdb') || getUrlParam('name')))) {
-    getTorrentInfo().then(() => {
-      // 向当前所在站点添加按钮等内容
-      console.log(TORRENT_INFO);
-    });
-
-    let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
-    const app = document.createElement('div');
-    render(<App />, app);
-    if (['PTP', 'BTN', 'GPW', 'EMP', 'RED', 'DicMusic', 'MTV', 'Orpheus'].includes(CURRENT_SITE_NAME)) {
-      const torrentId = getUrlParam('torrentid');
-      if (CURRENT_SITE_NAME === 'GPW') {
-        refNode = document.querySelector(`#torrent_detail_${torrentId} >td`);
-      } else if (CURRENT_SITE_NAME === 'EMP') {
-        const groupId = getUrlParam('id');
-        refNode = document.querySelector(`.groupid_${groupId}.torrentdetails>td`);
-      } else if (CURRENT_SITE_NAME === 'MTV') {
-        refNode = document.querySelector(`#torrentinfo${torrentId}>td`);
-      } else {
-        refNode = document.querySelector(`#torrent_${torrentId} >td`);
-      }
-      refNode?.prepend(app);
-    } else if (CURRENT_SITE_NAME === 'UHDBits') {
-      const torrentId = getUrlParam('torrentid');
-      $(`#torrent_${torrentId} >td`).prepend(document.createElement('blockquote'));
+const SPECIAL_SITE_CONFIGS = {
+  specialSiteNames: [
+    'PTP',
+    'BTN',
+    'GPW',
+    'RED',
+    'DicMusic',
+    'MTV',
+    'Orpheus',
+    'UHDBits',
+  ],
+  specialSelectors: {
+    GPW: (torrentId: string) => `#torrent_detail_${torrentId} >td`,
+    MTV: (torrentId: string) => `#torrentinfo${torrentId}>td`,
+    GazelleDefault: (torrentId: string) => `#torrent_${torrentId} >td`,
+  },
+  appendMethods: {
+    UHDBits: (app: HTMLDivElement) => {
+      const torrentId = getLocationSearchValueByKey('torrentid');
+      $(`#torrent_${torrentId} >td`).prepend(
+        document.createElement('blockquote'),
+      );
       $(`#torrent_${torrentId} >td blockquote:first`)?.prepend(app);
-    } else if (CURRENT_SITE_NAME === 'SpeedApp') {
+    },
+    GazelleDefault: (app: HTMLDivElement, refNode?: HTMLElement) => {
+      refNode?.prepend(app);
+    },
+    SpeedApp: (app: HTMLElement, refNode?: HTMLElement) => {
       const div = document.createElement('div');
       div.setAttribute('class', 'row col-md-12 mt-5');
       app.setAttribute('class', 'card-body card');
       div.appendChild(app);
       refNode?.parentNode?.insertBefore(div, refNode);
-    } else if (CURRENT_SITE_NAME === 'MTeam') {
-      const targetNode = document.getElementById('root');
-      const config = { childList: true, subtree: true };
-      const observer = new MutationObserver((mutationsList, observer) => {
-        for (const mutation of mutationsList) {
-          if (mutation.type === 'childList') {
-            const targetElement = $(CURRENT_SITE_INFO.seedDomSelector)[0];
-            if (targetElement) {
-              observer.disconnect();
-              refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement|null;
-              Array.from(app.childNodes).forEach(child => {
-                refNode?.parentNode?.insertBefore(child, refNode);
-              });
-              break;
-            }
-          }
-        }
-      });
-      observer.observe(targetNode as HTMLElement, config);
-    } else {
-      Array.from(app.childNodes).forEach(child => {
+    },
+    MTeam: (app: HTMLElement) => {
+      setupMTeamObserver(app);
+    },
+    default: (app: HTMLDivElement, refNode?: HTMLElement) => {
+      Array.from(app.childNodes).forEach((child) => {
         refNode?.parentNode?.insertBefore(child, refNode);
       });
+    },
+  },
+};
+
+function setupMTeamObserver(app: HTMLElement) {
+  const targetNode = document.getElementById('root');
+  if (!targetNode) return;
+  if (document.querySelector(CURRENT_SITE_INFO.seedDomSelector)) {
+    insertScriptDomToMT(app);
+    return;
+  }
+  const config = { childList: true, subtree: true };
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+        const targetElement = $(CURRENT_SITE_INFO.seedDomSelector)[0];
+        if (targetElement) {
+          observer.disconnect();
+          insertScriptDomToMT(app);
+          break;
+        }
+      }
+    }
+  });
+
+  observer.observe(targetNode, config);
+}
+
+function insertScriptDomToMT(app: HTMLElement) {
+  const refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement | null;
+  Array.from(app.childNodes).forEach((child) => {
+    refNode?.parentNode?.insertBefore(child, refNode);
+  });
+}
+
+function extractTorrentInfoFromHash() {
+  const hash = location.hash || '';
+
+  const torrentInfoMatch = hash.match(/(^|#)torrentInfo=([^#]+)/);
+  const torrentInfoRaw = torrentInfoMatch?.[2] || null;
+
+  const timestampMatch = hash.match(/(^|#)timestamp=([^#]+)/);
+  const timestamp = timestampMatch?.[2] || null;
+
+  return { torrentInfoRaw, timestamp };
+}
+
+async function retrieveTorrentInfo() {
+  const { torrentInfoRaw, timestamp } = extractTorrentInfoFromHash();
+
+  if (torrentInfoRaw) {
+    try {
+      return JSON.parse(decodeURIComponent(torrentInfoRaw));
+    } catch (e) {
+      console.error('fail to parse torrent info', e);
+    }
+  } else if (timestamp) {
+    return GM_getValue('cachedTorrentInfo');
+  }
+
+  return null;
+}
+
+function determineReferenceNode() {
+  let refNode = $(CURRENT_SITE_INFO.seedDomSelector)[0] as HTMLElement | null;
+  const { specialSelectors, specialSiteNames } = SPECIAL_SITE_CONFIGS;
+  if (specialSiteNames.includes(CURRENT_SITE_NAME)) {
+    const torrentId = getLocationSearchValueByKey('torrentid');
+    if (!torrentId) return refNode;
+
+    const selectorFn =
+      specialSelectors[CURRENT_SITE_NAME as keyof typeof specialSelectors] ||
+      specialSelectors.GazelleDefault;
+
+    const selector = selectorFn(torrentId);
+    refNode = document.querySelector(selector);
+  }
+
+  return refNode;
+}
+
+function renderApp() {
+  const app = document.createElement('div');
+  render(<App />, app);
+
+  const refNode = determineReferenceNode();
+  if (!refNode) {
+    return;
+  }
+
+  const { appendMethods, specialSiteNames } = SPECIAL_SITE_CONFIGS;
+
+  if (specialSiteNames.includes(CURRENT_SITE_NAME)) {
+    const appendMethod = appendMethods.GazelleDefault;
+    appendMethod(app, refNode);
+    return;
+  }
+  const specialHandler =
+    appendMethods[CURRENT_SITE_NAME as keyof typeof appendMethods];
+  if (specialHandler) {
+    specialHandler(app, refNode);
+    return;
+  }
+  appendMethods.default(app, refNode);
+}
+
+function shouldInitialize() {
+  if (!CURRENT_SITE_NAME || !CURRENT_SITE_INFO) {
+    return false;
+  }
+
+  if (
+    CURRENT_SITE_INFO.search &&
+    location.pathname.match(CURRENT_SITE_INFO.search.path) &&
+    (getLocationSearchValueByKey('imdb') || getLocationSearchValueByKey('name'))
+  ) {
+    return false;
+  }
+
+  if (location.href.match(/upload|offer|create/gi)) {
+    return false;
+  }
+
+  return true;
+}
+
+async function initialize() {
+  if (!CURRENT_SITE_NAME) return;
+
+  fillSearchImdb();
+
+  if (CURRENT_SITE_INFO.asTarget) {
+    const torrentInfo = await retrieveTorrentInfo();
+    if (torrentInfo) {
+      fillTargetForm(torrentInfo as TorrentInfo.Info);
+    }
+  }
+
+  if (CURRENT_SITE_INFO.asSource && shouldInitialize()) {
+    try {
+      const info = await getTorrentInfo();
+      if (info) {
+        console.log('torrent info was retrieved', info);
+        torrentInfoStore.setInfo(info);
+        renderApp();
+      }
+    } catch (error) {
+      console.error('fail to get torrent info', error);
     }
   }
 }
+
+initialize().catch((error) => {
+  console.error('fail to initialize Easy-Upload', error);
+});

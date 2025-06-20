@@ -1,66 +1,54 @@
-import { CURRENT_SITE_NAME, CURRENT_SITE_INFO } from '../const';
+import { CURRENT_SITE_INFO, CURRENT_SITE_NAME } from '@/const';
+import { registry } from './info-extractors/registry';
 
-import getPTPInfo from './ptp';
-import getBHDInfo from './bhd';
-import getHDBInfo from './hdb';
-import getTikInfo from './tik';
-import getTTGInfo from './ttg';
-import getUNIT3DInfo from './unit3d';
-import getNexusPHPInfo from './nexusphp';
-import getHDTInfo from './hdt';
-import getKGInfo from './kg';
-import getUHDInfo from './uhd';
-import getBTNInfo from './btn';
-import getAvistaZInfo from './avistaz';
-import getTeamHDInfo from './teamhd';
-import getHDSpaceInfo from './hdspace';
-import getGPWInfo from './gpw';
-import getEMPInfo from './emp';
-import getBdcInfo from './bdc';
-import getGazelleMusicInfo from './gazelle-music';
-import getMTVInfo from './mtv';
-import getSpeedAppInfo from './speedapp';
-import getHHInfo from './hh';
-import getMTInfo from './mt';
+import './info-extractors/nexusphp';
+import './info-extractors/PTer';
+import './info-extractors/ssd';
+import './info-extractors/hdarea';
+import './info-extractors/putao';
+import './info-extractors/tjupt';
+import './info-extractors/ourbits';
+import './info-extractors/keepfrds';
+import './info-extractors/tlf';
+import './info-extractors/hdhome';
+import './info-extractors/hdfans';
+import './info-extractors/shared-nexusphp-sites';
+import './info-extractors/ttg';
+import './info-extractors/hanhan';
+import './info-extractors/mt';
+import './info-extractors/ptp';
+import './info-extractors/uhd';
+import './info-extractors/gpw';
+import './info-extractors/unit3d';
+import './info-extractors/unit3d-legacy';
+import './info-extractors/avistaz';
+import './info-extractors/bhd';
+import './info-extractors/btn';
+import './info-extractors/hdb';
+import './info-extractors/kg';
+import './info-extractors/hdt';
+import './info-extractors/hdspace';
+import './info-extractors/gazelle-music';
 
-const siteNameMap = {
-  BeyondHD: getBHDInfo,
-  HDBits: getHDBInfo,
-  Cinematik: getTikInfo,
-  TTG: getTTGInfo,
-  HDT: getHDTInfo,
-  KG: getKGInfo,
-  UHDBits: getUHDInfo,
-  PTP: getPTPInfo,
-  BTN: getBTNInfo,
-  TeamHD: getTeamHDInfo,
-  HDSpace: getHDSpaceInfo,
-  GPW: getGPWInfo,
-  EMP: getEMPInfo,
-  Bdc: getBdcInfo,
-  RED: getGazelleMusicInfo,
-  DicMusic: getGazelleMusicInfo,
-  MTV: getMTVInfo,
-  SpeedApp: getSpeedAppInfo,
-  HH: getHHInfo,
-  MTeam: getMTInfo,
-  Orpheus: getGazelleMusicInfo,
-};
+export async function getTorrentInfo(): Promise<TorrentInfo.Info | null> {
+  if (!CURRENT_SITE_INFO) {
+    console.log('No site info found');
+    return null;
+  }
+  const extractor = registry.getExtractor(
+    CURRENT_SITE_NAME,
+    CURRENT_SITE_INFO.siteType,
+  );
 
-const siteTypeInfoMap = {
-  NexusPHP: getNexusPHPInfo,
-  UNIT3D: getUNIT3DInfo,
-  AvistaZ: getAvistaZInfo,
-};
+  if (!extractor) {
+    console.log(`No extractor found for this site ${CURRENT_SITE_NAME}`);
+    return null;
+  }
 
-let getTorrentInfo = (): Promise<unknown> => Promise.resolve();
-
-if (!CURRENT_SITE_INFO) {
-  console.log('do nothing');
-} else if (siteNameMap[CURRENT_SITE_NAME as keyof typeof siteNameMap]) {
-  getTorrentInfo = siteNameMap[CURRENT_SITE_NAME as keyof typeof siteNameMap];
-} else if (siteTypeInfoMap[CURRENT_SITE_INFO.siteType as keyof typeof siteTypeInfoMap]) {
-  getTorrentInfo = siteTypeInfoMap[CURRENT_SITE_INFO.siteType as keyof typeof siteTypeInfoMap];
+  try {
+    return await extractor.extract();
+  } catch (error) {
+    console.log('Error extracting torrent info', error);
+    return null;
+  }
 }
-
-export default getTorrentInfo;

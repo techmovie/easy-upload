@@ -4,36 +4,49 @@ import monkey, { cdn } from 'vite-plugin-monkey';
 import svgr from 'vite-plugin-svgr';
 import { yamlToJSON } from './scripts/helper.js';
 import chokidar from 'chokidar';
+import path from 'path';
 
 const cmd = process.argv.slice(2)[0];
 const isDev = cmd === 'dev';
 
 export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.test.{ts,tsx}'],
+    coverage: {
+      include: ['src/**/*.{ts,tsx}'],
+    },
+    clearMocks: true,
+    mockReset: true,
+  },
   plugins: [
     {
       name: 'watch-yaml',
-      buildStart () {
+      buildStart() {
         yamlToJSON();
         if (!isDev) return;
-        chokidar.watch(
-          ['src/config/*.yaml', 'src/i18n/*.yaml'],
-          {
+        chokidar
+          .watch(['src/config/*.yaml', 'src/i18n/*.yaml'], {
             awaitWriteFinish: {
               stabilityThreshold: 200,
               pollInterval: 100,
             },
             ignoreInitial: true,
-
-          },
-        ).on('all', (eventName, path) => {
-          console.log(`${path}:${eventName}`);
-          yamlToJSON();
-        });
+          })
+          .on('all', (eventName, path) => {
+            console.log(`${path}:${eventName}`);
+            yamlToJSON();
+          });
       },
     },
     preact(),
     svgr({
-      svgrOptions: { exportType: 'default', ref: true, svgo: false, titleProp: true },
+      svgrOptions: {
+        exportType: 'default',
+        ref: true,
+        svgo: false,
+        titleProp: true,
+      },
       include: '**/*.svg',
     }),
     monkey({
@@ -72,8 +85,10 @@ export default defineConfig({
           'https://*/torrent/leechers*',
           'https://*/torrent/history*',
         ],
-        downloadURL: 'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
-        updateURL: 'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
+        downloadURL:
+          'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
+        updateURL:
+          'https://github.com/techmovie/easy-upload/raw/master/dist/easy-upload.user.js',
         license: 'MIT',
       },
       build: {
@@ -94,6 +109,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       path: 'path-browserify',
     },
   },

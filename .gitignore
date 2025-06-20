@@ -4,3 +4,4 @@ src/config.json
 src/i18n.json
 bun.lockb
 .yarn
+coverage
