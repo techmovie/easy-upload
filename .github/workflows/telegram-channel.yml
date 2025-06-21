@@ -1,7 +1,7 @@
 name: send telegram channel message
 on:
   push:
-    paths: 'dist/easy-upload.user.js'
+    paths: "dist/easy-upload.user.js"
     branches: [master]
 jobs:
   release:
@@ -24,7 +24,7 @@ jobs:
                   "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                  "chat_id": "-1001343736144",
+                  "chat_id": "-1002529344560",
                   text,
                   "parse_mode": "HTML"
                 })
