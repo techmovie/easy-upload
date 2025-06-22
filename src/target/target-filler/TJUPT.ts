@@ -5,7 +5,6 @@ import $ from 'jquery';
 
 class TJUPT extends BaseFiller implements TargetFiller {
   priority = 10;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'TJUPT';

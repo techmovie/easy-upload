@@ -9,7 +9,6 @@ import { REDSearchResultResponse } from '../types';
 
 class GazelleMusic extends BaseFiller implements TargetFiller {
   priority = 10;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName.match(/(DicMusic|Orpheus)/) !== null;

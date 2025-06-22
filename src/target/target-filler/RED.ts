@@ -7,7 +7,6 @@ import { CURRENT_SITE_INFO } from '@/const';
 
 class RED extends BaseFiller implements TargetFiller {
   priority = 10;
-  isCustomSite = true;
 
   canHandle(siteName: string): boolean {
     return siteName === 'RED';

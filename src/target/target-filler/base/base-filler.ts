@@ -14,7 +14,6 @@ export abstract class BaseFiller {
   info: TorrentInfo.Info | null = null;
   siteInfo: Site.SiteInfo = CURRENT_SITE_INFO;
   imdbId: string = '';
-  isCustomSite: boolean = false;
   fill(info: TorrentInfo.Info) {
     this.info = info;
     this.prepareToFillInfo();
