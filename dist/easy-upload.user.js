@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.2
+// @version         7.0.0-beta.3
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -15102,6 +15102,55 @@ $1`
     }
   }
   registry$1.register(new MTV());
+  class AGSV extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "agsv";
+    }
+    fill(info) {
+      this.info = info;
+      this.prepareToFillInfo();
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillDescription();
+      this.fillCategoryAndVideoInfo();
+      this.fillRemainingInfo();
+      this.fillTorrentFile();
+    }
+    fillCategoryAndVideoInfo() {
+      if (!this.info) return;
+      const {
+        category: categorySelector,
+        videoCodec: videoCodecSelector,
+        audioCodec: audioCodecSelector,
+        source: sourceSelector,
+        videoType: videoTypeSelector,
+        resolution: resolutionSelector
+      } = this.siteInfo;
+      const {
+        category,
+        videoCodec = "",
+        audioCodec = "",
+        source,
+        videoType,
+        resolution
+      } = this.info;
+      $$2(categorySelector.selector).val(category);
+      $$2(categorySelector.selector)[0].dispatchEvent(new Event("change"));
+      setTimeout(() => {
+        $$2(videoCodecSelector.selector).val(videoCodec);
+        $$2(audioCodecSelector.selector).val(audioCodec);
+        $$2(sourceSelector.selector).val(source);
+        $$2(videoTypeSelector.selector).val(videoType);
+        $$2(resolutionSelector.selector).val(resolution);
+      }, 500);
+    }
+  }
+  registry$1.register(new AGSV());
   async function autoFillDoubanInfo(selfDom, info) {
     try {
       $$2(selfDom).text($t$1("获取中..."));
