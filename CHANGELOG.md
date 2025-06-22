@@ -1,3 +1,12 @@
+# [7.0.0-beta.2](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.1...7.0.0-beta.2) (2025-06-22)
+
+
+### Bug Fixes
+
+* **agsv:** add agsv filler ([fd55f90](https://github.com/techmovie/easy-upload/commit/fd55f90e0ee7070c4632fead67c47fa88967efca))
+
+
+
 # [7.0.0-beta.1](https://github.com/techmovie/easy-upload/compare/6.1.4...7.0.0-beta.1) (2025-06-20)
 
 
