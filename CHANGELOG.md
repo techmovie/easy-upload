@@ -1,3 +1,12 @@
+# [7.0.0-beta.4](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.3...7.0.0-beta.4) (2025-06-23)
+
+
+### Bug Fixes
+
+* agsv and ptsbao ([a81e8e8](https://github.com/techmovie/easy-upload/commit/a81e8e87cc75af8cd7ac7c334729782c6e5a0e48))
+
+
+
 # [7.0.0-beta.3](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.2...7.0.0-beta.3) (2025-06-22)
 
 

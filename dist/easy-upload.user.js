@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.3
+// @version         7.0.0-beta.4
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -4804,7 +4804,7 @@
       torrent: {
         selector: 'input[name="file"]'
       },
-      mediainfo: {
+      mediaInfo: {
         selector: 'textarea[name="mediainfo"]'
       },
       category: {
@@ -5067,7 +5067,7 @@
       description: {
         selector: "#descr"
       },
-      mediainfo: {
+      mediaInfo: {
         selector: "#mediainfo"
       },
       imdb: {
@@ -5860,13 +5860,16 @@
         selector: 'input[name="name"]'
       },
       subtitle: {
-        selector: "#small_descr"
+        selector: "input[name='small_descr']"
       },
       description: {
-        selector: "textarea[tabindex]"
+        selector: "textarea[name='descr']"
       },
       imdb: {
-        selector: 'input[name="imdburl"][type="text"]'
+        selector: 'input[name="url"][type="text"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
       },
       anonymous: {
         selector: 'input[name="uplver"]'
@@ -5875,16 +5878,24 @@
         selector: 'input[name="file"]'
       },
       tags: {
-        chinese_subtitle: 'input[type="checkbox"][name="zz"]'
+        chinese_subtitle: 'input[type="checkbox"][value="6"]',
+        hdr10_plus: 'input[type="checkbox"][value="7"]',
+        chinese_audio: 'input[type="checkbox"][value="5"]'
       },
       category: {
         selector: "#browsecat",
         map: {
-          movie: "0"
+          movie: "401",
+          tv: "402",
+          variety: "403",
+          documentary: "404",
+          cartoon: "405",
+          music: "414",
+          other: "409"
         }
       },
       source: {
-        selector: "#medium_sel",
+        selector: 'select[name="medium_sel[1]"]',
         map: {
           uhdbluray: "10",
           bluray: "1",
@@ -5896,7 +5907,7 @@
         }
       },
       videoCodec: {
-        selector: 'select[name="codec_sel"]',
+        selector: 'select[name="codec_sel[1]"]',
         map: {
           h264: "1",
           hevc: "6",
@@ -5911,7 +5922,7 @@
         }
       },
       audioCodec: {
-        selector: "#audiocodec_sel",
+        selector: 'select[name="audiocodec_sel[1]"]',
         map: {
           aac: "6",
           ac3: "11",
@@ -5927,7 +5938,7 @@
         }
       },
       videoType: {
-        selector: "#processing_sel",
+        selector: 'select[name="processing_sel[1]"]',
         map: {
           uhdbluray: "5",
           bluray: "5",
@@ -5941,21 +5952,12 @@
         }
       },
       resolution: {
-        selector: 'select[name="standard_sel"]',
+        selector: 'select[name="standard_sel[1]"]',
         map: {
-          "2160p": [
-            "5",
-            "92"
-          ],
-          "1080p": [
-            "1",
-            "3"
-          ],
+          "2160p": "5",
+          "1080p": "1",
           "1080i": "1",
-          "720p": [
-            "2",
-            "91"
-          ],
+          "720p": "2",
           "576p": "3",
           "480p": "4"
         }
@@ -6015,7 +6017,7 @@
       subtitle: {
         selector: 'input[name="small_descr"]'
       },
-      mediainfo: {
+      mediaInfo: {
         selector: 'textarea[name="technical_info"]'
       },
       description: {
@@ -11273,14 +11275,46 @@ ${description}`;
     canHandle(siteName) {
       return siteName === "PTSBAO";
     }
-    prepareToFillInfo() {
-      if (localStorage.getItem("autosave")) {
-        localStorage.removeItem("autosave");
-      }
+    fill(info) {
+      this.info = info;
+      this.prepareToFillInfo();
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillDescription();
+      this.fillCategoryAndVideoInfo();
+      this.fillRemainingInfo();
+      this.fillTorrentFile();
     }
-    postProcess() {
-      $$2('a[data-sceditor-command="source"]')[0].click();
-      $$2(this.siteInfo.description.selector).val(this.info.description);
+    fillCategoryAndVideoInfo() {
+      if (!this.info) return;
+      const {
+        category: categoryConfig,
+        videoCodec: videoCodecConfig,
+        audioCodec: audioCodecConfig,
+        source: sourceConfig,
+        videoType: videoTypeConfig,
+        resolution: resolutionConfig
+      } = this.siteInfo;
+      const {
+        category,
+        videoCodec = "",
+        audioCodec = "",
+        source,
+        videoType,
+        resolution
+      } = this.info;
+      $$2(categoryConfig.selector).val(categoryConfig.map[category]);
+      $$2(categoryConfig.selector)[0].dispatchEvent(
+        new Event("change", { bubbles: true })
+      );
+      setTimeout(() => {
+        $$2(videoCodecConfig.selector).val(videoCodecConfig.map[videoCodec]);
+        $$2(audioCodecConfig.selector).val(audioCodecConfig.map[audioCodec]);
+        $$2(sourceConfig.selector).val(sourceConfig.map[source]);
+        $$2(videoTypeConfig.selector).val(videoTypeConfig.map[videoType]);
+        $$2(resolutionConfig.selector).val(resolutionConfig.map[resolution]);
+      }, 500);
     }
   }
   registry$1.register(new PTSBAO());
@@ -12300,7 +12334,7 @@ ${screenshotsSection}`;
       this.setInputValue(currentSiteInfo.subtitle.selector, subtitle || "");
       this.setInputValue(currentSiteInfo.douban.selector, doubanUrl || "");
       this.setInputValue(currentSiteInfo.imdb.selector, imdbUrl || "");
-      this.setInputValue(currentSiteInfo.mediainfo.selector, mediaInfo);
+      this.setInputValue(currentSiteInfo.mediaInfo.selector, mediaInfo);
       this.setSelectValue(currentSiteInfo.source.selector, source || "");
       this.setSelectValue(
         currentSiteInfo.audioCodec.selector,
@@ -15124,12 +15158,12 @@ $1`
     fillCategoryAndVideoInfo() {
       if (!this.info) return;
       const {
-        category: categorySelector,
-        videoCodec: videoCodecSelector,
-        audioCodec: audioCodecSelector,
-        source: sourceSelector,
-        videoType: videoTypeSelector,
-        resolution: resolutionSelector
+        category: categoryConfig,
+        videoCodec: videoCodecConfig,
+        audioCodec: audioCodecConfig,
+        source: sourceConfig,
+        videoType: videoTypeConfig,
+        resolution: resolutionConfig
       } = this.siteInfo;
       const {
         category,
@@ -15139,14 +15173,16 @@ $1`
         videoType,
         resolution
       } = this.info;
-      $$2(categorySelector.selector).val(category);
-      $$2(categorySelector.selector)[0].dispatchEvent(new Event("change"));
+      $$2(categoryConfig.selector).val(categoryConfig.map[category]);
+      $$2(categoryConfig.selector)[0].dispatchEvent(
+        new Event("change", { bubbles: true })
+      );
       setTimeout(() => {
-        $$2(videoCodecSelector.selector).val(videoCodec);
-        $$2(audioCodecSelector.selector).val(audioCodec);
-        $$2(sourceSelector.selector).val(source);
-        $$2(videoTypeSelector.selector).val(videoType);
-        $$2(resolutionSelector.selector).val(resolution);
+        $$2(videoCodecConfig.selector).val(videoCodecConfig.map[videoCodec]);
+        $$2(audioCodecConfig.selector).val(audioCodecConfig.map[audioCodec]);
+        $$2(sourceConfig.selector).val(sourceConfig.map[source]);
+        $$2(videoTypeConfig.selector).val(videoTypeConfig.map[videoType]);
+        $$2(resolutionConfig.selector).val(resolutionConfig.map[resolution]);
       }, 500);
     }
   }
