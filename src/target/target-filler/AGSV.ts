@@ -6,7 +6,7 @@ class AGSV extends BaseFiller implements TargetFiller {
   priority = 10;
 
   canHandle(siteName: string): boolean {
-    return siteName === 'agsv';
+    return siteName === 'AGSV';
   }
 
   fill(info: TorrentInfo.Info) {
