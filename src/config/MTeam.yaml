@@ -18,7 +18,7 @@ subtitle:
   selector: "#smallDescr"
 description:
   selector: "#descr"
-mediainfo:
+mediaInfo:
   selector: "#mediainfo"
 imdb:
   selector: "#imdb"

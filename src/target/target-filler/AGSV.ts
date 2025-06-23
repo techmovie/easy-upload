@@ -25,12 +25,12 @@ class AGSV extends BaseFiller implements TargetFiller {
     if (!this.info) return;
 
     const {
-      category: categorySelector,
-      videoCodec: videoCodecSelector,
-      audioCodec: audioCodecSelector,
-      source: sourceSelector,
-      videoType: videoTypeSelector,
-      resolution: resolutionSelector,
+      category: categoryConfig,
+      videoCodec: videoCodecConfig,
+      audioCodec: audioCodecConfig,
+      source: sourceConfig,
+      videoType: videoTypeConfig,
+      resolution: resolutionConfig,
     } = this.siteInfo;
 
     const {
@@ -41,14 +41,16 @@ class AGSV extends BaseFiller implements TargetFiller {
       videoType,
       resolution,
     } = this.info;
-    $(categorySelector.selector).val(category);
-    $(categorySelector.selector)[0].dispatchEvent(new Event('change'));
+    $(categoryConfig.selector).val(categoryConfig.map[category]);
+    $(categoryConfig.selector)[0].dispatchEvent(
+      new Event('change', { bubbles: true }),
+    );
     setTimeout(() => {
-      $(videoCodecSelector.selector).val(videoCodec);
-      $(audioCodecSelector.selector).val(audioCodec);
-      $(sourceSelector.selector).val(source);
-      $(videoTypeSelector.selector).val(videoType);
-      $(resolutionSelector.selector).val(resolution);
+      $(videoCodecConfig.selector).val(videoCodecConfig.map[videoCodec]);
+      $(audioCodecConfig.selector).val(audioCodecConfig.map[audioCodec]);
+      $(sourceConfig.selector).val(sourceConfig.map[source]);
+      $(videoTypeConfig.selector).val(videoTypeConfig.map[videoType]);
+      $(resolutionConfig.selector).val(resolutionConfig.map[resolution]);
     }, 500);
   }
 }

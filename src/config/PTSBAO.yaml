@@ -1,125 +1,128 @@
-url: 'https://ptsbao.club'
+url: "https://ptsbao.club"
 host: ptsbao.club
 siteType: NexusPHP
 icon: data:image/png;base64,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
 asSource: true
 asTarget: true
-seedDomSelector: '#top~table:first>tbody>tr:nth-child(5)'
+seedDomSelector: "#top~table:first>tbody>tr:nth-child(5)"
 torrentDownloadLinkSelector: 'a[href*="download.php?id="]'
 uploadPath: /upload.php
 search:
   path: /torrents.php
-  imdbOptionKey: '4'
-  nameOptionKey: '0'
+  imdbOptionKey: "4"
+  nameOptionKey: "0"
   params:
-    incldead: '0'
-    search_area: '{optionKey}'
-    search: '{imdb}'
-    sort: '5'
+    incldead: "0"
+    search_area: "{optionKey}"
+    search: "{imdb}"
+    sort: "5"
     type: desc
   result:
-    list: '.torrents>tbody>tr'
+    list: ".torrents>tbody>tr"
     url: '.torrentname td a[href*="details.php?id="]'
     name: '.torrentname td a[href*="details.php?id="]'
-    size: 'td:nth-child(7)'
+    size: "td:nth-child(7)"
 name:
   selector: 'input[name="name"]'
 subtitle:
-  selector: '#small_descr'
+  selector: "input[name='small_descr']"
 description:
-  selector: 'textarea[tabindex]'
+  selector: "textarea[name='descr']"
 imdb:
-  selector: 'input[name="imdburl"][type="text"]'
+  selector: 'input[name="url"][type="text"]'
+mediaInfo:
+  selector: 'textarea[name="technical_info"]'
 anonymous:
   selector: 'input[name="uplver"]'
 torrent:
   selector: 'input[name="file"]'
 tags:
-  chinese_subtitle: 'input[type="checkbox"][name="zz"]'
-# 太混乱了 不想做支持了
+  chinese_subtitle: 'input[type="checkbox"][value="6"]'
+  hdr10_plus: 'input[type="checkbox"][value="7"]'
+  chinese_audio: 'input[type="checkbox"][value="5"]'
 category:
-  selector: '#browsecat'
+  selector: "#browsecat"
   map:
-    movie: '0'
+    movie: "401"
+    tv: "402"
+    variety: "403"
+    documentary: "404"
+    cartoon: "405"
+    music: "414"
+    other: "409"
 source:
-  selector: '#medium_sel'
+  selector: 'select[name="medium_sel[1]"]'
   map:
-    uhdbluray: '10'
-    bluray: '1'
-    hdtv: '5'
-    dvd: '3'
-    web: '2'
-    vhs: '9'
-    hddvd: '9'
+    uhdbluray: "10"
+    bluray: "1"
+    hdtv: "5"
+    dvd: "3"
+    web: "2"
+    vhs: "9"
+    hddvd: "9"
 videoCodec:
-  selector: 'select[name="codec_sel"]'
+  selector: 'select[name="codec_sel[1]"]'
   map:
-    h264: '1'
-    hevc: '6'
-    x264: '1'
-    x265: '6'
-    h265: '6'
-    mpeg2: '4'
-    mpeg4: '5'
-    vc1: '2'
-    xvid: '3'
-    dvd: '4'
+    h264: "1"
+    hevc: "6"
+    x264: "1"
+    x265: "6"
+    h265: "6"
+    mpeg2: "4"
+    mpeg4: "5"
+    vc1: "2"
+    xvid: "3"
+    dvd: "4"
 audioCodec:
-  selector: '#audiocodec_sel'
+  selector: 'select[name="audiocodec_sel[1]"]'
   map:
-    aac: '6'
-    ac3: '11'
-    dd: '10'
-    dd+: '10'
-    dts: '3'
-    truehd: '9'
-    lpcm: '12'
-    dtshdma: '8'
-    atmos: '8'
-    dtsx: '13'
-    flac: '1'
+    aac: "6"
+    ac3: "11"
+    dd: "10"
+    dd+: "10"
+    dts: "3"
+    truehd: "9"
+    lpcm: "12"
+    dtshdma: "8"
+    atmos: "8"
+    dtsx: "13"
+    flac: "1"
 videoType:
-  selector: '#processing_sel'
+  selector: 'select[name="processing_sel[1]"]'
   map:
-    uhdbluray: '5'
-    bluray: '5'
-    remux: '1'
-    encode: '2'
-    web: '2'
-    hdtv: '3'
-    dvd: '3'
-    dvdrip: '3'
-    other: '3'
+    uhdbluray: "5"
+    bluray: "5"
+    remux: "1"
+    encode: "2"
+    web: "2"
+    hdtv: "3"
+    dvd: "3"
+    dvdrip: "3"
+    other: "3"
 resolution:
-  selector: 'select[name="standard_sel"]'
+  selector: 'select[name="standard_sel[1]"]'
   map:
-    2160p:
-      - '5'
-      - '92'
-    1080p:
-      - '1'
-      - '3'
-    1080i: '1'
-    720p:
-      - '2'
-      - '91'
-    576p: '3'
-    480p: '4'
+    2160p: "5"
+    1080p: "1"
+    1080i: "1"
+    720p: "2"
+    576p: "3"
+    480p: "4"
 team:
   selector: 'select[name="team_sel"]'
   map:
-    ffansbd: '8'
-    ops: '11'
-    ffansweb: '12'
-    ffanstv: '13'
-    hqc: '10'
-    ttg: '3'
-    hdc: '6'
-    chd: '2'
-    hdsky: '9'
-    cmct: '4'
-    frds: '5'
-    other: '7'
-    ffansdvd: '14'
-    fhdmv: '15'
-    enichi: '16'
+    ffansbd: "8"
+    ops: "11"
+    ffansweb: "12"
+    ffanstv: "13"
+    hqc: "10"
+    ttg: "3"
+    hdc: "6"
+    chd: "2"
+    hdsky: "9"
+    cmct: "4"
+    frds: "5"
+    other: "7"
+    ffansdvd: "14"
+    fhdmv: "15"
+    enichi: "16"

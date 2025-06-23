@@ -56,7 +56,7 @@ class MTeam extends BaseFiller implements TargetFiller {
     this.setInputValue(currentSiteInfo.subtitle.selector, subtitle || '');
     this.setInputValue(currentSiteInfo.douban.selector, doubanUrl || '');
     this.setInputValue(currentSiteInfo.imdb.selector, imdbUrl || '');
-    this.setInputValue(currentSiteInfo.mediainfo.selector, mediaInfo);
+    this.setInputValue(currentSiteInfo.mediaInfo.selector, mediaInfo);
     this.setSelectValue(currentSiteInfo.source.selector, source || '');
 
     this.setSelectValue(

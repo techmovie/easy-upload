@@ -9,15 +9,50 @@ class PTSBAO extends BaseFiller implements TargetFiller {
 
   priority = 10;
 
-  protected prepareToFillInfo() {
-    if (localStorage.getItem('autosave')) {
-      localStorage.removeItem('autosave');
-    }
+  fill(info: TorrentInfo.Info) {
+    this.info = info;
+    this.prepareToFillInfo();
+    this.fillTorrentTitle();
+    this.disableTorrentChange();
+    this.fillIMDb();
+    this.fillDescription();
+    this.fillCategoryAndVideoInfo();
+    this.fillRemainingInfo();
+    this.fillTorrentFile();
   }
 
-  protected postProcess() {
-    $('a[data-sceditor-command="source"]')[0].click();
-    $(this.siteInfo.description.selector).val(this.info!.description);
+  private fillCategoryAndVideoInfo() {
+    if (!this.info) return;
+
+    const {
+      category: categoryConfig,
+      videoCodec: videoCodecConfig,
+      audioCodec: audioCodecConfig,
+      source: sourceConfig,
+      videoType: videoTypeConfig,
+      resolution: resolutionConfig,
+    } = this.siteInfo;
+
+    const {
+      category,
+      videoCodec = '',
+      audioCodec = '',
+      source,
+      videoType,
+      resolution,
+    } = this.info;
+
+    $(categoryConfig.selector).val(categoryConfig.map[category]);
+    $(categoryConfig.selector)[0].dispatchEvent(
+      new Event('change', { bubbles: true }),
+    );
+    setTimeout(() => {
+      $(videoCodecConfig.selector).val(videoCodecConfig.map[videoCodec]);
+      $(audioCodecConfig.selector).val(audioCodecConfig.map[audioCodec]);
+      $(sourceConfig.selector).val(sourceConfig.map[source]);
+      $(videoTypeConfig.selector).val(videoTypeConfig.map[videoType]);
+      $(resolutionConfig.selector).val(resolutionConfig.map[resolution]);
+    }, 500);
   }
 }
 
