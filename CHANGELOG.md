@@ -1,3 +1,12 @@
+# [7.0.0-beta.5](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.4...7.0.0-beta.5) (2025-06-23)
+
+
+### Bug Fixes
+
+* agsv yaml ([#351](https://github.com/techmovie/easy-upload/issues/351)) ([02d2b4e](https://github.com/techmovie/easy-upload/commit/02d2b4e10273658998ff8ff9e692889be20d9f40))
+
+
+
 # [7.0.0-beta.4](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.3...7.0.0-beta.4) (2025-06-23)
 
 
