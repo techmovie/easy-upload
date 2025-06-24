@@ -2,23 +2,23 @@ name: script build
 on:
   push:
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - '.github/**'
-      - 'package.json'
-      - 'yarn.lock'
-      - 'vite.config.js'
+      - "src/**"
+      - "scripts/**"
+      - ".github/**"
+      - "package.json"
+      - "yarn.lock"
+      - "vite.config.js"
     branches:
       - master
       - dev
   pull_request:
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - '.github/**'
-      - 'package.json'
-      - 'yarn.lock'
-      - 'vite.config.js'
+      - "src/**"
+      - "scripts/**"
+      - ".github/**"
+      - "package.json"
+      - "yarn.lock"
+      - "vite.config.js"
     branches:
       - master
       - dev

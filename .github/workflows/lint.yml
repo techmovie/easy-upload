@@ -2,21 +2,21 @@ name: Lint
 on:
   push:
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - 'eslint.config.mjs'
-      - 'package.json'
-      - '.github/**'
+      - "src/**"
+      - "scripts/**"
+      - "eslint.config.mjs"
+      - "package.json"
+      - ".github/**"
     branches:
       - master
       - dev
   pull_request:
     paths:
-      - 'src/**'
-      - 'scripts/**'
-      - 'eslint.config.mjs'
-      - 'package.json'
-      - '.github/**'
+      - "src/**"
+      - "scripts/**"
+      - "eslint.config.mjs"
+      - "package.json"
+      - ".github/**"
     branches:
       - master
       - dev

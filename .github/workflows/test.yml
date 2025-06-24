@@ -1,0 +1,31 @@
+name: vitest test
+on:
+  push:
+    paths:
+      - "src/**"
+    branches:
+      - master
+      - dev
+  pull_request:
+    paths:
+      - "src/**"
+    branches:
+      - master
+      - dev
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn run test

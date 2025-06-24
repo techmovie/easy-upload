@@ -22,7 +22,7 @@
     "lint": "npx eslint",
     "icon": "node scripts/icoFetcher.js",
     "support": "node scripts/supported.js",
-    "prepare": "husky"
+    "postinstall": "husky"
   },
   "config": {
     "commitizen": {
@@ -39,7 +39,10 @@
     "path": false
   },
   "lint-staged": {
-    "src/**/*.{js,ts,tsx}": "npx eslint --max-warnings 0"
+    "src/**/*.{js,ts,tsx}": [
+      "npx eslint --max-warnings 0",
+      "npx vitest related --run"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",

@@ -1,7 +1,7 @@
 name: create new release
 on:
   push:
-    paths: 'dist/easy-upload.user.js'
+    paths: "dist/easy-upload.user.js"
     branches: [master]
 jobs:
   release:
@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/github-script@v6
         with:
-          github-token: '${{ secrets.ACTION_TOKEN }}'
+          github-token: "${{ secrets.ACTION_TOKEN }}"
           script: |
             try {
               const { default: getReleaseLog } = await import('${{ github.workspace }}/scripts/new-release.js');
