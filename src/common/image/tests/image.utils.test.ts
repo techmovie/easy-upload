@@ -215,9 +215,21 @@ describe('BeyondHdStrategy', () => {
   });
   it('should handle malformed beyondhd urls', async () => {
     const strategy = new BeyondHdStrategy();
-    await expect(
-      strategy.transform('', '[img]https://beyondhd.co/invalid[/img]'),
-    ).rejects.toThrow('Invalid BeyondHD image URL');
+    const resultForInvalid = await strategy.transform(
+      '',
+      '[img]https://beyondhd.co/invalid[/img]',
+    );
+    expect(resultForInvalid).toBe('https://beyondhd.co/invalid');
+  });
+  it('should handle cache/t/ URLs', async () => {
+    const strategy = new BeyondHdStrategy();
+    const result = await strategy.transform(
+      '',
+      '[img]https://beyondhd.co/cache/t/images.beyondhd.co/i/172639778066e6bd543bab5.png[/img]',
+    );
+    expect(result).toBe(
+      'https://beyondhd.co/cache/i/images.beyondhd.co/i/172639778066e6bd543bab5.png',
+    );
   });
 });
 

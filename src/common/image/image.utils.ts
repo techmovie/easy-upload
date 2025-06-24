@@ -123,10 +123,10 @@ export class BeyondHdStrategy implements UrlTransformStrategy {
     if (!imgUrl) {
       throw new Error('Invalid BeyondHD image BBCode');
     }
-    if (!imgUrl.match(/\.(th|md)\.(png|jpg|gif)/)) {
-      throw new Error('Invalid BeyondHD image URL');
-    }
-    return imgUrl.replace(/\.(th|md)\.(png|jpg|gif)/, '.$2');
+
+    return imgUrl
+      .replace(/\.(th|md)\.(png|jpg|gif)/, '.$2')
+      .replace(/cache\/t\//, 'cache/i/');
   }
 }
 
