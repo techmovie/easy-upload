@@ -1,3 +1,12 @@
+# [7.0.0-beta.9](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.8...7.0.0-beta.9) (2025-06-24)
+
+
+### Features
+
+* transfer legacy settings automatically ([24f4d45](https://github.com/techmovie/easy-upload/commit/24f4d457716e82004673b60c4c19f8bec9f0a456))
+
+
+
 # [7.0.0-beta.8](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.7...7.0.0-beta.8) (2025-06-24)
 
 

@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.8
+// @version         7.0.0-beta.9
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -8072,9 +8072,7 @@
     "种子文件下载失败": "Torrent file download failed",
     "请手动下载": "Please download manually",
     "获取页面配置": "Retrieve page configuration",
-    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "Configuration copied to clipboard. Please paste it into a new GitHub issue",
-    "设置已恢复，页面将重新加载": "Settings restored, the page will reload",
-    "恢复旧版本配置": "Restore legacy settings"
+    "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "Configuration copied to clipboard. Please paste it into a new GitHub issue"
   };
   const ko = {
     "豆瓣链接获取失败": "더우반 링크 얻기 실패",
@@ -8136,9 +8134,7 @@
     "种子文件下载失败": "토렌트 파일 다운로드 실패",
     "请手动下载": "수동으로 다운로드해주세요",
     "配置已复制到剪贴板,请黏贴到创建的Github Issue中": "설정이 클립보드에 복사되었습니다. 생성한 Github Issue에 붙여넣으세요.",
-    "获取页面配置": "페이지 설정 가져오기",
-    "设置已恢复，页面将重新加载": "설정이 복원되었습니다. 페이지가 다시 로드됩니다.",
-    "恢复旧版本配置": "이전 버전 설정 복원"
+    "获取页面配置": "페이지 설정 가져오기"
   };
   const i18nConfig = {
     en: en$1,
@@ -28905,9 +28901,6 @@ ${screenBBcodeArray.join("")}`
     const [ptpImgApiKey, setPtpImgApiKey] = h(
       GM_getValue("easy-upload.ptp-img-api-key", "")
     );
-    const [legacySettingExists] = h(
-      GM_getValue("easy-seed.enabled-target-sites", "")
-    );
     y(() => {
       const targetSitesEnabled = GM_getValue(
         "easy-upload.enabled-target-sites",
@@ -28933,36 +28926,6 @@ ${screenBBcodeArray.join("")}`
       }));
       setFeatureList(initialFeatureList);
     }, []);
-    const transferLegacySettings = () => {
-      const settingKeys = {
-        "easy-seed.enabled-target-sites": "string[]",
-        "easy-seed.enabled-search-site-list": "string[]",
-        "easy-seed.enabled-batch-seed-sites": "string[]",
-        "easy-seed.ptp-img-api-key": "string",
-        "easy-seed.quick-search-closed": "boolean",
-        "easy-seed.site-favicon-closed": "boolean",
-        "easy-seed.thanks-quote-closed": "boolean",
-        "easy-seed.transfer-img-closed": "boolean",
-        "easy-seed.douban-closed": "boolean",
-        "easy-seed.upload-img-closed": "boolean"
-      };
-      for (const [key, type] of Object.entries(settingKeys)) {
-        const value = GM_getValue(key);
-        if (value !== void 0) {
-          const replacedKey = key.replace("easy-seed", "easy-upload");
-          if (type === "string[]") {
-            GM_setValue(replacedKey, JSON.parse(value || "[]"));
-          } else if (type === "string") {
-            GM_setValue(replacedKey, value || "");
-          } else if (type === "boolean") {
-            GM_setValue(replacedKey, !!value);
-          }
-        }
-        GM_deleteValue(key);
-      }
-      Jt.success($t$1("设置已恢复，页面将重新加载"));
-      setTimeout(() => window.location.reload(), 500);
-    };
     const saveSetting = q$1(() => {
       try {
         const targetSitesEnabled = [];
@@ -29080,14 +29043,6 @@ ${screenBBcodeArray.join("")}`
       ] }),
       /* @__PURE__ */ u$1("div", { className: "confirm-btns", children: [
         /* @__PURE__ */ u$1("button", { onClick: closePanel, children: $t$1("取消") }),
-        legacySettingExists ? /* @__PURE__ */ u$1(
-          "button",
-          {
-            onClick: transferLegacySettings,
-            className: "save-setting-btn",
-            children: $t$1("恢复旧版本配置")
-          }
-        ) : null,
         /* @__PURE__ */ u$1("button", { onClick: saveSetting, className: "save-setting-btn", children: $t$1("保存") })
       ] })
     ] }) });
@@ -29458,7 +29413,44 @@ ${screenBBcodeArray.join("")}`
     }
     return true;
   }
+  function transferLegacySettings() {
+    const legacySettingExists = GM_getValue(
+      "easy-seed.enabled-target-sites",
+      ""
+    );
+    if (!legacySettingExists) return;
+    const settingKeys = {
+      "easy-seed.enabled-target-sites": "string[]",
+      "easy-seed.enabled-search-site-list": "string[]",
+      "easy-seed.enabled-batch-seed-sites": "string[]",
+      "easy-seed.ptp-img-api-key": "string",
+      "easy-seed.quick-search-closed": "boolean",
+      "easy-seed.site-favicon-closed": "boolean",
+      "easy-seed.thanks-quote-closed": "boolean",
+      "easy-seed.transfer-img-closed": "boolean",
+      "easy-seed.douban-closed": "boolean",
+      "easy-seed.upload-img-closed": "boolean"
+    };
+    for (const [key, type] of Object.entries(settingKeys)) {
+      const value = GM_getValue(key);
+      if (value !== void 0) {
+        let replacedKey = key.replace("easy-seed", "easy-upload");
+        if (key === "easy-seed.upload-img-closed") {
+          replacedKey = "easy-upload.rehost-img-closed";
+        }
+        if (type === "string[]") {
+          GM_setValue(replacedKey, JSON.parse(value || "[]"));
+        } else if (type === "string") {
+          GM_setValue(replacedKey, value || "");
+        } else if (type === "boolean") {
+          GM_setValue(replacedKey, !!value);
+        }
+      }
+      GM_deleteValue(key);
+    }
+  }
   async function initialize() {
+    transferLegacySettings();
     if (!CURRENT_SITE_NAME) return;
     fillSearchImdb();
     if (CURRENT_SITE_INFO.asTarget) {
