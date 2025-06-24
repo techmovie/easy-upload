@@ -1,3 +1,12 @@
+# [7.0.0-beta.8](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.7...7.0.0-beta.8) (2025-06-24)
+
+
+### Bug Fixes
+
+* beyondhd image ([c9b6a0a](https://github.com/techmovie/easy-upload/commit/c9b6a0a0a98ff5e2ef67a2c36e6432c06d8e1889))
+
+
+
 # [7.0.0-beta.7](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.6...7.0.0-beta.7) (2025-06-24)
 
 
