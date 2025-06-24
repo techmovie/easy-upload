@@ -178,7 +178,45 @@ function shouldInitialize() {
   return true;
 }
 
+function transferLegacySettings() {
+  const legacySettingExists = GM_getValue<string>(
+    'easy-seed.enabled-target-sites',
+    '',
+  );
+  if (!legacySettingExists) return;
+  const settingKeys = {
+    'easy-seed.enabled-target-sites': 'string[]',
+    'easy-seed.enabled-search-site-list': 'string[]',
+    'easy-seed.enabled-batch-seed-sites': 'string[]',
+    'easy-seed.ptp-img-api-key': 'string',
+    'easy-seed.quick-search-closed': 'boolean',
+    'easy-seed.site-favicon-closed': 'boolean',
+    'easy-seed.thanks-quote-closed': 'boolean',
+    'easy-seed.transfer-img-closed': 'boolean',
+    'easy-seed.douban-closed': 'boolean',
+    'easy-seed.upload-img-closed': 'boolean',
+  };
+  for (const [key, type] of Object.entries(settingKeys)) {
+    const value = GM_getValue(key);
+    if (value !== undefined) {
+      let replacedKey = key.replace('easy-seed', 'easy-upload');
+      if (key === 'easy-seed.upload-img-closed') {
+        replacedKey = 'easy-upload.rehost-img-closed';
+      }
+      if (type === 'string[]') {
+        GM_setValue(replacedKey, JSON.parse((value as string) || '[]'));
+      } else if (type === 'string') {
+        GM_setValue(replacedKey, value || '');
+      } else if (type === 'boolean') {
+        GM_setValue(replacedKey, !!value);
+      }
+    }
+    GM_deleteValue(key);
+  }
+}
+
 async function initialize() {
+  transferLegacySettings();
   if (!CURRENT_SITE_NAME) return;
 
   fillSearchImdb();

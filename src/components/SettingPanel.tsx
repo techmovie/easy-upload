@@ -29,9 +29,6 @@ const SettingPanel = ({
   const [ptpImgApiKey, setPtpImgApiKey] = useState(
     GM_getValue<string>('easy-upload.ptp-img-api-key', ''),
   );
-  const [legacySettingExists] = useState(
-    GM_getValue<string>('easy-seed.enabled-target-sites', ''),
-  );
 
   useEffect(() => {
     const targetSitesEnabled = GM_getValue<string[]>(
@@ -64,36 +61,6 @@ const SettingPanel = ({
     setFeatureList(initialFeatureList);
   }, []);
 
-  const transferLegacySettings = () => {
-    const settingKeys = {
-      'easy-seed.enabled-target-sites': 'string[]',
-      'easy-seed.enabled-search-site-list': 'string[]',
-      'easy-seed.enabled-batch-seed-sites': 'string[]',
-      'easy-seed.ptp-img-api-key': 'string',
-      'easy-seed.quick-search-closed': 'boolean',
-      'easy-seed.site-favicon-closed': 'boolean',
-      'easy-seed.thanks-quote-closed': 'boolean',
-      'easy-seed.transfer-img-closed': 'boolean',
-      'easy-seed.douban-closed': 'boolean',
-      'easy-seed.upload-img-closed': 'boolean',
-    };
-    for (const [key, type] of Object.entries(settingKeys)) {
-      const value = GM_getValue(key);
-      if (value !== undefined) {
-        const replacedKey = key.replace('easy-seed', 'easy-upload');
-        if (type === 'string[]') {
-          GM_setValue(replacedKey, JSON.parse((value as string) || '[]'));
-        } else if (type === 'string') {
-          GM_setValue(replacedKey, value || '');
-        } else if (type === 'boolean') {
-          GM_setValue(replacedKey, !!value);
-        }
-      }
-      GM_deleteValue(key);
-    }
-    toast.success($t('设置已恢复，页面将重新加载'));
-    setTimeout(() => window.location.reload(), 500);
-  };
   const saveSetting = useCallback(() => {
     try {
       const targetSitesEnabled: string[] = [];
@@ -249,14 +216,6 @@ const SettingPanel = ({
 
         <div className="confirm-btns">
           <button onClick={closePanel}>{$t('取消')}</button>
-          {legacySettingExists ? (
-            <button
-              onClick={transferLegacySettings}
-              className="save-setting-btn"
-            >
-              {$t('恢复旧版本配置')}
-            </button>
-          ) : null}
           <button onClick={saveSetting} className="save-setting-btn">
             {$t('保存')}
           </button>
