@@ -14,7 +14,7 @@ export default function createTgChannelMsg(core) {
   const changeLogPath = path.join(__dirname, '..', 'CHANGELOG.md');
   const changeLogData = fs.readFileSync(changeLogPath, 'UTF-8');
   const recentLog = changeLogData.match(
-    /(#{1,}\s\[\d\.\d\.\d{1,}(.+)?\](.|\n)+?)##\s\[\d\.\d\.\d{1,}(.+)?\]/,
+    /(#{1,}\s\[\d\.\d\.\d{1,}(.+)?\](.|\n)+?)#{1,}\s\[\d\.\d\.\d{1,}(.+)?\]/,
   )[1];
   const newVersion = recentLog.match(/\[\d\.\d\.\d{1,}(.+)?\]/)[0];
 
