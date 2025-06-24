@@ -1,3 +1,12 @@
+# [7.0.0-beta.7](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.6...7.0.0-beta.7) (2025-06-24)
+
+
+### Bug Fixes
+
+* restore setting fucntion ([3082766](https://github.com/techmovie/easy-upload/commit/30827665762ea982938f09e9a4c604efd36ae356))
+
+
+
 # [7.0.0-beta.6](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.5...7.0.0-beta.6) (2025-06-24)
 
 
