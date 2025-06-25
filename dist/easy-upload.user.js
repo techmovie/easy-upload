@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.9
+// @version         7.0.0-beta.10
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -15851,8 +15851,13 @@ ${$$2(description.selector).val()}`
       });
     }
     async extractScreenshots() {
-      const screenshots = await extractImgsFromBBCode(this.info.description);
-      this.info.screenshots = screenshots;
+      try {
+        const screenshots = await extractImgsFromBBCode(this.info.description);
+        this.info.screenshots = screenshots;
+      } catch (error) {
+        console.log("Failed to extract screenshots:", error);
+        this.info.screenshots = [];
+      }
     }
   }
   class NexusPHPExtractor extends BaseExtractor {
@@ -29461,11 +29466,11 @@ ${screenBBcodeArray.join("")}`
     }
     if (CURRENT_SITE_INFO.asSource && shouldInitialize()) {
       try {
+        renderApp();
         const info = await getTorrentInfo();
         if (info) {
           console.log("torrent info was retrieved", info);
           torrentInfoStore.setInfo(info);
-          renderApp();
         }
       } catch (error) {
         console.error("fail to get torrent info", error);

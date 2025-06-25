@@ -1,3 +1,12 @@
+# [7.0.0-beta.10](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.9...7.0.0-beta.10) (2025-06-25)
+
+
+### Bug Fixes
+
+* render dom before retrieving torrent info ([da77410](https://github.com/techmovie/easy-upload/commit/da7741042115d95e1950d58f671d468616f38054))
+
+
+
 # [7.0.0-beta.9](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.8...7.0.0-beta.9) (2025-06-24)
 
 
