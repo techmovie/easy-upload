@@ -118,7 +118,12 @@ export abstract class BaseExtractor {
   }
 
   protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
+    try {
+      const screenshots = await extractImgsFromBBCode(this.info.description);
+      this.info.screenshots = screenshots;
+    } catch (error) {
+      console.log('Failed to extract screenshots:', error);
+      this.info.screenshots = [];
+    }
   }
 }
