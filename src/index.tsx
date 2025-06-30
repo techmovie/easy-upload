@@ -230,11 +230,11 @@ async function initialize() {
 
   if (CURRENT_SITE_INFO.asSource && shouldInitialize()) {
     try {
-      renderApp();
       const info = await getTorrentInfo();
       if (info) {
         console.log('torrent info was retrieved', info);
         torrentInfoStore.setInfo(info);
+        renderApp();
       }
     } catch (error) {
       console.error('fail to get torrent info', error);
