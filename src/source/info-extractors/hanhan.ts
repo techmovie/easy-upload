@@ -98,15 +98,12 @@ class HanHanExtractor extends NexusPHPExtractor {
     this.info.mediaInfos = [mediaInfoContent];
   }
 
-  async extractScreenshots() {
-    return new Promise<void>((resolve) => {
-      const screenshots = $('#screenshot-content img')
-        .toArray()
-        .map((el) => $(el)?.attr('src') ?? '')
-        .filter((url) => !!url);
-      this.info.screenshots = screenshots;
-      resolve();
-    });
+  extractScreenshots() {
+    const screenshots = $('#screenshot-content img')
+      .toArray()
+      .map((el) => $(el)?.attr('src') ?? '')
+      .filter((url) => !!url);
+    this.info.screenshots = screenshots;
   }
 
   extractMovieNames() {

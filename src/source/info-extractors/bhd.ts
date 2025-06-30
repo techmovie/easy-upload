@@ -24,7 +24,7 @@ class BHDExtractor extends BaseExtractor implements InfoExtractor {
     this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMovieName();
     this.extractComparisonsScreenshots();
     this.extractArea();

@@ -15,6 +15,7 @@ import {
   getTagsFromSource,
   getVideoCodecFromSourceAndVideoType,
 } from '@/source/helper/index';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 
 export abstract class BaseExtractor {
   protected info: TorrentInfo.Info;
@@ -117,13 +118,14 @@ export abstract class BaseExtractor {
     };
   }
 
-  protected async extractScreenshots() {
+  protected extractScreenshots() {
     try {
-      const screenshots = await extractImgsFromBBCode(this.info.description);
-      this.info.screenshots = screenshots;
+      extractImgsFromBBCode(this.info.description).then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      });
     } catch (error) {
-      console.log('Failed to extract screenshots:', error);
-      this.info.screenshots = [];
+      console.log('Error extracting screenshots:', error);
     }
   }
 }

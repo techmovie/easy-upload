@@ -15,6 +15,7 @@ import { InfoExtractor } from '../registry';
 import { BaseExtractor } from './base-extractor';
 import { CONFIG } from '@/source/config';
 import $ from 'jquery';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 
 export abstract class AvistaZExtractor
   extends BaseExtractor
@@ -32,7 +33,7 @@ export abstract class AvistaZExtractor
     this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMovieNameAndYear();
     this.determineIfIsForbidden();
     this.extractComparisonsScreenshots();
@@ -102,16 +103,20 @@ export abstract class AvistaZExtractor
     this.info.description = mediaInfoQuote + descriptionBBCode;
   }
 
-  protected async extractScreenshots() {
+  protected extractScreenshots() {
     const screenshotsBBCode = $('#collapseScreens a')
       .map(function () {
         return `[url=${$(this).attr('href')}][img]${$(this).find('img').attr('src')}[/img][/url]`;
       })
       .get();
-    const screenshots = await extractImgsFromBBCode(
-      screenshotsBBCode.join('\n'),
-    );
-    this.info.screenshots = screenshots;
+    extractImgsFromBBCode(screenshotsBBCode.join('\n'))
+      .then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      })
+      .catch((error) => {
+        console.log('Error extracting screenshots:', error);
+      });
   }
 
   protected extractSource() {

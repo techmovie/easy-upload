@@ -32,7 +32,7 @@ export abstract class Unite3DExtractor
     this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMovieNames();
     this.determineIfIsForbidden();
     this.extractComparisonsScreenshots();

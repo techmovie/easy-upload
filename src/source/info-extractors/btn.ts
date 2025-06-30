@@ -26,7 +26,7 @@ class BTNExtractor extends GazelleExtractor implements InfoExtractor {
     this.extractBasicInfo();
     this.extractYearAndCategory();
     await this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractMovieName();

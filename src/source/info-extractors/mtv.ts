@@ -1,6 +1,6 @@
 import { GazelleExtractor } from './base/gazelle-base';
 import { registry } from './registry';
-import { extractImgsFromBBCode, convertSizeStringToBytes } from '@/common';
+import { convertSizeStringToBytes } from '@/common';
 import $ from 'jquery';
 import {
   getFilterBBCode,
@@ -29,7 +29,7 @@ class MTVExtractor extends GazelleExtractor {
     this.extractMediaInfos();
     this.extractMediaInfos();
     await this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMetaInfo();
     this.extractMediaDetails();
 
@@ -76,10 +76,6 @@ class MTVExtractor extends GazelleExtractor {
       this.info.description = description;
       resolve();
     });
-  }
-
-  async extractScreenshots() {
-    this.info.screenshots = await extractImgsFromBBCode(this.info.description);
   }
 
   protected isVideoTypeBluray() {

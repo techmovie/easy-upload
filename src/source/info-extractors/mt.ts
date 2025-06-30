@@ -13,7 +13,6 @@ import { CONFIG } from '@/source/config';
 import { CURRENT_SITE_INFO, PT_SITE } from '@/const';
 import {
   getAudioCodecFromSource,
-  extractImgsFromBBCode,
   parseMedia,
   createFormData,
   GMFetch,
@@ -77,10 +76,6 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
       videoType,
     );
     this.info.audioCodec = getAudioCodecFromSource(title);
-  }
-
-  async extractScreenshots() {
-    this.info.screenshots = await extractImgsFromBBCode(this.info.description);
   }
 
   extractMediaDetails() {

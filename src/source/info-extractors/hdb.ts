@@ -29,7 +29,7 @@ class HDBExtractor extends BaseExtractor implements InfoExtractor {
     await this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractArea();
 
     return this.info;

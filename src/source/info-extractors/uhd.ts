@@ -17,6 +17,7 @@ import {
   formatTorrentTitle,
   refineCategory,
 } from '@/source/helper/index';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 
 class UHDExtractor extends GazelleExtractor {
   priority = 10;
@@ -40,7 +41,7 @@ class UHDExtractor extends GazelleExtractor {
     this.extractTorrentLink();
     await this.extractMediaInfos();
     await this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractMetaInfo();
     this.extractTags();
     this.extractMediaDetails();
@@ -111,8 +112,15 @@ class UHDExtractor extends GazelleExtractor {
     });
   }
 
-  async extractScreenshots() {
-    this.info.screenshots = await extractImgsFromBBCode(this.info.description);
+  extractScreenshots() {
+    extractImgsFromBBCode(this.info.description)
+      .then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      })
+      .catch((error) => {
+        console.log('Error extracting screenshots:', error);
+      });
   }
 
   extractMetaInfo() {

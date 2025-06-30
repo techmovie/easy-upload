@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import { torrentInfoStore } from '@/components/torrentInfoStore';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 
 export const useTorrentInfo = () => {
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo.Info>(() =>

@@ -4,7 +4,7 @@ import { getLocationSearchValueByKey } from '@/common';
 import { fillTargetForm } from './target';
 import { getTorrentInfo } from '@/source';
 import { fillSearchImdb } from './site-dom/quick-search';
-import { torrentInfoStore } from '@/components/torrentInfoStore';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 import './site-dom/ptpimg';
 import './site-dom/analyze-upload-page';
 import './style.css';

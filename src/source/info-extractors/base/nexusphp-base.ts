@@ -38,7 +38,7 @@ export abstract class NexusPHPExtractor
     }
     this.extractDoubanUrl();
     this.extractImdbUrl();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractSource();
 
     this.extractMetaInfo();

@@ -1,6 +1,5 @@
 import {
   convertSizeStringToBytes,
-  extractImgsFromBBCode,
   getAreaCode,
   getAudioCodecFromSource,
 } from '@/common';
@@ -34,7 +33,7 @@ class KGExtractor extends BaseExtractor implements InfoExtractor {
     this.extractMetaInfo();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractArea();
 
     return this.info;
@@ -130,11 +129,6 @@ class KGExtractor extends BaseExtractor implements InfoExtractor {
     let descriptionBBCode = getFilterBBCode(descriptionDom.find('article')[0]);
     descriptionBBCode = descriptionBBCode.replace(/(.|\n)+?_{5,}/g, '');
     this.info.description = descriptionBBCode;
-  }
-
-  protected async extractScreenshots() {
-    const screenshots = await extractImgsFromBBCode(this.info.description);
-    this.info.screenshots = screenshots;
   }
 
   protected extractMovieName() {

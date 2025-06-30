@@ -19,7 +19,7 @@ class SpeedAppExtractor extends BaseExtractor implements InfoExtractor {
     this.extractMediaInfos();
     this.extractMediaDetails();
     this.extractDescription();
-    await this.extractScreenshots();
+    this.extractScreenshots();
     this.extractPoster();
 
     return this.info;

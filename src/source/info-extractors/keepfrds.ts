@@ -3,6 +3,7 @@ import { NexusPHPExtractor } from './base/nexusphp-base';
 import { getFilterBBCode, formatTorrentTitle } from '@/source/helper/index';
 import { extractImgsFromBBCode } from '@/common';
 import { CONFIG } from '@/source/config';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 import $ from 'jquery';
 
 class FRDSExtractor extends NexusPHPExtractor {
@@ -110,9 +111,16 @@ class FRDSExtractor extends NexusPHPExtractor {
   }
 
   async extractScreenshots() {
-    this.info.screenshots = await extractImgsFromBBCode(
+    extractImgsFromBBCode(
       this.info.description.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, ''),
-    );
+    )
+      .then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      })
+      .catch((error) => {
+        console.log('Error extracting screenshots:', error);
+      });
   }
 
   getMetaInfoRules() {

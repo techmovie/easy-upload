@@ -15,6 +15,7 @@ import {
   getAudioCodecFromSource,
   extractImgsFromBBCode,
 } from '@/common';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 import $ from 'jquery';
 
 class TTGExtractor extends NexusPHPExtractor {
@@ -150,16 +151,23 @@ class TTGExtractor extends NexusPHPExtractor {
 
   async extractScreenshots() {
     const { description } = this.info;
+    let descForScreenshots = description;
     if (description.match(/More\.Screens/i)) {
       // 官组截图
       const moreScreen =
         description.match(
           /\.More\.Screens.*?\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/,
         )?.[1] ?? '';
-      this.info.screenshots = await extractImgsFromBBCode(moreScreen);
-      return;
+      descForScreenshots = moreScreen;
     }
-    this.info.screenshots = await extractImgsFromBBCode(description);
+    extractImgsFromBBCode(descForScreenshots)
+      .then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      })
+      .catch((error) => {
+        console.log('Error extracting screenshots:', error);
+      });
   }
 
   private getHeadingTdDomsByKey(key: string) {
