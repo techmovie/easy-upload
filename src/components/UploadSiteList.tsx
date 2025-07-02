@@ -9,6 +9,7 @@ import { $t, GMFetch, getIdByIMDbUrl } from '@/common';
 import { getTorrentFileData } from '@/source/helper';
 import { PTPSearchResult, GPWSearchResult } from '@/components/types';
 import { useTorrentInfo } from '@/hooks/useTorrentInfo';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 import { toast } from 'sonner';
 
 const SITE_URL_PROCESSORS = {
@@ -225,6 +226,8 @@ const UploadSiteList = () => {
         }
 
         await fetchTorrentData(siteName);
+        const latestTorrentInfo = torrentInfoStore.getInfo();
+        torrentInfoStore.setInfo(latestTorrentInfo);
 
         const processedUrl = await processSiteUrl(baseUrl);
         GM_openInTab(processedUrl);
@@ -254,6 +257,8 @@ const UploadSiteList = () => {
       if (!torrentInfo.torrentData) {
         await fetchTorrentData(batchSeedSetting[0]);
       }
+      const latestTorrentInfo = torrentInfoStore.getInfo();
+      torrentInfoStore.setInfo(latestTorrentInfo);
 
       const sitesToOpen = SORTED_SITE_KEYS.filter((siteName) => {
         const siteInfo = PT_SITE[siteName as SiteName] as Site.SiteInfo;

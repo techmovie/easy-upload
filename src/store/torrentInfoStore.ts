@@ -8,13 +8,17 @@ class TorrentInfoStore {
   }
 
   getInfo(): TorrentInfo.Info {
-    return this.info;
+    return JSON.parse(
+      window.sessionStorage.getItem('cachedTorrentInfo') || '{}',
+    );
   }
 
   setInfo(info: TorrentInfo.Info) {
     if (info && info.title) {
       this.info = info;
       GM_setValue('cachedTorrentInfo', info);
+      window.sessionStorage.setItem('cachedTorrentInfo', JSON.stringify(info));
+      console.log('Torrent info updated:', info);
       this.listeners.forEach((listener) => listener(info));
     }
   }
