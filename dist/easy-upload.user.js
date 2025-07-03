@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.11
+// @version         7.0.0-beta.12
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -15762,6 +15762,37 @@ ${$$2(description.selector).val()}`
   const replaceRegSymbols = (string2) => {
     return string2.replace(/([*.?+$^[\](){}|\\/])/g, "\\$1");
   };
+  class TorrentInfoStore {
+    constructor() {
+      this.listeners = /* @__PURE__ */ new Set();
+      const cached = GM_getValue("cachedTorrentInfo");
+      this.info = cached;
+    }
+    getInfo() {
+      return JSON.parse(
+        window.sessionStorage.getItem("cachedTorrentInfo") || "{}"
+      );
+    }
+    setInfo(info) {
+      if (info && info.title) {
+        this.info = info;
+        GM_setValue("cachedTorrentInfo", info);
+        window.sessionStorage.setItem("cachedTorrentInfo", JSON.stringify(info));
+        console.log("Torrent info updated:", info);
+        this.listeners.forEach((listener) => listener(info));
+      }
+    }
+    updateInfo(updater) {
+      if (!this.info) return;
+      const newInfo = typeof updater === "function" ? updater(this.info) : __spreadValues(__spreadValues({}, this.info), updater);
+      this.setInfo(newInfo);
+    }
+    subscribe(listener) {
+      this.listeners.add(listener);
+      return () => this.listeners.delete(listener);
+    }
+  }
+  const torrentInfoStore = new TorrentInfoStore();
   class BaseExtractor {
     constructor() {
       this.info = {
@@ -15850,13 +15881,14 @@ ${$$2(description.selector).val()}`
         audioCodec
       });
     }
-    async extractScreenshots() {
+    extractScreenshots() {
       try {
-        const screenshots = await extractImgsFromBBCode(this.info.description);
-        this.info.screenshots = screenshots;
+        extractImgsFromBBCode(this.info.description).then((screenshots) => {
+          this.info.screenshots = screenshots;
+          torrentInfoStore.setInfo(this.info);
+        });
       } catch (error) {
-        console.log("Failed to extract screenshots:", error);
-        this.info.screenshots = [];
+        console.log("Error extracting screenshots:", error);
       }
     }
   }
@@ -15876,7 +15908,7 @@ ${$$2(description.selector).val()}`
       }
       this.extractDoubanUrl();
       this.extractImdbUrl();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractSource();
       this.extractMetaInfo();
       this.extractMediaInfos();
@@ -16294,9 +16326,14 @@ ${tagsContentFromPage}`));
       this.info.comparisons = comparisons;
     }
     async extractScreenshots() {
-      this.info.screenshots = await extractImgsFromBBCode(
+      extractImgsFromBBCode(
         this.info.description.replace(/\[quote\]截图对比[^\n]*\n[^\n]*/gi, "")
-      );
+      ).then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      }).catch((error) => {
+        console.log("Error extracting screenshots:", error);
+      });
     }
     getMetaInfoRules() {
       return __spreadProps(__spreadValues({}, CONFIG.META_INFO_MATCH_RULES), {
@@ -16492,14 +16529,19 @@ ${doubanPart}`
     async extractScreenshots() {
       var _a2, _b;
       const { description } = this.info;
+      let descForScreenshots = description;
       if (description.match(/More\.Screens/i)) {
         const moreScreen = (_b = (_a2 = description.match(
           /\.More\.Screens.*?\[\/u\]\[\/color\]\n((.|\n)+\[\/(url|img)\])/
         )) == null ? void 0 : _a2[1]) != null ? _b : "";
-        this.info.screenshots = await extractImgsFromBBCode(moreScreen);
-        return;
+        descForScreenshots = moreScreen;
       }
-      this.info.screenshots = await extractImgsFromBBCode(description);
+      extractImgsFromBBCode(descForScreenshots).then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      }).catch((error) => {
+        console.log("Error extracting screenshots:", error);
+      });
     }
     getHeadingTdDomsByKey(key) {
       return $$2(`#main_table td.heading:contains(${key})`).next();
@@ -16571,15 +16613,12 @@ ${tagsContentFromPage}`));
       const mediaInfoContent = $$2("#mediainfo-raw code").text() || "";
       this.info.mediaInfos = [mediaInfoContent];
     }
-    async extractScreenshots() {
-      return new Promise((resolve28) => {
-        const screenshots = $$2("#screenshot-content img").toArray().map((el) => {
-          var _a2, _b;
-          return (_b = (_a2 = $$2(el)) == null ? void 0 : _a2.attr("src")) != null ? _b : "";
-        }).filter((url) => !!url);
-        this.info.screenshots = screenshots;
-        resolve28();
-      });
+    extractScreenshots() {
+      const screenshots = $$2("#screenshot-content img").toArray().map((el) => {
+        var _a2, _b;
+        return (_b = (_a2 = $$2(el)) == null ? void 0 : _a2.attr("src")) != null ? _b : "";
+      }).filter((url) => !!url);
+      this.info.screenshots = screenshots;
     }
     extractMovieNames() {
       var _a2, _b;
@@ -16677,9 +16716,6 @@ ${tagsContentFromPage}`));
         videoType
       );
       this.info.audioCodec = getAudioCodecFromSource(title);
-    }
-    async extractScreenshots() {
-      this.info.screenshots = await extractImgsFromBBCode(this.info.description);
     }
     extractMediaDetails() {
       var _a2, _b;
@@ -17189,7 +17225,7 @@ ${descriptionData}`;
       this.extractTorrentLink();
       await this.extractMediaInfos();
       await this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMetaInfo();
       this.extractTags();
       this.extractMediaDetails();
@@ -17248,8 +17284,13 @@ ${descriptionData}`;
         resolve28();
       });
     }
-    async extractScreenshots() {
-      this.info.screenshots = await extractImgsFromBBCode(this.info.description);
+    extractScreenshots() {
+      extractImgsFromBBCode(this.info.description).then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      }).catch((error) => {
+        console.log("Error extracting screenshots:", error);
+      });
     }
     extractMetaInfo() {
       const { title } = this.info;
@@ -17552,7 +17593,7 @@ ${descriptionData}`;
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMovieNames();
       this.determineIfIsForbidden();
       this.extractComparisonsScreenshots();
@@ -17750,7 +17791,7 @@ ${descriptionData}`;
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMovieNameAndYear();
       this.determineIfIsForbidden();
       this.extractComparisonsScreenshots();
@@ -17803,14 +17844,16 @@ ${descriptionData}`;
       const mediaInfoQuote = this.info.mediaInfos.length > 0 ? `[quote]${this.info.mediaInfos[0]}[/quote]` : "";
       this.info.description = mediaInfoQuote + descriptionBBCode;
     }
-    async extractScreenshots() {
+    extractScreenshots() {
       const screenshotsBBCode = $$2("#collapseScreens a").map(function() {
         return `[url=${$$2(this).attr("href")}][img]${$$2(this).find("img").attr("src")}[/img][/url]`;
       }).get();
-      const screenshots = await extractImgsFromBBCode(
-        screenshotsBBCode.join("\n")
-      );
-      this.info.screenshots = screenshots;
+      extractImgsFromBBCode(screenshotsBBCode.join("\n")).then((screenshots) => {
+        this.info.screenshots = screenshots;
+        torrentInfoStore.setInfo(this.info);
+      }).catch((error) => {
+        console.log("Error extracting screenshots:", error);
+      });
     }
     extractSource() {
       this.info.source = getVideoSourceFromTitle(this.info.title);
@@ -17869,7 +17912,7 @@ ${descriptionData}`;
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMovieName();
       this.extractComparisonsScreenshots();
       this.extractArea();
@@ -18032,7 +18075,7 @@ ${descriptionData}`;
       this.extractBasicInfo();
       this.extractYearAndCategory();
       await this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractMovieName();
@@ -18141,7 +18184,7 @@ ${descriptionData}`;
       await this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractArea();
       return this.info;
     }
@@ -18239,7 +18282,7 @@ ${descriptionData}`;
       this.extractMetaInfo();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractArea();
       return this.info;
     }
@@ -18322,10 +18365,6 @@ ${descriptionData}`;
       descriptionBBCode = descriptionBBCode.replace(/(.|\n)+?_{5,}/g, "");
       this.info.description = descriptionBBCode;
     }
-    async extractScreenshots() {
-      const screenshots = await extractImgsFromBBCode(this.info.description);
-      this.info.screenshots = screenshots;
-    }
     extractMovieName() {
       var _a2;
       const movieTitles = $$2(".outer h1").text().split("- ");
@@ -18370,7 +18409,7 @@ ${descriptionData}`;
       this.extractResolution();
       this.extractImdbData();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.enhanceInfo();
@@ -18470,7 +18509,7 @@ ${descriptionData}`;
       this.extractMediaInfos();
       this.extractMediaDetails();
       this.extractDescription();
-      await this.extractScreenshots();
+      this.extractScreenshots();
       return this.info;
     }
     getTdTextByKey(key) {
@@ -19698,33 +19737,6 @@ ${description}`;
       }
     }
   };
-  class TorrentInfoStore {
-    constructor() {
-      this.listeners = /* @__PURE__ */ new Set();
-      const cached = GM_getValue("cachedTorrentInfo");
-      this.info = cached;
-    }
-    getInfo() {
-      return this.info;
-    }
-    setInfo(info) {
-      if (info && info.title) {
-        this.info = info;
-        GM_setValue("cachedTorrentInfo", info);
-        this.listeners.forEach((listener) => listener(info));
-      }
-    }
-    updateInfo(updater) {
-      if (!this.info) return;
-      const newInfo = typeof updater === "function" ? updater(this.info) : __spreadValues(__spreadValues({}, this.info), updater);
-      this.setInfo(newInfo);
-    }
-    subscribe(listener) {
-      this.listeners.add(listener);
-      return () => this.listeners.delete(listener);
-    }
-  }
-  const torrentInfoStore = new TorrentInfoStore();
   var t, r, u, i$1, o = 0, f = [], c = preact.options, e = c.__b, a = c.__r, v$1 = c.diffed, l = c.__c, m = c.unmount, s = c.__;
   function d(n, t2) {
     c.__h && c.__h(r, n, o || t2), o = 0;
@@ -28767,6 +28779,8 @@ ${screenBBcodeArray.join("")}`
             if (!result) return false;
           }
           await fetchTorrentData(siteName);
+          const latestTorrentInfo = torrentInfoStore.getInfo();
+          torrentInfoStore.setInfo(latestTorrentInfo);
           const processedUrl = await processSiteUrl(baseUrl);
           GM_openInTab(processedUrl);
           return true;
@@ -28791,6 +28805,8 @@ ${screenBBcodeArray.join("")}`
         if (!torrentInfo.torrentData) {
           await fetchTorrentData(batchSeedSetting[0]);
         }
+        const latestTorrentInfo = torrentInfoStore.getInfo();
+        torrentInfoStore.setInfo(latestTorrentInfo);
         const sitesToOpen = SORTED_SITE_KEYS.filter((siteName) => {
           const siteInfo = PT_SITE[siteName];
           return siteInfo.asTarget && batchSeedSetting.includes(siteName);

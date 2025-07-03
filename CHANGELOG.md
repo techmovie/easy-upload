@@ -1,3 +1,17 @@
+# [7.0.0-beta.12](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.11...7.0.0-beta.12) (2025-07-03)
+
+
+### Bug Fixes
+
+* save torrentinfo in session storage ([24a5975](https://github.com/techmovie/easy-upload/commit/24a5975307dadf83941533a8bbac95dd23a2bee0))
+
+
+### Performance Improvements
+
+* update extractScreenshots to reduce time of extracting torrent info ([444550c](https://github.com/techmovie/easy-upload/commit/444550c958dee36ad0e0668368b9a5770ec57a56))
+
+
+
 # [7.0.0-beta.11](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.10...7.0.0-beta.11) (2025-06-30)
 
 
