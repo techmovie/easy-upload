@@ -1,3 +1,12 @@
+# [7.0.0](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.12...7.0.0) (2025-07-09)
+
+
+### Bug Fixes
+
+* quick search when multiple tabs are open ([6c42286](https://github.com/techmovie/easy-upload/commit/6c42286d17474906d802d1d1f763e406711b5cdb))
+
+
+
 # [7.0.0-beta.12](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.11...7.0.0-beta.12) (2025-07-03)
 
 

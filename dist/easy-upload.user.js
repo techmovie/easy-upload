@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0-beta.12
+// @version         7.0.0
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -26790,7 +26790,8 @@ ${yamlContent}\`\`\``).then(() => {
   }
   const getQuickSearchUrl = (siteName) => {
     const siteInfo = PT_SITE[siteName];
-    const torrentInfo = GM_getValue("cachedTorrentInfo") || {};
+    const latestTorrentInfo = torrentInfoStore.getInfo();
+    torrentInfoStore.setInfo(latestTorrentInfo);
     if (!siteInfo.search) {
       return siteInfo.url;
     }
@@ -26803,7 +26804,7 @@ ${yamlContent}\`\`\``).then(() => {
     const { searchKeyWord, useImdb } = determineSearchKeyword({
       siteName,
       siteInfo,
-      torrentInfo
+      torrentInfo: latestTorrentInfo
     });
     const searchParams = buildSearchParams({
       siteName,
@@ -26840,7 +26841,7 @@ ${yamlContent}\`\`\``).then(() => {
             const domString = await GMFetch(url);
             const dom = new DOMParser().parseFromString(domString, "text/html");
             const { list, name, size, url: urlDom } = resultConfig;
-            const { title, size: searchSize } = GM_getValue("cachedTorrentInfo");
+            const { title, size: searchSize } = torrentInfoStore.getInfo();
             const torrentList = $$2(list, dom);
             const sameTorrent = Array.prototype.find.call(torrentList, (item) => {
               var _a3, _b, _c, _d, _e;
