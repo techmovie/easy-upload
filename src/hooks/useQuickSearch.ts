@@ -2,6 +2,7 @@ import { useCallback } from 'preact/hooks';
 import { SORTED_SITE_KEYS, PT_SITE, SiteName } from '@/const';
 import { convertSizeStringToBytes, GMFetch } from '@/common';
 import { getQuickSearchUrl } from '@/components/common';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 import $ from 'jquery';
 
 export const useQuickSearch = () => {
@@ -29,8 +30,7 @@ export const useQuickSearch = () => {
           const dom = new DOMParser().parseFromString(domString, 'text/html');
 
           const { list, name, size, url: urlDom } = resultConfig;
-          const { title, size: searchSize } =
-            GM_getValue<TorrentInfo.Info>('cachedTorrentInfo');
+          const { title, size: searchSize } = torrentInfoStore.getInfo();
 
           const torrentList = $(list, dom);
           const sameTorrent = Array.prototype.find.call(torrentList, (item) => {

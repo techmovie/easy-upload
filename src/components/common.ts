@@ -1,5 +1,6 @@
 import { CURRENT_SITE_NAME, PT_SITE, SiteName } from '@/const';
 import { getIdByIMDbUrl } from '@/common';
+import { torrentInfoStore } from '@/store/torrentInfoStore';
 
 const SPECIAL_SITE_TYPES = {
   NO_IMDB_SITES: /(nzbs.in|HDF|TMDB|豆瓣读书|TeamHD|NPUBits)$/,
@@ -115,7 +116,8 @@ function buildSearchParams({
 
 export const getQuickSearchUrl = (siteName: SiteName): string => {
   const siteInfo = PT_SITE[siteName] as Site.SiteInfo;
-  const torrentInfo = GM_getValue<TorrentInfo.Info>('cachedTorrentInfo') || {};
+  const latestTorrentInfo = torrentInfoStore.getInfo();
+  torrentInfoStore.setInfo(latestTorrentInfo);
 
   if (!siteInfo.search) {
     return siteInfo.url;
@@ -131,7 +133,7 @@ export const getQuickSearchUrl = (siteName: SiteName): string => {
   const { searchKeyWord, useImdb } = determineSearchKeyword({
     siteName,
     siteInfo,
-    torrentInfo,
+    torrentInfo: latestTorrentInfo,
   });
 
   const searchParams = buildSearchParams({
