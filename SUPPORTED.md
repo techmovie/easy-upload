@@ -53,6 +53,7 @@
 |     PTP     |            ✅             |           ✅            |
 |   PTSBAO    |            ✅             |           ✅            |
 |   PTZone    |            ✅             |           ✅            |
+|   PTcafe    |            ❌             |           ✅            |
 | PTer-offer  |            ❌             |           ✅            |
 |    PTer     |            ✅             |           ✅            |
 | Piggo-offer |            ❌             |           ✅            |
