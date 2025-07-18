@@ -74,3 +74,4 @@
 |   ZHUQUE    |            ❌             |           ✅            |
 | fearnopeer  |            ✅             |           ✅            |
 |     iTS     |            ❌             |           ✅            |
+|   qingwa    |            ❌             |           ✅            |
