@@ -1,3 +1,13 @@
+## [7.0.1](https://github.com/techmovie/easy-upload/compare/7.0.0...7.0.1) (2025-07-18)
+
+
+### Features
+
+* **new tracker:** pTcafe ([5c01335](https://github.com/techmovie/easy-upload/commit/5c013351fd955714200bd7effa944830ff86a91c)), closes [#338](https://github.com/techmovie/easy-upload/issues/338) [#327](https://github.com/techmovie/easy-upload/issues/327)
+* **new tracker:** railgun ([02618ea](https://github.com/techmovie/easy-upload/commit/02618ea82045f229c5979fa7679352f74aed2832)), closes [#361](https://github.com/techmovie/easy-upload/issues/361)
+
+
+
 # [7.0.0](https://github.com/techmovie/easy-upload/compare/7.0.0-beta.12...7.0.0) (2025-07-09)
 
 

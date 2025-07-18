@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.0
+// @version         7.0.1
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -6236,6 +6236,167 @@
         }
       }
     },
+    PTcafe: {
+      url: "https://ptcafe.club",
+      host: "ptcafe.club",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: 1,
+          search_area: "{optionKey}",
+          search: "{keyword}"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      torrent: {
+        selector: 'input[name="file"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "401",
+          tv: "402",
+          variety: "403",
+          documentary: "404",
+          cartoon: "405",
+          concert: "406",
+          sport: "407",
+          music: "408",
+          other: "409"
+        }
+      },
+      area: {
+        selector: 'select[name="source_sel[4]"]',
+        map: {
+          CN: "1",
+          HK: "2",
+          TW: "2",
+          US: "3",
+          EU: "3",
+          JP: "4",
+          KR: "5",
+          IN: "6",
+          OT: "7"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel[4]"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "4",
+          remux: "6",
+          encode: "7",
+          web: "8",
+          hdtv: "9",
+          dvd: "10",
+          cd: "11",
+          other: "13"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel[4]"]',
+        map: {
+          h265: "1",
+          hevc: "1",
+          h264: "2",
+          avc: "2",
+          x265: "3",
+          x264: "4",
+          vc1: "5",
+          mpeg2: "6",
+          mpeg4: "7",
+          xvid: "8",
+          vp9: "9",
+          other: "11"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel[4]"]',
+        map: {
+          dtshdma: "2",
+          dtshd: "4",
+          dtsx: "5",
+          lpcm: "6",
+          ac3: "7",
+          atmos: "8",
+          aac: "9",
+          truehd: "10",
+          dts: "11",
+          flac: "12",
+          ape: "13",
+          mp3: "14",
+          wav: "15",
+          opus: "16",
+          ogg: "17",
+          other: "18"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel[4]"]',
+        map: {
+          "4320p": "1",
+          "2160p": "2",
+          "1080p": "3",
+          "1080i": "3",
+          "720p": "4",
+          sd: "5",
+          other: "6"
+        }
+      },
+      team: {
+        selector: 'select[name="team_sel[4]"]',
+        map: {
+          ade: "1",
+          adweb: "2",
+          audies: "3",
+          beast: "4",
+          beitai: "5",
+          beyondhd: "6",
+          btstv: "7",
+          cafetv: "8",
+          cafeweb: "9",
+          chdbits: "10",
+          chdweb: "11",
+          cmct: "12",
+          djweb: "13",
+          frds: "14",
+          hdctv: "15",
+          hdh: "16",
+          hdhome: "17",
+          hdsky: "18",
+          hdweb: "19",
+          hhweb: "20",
+          mteam: "21",
+          mweb: "22",
+          ourbits: "23",
+          ourtv: "24",
+          ptcafe: "25",
+          pterweb: "26",
+          qhstudio: "27",
+          ttg: "28",
+          wiki: "29",
+          other: "30"
+        }
+      },
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAESklEQVR4nKWV70+aVxTHr4quW5elq1m7dMm6xLhVO511dori8AcoKMLzyKD8EBBQQH7KEEFEEBUUtFUH2qqdtd206bJFX7TJlvVFt1fNXu1fadJmm+V5vgtNpXVp1yU7b85Nzsnn3nPv+Z5LyAssGo0WAiggL7FcLJdD/oMVHIAMfP6RpE3bnHTrvZmgLZYOWCfjVrUn5TFxKysrSw42JoQUvBK24DFRCavq17BGtB+Uf44ZUw9mTDJEtB0IKlv+nB3quztjU3cenJa8CPbUc1LD5lRY28n4KR7m3QbWR/GYUUUrsz7lZ1ZCTsbeUcX6ZVzEjNK/pq3qCCHkoPRn4PzJho0pP9UIt+jTbHrMmZ000nB112OQX4EvqWYMU81IDGnYxRFL1tJyhokZJIjbVOHnyifkO4WiKOeTTgM1rulgA4o2dsrcy7i66uGXnUfG1oJbITFueFuwaOIiQDfA0FiOrWSE8VE8hNTC/bhd255jKJ6yiKKSlEyZ6HverjpkQq6sta0Ks/2t2LZXYZUuxs7QadwOVeOH4TLcsFVh1iCET96KlbDncYDmIWai7hwqOfeaPllTdilgRcwsx5ici5vOGswLCJZ6irDjLMct90e42nccqTaCHVctRqR1iA9p2AWPAX6a93DKpDqXB0b6JN6wWoCr8QAzLGvChrsDaWkhFiWF+FpXit3RamzqT2Bd8za+khVjlSpB2sJHUC1CZszJjEgbELcqzHlgyqmKRbQCjGvFjLW1EluuRiyKCZalHOwFqvHbWg9+v67A3bkWbPSVYlFEsB0UIXc1IY2Y8dNNCKm7xvPAiz7DpEdUjYsePeOjmrFpb8CSmCBNleCmsxz3FoS4f1mCXy4JkOl940nsuq8dEUM3Lnn1jL2tAtF+OpQHRg1Sd1DejG8WJhh7Zy2uuARI9xRiQ1eK2xPnsReswa7/LO5flmJdcwyr1GtYHuQjoGzHtYSf8UrqkLCpDHlgwqLmjtDN+4J3CDreJWxIycO2swYrvRzsBWvx4zQPP03zsBv4BKt0Eb511cFP10NwgrCdJwsx+kXLg6hJ+fHzSuHEraqfjZ+dgvg9kqXKX0fSLMLmwBmsK4/imu44NvuOYU35JrYsVZg1CSEtK87lPh5s+gBzDu1unnTQjDM2XeeETpTtOc2B+BRhFGePIT06iIxNiDU7F1dsXKw4urAW8YL+8GgOxlBlRxAzyh5NWxS8Q2o5WMw6dJEJjRCdJwkzbaazy8Eh1i6qQ2ygF1EjhZBWiu/Xl1iXuC4reZ+wsf5uJB16zyHYP4RdNGvXh2NG6R/jF9qgqHiLDV5oZzYTQWZlbIiZ0IkZt+gcGzfTOXU8nHMa3f82cfKBnDbnnH13Qmrho5RdhUl9Nzup62LnHSqMyvkPkk7D3rRFfbjMl1h+EvMJ4czYNTVJl34grJOMR/Wy0JxDb4y7TbnXfJLzqgH7rC//xxfwN4B0OdZPvAg6AAAAAElFTkSuQmCC"
+    },
     "PTer-offer": {
       url: "https://pterclub.com",
       host: "pterclub.com",
@@ -6672,6 +6833,124 @@
       torrent: {
         selector: "#file"
       }
+    },
+    Railgun: {
+      url: "https://bilibili.download",
+      host: "bilibili.download",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: 1,
+          search_area: "{optionKey}",
+          search: "{keyword}"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      imdb: {
+        selector: 'input[name="url"][type="text"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      douban: {
+        selector: 'input[name="pt_gen"]'
+      },
+      torrent: {
+        selector: "#torrent"
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "401",
+          tv: "402",
+          variety: "403",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          music: "408",
+          software: "410",
+          learning: "411",
+          game: "412",
+          comic: "419"
+        }
+      },
+      videoType: {
+        selector: 'select[name="medium_sel[4]"]',
+        map: {
+          uhdbluray: "2",
+          bluray: "1",
+          remux: "3",
+          web: "4",
+          hdtv: "5",
+          dvd: "6",
+          encode: "7",
+          cd: "8"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel[4]"]',
+        map: {
+          h264: "1",
+          h265: "2",
+          hevc: "2",
+          vc1: "3",
+          mpeg2: "4",
+          xvid: "5",
+          other: "6"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel[4]"]',
+        map: {
+          "4k": "1",
+          "2k": "6",
+          "2160p": "1",
+          "1080p": "2",
+          "1080i": "2",
+          "720p": "3",
+          sd: "4",
+          other: "5"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel[4]"]',
+        map: {
+          truehd: "1",
+          atmos: "1",
+          dtshdma: "2",
+          "dts-hd": "2",
+          dts: "2",
+          ac3: "3",
+          lpcm: "4",
+          flac: "5",
+          mp3: "6",
+          aac: "7",
+          ape: "8",
+          wav: "10",
+          other: "9"
+        }
+      },
+      tags: {
+        hdr10: 'input[name="tags[4][]"][value="7"]',
+        diy: 'input[name="tags[4][]"][value="4"]',
+        cantonese_audio: 'input[name="tags[4][]"][value="5"]',
+        chinese_subtitle: 'input[name="tags[4][]"][value="6"]'
+      },
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACtElEQVR4nLWVa08TQRSGK0T8Ocav8h80JPLFSyjtdrcUNKJVkdsGvIB0W7otQhsbQARDalAwKCai4gUJSjCimPDFP8J2HjMzBaS0xsTY5GTOnPOed892zrzr85X8sO0q6uur/8psu6q0fo/Ix6E/AirV2XaVrK2UrCHgHCOYqCXkHCc4UKtM+jv7XT9Rq7C2XVPSmU+xi/PuEYKxOaw0mK7AdCHkSh/MFFgp9sdcobABZxY7X7PLRX2+Wm2sZB3NGUQw7tHoFAinCrSNFpQvLVBcZSzsKl9hIxkwknWKQ3LtEAojHsIakk/cxoiDkYCu+9A+Cuagtuuj0DWucxLT6GwTHkIYg6EDhAQThnwF0ZL26J7QZPaENunLWO+kXjvH1aqwhgtBxyhD6GjCm1Me0awEyW7hcgaaVJHuSlo4CVfvIXoeeERzCKtch6d6DfryiOUNj5kliLjQOgyP38LFYQjGIZQAfwxy87C4hlj57rG4jogUCfOlhLemEZs/PXLP4OkyPF+B+WWYfQcLK/DwJSytw4ev8GIVsbDqqSZOdB/sUAa5O49Y3/J49AY+/9CFr9fg4wZ82YJPm/pBK9/gShbx5L2HPYmov1Hmlc/0GbSNI+7kPZw89ExA64heX62BPQ7RDFxI6//VHET0T3u0jCAaBsoQmgmDUArROeapsTh9G871Q2MMmpJwtk/v/QPab04jOsY8dZCBeKjyKUezHr1T0DGmTc7etZyeR2ky1j4GPZMaa6WRI1d+sMMy6WwTSaFIJYE84UsZaM1oX8ZkTmIkNpyuMNiWe1JdPaN49cxkgUC8QEOsgP83kzGZ27l6zaVXrygOmNnDBJwZJQJWSmAmwXK1KISL4qAEoigSZkqofTA2t08c9imPJLXiR7GK8uUvSlU5qyRfezL2HwR2F/APn4BfcLtDzdF35wEAAAAASUVORK5CYII="
     },
     SC: {
       url: "https://secret-cinema.pw",
@@ -15201,6 +15480,54 @@ $1`
     }
   }
   registry$1.register(new AGSV());
+  class Railgun extends BaseFiller {
+    constructor() {
+      super(...arguments);
+      this.priority = 10;
+    }
+    canHandle(siteName) {
+      return siteName === "Railgun";
+    }
+    fill(info) {
+      this.info = info;
+      this.prepareToFillInfo();
+      this.fillTorrentTitle();
+      this.disableTorrentChange();
+      this.fillIMDb();
+      this.fillDescription();
+      this.fillCategoryAndVideoInfo();
+      this.fillRemainingInfo();
+      this.fillTorrentFile();
+    }
+    fillCategoryAndVideoInfo() {
+      if (!this.info) return;
+      const {
+        category: categoryConfig,
+        videoCodec: videoCodecConfig,
+        audioCodec: audioCodecConfig,
+        videoType: videoTypeConfig,
+        resolution: resolutionConfig
+      } = this.siteInfo;
+      const {
+        category,
+        videoCodec = "",
+        audioCodec = "",
+        videoType,
+        resolution
+      } = this.info;
+      $$2(categoryConfig.selector).val(categoryConfig.map[category]);
+      $$2(categoryConfig.selector)[0].dispatchEvent(
+        new Event("change", { bubbles: true })
+      );
+      setTimeout(() => {
+        $$2(videoCodecConfig.selector).val(videoCodecConfig.map[videoCodec]);
+        $$2(audioCodecConfig.selector).val(audioCodecConfig.map[audioCodec]);
+        $$2(videoTypeConfig.selector).val(videoTypeConfig.map[videoType]);
+        $$2(resolutionConfig.selector).val(resolutionConfig.map[resolution]);
+      }, 500);
+    }
+  }
+  registry$1.register(new Railgun());
   async function autoFillDoubanInfo(selfDom, info) {
     try {
       $$2(selfDom).text($t$1("获取中..."));
