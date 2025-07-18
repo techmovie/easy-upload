@@ -5,3 +5,4 @@ src/i18n.json
 bun.lockb
 .yarn
 coverage
+.env

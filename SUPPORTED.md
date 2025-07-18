@@ -4,6 +4,7 @@
 |    3Wmg     |            ✅             |           ✅            |
 |    52pt     |            ✅             |           ✅            |
 |     ACM     |            ✅             |           ✅            |
+|    AGSV     |            ✅             |           ✅            |
 |   Aither    |            ✅             |           ✅            |
 |  Audiences  |            ✅             |           ✅            |
 |   AvistaZ   |            ✅             |           ❌            |
@@ -59,6 +60,7 @@
 |  PrivateHD  |            ✅             |           ❌            |
 |    PuTao    |            ✅             |           ✅            |
 |     RED     |            ✅             |           ✅            |
+|   Railgun   |            ❌             |           ✅            |
 |     SC      |            ❌             |           ✅            |
 |     SSD     |            ✅             |           ✅            |
 |  SoulVoice  |            ✅             |           ✅            |
@@ -69,6 +71,5 @@
 |     TTG     |            ✅             |           ✅            |
 |   UHDBits   |            ✅             |           ✅            |
 |   ZHUQUE    |            ❌             |           ✅            |
-|    agsv     |            ✅             |           ✅            |
 | fearnopeer  |            ✅             |           ✅            |
 |     iTS     |            ❌             |           ✅            |

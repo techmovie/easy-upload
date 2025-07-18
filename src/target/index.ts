@@ -36,6 +36,7 @@ import './target-filler/BYR';
 import './target-filler/Pter';
 import './target-filler/MTV';
 import './target-filler/AGSV';
+import './target-filler/Railgun';
 import autofill from './autofill';
 
 export const fillTargetForm = (info: TorrentInfo.Info): void => {

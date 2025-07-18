@@ -17,14 +17,15 @@ try {
     const img = await got(`${siteData.url}/favicon.ico`, {
       responseType: 'buffer',
     }).buffer();
-    const nonPngIcons = sharp(icon.data, {
-      raw: {
-        width: icon.width,
-        height: icon.height,
-        channels: 4,
-      },
-    });
+
     const imgList = decodeIco(img).map((icon) => {
+      const nonPngIcons = sharp(icon.data, {
+        raw: {
+          width: icon.width,
+          height: icon.height,
+          channels: 4,
+        },
+      });
       const image = icon.type === 'png' ? sharp(icon.data) : nonPngIcons;
       return image;
     });
