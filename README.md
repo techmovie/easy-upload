@@ -8,6 +8,10 @@
 
 支持国内外主流 PT 站的转载种子脚本，尽可能减少不必要的重复工作，让发种更易上手。
 
+## Wiki
+
+[DeepWiki](https://deepwiki.com/techmovie/easy-upload)
+
 ## 兼容性
 
 ### [Tampermonkey](https://tampermonkey.net/) / [Violentmonkey](https://violentmonkey.github.io/)

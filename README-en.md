@@ -6,6 +6,10 @@
 
 Easy-upload is a userscript that supports reproducing torrents for mainstream Chinese and international private trackers sites. It reduces repetitive work, making the upload process more convenient.
 
+## Wiki
+
+[DeepWiki](https://deepwiki.com/techmovie/easy-upload)
+
 ## Compatibility
 
 ### [Tampermonkey](https://tampermonkey.net/) / [Violentmonkey](https://violentmonkey.github.io/)
