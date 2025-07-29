@@ -10,6 +10,9 @@
 
 ## Wiki
 
+可以通过以下链接了解项目架构和使用指南等信息。
+
+[Zread](https://zread.ai/techmovie/easy-upload)
 [DeepWiki](https://deepwiki.com/techmovie/easy-upload)
 
 ## 兼容性

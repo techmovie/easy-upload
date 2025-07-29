@@ -8,6 +8,9 @@ Easy-upload is a userscript that supports reproducing torrents for mainstream Ch
 
 ## Wiki
 
+You can learn about the project architecture and usage guidelines through the following links.
+
+[Zread](https://zread.ai/techmovie/easy-upload)
 [DeepWiki](https://deepwiki.com/techmovie/easy-upload)
 
 ## Compatibility
