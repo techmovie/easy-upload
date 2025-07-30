@@ -497,6 +497,7 @@ export class BDInfoParser extends MediaParser {
   }
 
   parseDuration(duration: string) {
+    if (!duration) return 0;
     const [hour, minute, second] = duration.split(':');
     return (
       parseFloat(hour) * 3600 + parseFloat(minute) * 60 + parseFloat(second)
