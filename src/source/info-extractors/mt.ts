@@ -17,6 +17,7 @@ import {
   createFormData,
   GMFetch,
 } from '@/common';
+import CryptoJS from 'crypto-js';
 
 class MTExtractor extends BaseExtractor implements InfoExtractor {
   priority = 10;
@@ -132,10 +133,22 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     };
   }
 
+  private generateSignature(method: string, uri: string) {
+    const timestamp = Date.now();
+    const concatString = `${method}&${uri}&${timestamp}`;
+    const Base64 = CryptoJS.enc.Base64;
+    const HmacSHA1 = CryptoJS.HmacSHA1;
+    return {
+      _sgin: Base64.stringify(HmacSHA1(concatString, 'HLkPcWmycL57mfJt')),
+      _timestamp: timestamp,
+    };
+  }
+
   async getIMDbDataFromAPI() {
     const { imdbUrl } = this.info;
     const formdata = createFormData({
       code: imdbUrl,
+      ...this.generateSignature('POST', '/api/media/imdb/info'),
     });
 
     const res = await GMFetch<{
@@ -163,6 +176,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
       method: 'POST',
       data: createFormData({
         id: this.torrentId,
+        ...this.generateSignature('POST', '/api/torrent/genDlToken'),
       }),
       responseType: 'json',
       headers: this.setRequestHeaders(),
@@ -175,6 +189,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
   async getTorrentDetailFromAPI() {
     const formdata = createFormData({
       id: this.torrentId,
+      ...this.generateSignature('POST', '/api/torrent/detail'),
     });
     const res = await GMFetch<{
       data: TorrentDetailInfo;

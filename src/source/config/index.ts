@@ -152,8 +152,8 @@ export const CONFIG = {
       tag: 'exclusive',
     },
   ],
-  MT_BASE_API_URL: 'https://api2.m-team.cc/api',
-  MT_REQUEST_VERSION: '1.1.2',
+  MT_BASE_API_URL: 'https://api.m-team.cc/api',
+  MT_REQUEST_VERSION: '1.1.4',
   MT_SPECS_MAP: {
     source: {
       8: 'web',

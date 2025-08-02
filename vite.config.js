@@ -95,6 +95,7 @@ export default defineConfig({
         externalGlobals: {
           preact: cdn.jsdelivr('preact', 'dist/preact.min.js'),
           jquery: cdn.jsdelivr('jQuery', 'dist/jquery.min.js'),
+          'crypto-js': cdn.jsdelivr('crypto-js', 'index.min.js'),
         },
       },
       server: {
