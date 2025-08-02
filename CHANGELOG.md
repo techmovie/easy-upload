@@ -1,3 +1,18 @@
+## [7.0.2](https://github.com/techmovie/easy-upload/compare/7.0.1...7.0.2) (2025-08-02)
+
+
+### Bug Fixes
+
+* media parser ([3718b29](https://github.com/techmovie/easy-upload/commit/3718b294f0725b10b8adaf855af010a7f4e3345b))
+
+
+### Features
+
+* **new tracker:** qingwa ([c2fc78e](https://github.com/techmovie/easy-upload/commit/c2fc78e20d0d32c20968854a027e23a1e440af88)), closes [#339](https://github.com/techmovie/easy-upload/issues/339)
+* support new ui of mt ([4cc4252](https://github.com/techmovie/easy-upload/commit/4cc425275af6ab631907f78c52732eccfe48e473))
+
+
+
 ## [7.0.1](https://github.com/techmovie/easy-upload/compare/7.0.0...7.0.1) (2025-07-18)
 
 

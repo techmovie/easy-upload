@@ -2,7 +2,7 @@
 // @name            EasyUpload PT一键转种
 // @name:en         EasyUpload - Trackers Transfer Tool
 // @namespace       https://github.com/techmovie/easy-upload
-// @version         7.0.1
+// @version         7.0.2
 // @author          birdplane
 // @description     一键转种，支持PT站点之间的种子转移。
 // @description:en  Transfer torrents between trackers with one click.
@@ -5162,7 +5162,7 @@
       asSource: true,
       asTarget: true,
       uploadPath: "/upload",
-      seedDomSelector: ".detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)",
+      seedDomSelector: "div.flex.py-5.mb-5.border-0.border-b.border-solid + div > div.border-0.border-b.border-solid",
       search: {
         path: "/browse",
         replaceKey: [
@@ -8180,6 +8180,122 @@
         }
       }
     },
+    qingwa: {
+      url: "https://www.qingwapt.com",
+      host: "www.qingwapt.com",
+      siteType: "NexusPHP",
+      asSource: false,
+      asTarget: true,
+      uploadPath: "/upload.php",
+      search: {
+        path: "/torrents.php",
+        imdbOptionKey: "4",
+        nameOptionKey: "0",
+        params: {
+          incldead: 1,
+          search_area: "{optionKey}",
+          search: "{keyword}"
+        }
+      },
+      name: {
+        selector: 'input[name="name"]'
+      },
+      subtitle: {
+        selector: 'input[name="small_descr"]'
+      },
+      douban: {
+        selector: 'input[name="pt_gen"]'
+      },
+      description: {
+        selector: 'textarea[name="descr"]'
+      },
+      mediaInfo: {
+        selector: 'textarea[name="technical_info"]'
+      },
+      torrent: {
+        selector: 'input[name="file"]'
+      },
+      anonymous: {
+        selector: 'input[name="uplver"]'
+      },
+      category: {
+        selector: 'select[name="type"]',
+        map: {
+          movie: "401",
+          tv: "402",
+          variety: "403",
+          documentary: "404",
+          cartoon: "405",
+          sport: "407",
+          music: "408",
+          other: "409"
+        }
+      },
+      videoType: {
+        selector: 'select[name="source_sel[4]"]',
+        map: {
+          uhdbluray: "1",
+          bluray: "8",
+          remux: "9",
+          encode: "10",
+          web: "7",
+          hdtv: "4",
+          dvd: "2",
+          cd: "3",
+          other: "6"
+        }
+      },
+      videoCodec: {
+        selector: 'select[name="codec_sel[4]"]',
+        map: {
+          h264: "1",
+          h265: "6",
+          hevc: "6",
+          vc1: "2",
+          mpeg2: "4",
+          mpeg4: "3",
+          vp9: "8",
+          other: "5"
+        }
+      },
+      audioCodec: {
+        selector: 'select[name="audiocodec_sel[4]"]',
+        map: {
+          dtsx: "9",
+          dts: "14",
+          dtshdma: "10",
+          atmos: "11",
+          truehd: "12",
+          lpcm: "13",
+          ac3: "15",
+          dd: "15",
+          eac3: "16",
+          "dd+": "16",
+          flac: "1",
+          aac: "17",
+          ape: "18",
+          wav: "19",
+          mp3: "4",
+          m4a: "8",
+          opus: "20",
+          av3a: "22",
+          other: "7"
+        }
+      },
+      resolution: {
+        selector: 'select[name="standard_sel[4]"]',
+        map: {
+          "4320p": "6",
+          "2160p": "7",
+          "1080p": "1",
+          "1080i": "2",
+          "720p": "3",
+          sd: "4",
+          other: "5"
+        }
+      },
+      icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAEKElEQVR4nIWUXUxTZxjHj0wQ2tLS9py2rKWiICAfMUrnuDBIFKMx28Uu9hFj3MzMsl3tZte7MbuYqfsIsk1hBp0acZBAZECkxWGQys3ixeLsBhn04xxs6QdtcbIPf8s5fLipcxdP3ufNOc/v+T/P+76PEIlE+C+bmZnRLBwOa/vZ2Vlt/6wY4akfwhFCoRDZ+1myv2WZDc1qsMxiluyDrJZgNUnk/4DhUJiIHCEWj9F5ooOvvZ0kk0kyuQznPu/i9EdfoSgKsiITmg0RiT4DqGZVFJl5Jc6pU6cQ9q7D0GKg7bM2Oto6sO6zIOwR8Hq9xMIxlDllWcDTgFoJ0YiW1dt2EsthK4d+f5O3M+9R9JqOdQfzOBI7xlu8g/GIiePe48z8OkM0Gv1X+WtAtWex+RgTNyYw1BZzbO5dcos5Bq5d5fD9o7zxxxF6R3p5kFji/cwHGBqL8Q36SCQTWuwTQLXp8Xic2z/epqGhnuS9BPFknMbGRk31YnaRpqYmglNBlnJLeBo93Lx1k1Q6pZ28qnQNuNyHMKlUki+87dRW1yJHZPou9VHpruDC6Qv0XeyjpqKa853nSSfTeHZ4OPHhxyQSCaJydE2loNYvKwqJewm6Orso2FnIlkNVXPzmImKLjfydBeia9BQ16Sh4oRDdVgOXL11m29HtCNsF2tvaictxlHtzWi8F9SBU50zHGQyvGJH+cmMZdJB/YAO2hTJsbMT20I0NNxJuLD+Usn5HPuZeGw7KKXpdz8lPP9GqDEfCCGpT/cN+9JU6dsdaEYdL0b9ajG3ejbjkwjzmQMw5Nd9yoxQp59KghXv1mLvt7M7sQ+8ppu/bPlILKQT10g4NDVHf0MDk2C3EzVas8ec1NaLsQv9SMaLsRMq6MLxsRPzFiUgZplE7BbYNTI5N0tzcTHd3NwsLC4+AdfV1BK4HsFRbsWRVYBniQ5cWvLz+w//ThWlUIr80n8D3AXY173oETKVSDA8N07CtgcnxSaQaCbPiWANaVZAKUf0VsDXrxHRNYoOrUItp2dPypMKKygoG+q9ilIwYB0XE3Kqqx0yF+W2YBiXy7Hn09/Tj2enhypUrpNNpBPUyT0xM4HQ6MRqM1L9Yh/WsHdOYhDXlRMy4sKZdWNU16cTkkzANSZgv2KjbXY/JYEKySfh8Pubn5xG0JxeLMTIyQuu+VgYHvsNQUYzxjBXzdQclfjvmUTslo3bMfjsWnwPTeYmiSh0D/QPsP7Cfnp4e7YKrrOWXEg5r0EAgQFV1FZJZYr2Uj+5LE7pzJejOrlhXCfpOM3mO55BKJMo3leP3+zVlqzPyifE1NTXF+Pg4NTU1lG4pxV23kbKtZZRtdeOudeOsdrJ502atxOnpaW0GrL7jpw7Yubk5ZFkm+HOQu3d+InjnLncfs2AwuPbv2uhbAf4NFGdXiIZvMpMAAAAASUVORK5CYII="
+    },
     zimuku: {
       url: "http://zimuku.org",
       host: "zimuku.org",
@@ -9972,6 +10088,7 @@
       };
     }
     parseDuration(duration) {
+      if (!duration) return 0;
       const [hour, minute, second] = duration.split(":");
       return parseFloat(hour) * 3600 + parseFloat(minute) * 60 + parseFloat(second);
     }
@@ -17072,10 +17189,10 @@ ${tagsContentFromPage}`));
       return /bluray/i.test(this.info.videoType);
     }
     getMovieInfo(data) {
-      const { year, title, photo } = data;
+      const { title, photo, year } = data;
       this.info.year = year;
       this.info.movieName = title;
-      this.info.poster = photo.full || photo.thumb;
+      this.info.poster = photo;
     }
     setRequestHeaders() {
       const version = CONFIG.MT_REQUEST_VERSION;
@@ -17099,7 +17216,7 @@ ${tagsContentFromPage}`));
       const formdata = createFormData({
         code: imdbUrl
       });
-      const res = await GMFetch(`${CONFIG.MT_BASE_API_URL}/torrent/imdbInfo`, {
+      const res = await GMFetch(`${CONFIG.MT_BASE_API_URL}/media/imdb/info`, {
         data: formdata,
         method: "POST",
         responseType: "json",
@@ -17172,7 +17289,9 @@ ${tagsContentFromPage}`));
       if (imdb) {
         this.info.imdbUrl = imdb;
         const imdbData = await this.getIMDbDataFromAPI();
-        this.getMovieInfo(imdbData);
+        if (imdbData) {
+          this.getMovieInfo(imdbData);
+        }
       }
       this.info.doubanUrl = douban;
       this.extractScreenshots();
@@ -29413,29 +29532,21 @@ ${screenBBcodeArray.join("")}`
     children,
     quickSearchClosed = false
   }) => /* @__PURE__ */ u$1(preact.Fragment, { children: [
-    /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
-      /* @__PURE__ */ u$1(
-        "th",
-        {
-          class: "ant-descriptions-item-label",
-          colSpan: 1,
-          style: "width: 135px; text-align: right;",
-          children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", children: children.title }) })
-        }
-      ),
-      /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: children.upload })
+    /* @__PURE__ */ u$1("div", { class: "pb-[20px] mb-[20px] border-0 border-b border-solid border-[--mt-line-color]", children: [
+      /* @__PURE__ */ u$1("label", { class: "block text-[--mt-text-base] font-bold text-[16px] mb-[1em]", children: children.title }),
+      /* @__PURE__ */ u$1("div", {}),
+      /* @__PURE__ */ u$1("div", { class: "ant-descriptions__no-border mt-3 mb-1", children: children.upload })
     ] }),
-    !quickSearchClosed && /* @__PURE__ */ u$1("tr", { class: "ant-descriptions-row", children: [
-      /* @__PURE__ */ u$1(
-        "th",
+    !quickSearchClosed && /* @__PURE__ */ u$1("div", { class: "pb-[20px] mb-[20px] border-0 border-b border-solid border-[--mt-line-color]", children: [
+      /* @__PURE__ */ u$1("label", { class: "block text-[--mt-text-base] font-bold text-[16px] mb-[1em]", children: /* @__PURE__ */ u$1(
+        "div",
         {
-          class: "ant-descriptions-item-label",
-          colSpan: 1,
-          style: "width: 135px; text-align: right;",
-          children: /* @__PURE__ */ u$1("span", { children: /* @__PURE__ */ u$1("div", { class: "font-bold leading-6", onClick: children.onSearchClick, children: $t$1("快速检索") }) })
+          class: "font-bold cursor-pointer",
+          onClick: children.onSearchClick,
+          children: $t$1("快速检索")
         }
-      ),
-      /* @__PURE__ */ u$1("td", { class: "ant-descriptions-item-content", colSpan: 1, children: children.search })
+      ) }),
+      /* @__PURE__ */ u$1("div", { class: "ant-descriptions__no-border mt-3 mb-1", children: children.search })
     ] })
   ] });
   const NexusPHPLayout = ({
