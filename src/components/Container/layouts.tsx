@@ -33,37 +33,30 @@ export const MTeamLayout = ({
   quickSearchClosed: boolean;
 }) => (
   <>
-    <tr class="ant-descriptions-row">
-      <th
-        class="ant-descriptions-item-label"
-        colSpan={1}
-        style="width: 135px; text-align: right;"
-      >
-        <span>
-          <div class="font-bold leading-6">{children.title}</div>
-        </span>
-      </th>
-      <td class="ant-descriptions-item-content" colSpan={1}>
-        {children.upload}
-      </td>
-    </tr>
+    <div class="pb-[20px] mb-[20px] border-0 border-b border-solid border-[--mt-line-color]">
+      <label class="block text-[--mt-text-base] font-bold text-[16px] mb-[1em]">
+        {children.title}
+      </label>
+      <div />
+
+      <div class="ant-descriptions__no-border mt-3 mb-1">{children.upload}</div>
+    </div>
+
     {!quickSearchClosed && (
-      <tr class="ant-descriptions-row">
-        <th
-          class="ant-descriptions-item-label"
-          colSpan={1}
-          style="width: 135px; text-align: right;"
-        >
-          <span>
-            <div class="font-bold leading-6" onClick={children.onSearchClick}>
-              {$t('快速检索')}
-            </div>
-          </span>
-        </th>
-        <td class="ant-descriptions-item-content" colSpan={1}>
+      <div class="pb-[20px] mb-[20px] border-0 border-b border-solid border-[--mt-line-color]">
+        <label class="block text-[--mt-text-base] font-bold text-[16px] mb-[1em]">
+          <div
+            class="font-bold cursor-pointer"
+            onClick={children.onSearchClick}
+          >
+            {$t('快速检索')}
+          </div>
+        </label>
+
+        <div class="ant-descriptions__no-border mt-3 mb-1">
           {children.search}
-        </td>
-      </tr>
+        </div>
+      </div>
     )}
   </>
 );

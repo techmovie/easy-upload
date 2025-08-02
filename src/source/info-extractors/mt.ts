@@ -108,10 +108,10 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
   }
 
   getMovieInfo(data: IMDbInfo) {
-    const { year, title, photo } = data;
+    const { title, photo, year } = data;
     this.info.year = year;
     this.info.movieName = title;
-    this.info.poster = photo.full || photo.thumb;
+    this.info.poster = photo;
   }
 
   setRequestHeaders() {
@@ -142,7 +142,7 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
       data: IMDbInfo;
       code: string;
       message: string;
-    }>(`${CONFIG.MT_BASE_API_URL}/torrent/imdbInfo`, {
+    }>(`${CONFIG.MT_BASE_API_URL}/media/imdb/info`, {
       data: formdata,
       method: 'POST',
       responseType: 'json',
@@ -226,7 +226,9 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
     if (imdb) {
       this.info.imdbUrl = imdb;
       const imdbData = await this.getIMDbDataFromAPI();
-      this.getMovieInfo(imdbData);
+      if (imdbData) {
+        this.getMovieInfo(imdbData);
+      }
     }
     this.info.doubanUrl = douban;
     this.extractScreenshots();

@@ -18,10 +18,5 @@ export interface TorrentDetailInfo {
 export interface IMDbInfo {
   year: string;
   title: string;
-  photo: Poster;
-}
-
-export interface Poster {
-  full: string;
-  thumb: string;
+  photo: string;
 }

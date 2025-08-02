@@ -5,7 +5,7 @@ icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdB
 asSource: true
 asTarget: true
 uploadPath: /upload
-seedDomSelector: ".detail-view .ant-descriptions-view>table>tbody .ant-descriptions-row:nth-child(3)"
+seedDomSelector: "div.flex.py-5.mb-5.border-0.border-b.border-solid + div > div.border-0.border-b.border-solid"
 search:
   path: /browse
   replaceKey: ["tt", "https://www.imdb.com/title/tt"]
