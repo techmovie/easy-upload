@@ -1,3 +1,17 @@
+## [7.0.3](https://github.com/techmovie/easy-upload/compare/7.0.2...7.0.3) (2025-08-02)
+
+
+### Bug Fixes
+
+* fix cypto import ([6367c61](https://github.com/techmovie/easy-upload/commit/6367c612be2d598ac7a7f22d9d9c76e7346ad0d9))
+
+
+### Features
+
+* update the usage of mt api ([115efa8](https://github.com/techmovie/easy-upload/commit/115efa8262b52b02cdb42294d90486279efd4090))
+
+
+
 ## [7.0.2](https://github.com/techmovie/easy-upload/compare/7.0.1...7.0.2) (2025-08-02)
 
 
