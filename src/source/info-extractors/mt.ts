@@ -17,7 +17,8 @@ import {
   createFormData,
   GMFetch,
 } from '@/common';
-import CryptoJS from 'crypto-js';
+import Base64 from 'crypto-js/enc-base64';
+import HmacSHA1 from 'crypto-js/hmac-sha1';
 
 class MTExtractor extends BaseExtractor implements InfoExtractor {
   priority = 10;
@@ -136,8 +137,6 @@ class MTExtractor extends BaseExtractor implements InfoExtractor {
   private generateSignature(method: string, uri: string) {
     const timestamp = Date.now();
     const concatString = `${method}&${uri}&${timestamp}`;
-    const Base64 = CryptoJS.enc.Base64;
-    const HmacSHA1 = CryptoJS.HmacSHA1;
     return {
       _sgin: Base64.stringify(HmacSHA1(concatString, 'HLkPcWmycL57mfJt')),
       _timestamp: timestamp,
